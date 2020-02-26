@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.*
 
 
 class LOPMinus : LOPBase {
-    override val operatorID=EOperatorID.LOPMinusID
+    override val operatorID = EOperatorID.LOPMinusID
     override val classname = "LOPMinus"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
 

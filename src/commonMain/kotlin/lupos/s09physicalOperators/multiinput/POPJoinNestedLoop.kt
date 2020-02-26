@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -16,7 +16,7 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBase {
-    override val operatorID=EOperatorID.POPJoinNestedLoopID
+    override val operatorID = EOperatorID.POPJoinNestedLoopID
     override val classname = "POPJoinNestedLoop"
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet

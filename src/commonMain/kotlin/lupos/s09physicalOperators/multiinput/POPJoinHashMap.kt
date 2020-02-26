@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPJoinHashMap : POPBase {
-    override val operatorID=EOperatorID.POPJoinHashMapID
+    override val operatorID = EOperatorID.POPJoinHashMapID
     override val classname = "POPJoinHashMap"
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet

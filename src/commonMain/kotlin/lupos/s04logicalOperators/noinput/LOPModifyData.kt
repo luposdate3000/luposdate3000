@@ -1,14 +1,14 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
 class LOPModifyData(val type: EModifyType) : LOPBase() {
-    override val operatorID=EOperatorID.LOPModifyDataID
+    override val operatorID = EOperatorID.LOPModifyDataID
     override val classname = "LOPModifyData"
     override val children: Array<OPBase> = arrayOf()
     val data = mutableListOf<List<Pair<String, Boolean>>>()

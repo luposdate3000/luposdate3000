@@ -1,7 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallUCASE(child: AOPBase) : AOPBase() {
-    override val operatorID=EOperatorID.AOPBuildInCallUCASEID
+    override val operatorID = EOperatorID.AOPBuildInCallUCASEID
     override val classname = "AOPBuildInCallUCASE"
     override val children: Array<OPBase> = arrayOf(child)
 

@@ -1,8 +1,8 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EOperatorID
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral

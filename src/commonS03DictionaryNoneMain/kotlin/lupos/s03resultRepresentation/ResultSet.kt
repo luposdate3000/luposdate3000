@@ -1,6 +1,6 @@
 package lupos.s03resultRepresentation
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable

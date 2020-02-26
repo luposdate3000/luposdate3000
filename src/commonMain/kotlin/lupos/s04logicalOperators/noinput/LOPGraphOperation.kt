@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s04logicalOperators.LOPBase
@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPGraphOperation() : LOPBase() {
-    override val operatorID=EOperatorID.LOPGraphOperationID
+    override val operatorID = EOperatorID.LOPGraphOperationID
     override val classname = "LOPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
     var silent = false

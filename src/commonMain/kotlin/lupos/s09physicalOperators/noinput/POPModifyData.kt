@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -16,7 +16,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: EModifyType, val data: List<List<Pair<String, Boolean>>>) : POPBase() {
-    override val operatorID=EOperatorID.POPModifyDataID
+    override val operatorID = EOperatorID.POPModifyDataID
     override val classname = "POPModifyData"
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()

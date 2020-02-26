@@ -1,10 +1,10 @@
 package lupos.s00misc
-import lupos.s00misc.EOperatorID
 
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.toKString
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.readFileContents
 import platform.posix.fclose
 import platform.posix.fgets

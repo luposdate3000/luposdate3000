@@ -1,7 +1,7 @@
 package lupos.s00misc
-import lupos.s00misc.EOperatorID
 
 import kotlin.native.concurrent.AtomicLong
+import lupos.s00misc.EOperatorID
 
 
 class ThreadSafeUuid {

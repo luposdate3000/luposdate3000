@@ -1,11 +1,6 @@
 package lupos
 
-import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -13,8 +8,8 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s08logicalOptimisation.*
@@ -23,7 +18,12 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
+import lupos.s12p2p.P2P
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s14endpoint.EndpointImpl
+import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -33,133 +33,135 @@ class GeneratedPOPLimitTest {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
+
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
-        for (n in  node.children)
+        for (n in node.children)
             setAggregationMode(n, mode, count)
         if (node is AOPAggregation) {
-                node.count = count
+            node.count = count
             node.collectMode = mode
             if (node.collectMode)
                 node.a = null
         }
     }
 
- @TestFactory
- fun test() = listOf(
+    @TestFactory
+    fun test() = listOf(
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
-                    dictionary,
-                    POPLimit(
                         dictionary,
-                        2,
+                        POPLimit(
+                                dictionary,
+                                2,
+                                POPValues(dictionary, listOf(
+                                        "O"
+                                ), listOf(
+                                        GeneratedMutableMap.map36952map,
+                                        GeneratedMutableMap.map36953map,
+                                        GeneratedMutableMap.map36954map
+                                )
+                                )
+                        ),
                         POPValues(dictionary, listOf(
                                 "O"
-                            ), listOf(
-                                GeneratedMutableMap.map36887map,
-                                GeneratedMutableMap.map36888map,
-                                GeneratedMutableMap.map36889map
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O"
                         ), listOf(
-                            GeneratedMutableMap.map36887map,
-                            GeneratedMutableMap.map36888map
+                                GeneratedMutableMap.map36952map,
+                                GeneratedMutableMap.map36953map
                         )
-                    )
+                        )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
-                    dictionary,
-                    POPLimit(
                         dictionary,
-                        2,
-                                    POPSort(
+                        POPLimit(
+                                dictionary,
+                                2,
+                                POPSort(
                                         dictionary,
                                         AOPVariable("O"),
                                         true,
-                                                    {
-                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                        val graph=DistributedTripleStore.createGraph(graphName)
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        DistributedTripleStore.commit(1L)
-                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
-                                                    }()
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            DistributedTripleStore.commit(1L)
+                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
+                                        }()
 
-                                    )
+                                )
 
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O"
+                        ),
+                        POPValues(dictionary, listOf(
+                                "O"
                         ), listOf(
-                            GeneratedMutableMap.map36887map,
-                            GeneratedMutableMap.map36888map
+                                GeneratedMutableMap.map36952map,
+                                GeneratedMutableMap.map36953map
                         )
-                    )
+                        )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
             {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestLN(
-                    dictionary,
-                    LOPLimit(
-                        2,
+                        dictionary,
+                        LOPLimit(
+                                2,
+                                LOPValues(listOf(
+                                        AOPVariable("O")
+                                ), listOf(
+                                        GeneratedMutableMap.map36956map,
+                                        GeneratedMutableMap.map36957map,
+                                        GeneratedMutableMap.map36958map
+                                )
+                                )
+                        ),
                         LOPValues(listOf(
                                 AOPVariable("O")
-                            ), listOf(
-                                GeneratedMutableMap.map36891map,
-                                GeneratedMutableMap.map36892map,
-                                GeneratedMutableMap.map36893map
-                            )
-                        )
-                    ),
-                    LOPValues(listOf(
-                            AOPVariable("O")
                         ), listOf(
-                            GeneratedMutableMap.map36891map,
-                            GeneratedMutableMap.map36892map
+                                GeneratedMutableMap.map36956map,
+                                GeneratedMutableMap.map36957map
                         )
-                    )
+                        )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
             {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestLN(
-                    dictionary,
-                    LOPLimit(
-                        2,
-                                    LOPSort(
+                        dictionary,
+                        LOPLimit(
+                                2,
+                                LOPSort(
                                         true,
                                         AOPVariable("O"),
-                                                    {
-                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                        val graph=DistributedTripleStore.createGraph(graphName)
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
-                                                        DistributedTripleStore.commit(1L)
-                                                        LOPTriple(AOPVariable("O"),AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"),AOPVariable.calculate("<http://www.example.orgOrder>"),graphName,false)                                                    }()
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
+                                        }()
 
-                                    )
+                                )
 
-                    ),
-                    LOPValues(listOf(
-                            AOPVariable("O")
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("O")
                         ), listOf(
-                            GeneratedMutableMap.map36891map,
-                            GeneratedMutableMap.map36892map
+                                GeneratedMutableMap.map36956map,
+                                GeneratedMutableMap.map36957map
                         )
-                    )
+                        )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -194,7 +196,7 @@ class GeneratedPOPLimitTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
@@ -203,30 +205,30 @@ class GeneratedPOPLimitTest {
                     val lop_node = data.input as LOPBase
                     val dictionary = data.dictionary
                     ExecuteOptimizer.enabledOptimizers.clear()
-                    val lOptimizer=LogicalOptimizer(1L, dictionary)
-                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
-                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
-                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    val lOptimizer = LogicalOptimizer(1L, dictionary)
+                    val pOptimizer = PhysicalOptimizer(1L, dictionary)
+                    val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+                    val lop_node2 = lOptimizer.optimizeCall(lop_node)
                     val pop_node = pOptimizer.optimizeCall(lop_node2)
                     val input = dOptimizer.optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
                     assertTrue(expected.myEquals(output))
-                    for(k in ExecuteOptimizer.enabledOptimizers.keys){
-                        ExecuteOptimizer.enabledOptimizers[k]=true
-                        val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    for (k in ExecuteOptimizer.enabledOptimizers.keys) {
+                        ExecuteOptimizer.enabledOptimizers[k] = true
+                        val lop_node2 = lOptimizer.optimizeCall(lop_node)
                         val pop_node = pOptimizer.optimizeCall(lop_node2)
                         val input = dOptimizer.optimizeCall(pop_node) as POPBase
                         assertTrue(data.expected is POPValues)
                         val output = QueryResultToXML.toXML(input).first()
                         val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                        if (!expected.myEquals(output)){
-                            println(ExecuteOptimizer.enabledOptimizers.keys.map{it to ExecuteOptimizer.enabledOptimizers[it]})
+                        if (!expected.myEquals(output)) {
+                            println(ExecuteOptimizer.enabledOptimizers.keys.map { it to ExecuteOptimizer.enabledOptimizers[it] })
                             println(output.toPrettyString())
                             println(expected.toPrettyString())
                         }

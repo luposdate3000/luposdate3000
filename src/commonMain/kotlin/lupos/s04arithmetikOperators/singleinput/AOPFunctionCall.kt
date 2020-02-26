@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>) : AOPBase() {
-    override val operatorID=EOperatorID.AOPFunctionCallID
+    override val operatorID = EOperatorID.AOPFunctionCallID
     override val classname = "AOPFunctionCall"
     override val children: Array<OPBase> = Array(args.size) { args[it] }
 

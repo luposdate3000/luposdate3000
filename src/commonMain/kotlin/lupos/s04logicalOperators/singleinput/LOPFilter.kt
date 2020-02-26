@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.LOPBase
@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPFilter : LOPBase {
-    override val operatorID=EOperatorID.LOPFilterID
+    override val operatorID = EOperatorID.LOPFilterID
     override val classname = "LOPFilter"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1

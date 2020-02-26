@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import lupos.s00misc.EOperatorID
 
 object EndpointImpl {

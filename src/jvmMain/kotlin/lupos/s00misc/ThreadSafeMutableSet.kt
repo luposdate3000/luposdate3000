@@ -1,7 +1,7 @@
 package lupos.s00misc
-import lupos.s00misc.EOperatorID
 
 import kotlinx.coroutines.CoroutineScope
+import lupos.s00misc.EOperatorID
 
 
 class ThreadSafeMutableSet<T>() {

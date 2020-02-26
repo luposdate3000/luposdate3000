@@ -1,7 +1,7 @@
 package lupos.s01io.buffer
-import lupos.s00misc.EOperatorID
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.EOperatorID
 import lupos.s01io.buffer.createString
 import lupos.s01io.buffer.Page
 

@@ -1,8 +1,8 @@
 package lupos.s04arithmetikOperators
-import lupos.s00misc.EOperatorID
 
 import java.io.File
 import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
@@ -42,6 +42,60 @@ val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
 val popMap = ThreadSafeMutableMap<Long, POPBase>()
 val rowMapConsumed = ThreadSafeMutableMap<Pair<Long, Long>, MutableList<ResultRow>>()
 val rowMapProduced = ThreadSafeMutableMap<Long, MutableList<ResultRow>>()
+val mutableMapsForTest = ThreadSafeMutableMap<String, String>()
+val myuuid = ThreadSafeUuid()
+
+
+fun toBinary(operator: OPBase, buffer: DynamicByteArray) {
+    buffer.appendInt(operator.operatorID.ordinal)
+    when (operator) {
+        is POPUnion -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is POPJoinHashMap -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+            if (operator.optional)
+                buffer.appendInt(1)
+            else
+                buffer.appendInt(0)
+        }
+        else -> throw Exception("BinaryHelper.toBinary ${operator.operatorID} undefined")
+    }
+}
+
+fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
+    val operatorID = EOperatorID.values()[buffer.getNextInt()]
+    when (operatorID) {
+        EOperatorID.POPUnionID -> {
+            val childA = fromBinary(dictionary, buffer)
+            val childB = fromBinary(dictionary, buffer)
+            return POPUnion(dictionary, childA, childB)
+        }
+        EOperatorID.POPJoinHashMapID -> {
+            val childA = fromBinary(dictionary, buffer)
+            val childB = fromBinary(dictionary, buffer)
+            val optional = buffer.getNextInt() == 1
+            return POPJoinHashMap(dictionary, childA, childB, optional)
+        }
+        else -> throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
+    }
+}
+
+fun createBinaryTestCase(operator: OPBase) {
+    try {
+        val buffer = DynamicByteArray()
+        toBinary(operator, buffer)
+        val filename = "src/commonTest/kotlin/lupos/testcase-${myuuid.next()}.bin"
+        File(filename).outputStream().use { out ->
+            val data = buffer.finish()
+            out.write(data, 0, buffer.pos)
+        }
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+}
 
 
 fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
@@ -70,9 +124,6 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
         list.add(res)
     return res
 }
-
-val mutableMapsForTest = ThreadSafeMutableMap<String, String>()
-val myuuid = ThreadSafeUuid()
 
 fun addMutableMapToTests(code: String): String {
     synchronized(mutableMapsForTest) {
@@ -571,6 +622,7 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     tmp = x
                 try {
                     if (success) {
+                        createBinaryTestCase(it)
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, false, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, true, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromLOPBaseSimple(it, false, "${prefix}            ")] = queryFile

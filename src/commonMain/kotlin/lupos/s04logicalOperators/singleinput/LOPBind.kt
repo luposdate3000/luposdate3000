@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPBind : LOPBase {
-    override val operatorID=EOperatorID.LOPBindID
+    override val operatorID = EOperatorID.LOPBindID
     override val classname = "LOPBind"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val name: AOPVariable

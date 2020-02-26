@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDouble(var value: Double) : AOPConstant() {
-    override val operatorID=EOperatorID.AOPDoubleID
+    override val operatorID = EOperatorID.AOPDoubleID
     override val classname = "AOPDouble"
     override val children: Array<OPBase> = arrayOf()
 

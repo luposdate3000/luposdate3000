@@ -1,13 +1,13 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
 class OPNothing() : LOPBase() {
-    override val operatorID=EOperatorID.OPNothingID
+    override val operatorID = EOperatorID.OPNothingID
     override val classname = "OPNothing"
     override val children: Array<OPBase> = arrayOf()
 

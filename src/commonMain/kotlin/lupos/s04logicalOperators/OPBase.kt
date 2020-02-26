@@ -1,9 +1,9 @@
 package lupos.s04logicalOperators
-import lupos.s00misc.EOperatorID
 
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
@@ -14,11 +14,10 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 
 
 abstract class OPBase {
-    abstract val operatorID:EOperatorID
+    abstract val operatorID: EOperatorID
     abstract val classname: String
     val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
     abstract val resultSet: ResultSet
-
     abstract val children: Array<OPBase>
 
     open fun applyPrefix(prefix: String, iri: String) {

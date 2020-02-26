@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-import lupos.s00misc.EOperatorID
 
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -12,6 +11,7 @@ import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork

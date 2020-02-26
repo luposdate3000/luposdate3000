@@ -1,9 +1,9 @@
 package lupos.s00misc
-import lupos.s00misc.EOperatorID
 
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.EOperatorID
 
 
 typealias CoroutinesHelperMutex = Int

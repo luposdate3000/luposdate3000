@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPLanguageTaggedLiteral : AOPConstantString {
-    override val operatorID=EOperatorID.AOPLanguageTaggedLiteralID
+    override val operatorID = EOperatorID.AOPLanguageTaggedLiteralID
     override val classname = "AOPLanguageTaggedLiteral"
     override val children: Array<OPBase> = arrayOf()
     override val delimiter: String

@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -22,7 +22,7 @@ import lupos.s09physicalOperators.singleinput.POPBind
 
 
 class POPGroup : POPBase {
-    override val operatorID=EOperatorID.POPGroupID
+    override val operatorID = EOperatorID.POPGroupID
     override val classname = "POPGroup"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary

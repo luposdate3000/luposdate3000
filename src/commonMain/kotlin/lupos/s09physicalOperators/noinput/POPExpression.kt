@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.EOperatorID
 
 import com.benasher44.uuid.uuid4
 import com.soywiz.krypto.md5
@@ -10,6 +9,7 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.roundToInt
 import lupos.s00misc.classNameToString
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.*
@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.OPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : LOPBase {
-    override val operatorID=EOperatorID.POPExpressionID
+    override val operatorID = EOperatorID.POPExpressionID
     override val classname = "POPExpression"
     val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

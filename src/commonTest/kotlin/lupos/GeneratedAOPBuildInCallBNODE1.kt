@@ -1,11 +1,6 @@
 package lupos
 
-import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -13,8 +8,8 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s08logicalOptimisation.*
@@ -23,7 +18,12 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
+import lupos.s12p2p.P2P
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s14endpoint.EndpointImpl
+import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -33,19 +33,20 @@ class GeneratedAOPBuildInCallBNODE1Test {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
+
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
-        for (n in  node.children)
+        for (n in node.children)
             setAggregationMode(n, mode, count)
         if (node is AOPAggregation) {
-                node.count = count
+            node.count = count
             node.collectMode = mode
             if (node.collectMode)
                 node.a = null
         }
     }
 
- @TestFactory
- fun test() = listOf(
+    @TestFactory
+    fun test() = listOf(
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -63,7 +64,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28970\"foo\"")
+                        AOPBnode("28973\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -83,7 +84,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28970\"foo\"")
+                        AOPBnode("28973\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -97,7 +98,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28970\"foo\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28973\"foo\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
@@ -105,7 +106,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28964\"foo\"")
+                        AOPBnode("28967\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -119,7 +120,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28970\"foo\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28973\"foo\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
@@ -127,7 +128,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28964\"BAZ\"")
+                        AOPBnode("28967\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -147,7 +148,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28970\"BAZ\"")
+                        AOPBnode("28973\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -161,7 +162,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28970\"BAZ\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28973\"BAZ\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
@@ -169,7 +170,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28964\"foo\"")
+                        AOPBnode("28967\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -189,7 +190,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28970\"BAZ\"")
+                        AOPBnode("28973\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -203,7 +204,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28970\"BAZ\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28973\"BAZ\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
@@ -211,7 +212,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28964\"BAZ\"")
+                        AOPBnode("28967\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             {
@@ -248,7 +249,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
@@ -257,30 +258,30 @@ class GeneratedAOPBuildInCallBNODE1Test {
                     val lop_node = data.input as LOPBase
                     val dictionary = data.dictionary
                     ExecuteOptimizer.enabledOptimizers.clear()
-                    val lOptimizer=LogicalOptimizer(1L, dictionary)
-                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
-                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
-                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    val lOptimizer = LogicalOptimizer(1L, dictionary)
+                    val pOptimizer = PhysicalOptimizer(1L, dictionary)
+                    val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+                    val lop_node2 = lOptimizer.optimizeCall(lop_node)
                     val pop_node = pOptimizer.optimizeCall(lop_node2)
                     val input = dOptimizer.optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
                     assertTrue(expected.myEquals(output))
-                    for(k in ExecuteOptimizer.enabledOptimizers.keys){
-                        ExecuteOptimizer.enabledOptimizers[k]=true
-                        val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    for (k in ExecuteOptimizer.enabledOptimizers.keys) {
+                        ExecuteOptimizer.enabledOptimizers[k] = true
+                        val lop_node2 = lOptimizer.optimizeCall(lop_node)
                         val pop_node = pOptimizer.optimizeCall(lop_node2)
                         val input = dOptimizer.optimizeCall(pop_node) as POPBase
                         assertTrue(data.expected is POPValues)
                         val output = QueryResultToXML.toXML(input).first()
                         val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                        if (!expected.myEquals(output)){
-                            println(ExecuteOptimizer.enabledOptimizers.keys.map{it to ExecuteOptimizer.enabledOptimizers[it]})
+                        if (!expected.myEquals(output)) {
+                            println(ExecuteOptimizer.enabledOptimizers.keys.map { it to ExecuteOptimizer.enabledOptimizers[it] })
                             println(output.toPrettyString())
                             println(expected.toPrettyString())
                         }

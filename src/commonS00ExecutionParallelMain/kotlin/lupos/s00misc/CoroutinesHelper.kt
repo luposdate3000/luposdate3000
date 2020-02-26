@@ -1,11 +1,11 @@
 package lupos.s00misc
-import lupos.s00misc.EOperatorID
 
 import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
+import lupos.s00misc.EOperatorID
 
 
 typealias CoroutinesHelperMutex = Mutex

@@ -1,7 +1,7 @@
 package lupos.s13keyDistributionOptimizer
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI

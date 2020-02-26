@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -15,7 +15,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPDistinct : POPBase {
-    override val operatorID=EOperatorID.POPDistinctID
+    override val operatorID = EOperatorID.POPDistinctID
     override val classname = "POPDistinct"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary

@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.EOperatorID
 
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val operatorID=EOperatorID.AOPMultiplicationID
+    override val operatorID = EOperatorID.AOPMultiplicationID
     override val classname = "AOPMultiplication"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
