@@ -49,25 +49,25 @@ class GeneratedAOPBuildInCallBNODE0Test {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3147331492")
+                        AOPBnode("2940129420")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3146831494")
+                        AOPBnode("2939629422")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3149831512")
+                        AOPBnode("2942629440")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3150331514")
+                        AOPBnode("2943129442")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             {
@@ -99,49 +99,6 @@ class GeneratedAOPBuildInCallBNODE0Test {
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase && data is MicroTestPN) {
-                    val input = data.input as POPBase
-                    assertTrue(data.expected is POPValues)
-                    val output = QueryResultToXML.toXML(input).first()
-                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
-                        println(output.toPrettyString())
-                        println(expected.toPrettyString())
-                    }
-                    assertTrue(expected.myEquals(output))
-                } else if (data.input is LOPBase && data is MicroTestLN) {
-                    val lop_node = data.input as LOPBase
-                    val dictionary = data.dictionary
-                    ExecuteOptimizer.enabledOptimizers.clear()
-                    val lOptimizer=LogicalOptimizer(1L, dictionary)
-                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
-                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
-                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
-                    val pop_node = pOptimizer.optimizeCall(lop_node2)
-                    val input = dOptimizer.optimizeCall(pop_node) as POPBase
-                    assertTrue(data.expected is POPValues)
-                    val output = QueryResultToXML.toXML(input).first()
-                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
-                        println(output.toPrettyString())
-                        println(expected.toPrettyString())
-                    }
-                    assertTrue(expected.myEquals(output))
-                    for(k in ExecuteOptimizer.enabledOptimizers.keys){
-                        ExecuteOptimizer.enabledOptimizers[k]=true
-                        val lop_node2 =lOptimizer.optimizeCall(lop_node)
-                        val pop_node = pOptimizer.optimizeCall(lop_node2)
-                        val input = dOptimizer.optimizeCall(pop_node) as POPBase
-                        assertTrue(data.expected is POPValues)
-                        val output = QueryResultToXML.toXML(input).first()
-                        val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                        if (!expected.myEquals(output)){
-                            println(ExecuteOptimizer.enabledOptimizers.keys.map{it to ExecuteOptimizer.enabledOptimizers[it]})
-                            println(output.toPrettyString())
-                            println(expected.toPrettyString())
-                        }
-                        assertTrue(expected.myEquals(output))
-                    }
                 }
             } catch (e: Throwable) {
                 e.printStackTrace()

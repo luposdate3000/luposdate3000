@@ -1,6 +1,6 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
@@ -17,6 +17,10 @@ class LogicalOptimizerFilterDownTest {
     var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
     val astS = AOPVariable("s")
     val projectS = mutableListOf(AOPVariable("s"))
+constructor(){
+ExecuteOptimizer.enabledOptimizers[EOptimizerID.LogicalOptimizerFilterDownID]=true
+}
+
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary, expectChanged: Int) {
         var changed = 0
         println(target.getRequiredVariableNames())
