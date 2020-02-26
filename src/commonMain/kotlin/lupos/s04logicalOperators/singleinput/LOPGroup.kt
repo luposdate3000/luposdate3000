@@ -15,8 +15,7 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
     override fun childrenToVerifyCount() = 1
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = (children[1].getProvidedVariableNames() + Array(by.size) { by[it].name }).distinct()
-        return res
+        return (children[1].getProvidedVariableNames() + Array(by.size) { by[it].name }).distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {

@@ -26,7 +26,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-@UseExperimental(kotlin.ExperimentalStdlibApi::class)
+@UseExperimental(ExperimentalStdlibApi::class)
 class AOPBuildInCallSHA1(child: AOPBase) : AOPBase() {
     override val operatorID = EOperatorID.AOPBuildInCallSHA1ID
     override val classname = "AOPBuildInCallSHA1"
@@ -51,7 +51,7 @@ class AOPBuildInCallSHA1(child: AOPBase) : AOPBase() {
     }
 }
 
-@UseExperimental(kotlin.ExperimentalStdlibApi::class)
+@UseExperimental(ExperimentalStdlibApi::class)
 fun ByteArray.toHexString2(): String {
     val sb = StringBuilder()
     for (b in this) {

@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -23,13 +22,11 @@ class LOPFilter : LOPBase {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = children[0].getProvidedVariableNames().distinct()
-        return res
+        return children[0].getProvidedVariableNames().distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = children[1].getRequiredVariableNamesRecoursive()
-        return res
+        return children[1].getRequiredVariableNamesRecoursive()
     }
 
     override fun equals(other: Any?): Boolean {

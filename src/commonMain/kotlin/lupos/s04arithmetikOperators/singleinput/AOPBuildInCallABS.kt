@@ -50,7 +50,7 @@ class AOPBuildInCallABS(child: AOPBase) : AOPBase() {
             })
         if (a is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(abs(a.value).toInt())
+                AOPInteger(abs(a.value))
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall ABS only works with numeric input")

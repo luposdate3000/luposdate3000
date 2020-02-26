@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.noinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
@@ -12,8 +11,7 @@ class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?,
     override val children: Array<OPBase> = arrayOf()
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = (s.getRequiredVariableNames() + p.getRequiredVariableNames() + o.getRequiredVariableNames()).distinct()
-        return res
+        return (s.getRequiredVariableNames() + p.getRequiredVariableNames() + o.getRequiredVariableNames()).distinct()
     }
 
 

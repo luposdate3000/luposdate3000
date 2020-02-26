@@ -131,7 +131,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                     })
             }
             else -> throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                Exception("AOPAggregation ${type} not implemented")
+                Exception("AOPAggregation $type not implemented")
             })
         }
         return resultFlow({ this }, { resultRow }, { resultSet }, {

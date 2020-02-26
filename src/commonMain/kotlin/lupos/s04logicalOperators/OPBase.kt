@@ -6,7 +6,6 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.*
@@ -52,8 +51,7 @@ abstract class OPBase {
     }
 
     open fun getRequiredVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        return res
+        return mutableListOf()
     }
 
     open fun getProvidedVariableNames(): List<String> {
@@ -92,7 +90,7 @@ abstract class OPBase {
         }
     }
 
-    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf<String>(), autocorrect: Boolean = false) {
+    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
         for (i in 0 until childrenToVerifyCount())
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         val res = (additionalProvided + getProvidedVariableNames()).containsAll(getRequiredVariableNames())

@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -19,7 +18,7 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() 
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         val localProvide = children[0].getProvidedVariableNames()
-        val localRequire = listOf<String>(nameFrom.name)
+        val localRequire = listOf(nameFrom.name)
         for (c in children)
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
@@ -33,13 +32,11 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() 
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
-        return res
+        return (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = listOf<String>(nameFrom.name)
-        return res
+        return listOf(nameFrom.name)
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)
