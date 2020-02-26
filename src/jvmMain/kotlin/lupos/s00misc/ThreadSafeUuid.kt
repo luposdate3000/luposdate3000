@@ -3,7 +3,7 @@ package lupos.s00misc
 import lupos.s00misc.EOperatorID
 
 
-class ThreadSafeUuid() {
+class ThreadSafeUuid {
 
     companion object {
         var global_uuid = 0L

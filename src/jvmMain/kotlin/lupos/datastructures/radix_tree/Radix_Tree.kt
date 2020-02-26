@@ -10,7 +10,7 @@ import lupos.s01io.buffer.toBytesUTF
 import lupos.s01io.buffer.toStringUTF
 
 
-class NotFoundException() : Exception()
+class NotFoundException : Exception()
 
 class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), var v: V? = null) {
     /**

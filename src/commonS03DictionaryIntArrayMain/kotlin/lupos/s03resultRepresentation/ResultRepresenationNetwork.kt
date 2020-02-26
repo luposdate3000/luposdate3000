@@ -29,7 +29,7 @@ object ResultRepresenationNetwork {
             for (resultRow in query.channel) {
                 var newDictionaryMax = latestDictionaryMax
                 for (v in variables)
-                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax!!))
+                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || resultRow[v] > newDictionaryMax))
                         newDictionaryMax = resultRow[v]
                 if (newDictionaryMax == null || newDictionaryMax != latestDictionaryMax) {
                     if (!firstDict) {
@@ -40,16 +40,16 @@ object ResultRepresenationNetwork {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a 0" })
                         res.appendInt(0)
                     } else if (latestDictionaryMax == null) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax!! + 1}" })
-                        res.appendInt(newDictionaryMax!! + 1)
-                        for (v in 0 until newDictionaryMax!! + 1) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax + 1}" })
+                        res.appendInt(newDictionaryMax + 1)
+                        for (v in 0 until newDictionaryMax + 1) {
                             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
                             res.appendString(query.resultSet.getValue(v)!!)
                         }
                     } else {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax!! - latestDictionaryMax!!}" })
-                        res.appendInt(newDictionaryMax!! - latestDictionaryMax!!)
-                        for (v in latestDictionaryMax!! + 1 until newDictionaryMax!! + 1) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax - latestDictionaryMax!!}" })
+                        res.appendInt(newDictionaryMax - latestDictionaryMax!!)
+                        for (v in latestDictionaryMax!! + 1 until newDictionaryMax + 1) {
                             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
                             res.appendString(query.resultSet.getValue(v)!!)
                         }

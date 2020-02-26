@@ -5,12 +5,12 @@ import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.EOperatorID
 
 
-class ReadWriteLock() {
+class ReadWriteLock {
     val allowNewReads = Mutex()
     val allowNewWrites = Mutex()
     var readers = 0L
 
-    inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
+    suspend inline fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
         try {
             allowNewReads.lock()
             if (++readers == 1L)
@@ -31,7 +31,7 @@ class ReadWriteLock() {
         }
     }
 
-    inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+    suspend inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         try {
             allowNewWrites.lock()
             return action()

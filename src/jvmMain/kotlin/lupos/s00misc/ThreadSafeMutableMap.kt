@@ -3,7 +3,7 @@ package lupos.s00misc
 import lupos.s00misc.EOperatorID
 
 
-class ThreadSafeMutableMap<k, v>() {
+class ThreadSafeMutableMap<k, v> {
     val values = mutableMapOf<k, v>()
     val mutex = ReadWriteLock()
 
@@ -47,7 +47,7 @@ class ThreadSafeMutableMap<k, v>() {
         }
     }
 
-    inline suspend fun forEachKeySuspend(crossinline action: suspend (k) -> Unit) = mutex.withReadLock {
+    suspend inline fun forEachKeySuspend(crossinline action: suspend (k) -> Unit) = mutex.withReadLock {
         values.keys.forEach {
             action(it)
         }

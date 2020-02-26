@@ -30,9 +30,7 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         return res
     }
 
-    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : super(resultSet, store, index) {
-
-    }
+    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : super(resultSet, store, index)
 
     fun setSFilterV(s: String) {
         sFilter = store.resultSet.createValue(s)

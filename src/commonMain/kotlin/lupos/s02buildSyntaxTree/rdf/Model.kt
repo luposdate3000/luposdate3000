@@ -4,28 +4,29 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeUuid
 
 
-abstract open class RDFTerm() {
-    abstract fun toN3String(): String;
+abstract class RDFTerm {
+    abstract fun toN3String(): String
 }
 
-abstract open class RDFResource() : RDFTerm()
+abstract class RDFResource : RDFTerm()
 class IRI(val iri: String) : RDFResource() {
     override fun toN3String(): String = "<" + iri + ">"
 }
 
 class BlankNode(val local_name: String) : RDFResource() {
-    constructor() : this(NewNameCreator.createNewName());
+    constructor() : this(NewNameCreator.createNewName())
+
     override fun toN3String(): String = "_:" + local_name
 
     companion object NewNameCreator { // just for creating internal new names in case of [] in RDF documents...
-        private val counter = ThreadSafeUuid();
+        private val counter = ThreadSafeUuid()
         fun createNewName(): String {
-            return "_" + counter.next(); // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
+            return "_" + counter.next() // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
         }
     }
 }
 
-abstract open class Literal(val content: String, val delimiter: String) : RDFTerm() {
+abstract class Literal(val content: String, val delimiter: String) : RDFTerm() {
     override fun toN3String(): String = delimiter + content + delimiter
 }
 

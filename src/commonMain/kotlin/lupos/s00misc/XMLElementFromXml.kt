@@ -7,7 +7,7 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
     val res = mutableListOf<XMLElement>()
     var lastindex = 0
-    """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach() { child ->
+    """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach { child ->
         var value = child.value
         if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--") && child.range.start >= lastindex) {
             var nodeName = ""
@@ -22,14 +22,14 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
                 nodeAttributes = child.groups[4]!!.value
             if (child.groups[8] != null)
                 nodeAttributes = child.groups[8]!!.value
-            """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
+            """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
                     if (attrMatch.groups[1]!!.value == "xml:lang")
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
                     else
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
             }
-            """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
+            """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
                     if (attrMatch.groups[1]!!.value == "xml:lang")
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())

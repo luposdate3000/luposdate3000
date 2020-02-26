@@ -115,7 +115,7 @@ class TripleStoreLocal {
     val tripleStoreSPO = SortedSetDictionary(resultSet.dictionary, 3)
     val name: String
 
-    inline suspend fun forEach(sv: Value?, pv: Value?, ov: Value?, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
+    suspend inline fun forEach(sv: Value?, pv: Value?, ov: Value?, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
         when (idx) {
             EIndexPattern.S -> {
                 if (sv != null) {

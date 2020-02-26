@@ -404,7 +404,7 @@ fun parseSPARQLAndEvaluate(//
                     DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
                 }
                 DistributedTripleStore.commit(transactionID)
-                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first()!!.toPrettyString() })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
             }
             inputDataGraph.forEach {
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -418,7 +418,7 @@ fun parseSPARQLAndEvaluate(//
                     DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
                 }
                 DistributedTripleStore.commit(transactionID)
-                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first()!!.toPrettyString() })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
             }
             if (services != null)
                 for (s in services) {
@@ -468,11 +468,11 @@ fun parseSPARQLAndEvaluate(//
                 tmp.setMNameP("p")
                 tmp.setMNameO("o")
                 var xmlGraphActual = QueryResultToXML.toXML(tmp)
-                if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual!!.first())) {
+                if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual.first())) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
                     updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
@@ -481,7 +481,7 @@ fun parseSPARQLAndEvaluate(//
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
                 }
                 verifiedOutput = true

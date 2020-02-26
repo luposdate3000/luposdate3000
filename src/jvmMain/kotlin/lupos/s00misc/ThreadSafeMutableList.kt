@@ -3,7 +3,7 @@ package lupos.s00misc
 import lupos.s00misc.EOperatorID
 
 
-class ThreadSafeMutableList<T>() {
+class ThreadSafeMutableList<T> {
     val values = mutableListOf<T>()
     val mutex = ReadWriteLock()
     fun size(): Int {

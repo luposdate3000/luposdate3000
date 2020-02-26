@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s00misc.EOperatorID
 
 
-abstract class AOPConstant() : AOPBase() {
+abstract class AOPConstant : AOPBase() {
     override val operatorID = EOperatorID.AOPConstantID
     override val classname = "AOPConstant"
     abstract fun valueToString(): String?

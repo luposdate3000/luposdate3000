@@ -204,7 +204,7 @@ class LexerCharIterator(val content: CharIterator) {
             updateLineNumber(result)
             return result
         }
-        throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber);
+        throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber)
     }
 
     inline fun putBack(c: Char) {
@@ -275,25 +275,25 @@ class LexerCharIterator(val content: CharIterator) {
 }
 
 abstract class Token(val image: String, val index: Int) {
-    override public fun toString(): String {
-        return super.toString() + ": " + image;
+    override fun toString(): String {
+        return super.toString() + ": " + image
     }
 }
 
 open abstract class ASTNode(val children: Array<ASTNode>) {
     override fun toString(): String {
-        return toString("");
+        return toString("")
     }
 
     fun toString(indentation: String): String {
-        var result = indentation + nodeToString() + "\r\n";
+        var result = indentation + nodeToString() + "\r\n"
         for (i in 0..children.size - 1) {
-            result += children[i].toString(indentation + "  ");
+            result += children[i].toString(indentation + "  ")
         }
-        return result;
+        return result
     }
 
-    abstract fun nodeToString(): String;
+    abstract fun nodeToString(): String
 
 //    inline fun <T> getChildrensValues(visitor: Visitor<T>, nodes: Array<out ASTNode> = this.children): List<T> = List<T>(children.size) { children[it].visit(visitor) }
 
@@ -305,14 +305,14 @@ open abstract class ASTUnaryOperationFixedName(child: ASTNode, val name: String)
     override fun nodeToString(): String = name
 }
 
-open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf<ASTNode>(left, right));
+open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf<ASTNode>(left, right))
 open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(left, right)) {
     override fun nodeToString(): String = name
 }
 
-open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children);
+open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children)
 open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, val name: String) : ASTNode(children) {
     override fun nodeToString(): String = name
 }
 
-open abstract class ASTLeafNode() : ASTNode(arrayOf<ASTNode>());
+open abstract class ASTLeafNode : ASTNode(arrayOf<ASTNode>())

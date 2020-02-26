@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class OPNothing() : LOPBase() {
+class OPNothing : LOPBase() {
     override val operatorID = EOperatorID.OPNothingID
     override val classname = "OPNothing"
     override val children: Array<OPBase> = arrayOf()

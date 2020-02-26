@@ -5,10 +5,10 @@ import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.EOperatorID
 
 
-class Lock() {
+class Lock {
     val mutex = Mutex()
 
-    inline suspend fun <T> withLockSuspend(crossinline action: suspend () -> T): T {
+    suspend inline fun <T> withLockSuspend(crossinline action: suspend () -> T): T {
         try {
             mutex.lock()
             return action()

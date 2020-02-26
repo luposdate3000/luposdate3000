@@ -70,9 +70,9 @@ class TripleInsertIterator : POPBase {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         result = resultSet.createResultRow()
-        result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
-        result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
-        result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
+        result[resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
+        result[resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
+        result[resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleInsertIterator.evaluate" }, {

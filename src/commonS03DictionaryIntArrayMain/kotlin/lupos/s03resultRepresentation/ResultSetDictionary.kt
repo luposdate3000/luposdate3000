@@ -5,7 +5,7 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 
 
-class ResultSetDictionary() {
+class ResultSetDictionary {
     val mapSTL = ThreadSafeMutableMap<String, Value>()
     val mapLTS = ThreadSafeMutableList<String>()
     val undefValue = Value.MAX_VALUE

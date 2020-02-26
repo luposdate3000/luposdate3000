@@ -370,15 +370,15 @@ buffer.appendInt(DynamicByteArray.boolToInt(v == null))
                     if (sv)
                         buffer.appendString(s)
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(s)]!!)!!)
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(s)])!!)
                     if (pv)
                         buffer.appendString(p)
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(p)]!!)!!)
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(p)])!!)
                     if (ov)
                         buffer.appendString(o)
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(o)]!!)!!)
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(o)])!!)
                 }
             } else {
                 buffer.appendInt(0)

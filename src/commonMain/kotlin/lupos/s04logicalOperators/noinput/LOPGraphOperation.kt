@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGraphOperation() : LOPBase() {
+class LOPGraphOperation : LOPBase() {
     override val operatorID = EOperatorID.LOPGraphOperationID
     override val classname = "LOPGraphOperation"
     override val children: Array<OPBase> = arrayOf()

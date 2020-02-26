@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-abstract class AOPBinaryOperationFixedName() : AOPBase() {
+abstract class AOPBinaryOperationFixedName : AOPBase() {
     override val operatorID = EOperatorID.AOPBinaryOperationFixedNameID
     override val classname = "AOPBinaryOperationFixedName"
 }

@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPUndef() : AOPConstant() {
+class AOPUndef : AOPConstant() {
     override val operatorID = EOperatorID.AOPUndefID
     override val classname = "AOPUndef"
     override val children: Array<OPBase> = arrayOf()

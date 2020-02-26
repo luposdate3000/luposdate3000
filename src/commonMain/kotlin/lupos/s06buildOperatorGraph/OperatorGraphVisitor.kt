@@ -542,7 +542,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 if (lastQuery == null) {
                     lastQuery = q
                 } else {
-                    query = LOPJoin(query, joinValuesAndQuery(values, lastQuery!!), false)
+                    query = LOPJoin(query, joinValuesAndQuery(values, lastQuery), false)
                     values = null
                     lastQuery = q
                 }

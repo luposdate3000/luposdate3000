@@ -7,7 +7,7 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s09physicalOperators.POPBase
 
 
-abstract class POPTripleStoreIteratorBase() : POPBase() {
+abstract class POPTripleStoreIteratorBase : POPBase() {
     override val operatorID = EOperatorID.POPTripleStoreIteratorBaseID
     override val classname = "POPTripleStoreIteratorBase"
     var nameS = "#s" + uuid

@@ -306,9 +306,9 @@ object P2P {
             var response = retryRequestGet("http://${resolveNodeName(bootstrap)}${EndpointImpl.REQUEST_PEERS_JOIN[0]}" +//
                     "?${EndpointImpl.REQUEST_PEERS_JOIN[1]}=${URL.encodeComponent(EndpointImpl.fullname)}")
             var responseString = response.readAllString()
-            XMLElement.parseFromXml(responseString)?.forEach() { root ->
+            XMLElement.parseFromXml(responseString)?.forEach { root ->
                 if (root.tag == "servers") {
-                    root.childs.forEach() { server ->
+                    root.childs.forEach { server ->
                         if (server.tag == "server") {
                             knownClients.add(server.content)
                         }

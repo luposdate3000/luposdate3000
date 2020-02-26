@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import lupos.s00misc.EOperatorID
 
 
-class ThreadSafeMutableSet<T>() {
+class ThreadSafeMutableSet<T> {
     val values = mutableSetOf<T>()
     val mutex = ReadWriteLock()
 
@@ -12,7 +12,7 @@ class ThreadSafeMutableSet<T>() {
         values.forEach(action)
     }
 
-    inline suspend fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {
+    suspend inline fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {
         for (v in values)
             action(v)
     }

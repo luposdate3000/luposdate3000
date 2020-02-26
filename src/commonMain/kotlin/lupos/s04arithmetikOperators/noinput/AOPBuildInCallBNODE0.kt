@@ -24,7 +24,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallBNODE0() : AOPBase() {
+class AOPBuildInCallBNODE0 : AOPBase() {
     override val operatorID = EOperatorID.AOPBuildInCallBNODE0ID
     override val classname = "AOPBuildInCallBNODE0"
     override val children: Array<OPBase> = arrayOf()
