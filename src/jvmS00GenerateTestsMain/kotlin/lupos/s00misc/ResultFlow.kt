@@ -684,14 +684,40 @@ fun printAllMicroTest() {
             }
         }
     }
-    val fileName = "src/commonTest/kotlin/lupos/GeneratedMutableMap.kt"
+    val fileName = "src/commonTest/kotlin/lupos/GeneratedMain.kt"
     val myfile = File(fileName)
     myfile.printWriter().use { out ->
-        out.println("object GeneratedMutableMap {\n")
-        mutableMapsForTest.forEach { code, varname ->
-            out.println("    val $varname = $code")
-        }
-        out.println("}")
+                out.println("package lupos")
+                out.println("")
+                out.println("import lupos.s10physicalOptimisation.PhysicalOptimizer")
+                out.println("import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer")
+                out.println("import lupos.s12p2p.P2P")
+                out.println("import lupos.s14endpoint.EndpointImpl")
+                out.println("import lupos.s00misc.*")
+                out.println("import lupos.s15tripleStoreDistributed.*")
+                out.println("import lupos.s02buildSyntaxTree.sparql1_1.*")
+                out.println("import lupos.s03resultRepresentation.*")
+                out.println("import lupos.s04arithmetikOperators.*")
+                out.println("import lupos.s04arithmetikOperators.multiinput.*")
+                out.println("import lupos.s04arithmetikOperators.noinput.*")
+                out.println("import lupos.s04arithmetikOperators.singleinput.*")
+                out.println("import lupos.s04logicalOperators.*")
+                out.println("import lupos.s04logicalOperators.noinput.*")
+                out.println("import lupos.s04logicalOperators.multiinput.*")
+                out.println("import lupos.s04logicalOperators.singleinput.*")
+                out.println("import lupos.s04logicalOperators.singleinput.modifiers.*")
+                out.println("import lupos.s08logicalOptimisation.*")
+                out.println("import lupos.s09physicalOperators.*")
+                out.println("import lupos.s09physicalOperators.multiinput.*")
+                out.println("import lupos.s09physicalOperators.noinput.*")
+                out.println("import lupos.s09physicalOperators.singleinput.*")
+                out.println("import lupos.s09physicalOperators.singleinput.modifiers.*")
+                out.println("import lupos.s11outputResult.*")
+                out.println("import org.junit.jupiter.api.*")
+                out.println("import org.junit.jupiter.api.Assertions.*")
+		out.println("open class MicroTest0(val input: OPBase, val expected: Any)\n")
+out.println("class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
+out.println("class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
     }
 }
 
@@ -843,14 +869,4 @@ fun helperVariableName(v: String, variableNames: MutableMap<String, String>): St
             variableNames[v]!!
         }
     }
-}
-
-
-open class MicroTest0(val input: OPBase, val expected: Any) {
-}
-
-class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
-}
-
-class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
