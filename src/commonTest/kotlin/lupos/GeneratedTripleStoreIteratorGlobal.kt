@@ -65,9 +65,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map357map,
                                 GeneratedMutableMap.map358map,
-                                GeneratedMutableMap.map359map
+                                GeneratedMutableMap.map359map,
+                                GeneratedMutableMap.map360map
                         )
                         )
                 )
@@ -90,9 +90,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map360map,
                                 GeneratedMutableMap.map361map,
-                                GeneratedMutableMap.map362map
+                                GeneratedMutableMap.map362map,
+                                GeneratedMutableMap.map363map
                         )
                         )
                 )
@@ -117,44 +117,44 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "p",
                                 "o"
-                        ), listOf(
-                                GeneratedMutableMap.map363map,
-                                GeneratedMutableMap.map364map,
-                                GeneratedMutableMap.map365map,
-                                GeneratedMutableMap.map357map,
-                                GeneratedMutableMap.map358map,
-                                GeneratedMutableMap.map359map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/add/add-07.ru */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/john>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://xmlns.com/foaf/0.1/Person>"))
-                            graph.addData(1L, listOf("<http://example.org/john>", "<http://xmlns.com/foaf/0.1/givenName>", "\"John\""))
-                            graph.addData(1L, listOf("<http://example.org/john>", "<http://xmlns.com/foaf/0.1/mbox>", "<mailto:johnny@example.org>"))
-                            graph.addData(1L, listOf("<http://example.org/william>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://xmlns.com/foaf/0.1/Person>"))
-                            graph.addData(1L, listOf("<http://example.org/william>", "<http://xmlns.com/foaf/0.1/givenName>", "\"William\""))
-                            graph.addData(1L, listOf("<http://example.org/william>", "<http://xmlns.com/foaf/0.1/mbox>", "<mailto:bill@example.org>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("p"),
-                                AOPVariable("o")
                         ), listOf(
                                 GeneratedMutableMap.map366map,
                                 GeneratedMutableMap.map367map,
                                 GeneratedMutableMap.map368map,
-                                GeneratedMutableMap.map360map,
+                                GeneratedMutableMap.map358map,
+                                GeneratedMutableMap.map359map,
+                                GeneratedMutableMap.map360map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/add/add-07.ru */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/john>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://xmlns.com/foaf/0.1/Person>"))
+                            graph.addData(1L, listOf("<http://example.org/john>", "<http://xmlns.com/foaf/0.1/givenName>", "\"John\""))
+                            graph.addData(1L, listOf("<http://example.org/john>", "<http://xmlns.com/foaf/0.1/mbox>", "<mailto:johnny@example.org>"))
+                            graph.addData(1L, listOf("<http://example.org/william>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://xmlns.com/foaf/0.1/Person>"))
+                            graph.addData(1L, listOf("<http://example.org/william>", "<http://xmlns.com/foaf/0.1/givenName>", "\"William\""))
+                            graph.addData(1L, listOf("<http://example.org/william>", "<http://xmlns.com/foaf/0.1/mbox>", "<mailto:bill@example.org>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                        ), listOf(
+                                GeneratedMutableMap.map369map,
+                                GeneratedMutableMap.map370map,
+                                GeneratedMutableMap.map371map,
                                 GeneratedMutableMap.map361map,
-                                GeneratedMutableMap.map362map
+                                GeneratedMutableMap.map362map,
+                                GeneratedMutableMap.map363map
                         )
                         )
                 )
@@ -177,9 +177,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map363map,
-                                GeneratedMutableMap.map364map,
-                                GeneratedMutableMap.map365map
+                                GeneratedMutableMap.map366map,
+                                GeneratedMutableMap.map367map,
+                                GeneratedMutableMap.map368map
                         )
                         )
                 )
@@ -202,9 +202,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map366map,
-                                GeneratedMutableMap.map367map,
-                                GeneratedMutableMap.map368map
+                                GeneratedMutableMap.map369map,
+                                GeneratedMutableMap.map370map,
+                                GeneratedMutableMap.map371map
                         )
                         )
                 )
@@ -230,12 +230,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map363map,
-                                GeneratedMutableMap.map364map,
-                                GeneratedMutableMap.map365map,
-                                GeneratedMutableMap.map428map,
-                                GeneratedMutableMap.map429map,
-                                GeneratedMutableMap.map430map
+                                GeneratedMutableMap.map366map,
+                                GeneratedMutableMap.map367map,
+                                GeneratedMutableMap.map368map,
+                                GeneratedMutableMap.map438map,
+                                GeneratedMutableMap.map439map,
+                                GeneratedMutableMap.map440map
                         )
                         )
                 )
@@ -261,12 +261,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map366map,
-                                GeneratedMutableMap.map367map,
-                                GeneratedMutableMap.map368map,
-                                GeneratedMutableMap.map431map,
-                                GeneratedMutableMap.map432map,
-                                GeneratedMutableMap.map433map
+                                GeneratedMutableMap.map369map,
+                                GeneratedMutableMap.map370map,
+                                GeneratedMutableMap.map371map,
+                                GeneratedMutableMap.map441map,
+                                GeneratedMutableMap.map442map,
+                                GeneratedMutableMap.map443map
                         )
                         )
                 )
@@ -290,10 +290,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map363map,
-                                GeneratedMutableMap.map364map,
-                                GeneratedMutableMap.map498map,
-                                GeneratedMutableMap.map365map
+                                GeneratedMutableMap.map366map,
+                                GeneratedMutableMap.map367map,
+                                GeneratedMutableMap.map516map,
+                                GeneratedMutableMap.map368map
                         )
                         )
                 )
@@ -317,10 +317,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map366map,
-                                GeneratedMutableMap.map367map,
-                                GeneratedMutableMap.map499map,
-                                GeneratedMutableMap.map368map
+                                GeneratedMutableMap.map369map,
+                                GeneratedMutableMap.map370map,
+                                GeneratedMutableMap.map517map,
+                                GeneratedMutableMap.map371map
                         )
                         )
                 )
@@ -345,11 +345,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "P",
                                 "O"
                         ), listOf(
-                                GeneratedMutableMap.map978map,
-                                GeneratedMutableMap.map979map,
-                                GeneratedMutableMap.map980map,
-                                GeneratedMutableMap.map981map,
-                                GeneratedMutableMap.map982map
+                                GeneratedMutableMap.map1004map,
+                                GeneratedMutableMap.map1005map,
+                                GeneratedMutableMap.map1006map,
+                                GeneratedMutableMap.map1007map,
+                                GeneratedMutableMap.map1008map
                         )
                         )
                 )
@@ -374,11 +374,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("P"),
                                 AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map983map,
-                                GeneratedMutableMap.map984map,
-                                GeneratedMutableMap.map985map,
-                                GeneratedMutableMap.map986map,
-                                GeneratedMutableMap.map987map
+                                GeneratedMutableMap.map1009map,
+                                GeneratedMutableMap.map1010map,
+                                GeneratedMutableMap.map1011map,
+                                GeneratedMutableMap.map1012map,
+                                GeneratedMutableMap.map1013map
                         )
                         )
                 )
@@ -400,9 +400,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "S",
                                 "O1"
                         ), listOf(
-                                GeneratedMutableMap.map2749map,
-                                GeneratedMutableMap.map2750map,
-                                GeneratedMutableMap.map2751map
+                                GeneratedMutableMap.map2789map,
+                                GeneratedMutableMap.map2790map,
+                                GeneratedMutableMap.map2791map
                         )
                         )
                 )
@@ -424,9 +424,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("S"),
                                 AOPVariable("O1")
                         ), listOf(
-                                GeneratedMutableMap.map2752map,
-                                GeneratedMutableMap.map2753map,
-                                GeneratedMutableMap.map2754map
+                                GeneratedMutableMap.map2792map,
+                                GeneratedMutableMap.map2793map,
+                                GeneratedMutableMap.map2794map
                         )
                         )
                 )
@@ -448,9 +448,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "S",
                                 "O2"
                         ), listOf(
-                                GeneratedMutableMap.map2755map,
-                                GeneratedMutableMap.map2756map,
-                                GeneratedMutableMap.map2757map
+                                GeneratedMutableMap.map2796map,
+                                GeneratedMutableMap.map2797map,
+                                GeneratedMutableMap.map2798map
                         )
                         )
                 )
@@ -472,9 +472,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("S"),
                                 AOPVariable("O2")
                         ), listOf(
-                                GeneratedMutableMap.map2752map,
-                                GeneratedMutableMap.map2753map,
-                                GeneratedMutableMap.map2754map
+                                GeneratedMutableMap.map2792map,
+                                GeneratedMutableMap.map2793map,
+                                GeneratedMutableMap.map2794map
                         )
                         )
                 )
@@ -498,11 +498,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map3290map,
-                                GeneratedMutableMap.map3291map,
-                                GeneratedMutableMap.map3292map,
-                                GeneratedMutableMap.map3293map,
-                                GeneratedMutableMap.map3294map
+                                GeneratedMutableMap.map3336map,
+                                GeneratedMutableMap.map3337map,
+                                GeneratedMutableMap.map3338map,
+                                GeneratedMutableMap.map3339map,
+                                GeneratedMutableMap.map3340map
                         )
                         )
                 )
@@ -526,11 +526,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map3295map,
-                                GeneratedMutableMap.map3296map,
-                                GeneratedMutableMap.map3297map,
-                                GeneratedMutableMap.map3298map,
-                                GeneratedMutableMap.map3299map
+                                GeneratedMutableMap.map3341map,
+                                GeneratedMutableMap.map3342map,
+                                GeneratedMutableMap.map3343map,
+                                GeneratedMutableMap.map3344map,
+                                GeneratedMutableMap.map3345map
                         )
                         )
                 )
@@ -563,19 +563,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map3460map,
-                                GeneratedMutableMap.map3461map,
-                                GeneratedMutableMap.map3462map,
-                                GeneratedMutableMap.map3463map,
-                                GeneratedMutableMap.map3464map,
-                                GeneratedMutableMap.map3465map,
-                                GeneratedMutableMap.map3466map,
-                                GeneratedMutableMap.map3467map,
-                                GeneratedMutableMap.map3468map,
-                                GeneratedMutableMap.map3469map,
-                                GeneratedMutableMap.map3470map,
-                                GeneratedMutableMap.map3471map,
-                                GeneratedMutableMap.map3472map
+                                GeneratedMutableMap.map3507map,
+                                GeneratedMutableMap.map3508map,
+                                GeneratedMutableMap.map3509map,
+                                GeneratedMutableMap.map3510map,
+                                GeneratedMutableMap.map3511map,
+                                GeneratedMutableMap.map3512map,
+                                GeneratedMutableMap.map3513map,
+                                GeneratedMutableMap.map3514map,
+                                GeneratedMutableMap.map3515map,
+                                GeneratedMutableMap.map3516map,
+                                GeneratedMutableMap.map3517map,
+                                GeneratedMutableMap.map3518map,
+                                GeneratedMutableMap.map3519map
                         )
                         )
                 )
@@ -608,19 +608,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map3473map,
-                                GeneratedMutableMap.map3474map,
-                                GeneratedMutableMap.map3475map,
-                                GeneratedMutableMap.map3476map,
-                                GeneratedMutableMap.map3477map,
-                                GeneratedMutableMap.map3478map,
-                                GeneratedMutableMap.map3479map,
-                                GeneratedMutableMap.map3480map,
-                                GeneratedMutableMap.map3481map,
-                                GeneratedMutableMap.map3482map,
-                                GeneratedMutableMap.map3483map,
-                                GeneratedMutableMap.map3484map,
-                                GeneratedMutableMap.map3485map
+                                GeneratedMutableMap.map3520map,
+                                GeneratedMutableMap.map3521map,
+                                GeneratedMutableMap.map3522map,
+                                GeneratedMutableMap.map3523map,
+                                GeneratedMutableMap.map3524map,
+                                GeneratedMutableMap.map3525map,
+                                GeneratedMutableMap.map3526map,
+                                GeneratedMutableMap.map3527map,
+                                GeneratedMutableMap.map3528map,
+                                GeneratedMutableMap.map3529map,
+                                GeneratedMutableMap.map3530map,
+                                GeneratedMutableMap.map3531map,
+                                GeneratedMutableMap.map3532map
                         )
                         )
                 )
@@ -653,19 +653,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map3460map,
-                                GeneratedMutableMap.map3461map,
-                                GeneratedMutableMap.map3462map,
-                                GeneratedMutableMap.map3463map,
-                                GeneratedMutableMap.map3464map,
-                                GeneratedMutableMap.map3465map,
-                                GeneratedMutableMap.map3466map,
-                                GeneratedMutableMap.map3467map,
-                                GeneratedMutableMap.map3468map,
-                                GeneratedMutableMap.map3469map,
-                                GeneratedMutableMap.map3470map,
-                                GeneratedMutableMap.map4217map,
-                                GeneratedMutableMap.map3472map
+                                GeneratedMutableMap.map3507map,
+                                GeneratedMutableMap.map3508map,
+                                GeneratedMutableMap.map3509map,
+                                GeneratedMutableMap.map3510map,
+                                GeneratedMutableMap.map3511map,
+                                GeneratedMutableMap.map3512map,
+                                GeneratedMutableMap.map3513map,
+                                GeneratedMutableMap.map3514map,
+                                GeneratedMutableMap.map3515map,
+                                GeneratedMutableMap.map3516map,
+                                GeneratedMutableMap.map3517map,
+                                GeneratedMutableMap.map4270map,
+                                GeneratedMutableMap.map3519map
                         )
                         )
                 )
@@ -698,19 +698,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map3473map,
-                                GeneratedMutableMap.map3474map,
-                                GeneratedMutableMap.map3475map,
-                                GeneratedMutableMap.map3476map,
-                                GeneratedMutableMap.map3477map,
-                                GeneratedMutableMap.map3478map,
-                                GeneratedMutableMap.map3479map,
-                                GeneratedMutableMap.map3480map,
-                                GeneratedMutableMap.map3481map,
-                                GeneratedMutableMap.map3482map,
-                                GeneratedMutableMap.map3483map,
-                                GeneratedMutableMap.map4218map,
-                                GeneratedMutableMap.map3485map
+                                GeneratedMutableMap.map3520map,
+                                GeneratedMutableMap.map3521map,
+                                GeneratedMutableMap.map3522map,
+                                GeneratedMutableMap.map3523map,
+                                GeneratedMutableMap.map3524map,
+                                GeneratedMutableMap.map3525map,
+                                GeneratedMutableMap.map3526map,
+                                GeneratedMutableMap.map3527map,
+                                GeneratedMutableMap.map3528map,
+                                GeneratedMutableMap.map3529map,
+                                GeneratedMutableMap.map3530map,
+                                GeneratedMutableMap.map4271map,
+                                GeneratedMutableMap.map3532map
                         )
                         )
                 )
@@ -734,11 +734,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "s",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map3290map,
-                            GeneratedMutableMap.map3291map,
-                            GeneratedMutableMap.map3292map,
-                            GeneratedMutableMap.map3293map,
-                            GeneratedMutableMap.map3294map
+                            GeneratedMutableMap.map3336map,
+                            GeneratedMutableMap.map3337map,
+                            GeneratedMutableMap.map3338map,
+                            GeneratedMutableMap.map3339map,
+                            GeneratedMutableMap.map3340map
                         )
                     )
                 )
@@ -769,18 +769,18 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "g",
                             "p"
                         ), listOf(
-                            GeneratedMutableMap.map4963map,
-                            GeneratedMutableMap.map4964map,
-                            GeneratedMutableMap.map4965map,
-                            GeneratedMutableMap.map4966map,
-                            GeneratedMutableMap.map4967map,
-                            GeneratedMutableMap.map4968map,
-                            GeneratedMutableMap.map4969map,
-                            GeneratedMutableMap.map4970map,
-                            GeneratedMutableMap.map4971map,
-                            GeneratedMutableMap.map4972map,
-                            GeneratedMutableMap.map4973map,
-                            GeneratedMutableMap.map4974map
+                            GeneratedMutableMap.map5018map,
+                            GeneratedMutableMap.map5019map,
+                            GeneratedMutableMap.map5020map,
+                            GeneratedMutableMap.map5021map,
+                            GeneratedMutableMap.map5022map,
+                            GeneratedMutableMap.map5023map,
+                            GeneratedMutableMap.map5024map,
+                            GeneratedMutableMap.map5025map,
+                            GeneratedMutableMap.map5026map,
+                            GeneratedMutableMap.map5027map,
+                            GeneratedMutableMap.map5028map,
+                            GeneratedMutableMap.map5029map
                         )
                     )
                 )
@@ -801,7 +801,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5323map
+                                GeneratedMutableMap.map5379map
                         )
                         )
                 )
@@ -822,7 +822,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5324map
+                                GeneratedMutableMap.map5380map
                         )
                         )
                 )
@@ -844,8 +844,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5385map,
-                                GeneratedMutableMap.map5323map
+                                GeneratedMutableMap.map5443map,
+                                GeneratedMutableMap.map5379map
                         )
                         )
                 )
@@ -867,8 +867,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5386map,
-                                GeneratedMutableMap.map5324map
+                                GeneratedMutableMap.map5444map,
+                                GeneratedMutableMap.map5380map
                         )
                         )
                 )
@@ -889,7 +889,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5463map
+                                GeneratedMutableMap.map5523map
                         )
                         )
                 )
@@ -910,7 +910,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5464map
+                                GeneratedMutableMap.map5524map
                         )
                         )
                 )
@@ -932,8 +932,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5463map,
-                                GeneratedMutableMap.map5465map
+                                GeneratedMutableMap.map5523map,
+                                GeneratedMutableMap.map5526map
                         )
                         )
                 )
@@ -955,8 +955,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5464map,
-                                GeneratedMutableMap.map5466map
+                                GeneratedMutableMap.map5524map,
+                                GeneratedMutableMap.map5527map
                         )
                         )
                 )
@@ -977,7 +977,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5465map
+                                GeneratedMutableMap.map5526map
                         )
                         )
                 )
@@ -998,7 +998,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5466map
+                                GeneratedMutableMap.map5527map
                         )
                         )
                 )
@@ -1020,8 +1020,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5598map,
-                                GeneratedMutableMap.map5465map
+                                GeneratedMutableMap.map5664map,
+                                GeneratedMutableMap.map5526map
                         )
                         )
                 )
@@ -1043,8 +1043,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5599map,
-                                GeneratedMutableMap.map5466map
+                                GeneratedMutableMap.map5665map,
+                                GeneratedMutableMap.map5527map
                         )
                         )
                 )
@@ -1065,7 +1065,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5673map
+                                GeneratedMutableMap.map5741map
                         )
                         )
                 )
@@ -1086,7 +1086,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5674map
+                                GeneratedMutableMap.map5742map
                         )
                         )
                 )
@@ -1107,7 +1107,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5675map
+                                GeneratedMutableMap.map5744map
                         )
                         )
                 )
@@ -1128,7 +1128,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5676map
+                                GeneratedMutableMap.map5745map
                         )
                         )
                 )
@@ -1151,9 +1151,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map5598map,
-                                GeneratedMutableMap.map5677map,
-                                GeneratedMutableMap.map5678map
+                                GeneratedMutableMap.map5664map,
+                                GeneratedMutableMap.map5748map,
+                                GeneratedMutableMap.map5749map
                         )
                         )
                 )
@@ -1176,9 +1176,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map5599map,
-                                GeneratedMutableMap.map5679map,
-                                GeneratedMutableMap.map5680map
+                                GeneratedMutableMap.map5665map,
+                                GeneratedMutableMap.map5750map,
+                                GeneratedMutableMap.map5751map
                         )
                         )
                 )
@@ -1199,7 +1199,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "P",
                             "O"
                         ), listOf(
-                            GeneratedMutableMap.map5894map
+                            GeneratedMutableMap.map5964map
                         )
                     )
                 )
@@ -1218,7 +1218,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "X"
                         ), listOf(
-                            GeneratedMutableMap.map6329map
+                            GeneratedMutableMap.map6399map
                         )
                     )
                 )
@@ -1237,7 +1237,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "X"
                         ), listOf(
-                            GeneratedMutableMap.map6329map
+                            GeneratedMutableMap.map6399map
                         )
                     )
                 )
@@ -1261,10 +1261,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map6716map,
-                                GeneratedMutableMap.map6717map,
-                                GeneratedMutableMap.map6718map,
-                                GeneratedMutableMap.map6719map
+                                GeneratedMutableMap.map6784map,
+                                GeneratedMutableMap.map6785map,
+                                GeneratedMutableMap.map6786map,
+                                GeneratedMutableMap.map6787map
                         )
                         )
                 )
@@ -1288,10 +1288,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map6720map,
-                                GeneratedMutableMap.map6721map,
-                                GeneratedMutableMap.map6722map,
-                                GeneratedMutableMap.map6723map
+                                GeneratedMutableMap.map6788map,
+                                GeneratedMutableMap.map6789map,
+                                GeneratedMutableMap.map6790map,
+                                GeneratedMutableMap.map6791map
                         )
                         )
                 )
@@ -1315,10 +1315,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map6716map,
-                            GeneratedMutableMap.map6717map,
-                            GeneratedMutableMap.map6718map,
-                            GeneratedMutableMap.map6719map
+                            GeneratedMutableMap.map6784map,
+                            GeneratedMutableMap.map6785map,
+                            GeneratedMutableMap.map6786map,
+                            GeneratedMutableMap.map6787map
                         )
                     )
                 )
@@ -1342,10 +1342,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p1",
                             "z"
                         ), listOf(
-                            GeneratedMutableMap.map7191map,
-                            GeneratedMutableMap.map7192map,
-                            GeneratedMutableMap.map7193map,
-                            GeneratedMutableMap.map7194map
+                            GeneratedMutableMap.map7260map,
+                            GeneratedMutableMap.map7261map,
+                            GeneratedMutableMap.map7262map,
+                            GeneratedMutableMap.map7263map
                         )
                     )
                 )
@@ -1368,10 +1368,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "v"
                         ), listOf(
-                                GeneratedMutableMap.map8139map,
-                                GeneratedMutableMap.map8140map,
-                                GeneratedMutableMap.map8141map,
-                                GeneratedMutableMap.map8142map
+                                GeneratedMutableMap.map8216map,
+                                GeneratedMutableMap.map8217map,
+                                GeneratedMutableMap.map8218map,
+                                GeneratedMutableMap.map8219map
                         )
                         )
                 )
@@ -1394,58 +1394,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("v")
                         ), listOf(
-                                GeneratedMutableMap.map8143map,
-                                GeneratedMutableMap.map8144map,
-                                GeneratedMutableMap.map8145map,
-                                GeneratedMutableMap.map8146map
+                                GeneratedMutableMap.map8220map,
+                                GeneratedMutableMap.map8221map,
+                                GeneratedMutableMap.map8222map,
+                                GeneratedMutableMap.map8223map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/bind/bind11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/book/book1>", "<http://example.org/ns#price>", "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example.org/book/book2>", "<http://example.org/ns#price>", "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "book", "<http://example.org/ns#price>", "price", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "book",
-                                "price"
-                        ), listOf(
-                                GeneratedMutableMap.map8497map,
-                                GeneratedMutableMap.map8498map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/bindings/inline01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/book/book1>", "<http://example.org/ns#price>", "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example.org/book/book2>", "<http://example.org/ns#price>", "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("book"), AOPVariable.calculate("<http://example.org/ns#price>"), AOPVariable("price"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("book"),
-                                AOPVariable("price")
-                        ), listOf(
-                                GeneratedMutableMap.map8499map,
-                                GeneratedMutableMap.map8500map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/bindings/inline01.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -1462,8 +1418,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "book",
                                 "title"
                         ), listOf(
-                                GeneratedMutableMap.map8501map,
-                                GeneratedMutableMap.map8502map
+                                GeneratedMutableMap.map8578map,
+                                GeneratedMutableMap.map8579map
                         )
                         )
                 )
@@ -1484,8 +1440,52 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("book"),
                                 AOPVariable("title")
                         ), listOf(
-                                GeneratedMutableMap.map8503map,
-                                GeneratedMutableMap.map8504map
+                                GeneratedMutableMap.map8580map,
+                                GeneratedMutableMap.map8581map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/bindings/inline01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/book/book1>", "<http://example.org/ns#price>", "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example.org/book/book2>", "<http://example.org/ns#price>", "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "book", "<http://example.org/ns#price>", "price", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "book",
+                                "price"
+                        ), listOf(
+                                GeneratedMutableMap.map8583map,
+                                GeneratedMutableMap.map8584map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/bindings/inline01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/book/book1>", "<http://example.org/ns#price>", "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example.org/book/book2>", "<http://example.org/ns#price>", "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("book"), AOPVariable.calculate("<http://example.org/ns#price>"), AOPVariable("price"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("book"),
+                                AOPVariable("price")
+                        ), listOf(
+                                GeneratedMutableMap.map8585map,
+                                GeneratedMutableMap.map8586map
                         )
                         )
                 )
@@ -1510,11 +1510,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8571map,
-                                GeneratedMutableMap.map8572map,
-                                GeneratedMutableMap.map8573map,
-                                GeneratedMutableMap.map8574map,
-                                GeneratedMutableMap.map8575map
+                                GeneratedMutableMap.map8658map,
+                                GeneratedMutableMap.map8659map,
+                                GeneratedMutableMap.map8660map,
+                                GeneratedMutableMap.map8661map,
+                                GeneratedMutableMap.map8662map
                         )
                         )
                 )
@@ -1539,11 +1539,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -1568,11 +1568,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p1",
                                 "o1"
                         ), listOf(
-                                GeneratedMutableMap.map8676map,
-                                GeneratedMutableMap.map8677map,
-                                GeneratedMutableMap.map8678map,
-                                GeneratedMutableMap.map8679map,
-                                GeneratedMutableMap.map8680map
+                                GeneratedMutableMap.map8764map,
+                                GeneratedMutableMap.map8765map,
+                                GeneratedMutableMap.map8766map,
+                                GeneratedMutableMap.map8767map,
+                                GeneratedMutableMap.map8768map
                         )
                         )
                 )
@@ -1597,11 +1597,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p1"),
                                 AOPVariable("o1")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -1626,11 +1626,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map8681map,
-                                GeneratedMutableMap.map8682map,
-                                GeneratedMutableMap.map8683map,
-                                GeneratedMutableMap.map8684map,
-                                GeneratedMutableMap.map8685map
+                                GeneratedMutableMap.map8770map,
+                                GeneratedMutableMap.map8771map,
+                                GeneratedMutableMap.map8772map,
+                                GeneratedMutableMap.map8773map,
+                                GeneratedMutableMap.map8774map
                         )
                         )
                 )
@@ -1655,11 +1655,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -1680,8 +1680,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map9045map,
-                                GeneratedMutableMap.map9046map
+                                GeneratedMutableMap.map9143map,
+                                GeneratedMutableMap.map9144map
                         )
                         )
                 )
@@ -1702,8 +1702,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map8581map,
-                                GeneratedMutableMap.map9047map
+                                GeneratedMutableMap.map8668map,
+                                GeneratedMutableMap.map9145map
                         )
                         )
                 )
@@ -1731,14 +1731,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p1",
                                 "o1"
                         ), listOf(
-                                GeneratedMutableMap.map8676map,
-                                GeneratedMutableMap.map8677map,
-                                GeneratedMutableMap.map8678map,
-                                GeneratedMutableMap.map9048map,
-                                GeneratedMutableMap.map8679map,
-                                GeneratedMutableMap.map8680map,
-                                GeneratedMutableMap.map9049map,
-                                GeneratedMutableMap.map9050map
+                                GeneratedMutableMap.map8764map,
+                                GeneratedMutableMap.map8765map,
+                                GeneratedMutableMap.map8766map,
+                                GeneratedMutableMap.map9147map,
+                                GeneratedMutableMap.map8767map,
+                                GeneratedMutableMap.map8768map,
+                                GeneratedMutableMap.map9148map,
+                                GeneratedMutableMap.map9149map
                         )
                         )
                 )
@@ -1766,14 +1766,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p1"),
                                 AOPVariable("o1")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map9051map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map,
-                                GeneratedMutableMap.map9052map,
-                                GeneratedMutableMap.map9053map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map9150map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map,
+                                GeneratedMutableMap.map9151map,
+                                GeneratedMutableMap.map9152map
                         )
                         )
                 )
@@ -1795,8 +1795,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map9403map,
-                                GeneratedMutableMap.map9404map
+                                GeneratedMutableMap.map9514map,
+                                GeneratedMutableMap.map9515map
                         )
                         )
                 )
@@ -1818,8 +1818,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map9405map,
-                                GeneratedMutableMap.map9406map
+                                GeneratedMutableMap.map9516map,
+                                GeneratedMutableMap.map9517map
                         )
                         )
                 )
@@ -1840,7 +1840,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map9407map
+                                GeneratedMutableMap.map9519map
                         )
                         )
                 )
@@ -1861,7 +1861,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map9408map
+                                GeneratedMutableMap.map9520map
                         )
                         )
                 )
@@ -1882,7 +1882,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map9438map
+                                GeneratedMutableMap.map9551map
                         )
                         )
                 )
@@ -1903,7 +1903,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map9439map
+                                GeneratedMutableMap.map9552map
                         )
                         )
                 )
@@ -1927,10 +1927,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map9607map,
-                                GeneratedMutableMap.map9608map,
-                                GeneratedMutableMap.map9609map,
-                                GeneratedMutableMap.map9610map
+                                GeneratedMutableMap.map9723map,
+                                GeneratedMutableMap.map9724map,
+                                GeneratedMutableMap.map9725map,
+                                GeneratedMutableMap.map9726map
                         )
                         )
                 )
@@ -1954,10 +1954,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map9611map,
-                                GeneratedMutableMap.map9612map,
-                                GeneratedMutableMap.map9613map,
-                                GeneratedMutableMap.map9614map
+                                GeneratedMutableMap.map9727map,
+                                GeneratedMutableMap.map9728map,
+                                GeneratedMutableMap.map9729map,
+                                GeneratedMutableMap.map9730map
                         )
                         )
                 )
@@ -1976,7 +1976,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map9744map
+                            GeneratedMutableMap.map9860map
                         )
                     )
                 )
@@ -1996,7 +1996,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "s2",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map9745map
+                            GeneratedMutableMap.map9861map
                         )
                     )
                 )
@@ -2015,7 +2015,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "o1"
                         ), listOf(
-                            GeneratedMutableMap.map9858map
+                            GeneratedMutableMap.map9974map
                         )
                     )
                 )
@@ -2034,7 +2034,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map9859map
+                            GeneratedMutableMap.map9975map
                         )
                     )
                 )
@@ -2057,9 +2057,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10017map,
-                                GeneratedMutableMap.map10018map,
-                                GeneratedMutableMap.map10019map
+                                GeneratedMutableMap.map10134map,
+                                GeneratedMutableMap.map10135map,
+                                GeneratedMutableMap.map10136map
                         )
                         )
                 )
@@ -2082,9 +2082,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10020map,
-                                GeneratedMutableMap.map10021map,
-                                GeneratedMutableMap.map10022map
+                                GeneratedMutableMap.map10137map,
+                                GeneratedMutableMap.map10138map,
+                                GeneratedMutableMap.map10139map
                         )
                         )
                 )
@@ -2107,9 +2107,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10082map,
-                                GeneratedMutableMap.map10083map,
-                                GeneratedMutableMap.map10084map
+                                GeneratedMutableMap.map10205map,
+                                GeneratedMutableMap.map10206map,
+                                GeneratedMutableMap.map10207map
                         )
                         )
                 )
@@ -2132,9 +2132,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10085map,
-                                GeneratedMutableMap.map10086map,
-                                GeneratedMutableMap.map10087map
+                                GeneratedMutableMap.map10208map,
+                                GeneratedMutableMap.map10209map,
+                                GeneratedMutableMap.map10210map
                         )
                         )
                 )
@@ -2160,12 +2160,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10285map,
-                            GeneratedMutableMap.map10286map,
-                            GeneratedMutableMap.map10287map,
-                            GeneratedMutableMap.map10288map,
-                            GeneratedMutableMap.map10289map
+                            GeneratedMutableMap.map10419map,
+                            GeneratedMutableMap.map10420map,
+                            GeneratedMutableMap.map10421map,
+                            GeneratedMutableMap.map10422map,
+                            GeneratedMutableMap.map10423map,
+                            GeneratedMutableMap.map10424map
                         )
                     )
                 )
@@ -2191,12 +2191,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10286map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map10288map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map10421map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map10423map,
+                                GeneratedMutableMap.map10424map
                         )
                         )
                 )
@@ -2222,12 +2222,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map10368map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map10370map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map10504map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map10506map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -2253,12 +2253,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10468map,
-                            GeneratedMutableMap.map10469map,
-                            GeneratedMutableMap.map10470map,
-                            GeneratedMutableMap.map10471map,
-                            GeneratedMutableMap.map10472map,
-                            GeneratedMutableMap.map10473map
+                            GeneratedMutableMap.map10605map,
+                            GeneratedMutableMap.map10606map,
+                            GeneratedMutableMap.map10607map,
+                            GeneratedMutableMap.map10608map,
+                            GeneratedMutableMap.map10609map,
+                            GeneratedMutableMap.map10610map
                         )
                     )
                 )
@@ -2284,12 +2284,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10468map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map
+                                GeneratedMutableMap.map10605map,
+                                GeneratedMutableMap.map10606map,
+                                GeneratedMutableMap.map10607map,
+                                GeneratedMutableMap.map10608map,
+                                GeneratedMutableMap.map10609map,
+                                GeneratedMutableMap.map10610map
                         )
                         )
                 )
@@ -2315,12 +2315,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map10368map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map10370map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map10504map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map10506map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -2347,13 +2347,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10669map,
-                            GeneratedMutableMap.map10670map,
-                            GeneratedMutableMap.map10671map,
-                            GeneratedMutableMap.map10672map,
-                            GeneratedMutableMap.map10673map,
-                            GeneratedMutableMap.map10674map,
-                            GeneratedMutableMap.map10675map
+                            GeneratedMutableMap.map10812map,
+                            GeneratedMutableMap.map10813map,
+                            GeneratedMutableMap.map10814map,
+                            GeneratedMutableMap.map10815map,
+                            GeneratedMutableMap.map10816map,
+                            GeneratedMutableMap.map10817map,
+                            GeneratedMutableMap.map10818map
                         )
                     )
                 )
@@ -2380,13 +2380,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10669map,
-                                GeneratedMutableMap.map10670map,
-                                GeneratedMutableMap.map10671map,
-                                GeneratedMutableMap.map10672map,
-                                GeneratedMutableMap.map10673map,
-                                GeneratedMutableMap.map10674map,
-                                GeneratedMutableMap.map10675map
+                                GeneratedMutableMap.map10812map,
+                                GeneratedMutableMap.map10813map,
+                                GeneratedMutableMap.map10814map,
+                                GeneratedMutableMap.map10815map,
+                                GeneratedMutableMap.map10816map,
+                                GeneratedMutableMap.map10817map,
+                                GeneratedMutableMap.map10818map
                         )
                         )
                 )
@@ -2413,13 +2413,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10735map,
-                                GeneratedMutableMap.map10736map,
-                                GeneratedMutableMap.map10737map,
-                                GeneratedMutableMap.map10738map,
-                                GeneratedMutableMap.map10739map,
-                                GeneratedMutableMap.map10740map,
-                                GeneratedMutableMap.map10741map
+                                GeneratedMutableMap.map10879map,
+                                GeneratedMutableMap.map10880map,
+                                GeneratedMutableMap.map10881map,
+                                GeneratedMutableMap.map10882map,
+                                GeneratedMutableMap.map10883map,
+                                GeneratedMutableMap.map10884map,
+                                GeneratedMutableMap.map10885map
                         )
                         )
                 )
@@ -2443,10 +2443,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8572map,
-                                GeneratedMutableMap.map8573map,
-                                GeneratedMutableMap.map8574map,
-                                GeneratedMutableMap.map8575map
+                                GeneratedMutableMap.map8659map,
+                                GeneratedMutableMap.map8660map,
+                                GeneratedMutableMap.map8661map,
+                                GeneratedMutableMap.map8662map
                         )
                         )
                 )
@@ -2470,10 +2470,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -2499,12 +2499,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8571map,
-                                GeneratedMutableMap.map11000map,
-                                GeneratedMutableMap.map8574map,
-                                GeneratedMutableMap.map8575map,
-                                GeneratedMutableMap.map11001map,
-                                GeneratedMutableMap.map11002map
+                                GeneratedMutableMap.map8658map,
+                                GeneratedMutableMap.map11150map,
+                                GeneratedMutableMap.map8661map,
+                                GeneratedMutableMap.map8662map,
+                                GeneratedMutableMap.map11151map,
+                                GeneratedMutableMap.map11152map
                         )
                         )
                 )
@@ -2530,12 +2530,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map9051map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map,
-                                GeneratedMutableMap.map11003map,
-                                GeneratedMutableMap.map11004map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map9150map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map,
+                                GeneratedMutableMap.map11153map,
+                                GeneratedMutableMap.map11154map
                         )
                         )
                 )
@@ -2560,11 +2560,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map11005map,
-                                GeneratedMutableMap.map11001map,
-                                GeneratedMutableMap.map11002map,
-                                GeneratedMutableMap.map11006map,
-                                GeneratedMutableMap.map11007map
+                                GeneratedMutableMap.map11156map,
+                                GeneratedMutableMap.map11151map,
+                                GeneratedMutableMap.map11152map,
+                                GeneratedMutableMap.map11157map,
+                                GeneratedMutableMap.map11158map
                         )
                         )
                 )
@@ -2589,11 +2589,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map11008map,
-                                GeneratedMutableMap.map11003map,
-                                GeneratedMutableMap.map11004map,
-                                GeneratedMutableMap.map11009map,
-                                GeneratedMutableMap.map11010map
+                                GeneratedMutableMap.map11159map,
+                                GeneratedMutableMap.map11153map,
+                                GeneratedMutableMap.map11154map,
+                                GeneratedMutableMap.map11160map,
+                                GeneratedMutableMap.map11161map
                         )
                         )
                 )
@@ -2618,11 +2618,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map8571map,
-                            GeneratedMutableMap.map8572map,
-                            GeneratedMutableMap.map8573map,
-                            GeneratedMutableMap.map8574map,
-                            GeneratedMutableMap.map8575map
+                            GeneratedMutableMap.map8658map,
+                            GeneratedMutableMap.map8659map,
+                            GeneratedMutableMap.map8660map,
+                            GeneratedMutableMap.map8661map,
+                            GeneratedMutableMap.map8662map
                         )
                     )
                 )
@@ -2648,12 +2648,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map8571map,
-                            GeneratedMutableMap.map11000map,
-                            GeneratedMutableMap.map8574map,
-                            GeneratedMutableMap.map8575map,
-                            GeneratedMutableMap.map11001map,
-                            GeneratedMutableMap.map11002map
+                            GeneratedMutableMap.map8658map,
+                            GeneratedMutableMap.map11150map,
+                            GeneratedMutableMap.map8661map,
+                            GeneratedMutableMap.map8662map,
+                            GeneratedMutableMap.map11151map,
+                            GeneratedMutableMap.map11152map
                         )
                     )
                 )
@@ -2675,9 +2675,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "a",
                                 "b"
                         ), listOf(
-                                GeneratedMutableMap.map11248map,
-                                GeneratedMutableMap.map11249map,
-                                GeneratedMutableMap.map11250map
+                                GeneratedMutableMap.map11400map,
+                                GeneratedMutableMap.map11401map,
+                                GeneratedMutableMap.map11402map
                         )
                         )
                 )
@@ -2699,9 +2699,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("a"),
                                 AOPVariable("b")
                         ), listOf(
-                                GeneratedMutableMap.map8581map,
-                                GeneratedMutableMap.map11251map,
-                                GeneratedMutableMap.map9047map
+                                GeneratedMutableMap.map8668map,
+                                GeneratedMutableMap.map11403map,
+                                GeneratedMutableMap.map9145map
                         )
                         )
                 )
@@ -2730,15 +2730,15 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map11252map,
-                                GeneratedMutableMap.map8573map,
-                                GeneratedMutableMap.map11253map,
-                                GeneratedMutableMap.map11254map,
-                                GeneratedMutableMap.map8575map,
-                                GeneratedMutableMap.map11255map,
-                                GeneratedMutableMap.map11256map,
-                                GeneratedMutableMap.map11257map,
-                                GeneratedMutableMap.map11258map
+                                GeneratedMutableMap.map11405map,
+                                GeneratedMutableMap.map8660map,
+                                GeneratedMutableMap.map11406map,
+                                GeneratedMutableMap.map11407map,
+                                GeneratedMutableMap.map8662map,
+                                GeneratedMutableMap.map11408map,
+                                GeneratedMutableMap.map11409map,
+                                GeneratedMutableMap.map11410map,
+                                GeneratedMutableMap.map11411map
                         )
                         )
                 )
@@ -2767,15 +2767,15 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map11259map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map11260map,
-                                GeneratedMutableMap.map11261map,
-                                GeneratedMutableMap.map8580map,
-                                GeneratedMutableMap.map11262map,
-                                GeneratedMutableMap.map11263map,
-                                GeneratedMutableMap.map11264map,
-                                GeneratedMutableMap.map11265map
+                                GeneratedMutableMap.map11412map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map11413map,
+                                GeneratedMutableMap.map11414map,
+                                GeneratedMutableMap.map8667map,
+                                GeneratedMutableMap.map11415map,
+                                GeneratedMutableMap.map11416map,
+                                GeneratedMutableMap.map11417map,
+                                GeneratedMutableMap.map11418map
                         )
                         )
                 )
@@ -2797,9 +2797,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "a",
                             "b"
                         ), listOf(
-                            GeneratedMutableMap.map11248map,
-                            GeneratedMutableMap.map11249map,
-                            GeneratedMutableMap.map11250map
+                            GeneratedMutableMap.map11400map,
+                            GeneratedMutableMap.map11401map,
+                            GeneratedMutableMap.map11402map
                         )
                     )
                 )
@@ -2828,15 +2828,15 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map11252map,
-                            GeneratedMutableMap.map8573map,
-                            GeneratedMutableMap.map11253map,
-                            GeneratedMutableMap.map11254map,
-                            GeneratedMutableMap.map8575map,
-                            GeneratedMutableMap.map11255map,
-                            GeneratedMutableMap.map11256map,
-                            GeneratedMutableMap.map11257map,
-                            GeneratedMutableMap.map11258map
+                            GeneratedMutableMap.map11405map,
+                            GeneratedMutableMap.map8660map,
+                            GeneratedMutableMap.map11406map,
+                            GeneratedMutableMap.map11407map,
+                            GeneratedMutableMap.map8662map,
+                            GeneratedMutableMap.map11408map,
+                            GeneratedMutableMap.map11409map,
+                            GeneratedMutableMap.map11410map,
+                            GeneratedMutableMap.map11411map
                         )
                     )
                 )
@@ -2855,7 +2855,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "a"
                         ), listOf(
-                                GeneratedMutableMap.map11520map
+                                GeneratedMutableMap.map11674map
                         )
                         )
                 )
@@ -2874,7 +2874,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("a")
                         ), listOf(
-                                GeneratedMutableMap.map11521map
+                                GeneratedMutableMap.map11675map
                         )
                         )
                 )
@@ -2901,13 +2901,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map11252map,
-                                GeneratedMutableMap.map8573map,
-                                GeneratedMutableMap.map11000map,
-                                GeneratedMutableMap.map11254map,
-                                GeneratedMutableMap.map8575map,
-                                GeneratedMutableMap.map11257map,
-                                GeneratedMutableMap.map11258map
+                                GeneratedMutableMap.map11405map,
+                                GeneratedMutableMap.map8660map,
+                                GeneratedMutableMap.map11150map,
+                                GeneratedMutableMap.map11407map,
+                                GeneratedMutableMap.map8662map,
+                                GeneratedMutableMap.map11410map,
+                                GeneratedMutableMap.map11411map
                         )
                         )
                 )
@@ -2934,13 +2934,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map11259map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map9051map,
-                                GeneratedMutableMap.map11261map,
-                                GeneratedMutableMap.map8580map,
-                                GeneratedMutableMap.map11264map,
-                                GeneratedMutableMap.map11265map
+                                GeneratedMutableMap.map11412map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map9150map,
+                                GeneratedMutableMap.map11414map,
+                                GeneratedMutableMap.map8667map,
+                                GeneratedMutableMap.map11417map,
+                                GeneratedMutableMap.map11418map
                         )
                         )
                 )
@@ -2962,9 +2962,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "a",
                                 "Var_B"
                         ), listOf(
-                                GeneratedMutableMap.map11754map,
-                                GeneratedMutableMap.map11755map,
-                                GeneratedMutableMap.map11756map
+                                GeneratedMutableMap.map11913map,
+                                GeneratedMutableMap.map11914map,
+                                GeneratedMutableMap.map11915map
                         )
                         )
                 )
@@ -2986,9 +2986,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("a"),
                                 AOPVariable("Var_B")
                         ), listOf(
-                                GeneratedMutableMap.map8581map,
-                                GeneratedMutableMap.map11251map,
-                                GeneratedMutableMap.map9047map
+                                GeneratedMutableMap.map8668map,
+                                GeneratedMutableMap.map11403map,
+                                GeneratedMutableMap.map9145map
                         )
                         )
                 )
@@ -3016,14 +3016,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map11887map,
-                                GeneratedMutableMap.map11252map,
-                                GeneratedMutableMap.map8573map,
-                                GeneratedMutableMap.map11000map,
-                                GeneratedMutableMap.map11254map,
-                                GeneratedMutableMap.map8575map,
-                                GeneratedMutableMap.map11257map,
-                                GeneratedMutableMap.map11258map
+                                GeneratedMutableMap.map12052map,
+                                GeneratedMutableMap.map11405map,
+                                GeneratedMutableMap.map8660map,
+                                GeneratedMutableMap.map11150map,
+                                GeneratedMutableMap.map11407map,
+                                GeneratedMutableMap.map8662map,
+                                GeneratedMutableMap.map11410map,
+                                GeneratedMutableMap.map11411map
                         )
                         )
                 )
@@ -3051,14 +3051,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map11888map,
-                                GeneratedMutableMap.map11259map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map9051map,
-                                GeneratedMutableMap.map11261map,
-                                GeneratedMutableMap.map8580map,
-                                GeneratedMutableMap.map11264map,
-                                GeneratedMutableMap.map11265map
+                                GeneratedMutableMap.map12053map,
+                                GeneratedMutableMap.map11412map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map9150map,
+                                GeneratedMutableMap.map11414map,
+                                GeneratedMutableMap.map8667map,
+                                GeneratedMutableMap.map11417map,
+                                GeneratedMutableMap.map11418map
                         )
                         )
                 )
@@ -3078,7 +3078,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "a",
                                 "Var_B"
                         ), listOf(
-                                GeneratedMutableMap.map11756map
+                                GeneratedMutableMap.map11915map
                         )
                         )
                 )
@@ -3098,7 +3098,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("a"),
                                 AOPVariable("Var_B")
                         ), listOf(
-                                GeneratedMutableMap.map9047map
+                                GeneratedMutableMap.map9145map
                         )
                         )
                 )
@@ -3117,7 +3117,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "s"
                         ), listOf(
-                                GeneratedMutableMap.map12904map
+                                GeneratedMutableMap.map13081map
                         )
                         )
                 )
@@ -3136,7 +3136,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("s")
                         ), listOf(
-                                GeneratedMutableMap.map12905map
+                                GeneratedMutableMap.map13082map
                         )
                         )
                 )
@@ -3159,9 +3159,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8571map,
-                                GeneratedMutableMap.map8572map,
-                                GeneratedMutableMap.map8573map
+                                GeneratedMutableMap.map8658map,
+                                GeneratedMutableMap.map8659map,
+                                GeneratedMutableMap.map8660map
                         )
                         )
                 )
@@ -3184,9 +3184,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map
                         )
                         )
                 )
@@ -3205,7 +3205,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "s"
                         ), listOf(
-                                GeneratedMutableMap.map13305map
+                                GeneratedMutableMap.map13502map
                         )
                         )
                 )
@@ -3224,7 +3224,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("s")
                         ), listOf(
-                                GeneratedMutableMap.map13306map
+                                GeneratedMutableMap.map13503map
                         )
                         )
                 )
@@ -3248,10 +3248,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8571map,
-                                GeneratedMutableMap.map11000map,
-                                GeneratedMutableMap.map8574map,
-                                GeneratedMutableMap.map8575map
+                                GeneratedMutableMap.map8658map,
+                                GeneratedMutableMap.map11150map,
+                                GeneratedMutableMap.map8661map,
+                                GeneratedMutableMap.map8662map
                         )
                         )
                 )
@@ -3275,10 +3275,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map9051map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map9150map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -3297,7 +3297,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "s"
                         ), listOf(
-                            GeneratedMutableMap.map12904map
+                            GeneratedMutableMap.map13081map
                         )
                     )
                 )
@@ -3320,32 +3320,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map8571map,
-                            GeneratedMutableMap.map8572map,
-                            GeneratedMutableMap.map8573map
+                            GeneratedMutableMap.map8658map,
+                            GeneratedMutableMap.map8659map,
+                            GeneratedMutableMap.map8660map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/delete/delete-07.ru */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/d>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/d>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "s"
-                        ), listOf(
-                            GeneratedMutableMap.map13305map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/delete/delete-using-04.ru */
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -3366,15 +3347,34 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map11005map,
-                            GeneratedMutableMap.map11001map,
-                            GeneratedMutableMap.map11002map,
-                            GeneratedMutableMap.map11006map,
-                            GeneratedMutableMap.map11007map
+                            GeneratedMutableMap.map11156map,
+                            GeneratedMutableMap.map11151map,
+                            GeneratedMutableMap.map11152map,
+                            GeneratedMutableMap.map11157map,
+                            GeneratedMutableMap.map11158map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/delete/delete-using-06.ru */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/d>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/d>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "s"
+                        ), listOf(
+                            GeneratedMutableMap.map13502map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/delete/delete-using-04.ru */
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -3392,8 +3392,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map11006map,
-                            GeneratedMutableMap.map11007map
+                            GeneratedMutableMap.map11157map,
+                            GeneratedMutableMap.map11158map
                         )
                     )
                 )
@@ -3412,7 +3412,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "s"
                         ), listOf(
-                                GeneratedMutableMap.map14056map
+                                GeneratedMutableMap.map14273map
                         )
                         )
                 )
@@ -3431,7 +3431,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("s")
                         ), listOf(
-                                GeneratedMutableMap.map11521map
+                                GeneratedMutableMap.map11675map
                         )
                         )
                 )
@@ -3453,8 +3453,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8574map,
-                                GeneratedMutableMap.map8575map
+                                GeneratedMutableMap.map8661map,
+                                GeneratedMutableMap.map8662map
                         )
                         )
                 )
@@ -3476,8 +3476,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -3496,7 +3496,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "s"
                         ), listOf(
-                            GeneratedMutableMap.map13305map
+                            GeneratedMutableMap.map13502map
                         )
                     )
                 )
@@ -3520,10 +3520,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map8571map,
-                            GeneratedMutableMap.map11000map,
-                            GeneratedMutableMap.map8574map,
-                            GeneratedMutableMap.map8575map
+                            GeneratedMutableMap.map8658map,
+                            GeneratedMutableMap.map11150map,
+                            GeneratedMutableMap.map8661map,
+                            GeneratedMutableMap.map8662map
                         )
                     )
                 )
@@ -3542,7 +3542,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15587map
+                                GeneratedMutableMap.map15815map
                         )
                         )
                 )
@@ -3561,7 +3561,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15588map
+                                GeneratedMutableMap.map15816map
                         )
                         )
                 )
@@ -3582,8 +3582,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "#c"
                         ), listOf(
-                                GeneratedMutableMap.map15626map,
-                                GeneratedMutableMap.map15627map
+                                GeneratedMutableMap.map15855map,
+                                GeneratedMutableMap.map15856map
                         )
                         )
                 )
@@ -3604,8 +3604,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("#c")
                         ), listOf(
-                                GeneratedMutableMap.map15628map,
-                                GeneratedMutableMap.map15629map
+                                GeneratedMutableMap.map15857map,
+                                GeneratedMutableMap.map15858map
                         )
                         )
                 )
@@ -3624,7 +3624,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15672map
+                                GeneratedMutableMap.map15902map
                         )
                         )
                 )
@@ -3643,7 +3643,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15673map
+                                GeneratedMutableMap.map15903map
                         )
                         )
                 )
@@ -3662,7 +3662,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map15711map
+                            GeneratedMutableMap.map15941map
                         )
                     )
                 )
@@ -3681,7 +3681,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map15888map
+                            GeneratedMutableMap.map16118map
                         )
                     )
                 )
@@ -3707,13 +3707,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map15889map,
-                            GeneratedMutableMap.map15890map,
-                            GeneratedMutableMap.map15891map,
-                            GeneratedMutableMap.map15892map,
-                            GeneratedMutableMap.map15893map,
-                            GeneratedMutableMap.map15894map,
-                            GeneratedMutableMap.map15895map
+                            GeneratedMutableMap.map16119map,
+                            GeneratedMutableMap.map16120map,
+                            GeneratedMutableMap.map16121map,
+                            GeneratedMutableMap.map16122map,
+                            GeneratedMutableMap.map16123map,
+                            GeneratedMutableMap.map16124map,
+                            GeneratedMutableMap.map16125map
                         )
                     )
                 )
@@ -3732,7 +3732,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map16016map
+                                GeneratedMutableMap.map16247map
                         )
                         )
                 )
@@ -3751,7 +3751,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map16017map
+                                GeneratedMutableMap.map16248map
                         )
                         )
                 )
@@ -3770,7 +3770,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map16157map
+                            GeneratedMutableMap.map16388map
                         )
                     )
                 )
@@ -3789,7 +3789,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map16157map
+                            GeneratedMutableMap.map16388map
                         )
                     )
                 )
@@ -3808,7 +3808,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "f"
                         ), listOf(
-                                GeneratedMutableMap.map16201map
+                                GeneratedMutableMap.map16433map
                         )
                         )
                 )
@@ -3827,7 +3827,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("f")
                         ), listOf(
-                                GeneratedMutableMap.map16202map
+                                GeneratedMutableMap.map16434map
                         )
                         )
                 )
@@ -3855,15 +3855,15 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "c"
                         ), listOf(
-                                GeneratedMutableMap.map16351map,
-                                GeneratedMutableMap.map16352map,
-                                GeneratedMutableMap.map16353map,
-                                GeneratedMutableMap.map16354map,
-                                GeneratedMutableMap.map15889map,
-                                GeneratedMutableMap.map15890map,
-                                GeneratedMutableMap.map15891map,
-                                GeneratedMutableMap.map16355map,
-                                GeneratedMutableMap.map16356map
+                                GeneratedMutableMap.map16584map,
+                                GeneratedMutableMap.map16585map,
+                                GeneratedMutableMap.map16586map,
+                                GeneratedMutableMap.map16587map,
+                                GeneratedMutableMap.map16119map,
+                                GeneratedMutableMap.map16120map,
+                                GeneratedMutableMap.map16121map,
+                                GeneratedMutableMap.map16588map,
+                                GeneratedMutableMap.map16589map
                         )
                         )
                 )
@@ -3891,15 +3891,15 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("c")
                         ), listOf(
-                                GeneratedMutableMap.map16357map,
-                                GeneratedMutableMap.map16358map,
-                                GeneratedMutableMap.map16359map,
-                                GeneratedMutableMap.map16360map,
-                                GeneratedMutableMap.map16361map,
-                                GeneratedMutableMap.map16362map,
-                                GeneratedMutableMap.map16363map,
-                                GeneratedMutableMap.map16364map,
-                                GeneratedMutableMap.map16365map
+                                GeneratedMutableMap.map16590map,
+                                GeneratedMutableMap.map16591map,
+                                GeneratedMutableMap.map16592map,
+                                GeneratedMutableMap.map16593map,
+                                GeneratedMutableMap.map16594map,
+                                GeneratedMutableMap.map16595map,
+                                GeneratedMutableMap.map16596map,
+                                GeneratedMutableMap.map16597map,
+                                GeneratedMutableMap.map16598map
                         )
                         )
                 )
@@ -3919,8 +3919,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map16425map,
-                                GeneratedMutableMap.map16426map
+                                GeneratedMutableMap.map16660map,
+                                GeneratedMutableMap.map16661map
                         )
                         )
                 )
@@ -3940,8 +3940,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map16427map,
-                                GeneratedMutableMap.map16428map
+                                GeneratedMutableMap.map16662map,
+                                GeneratedMutableMap.map16663map
                         )
                         )
                 )
@@ -3962,8 +3962,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map16429map,
-                                GeneratedMutableMap.map16430map
+                                GeneratedMutableMap.map16665map,
+                                GeneratedMutableMap.map16666map
                         )
                         )
                 )
@@ -3984,8 +3984,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map16431map,
-                                GeneratedMutableMap.map16432map
+                                GeneratedMutableMap.map16667map,
+                                GeneratedMutableMap.map16668map
                         )
                         )
                 )
@@ -4004,31 +4004,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map16474map
+                            GeneratedMutableMap.map16711map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q1.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/John>","<http://example.org/name>","\"Johnnie\""))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://example.org/name>","y",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "x",
-                            "y"
-                        ), listOf(
-                            GeneratedMutableMap.map16642map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q2.rq */
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -4055,7 +4035,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        graph.addData(1L,listOf("_:_16516","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_16753","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#c",false,true,false,EIndexPattern.SPO)
                     }(),
@@ -4063,26 +4043,26 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "#c"
                         ), listOf(
-                            GeneratedMutableMap.map16643map,
-                            GeneratedMutableMap.map16644map,
-                            GeneratedMutableMap.map16645map,
-                            GeneratedMutableMap.map16646map,
-                            GeneratedMutableMap.map16647map,
-                            GeneratedMutableMap.map16648map,
-                            GeneratedMutableMap.map16649map,
-                            GeneratedMutableMap.map16650map,
-                            GeneratedMutableMap.map16651map,
-                            GeneratedMutableMap.map16652map,
-                            GeneratedMutableMap.map16653map,
-                            GeneratedMutableMap.map16654map,
-                            GeneratedMutableMap.map16655map,
-                            GeneratedMutableMap.map16656map,
-                            GeneratedMutableMap.map16657map,
-                            GeneratedMutableMap.map16658map,
-                            GeneratedMutableMap.map16659map,
-                            GeneratedMutableMap.map16660map,
-                            GeneratedMutableMap.map16661map,
-                            GeneratedMutableMap.map16662map
+                            GeneratedMutableMap.map16879map,
+                            GeneratedMutableMap.map16880map,
+                            GeneratedMutableMap.map16881map,
+                            GeneratedMutableMap.map16882map,
+                            GeneratedMutableMap.map16883map,
+                            GeneratedMutableMap.map16884map,
+                            GeneratedMutableMap.map16885map,
+                            GeneratedMutableMap.map16886map,
+                            GeneratedMutableMap.map16887map,
+                            GeneratedMutableMap.map16888map,
+                            GeneratedMutableMap.map16889map,
+                            GeneratedMutableMap.map16890map,
+                            GeneratedMutableMap.map16891map,
+                            GeneratedMutableMap.map16892map,
+                            GeneratedMutableMap.map16893map,
+                            GeneratedMutableMap.map16894map,
+                            GeneratedMutableMap.map16895map,
+                            GeneratedMutableMap.map16896map,
+                            GeneratedMutableMap.map16897map,
+                            GeneratedMutableMap.map16898map
                         )
                     )
                 )
@@ -4094,14 +4074,44 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_16663","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("<http://example.org/John>","<http://example.org/name>","\"Johnnie\""))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16683","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://example.org/name>","y",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_16683"
+                            "x",
+                            "y"
                         ), listOf(
-                            GeneratedMutableMap.map16791map
+                            GeneratedMutableMap.map16899map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q2.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16929","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_16929"
+                        ), listOf(
+                            GeneratedMutableMap.map17028map,
+                            GeneratedMutableMap.map17029map,
+                            GeneratedMutableMap.map17030map,
+                            GeneratedMutableMap.map17031map,
+                            GeneratedMutableMap.map17032map,
+                            GeneratedMutableMap.map17033map
                         )
                     )
                 )
@@ -4113,15 +4123,111 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_16663","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://example.org/Conference>"))
+                        graph.addData(1L,listOf("_:_16900","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16683","<http://www.w3.org/2002/07/owl#someValuesFrom>","#_16692",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16920","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_16683",
-                            "#_16692"
+                            "#_16920"
                         ), listOf(
-                            GeneratedMutableMap.map16792map
+                            GeneratedMutableMap.map17034map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_16900","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://example.org/Conference>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16920","<http://www.w3.org/2002/07/owl#someValuesFrom>","#_16929",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_16920",
+                            "#_16929"
+                        ), listOf(
+                            GeneratedMutableMap.map17035map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_16900","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16920","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_16920"
+                        ), listOf(
+                            GeneratedMutableMap.map17034map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
+                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Employee>"))
+                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/GraduateAssistant>"))
+                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/hasPublication>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                        graph.addData(1L,listOf("<http://example.org/name>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/ConferencePaper>"))
+                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                        graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
+                        graph.addData(1L,listOf("_:_16900","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b0","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_16920",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#b0",
+                            "#_16920"
+                        ), listOf(
+                            GeneratedMutableMap.map17036map,
+                            GeneratedMutableMap.map17037map,
+                            GeneratedMutableMap.map17038map,
+                            GeneratedMutableMap.map17039map,
+                            GeneratedMutableMap.map17040map,
+                            GeneratedMutableMap.map17041map,
+                            GeneratedMutableMap.map17042map,
+                            GeneratedMutableMap.map17043map,
+                            GeneratedMutableMap.map17044map,
+                            GeneratedMutableMap.map17045map,
+                            GeneratedMutableMap.map17046map,
+                            GeneratedMutableMap.map17047map,
+                            GeneratedMutableMap.map17048map,
+                            GeneratedMutableMap.map17049map,
+                            GeneratedMutableMap.map17050map,
+                            GeneratedMutableMap.map17051map,
+                            GeneratedMutableMap.map17052map,
+                            GeneratedMutableMap.map17053map,
+                            GeneratedMutableMap.map17054map,
+                            GeneratedMutableMap.map17055map
                         )
                     )
                 )
@@ -4142,114 +4248,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "#b0"
                         ), listOf(
-                            GeneratedMutableMap.map16793map,
-                            GeneratedMutableMap.map16794map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
-                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Employee>"))
-                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/GraduateAssistant>"))
-                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/hasPublication>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("<http://example.org/name>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
-                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/ConferencePaper>"))
-                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        graph.addData(1L,listOf("_:_16663","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b0","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_16683",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#b0",
-                            "#_16683"
-                        ), listOf(
-                            GeneratedMutableMap.map16797map,
-                            GeneratedMutableMap.map16798map,
-                            GeneratedMutableMap.map16799map,
-                            GeneratedMutableMap.map16800map,
-                            GeneratedMutableMap.map16801map,
-                            GeneratedMutableMap.map16802map,
-                            GeneratedMutableMap.map16803map,
-                            GeneratedMutableMap.map16804map,
-                            GeneratedMutableMap.map16805map,
-                            GeneratedMutableMap.map16806map,
-                            GeneratedMutableMap.map16807map,
-                            GeneratedMutableMap.map16808map,
-                            GeneratedMutableMap.map16809map,
-                            GeneratedMutableMap.map16810map,
-                            GeneratedMutableMap.map16811map,
-                            GeneratedMutableMap.map16812map,
-                            GeneratedMutableMap.map16813map,
-                            GeneratedMutableMap.map16814map,
-                            GeneratedMutableMap.map16815map,
-                            GeneratedMutableMap.map16816map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16692","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_16692"
-                        ), listOf(
-                            GeneratedMutableMap.map16817map,
-                            GeneratedMutableMap.map16818map,
-                            GeneratedMutableMap.map16819map,
-                            GeneratedMutableMap.map16820map,
-                            GeneratedMutableMap.map16821map,
-                            GeneratedMutableMap.map16822map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_16663","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16683","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_16683"
-                        ), listOf(
-                            GeneratedMutableMap.map16791map
+                            GeneratedMutableMap.map17056map,
+                            GeneratedMutableMap.map17057map
                         )
                     )
                 )
@@ -4268,7 +4268,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map16909map
+                            GeneratedMutableMap.map17146map
                         )
                     )
                 )
@@ -4287,7 +4287,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map16474map
+                            GeneratedMutableMap.map16711map
                         )
                     )
                 )
@@ -4318,7 +4318,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        graph.addData(1L,listOf("_:_16835","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_17072","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","c",false,true,false,EIndexPattern.SPO)
                     }(),
@@ -4326,26 +4326,26 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map16910map,
-                            GeneratedMutableMap.map16911map,
-                            GeneratedMutableMap.map16912map,
-                            GeneratedMutableMap.map16913map,
-                            GeneratedMutableMap.map16914map,
-                            GeneratedMutableMap.map16915map,
-                            GeneratedMutableMap.map16916map,
-                            GeneratedMutableMap.map16917map,
-                            GeneratedMutableMap.map16918map,
-                            GeneratedMutableMap.map16919map,
-                            GeneratedMutableMap.map16920map,
-                            GeneratedMutableMap.map16921map,
-                            GeneratedMutableMap.map16922map,
-                            GeneratedMutableMap.map16923map,
-                            GeneratedMutableMap.map16924map,
-                            GeneratedMutableMap.map16925map,
-                            GeneratedMutableMap.map16926map,
-                            GeneratedMutableMap.map16927map,
-                            GeneratedMutableMap.map16928map,
-                            GeneratedMutableMap.map16929map
+                            GeneratedMutableMap.map17147map,
+                            GeneratedMutableMap.map17148map,
+                            GeneratedMutableMap.map17149map,
+                            GeneratedMutableMap.map17150map,
+                            GeneratedMutableMap.map17151map,
+                            GeneratedMutableMap.map17152map,
+                            GeneratedMutableMap.map17153map,
+                            GeneratedMutableMap.map17154map,
+                            GeneratedMutableMap.map17155map,
+                            GeneratedMutableMap.map17156map,
+                            GeneratedMutableMap.map17157map,
+                            GeneratedMutableMap.map17158map,
+                            GeneratedMutableMap.map17159map,
+                            GeneratedMutableMap.map17160map,
+                            GeneratedMutableMap.map17161map,
+                            GeneratedMutableMap.map17162map,
+                            GeneratedMutableMap.map17163map,
+                            GeneratedMutableMap.map17164map,
+                            GeneratedMutableMap.map17165map,
+                            GeneratedMutableMap.map17166map
                         )
                     )
                 )
@@ -4365,8 +4365,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "p"
                         ), listOf(
-                                GeneratedMutableMap.map16993map,
-                                GeneratedMutableMap.map16994map
+                                GeneratedMutableMap.map17231map,
+                                GeneratedMutableMap.map17232map
                         )
                         )
                 )
@@ -4386,8 +4386,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("p")
                         ), listOf(
-                                GeneratedMutableMap.map16995map,
-                                GeneratedMutableMap.map16996map
+                                GeneratedMutableMap.map17233map,
+                                GeneratedMutableMap.map17234map
                         )
                         )
                 )
@@ -4410,10 +4410,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "v"
                         ), listOf(
-                                GeneratedMutableMap.map16997map,
-                                GeneratedMutableMap.map16998map,
-                                GeneratedMutableMap.map16999map,
-                                GeneratedMutableMap.map17000map
+                                GeneratedMutableMap.map17236map,
+                                GeneratedMutableMap.map17237map,
+                                GeneratedMutableMap.map17238map,
+                                GeneratedMutableMap.map17239map
                         )
                         )
                 )
@@ -4436,10 +4436,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("v")
                         ), listOf(
-                                GeneratedMutableMap.map17001map,
-                                GeneratedMutableMap.map17002map,
-                                GeneratedMutableMap.map17003map,
-                                GeneratedMutableMap.map17004map
+                                GeneratedMutableMap.map17240map,
+                                GeneratedMutableMap.map17241map,
+                                GeneratedMutableMap.map17242map,
+                                GeneratedMutableMap.map17243map
                         )
                         )
                 )
@@ -4458,7 +4458,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map17045map
+                                GeneratedMutableMap.map17286map
                         )
                         )
                 )
@@ -4477,7 +4477,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map17046map
+                                GeneratedMutableMap.map17287map
                         )
                         )
                 )
@@ -4496,7 +4496,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "p"
                         ), listOf(
-                                GeneratedMutableMap.map17150map
+                                GeneratedMutableMap.map17392map
                         )
                         )
                 )
@@ -4515,7 +4515,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("p")
                         ), listOf(
-                                GeneratedMutableMap.map17151map
+                                GeneratedMutableMap.map17393map
                         )
                         )
                 )
@@ -4541,12 +4541,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map17152map,
-                                GeneratedMutableMap.map6716map,
-                                GeneratedMutableMap.map6717map,
-                                GeneratedMutableMap.map6718map,
-                                GeneratedMutableMap.map6719map,
-                                GeneratedMutableMap.map17153map
+                                GeneratedMutableMap.map17395map,
+                                GeneratedMutableMap.map6784map,
+                                GeneratedMutableMap.map6785map,
+                                GeneratedMutableMap.map6786map,
+                                GeneratedMutableMap.map6787map,
+                                GeneratedMutableMap.map17396map
                         )
                         )
                 )
@@ -4572,12 +4572,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map17154map,
-                                GeneratedMutableMap.map6720map,
-                                GeneratedMutableMap.map6721map,
-                                GeneratedMutableMap.map6722map,
-                                GeneratedMutableMap.map6723map,
-                                GeneratedMutableMap.map17155map
+                                GeneratedMutableMap.map17397map,
+                                GeneratedMutableMap.map6788map,
+                                GeneratedMutableMap.map6789map,
+                                GeneratedMutableMap.map6790map,
+                                GeneratedMutableMap.map6791map,
+                                GeneratedMutableMap.map17398map
                         )
                         )
                 )
@@ -4590,32 +4590,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
                         graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                        graph.addData(1L,listOf("_:1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s1","p1","z",false,false,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "p1"
+                            "s1",
+                            "p1",
+                            "z"
                         ), listOf(
-                            GeneratedMutableMap.map17642map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/bind03.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "p"
-                        ), listOf(
-                            GeneratedMutableMap.map17150map
+                            GeneratedMutableMap.map17889map,
+                            GeneratedMutableMap.map7260map,
+                            GeneratedMutableMap.map7261map,
+                            GeneratedMutableMap.map7262map,
+                            GeneratedMutableMap.map7263map,
+                            GeneratedMutableMap.map17890map
                         )
                     )
                 )
@@ -4641,12 +4634,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map17152map,
-                            GeneratedMutableMap.map6716map,
-                            GeneratedMutableMap.map6717map,
-                            GeneratedMutableMap.map6718map,
-                            GeneratedMutableMap.map6719map,
-                            GeneratedMutableMap.map17153map
+                            GeneratedMutableMap.map17395map,
+                            GeneratedMutableMap.map6784map,
+                            GeneratedMutableMap.map6785map,
+                            GeneratedMutableMap.map6786map,
+                            GeneratedMutableMap.map6787map,
+                            GeneratedMutableMap.map17396map
                         )
                     )
                 )
@@ -4659,25 +4652,32 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
                         graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
-                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                        graph.addData(1L,listOf("_:1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s1","p1","z",false,false,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "s1",
-                            "p1",
-                            "z"
+                            "p1"
                         ), listOf(
-                            GeneratedMutableMap.map17643map,
-                            GeneratedMutableMap.map7191map,
-                            GeneratedMutableMap.map7192map,
-                            GeneratedMutableMap.map7193map,
-                            GeneratedMutableMap.map7194map,
-                            GeneratedMutableMap.map17644map
+                            GeneratedMutableMap.map17891map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/bind03.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "p"
+                        ), listOf(
+                            GeneratedMutableMap.map17392map
                         )
                     )
                 )
@@ -4700,10 +4700,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map15889map,
-                            GeneratedMutableMap.map15891map,
-                            GeneratedMutableMap.map15892map,
-                            GeneratedMutableMap.map16355map
+                            GeneratedMutableMap.map16119map,
+                            GeneratedMutableMap.map16121map,
+                            GeneratedMutableMap.map16122map,
+                            GeneratedMutableMap.map16588map
                         )
                     )
                 )
@@ -4723,7 +4723,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "#y"
                         ), listOf(
-                            GeneratedMutableMap.map18626map
+                            GeneratedMutableMap.map18895map
                         )
                     )
                 )
@@ -4753,67 +4753,21 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map16351map,
-                            GeneratedMutableMap.map16353map,
-                            GeneratedMutableMap.map15889map,
-                            GeneratedMutableMap.map15890map,
-                            GeneratedMutableMap.map15891map,
-                            GeneratedMutableMap.map15892map,
-                            GeneratedMutableMap.map18627map,
-                            GeneratedMutableMap.map15893map,
-                            GeneratedMutableMap.map18628map,
-                            GeneratedMutableMap.map18629map,
-                            GeneratedMutableMap.map16356map
+                            GeneratedMutableMap.map16584map,
+                            GeneratedMutableMap.map16586map,
+                            GeneratedMutableMap.map16119map,
+                            GeneratedMutableMap.map16120map,
+                            GeneratedMutableMap.map16121map,
+                            GeneratedMutableMap.map16122map,
+                            GeneratedMutableMap.map18896map,
+                            GeneratedMutableMap.map16123map,
+                            GeneratedMutableMap.map18897map,
+                            GeneratedMutableMap.map18898map,
+                            GeneratedMutableMap.map16589map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/sparqldl-03.rq */
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            graph.addData(1L, listOf("<http://example.org/test#b>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            graph.addData(1L, listOf("<http://example.org/test#c>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>", false, true, true, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "X"
-                        ), listOf(
-                                GeneratedMutableMap.map18702map,
-                                GeneratedMutableMap.map18703map,
-                                GeneratedMutableMap.map18704map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            graph.addData(1L, listOf("<http://example.org/test#b>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            graph.addData(1L, listOf("<http://example.org/test#c>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("X"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://example.org/test#Person>"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("X")
-                        ), listOf(
-                                GeneratedMutableMap.map18705map,
-                                GeneratedMutableMap.map17046map,
-                                GeneratedMutableMap.map18706map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -4830,8 +4784,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "X",
                                 "Y1"
                         ), listOf(
-                                GeneratedMutableMap.map18707map,
-                                GeneratedMutableMap.map18708map
+                                GeneratedMutableMap.map18972map,
+                                GeneratedMutableMap.map18973map
                         )
                         )
                 )
@@ -4852,8 +4806,54 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("X"),
                                 AOPVariable("Y1")
                         ), listOf(
-                                GeneratedMutableMap.map18709map,
-                                GeneratedMutableMap.map18710map
+                                GeneratedMutableMap.map18974map,
+                                GeneratedMutableMap.map18975map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            graph.addData(1L, listOf("<http://example.org/test#b>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            graph.addData(1L, listOf("<http://example.org/test#c>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>", false, true, true, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "X"
+                        ), listOf(
+                                GeneratedMutableMap.map18977map,
+                                GeneratedMutableMap.map18978map,
+                                GeneratedMutableMap.map18979map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            graph.addData(1L, listOf("<http://example.org/test#b>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            graph.addData(1L, listOf("<http://example.org/test#c>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("X"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://example.org/test#Person>"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("X")
+                        ), listOf(
+                                GeneratedMutableMap.map18980map,
+                                GeneratedMutableMap.map17287map,
+                                GeneratedMutableMap.map18981map
                         )
                         )
                 )
@@ -4874,8 +4874,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "X",
                                 "Y2"
                         ), listOf(
-                                GeneratedMutableMap.map18711map,
-                                GeneratedMutableMap.map18712map
+                                GeneratedMutableMap.map18984map,
+                                GeneratedMutableMap.map18985map
                         )
                         )
                 )
@@ -4896,8 +4896,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("X"),
                                 AOPVariable("Y2")
                         ), listOf(
-                                GeneratedMutableMap.map18713map,
-                                GeneratedMutableMap.map18714map
+                                GeneratedMutableMap.map18986map,
+                                GeneratedMutableMap.map18987map
                         )
                         )
                 )
@@ -4918,9 +4918,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "#a"
                         ), listOf(
-                            GeneratedMutableMap.map18761map,
-                            GeneratedMutableMap.map18762map,
-                            GeneratedMutableMap.map18763map
+                            GeneratedMutableMap.map19035map,
+                            GeneratedMutableMap.map19036map,
+                            GeneratedMutableMap.map19037map
                         )
                     )
                 )
@@ -4932,14 +4932,17 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#aa>"))
+                        graph.addData(1L,listOf("<http://example.org/test#aa>","<http://example.org/test#r>","<http://example.org/test#ee>"))
+                        graph.addData(1L,listOf("<http://example.org/test#cc>","<http://example.org/test#r>","<http://example.org/test#dd>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/test#a>","<http://example.org/test#p>","#aa",true,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#aa","<http://example.org/test#r>","#dd",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#aa"
+                            "#aa",
+                            "#dd"
                         ), listOf(
-                            GeneratedMutableMap.map18848map
+                            GeneratedMutableMap.map19122map,
+                            GeneratedMutableMap.map19123map
                         )
                     )
                 )
@@ -4959,7 +4962,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "#dd",
                             "#bb"
                         ), listOf(
-                            GeneratedMutableMap.map18851map
+                            GeneratedMutableMap.map19124map
                         )
                     )
                 )
@@ -4971,139 +4974,18 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#aa>","<http://example.org/test#r>","<http://example.org/test#ee>"))
-                        graph.addData(1L,listOf("<http://example.org/test#cc>","<http://example.org/test#r>","<http://example.org/test#dd>"))
+                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#aa>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#aa","<http://example.org/test#r>","#dd",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/test#a>","<http://example.org/test#p>","#aa",true,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#aa",
-                            "#dd"
+                            "#aa"
                         ), listOf(
-                            GeneratedMutableMap.map18849map,
-                            GeneratedMutableMap.map18850map
+                            GeneratedMutableMap.map19125map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/sparqldl-06.rq */
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "<http://example.org/test#a>", "<http://example.org/test#p>", "#aa", true, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "#aa"
-                        ), listOf(
-                                GeneratedMutableMap.map18848map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable.calculate("<http://example.org/test#a>"), AOPVariable.calculate("<http://example.org/test#p>"), AOPVariable("#aa"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("#aa")
-                        ), listOf(
-                                GeneratedMutableMap.map18935map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#dd>", "<http://example.org/test#t>", "<http://example.org/test#bb>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://example.org/test#t>", "Y", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "X",
-                                "Y"
-                        ), listOf(
-                                GeneratedMutableMap.map18936map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#dd>", "<http://example.org/test#t>", "<http://example.org/test#bb>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("X"), AOPVariable.calculate("<http://example.org/test#t>"), AOPVariable("Y"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("X"),
-                                AOPVariable("Y")
-                        ), listOf(
-                                GeneratedMutableMap.map18938map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#bb>", "<http://example.org/test#s>", "<http://example.org/test#aa>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "Y", "<http://example.org/test#s>", "#aa", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "Y",
-                                "#aa"
-                        ), listOf(
-                                GeneratedMutableMap.map18940map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#bb>", "<http://example.org/test#s>", "<http://example.org/test#aa>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("Y"), AOPVariable.calculate("<http://example.org/test#s>"), AOPVariable("#aa"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("Y"),
-                                AOPVariable("#aa")
-                        ), listOf(
-                                GeneratedMutableMap.map18941map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -5120,8 +5002,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "#aa",
                                 "Z"
                         ), listOf(
-                                GeneratedMutableMap.map18942map,
-                                GeneratedMutableMap.map18943map
+                                GeneratedMutableMap.map19210map,
+                                GeneratedMutableMap.map19211map
                         )
                         )
                 )
@@ -5142,12 +5024,170 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("#aa"),
                                 AOPVariable("Z")
                         ), listOf(
-                                GeneratedMutableMap.map18944map,
-                                GeneratedMutableMap.map18945map
+                                GeneratedMutableMap.map19212map,
+                                GeneratedMutableMap.map19213map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#bb>", "<http://example.org/test#s>", "<http://example.org/test#aa>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "Y", "<http://example.org/test#s>", "#aa", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "Y",
+                                "#aa"
+                        ), listOf(
+                                GeneratedMutableMap.map19215map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#bb>", "<http://example.org/test#s>", "<http://example.org/test#aa>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("Y"), AOPVariable.calculate("<http://example.org/test#s>"), AOPVariable("#aa"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("Y"),
+                                AOPVariable("#aa")
+                        ), listOf(
+                                GeneratedMutableMap.map19216map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#dd>", "<http://example.org/test#t>", "<http://example.org/test#bb>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://example.org/test#t>", "Y", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "X",
+                                "Y"
+                        ), listOf(
+                                GeneratedMutableMap.map19218map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#dd>", "<http://example.org/test#t>", "<http://example.org/test#bb>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("X"), AOPVariable.calculate("<http://example.org/test#t>"), AOPVariable("Y"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("X"),
+                                AOPVariable("Y")
+                        ), listOf(
+                                GeneratedMutableMap.map19219map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "<http://example.org/test#a>", "<http://example.org/test#p>", "#aa", true, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "#aa"
+                        ), listOf(
+                                GeneratedMutableMap.map19125map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable.calculate("<http://example.org/test#a>"), AOPVariable.calculate("<http://example.org/test#p>"), AOPVariable("#aa"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("#aa")
+                        ), listOf(
+                                GeneratedMutableMap.map19221map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://example.org/test#p>", "#a", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "X",
+                                "#a"
+                        ), listOf(
+                                GeneratedMutableMap.map19286map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-08.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("X"), AOPVariable.calculate("<http://example.org/test#p>"), AOPVariable("#a"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("X"),
+                                AOPVariable("#a")
+                        ), listOf(
+                                GeneratedMutableMap.map19287map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-08.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -5164,8 +5204,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "#a",
                                 "Y"
                         ), listOf(
-                                GeneratedMutableMap.map19004map,
-                                GeneratedMutableMap.map19005map
+                                GeneratedMutableMap.map19289map,
+                                GeneratedMutableMap.map19290map
                         )
                         )
                 )
@@ -5186,48 +5226,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("#a"),
                                 AOPVariable("Y")
                         ), listOf(
-                                GeneratedMutableMap.map18944map,
-                                GeneratedMutableMap.map18945map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-08.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://example.org/test#p>", "#a", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "X",
-                                "#a"
-                        ), listOf(
-                                GeneratedMutableMap.map19006map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-08.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#p>", "<http://example.org/test#aa>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("X"), AOPVariable.calculate("<http://example.org/test#p>"), AOPVariable("#a"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("X"),
-                                AOPVariable("#a")
-                        ), listOf(
-                                GeneratedMutableMap.map19007map
+                                GeneratedMutableMap.map19212map,
+                                GeneratedMutableMap.map19213map
                         )
                         )
                 )
@@ -5247,7 +5247,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "X",
                                 "#a"
                         ), listOf(
-                                GeneratedMutableMap.map19069map
+                                GeneratedMutableMap.map19354map
                         )
                         )
                 )
@@ -5267,7 +5267,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("X"),
                                 AOPVariable("#a")
                         ), listOf(
-                                GeneratedMutableMap.map19070map
+                                GeneratedMutableMap.map19355map
                         )
                         )
                 )
@@ -5290,10 +5290,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "#a",
                                 "Y"
                         ), listOf(
-                                GeneratedMutableMap.map19071map,
-                                GeneratedMutableMap.map19072map,
-                                GeneratedMutableMap.map19073map,
-                                GeneratedMutableMap.map19074map
+                                GeneratedMutableMap.map19357map,
+                                GeneratedMutableMap.map19358map,
+                                GeneratedMutableMap.map19359map,
+                                GeneratedMutableMap.map19360map
                         )
                         )
                 )
@@ -5316,10 +5316,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("#a"),
                                 AOPVariable("Y")
                         ), listOf(
-                                GeneratedMutableMap.map19078map,
-                                GeneratedMutableMap.map19079map,
-                                GeneratedMutableMap.map19080map,
-                                GeneratedMutableMap.map19081map
+                                GeneratedMutableMap.map19361map,
+                                GeneratedMutableMap.map19362map,
+                                GeneratedMutableMap.map19363map,
+                                GeneratedMutableMap.map19364map
                         )
                         )
                 )
@@ -5339,7 +5339,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "X",
                             "a"
                         ), listOf(
-                            GeneratedMutableMap.map19178map
+                            GeneratedMutableMap.map19465map
                         )
                     )
                 )
@@ -5362,10 +5362,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "Y",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map19179map,
-                            GeneratedMutableMap.map19180map,
-                            GeneratedMutableMap.map19181map,
-                            GeneratedMutableMap.map19182map
+                            GeneratedMutableMap.map19466map,
+                            GeneratedMutableMap.map19467map,
+                            GeneratedMutableMap.map19468map,
+                            GeneratedMutableMap.map19469map
                         )
                     )
                 )
@@ -5384,11 +5384,31 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "C"
                         ), listOf(
-                            GeneratedMutableMap.map19271map
+                            GeneratedMutableMap.map19558map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/sparqldl-12.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://www.w3.org/2002/07/owl#sameAs>","<http://example.org/test#x>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"b","<http://www.w3.org/2002/07/owl#sameAs>","x",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "b",
+                            "x"
+                        ), listOf(
+                            GeneratedMutableMap.map19634map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/sparqldl-13.rq */
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -5405,29 +5425,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map19347map,
-                            GeneratedMutableMap.map19348map,
-                            GeneratedMutableMap.map19349map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/sparqldl-13.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://www.w3.org/2002/07/owl#sameAs>","<http://example.org/test#x>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"b","<http://www.w3.org/2002/07/owl#sameAs>","x",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "b",
-                            "x"
-                        ), listOf(
-                            GeneratedMutableMap.map19350map
+                            GeneratedMutableMap.map19635map,
+                            GeneratedMutableMap.map19636map,
+                            GeneratedMutableMap.map19637map
                         )
                     )
                 )
@@ -5447,7 +5447,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "a",
                             "b"
                         ), listOf(
-                            GeneratedMutableMap.map19351map
+                            GeneratedMutableMap.map19638map
                         )
                     )
                 )
@@ -5468,8 +5468,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "parent",
                                 "child"
                         ), listOf(
-                                GeneratedMutableMap.map19440map,
-                                GeneratedMutableMap.map19441map
+                                GeneratedMutableMap.map19729map,
+                                GeneratedMutableMap.map19730map
                         )
                         )
                 )
@@ -5490,8 +5490,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("parent"),
                                 AOPVariable("child")
                         ), listOf(
-                                GeneratedMutableMap.map19442map,
-                                GeneratedMutableMap.map19443map
+                                GeneratedMutableMap.map19731map,
+                                GeneratedMutableMap.map19732map
                         )
                         )
                 )
@@ -5503,14 +5503,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19454","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        graph.addData(1L,listOf("_:_19743","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19744","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19469","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19758","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19469"
+                            "#_19758"
                         ), listOf(
-                            GeneratedMutableMap.map19535map
+                            GeneratedMutableMap.map19824map,
+                            GeneratedMutableMap.map19825map
                         )
                     )
                 )
@@ -5522,37 +5524,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19454","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19455","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19743","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19469","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19758","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19469"
+                            "#_19758"
                         ), listOf(
-                            GeneratedMutableMap.map19535map,
-                            GeneratedMutableMap.map19536map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19454","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19455","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19469","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19469"
-                        ), listOf(
-                            GeneratedMutableMap.map19535map,
-                            GeneratedMutableMap.map19536map
+                            GeneratedMutableMap.map19824map
                         )
                     )
                 )
@@ -5571,46 +5550,46 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19455"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19744"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19448","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19451","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19454","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19455","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19456","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19737","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19740","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19743","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19744","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19745","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19469",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19758",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19469"
+                            "#_19758"
                         ), listOf(
-                            GeneratedMutableMap.map19537map,
-                            GeneratedMutableMap.map19538map,
-                            GeneratedMutableMap.map19539map,
-                            GeneratedMutableMap.map19540map,
-                            GeneratedMutableMap.map19541map,
-                            GeneratedMutableMap.map19542map,
-                            GeneratedMutableMap.map19543map,
-                            GeneratedMutableMap.map19544map,
-                            GeneratedMutableMap.map19545map,
-                            GeneratedMutableMap.map19546map,
-                            GeneratedMutableMap.map19547map,
-                            GeneratedMutableMap.map19548map,
-                            GeneratedMutableMap.map19549map,
-                            GeneratedMutableMap.map19550map,
-                            GeneratedMutableMap.map19551map,
-                            GeneratedMutableMap.map19552map,
-                            GeneratedMutableMap.map19553map,
-                            GeneratedMutableMap.map19554map,
-                            GeneratedMutableMap.map19555map,
-                            GeneratedMutableMap.map19556map
+                            GeneratedMutableMap.map19826map,
+                            GeneratedMutableMap.map19827map,
+                            GeneratedMutableMap.map19828map,
+                            GeneratedMutableMap.map19829map,
+                            GeneratedMutableMap.map19830map,
+                            GeneratedMutableMap.map19831map,
+                            GeneratedMutableMap.map19832map,
+                            GeneratedMutableMap.map19833map,
+                            GeneratedMutableMap.map19834map,
+                            GeneratedMutableMap.map19835map,
+                            GeneratedMutableMap.map19836map,
+                            GeneratedMutableMap.map19837map,
+                            GeneratedMutableMap.map19838map,
+                            GeneratedMutableMap.map19839map,
+                            GeneratedMutableMap.map19840map,
+                            GeneratedMutableMap.map19841map,
+                            GeneratedMutableMap.map19842map,
+                            GeneratedMutableMap.map19843map,
+                            GeneratedMutableMap.map19844map,
+                            GeneratedMutableMap.map19845map
                         )
                     )
                 )
@@ -5622,16 +5601,37 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19563","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19564","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19743","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19744","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19581","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19758","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19581"
+                            "#_19758"
                         ), listOf(
-                            GeneratedMutableMap.map19652map,
-                            GeneratedMutableMap.map19653map
+                            GeneratedMutableMap.map19824map,
+                            GeneratedMutableMap.map19825map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19852","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19853","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19870","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19870"
+                        ), listOf(
+                            GeneratedMutableMap.map19941map,
+                            GeneratedMutableMap.map19942map
                         )
                     )
                 )
@@ -5643,74 +5643,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19563","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19564","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19852","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19853","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19581","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19870","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19581"
+                            "#_19870"
                         ), listOf(
-                            GeneratedMutableMap.map19652map,
-                            GeneratedMutableMap.map19653map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent4.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Female>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Parent>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Male>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19564"))
-                        graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19557","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19560","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19563","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19564","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19565","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19581",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "parent",
-                            "#_19581"
-                        ), listOf(
-                            GeneratedMutableMap.map19654map,
-                            GeneratedMutableMap.map19655map,
-                            GeneratedMutableMap.map19656map,
-                            GeneratedMutableMap.map19657map,
-                            GeneratedMutableMap.map19658map,
-                            GeneratedMutableMap.map19659map,
-                            GeneratedMutableMap.map19660map,
-                            GeneratedMutableMap.map19661map,
-                            GeneratedMutableMap.map19662map,
-                            GeneratedMutableMap.map19663map,
-                            GeneratedMutableMap.map19664map,
-                            GeneratedMutableMap.map19665map,
-                            GeneratedMutableMap.map19666map,
-                            GeneratedMutableMap.map19667map,
-                            GeneratedMutableMap.map19668map,
-                            GeneratedMutableMap.map19669map,
-                            GeneratedMutableMap.map19670map,
-                            GeneratedMutableMap.map19671map,
-                            GeneratedMutableMap.map19672map,
-                            GeneratedMutableMap.map19673map
+                            GeneratedMutableMap.map19941map,
+                            GeneratedMutableMap.map19942map
                         )
                     )
                 )
@@ -5729,50 +5671,50 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19681"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19853"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19674","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19677","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19680","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19681","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19682","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19846","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19849","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19852","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19853","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19854","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19695",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19870",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19695"
+                            "#_19870"
                         ), listOf(
-                            GeneratedMutableMap.map19761map,
-                            GeneratedMutableMap.map19762map,
-                            GeneratedMutableMap.map19763map,
-                            GeneratedMutableMap.map19764map,
-                            GeneratedMutableMap.map19765map,
-                            GeneratedMutableMap.map19766map,
-                            GeneratedMutableMap.map19767map,
-                            GeneratedMutableMap.map19768map,
-                            GeneratedMutableMap.map19769map,
-                            GeneratedMutableMap.map19770map,
-                            GeneratedMutableMap.map19771map,
-                            GeneratedMutableMap.map19772map,
-                            GeneratedMutableMap.map19773map,
-                            GeneratedMutableMap.map19774map,
-                            GeneratedMutableMap.map19775map,
-                            GeneratedMutableMap.map19776map,
-                            GeneratedMutableMap.map19777map,
-                            GeneratedMutableMap.map19778map,
-                            GeneratedMutableMap.map19779map,
-                            GeneratedMutableMap.map19780map
+                            GeneratedMutableMap.map19943map,
+                            GeneratedMutableMap.map19944map,
+                            GeneratedMutableMap.map19945map,
+                            GeneratedMutableMap.map19946map,
+                            GeneratedMutableMap.map19947map,
+                            GeneratedMutableMap.map19948map,
+                            GeneratedMutableMap.map19949map,
+                            GeneratedMutableMap.map19950map,
+                            GeneratedMutableMap.map19951map,
+                            GeneratedMutableMap.map19952map,
+                            GeneratedMutableMap.map19953map,
+                            GeneratedMutableMap.map19954map,
+                            GeneratedMutableMap.map19955map,
+                            GeneratedMutableMap.map19956map,
+                            GeneratedMutableMap.map19957map,
+                            GeneratedMutableMap.map19958map,
+                            GeneratedMutableMap.map19959map,
+                            GeneratedMutableMap.map19960map,
+                            GeneratedMutableMap.map19961map,
+                            GeneratedMutableMap.map19962map
                         )
                     )
                 )
-            }() */ /* resources/sparql11-test-suite/entailment/parent5.rq */
+            }() */ /* resources/sparql11-test-suite/entailment/parent4.rq */
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -5780,37 +5722,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19680","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19681","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19969","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19970","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19695","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19984","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19695"
+                            "#_19984"
                         ), listOf(
-                            GeneratedMutableMap.map19781map,
-                            GeneratedMutableMap.map19782map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent5.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19680","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19681","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19695","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19695"
-                        ), listOf(
-                            GeneratedMutableMap.map19781map,
-                            GeneratedMutableMap.map19782map
+                            GeneratedMutableMap.map20050map,
+                            GeneratedMutableMap.map20051map
                         )
                     )
                 )
@@ -5829,46 +5750,88 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19790"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19970"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19783","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19786","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19789","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19790","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19791","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19963","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19966","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19969","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19970","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19971","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19805",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19984",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19805"
+                            "#_19984"
                         ), listOf(
-                            GeneratedMutableMap.map19887map,
-                            GeneratedMutableMap.map19888map,
-                            GeneratedMutableMap.map19889map,
-                            GeneratedMutableMap.map19890map,
-                            GeneratedMutableMap.map19891map,
-                            GeneratedMutableMap.map19892map,
-                            GeneratedMutableMap.map19893map,
-                            GeneratedMutableMap.map19894map,
-                            GeneratedMutableMap.map19895map,
-                            GeneratedMutableMap.map19896map,
-                            GeneratedMutableMap.map19897map,
-                            GeneratedMutableMap.map19898map,
-                            GeneratedMutableMap.map19899map,
-                            GeneratedMutableMap.map19900map,
-                            GeneratedMutableMap.map19901map,
-                            GeneratedMutableMap.map19902map,
-                            GeneratedMutableMap.map19903map,
-                            GeneratedMutableMap.map19904map,
-                            GeneratedMutableMap.map19905map,
-                            GeneratedMutableMap.map19906map
+                            GeneratedMutableMap.map20052map,
+                            GeneratedMutableMap.map20053map,
+                            GeneratedMutableMap.map20054map,
+                            GeneratedMutableMap.map20055map,
+                            GeneratedMutableMap.map20056map,
+                            GeneratedMutableMap.map20057map,
+                            GeneratedMutableMap.map20058map,
+                            GeneratedMutableMap.map20059map,
+                            GeneratedMutableMap.map20060map,
+                            GeneratedMutableMap.map20061map,
+                            GeneratedMutableMap.map20062map,
+                            GeneratedMutableMap.map20063map,
+                            GeneratedMutableMap.map20064map,
+                            GeneratedMutableMap.map20065map,
+                            GeneratedMutableMap.map20066map,
+                            GeneratedMutableMap.map20067map,
+                            GeneratedMutableMap.map20068map,
+                            GeneratedMutableMap.map20069map,
+                            GeneratedMutableMap.map20070map,
+                            GeneratedMutableMap.map20071map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent5.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19969","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19970","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19984","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19984"
+                        ), listOf(
+                            GeneratedMutableMap.map20050map,
+                            GeneratedMutableMap.map20051map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent5.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_20078","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20079","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20094","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_20094"
+                        ), listOf(
+                            GeneratedMutableMap.map20176map,
+                            GeneratedMutableMap.map20177map
                         )
                     )
                 )
@@ -5880,16 +5843,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19789","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19790","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20078","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20079","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19805","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20094","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19805"
+                            "#_20094"
                         ), listOf(
-                            GeneratedMutableMap.map19907map,
-                            GeneratedMutableMap.map19908map
+                            GeneratedMutableMap.map20176map,
+                            GeneratedMutableMap.map20177map
                         )
                     )
                 )
@@ -5901,16 +5864,53 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19789","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19790","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Female>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Parent>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Male>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_20079"))
+                        graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                        graph.addData(1L,listOf("_:_20072","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20075","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20078","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20079","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20080","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19805","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20094",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19805"
+                            "parent",
+                            "#_20094"
                         ), listOf(
-                            GeneratedMutableMap.map19907map,
-                            GeneratedMutableMap.map19908map
+                            GeneratedMutableMap.map20178map,
+                            GeneratedMutableMap.map20179map,
+                            GeneratedMutableMap.map20180map,
+                            GeneratedMutableMap.map20181map,
+                            GeneratedMutableMap.map20182map,
+                            GeneratedMutableMap.map20183map,
+                            GeneratedMutableMap.map20184map,
+                            GeneratedMutableMap.map20185map,
+                            GeneratedMutableMap.map20186map,
+                            GeneratedMutableMap.map20187map,
+                            GeneratedMutableMap.map20188map,
+                            GeneratedMutableMap.map20189map,
+                            GeneratedMutableMap.map20190map,
+                            GeneratedMutableMap.map20191map,
+                            GeneratedMutableMap.map20192map,
+                            GeneratedMutableMap.map20193map,
+                            GeneratedMutableMap.map20194map,
+                            GeneratedMutableMap.map20195map,
+                            GeneratedMutableMap.map20196map,
+                            GeneratedMutableMap.map20197map
                         )
                     )
                 )
@@ -5922,37 +5922,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19915","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19916","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20204","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20205","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19931","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20220","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19931"
+                            "#_20220"
                         ), listOf(
-                            GeneratedMutableMap.map20013map,
-                            GeneratedMutableMap.map20014map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19915","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19916","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19931","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19931"
-                        ), listOf(
-                            GeneratedMutableMap.map20013map,
-                            GeneratedMutableMap.map20014map
+                            GeneratedMutableMap.map20302map,
+                            GeneratedMutableMap.map20303map
                         )
                     )
                 )
@@ -5971,50 +5950,92 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19916"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_20205"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19909","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19912","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19915","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19916","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19917","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20198","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20201","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20204","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20205","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20206","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19931",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20220",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19931"
+                            "#_20220"
                         ), listOf(
-                            GeneratedMutableMap.map20015map,
-                            GeneratedMutableMap.map20016map,
-                            GeneratedMutableMap.map20017map,
-                            GeneratedMutableMap.map20018map,
-                            GeneratedMutableMap.map20019map,
-                            GeneratedMutableMap.map20020map,
-                            GeneratedMutableMap.map20021map,
-                            GeneratedMutableMap.map20022map,
-                            GeneratedMutableMap.map20023map,
-                            GeneratedMutableMap.map20024map,
-                            GeneratedMutableMap.map20025map,
-                            GeneratedMutableMap.map20026map,
-                            GeneratedMutableMap.map20027map,
-                            GeneratedMutableMap.map20028map,
-                            GeneratedMutableMap.map20029map,
-                            GeneratedMutableMap.map20030map,
-                            GeneratedMutableMap.map20031map,
-                            GeneratedMutableMap.map20032map,
-                            GeneratedMutableMap.map20033map,
-                            GeneratedMutableMap.map20034map
+                            GeneratedMutableMap.map20304map,
+                            GeneratedMutableMap.map20305map,
+                            GeneratedMutableMap.map20306map,
+                            GeneratedMutableMap.map20307map,
+                            GeneratedMutableMap.map20308map,
+                            GeneratedMutableMap.map20309map,
+                            GeneratedMutableMap.map20310map,
+                            GeneratedMutableMap.map20311map,
+                            GeneratedMutableMap.map20312map,
+                            GeneratedMutableMap.map20313map,
+                            GeneratedMutableMap.map20314map,
+                            GeneratedMutableMap.map20315map,
+                            GeneratedMutableMap.map20316map,
+                            GeneratedMutableMap.map20317map,
+                            GeneratedMutableMap.map20318map,
+                            GeneratedMutableMap.map20319map,
+                            GeneratedMutableMap.map20320map,
+                            GeneratedMutableMap.map20321map,
+                            GeneratedMutableMap.map20322map,
+                            GeneratedMutableMap.map20323map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_20204","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20205","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20220","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_20220"
+                        ), listOf(
+                            GeneratedMutableMap.map20302map,
+                            GeneratedMutableMap.map20303map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_20330","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20331","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20346","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_20346"
+                        ), listOf(
+                            GeneratedMutableMap.map20428map,
+                            GeneratedMutableMap.map20429map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent8.rq */
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -6029,46 +6050,46 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_20042"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_20331"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_20035","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_20038","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_20041","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_20042","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_20043","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20324","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20327","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_20330","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20331","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20332","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20057",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20346",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_20057"
+                            "#_20346"
                         ), listOf(
-                            GeneratedMutableMap.map20139map,
-                            GeneratedMutableMap.map20140map,
-                            GeneratedMutableMap.map20141map,
-                            GeneratedMutableMap.map20142map,
-                            GeneratedMutableMap.map20143map,
-                            GeneratedMutableMap.map20144map,
-                            GeneratedMutableMap.map20145map,
-                            GeneratedMutableMap.map20146map,
-                            GeneratedMutableMap.map20147map,
-                            GeneratedMutableMap.map20148map,
-                            GeneratedMutableMap.map20149map,
-                            GeneratedMutableMap.map20150map,
-                            GeneratedMutableMap.map20151map,
-                            GeneratedMutableMap.map20152map,
-                            GeneratedMutableMap.map20153map,
-                            GeneratedMutableMap.map20154map,
-                            GeneratedMutableMap.map20155map,
-                            GeneratedMutableMap.map20156map,
-                            GeneratedMutableMap.map20157map,
-                            GeneratedMutableMap.map20158map
+                            GeneratedMutableMap.map20430map,
+                            GeneratedMutableMap.map20431map,
+                            GeneratedMutableMap.map20432map,
+                            GeneratedMutableMap.map20433map,
+                            GeneratedMutableMap.map20434map,
+                            GeneratedMutableMap.map20435map,
+                            GeneratedMutableMap.map20436map,
+                            GeneratedMutableMap.map20437map,
+                            GeneratedMutableMap.map20438map,
+                            GeneratedMutableMap.map20439map,
+                            GeneratedMutableMap.map20440map,
+                            GeneratedMutableMap.map20441map,
+                            GeneratedMutableMap.map20442map,
+                            GeneratedMutableMap.map20443map,
+                            GeneratedMutableMap.map20444map,
+                            GeneratedMutableMap.map20445map,
+                            GeneratedMutableMap.map20446map,
+                            GeneratedMutableMap.map20447map,
+                            GeneratedMutableMap.map20448map,
+                            GeneratedMutableMap.map20449map
                         )
                     )
                 )
@@ -6080,16 +6101,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20041","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_20042","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20330","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20331","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20057","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20346","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20057"
+                            "#_20346"
                         ), listOf(
-                            GeneratedMutableMap.map20159map,
-                            GeneratedMutableMap.map20160map
+                            GeneratedMutableMap.map20428map,
+                            GeneratedMutableMap.map20429map
                         )
                     )
                 )
@@ -6101,37 +6122,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20041","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_20042","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20456","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20457","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20057","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20473","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20057"
+                            "#_20473"
                         ), listOf(
-                            GeneratedMutableMap.map20159map,
-                            GeneratedMutableMap.map20160map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent8.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20167","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_20168","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20184","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_20184"
-                        ), listOf(
-                            GeneratedMutableMap.map20252map,
-                            GeneratedMutableMap.map20253map
+                            GeneratedMutableMap.map20541map,
+                            GeneratedMutableMap.map20542map
                         )
                     )
                 )
@@ -6143,14 +6143,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20167","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        graph.addData(1L,listOf("_:_20456","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20457","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20184","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20473","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20184"
+                            "#_20473"
                         ), listOf(
-                            GeneratedMutableMap.map20252map
+                            GeneratedMutableMap.map20541map,
+                            GeneratedMutableMap.map20542map
                         )
                     )
                 )
@@ -6162,16 +6164,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20167","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_20168","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20456","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20184","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20473","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20184"
+                            "#_20473"
                         ), listOf(
-                            GeneratedMutableMap.map20252map,
-                            GeneratedMutableMap.map20253map
+                            GeneratedMutableMap.map20541map
                         )
                     )
                 )
@@ -6183,16 +6183,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20260","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_20261","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20549","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_20550","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "#b"
                         ), listOf(
-                            GeneratedMutableMap.map20358map,
-                            GeneratedMutableMap.map20359map
+                            GeneratedMutableMap.map20647map,
+                            GeneratedMutableMap.map20648map
                         )
                     )
                 )
@@ -6204,16 +6204,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20260","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_20261","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20549","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_20550","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "#b"
                         ), listOf(
-                            GeneratedMutableMap.map20358map,
-                            GeneratedMutableMap.map20359map
+                            GeneratedMutableMap.map20647map,
+                            GeneratedMutableMap.map20648map
                         )
                     )
                 )
@@ -6225,14 +6225,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_20260","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        graph.addData(1L,listOf("_:_20549","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "#b"
                         ), listOf(
-                            GeneratedMutableMap.map20358map
+                            GeneratedMutableMap.map20647map
                         )
                     )
                 )
@@ -6258,25 +6258,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20373",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20662",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20373"
+                            "#_20662"
                         ), listOf(
-                            GeneratedMutableMap.map20465map,
-                            GeneratedMutableMap.map20466map,
-                            GeneratedMutableMap.map20467map,
-                            GeneratedMutableMap.map20468map,
-                            GeneratedMutableMap.map20469map,
-                            GeneratedMutableMap.map20470map,
-                            GeneratedMutableMap.map20471map,
-                            GeneratedMutableMap.map20472map,
-                            GeneratedMutableMap.map20473map,
-                            GeneratedMutableMap.map20474map,
-                            GeneratedMutableMap.map20475map,
-                            GeneratedMutableMap.map20476map,
-                            GeneratedMutableMap.map20477map
+                            GeneratedMutableMap.map20754map,
+                            GeneratedMutableMap.map20755map,
+                            GeneratedMutableMap.map20756map,
+                            GeneratedMutableMap.map20757map,
+                            GeneratedMutableMap.map20758map,
+                            GeneratedMutableMap.map20759map,
+                            GeneratedMutableMap.map20760map,
+                            GeneratedMutableMap.map20761map,
+                            GeneratedMutableMap.map20762map,
+                            GeneratedMutableMap.map20763map,
+                            GeneratedMutableMap.map20764map,
+                            GeneratedMutableMap.map20765map,
+                            GeneratedMutableMap.map20766map
                         )
                     )
                 )
@@ -6302,25 +6302,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20491",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20780",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20491"
+                            "#_20780"
                         ), listOf(
-                            GeneratedMutableMap.map20622map,
-                            GeneratedMutableMap.map20623map,
-                            GeneratedMutableMap.map20624map,
-                            GeneratedMutableMap.map20625map,
-                            GeneratedMutableMap.map20626map,
-                            GeneratedMutableMap.map20627map,
-                            GeneratedMutableMap.map20628map,
-                            GeneratedMutableMap.map20629map,
-                            GeneratedMutableMap.map20630map,
-                            GeneratedMutableMap.map20631map,
-                            GeneratedMutableMap.map20632map,
-                            GeneratedMutableMap.map20633map,
-                            GeneratedMutableMap.map20634map
+                            GeneratedMutableMap.map20911map,
+                            GeneratedMutableMap.map20912map,
+                            GeneratedMutableMap.map20913map,
+                            GeneratedMutableMap.map20914map,
+                            GeneratedMutableMap.map20915map,
+                            GeneratedMutableMap.map20916map,
+                            GeneratedMutableMap.map20917map,
+                            GeneratedMutableMap.map20918map,
+                            GeneratedMutableMap.map20919map,
+                            GeneratedMutableMap.map20920map,
+                            GeneratedMutableMap.map20921map,
+                            GeneratedMutableMap.map20922map,
+                            GeneratedMutableMap.map20923map
                         )
                     )
                 )
@@ -6346,25 +6346,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20648",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20937",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20648"
+                            "#_20937"
                         ), listOf(
-                            GeneratedMutableMap.map20779map,
-                            GeneratedMutableMap.map20780map,
-                            GeneratedMutableMap.map20781map,
-                            GeneratedMutableMap.map20782map,
-                            GeneratedMutableMap.map20783map,
-                            GeneratedMutableMap.map20784map,
-                            GeneratedMutableMap.map20785map,
-                            GeneratedMutableMap.map20786map,
-                            GeneratedMutableMap.map20787map,
-                            GeneratedMutableMap.map20788map,
-                            GeneratedMutableMap.map20789map,
-                            GeneratedMutableMap.map20790map,
-                            GeneratedMutableMap.map20791map
+                            GeneratedMutableMap.map21068map,
+                            GeneratedMutableMap.map21069map,
+                            GeneratedMutableMap.map21070map,
+                            GeneratedMutableMap.map21071map,
+                            GeneratedMutableMap.map21072map,
+                            GeneratedMutableMap.map21073map,
+                            GeneratedMutableMap.map21074map,
+                            GeneratedMutableMap.map21075map,
+                            GeneratedMutableMap.map21076map,
+                            GeneratedMutableMap.map21077map,
+                            GeneratedMutableMap.map21078map,
+                            GeneratedMutableMap.map21079map,
+                            GeneratedMutableMap.map21080map
                         )
                     )
                 )
@@ -6390,25 +6390,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20805",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21094",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20805"
+                            "#_21094"
                         ), listOf(
-                            GeneratedMutableMap.map20909map,
-                            GeneratedMutableMap.map20910map,
-                            GeneratedMutableMap.map20911map,
-                            GeneratedMutableMap.map20912map,
-                            GeneratedMutableMap.map20913map,
-                            GeneratedMutableMap.map20914map,
-                            GeneratedMutableMap.map20915map,
-                            GeneratedMutableMap.map20916map,
-                            GeneratedMutableMap.map20917map,
-                            GeneratedMutableMap.map20918map,
-                            GeneratedMutableMap.map20919map,
-                            GeneratedMutableMap.map20920map,
-                            GeneratedMutableMap.map20921map
+                            GeneratedMutableMap.map21198map,
+                            GeneratedMutableMap.map21199map,
+                            GeneratedMutableMap.map21200map,
+                            GeneratedMutableMap.map21201map,
+                            GeneratedMutableMap.map21202map,
+                            GeneratedMutableMap.map21203map,
+                            GeneratedMutableMap.map21204map,
+                            GeneratedMutableMap.map21205map,
+                            GeneratedMutableMap.map21206map,
+                            GeneratedMutableMap.map21207map,
+                            GeneratedMutableMap.map21208map,
+                            GeneratedMutableMap.map21209map,
+                            GeneratedMutableMap.map21210map
                         )
                     )
                 )
@@ -6424,14 +6424,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20805","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21094","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20805"
+                            "#_21094"
                         ), listOf(
-                            GeneratedMutableMap.map20922map,
-                            GeneratedMutableMap.map20923map,
-                            GeneratedMutableMap.map20924map
+                            GeneratedMutableMap.map21211map,
+                            GeneratedMutableMap.map21212map,
+                            GeneratedMutableMap.map21213map
                         )
                     )
                 )
@@ -6447,14 +6447,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20946","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21235","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20946"
+                            "#_21235"
                         ), listOf(
-                            GeneratedMutableMap.map21081map,
-                            GeneratedMutableMap.map21082map,
-                            GeneratedMutableMap.map21083map
+                            GeneratedMutableMap.map21370map,
+                            GeneratedMutableMap.map21371map,
+                            GeneratedMutableMap.map21372map
                         )
                     )
                 )
@@ -6480,25 +6480,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20938",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21227",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20938"
+                            "#_21227"
                         ), listOf(
-                            GeneratedMutableMap.map21084map,
-                            GeneratedMutableMap.map21085map,
-                            GeneratedMutableMap.map21086map,
-                            GeneratedMutableMap.map21087map,
-                            GeneratedMutableMap.map21088map,
-                            GeneratedMutableMap.map21089map,
-                            GeneratedMutableMap.map21090map,
-                            GeneratedMutableMap.map21091map,
-                            GeneratedMutableMap.map21092map,
-                            GeneratedMutableMap.map21093map,
-                            GeneratedMutableMap.map21094map,
-                            GeneratedMutableMap.map21095map,
-                            GeneratedMutableMap.map21096map
+                            GeneratedMutableMap.map21373map,
+                            GeneratedMutableMap.map21374map,
+                            GeneratedMutableMap.map21375map,
+                            GeneratedMutableMap.map21376map,
+                            GeneratedMutableMap.map21377map,
+                            GeneratedMutableMap.map21378map,
+                            GeneratedMutableMap.map21379map,
+                            GeneratedMutableMap.map21380map,
+                            GeneratedMutableMap.map21381map,
+                            GeneratedMutableMap.map21382map,
+                            GeneratedMutableMap.map21383map,
+                            GeneratedMutableMap.map21384map,
+                            GeneratedMutableMap.map21385map
                         )
                     )
                 )
@@ -6514,14 +6514,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21118","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21407","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_21118"
+                            "#_21407"
                         ), listOf(
-                            GeneratedMutableMap.map21278map,
-                            GeneratedMutableMap.map21279map,
-                            GeneratedMutableMap.map21280map
+                            GeneratedMutableMap.map21567map,
+                            GeneratedMutableMap.map21568map,
+                            GeneratedMutableMap.map21569map
                         )
                     )
                 )
@@ -6547,25 +6547,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21110",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21399",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_21110"
+                            "#_21399"
                         ), listOf(
-                            GeneratedMutableMap.map21281map,
-                            GeneratedMutableMap.map21282map,
-                            GeneratedMutableMap.map21283map,
-                            GeneratedMutableMap.map21284map,
-                            GeneratedMutableMap.map21285map,
-                            GeneratedMutableMap.map21286map,
-                            GeneratedMutableMap.map21287map,
-                            GeneratedMutableMap.map21288map,
-                            GeneratedMutableMap.map21289map,
-                            GeneratedMutableMap.map21290map,
-                            GeneratedMutableMap.map21291map,
-                            GeneratedMutableMap.map21292map,
-                            GeneratedMutableMap.map21293map
+                            GeneratedMutableMap.map21570map,
+                            GeneratedMutableMap.map21571map,
+                            GeneratedMutableMap.map21572map,
+                            GeneratedMutableMap.map21573map,
+                            GeneratedMutableMap.map21574map,
+                            GeneratedMutableMap.map21575map,
+                            GeneratedMutableMap.map21576map,
+                            GeneratedMutableMap.map21577map,
+                            GeneratedMutableMap.map21578map,
+                            GeneratedMutableMap.map21579map,
+                            GeneratedMutableMap.map21580map,
+                            GeneratedMutableMap.map21581map,
+                            GeneratedMutableMap.map21582map
                         )
                     )
                 )
@@ -6581,14 +6581,37 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21316","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21596","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_21316"
+                            "#_21596"
                         ), listOf(
-                            GeneratedMutableMap.map21486map,
-                            GeneratedMutableMap.map21487map,
-                            GeneratedMutableMap.map21488map
+                            GeneratedMutableMap.map21775map,
+                            GeneratedMutableMap.map21776map,
+                            GeneratedMutableMap.map21777map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/simple7.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/test#A>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21605","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_21605"
+                        ), listOf(
+                            GeneratedMutableMap.map21778map,
+                            GeneratedMutableMap.map21779map,
+                            GeneratedMutableMap.map21780map
                         )
                     )
                 )
@@ -6614,48 +6637,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21307",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21596",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_21307"
+                            "#_21596"
                         ), listOf(
-                            GeneratedMutableMap.map21489map,
-                            GeneratedMutableMap.map21490map,
-                            GeneratedMutableMap.map21491map,
-                            GeneratedMutableMap.map21492map,
-                            GeneratedMutableMap.map21493map,
-                            GeneratedMutableMap.map21494map,
-                            GeneratedMutableMap.map21495map,
-                            GeneratedMutableMap.map21496map,
-                            GeneratedMutableMap.map21497map,
-                            GeneratedMutableMap.map21498map,
-                            GeneratedMutableMap.map21499map,
-                            GeneratedMutableMap.map21500map,
-                            GeneratedMutableMap.map21501map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/simple7.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#A>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_21307","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_21307"
-                        ), listOf(
-                            GeneratedMutableMap.map21502map,
-                            GeneratedMutableMap.map21503map,
-                            GeneratedMutableMap.map21504map
+                            GeneratedMutableMap.map21781map,
+                            GeneratedMutableMap.map21782map,
+                            GeneratedMutableMap.map21783map,
+                            GeneratedMutableMap.map21784map,
+                            GeneratedMutableMap.map21785map,
+                            GeneratedMutableMap.map21786map,
+                            GeneratedMutableMap.map21787map,
+                            GeneratedMutableMap.map21788map,
+                            GeneratedMutableMap.map21789map,
+                            GeneratedMutableMap.map21790map,
+                            GeneratedMutableMap.map21791map,
+                            GeneratedMutableMap.map21792map,
+                            GeneratedMutableMap.map21793map
                         )
                     )
                 )
@@ -6681,25 +6681,25 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21518",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_21807",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_21518"
+                            "#_21807"
                         ), listOf(
-                            GeneratedMutableMap.map21625map,
-                            GeneratedMutableMap.map21626map,
-                            GeneratedMutableMap.map21627map,
-                            GeneratedMutableMap.map21628map,
-                            GeneratedMutableMap.map21629map,
-                            GeneratedMutableMap.map21630map,
-                            GeneratedMutableMap.map21631map,
-                            GeneratedMutableMap.map21632map,
-                            GeneratedMutableMap.map21633map,
-                            GeneratedMutableMap.map21634map,
-                            GeneratedMutableMap.map21635map,
-                            GeneratedMutableMap.map21636map,
-                            GeneratedMutableMap.map21637map
+                            GeneratedMutableMap.map21914map,
+                            GeneratedMutableMap.map21915map,
+                            GeneratedMutableMap.map21916map,
+                            GeneratedMutableMap.map21917map,
+                            GeneratedMutableMap.map21918map,
+                            GeneratedMutableMap.map21919map,
+                            GeneratedMutableMap.map21920map,
+                            GeneratedMutableMap.map21921map,
+                            GeneratedMutableMap.map21922map,
+                            GeneratedMutableMap.map21923map,
+                            GeneratedMutableMap.map21924map,
+                            GeneratedMutableMap.map21925map,
+                            GeneratedMutableMap.map21926map
                         )
                     )
                 )
@@ -6725,13 +6725,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map22696map,
-                                GeneratedMutableMap.map22697map,
-                                GeneratedMutableMap.map22698map,
-                                GeneratedMutableMap.map22699map,
-                                GeneratedMutableMap.map22700map,
-                                GeneratedMutableMap.map22701map,
-                                GeneratedMutableMap.map22702map
+                                GeneratedMutableMap.map22986map,
+                                GeneratedMutableMap.map22987map,
+                                GeneratedMutableMap.map22988map,
+                                GeneratedMutableMap.map22989map,
+                                GeneratedMutableMap.map22990map,
+                                GeneratedMutableMap.map22991map,
+                                GeneratedMutableMap.map22992map
                         )
                         )
                 )
@@ -6757,13 +6757,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map22703map,
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map22705map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map22708map,
-                                GeneratedMutableMap.map22709map
+                                GeneratedMutableMap.map22993map,
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map22995map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map22998map,
+                                GeneratedMutableMap.map22999map
                         )
                         )
                 )
@@ -6799,22 +6799,22 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map23159map,
-                                GeneratedMutableMap.map23160map,
-                                GeneratedMutableMap.map23161map,
-                                GeneratedMutableMap.map23162map,
-                                GeneratedMutableMap.map23163map,
-                                GeneratedMutableMap.map23164map,
-                                GeneratedMutableMap.map23165map,
-                                GeneratedMutableMap.map23166map,
-                                GeneratedMutableMap.map23167map,
-                                GeneratedMutableMap.map23168map,
-                                GeneratedMutableMap.map23169map,
-                                GeneratedMutableMap.map23170map,
-                                GeneratedMutableMap.map23171map,
-                                GeneratedMutableMap.map23172map,
-                                GeneratedMutableMap.map23173map,
-                                GeneratedMutableMap.map23174map
+                                GeneratedMutableMap.map23453map,
+                                GeneratedMutableMap.map23454map,
+                                GeneratedMutableMap.map23455map,
+                                GeneratedMutableMap.map23456map,
+                                GeneratedMutableMap.map23457map,
+                                GeneratedMutableMap.map23458map,
+                                GeneratedMutableMap.map23459map,
+                                GeneratedMutableMap.map23460map,
+                                GeneratedMutableMap.map23461map,
+                                GeneratedMutableMap.map23462map,
+                                GeneratedMutableMap.map23463map,
+                                GeneratedMutableMap.map23464map,
+                                GeneratedMutableMap.map23465map,
+                                GeneratedMutableMap.map23466map,
+                                GeneratedMutableMap.map23467map,
+                                GeneratedMutableMap.map23468map
                         )
                         )
                 )
@@ -6850,22 +6850,22 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map23175map,
-                                GeneratedMutableMap.map23176map,
-                                GeneratedMutableMap.map23177map,
-                                GeneratedMutableMap.map23178map,
-                                GeneratedMutableMap.map23179map,
-                                GeneratedMutableMap.map23180map,
-                                GeneratedMutableMap.map23181map,
-                                GeneratedMutableMap.map23182map,
-                                GeneratedMutableMap.map23183map,
-                                GeneratedMutableMap.map23184map,
-                                GeneratedMutableMap.map23185map,
-                                GeneratedMutableMap.map23186map,
-                                GeneratedMutableMap.map23187map,
-                                GeneratedMutableMap.map23188map,
-                                GeneratedMutableMap.map23189map,
-                                GeneratedMutableMap.map23190map
+                                GeneratedMutableMap.map23469map,
+                                GeneratedMutableMap.map23470map,
+                                GeneratedMutableMap.map23471map,
+                                GeneratedMutableMap.map23472map,
+                                GeneratedMutableMap.map23473map,
+                                GeneratedMutableMap.map23474map,
+                                GeneratedMutableMap.map23475map,
+                                GeneratedMutableMap.map23476map,
+                                GeneratedMutableMap.map23477map,
+                                GeneratedMutableMap.map23478map,
+                                GeneratedMutableMap.map23479map,
+                                GeneratedMutableMap.map23480map,
+                                GeneratedMutableMap.map23481map,
+                                GeneratedMutableMap.map23482map,
+                                GeneratedMutableMap.map23483map,
+                                GeneratedMutableMap.map23484map
                         )
                         )
                 )
@@ -6901,22 +6901,22 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "num"
                         ), listOf(
-                                GeneratedMutableMap.map24140map,
-                                GeneratedMutableMap.map24141map,
-                                GeneratedMutableMap.map24142map,
-                                GeneratedMutableMap.map24143map,
-                                GeneratedMutableMap.map24144map,
-                                GeneratedMutableMap.map24145map,
-                                GeneratedMutableMap.map24146map,
-                                GeneratedMutableMap.map24147map,
-                                GeneratedMutableMap.map24148map,
-                                GeneratedMutableMap.map24149map,
-                                GeneratedMutableMap.map24150map,
-                                GeneratedMutableMap.map24151map,
-                                GeneratedMutableMap.map24152map,
-                                GeneratedMutableMap.map24153map,
-                                GeneratedMutableMap.map24154map,
-                                GeneratedMutableMap.map24155map
+                                GeneratedMutableMap.map24440map,
+                                GeneratedMutableMap.map24441map,
+                                GeneratedMutableMap.map24442map,
+                                GeneratedMutableMap.map24443map,
+                                GeneratedMutableMap.map24444map,
+                                GeneratedMutableMap.map24445map,
+                                GeneratedMutableMap.map24446map,
+                                GeneratedMutableMap.map24447map,
+                                GeneratedMutableMap.map24448map,
+                                GeneratedMutableMap.map24449map,
+                                GeneratedMutableMap.map24450map,
+                                GeneratedMutableMap.map24451map,
+                                GeneratedMutableMap.map24452map,
+                                GeneratedMutableMap.map24453map,
+                                GeneratedMutableMap.map24454map,
+                                GeneratedMutableMap.map24455map
                         )
                         )
                 )
@@ -6952,22 +6952,22 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("num")
                         ), listOf(
-                                GeneratedMutableMap.map23175map,
-                                GeneratedMutableMap.map23176map,
-                                GeneratedMutableMap.map23177map,
-                                GeneratedMutableMap.map23178map,
-                                GeneratedMutableMap.map23179map,
-                                GeneratedMutableMap.map23180map,
-                                GeneratedMutableMap.map23181map,
-                                GeneratedMutableMap.map23182map,
-                                GeneratedMutableMap.map23183map,
-                                GeneratedMutableMap.map23184map,
-                                GeneratedMutableMap.map23185map,
-                                GeneratedMutableMap.map23186map,
-                                GeneratedMutableMap.map23187map,
-                                GeneratedMutableMap.map23188map,
-                                GeneratedMutableMap.map23189map,
-                                GeneratedMutableMap.map23190map
+                                GeneratedMutableMap.map23469map,
+                                GeneratedMutableMap.map23470map,
+                                GeneratedMutableMap.map23471map,
+                                GeneratedMutableMap.map23472map,
+                                GeneratedMutableMap.map23473map,
+                                GeneratedMutableMap.map23474map,
+                                GeneratedMutableMap.map23475map,
+                                GeneratedMutableMap.map23476map,
+                                GeneratedMutableMap.map23477map,
+                                GeneratedMutableMap.map23478map,
+                                GeneratedMutableMap.map23479map,
+                                GeneratedMutableMap.map23480map,
+                                GeneratedMutableMap.map23481map,
+                                GeneratedMutableMap.map23482map,
+                                GeneratedMutableMap.map23483map,
+                                GeneratedMutableMap.map23484map
                         )
                         )
                 )
@@ -6991,11 +6991,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "num"
                         ), listOf(
-                                GeneratedMutableMap.map24156map,
-                                GeneratedMutableMap.map24157map,
-                                GeneratedMutableMap.map24158map,
-                                GeneratedMutableMap.map24159map,
-                                GeneratedMutableMap.map24160map
+                                GeneratedMutableMap.map24456map,
+                                GeneratedMutableMap.map24457map,
+                                GeneratedMutableMap.map24458map,
+                                GeneratedMutableMap.map24459map,
+                                GeneratedMutableMap.map24460map
                         )
                         )
                 )
@@ -7019,11 +7019,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("num")
                         ), listOf(
-                                GeneratedMutableMap.map24161map,
-                                GeneratedMutableMap.map24162map,
-                                GeneratedMutableMap.map24163map,
-                                GeneratedMutableMap.map24164map,
-                                GeneratedMutableMap.map24165map
+                                GeneratedMutableMap.map24461map,
+                                GeneratedMutableMap.map24462map,
+                                GeneratedMutableMap.map24463map,
+                                GeneratedMutableMap.map24464map,
+                                GeneratedMutableMap.map24465map
                         )
                         )
                 )
@@ -7042,7 +7042,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "str2"
                         ), listOf(
-                                GeneratedMutableMap.map24639map
+                                GeneratedMutableMap.map24944map
                         )
                         )
                 )
@@ -7061,7 +7061,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("str2")
                         ), listOf(
-                                GeneratedMutableMap.map24640map
+                                GeneratedMutableMap.map24945map
                         )
                         )
                 )
@@ -7080,7 +7080,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map24641map
+                                GeneratedMutableMap.map24947map
                         )
                         )
                 )
@@ -7099,7 +7099,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map24642map
+                                GeneratedMutableMap.map24948map
                         )
                         )
                 )
@@ -7125,13 +7125,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s1",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map25239map,
-                                GeneratedMutableMap.map25240map,
-                                GeneratedMutableMap.map25241map,
-                                GeneratedMutableMap.map25242map,
-                                GeneratedMutableMap.map25243map,
-                                GeneratedMutableMap.map25244map,
-                                GeneratedMutableMap.map25245map
+                                GeneratedMutableMap.map25550map,
+                                GeneratedMutableMap.map25551map,
+                                GeneratedMutableMap.map25552map,
+                                GeneratedMutableMap.map25553map,
+                                GeneratedMutableMap.map25554map,
+                                GeneratedMutableMap.map25555map,
+                                GeneratedMutableMap.map25556map
                         )
                         )
                 )
@@ -7157,13 +7157,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s1"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map25246map,
-                                GeneratedMutableMap.map25247map,
-                                GeneratedMutableMap.map25248map,
-                                GeneratedMutableMap.map25249map,
-                                GeneratedMutableMap.map25250map,
-                                GeneratedMutableMap.map25251map,
-                                GeneratedMutableMap.map25252map
+                                GeneratedMutableMap.map25557map,
+                                GeneratedMutableMap.map25558map,
+                                GeneratedMutableMap.map25559map,
+                                GeneratedMutableMap.map25560map,
+                                GeneratedMutableMap.map25561map,
+                                GeneratedMutableMap.map25562map,
+                                GeneratedMutableMap.map25563map
                         )
                         )
                 )
@@ -7189,13 +7189,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s2",
                                 "str2"
                         ), listOf(
-                                GeneratedMutableMap.map25253map,
-                                GeneratedMutableMap.map25254map,
-                                GeneratedMutableMap.map25255map,
-                                GeneratedMutableMap.map25256map,
-                                GeneratedMutableMap.map25257map,
-                                GeneratedMutableMap.map25258map,
-                                GeneratedMutableMap.map25259map
+                                GeneratedMutableMap.map25565map,
+                                GeneratedMutableMap.map25566map,
+                                GeneratedMutableMap.map25567map,
+                                GeneratedMutableMap.map25568map,
+                                GeneratedMutableMap.map25569map,
+                                GeneratedMutableMap.map25570map,
+                                GeneratedMutableMap.map25571map
                         )
                         )
                 )
@@ -7221,13 +7221,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s2"),
                                 AOPVariable("str2")
                         ), listOf(
-                                GeneratedMutableMap.map25246map,
-                                GeneratedMutableMap.map25247map,
-                                GeneratedMutableMap.map25248map,
-                                GeneratedMutableMap.map25249map,
-                                GeneratedMutableMap.map25250map,
-                                GeneratedMutableMap.map25251map,
-                                GeneratedMutableMap.map25252map
+                                GeneratedMutableMap.map25557map,
+                                GeneratedMutableMap.map25558map,
+                                GeneratedMutableMap.map25559map,
+                                GeneratedMutableMap.map25560map,
+                                GeneratedMutableMap.map25561map,
+                                GeneratedMutableMap.map25562map,
+                                GeneratedMutableMap.map25563map
                         )
                         )
                 )
@@ -7263,22 +7263,22 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map26684map,
-                                GeneratedMutableMap.map26685map,
-                                GeneratedMutableMap.map26686map,
-                                GeneratedMutableMap.map26687map,
-                                GeneratedMutableMap.map26688map,
-                                GeneratedMutableMap.map26689map,
-                                GeneratedMutableMap.map26690map,
-                                GeneratedMutableMap.map26691map,
-                                GeneratedMutableMap.map26692map,
-                                GeneratedMutableMap.map26693map,
-                                GeneratedMutableMap.map26694map,
-                                GeneratedMutableMap.map26695map,
-                                GeneratedMutableMap.map26696map,
-                                GeneratedMutableMap.map26697map,
-                                GeneratedMutableMap.map26698map,
-                                GeneratedMutableMap.map26699map
+                                GeneratedMutableMap.map27003map,
+                                GeneratedMutableMap.map27004map,
+                                GeneratedMutableMap.map27005map,
+                                GeneratedMutableMap.map27006map,
+                                GeneratedMutableMap.map27007map,
+                                GeneratedMutableMap.map27008map,
+                                GeneratedMutableMap.map27009map,
+                                GeneratedMutableMap.map27010map,
+                                GeneratedMutableMap.map27011map,
+                                GeneratedMutableMap.map27012map,
+                                GeneratedMutableMap.map27013map,
+                                GeneratedMutableMap.map27014map,
+                                GeneratedMutableMap.map27015map,
+                                GeneratedMutableMap.map27016map,
+                                GeneratedMutableMap.map27017map,
+                                GeneratedMutableMap.map27018map
                         )
                         )
                 )
@@ -7314,94 +7314,26 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map23175map,
-                                GeneratedMutableMap.map23176map,
-                                GeneratedMutableMap.map23177map,
-                                GeneratedMutableMap.map23178map,
-                                GeneratedMutableMap.map23179map,
-                                GeneratedMutableMap.map23180map,
-                                GeneratedMutableMap.map23181map,
-                                GeneratedMutableMap.map23182map,
-                                GeneratedMutableMap.map23183map,
-                                GeneratedMutableMap.map23184map,
-                                GeneratedMutableMap.map23185map,
-                                GeneratedMutableMap.map23186map,
-                                GeneratedMutableMap.map23187map,
-                                GeneratedMutableMap.map23188map,
-                                GeneratedMutableMap.map23189map,
-                                GeneratedMutableMap.map23190map
+                                GeneratedMutableMap.map23469map,
+                                GeneratedMutableMap.map23470map,
+                                GeneratedMutableMap.map23471map,
+                                GeneratedMutableMap.map23472map,
+                                GeneratedMutableMap.map23473map,
+                                GeneratedMutableMap.map23474map,
+                                GeneratedMutableMap.map23475map,
+                                GeneratedMutableMap.map23476map,
+                                GeneratedMutableMap.map23477map,
+                                GeneratedMutableMap.map23478map,
+                                GeneratedMutableMap.map23479map,
+                                GeneratedMutableMap.map23480map,
+                                GeneratedMutableMap.map23481map,
+                                GeneratedMutableMap.map23482map,
+                                GeneratedMutableMap.map23483map,
+                                GeneratedMutableMap.map23484map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/functions/ends01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "y"
-                        ), listOf(
-                                GeneratedMutableMap.map27149map,
-                                GeneratedMutableMap.map27150map,
-                                GeneratedMutableMap.map27151map,
-                                GeneratedMutableMap.map27152map,
-                                GeneratedMutableMap.map27153map,
-                                GeneratedMutableMap.map27154map,
-                                GeneratedMutableMap.map27155map,
-                                GeneratedMutableMap.map27156map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("y")
-                        ), listOf(
-                                GeneratedMutableMap.map27157map,
-                                GeneratedMutableMap.map27158map,
-                                GeneratedMutableMap.map27159map,
-                                GeneratedMutableMap.map27160map,
-                                GeneratedMutableMap.map27161map,
-                                GeneratedMutableMap.map27162map,
-                                GeneratedMutableMap.map27163map,
-                                GeneratedMutableMap.map27164map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -7424,14 +7356,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map27165map,
-                                GeneratedMutableMap.map27166map,
-                                GeneratedMutableMap.map27167map,
-                                GeneratedMutableMap.map27168map,
-                                GeneratedMutableMap.map27169map,
-                                GeneratedMutableMap.map27170map,
-                                GeneratedMutableMap.map27171map,
-                                GeneratedMutableMap.map27172map
+                                GeneratedMutableMap.map27472map,
+                                GeneratedMutableMap.map27473map,
+                                GeneratedMutableMap.map27474map,
+                                GeneratedMutableMap.map27475map,
+                                GeneratedMutableMap.map27476map,
+                                GeneratedMutableMap.map27477map,
+                                GeneratedMutableMap.map27478map,
+                                GeneratedMutableMap.map27479map
                         )
                         )
                 )
@@ -7458,14 +7390,82 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map27173map,
-                                GeneratedMutableMap.map27174map,
-                                GeneratedMutableMap.map27175map,
-                                GeneratedMutableMap.map27176map,
-                                GeneratedMutableMap.map27177map,
-                                GeneratedMutableMap.map27178map,
-                                GeneratedMutableMap.map27179map,
-                                GeneratedMutableMap.map27180map
+                                GeneratedMutableMap.map27480map,
+                                GeneratedMutableMap.map27481map,
+                                GeneratedMutableMap.map27482map,
+                                GeneratedMutableMap.map27483map,
+                                GeneratedMutableMap.map27484map,
+                                GeneratedMutableMap.map27485map,
+                                GeneratedMutableMap.map27486map,
+                                GeneratedMutableMap.map27487map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "y"
+                        ), listOf(
+                                GeneratedMutableMap.map27489map,
+                                GeneratedMutableMap.map27490map,
+                                GeneratedMutableMap.map27491map,
+                                GeneratedMutableMap.map27492map,
+                                GeneratedMutableMap.map27493map,
+                                GeneratedMutableMap.map27494map,
+                                GeneratedMutableMap.map27495map,
+                                GeneratedMutableMap.map27496map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("y")
+                        ), listOf(
+                                GeneratedMutableMap.map27497map,
+                                GeneratedMutableMap.map27498map,
+                                GeneratedMutableMap.map27499map,
+                                GeneratedMutableMap.map27500map,
+                                GeneratedMutableMap.map27501map,
+                                GeneratedMutableMap.map27502map,
+                                GeneratedMutableMap.map27503map,
+                                GeneratedMutableMap.map27504map
                         )
                         )
                 )
@@ -7484,7 +7484,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "l"
                         ), listOf(
-                                GeneratedMutableMap.map27553map
+                                GeneratedMutableMap.map27882map
                         )
                         )
                 )
@@ -7503,7 +7503,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("l")
                         ), listOf(
-                                GeneratedMutableMap.map27554map
+                                GeneratedMutableMap.map27883map
                         )
                         )
                 )
@@ -7522,7 +7522,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "l"
                         ), listOf(
-                                GeneratedMutableMap.map27627map
+                                GeneratedMutableMap.map27958map
                         )
                         )
                 )
@@ -7541,7 +7541,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("l")
                         ), listOf(
-                                GeneratedMutableMap.map27628map
+                                GeneratedMutableMap.map27959map
                         )
                         )
                 )
@@ -7560,7 +7560,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         POPValues(dictionary, listOf(
                                 "l"
                         ), listOf(
-                                GeneratedMutableMap.map27773map
+                                GeneratedMutableMap.map28108map
                         )
                         )
                 )
@@ -7579,7 +7579,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         LOPValues(listOf(
                                 AOPVariable("l")
                         ), listOf(
-                                GeneratedMutableMap.map27774map
+                                GeneratedMutableMap.map28109map
                         )
                         )
                 )
@@ -7602,10 +7602,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "date"
                         ), listOf(
-                                GeneratedMutableMap.map28088map,
-                                GeneratedMutableMap.map28089map,
-                                GeneratedMutableMap.map28090map,
-                                GeneratedMutableMap.map28091map
+                                GeneratedMutableMap.map28429map,
+                                GeneratedMutableMap.map28430map,
+                                GeneratedMutableMap.map28431map,
+                                GeneratedMutableMap.map28432map
                         )
                         )
                 )
@@ -7628,10 +7628,10 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("date")
                         ), listOf(
-                                GeneratedMutableMap.map28092map,
-                                GeneratedMutableMap.map28093map,
-                                GeneratedMutableMap.map28094map,
-                                GeneratedMutableMap.map28095map
+                                GeneratedMutableMap.map28433map,
+                                GeneratedMutableMap.map28434map,
+                                GeneratedMutableMap.map28435map,
+                                GeneratedMutableMap.map28436map
                         )
                         )
                 )
@@ -7654,78 +7654,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "s",
                             "date"
                         ), listOf(
-                            GeneratedMutableMap.map28088map,
-                            GeneratedMutableMap.map28089map,
-                            GeneratedMutableMap.map28090map,
-                            GeneratedMutableMap.map28091map
+                            GeneratedMutableMap.map28429map,
+                            GeneratedMutableMap.map28430map,
+                            GeneratedMutableMap.map28431map,
+                            GeneratedMutableMap.map28432map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/functions/timezone-01.rq */
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/str>", "\"foo\""))
-                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/str>", "\"bar\"@en"))
-                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/str>", "\"BAZ\""))
-                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/str>", "\"食べ物\""))
-                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/str>", "\"100%\""))
-                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "b", "<http://example.org/str>", "s2", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "b",
-                                "s2"
-                        ), listOf(
-                                GeneratedMutableMap.map30948map,
-                                GeneratedMutableMap.map30949map,
-                                GeneratedMutableMap.map30950map,
-                                GeneratedMutableMap.map30951map,
-                                GeneratedMutableMap.map30952map,
-                                GeneratedMutableMap.map30953map,
-                                GeneratedMutableMap.map30954map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/str>", "\"foo\""))
-                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/str>", "\"bar\"@en"))
-                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/str>", "\"BAZ\""))
-                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/str>", "\"食べ物\""))
-                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/str>", "\"100%\""))
-                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("b"), AOPVariable.calculate("<http://example.org/str>"), AOPVariable("s2"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("b"),
-                                AOPVariable("s2")
-                        ), listOf(
-                                GeneratedMutableMap.map22703map,
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map22705map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map22708map,
-                                GeneratedMutableMap.map22709map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -7747,13 +7683,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "a",
                                 "s1"
                         ), listOf(
-                                GeneratedMutableMap.map30955map,
-                                GeneratedMutableMap.map30956map,
-                                GeneratedMutableMap.map30957map,
-                                GeneratedMutableMap.map30958map,
-                                GeneratedMutableMap.map30959map,
-                                GeneratedMutableMap.map30960map,
-                                GeneratedMutableMap.map30961map
+                                GeneratedMutableMap.map31301map,
+                                GeneratedMutableMap.map31302map,
+                                GeneratedMutableMap.map31303map,
+                                GeneratedMutableMap.map31304map,
+                                GeneratedMutableMap.map31305map,
+                                GeneratedMutableMap.map31306map,
+                                GeneratedMutableMap.map31307map
                         )
                         )
                 )
@@ -7779,13 +7715,77 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("a"),
                                 AOPVariable("s1")
                         ), listOf(
-                                GeneratedMutableMap.map22703map,
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map22705map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map22708map,
-                                GeneratedMutableMap.map22709map
+                                GeneratedMutableMap.map22993map,
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map22995map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map22998map,
+                                GeneratedMutableMap.map22999map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/str>", "\"foo\""))
+                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/str>", "\"bar\"@en"))
+                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/str>", "\"BAZ\""))
+                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/str>", "\"食べ物\""))
+                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/str>", "\"100%\""))
+                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "b", "<http://example.org/str>", "s2", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "b",
+                                "s2"
+                        ), listOf(
+                                GeneratedMutableMap.map31309map,
+                                GeneratedMutableMap.map31310map,
+                                GeneratedMutableMap.map31311map,
+                                GeneratedMutableMap.map31312map,
+                                GeneratedMutableMap.map31313map,
+                                GeneratedMutableMap.map31314map,
+                                GeneratedMutableMap.map31315map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/str>", "\"foo\""))
+                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/str>", "\"bar\"@en"))
+                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/str>", "\"BAZ\""))
+                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/str>", "\"食べ物\""))
+                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/str>", "\"100%\""))
+                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("b"), AOPVariable.calculate("<http://example.org/str>"), AOPVariable("s2"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("b"),
+                                AOPVariable("s2")
+                        ), listOf(
+                                GeneratedMutableMap.map22993map,
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map22995map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map22998map,
+                                GeneratedMutableMap.map22999map
                         )
                         )
                 )
@@ -7812,13 +7812,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map31739map,
-                                GeneratedMutableMap.map31740map,
-                                GeneratedMutableMap.map31741map,
-                                GeneratedMutableMap.map31742map,
-                                GeneratedMutableMap.map31743map,
-                                GeneratedMutableMap.map31744map,
-                                GeneratedMutableMap.map31745map
+                                GeneratedMutableMap.map32095map,
+                                GeneratedMutableMap.map32096map,
+                                GeneratedMutableMap.map32097map,
+                                GeneratedMutableMap.map32098map,
+                                GeneratedMutableMap.map32099map,
+                                GeneratedMutableMap.map32100map,
+                                GeneratedMutableMap.map32101map
                         )
                         )
                 )
@@ -7845,13 +7845,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map31746map,
-                                GeneratedMutableMap.map31747map,
-                                GeneratedMutableMap.map31748map,
-                                GeneratedMutableMap.map31749map,
-                                GeneratedMutableMap.map31750map,
-                                GeneratedMutableMap.map31751map,
-                                GeneratedMutableMap.map31752map
+                                GeneratedMutableMap.map32102map,
+                                GeneratedMutableMap.map32103map,
+                                GeneratedMutableMap.map32104map,
+                                GeneratedMutableMap.map32105map,
+                                GeneratedMutableMap.map32106map,
+                                GeneratedMutableMap.map32107map,
+                                GeneratedMutableMap.map32108map
                         )
                         )
                 )
@@ -7872,8 +7872,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "v"
                         ), listOf(
-                                GeneratedMutableMap.map32424map,
-                                GeneratedMutableMap.map32425map
+                                GeneratedMutableMap.map32781map,
+                                GeneratedMutableMap.map32782map
                         )
                         )
                 )
@@ -7894,8 +7894,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("v")
                         ), listOf(
-                                GeneratedMutableMap.map32426map,
-                                GeneratedMutableMap.map32427map
+                                GeneratedMutableMap.map32783map,
+                                GeneratedMutableMap.map32784map
                         )
                         )
                 )
@@ -7915,7 +7915,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "w"
                         ), listOf(
-                                GeneratedMutableMap.map32559map
+                                GeneratedMutableMap.map32918map
                         )
                         )
                 )
@@ -7935,7 +7935,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("w")
                         ), listOf(
-                                GeneratedMutableMap.map32562map
+                                GeneratedMutableMap.map32919map
                         )
                         )
                 )
@@ -7957,9 +7957,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "s",
                                 "v"
                         ), listOf(
-                                GeneratedMutableMap.map32424map,
-                                GeneratedMutableMap.map32425map,
-                                GeneratedMutableMap.map32706map
+                                GeneratedMutableMap.map32781map,
+                                GeneratedMutableMap.map32782map,
+                                GeneratedMutableMap.map33072map
                         )
                         )
                 )
@@ -7981,9 +7981,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("s"),
                                 AOPVariable("v")
                         ), listOf(
-                                GeneratedMutableMap.map32426map,
-                                GeneratedMutableMap.map32427map,
-                                GeneratedMutableMap.map32707map
+                                GeneratedMutableMap.map32783map,
+                                GeneratedMutableMap.map32784map,
+                                GeneratedMutableMap.map33073map
                         )
                         )
                 )
@@ -8009,12 +8009,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map32984map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map32985map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map33355map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map33356map,
+                                GeneratedMutableMap.map10424map
                         )
                         )
                 )
@@ -8040,12 +8040,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map32986map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map32987map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map33357map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map33358map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -8071,12 +8071,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10468map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map33112map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map33113map,
-                                GeneratedMutableMap.map10473map
+                                GeneratedMutableMap.map10605map,
+                                GeneratedMutableMap.map10606map,
+                                GeneratedMutableMap.map33485map,
+                                GeneratedMutableMap.map10608map,
+                                GeneratedMutableMap.map33486map,
+                                GeneratedMutableMap.map10610map
                         )
                         )
                 )
@@ -8102,12 +8102,12 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map32986map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map32987map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map33357map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map33358map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -8125,7 +8125,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         }(),
                         POPValues(dictionary, listOf(
                         ), listOf(
-                                GeneratedMutableMap.map5895map
+                                GeneratedMutableMap.map5965map
                         )
                         )
                 )
@@ -8143,7 +8143,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         }(),
                         LOPValues(listOf(
                         ), listOf(
-                                GeneratedMutableMap.map33164map
+                                GeneratedMutableMap.map33543map
                         )
                         )
                 )
@@ -8166,9 +8166,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map33321map,
-                                GeneratedMutableMap.map33322map,
-                                GeneratedMutableMap.map33323map
+                                GeneratedMutableMap.map33702map,
+                                GeneratedMutableMap.map33703map,
+                                GeneratedMutableMap.map33704map
                         )
                         )
                 )
@@ -8191,57 +8191,13 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map33324map,
-                                GeneratedMutableMap.map33325map,
-                                GeneratedMutableMap.map33326map
+                                GeneratedMutableMap.map33705map,
+                                GeneratedMutableMap.map33706map,
+                                GeneratedMutableMap.map33707map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/move/move-07.ru */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "x", "<http://www.example.org/schema#q>", "z", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "x",
-                                "z"
-                        ), listOf(
-                                GeneratedMutableMap.map34840map,
-                                GeneratedMutableMap.map34841map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/project-expression/projexp01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("x"), AOPVariable.calculate("<http://www.example.org/schema#q>"), AOPVariable("z"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("x"),
-                                AOPVariable("z")
-                        ), listOf(
-                                GeneratedMutableMap.map34842map,
-                                GeneratedMutableMap.map34843map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/project-expression/projexp01.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -8257,7 +8213,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map34844map
+                                GeneratedMutableMap.map35235map
                         )
                         )
                 )
@@ -8277,11 +8233,55 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map34842map
+                                GeneratedMutableMap.map35236map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "x", "<http://www.example.org/schema#q>", "z", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "x",
+                                "z"
+                        ), listOf(
+                                GeneratedMutableMap.map35238map,
+                                GeneratedMutableMap.map35239map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("x"), AOPVariable.calculate("<http://www.example.org/schema#q>"), AOPVariable("z"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("x"),
+                                AOPVariable("z")
+                        ), listOf(
+                                GeneratedMutableMap.map35236map,
+                                GeneratedMutableMap.map35242map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp01.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -8298,8 +8298,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map34840map,
-                                GeneratedMutableMap.map34967map
+                                GeneratedMutableMap.map35238map,
+                                GeneratedMutableMap.map35369map
                         )
                         )
                 )
@@ -8320,8 +8320,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map34842map,
-                                GeneratedMutableMap.map34969map
+                                GeneratedMutableMap.map35236map,
+                                GeneratedMutableMap.map35370map
                         )
                         )
                 )
@@ -8341,7 +8341,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "y"
                         ), listOf(
-                            GeneratedMutableMap.map34844map
+                            GeneratedMutableMap.map35235map
                         )
                     )
                 )
@@ -8361,7 +8361,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "x",
                             "z"
                         ), listOf(
-                            GeneratedMutableMap.map34841map
+                            GeneratedMutableMap.map35239map
                         )
                     )
                 )
@@ -8382,8 +8382,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map34844map,
-                                GeneratedMutableMap.map35188map
+                                GeneratedMutableMap.map35235map,
+                                GeneratedMutableMap.map35595map
                         )
                         )
                 )
@@ -8404,8 +8404,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map34842map,
-                                GeneratedMutableMap.map34843map
+                                GeneratedMutableMap.map35236map,
+                                GeneratedMutableMap.map35242map
                         )
                         )
                 )
@@ -8426,8 +8426,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "l"
                         ), listOf(
-                                GeneratedMutableMap.map35283map,
-                                GeneratedMutableMap.map35284map
+                                GeneratedMutableMap.map35692map,
+                                GeneratedMutableMap.map35693map
                         )
                         )
                 )
@@ -8448,8 +8448,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("l")
                         ), listOf(
-                                GeneratedMutableMap.map34842map,
-                                GeneratedMutableMap.map35285map
+                                GeneratedMutableMap.map35236map,
+                                GeneratedMutableMap.map35694map
                         )
                         )
                 )
@@ -8469,7 +8469,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "l"
                         ), listOf(
-                                GeneratedMutableMap.map35283map
+                                GeneratedMutableMap.map35692map
                         )
                         )
                 )
@@ -8489,7 +8489,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("l")
                         ), listOf(
-                                GeneratedMutableMap.map34842map
+                                GeneratedMutableMap.map35236map
                         )
                         )
                 )
@@ -8510,8 +8510,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map34844map,
-                                GeneratedMutableMap.map35460map
+                                GeneratedMutableMap.map35235map,
+                                GeneratedMutableMap.map35873map
                         )
                         )
                 )
@@ -8532,8 +8532,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map34842map,
-                                GeneratedMutableMap.map35461map
+                                GeneratedMutableMap.map35236map,
+                                GeneratedMutableMap.map35874map
                         )
                         )
                 )
@@ -8553,7 +8553,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "x",
                                 "l"
                         ), listOf(
-                                GeneratedMutableMap.map35462map
+                                GeneratedMutableMap.map35876map
                         )
                         )
                 )
@@ -8573,369 +8573,11 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("x"),
                                 AOPVariable("l")
                         ), listOf(
-                                GeneratedMutableMap.map34843map
+                                GeneratedMutableMap.map35242map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/project-expression/projexp07.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("_:_36753", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_36754", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                            graph.addData(1L, listOf("_:_36755", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                            graph.addData(1L, listOf("_:_36756", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_36757", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                            graph.addData(1L, listOf("_:_36758", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_36759", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                            graph.addData(1L, listOf("_:_36760", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_36761", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                            graph.addData(1L, listOf("_:_36762", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_36776", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "#_36776",
-                                "L"
-                        ), listOf(
-                                GeneratedMutableMap.map36892map,
-                                GeneratedMutableMap.map36893map,
-                                GeneratedMutableMap.map36894map,
-                                GeneratedMutableMap.map36895map,
-                                GeneratedMutableMap.map36896map,
-                                GeneratedMutableMap.map36897map,
-                                GeneratedMutableMap.map36898map,
-                                GeneratedMutableMap.map36899map,
-                                GeneratedMutableMap.map36900map,
-                                GeneratedMutableMap.map36901map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("_:_36753", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_36754", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                            graph.addData(1L, listOf("_:_36755", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                            graph.addData(1L, listOf("_:_36756", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_36757", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                            graph.addData(1L, listOf("_:_36758", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_36759", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                            graph.addData(1L, listOf("_:_36760", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_36761", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                            graph.addData(1L, listOf("_:_36762", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("#_36776"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("#_36776"),
-                                AOPVariable("L")
-                        ), listOf(
-                                GeneratedMutableMap.map36902map,
-                                GeneratedMutableMap.map36903map,
-                                GeneratedMutableMap.map36904map,
-                                GeneratedMutableMap.map36905map,
-                                GeneratedMutableMap.map36906map,
-                                GeneratedMutableMap.map36907map,
-                                GeneratedMutableMap.map36908map,
-                                GeneratedMutableMap.map36909map,
-                                GeneratedMutableMap.map36910map,
-                                GeneratedMutableMap.map36911map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36753"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36754"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36755"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36756"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36757"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36758"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36759"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36760"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36761"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36762"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_36776", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "O",
-                                "#_36776"
-                        ), listOf(
-                                GeneratedMutableMap.map36912map,
-                                GeneratedMutableMap.map36913map,
-                                GeneratedMutableMap.map36914map,
-                                GeneratedMutableMap.map36915map,
-                                GeneratedMutableMap.map36916map,
-                                GeneratedMutableMap.map36917map,
-                                GeneratedMutableMap.map36918map,
-                                GeneratedMutableMap.map36919map,
-                                GeneratedMutableMap.map36920map,
-                                GeneratedMutableMap.map36921map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36753"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36754"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36755"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36756"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36757"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36758"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36759"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36760"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36761"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36762"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_36776"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("O"),
-                                AOPVariable("#_36776")
-                        ), listOf(
-                                GeneratedMutableMap.map36932map,
-                                GeneratedMutableMap.map36933map,
-                                GeneratedMutableMap.map36934map,
-                                GeneratedMutableMap.map36935map,
-                                GeneratedMutableMap.map36936map,
-                                GeneratedMutableMap.map36937map,
-                                GeneratedMutableMap.map36938map,
-                                GeneratedMutableMap.map36939map,
-                                GeneratedMutableMap.map36940map,
-                                GeneratedMutableMap.map36941map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "O"
-                        ), listOf(
-                                GeneratedMutableMap.map36952map,
-                                GeneratedMutableMap.map36953map,
-                                GeneratedMutableMap.map36954map,
-                                GeneratedMutableMap.map36955map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("O")
-                        ), listOf(
-                                GeneratedMutableMap.map36956map,
-                                GeneratedMutableMap.map36957map,
-                                GeneratedMutableMap.map36958map,
-                                GeneratedMutableMap.map36959map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/lastName>", "L", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "P",
-                                "L"
-                        ), listOf(
-                                GeneratedMutableMap.map37152map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("P"),
-                                AOPVariable("L")
-                        ), listOf(
-                                GeneratedMutableMap.map37153map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/firstName>", "F", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "P",
-                                "F"
-                        ), listOf(
-                                GeneratedMutableMap.map37154map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("P"),
-                                AOPVariable("F")
-                        ), listOf(
-                                GeneratedMutableMap.map37155map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37168"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37169"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37170"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37171"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37172"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37173"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37174"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37175"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37176"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37177"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_37191", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "O",
-                                "#_37191"
-                        ), listOf(
-                                GeneratedMutableMap.map37307map,
-                                GeneratedMutableMap.map37308map,
-                                GeneratedMutableMap.map37309map,
-                                GeneratedMutableMap.map37310map,
-                                GeneratedMutableMap.map37311map,
-                                GeneratedMutableMap.map37312map,
-                                GeneratedMutableMap.map37313map,
-                                GeneratedMutableMap.map37314map,
-                                GeneratedMutableMap.map37315map,
-                                GeneratedMutableMap.map37316map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37168"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37169"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37170"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37171"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37172"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37173"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37174"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37175"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37176"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37177"))
-                            DistributedTripleStore.commit(1L)
-                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_37191"), graphName, false)
-                        }(),
-                        LOPValues(listOf(
-                                AOPVariable("O"),
-                                AOPVariable("#_37191")
-                        ), listOf(
-                                GeneratedMutableMap.map37317map,
-                                GeneratedMutableMap.map37318map,
-                                GeneratedMutableMap.map37319map,
-                                GeneratedMutableMap.map37320map,
-                                GeneratedMutableMap.map37321map,
-                                GeneratedMutableMap.map37322map,
-                                GeneratedMutableMap.map37323map,
-                                GeneratedMutableMap.map37324map,
-                                GeneratedMutableMap.map37325map,
-                                GeneratedMutableMap.map37326map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -8960,16 +8602,16 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "#_37191",
                                 "L"
                         ), listOf(
-                                GeneratedMutableMap.map37327map,
-                                GeneratedMutableMap.map37328map,
-                                GeneratedMutableMap.map37329map,
-                                GeneratedMutableMap.map37330map,
-                                GeneratedMutableMap.map37331map,
-                                GeneratedMutableMap.map37332map,
-                                GeneratedMutableMap.map37333map,
-                                GeneratedMutableMap.map37334map,
-                                GeneratedMutableMap.map37335map,
-                                GeneratedMutableMap.map37336map
+                                GeneratedMutableMap.map37308map,
+                                GeneratedMutableMap.map37309map,
+                                GeneratedMutableMap.map37310map,
+                                GeneratedMutableMap.map37311map,
+                                GeneratedMutableMap.map37312map,
+                                GeneratedMutableMap.map37313map,
+                                GeneratedMutableMap.map37314map,
+                                GeneratedMutableMap.map37315map,
+                                GeneratedMutableMap.map37316map,
+                                GeneratedMutableMap.map37317map
                         )
                         )
                 )
@@ -8998,16 +8640,374 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 AOPVariable("#_37191"),
                                 AOPVariable("L")
                         ), listOf(
+                                GeneratedMutableMap.map37318map,
+                                GeneratedMutableMap.map37319map,
+                                GeneratedMutableMap.map37320map,
+                                GeneratedMutableMap.map37321map,
+                                GeneratedMutableMap.map37322map,
+                                GeneratedMutableMap.map37323map,
+                                GeneratedMutableMap.map37324map,
+                                GeneratedMutableMap.map37325map,
+                                GeneratedMutableMap.map37326map,
+                                GeneratedMutableMap.map37327map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37168"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37169"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37170"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37171"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37172"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37173"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37174"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37175"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37176"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37177"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_37191", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "O",
+                                "#_37191"
+                        ), listOf(
+                                GeneratedMutableMap.map37329map,
+                                GeneratedMutableMap.map37330map,
+                                GeneratedMutableMap.map37331map,
+                                GeneratedMutableMap.map37332map,
+                                GeneratedMutableMap.map37333map,
+                                GeneratedMutableMap.map37334map,
+                                GeneratedMutableMap.map37335map,
+                                GeneratedMutableMap.map37336map,
                                 GeneratedMutableMap.map37337map,
-                                GeneratedMutableMap.map37338map,
-                                GeneratedMutableMap.map37339map,
-                                GeneratedMutableMap.map37340map,
-                                GeneratedMutableMap.map37341map,
-                                GeneratedMutableMap.map37342map,
-                                GeneratedMutableMap.map37343map,
-                                GeneratedMutableMap.map37344map,
-                                GeneratedMutableMap.map37345map,
-                                GeneratedMutableMap.map37346map
+                                GeneratedMutableMap.map37338map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37168"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37169"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37170"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37171"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37172"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37173"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37174"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37175"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37176"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37177"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_37191"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("O"),
+                                AOPVariable("#_37191")
+                        ), listOf(
+                                GeneratedMutableMap.map37349map,
+                                GeneratedMutableMap.map37350map,
+                                GeneratedMutableMap.map37351map,
+                                GeneratedMutableMap.map37352map,
+                                GeneratedMutableMap.map37353map,
+                                GeneratedMutableMap.map37354map,
+                                GeneratedMutableMap.map37355map,
+                                GeneratedMutableMap.map37356map,
+                                GeneratedMutableMap.map37357map,
+                                GeneratedMutableMap.map37358map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map37371map,
+                                GeneratedMutableMap.map37372map,
+                                GeneratedMutableMap.map37373map,
+                                GeneratedMutableMap.map37374map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("O")
+                        ), listOf(
+                                GeneratedMutableMap.map37375map,
+                                GeneratedMutableMap.map37376map,
+                                GeneratedMutableMap.map37377map,
+                                GeneratedMutableMap.map37378map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/lastName>", "L", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "P",
+                                "L"
+                        ), listOf(
+                                GeneratedMutableMap.map37576map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("P"),
+                                AOPVariable("L")
+                        ), listOf(
+                                GeneratedMutableMap.map37577map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/firstName>", "F", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "P",
+                                "F"
+                        ), listOf(
+                                GeneratedMutableMap.map37579map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("P"),
+                                AOPVariable("F")
+                        ), listOf(
+                                GeneratedMutableMap.map37580map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("_:_37597", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_37598", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                            graph.addData(1L, listOf("_:_37599", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                            graph.addData(1L, listOf("_:_37600", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_37601", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                            graph.addData(1L, listOf("_:_37602", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_37603", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                            graph.addData(1L, listOf("_:_37604", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_37605", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                            graph.addData(1L, listOf("_:_37606", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_37620", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "#_37620",
+                                "L"
+                        ), listOf(
+                                GeneratedMutableMap.map37737map,
+                                GeneratedMutableMap.map37738map,
+                                GeneratedMutableMap.map37739map,
+                                GeneratedMutableMap.map37740map,
+                                GeneratedMutableMap.map37741map,
+                                GeneratedMutableMap.map37742map,
+                                GeneratedMutableMap.map37743map,
+                                GeneratedMutableMap.map37744map,
+                                GeneratedMutableMap.map37745map,
+                                GeneratedMutableMap.map37746map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("_:_37597", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_37598", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                            graph.addData(1L, listOf("_:_37599", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                            graph.addData(1L, listOf("_:_37600", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_37601", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                            graph.addData(1L, listOf("_:_37602", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_37603", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                            graph.addData(1L, listOf("_:_37604", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_37605", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                            graph.addData(1L, listOf("_:_37606", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("#_37620"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("#_37620"),
+                                AOPVariable("L")
+                        ), listOf(
+                                GeneratedMutableMap.map37747map,
+                                GeneratedMutableMap.map37748map,
+                                GeneratedMutableMap.map37749map,
+                                GeneratedMutableMap.map37750map,
+                                GeneratedMutableMap.map37751map,
+                                GeneratedMutableMap.map37752map,
+                                GeneratedMutableMap.map37753map,
+                                GeneratedMutableMap.map37754map,
+                                GeneratedMutableMap.map37755map,
+                                GeneratedMutableMap.map37756map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37597"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37598"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37599"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37600"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37601"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37602"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37603"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37604"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37605"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37606"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_37620", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "O",
+                                "#_37620"
+                        ), listOf(
+                                GeneratedMutableMap.map37758map,
+                                GeneratedMutableMap.map37759map,
+                                GeneratedMutableMap.map37760map,
+                                GeneratedMutableMap.map37761map,
+                                GeneratedMutableMap.map37762map,
+                                GeneratedMutableMap.map37763map,
+                                GeneratedMutableMap.map37764map,
+                                GeneratedMutableMap.map37765map,
+                                GeneratedMutableMap.map37766map,
+                                GeneratedMutableMap.map37767map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37597"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37598"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37599"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37600"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37601"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37602"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37603"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37604"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37605"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37606"))
+                            DistributedTripleStore.commit(1L)
+                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_37620"), graphName, false)
+                        }(),
+                        LOPValues(listOf(
+                                AOPVariable("O"),
+                                AOPVariable("#_37620")
+                        ), listOf(
+                                GeneratedMutableMap.map37778map,
+                                GeneratedMutableMap.map37779map,
+                                GeneratedMutableMap.map37780map,
+                                GeneratedMutableMap.map37781map,
+                                GeneratedMutableMap.map37782map,
+                                GeneratedMutableMap.map37783map,
+                                GeneratedMutableMap.map37784map,
+                                GeneratedMutableMap.map37785map,
+                                GeneratedMutableMap.map37786map,
+                                GeneratedMutableMap.map37787map
                         )
                         )
                 )
@@ -9019,15 +9019,14 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/ns#a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                        graph.addData(1L,listOf("<http://example.org/ns#a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://xmlns.com/foaf/0.1/Person>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"person","<http://xmlns.com/foaf/0.1/name>","name",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"person","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://xmlns.com/foaf/0.1/Person>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "person",
-                            "name"
+                            "person"
                         ), listOf(
-                            GeneratedMutableMap.map37627map
+                            GeneratedMutableMap.map38064map
                         )
                     )
                 )
@@ -9047,26 +9046,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "person",
                             "mbox"
                         ), listOf(
-                            GeneratedMutableMap.map37628map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/subquery/sq14.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/ns#a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://xmlns.com/foaf/0.1/Person>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"person","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://xmlns.com/foaf/0.1/Person>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "person"
-                        ), listOf(
-                            GeneratedMutableMap.map37629map
+                            GeneratedMutableMap.map38065map
                         )
                     )
                 )
@@ -9086,7 +9066,27 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "person",
                             "homepage"
                         ), listOf(
-                            GeneratedMutableMap.map37630map
+                            GeneratedMutableMap.map38066map
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/subquery/sq14.rq */
+            /* {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/ns#a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"person","<http://xmlns.com/foaf/0.1/name>","name",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "person",
+                            "name"
+                        ), listOf(
+                            GeneratedMutableMap.map38067map
                         )
                     )
                 )

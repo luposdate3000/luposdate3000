@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import lupos.s00misc.EOperatorID
 
+
 object GlobalLogger {
     var enabled = ELoggerType.DEBUG
     fun log(type: ELoggerType, action: () -> Any?) {

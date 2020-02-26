@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import lupos.s00misc.EOperatorID
 
+
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
     val res = mutableListOf<XMLElement>()

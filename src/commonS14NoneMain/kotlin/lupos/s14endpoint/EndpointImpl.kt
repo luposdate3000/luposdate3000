@@ -2,6 +2,7 @@ package lupos.s14endpoint
 
 import lupos.s00misc.EOperatorID
 
+
 object EndpointImpl {
     val fullname = "localhost:80"
     val REQUEST_BINARY = arrayOf("/binary")

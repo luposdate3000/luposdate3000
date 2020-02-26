@@ -2,6 +2,7 @@ package lupos.s01io.buffer
 
 import lupos.s00misc.EOperatorID
 
+
 data class PageAddress(val fileName: String, val pageNumber: Int)
 
 val PAGESIZE: Int = 8 * 1024

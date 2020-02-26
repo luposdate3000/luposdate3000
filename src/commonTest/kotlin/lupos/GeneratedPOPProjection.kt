@@ -59,14 +59,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "C"
                                 ), listOf(
-                                        GeneratedMutableMap.map988map
+                                        GeneratedMutableMap.map1014map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "C"
                         ), listOf(
-                                GeneratedMutableMap.map988map
+                                GeneratedMutableMap.map1014map
                         )
                         )
                 )
@@ -85,8 +85,8 @@ class GeneratedPOPProjectionTest {
                                         "P",
                                         "C"
                                 ), listOf(
-                                        GeneratedMutableMap.map1140map,
-                                        GeneratedMutableMap.map1141map
+                                        GeneratedMutableMap.map1168map,
+                                        GeneratedMutableMap.map1169map
                                 )
                                 )
                         ),
@@ -94,8 +94,8 @@ class GeneratedPOPProjectionTest {
                                 "P",
                                 "C"
                         ), listOf(
-                                GeneratedMutableMap.map1140map,
-                                GeneratedMutableMap.map1141map
+                                GeneratedMutableMap.map1168map,
+                                GeneratedMutableMap.map1169map
                         )
                         )
                 )
@@ -112,10 +112,10 @@ class GeneratedPOPProjectionTest {
                                 ),
                                 POPValues(dictionary, listOf(
                                         "P",
-                                        "#f1185",
+                                        "#f1214",
                                         "C"
                                 ), listOf(
-                                        GeneratedMutableMap.map1419map
+                                        GeneratedMutableMap.map1449map
                                 )
                                 )
                         ),
@@ -123,7 +123,7 @@ class GeneratedPOPProjectionTest {
                                 "P",
                                 "C"
                         ), listOf(
-                                GeneratedMutableMap.map1140map
+                                GeneratedMutableMap.map1168map
                         )
                         )
                 )
@@ -138,17 +138,17 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("C")
                                 ),
                                 POPValues(dictionary, listOf(
-                                        "#f1745",
+                                        "#f1780",
                                         "C"
                                 ), listOf(
-                                        GeneratedMutableMap.map1966map
+                                        GeneratedMutableMap.map2002map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "C"
                         ), listOf(
-                                GeneratedMutableMap.map988map
+                                GeneratedMutableMap.map1014map
                         )
                         )
                 )
@@ -165,10 +165,10 @@ class GeneratedPOPProjectionTest {
                                 ),
                                 POPValues(dictionary, listOf(
                                         "P",
-                                        "#f2006",
+                                        "#f2043",
                                         "C"
                                 ), listOf(
-                                        GeneratedMutableMap.map2238map
+                                        GeneratedMutableMap.map2276map
                                 )
                                 )
                         ),
@@ -176,7 +176,7 @@ class GeneratedPOPProjectionTest {
                                 "P",
                                 "C"
                         ), listOf(
-                                GeneratedMutableMap.map1140map
+                                GeneratedMutableMap.map1168map
                         )
                         )
                 )
@@ -195,11 +195,11 @@ class GeneratedPOPProjectionTest {
                                         "O12",
                                         "C"
                                 ), listOf(
-                                        GeneratedMutableMap.map2794map,
-                                        GeneratedMutableMap.map2795map,
-                                        GeneratedMutableMap.map2796map,
-                                        GeneratedMutableMap.map2797map,
-                                        GeneratedMutableMap.map2798map
+                                        GeneratedMutableMap.map2836map,
+                                        GeneratedMutableMap.map2837map,
+                                        GeneratedMutableMap.map2838map,
+                                        GeneratedMutableMap.map2839map,
+                                        GeneratedMutableMap.map2840map
                                 )
                                 )
                         ),
@@ -207,11 +207,11 @@ class GeneratedPOPProjectionTest {
                                 "O12",
                                 "C"
                         ), listOf(
-                                GeneratedMutableMap.map2794map,
-                                GeneratedMutableMap.map2795map,
-                                GeneratedMutableMap.map2796map,
-                                GeneratedMutableMap.map2797map,
-                                GeneratedMutableMap.map2798map
+                                GeneratedMutableMap.map2836map,
+                                GeneratedMutableMap.map2837map,
+                                GeneratedMutableMap.map2838map,
+                                GeneratedMutableMap.map2839map,
+                                GeneratedMutableMap.map2840map
                         )
                         )
                 )
@@ -228,14 +228,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "sum"
                                 ), listOf(
-                                        GeneratedMutableMap.map3300map
+                                        GeneratedMutableMap.map3346map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map3300map
+                                GeneratedMutableMap.map3346map
                         )
                         )
                 )
@@ -254,11 +254,11 @@ class GeneratedPOPProjectionTest {
                                         "s",
                                         "sum"
                                 ), listOf(
-                                        GeneratedMutableMap.map3486map,
-                                        GeneratedMutableMap.map3487map,
-                                        GeneratedMutableMap.map3488map,
-                                        GeneratedMutableMap.map3489map,
-                                        GeneratedMutableMap.map3490map
+                                        GeneratedMutableMap.map3533map,
+                                        GeneratedMutableMap.map3534map,
+                                        GeneratedMutableMap.map3535map,
+                                        GeneratedMutableMap.map3536map,
+                                        GeneratedMutableMap.map3537map
                                 )
                                 )
                         ),
@@ -266,11 +266,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map3486map,
-                                GeneratedMutableMap.map3487map,
-                                GeneratedMutableMap.map3488map,
-                                GeneratedMutableMap.map3489map,
-                                GeneratedMutableMap.map3490map
+                                GeneratedMutableMap.map3533map,
+                                GeneratedMutableMap.map3534map,
+                                GeneratedMutableMap.map3535map,
+                                GeneratedMutableMap.map3536map,
+                                GeneratedMutableMap.map3537map
                         )
                         )
                 )
@@ -287,14 +287,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "avg"
                                 ), listOf(
-                                        GeneratedMutableMap.map3622map
+                                        GeneratedMutableMap.map3670map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "avg"
                         ), listOf(
-                                GeneratedMutableMap.map3622map
+                                GeneratedMutableMap.map3670map
                         )
                         )
                 )
@@ -311,12 +311,12 @@ class GeneratedPOPProjectionTest {
                                 ),
                                 POPValues(dictionary, listOf(
                                         "s",
-                                        "#f3666",
+                                        "#f3715",
                                         "avg"
                                 ), listOf(
-                                        GeneratedMutableMap.map3938map,
-                                        GeneratedMutableMap.map3939map,
-                                        GeneratedMutableMap.map3940map
+                                        GeneratedMutableMap.map3988map,
+                                        GeneratedMutableMap.map3989map,
+                                        GeneratedMutableMap.map3990map
                                 )
                                 )
                         ),
@@ -324,9 +324,9 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "avg"
                         ), listOf(
-                                GeneratedMutableMap.map3941map,
-                                GeneratedMutableMap.map3942map,
-                                GeneratedMutableMap.map3943map
+                                GeneratedMutableMap.map3991map,
+                                GeneratedMutableMap.map3992map,
+                                GeneratedMutableMap.map3993map
                         )
                         )
                 )
@@ -343,14 +343,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "min"
                                 ), listOf(
-                                        GeneratedMutableMap.map4065map
+                                        GeneratedMutableMap.map4116map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "min"
                         ), listOf(
-                                GeneratedMutableMap.map4065map
+                                GeneratedMutableMap.map4116map
                         )
                         )
                 )
@@ -369,11 +369,11 @@ class GeneratedPOPProjectionTest {
                                         "s",
                                         "min"
                                 ), listOf(
-                                        GeneratedMutableMap.map4219map,
-                                        GeneratedMutableMap.map4220map,
-                                        GeneratedMutableMap.map4221map,
-                                        GeneratedMutableMap.map4222map,
-                                        GeneratedMutableMap.map4223map
+                                        GeneratedMutableMap.map4272map,
+                                        GeneratedMutableMap.map4273map,
+                                        GeneratedMutableMap.map4274map,
+                                        GeneratedMutableMap.map4275map,
+                                        GeneratedMutableMap.map4276map
                                 )
                                 )
                         ),
@@ -381,11 +381,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "min"
                         ), listOf(
-                                GeneratedMutableMap.map4219map,
-                                GeneratedMutableMap.map4220map,
-                                GeneratedMutableMap.map4221map,
-                                GeneratedMutableMap.map4222map,
-                                GeneratedMutableMap.map4223map
+                                GeneratedMutableMap.map4272map,
+                                GeneratedMutableMap.map4273map,
+                                GeneratedMutableMap.map4274map,
+                                GeneratedMutableMap.map4275map,
+                                GeneratedMutableMap.map4276map
                         )
                         )
                 )
@@ -402,14 +402,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "max"
                                 ), listOf(
-                                        GeneratedMutableMap.map4371map
+                                        GeneratedMutableMap.map4425map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "max"
                         ), listOf(
-                                GeneratedMutableMap.map4371map
+                                GeneratedMutableMap.map4425map
                         )
                         )
                 )
@@ -428,11 +428,11 @@ class GeneratedPOPProjectionTest {
                                         "s",
                                         "max"
                                 ), listOf(
-                                        GeneratedMutableMap.map4523map,
-                                        GeneratedMutableMap.map4524map,
-                                        GeneratedMutableMap.map4525map,
-                                        GeneratedMutableMap.map4526map,
-                                        GeneratedMutableMap.map4527map
+                                        GeneratedMutableMap.map4578map,
+                                        GeneratedMutableMap.map4579map,
+                                        GeneratedMutableMap.map4580map,
+                                        GeneratedMutableMap.map4581map,
+                                        GeneratedMutableMap.map4582map
                                 )
                                 )
                         ),
@@ -440,11 +440,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "max"
                         ), listOf(
-                                GeneratedMutableMap.map4523map,
-                                GeneratedMutableMap.map4524map,
-                                GeneratedMutableMap.map4525map,
-                                GeneratedMutableMap.map4526map,
-                                GeneratedMutableMap.map4527map
+                                GeneratedMutableMap.map4578map,
+                                GeneratedMutableMap.map4579map,
+                                GeneratedMutableMap.map4580map,
+                                GeneratedMutableMap.map4581map,
+                                GeneratedMutableMap.map4582map
                         )
                         )
                 )
@@ -461,14 +461,14 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "sample"
                             ), listOf(
-                                GeneratedMutableMap.map4675map
+                                GeneratedMutableMap.map4730map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "sample"
                         ), listOf(
-                            GeneratedMutableMap.map4675map
+                            GeneratedMutableMap.map4730map
                         )
                     )
                 )
@@ -489,9 +489,9 @@ class GeneratedPOPProjectionTest {
                                 "c",
                                 "avg"
                             ), listOf(
-                                GeneratedMutableMap.map4975map,
-                                GeneratedMutableMap.map4976map,
-                                GeneratedMutableMap.map4977map
+                                GeneratedMutableMap.map5030map,
+                                GeneratedMutableMap.map5031map,
+                                GeneratedMutableMap.map5032map
                             )
                         )
                     ),
@@ -500,9 +500,9 @@ class GeneratedPOPProjectionTest {
                             "avg",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map4978map,
-                            GeneratedMutableMap.map4979map,
-                            GeneratedMutableMap.map4980map
+                            GeneratedMutableMap.map5033map,
+                            GeneratedMutableMap.map5034map,
+                            GeneratedMutableMap.map5035map
                         )
                     )
                 )
@@ -521,7 +521,7 @@ class GeneratedPOPProjectionTest {
                                 "x",
                                 "max"
                             ), listOf(
-                                GeneratedMutableMap.map5087map
+                                GeneratedMutableMap.map5142map
                             )
                         )
                     ),
@@ -529,35 +529,11 @@ class GeneratedPOPProjectionTest {
                             "x",
                             "max"
                         ), listOf(
-                            GeneratedMutableMap.map5087map
+                            GeneratedMutableMap.map5142map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/aggregates/agg-empty-group.rq */
-            /* {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                    dictionary,
-                    POPProjection(
-                        dictionary,
-                        mutableListOf(
-                            AOPVariable("count")
-                        ),
-                        POPValues(dictionary, listOf(
-                                "count"
-                            ), listOf(
-                                GeneratedMutableMap.map6547map
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "count"
-                        ), listOf(
-                            GeneratedMutableMap.map6547map
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/basic-update/insert-where-same-bnode2.ru */
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -573,20 +549,20 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "z"
                                 ), listOf(
-                                        GeneratedMutableMap.map6724map,
-                                        GeneratedMutableMap.map6725map,
-                                        GeneratedMutableMap.map6726map,
-                                        GeneratedMutableMap.map6727map
+                                        GeneratedMutableMap.map6792map,
+                                        GeneratedMutableMap.map6793map,
+                                        GeneratedMutableMap.map6794map,
+                                        GeneratedMutableMap.map6795map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map6732map,
-                                GeneratedMutableMap.map6733map,
-                                GeneratedMutableMap.map6734map,
-                                GeneratedMutableMap.map6735map
+                                GeneratedMutableMap.map6800map,
+                                GeneratedMutableMap.map6801map,
+                                GeneratedMutableMap.map6802map,
+                                GeneratedMutableMap.map6803map
                         )
                         )
                 )
@@ -621,10 +597,10 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map6732map,
-                                GeneratedMutableMap.map6733map,
-                                GeneratedMutableMap.map6734map,
-                                GeneratedMutableMap.map6735map
+                                GeneratedMutableMap.map6800map,
+                                GeneratedMutableMap.map6801map,
+                                GeneratedMutableMap.map6802map,
+                                GeneratedMutableMap.map6803map
                         )
                         )
                 )
@@ -643,20 +619,20 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("z")
                                 ), listOf(
-                                        GeneratedMutableMap.map6728map,
-                                        GeneratedMutableMap.map6729map,
-                                        GeneratedMutableMap.map6730map,
-                                        GeneratedMutableMap.map6731map
+                                        GeneratedMutableMap.map6796map,
+                                        GeneratedMutableMap.map6797map,
+                                        GeneratedMutableMap.map6798map,
+                                        GeneratedMutableMap.map6799map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map6736map,
-                                GeneratedMutableMap.map6737map,
-                                GeneratedMutableMap.map6738map,
-                                GeneratedMutableMap.map6739map
+                                GeneratedMutableMap.map6804map,
+                                GeneratedMutableMap.map6805map,
+                                GeneratedMutableMap.map6806map,
+                                GeneratedMutableMap.map6807map
                         )
                         )
                 )
@@ -689,10 +665,10 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map6736map,
-                                GeneratedMutableMap.map6737map,
-                                GeneratedMutableMap.map6738map,
-                                GeneratedMutableMap.map6739map
+                                GeneratedMutableMap.map6804map,
+                                GeneratedMutableMap.map6805map,
+                                GeneratedMutableMap.map6806map,
+                                GeneratedMutableMap.map6807map
                         )
                         )
                 )
@@ -715,10 +691,10 @@ class GeneratedPOPProjectionTest {
                                         "z",
                                         "z2"
                                 ), listOf(
-                                        GeneratedMutableMap.map6883map,
-                                        GeneratedMutableMap.map6884map,
-                                        GeneratedMutableMap.map6885map,
-                                        GeneratedMutableMap.map6886map
+                                        GeneratedMutableMap.map6952map,
+                                        GeneratedMutableMap.map6953map,
+                                        GeneratedMutableMap.map6954map,
+                                        GeneratedMutableMap.map6955map
                                 )
                                 )
                         ),
@@ -727,10 +703,10 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "z2"
                         ), listOf(
-                                GeneratedMutableMap.map6891map,
-                                GeneratedMutableMap.map6892map,
-                                GeneratedMutableMap.map6893map,
-                                GeneratedMutableMap.map6894map
+                                GeneratedMutableMap.map6960map,
+                                GeneratedMutableMap.map6961map,
+                                GeneratedMutableMap.map6962map,
+                                GeneratedMutableMap.map6963map
                         )
                         )
                 )
@@ -775,10 +751,10 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "z2"
                         ), listOf(
-                                GeneratedMutableMap.map6891map,
-                                GeneratedMutableMap.map6892map,
-                                GeneratedMutableMap.map6893map,
-                                GeneratedMutableMap.map6894map
+                                GeneratedMutableMap.map6960map,
+                                GeneratedMutableMap.map6961map,
+                                GeneratedMutableMap.map6962map,
+                                GeneratedMutableMap.map6963map
                         )
                         )
                 )
@@ -800,10 +776,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("z"),
                                         AOPVariable("z2")
                                 ), listOf(
-                                        GeneratedMutableMap.map6887map,
-                                        GeneratedMutableMap.map6888map,
-                                        GeneratedMutableMap.map6889map,
-                                        GeneratedMutableMap.map6890map
+                                        GeneratedMutableMap.map6956map,
+                                        GeneratedMutableMap.map6957map,
+                                        GeneratedMutableMap.map6958map,
+                                        GeneratedMutableMap.map6959map
                                 )
                                 )
                         ),
@@ -812,10 +788,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("z2")
                         ), listOf(
-                                GeneratedMutableMap.map6895map,
-                                GeneratedMutableMap.map6896map,
-                                GeneratedMutableMap.map6897map,
-                                GeneratedMutableMap.map6898map
+                                GeneratedMutableMap.map6964map,
+                                GeneratedMutableMap.map6965map,
+                                GeneratedMutableMap.map6966map,
+                                GeneratedMutableMap.map6967map
                         )
                         )
                 )
@@ -857,10 +833,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("z2")
                         ), listOf(
-                                GeneratedMutableMap.map6895map,
-                                GeneratedMutableMap.map6896map,
-                                GeneratedMutableMap.map6897map,
-                                GeneratedMutableMap.map6898map
+                                GeneratedMutableMap.map6964map,
+                                GeneratedMutableMap.map6965map,
+                                GeneratedMutableMap.map6966map,
+                                GeneratedMutableMap.map6967map
                         )
                         )
                 )
@@ -883,22 +859,22 @@ class GeneratedPOPProjectionTest {
                                 "p1",
                                 "z"
                             ), listOf(
-                                GeneratedMutableMap.map7211map,
-                                GeneratedMutableMap.map7212map,
-                                GeneratedMutableMap.map7213map,
-                                GeneratedMutableMap.map7214map,
-                                GeneratedMutableMap.map7199map,
-                                GeneratedMutableMap.map7215map,
-                                GeneratedMutableMap.map7216map,
-                                GeneratedMutableMap.map7217map,
-                                GeneratedMutableMap.map7218map,
-                                GeneratedMutableMap.map7204map,
-                                GeneratedMutableMap.map7219map,
-                                GeneratedMutableMap.map7220map,
-                                GeneratedMutableMap.map7221map,
-                                GeneratedMutableMap.map7222map,
-                                GeneratedMutableMap.map7209map,
-                                GeneratedMutableMap.map7223map
+                                GeneratedMutableMap.map7280map,
+                                GeneratedMutableMap.map7281map,
+                                GeneratedMutableMap.map7282map,
+                                GeneratedMutableMap.map7283map,
+                                GeneratedMutableMap.map7268map,
+                                GeneratedMutableMap.map7284map,
+                                GeneratedMutableMap.map7285map,
+                                GeneratedMutableMap.map7286map,
+                                GeneratedMutableMap.map7287map,
+                                GeneratedMutableMap.map7273map,
+                                GeneratedMutableMap.map7288map,
+                                GeneratedMutableMap.map7289map,
+                                GeneratedMutableMap.map7290map,
+                                GeneratedMutableMap.map7291map,
+                                GeneratedMutableMap.map7278map,
+                                GeneratedMutableMap.map7292map
                             )
                         )
                     ),
@@ -906,22 +882,22 @@ class GeneratedPOPProjectionTest {
                             "z",
                             "s1"
                         ), listOf(
-                            GeneratedMutableMap.map7224map,
-                            GeneratedMutableMap.map7225map,
-                            GeneratedMutableMap.map7226map,
-                            GeneratedMutableMap.map7227map,
-                            GeneratedMutableMap.map7228map,
-                            GeneratedMutableMap.map7229map,
-                            GeneratedMutableMap.map7230map,
-                            GeneratedMutableMap.map7231map,
-                            GeneratedMutableMap.map7232map,
-                            GeneratedMutableMap.map7233map,
-                            GeneratedMutableMap.map7234map,
-                            GeneratedMutableMap.map7235map,
-                            GeneratedMutableMap.map7236map,
-                            GeneratedMutableMap.map7237map,
-                            GeneratedMutableMap.map7238map,
-                            GeneratedMutableMap.map7239map
+                            GeneratedMutableMap.map7293map,
+                            GeneratedMutableMap.map7294map,
+                            GeneratedMutableMap.map7295map,
+                            GeneratedMutableMap.map7296map,
+                            GeneratedMutableMap.map7297map,
+                            GeneratedMutableMap.map7298map,
+                            GeneratedMutableMap.map7299map,
+                            GeneratedMutableMap.map7300map,
+                            GeneratedMutableMap.map7301map,
+                            GeneratedMutableMap.map7302map,
+                            GeneratedMutableMap.map7303map,
+                            GeneratedMutableMap.map7304map,
+                            GeneratedMutableMap.map7305map,
+                            GeneratedMutableMap.map7306map,
+                            GeneratedMutableMap.map7307map,
+                            GeneratedMutableMap.map7308map
                         )
                     )
                 )
@@ -944,10 +920,10 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "z"
                                 ), listOf(
-                                        GeneratedMutableMap.map7289map,
-                                        GeneratedMutableMap.map7290map,
-                                        GeneratedMutableMap.map7291map,
-                                        GeneratedMutableMap.map7292map
+                                        GeneratedMutableMap.map7359map,
+                                        GeneratedMutableMap.map7360map,
+                                        GeneratedMutableMap.map7361map,
+                                        GeneratedMutableMap.map7362map
                                 )
                                 )
                         ),
@@ -957,10 +933,10 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7289map,
-                                GeneratedMutableMap.map7290map,
-                                GeneratedMutableMap.map7291map,
-                                GeneratedMutableMap.map7292map
+                                GeneratedMutableMap.map7359map,
+                                GeneratedMutableMap.map7360map,
+                                GeneratedMutableMap.map7361map,
+                                GeneratedMutableMap.map7362map
                         )
                         )
                 )
@@ -1000,10 +976,10 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7289map,
-                                GeneratedMutableMap.map7290map,
-                                GeneratedMutableMap.map7291map,
-                                GeneratedMutableMap.map7292map
+                                GeneratedMutableMap.map7359map,
+                                GeneratedMutableMap.map7360map,
+                                GeneratedMutableMap.map7361map,
+                                GeneratedMutableMap.map7362map
                         )
                         )
                 )
@@ -1025,10 +1001,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("z")
                                 ), listOf(
-                                        GeneratedMutableMap.map7294map,
-                                        GeneratedMutableMap.map7295map,
-                                        GeneratedMutableMap.map7296map,
-                                        GeneratedMutableMap.map7297map
+                                        GeneratedMutableMap.map7364map,
+                                        GeneratedMutableMap.map7365map,
+                                        GeneratedMutableMap.map7366map,
+                                        GeneratedMutableMap.map7367map
                                 )
                                 )
                         ),
@@ -1038,10 +1014,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map7294map,
-                                GeneratedMutableMap.map7295map,
-                                GeneratedMutableMap.map7296map,
-                                GeneratedMutableMap.map7297map
+                                GeneratedMutableMap.map7364map,
+                                GeneratedMutableMap.map7365map,
+                                GeneratedMutableMap.map7366map,
+                                GeneratedMutableMap.map7367map
                         )
                         )
                 )
@@ -1080,10 +1056,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map7294map,
-                                GeneratedMutableMap.map7295map,
-                                GeneratedMutableMap.map7296map,
-                                GeneratedMutableMap.map7297map
+                                GeneratedMutableMap.map7364map,
+                                GeneratedMutableMap.map7365map,
+                                GeneratedMutableMap.map7366map,
+                                GeneratedMutableMap.map7367map
                         )
                         )
                 )
@@ -1106,7 +1082,7 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "z"
                                 ), listOf(
-                                        GeneratedMutableMap.map7538map
+                                        GeneratedMutableMap.map7609map
                                 )
                                 )
                         ),
@@ -1116,7 +1092,7 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7538map
+                                GeneratedMutableMap.map7609map
                         )
                         )
                 )
@@ -1162,7 +1138,7 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7538map
+                                GeneratedMutableMap.map7609map
                         )
                         )
                 )
@@ -1184,7 +1160,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("z")
                                 ), listOf(
-                                        GeneratedMutableMap.map7542map
+                                        GeneratedMutableMap.map7613map
                                 )
                                 )
                         ),
@@ -1194,7 +1170,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map7542map
+                                GeneratedMutableMap.map7613map
                         )
                         )
                 )
@@ -1237,7 +1213,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map7542map
+                                GeneratedMutableMap.map7613map
                         )
                         )
                 )
@@ -1260,10 +1236,10 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "z"
                                 ), listOf(
-                                        GeneratedMutableMap.map6724map,
-                                        GeneratedMutableMap.map6725map,
-                                        GeneratedMutableMap.map6726map,
-                                        GeneratedMutableMap.map6727map
+                                        GeneratedMutableMap.map6792map,
+                                        GeneratedMutableMap.map6793map,
+                                        GeneratedMutableMap.map6794map,
+                                        GeneratedMutableMap.map6795map
                                 )
                                 )
                         ),
@@ -1273,10 +1249,10 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map6724map,
-                                GeneratedMutableMap.map6725map,
-                                GeneratedMutableMap.map6726map,
-                                GeneratedMutableMap.map6727map
+                                GeneratedMutableMap.map6792map,
+                                GeneratedMutableMap.map6793map,
+                                GeneratedMutableMap.map6794map,
+                                GeneratedMutableMap.map6795map
                         )
                         )
                 )
@@ -1317,10 +1293,10 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map6724map,
-                                GeneratedMutableMap.map6725map,
-                                GeneratedMutableMap.map6726map,
-                                GeneratedMutableMap.map6727map
+                                GeneratedMutableMap.map6792map,
+                                GeneratedMutableMap.map6793map,
+                                GeneratedMutableMap.map6794map,
+                                GeneratedMutableMap.map6795map
                         )
                         )
                 )
@@ -1342,10 +1318,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("z")
                                 ), listOf(
-                                        GeneratedMutableMap.map6728map,
-                                        GeneratedMutableMap.map6729map,
-                                        GeneratedMutableMap.map6730map,
-                                        GeneratedMutableMap.map6731map
+                                        GeneratedMutableMap.map6796map,
+                                        GeneratedMutableMap.map6797map,
+                                        GeneratedMutableMap.map6798map,
+                                        GeneratedMutableMap.map6799map
                                 )
                                 )
                         ),
@@ -1355,10 +1331,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map6728map,
-                                GeneratedMutableMap.map6729map,
-                                GeneratedMutableMap.map6730map,
-                                GeneratedMutableMap.map6731map
+                                GeneratedMutableMap.map6796map,
+                                GeneratedMutableMap.map6797map,
+                                GeneratedMutableMap.map6798map,
+                                GeneratedMutableMap.map6799map
                         )
                         )
                 )
@@ -1397,10 +1373,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map6728map,
-                                GeneratedMutableMap.map6729map,
-                                GeneratedMutableMap.map6730map,
-                                GeneratedMutableMap.map6731map
+                                GeneratedMutableMap.map6796map,
+                                GeneratedMutableMap.map6797map,
+                                GeneratedMutableMap.map6798map,
+                                GeneratedMutableMap.map6799map
                         )
                         )
                 )
@@ -1423,14 +1399,14 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "z"
                                 ), listOf(
-                                        GeneratedMutableMap.map7289map,
-                                        GeneratedMutableMap.map7290map,
-                                        GeneratedMutableMap.map7291map,
-                                        GeneratedMutableMap.map7292map,
-                                        GeneratedMutableMap.map7289map,
-                                        GeneratedMutableMap.map7290map,
-                                        GeneratedMutableMap.map7291map,
-                                        GeneratedMutableMap.map7292map
+                                        GeneratedMutableMap.map7359map,
+                                        GeneratedMutableMap.map7360map,
+                                        GeneratedMutableMap.map7361map,
+                                        GeneratedMutableMap.map7362map,
+                                        GeneratedMutableMap.map7359map,
+                                        GeneratedMutableMap.map7360map,
+                                        GeneratedMutableMap.map7361map,
+                                        GeneratedMutableMap.map7362map
                                 )
                                 )
                         ),
@@ -1440,14 +1416,14 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7289map,
-                                GeneratedMutableMap.map7290map,
-                                GeneratedMutableMap.map7291map,
-                                GeneratedMutableMap.map7292map,
-                                GeneratedMutableMap.map7289map,
-                                GeneratedMutableMap.map7290map,
-                                GeneratedMutableMap.map7291map,
-                                GeneratedMutableMap.map7292map
+                                GeneratedMutableMap.map7359map,
+                                GeneratedMutableMap.map7360map,
+                                GeneratedMutableMap.map7361map,
+                                GeneratedMutableMap.map7362map,
+                                GeneratedMutableMap.map7359map,
+                                GeneratedMutableMap.map7360map,
+                                GeneratedMutableMap.map7361map,
+                                GeneratedMutableMap.map7362map
                         )
                         )
                 )
@@ -1468,7 +1444,7 @@ class GeneratedPOPProjectionTest {
                                         "v",
                                         "z"
                                 ), listOf(
-                                        GeneratedMutableMap.map8314map
+                                        GeneratedMutableMap.map8393map
                                 )
                                 )
                         ),
@@ -1477,7 +1453,7 @@ class GeneratedPOPProjectionTest {
                                 "v",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map8314map
+                                GeneratedMutableMap.map8393map
                         )
                         )
                 )
@@ -1521,7 +1497,7 @@ class GeneratedPOPProjectionTest {
                                 "v",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map8314map
+                                GeneratedMutableMap.map8393map
                         )
                         )
                 )
@@ -1541,7 +1517,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("v"),
                                         AOPVariable("z")
                                 ), listOf(
-                                        GeneratedMutableMap.map8318map
+                                        GeneratedMutableMap.map8397map
                                 )
                                 )
                         ),
@@ -1550,7 +1526,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("v"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map8318map
+                                GeneratedMutableMap.map8397map
                         )
                         )
                 )
@@ -1591,7 +1567,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("v"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map8318map
+                                GeneratedMutableMap.map8397map
                         )
                         )
                 )
@@ -1612,8 +1588,8 @@ class GeneratedPOPProjectionTest {
                                         "title",
                                         "price"
                                 ), listOf(
-                                        GeneratedMutableMap.map8505map,
-                                        GeneratedMutableMap.map8506map
+                                        GeneratedMutableMap.map8588map,
+                                        GeneratedMutableMap.map8589map
                                 )
                                 )
                         ),
@@ -1622,8 +1598,8 @@ class GeneratedPOPProjectionTest {
                                 "title",
                                 "price"
                         ), listOf(
-                                GeneratedMutableMap.map8505map,
-                                GeneratedMutableMap.map8506map
+                                GeneratedMutableMap.map8588map,
+                                GeneratedMutableMap.map8589map
                         )
                         )
                 )
@@ -1667,8 +1643,8 @@ class GeneratedPOPProjectionTest {
                                 "title",
                                 "price"
                         ), listOf(
-                                GeneratedMutableMap.map8505map,
-                                GeneratedMutableMap.map8506map
+                                GeneratedMutableMap.map8588map,
+                                GeneratedMutableMap.map8589map
                         )
                         )
                 )
@@ -1688,8 +1664,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("title"),
                                         AOPVariable("price")
                                 ), listOf(
-                                        GeneratedMutableMap.map8507map,
-                                        GeneratedMutableMap.map8508map
+                                        GeneratedMutableMap.map8590map,
+                                        GeneratedMutableMap.map8591map
                                 )
                                 )
                         ),
@@ -1698,8 +1674,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("title"),
                                 AOPVariable("price")
                         ), listOf(
-                                GeneratedMutableMap.map8507map,
-                                GeneratedMutableMap.map8508map
+                                GeneratedMutableMap.map8590map,
+                                GeneratedMutableMap.map8591map
                         )
                         )
                 )
@@ -1741,8 +1717,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("title"),
                                 AOPVariable("price")
                         ), listOf(
-                                GeneratedMutableMap.map8507map,
-                                GeneratedMutableMap.map8508map
+                                GeneratedMutableMap.map8590map,
+                                GeneratedMutableMap.map8591map
                         )
                         )
                 )
@@ -1762,11 +1738,11 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        GeneratedMutableMap.map8571map,
-                                        GeneratedMutableMap.map8572map,
-                                        GeneratedMutableMap.map8573map,
-                                        GeneratedMutableMap.map8574map,
-                                        GeneratedMutableMap.map8575map
+                                        GeneratedMutableMap.map8658map,
+                                        GeneratedMutableMap.map8659map,
+                                        GeneratedMutableMap.map8660map,
+                                        GeneratedMutableMap.map8661map,
+                                        GeneratedMutableMap.map8662map
                                 )
                                 )
                         ),
@@ -1774,11 +1750,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8565map,
-                                GeneratedMutableMap.map8566map,
-                                GeneratedMutableMap.map8567map,
-                                GeneratedMutableMap.map8568map,
-                                GeneratedMutableMap.map8569map
+                                GeneratedMutableMap.map8651map,
+                                GeneratedMutableMap.map8652map,
+                                GeneratedMutableMap.map8653map,
+                                GeneratedMutableMap.map8654map,
+                                GeneratedMutableMap.map8655map
                         )
                         )
                 )
@@ -1810,11 +1786,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map8565map,
-                                GeneratedMutableMap.map8566map,
-                                GeneratedMutableMap.map8567map,
-                                GeneratedMutableMap.map8568map,
-                                GeneratedMutableMap.map8569map
+                                GeneratedMutableMap.map8651map,
+                                GeneratedMutableMap.map8652map,
+                                GeneratedMutableMap.map8653map,
+                                GeneratedMutableMap.map8654map,
+                                GeneratedMutableMap.map8655map
                         )
                         )
                 )
@@ -1833,11 +1809,11 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("o")
                                 ), listOf(
-                                        GeneratedMutableMap.map8576map,
-                                        GeneratedMutableMap.map8577map,
-                                        GeneratedMutableMap.map8578map,
-                                        GeneratedMutableMap.map8579map,
-                                        GeneratedMutableMap.map8580map
+                                        GeneratedMutableMap.map8663map,
+                                        GeneratedMutableMap.map8664map,
+                                        GeneratedMutableMap.map8665map,
+                                        GeneratedMutableMap.map8666map,
+                                        GeneratedMutableMap.map8667map
                                 )
                                 )
                         ),
@@ -1845,11 +1821,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8581map,
-                                GeneratedMutableMap.map8582map,
-                                GeneratedMutableMap.map8583map,
-                                GeneratedMutableMap.map8584map,
-                                GeneratedMutableMap.map8585map
+                                GeneratedMutableMap.map8668map,
+                                GeneratedMutableMap.map8669map,
+                                GeneratedMutableMap.map8670map,
+                                GeneratedMutableMap.map8671map,
+                                GeneratedMutableMap.map8672map
                         )
                         )
                 )
@@ -1880,11 +1856,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map8581map,
-                                GeneratedMutableMap.map8582map,
-                                GeneratedMutableMap.map8583map,
-                                GeneratedMutableMap.map8584map,
-                                GeneratedMutableMap.map8585map
+                                GeneratedMutableMap.map8668map,
+                                GeneratedMutableMap.map8669map,
+                                GeneratedMutableMap.map8670map,
+                                GeneratedMutableMap.map8671map,
+                                GeneratedMutableMap.map8672map
                         )
                         )
                 )
@@ -1907,19 +1883,19 @@ class GeneratedPOPProjectionTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        GeneratedMutableMap.map8686map,
-                                        GeneratedMutableMap.map8687map,
-                                        GeneratedMutableMap.map8688map,
-                                        GeneratedMutableMap.map8689map,
-                                        GeneratedMutableMap.map8690map,
-                                        GeneratedMutableMap.map8691map,
-                                        GeneratedMutableMap.map8692map,
-                                        GeneratedMutableMap.map8693map,
-                                        GeneratedMutableMap.map8694map,
-                                        GeneratedMutableMap.map8695map,
-                                        GeneratedMutableMap.map8696map,
-                                        GeneratedMutableMap.map8697map,
-                                        GeneratedMutableMap.map8698map
+                                        GeneratedMutableMap.map8776map,
+                                        GeneratedMutableMap.map8777map,
+                                        GeneratedMutableMap.map8778map,
+                                        GeneratedMutableMap.map8779map,
+                                        GeneratedMutableMap.map8780map,
+                                        GeneratedMutableMap.map8781map,
+                                        GeneratedMutableMap.map8782map,
+                                        GeneratedMutableMap.map8783map,
+                                        GeneratedMutableMap.map8784map,
+                                        GeneratedMutableMap.map8785map,
+                                        GeneratedMutableMap.map8786map,
+                                        GeneratedMutableMap.map8787map,
+                                        GeneratedMutableMap.map8788map
                                 )
                                 )
                         ),
@@ -1928,19 +1904,19 @@ class GeneratedPOPProjectionTest {
                                 "o1",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map8662map,
-                                GeneratedMutableMap.map8663map,
-                                GeneratedMutableMap.map8664map,
-                                GeneratedMutableMap.map8665map,
-                                GeneratedMutableMap.map8666map,
-                                GeneratedMutableMap.map8667map,
-                                GeneratedMutableMap.map8668map,
-                                GeneratedMutableMap.map8669map,
-                                GeneratedMutableMap.map8670map,
-                                GeneratedMutableMap.map8671map,
-                                GeneratedMutableMap.map8672map,
-                                GeneratedMutableMap.map8673map,
-                                GeneratedMutableMap.map8674map
+                                GeneratedMutableMap.map8749map,
+                                GeneratedMutableMap.map8750map,
+                                GeneratedMutableMap.map8751map,
+                                GeneratedMutableMap.map8752map,
+                                GeneratedMutableMap.map8753map,
+                                GeneratedMutableMap.map8754map,
+                                GeneratedMutableMap.map8755map,
+                                GeneratedMutableMap.map8756map,
+                                GeneratedMutableMap.map8757map,
+                                GeneratedMutableMap.map8758map,
+                                GeneratedMutableMap.map8759map,
+                                GeneratedMutableMap.map8760map,
+                                GeneratedMutableMap.map8761map
                         )
                         )
                 )
@@ -1990,19 +1966,19 @@ class GeneratedPOPProjectionTest {
                                 "o1",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map8662map,
-                                GeneratedMutableMap.map8663map,
-                                GeneratedMutableMap.map8664map,
-                                GeneratedMutableMap.map8665map,
-                                GeneratedMutableMap.map8666map,
-                                GeneratedMutableMap.map8667map,
-                                GeneratedMutableMap.map8668map,
-                                GeneratedMutableMap.map8669map,
-                                GeneratedMutableMap.map8670map,
-                                GeneratedMutableMap.map8671map,
-                                GeneratedMutableMap.map8672map,
-                                GeneratedMutableMap.map8673map,
-                                GeneratedMutableMap.map8674map
+                                GeneratedMutableMap.map8749map,
+                                GeneratedMutableMap.map8750map,
+                                GeneratedMutableMap.map8751map,
+                                GeneratedMutableMap.map8752map,
+                                GeneratedMutableMap.map8753map,
+                                GeneratedMutableMap.map8754map,
+                                GeneratedMutableMap.map8755map,
+                                GeneratedMutableMap.map8756map,
+                                GeneratedMutableMap.map8757map,
+                                GeneratedMutableMap.map8758map,
+                                GeneratedMutableMap.map8759map,
+                                GeneratedMutableMap.map8760map,
+                                GeneratedMutableMap.map8761map
                         )
                         )
                 )
@@ -2024,19 +2000,19 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p2"),
                                         AOPVariable("o2")
                                 ), listOf(
-                                        GeneratedMutableMap.map8699map,
-                                        GeneratedMutableMap.map8700map,
-                                        GeneratedMutableMap.map8701map,
-                                        GeneratedMutableMap.map8702map,
-                                        GeneratedMutableMap.map8703map,
-                                        GeneratedMutableMap.map8704map,
-                                        GeneratedMutableMap.map8705map,
-                                        GeneratedMutableMap.map8706map,
-                                        GeneratedMutableMap.map8707map,
-                                        GeneratedMutableMap.map8708map,
-                                        GeneratedMutableMap.map8709map,
-                                        GeneratedMutableMap.map8710map,
-                                        GeneratedMutableMap.map8711map
+                                        GeneratedMutableMap.map8789map,
+                                        GeneratedMutableMap.map8790map,
+                                        GeneratedMutableMap.map8791map,
+                                        GeneratedMutableMap.map8792map,
+                                        GeneratedMutableMap.map8793map,
+                                        GeneratedMutableMap.map8794map,
+                                        GeneratedMutableMap.map8795map,
+                                        GeneratedMutableMap.map8796map,
+                                        GeneratedMutableMap.map8797map,
+                                        GeneratedMutableMap.map8798map,
+                                        GeneratedMutableMap.map8799map,
+                                        GeneratedMutableMap.map8800map,
+                                        GeneratedMutableMap.map8801map
                                 )
                                 )
                         ),
@@ -2045,19 +2021,19 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o1"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map8712map,
-                                GeneratedMutableMap.map8713map,
-                                GeneratedMutableMap.map8714map,
-                                GeneratedMutableMap.map8715map,
-                                GeneratedMutableMap.map8716map,
-                                GeneratedMutableMap.map8717map,
-                                GeneratedMutableMap.map8718map,
-                                GeneratedMutableMap.map8719map,
-                                GeneratedMutableMap.map8720map,
-                                GeneratedMutableMap.map8721map,
-                                GeneratedMutableMap.map8722map,
-                                GeneratedMutableMap.map8723map,
-                                GeneratedMutableMap.map8724map
+                                GeneratedMutableMap.map8802map,
+                                GeneratedMutableMap.map8803map,
+                                GeneratedMutableMap.map8804map,
+                                GeneratedMutableMap.map8805map,
+                                GeneratedMutableMap.map8806map,
+                                GeneratedMutableMap.map8807map,
+                                GeneratedMutableMap.map8808map,
+                                GeneratedMutableMap.map8809map,
+                                GeneratedMutableMap.map8810map,
+                                GeneratedMutableMap.map8811map,
+                                GeneratedMutableMap.map8812map,
+                                GeneratedMutableMap.map8813map,
+                                GeneratedMutableMap.map8814map
                         )
                         )
                 )
@@ -2105,19 +2081,19 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o1"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map8712map,
-                                GeneratedMutableMap.map8713map,
-                                GeneratedMutableMap.map8714map,
-                                GeneratedMutableMap.map8715map,
-                                GeneratedMutableMap.map8716map,
-                                GeneratedMutableMap.map8717map,
-                                GeneratedMutableMap.map8718map,
-                                GeneratedMutableMap.map8719map,
-                                GeneratedMutableMap.map8720map,
-                                GeneratedMutableMap.map8721map,
-                                GeneratedMutableMap.map8722map,
-                                GeneratedMutableMap.map8723map,
-                                GeneratedMutableMap.map8724map
+                                GeneratedMutableMap.map8802map,
+                                GeneratedMutableMap.map8803map,
+                                GeneratedMutableMap.map8804map,
+                                GeneratedMutableMap.map8805map,
+                                GeneratedMutableMap.map8806map,
+                                GeneratedMutableMap.map8807map,
+                                GeneratedMutableMap.map8808map,
+                                GeneratedMutableMap.map8809map,
+                                GeneratedMutableMap.map8810map,
+                                GeneratedMutableMap.map8811map,
+                                GeneratedMutableMap.map8812map,
+                                GeneratedMutableMap.map8813map,
+                                GeneratedMutableMap.map8814map
                         )
                         )
                 )
@@ -2138,11 +2114,11 @@ class GeneratedPOPProjectionTest {
                                         "p1",
                                         "o1"
                                 ), listOf(
-                                        GeneratedMutableMap.map8676map,
-                                        GeneratedMutableMap.map8677map,
-                                        GeneratedMutableMap.map8678map,
-                                        GeneratedMutableMap.map8679map,
-                                        GeneratedMutableMap.map8680map
+                                        GeneratedMutableMap.map8764map,
+                                        GeneratedMutableMap.map8765map,
+                                        GeneratedMutableMap.map8766map,
+                                        GeneratedMutableMap.map8767map,
+                                        GeneratedMutableMap.map8768map
                                 )
                                 )
                         ),
@@ -2151,11 +2127,11 @@ class GeneratedPOPProjectionTest {
                                 "p1",
                                 "o1"
                         ), listOf(
-                                GeneratedMutableMap.map8676map,
-                                GeneratedMutableMap.map8677map,
-                                GeneratedMutableMap.map8678map,
-                                GeneratedMutableMap.map8679map,
-                                GeneratedMutableMap.map8680map
+                                GeneratedMutableMap.map8764map,
+                                GeneratedMutableMap.map8765map,
+                                GeneratedMutableMap.map8766map,
+                                GeneratedMutableMap.map8767map,
+                                GeneratedMutableMap.map8768map
                         )
                         )
                 )
@@ -2189,11 +2165,11 @@ class GeneratedPOPProjectionTest {
                                 "p1",
                                 "o1"
                         ), listOf(
-                                GeneratedMutableMap.map8676map,
-                                GeneratedMutableMap.map8677map,
-                                GeneratedMutableMap.map8678map,
-                                GeneratedMutableMap.map8679map,
-                                GeneratedMutableMap.map8680map
+                                GeneratedMutableMap.map8764map,
+                                GeneratedMutableMap.map8765map,
+                                GeneratedMutableMap.map8766map,
+                                GeneratedMutableMap.map8767map,
+                                GeneratedMutableMap.map8768map
                         )
                         )
                 )
@@ -2213,11 +2189,11 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p1"),
                                         AOPVariable("o1")
                                 ), listOf(
-                                        GeneratedMutableMap.map8576map,
-                                        GeneratedMutableMap.map8577map,
-                                        GeneratedMutableMap.map8578map,
-                                        GeneratedMutableMap.map8579map,
-                                        GeneratedMutableMap.map8580map
+                                        GeneratedMutableMap.map8663map,
+                                        GeneratedMutableMap.map8664map,
+                                        GeneratedMutableMap.map8665map,
+                                        GeneratedMutableMap.map8666map,
+                                        GeneratedMutableMap.map8667map
                                 )
                                 )
                         ),
@@ -2226,11 +2202,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p1"),
                                 AOPVariable("o1")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -2263,11 +2239,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p1"),
                                 AOPVariable("o1")
                         ), listOf(
-                                GeneratedMutableMap.map8576map,
-                                GeneratedMutableMap.map8577map,
-                                GeneratedMutableMap.map8578map,
-                                GeneratedMutableMap.map8579map,
-                                GeneratedMutableMap.map8580map
+                                GeneratedMutableMap.map8663map,
+                                GeneratedMutableMap.map8664map,
+                                GeneratedMutableMap.map8665map,
+                                GeneratedMutableMap.map8666map,
+                                GeneratedMutableMap.map8667map
                         )
                         )
                 )
@@ -2289,14 +2265,14 @@ class GeneratedPOPProjectionTest {
                                         "o1",
                                         "o2"
                                 ), listOf(
-                                        GeneratedMutableMap.map9054map,
-                                        GeneratedMutableMap.map9055map,
-                                        GeneratedMutableMap.map9056map,
-                                        GeneratedMutableMap.map9057map,
-                                        GeneratedMutableMap.map9058map,
-                                        GeneratedMutableMap.map9059map,
-                                        GeneratedMutableMap.map9060map,
-                                        GeneratedMutableMap.map9061map
+                                        GeneratedMutableMap.map9154map,
+                                        GeneratedMutableMap.map9155map,
+                                        GeneratedMutableMap.map9156map,
+                                        GeneratedMutableMap.map9157map,
+                                        GeneratedMutableMap.map9158map,
+                                        GeneratedMutableMap.map9159map,
+                                        GeneratedMutableMap.map9160map,
+                                        GeneratedMutableMap.map9161map
                                 )
                                 )
                         ),
@@ -2305,14 +2281,14 @@ class GeneratedPOPProjectionTest {
                                 "o1",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map8662map,
-                                GeneratedMutableMap.map8663map,
-                                GeneratedMutableMap.map8664map,
-                                GeneratedMutableMap.map9035map,
-                                GeneratedMutableMap.map9036map,
-                                GeneratedMutableMap.map9037map,
-                                GeneratedMutableMap.map9038map,
-                                GeneratedMutableMap.map9039map
+                                GeneratedMutableMap.map8749map,
+                                GeneratedMutableMap.map8750map,
+                                GeneratedMutableMap.map8751map,
+                                GeneratedMutableMap.map9132map,
+                                GeneratedMutableMap.map9133map,
+                                GeneratedMutableMap.map9134map,
+                                GeneratedMutableMap.map9135map,
+                                GeneratedMutableMap.map9136map
                         )
                         )
                 )
@@ -2362,14 +2338,14 @@ class GeneratedPOPProjectionTest {
                                 "o1",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map8662map,
-                                GeneratedMutableMap.map8663map,
-                                GeneratedMutableMap.map8664map,
-                                GeneratedMutableMap.map9035map,
-                                GeneratedMutableMap.map9036map,
-                                GeneratedMutableMap.map9037map,
-                                GeneratedMutableMap.map9038map,
-                                GeneratedMutableMap.map9039map
+                                GeneratedMutableMap.map8749map,
+                                GeneratedMutableMap.map8750map,
+                                GeneratedMutableMap.map8751map,
+                                GeneratedMutableMap.map9132map,
+                                GeneratedMutableMap.map9133map,
+                                GeneratedMutableMap.map9134map,
+                                GeneratedMutableMap.map9135map,
+                                GeneratedMutableMap.map9136map
                         )
                         )
                 )
@@ -2390,14 +2366,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o1"),
                                         AOPVariable("o2")
                                 ), listOf(
-                                        GeneratedMutableMap.map9062map,
-                                        GeneratedMutableMap.map9063map,
-                                        GeneratedMutableMap.map9064map,
-                                        GeneratedMutableMap.map9065map,
-                                        GeneratedMutableMap.map9066map,
-                                        GeneratedMutableMap.map9067map,
-                                        GeneratedMutableMap.map9068map,
-                                        GeneratedMutableMap.map9069map
+                                        GeneratedMutableMap.map9162map,
+                                        GeneratedMutableMap.map9163map,
+                                        GeneratedMutableMap.map9164map,
+                                        GeneratedMutableMap.map9165map,
+                                        GeneratedMutableMap.map9166map,
+                                        GeneratedMutableMap.map9167map,
+                                        GeneratedMutableMap.map9168map,
+                                        GeneratedMutableMap.map9169map
                                 )
                                 )
                         ),
@@ -2406,14 +2382,14 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o1"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map8712map,
-                                GeneratedMutableMap.map8713map,
-                                GeneratedMutableMap.map8714map,
-                                GeneratedMutableMap.map9070map,
-                                GeneratedMutableMap.map9071map,
-                                GeneratedMutableMap.map9072map,
-                                GeneratedMutableMap.map9073map,
-                                GeneratedMutableMap.map9074map
+                                GeneratedMutableMap.map8802map,
+                                GeneratedMutableMap.map8803map,
+                                GeneratedMutableMap.map8804map,
+                                GeneratedMutableMap.map9170map,
+                                GeneratedMutableMap.map9171map,
+                                GeneratedMutableMap.map9172map,
+                                GeneratedMutableMap.map9173map,
+                                GeneratedMutableMap.map9174map
                         )
                         )
                 )
@@ -2461,14 +2437,14 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o1"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map8712map,
-                                GeneratedMutableMap.map8713map,
-                                GeneratedMutableMap.map8714map,
-                                GeneratedMutableMap.map9070map,
-                                GeneratedMutableMap.map9071map,
-                                GeneratedMutableMap.map9072map,
-                                GeneratedMutableMap.map9073map,
-                                GeneratedMutableMap.map9074map
+                                GeneratedMutableMap.map8802map,
+                                GeneratedMutableMap.map8803map,
+                                GeneratedMutableMap.map8804map,
+                                GeneratedMutableMap.map9170map,
+                                GeneratedMutableMap.map9171map,
+                                GeneratedMutableMap.map9172map,
+                                GeneratedMutableMap.map9173map,
+                                GeneratedMutableMap.map9174map
                         )
                         )
                 )
@@ -2489,7 +2465,7 @@ class GeneratedPOPProjectionTest {
                                         "title",
                                         "price"
                                 ), listOf(
-                                        GeneratedMutableMap.map8505map
+                                        GeneratedMutableMap.map8588map
                                 )
                                 )
                         ),
@@ -2498,7 +2474,7 @@ class GeneratedPOPProjectionTest {
                                 "title",
                                 "price"
                         ), listOf(
-                                GeneratedMutableMap.map8505map
+                                GeneratedMutableMap.map8588map
                         )
                         )
                 )
@@ -2519,10 +2495,10 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        GeneratedMutableMap.map9607map,
-                                        GeneratedMutableMap.map9608map,
-                                        GeneratedMutableMap.map9609map,
-                                        GeneratedMutableMap.map9610map
+                                        GeneratedMutableMap.map9723map,
+                                        GeneratedMutableMap.map9724map,
+                                        GeneratedMutableMap.map9725map,
+                                        GeneratedMutableMap.map9726map
                                 )
                                 )
                         ),
@@ -2531,10 +2507,10 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map9607map,
-                                GeneratedMutableMap.map9608map,
-                                GeneratedMutableMap.map9609map,
-                                GeneratedMutableMap.map9610map
+                                GeneratedMutableMap.map9723map,
+                                GeneratedMutableMap.map9724map,
+                                GeneratedMutableMap.map9725map,
+                                GeneratedMutableMap.map9726map
                         )
                         )
                 )
@@ -2585,10 +2561,10 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map9607map,
-                                GeneratedMutableMap.map9608map,
-                                GeneratedMutableMap.map9609map,
-                                GeneratedMutableMap.map9610map
+                                GeneratedMutableMap.map9723map,
+                                GeneratedMutableMap.map9724map,
+                                GeneratedMutableMap.map9725map,
+                                GeneratedMutableMap.map9726map
                         )
                         )
                 )
@@ -2608,10 +2584,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("o")
                                 ), listOf(
-                                        GeneratedMutableMap.map9611map,
-                                        GeneratedMutableMap.map9612map,
-                                        GeneratedMutableMap.map9613map,
-                                        GeneratedMutableMap.map9614map
+                                        GeneratedMutableMap.map9727map,
+                                        GeneratedMutableMap.map9728map,
+                                        GeneratedMutableMap.map9729map,
+                                        GeneratedMutableMap.map9730map
                                 )
                                 )
                         ),
@@ -2620,10 +2596,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map9611map,
-                                GeneratedMutableMap.map9612map,
-                                GeneratedMutableMap.map9613map,
-                                GeneratedMutableMap.map9614map
+                                GeneratedMutableMap.map9727map,
+                                GeneratedMutableMap.map9728map,
+                                GeneratedMutableMap.map9729map,
+                                GeneratedMutableMap.map9730map
                         )
                         )
                 )
@@ -2670,10 +2646,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map9611map,
-                                GeneratedMutableMap.map9612map,
-                                GeneratedMutableMap.map9613map,
-                                GeneratedMutableMap.map9614map
+                                GeneratedMutableMap.map9727map,
+                                GeneratedMutableMap.map9728map,
+                                GeneratedMutableMap.map9729map,
+                                GeneratedMutableMap.map9730map
                         )
                         )
                 )
@@ -2694,12 +2670,12 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10286map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map10288map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map10421map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map10423map,
+                                GeneratedMutableMap.map10424map
                             )
                         )
                     ),
@@ -2708,12 +2684,12 @@ class GeneratedPOPProjectionTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10285map,
-                            GeneratedMutableMap.map10286map,
-                            GeneratedMutableMap.map10287map,
-                            GeneratedMutableMap.map10288map,
-                            GeneratedMutableMap.map10289map
+                            GeneratedMutableMap.map10419map,
+                            GeneratedMutableMap.map10420map,
+                            GeneratedMutableMap.map10421map,
+                            GeneratedMutableMap.map10422map,
+                            GeneratedMutableMap.map10423map,
+                            GeneratedMutableMap.map10424map
                         )
                     )
                 )
@@ -2734,12 +2710,12 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10286map,
-                                        GeneratedMutableMap.map10287map,
-                                        GeneratedMutableMap.map10288map,
-                                        GeneratedMutableMap.map10289map
+                                        GeneratedMutableMap.map10419map,
+                                        GeneratedMutableMap.map10420map,
+                                        GeneratedMutableMap.map10421map,
+                                        GeneratedMutableMap.map10422map,
+                                        GeneratedMutableMap.map10423map,
+                                        GeneratedMutableMap.map10424map
                                 )
                                 )
                         ),
@@ -2748,12 +2724,12 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10286map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map10288map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map10421map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map10423map,
+                                GeneratedMutableMap.map10424map
                         )
                         )
                 )
@@ -2806,12 +2782,12 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10286map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map10288map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map10421map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map10423map,
+                                GeneratedMutableMap.map10424map
                         )
                         )
                 )
@@ -2831,12 +2807,12 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("o")
                                 ), listOf(
-                                        GeneratedMutableMap.map10366map,
-                                        GeneratedMutableMap.map10367map,
-                                        GeneratedMutableMap.map10368map,
-                                        GeneratedMutableMap.map10369map,
-                                        GeneratedMutableMap.map10370map,
-                                        GeneratedMutableMap.map10371map
+                                        GeneratedMutableMap.map10502map,
+                                        GeneratedMutableMap.map10503map,
+                                        GeneratedMutableMap.map10504map,
+                                        GeneratedMutableMap.map10505map,
+                                        GeneratedMutableMap.map10506map,
+                                        GeneratedMutableMap.map10507map
                                 )
                                 )
                         ),
@@ -2845,12 +2821,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map10368map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map10370map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map10504map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map10506map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -2899,12 +2875,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map10368map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map10370map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map10504map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map10506map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -2929,12 +2905,12 @@ class GeneratedPOPProjectionTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map,
-                                GeneratedMutableMap.map10476map,
-                                GeneratedMutableMap.map10477map,
-                                GeneratedMutableMap.map10478map,
-                                GeneratedMutableMap.map10479map
+                                GeneratedMutableMap.map10611map,
+                                GeneratedMutableMap.map10612map,
+                                GeneratedMutableMap.map10613map,
+                                GeneratedMutableMap.map10614map,
+                                GeneratedMutableMap.map10615map,
+                                GeneratedMutableMap.map10616map
                             )
                         )
                     ),
@@ -2945,12 +2921,12 @@ class GeneratedPOPProjectionTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10474map,
-                            GeneratedMutableMap.map10475map,
-                            GeneratedMutableMap.map10476map,
-                            GeneratedMutableMap.map10477map,
-                            GeneratedMutableMap.map10478map,
-                            GeneratedMutableMap.map10479map
+                            GeneratedMutableMap.map10611map,
+                            GeneratedMutableMap.map10612map,
+                            GeneratedMutableMap.map10613map,
+                            GeneratedMutableMap.map10614map,
+                            GeneratedMutableMap.map10615map,
+                            GeneratedMutableMap.map10616map
                         )
                     )
                 )
@@ -2975,12 +2951,12 @@ class GeneratedPOPProjectionTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10475map,
-                                        GeneratedMutableMap.map10476map,
-                                        GeneratedMutableMap.map10477map,
-                                        GeneratedMutableMap.map10478map,
-                                        GeneratedMutableMap.map10479map
+                                        GeneratedMutableMap.map10611map,
+                                        GeneratedMutableMap.map10612map,
+                                        GeneratedMutableMap.map10613map,
+                                        GeneratedMutableMap.map10614map,
+                                        GeneratedMutableMap.map10615map,
+                                        GeneratedMutableMap.map10616map
                                 )
                                 )
                         ),
@@ -2991,12 +2967,12 @@ class GeneratedPOPProjectionTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map,
-                                GeneratedMutableMap.map10476map,
-                                GeneratedMutableMap.map10477map,
-                                GeneratedMutableMap.map10478map,
-                                GeneratedMutableMap.map10479map
+                                GeneratedMutableMap.map10611map,
+                                GeneratedMutableMap.map10612map,
+                                GeneratedMutableMap.map10613map,
+                                GeneratedMutableMap.map10614map,
+                                GeneratedMutableMap.map10615map,
+                                GeneratedMutableMap.map10616map
                         )
                         )
                 )
@@ -3082,12 +3058,12 @@ class GeneratedPOPProjectionTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map,
-                                GeneratedMutableMap.map10476map,
-                                GeneratedMutableMap.map10477map,
-                                GeneratedMutableMap.map10478map,
-                                GeneratedMutableMap.map10479map
+                                GeneratedMutableMap.map10611map,
+                                GeneratedMutableMap.map10612map,
+                                GeneratedMutableMap.map10613map,
+                                GeneratedMutableMap.map10614map,
+                                GeneratedMutableMap.map10615map,
+                                GeneratedMutableMap.map10616map
                         )
                         )
                 )
@@ -3111,12 +3087,12 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p2"),
                                         AOPVariable("o2")
                                 ), listOf(
-                                        GeneratedMutableMap.map10604map,
-                                        GeneratedMutableMap.map10605map,
-                                        GeneratedMutableMap.map10606map,
-                                        GeneratedMutableMap.map10607map,
-                                        GeneratedMutableMap.map10608map,
-                                        GeneratedMutableMap.map10609map
+                                        GeneratedMutableMap.map10744map,
+                                        GeneratedMutableMap.map10745map,
+                                        GeneratedMutableMap.map10746map,
+                                        GeneratedMutableMap.map10747map,
+                                        GeneratedMutableMap.map10748map,
+                                        GeneratedMutableMap.map10749map
                                 )
                                 )
                         ),
@@ -3127,12 +3103,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10604map,
-                                GeneratedMutableMap.map10605map,
-                                GeneratedMutableMap.map10606map,
-                                GeneratedMutableMap.map10607map,
-                                GeneratedMutableMap.map10608map,
-                                GeneratedMutableMap.map10609map
+                                GeneratedMutableMap.map10744map,
+                                GeneratedMutableMap.map10745map,
+                                GeneratedMutableMap.map10746map,
+                                GeneratedMutableMap.map10747map,
+                                GeneratedMutableMap.map10748map,
+                                GeneratedMutableMap.map10749map
                         )
                         )
                 )
@@ -3211,12 +3187,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10604map,
-                                GeneratedMutableMap.map10605map,
-                                GeneratedMutableMap.map10606map,
-                                GeneratedMutableMap.map10607map,
-                                GeneratedMutableMap.map10608map,
-                                GeneratedMutableMap.map10609map
+                                GeneratedMutableMap.map10744map,
+                                GeneratedMutableMap.map10745map,
+                                GeneratedMutableMap.map10746map,
+                                GeneratedMutableMap.map10747map,
+                                GeneratedMutableMap.map10748map,
+                                GeneratedMutableMap.map10749map
                         )
                         )
                 )
@@ -3237,13 +3213,13 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10669map,
-                                GeneratedMutableMap.map10670map,
-                                GeneratedMutableMap.map10671map,
-                                GeneratedMutableMap.map10672map,
-                                GeneratedMutableMap.map10673map,
-                                GeneratedMutableMap.map10674map,
-                                GeneratedMutableMap.map10675map
+                                GeneratedMutableMap.map10812map,
+                                GeneratedMutableMap.map10813map,
+                                GeneratedMutableMap.map10814map,
+                                GeneratedMutableMap.map10815map,
+                                GeneratedMutableMap.map10816map,
+                                GeneratedMutableMap.map10817map,
+                                GeneratedMutableMap.map10818map
                             )
                         )
                     ),
@@ -3252,13 +3228,13 @@ class GeneratedPOPProjectionTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10669map,
-                            GeneratedMutableMap.map10670map,
-                            GeneratedMutableMap.map10671map,
-                            GeneratedMutableMap.map10672map,
-                            GeneratedMutableMap.map10673map,
-                            GeneratedMutableMap.map10674map,
-                            GeneratedMutableMap.map10675map
+                            GeneratedMutableMap.map10812map,
+                            GeneratedMutableMap.map10813map,
+                            GeneratedMutableMap.map10814map,
+                            GeneratedMutableMap.map10815map,
+                            GeneratedMutableMap.map10816map,
+                            GeneratedMutableMap.map10817map,
+                            GeneratedMutableMap.map10818map
                         )
                     )
                 )
@@ -3279,13 +3255,13 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        GeneratedMutableMap.map10669map,
-                                        GeneratedMutableMap.map10670map,
-                                        GeneratedMutableMap.map10671map,
-                                        GeneratedMutableMap.map10672map,
-                                        GeneratedMutableMap.map10673map,
-                                        GeneratedMutableMap.map10674map,
-                                        GeneratedMutableMap.map10675map
+                                        GeneratedMutableMap.map10812map,
+                                        GeneratedMutableMap.map10813map,
+                                        GeneratedMutableMap.map10814map,
+                                        GeneratedMutableMap.map10815map,
+                                        GeneratedMutableMap.map10816map,
+                                        GeneratedMutableMap.map10817map,
+                                        GeneratedMutableMap.map10818map
                                 )
                                 )
                         ),
@@ -3294,13 +3270,13 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10669map,
-                                GeneratedMutableMap.map10670map,
-                                GeneratedMutableMap.map10671map,
-                                GeneratedMutableMap.map10672map,
-                                GeneratedMutableMap.map10673map,
-                                GeneratedMutableMap.map10674map,
-                                GeneratedMutableMap.map10675map
+                                GeneratedMutableMap.map10812map,
+                                GeneratedMutableMap.map10813map,
+                                GeneratedMutableMap.map10814map,
+                                GeneratedMutableMap.map10815map,
+                                GeneratedMutableMap.map10816map,
+                                GeneratedMutableMap.map10817map,
+                                GeneratedMutableMap.map10818map
                         )
                         )
                 )
@@ -3354,13 +3330,13 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10669map,
-                                GeneratedMutableMap.map10670map,
-                                GeneratedMutableMap.map10671map,
-                                GeneratedMutableMap.map10672map,
-                                GeneratedMutableMap.map10673map,
-                                GeneratedMutableMap.map10674map,
-                                GeneratedMutableMap.map10675map
+                                GeneratedMutableMap.map10812map,
+                                GeneratedMutableMap.map10813map,
+                                GeneratedMutableMap.map10814map,
+                                GeneratedMutableMap.map10815map,
+                                GeneratedMutableMap.map10816map,
+                                GeneratedMutableMap.map10817map,
+                                GeneratedMutableMap.map10818map
                         )
                         )
                 )
@@ -3380,13 +3356,13 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("o")
                                 ), listOf(
-                                        GeneratedMutableMap.map10735map,
-                                        GeneratedMutableMap.map10736map,
-                                        GeneratedMutableMap.map10737map,
-                                        GeneratedMutableMap.map10738map,
-                                        GeneratedMutableMap.map10739map,
-                                        GeneratedMutableMap.map10740map,
-                                        GeneratedMutableMap.map10741map
+                                        GeneratedMutableMap.map10879map,
+                                        GeneratedMutableMap.map10880map,
+                                        GeneratedMutableMap.map10881map,
+                                        GeneratedMutableMap.map10882map,
+                                        GeneratedMutableMap.map10883map,
+                                        GeneratedMutableMap.map10884map,
+                                        GeneratedMutableMap.map10885map
                                 )
                                 )
                         ),
@@ -3395,13 +3371,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10735map,
-                                GeneratedMutableMap.map10736map,
-                                GeneratedMutableMap.map10737map,
-                                GeneratedMutableMap.map10738map,
-                                GeneratedMutableMap.map10739map,
-                                GeneratedMutableMap.map10740map,
-                                GeneratedMutableMap.map10741map
+                                GeneratedMutableMap.map10879map,
+                                GeneratedMutableMap.map10880map,
+                                GeneratedMutableMap.map10881map,
+                                GeneratedMutableMap.map10882map,
+                                GeneratedMutableMap.map10883map,
+                                GeneratedMutableMap.map10884map,
+                                GeneratedMutableMap.map10885map
                         )
                         )
                 )
@@ -3451,13 +3427,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10735map,
-                                GeneratedMutableMap.map10736map,
-                                GeneratedMutableMap.map10737map,
-                                GeneratedMutableMap.map10738map,
-                                GeneratedMutableMap.map10739map,
-                                GeneratedMutableMap.map10740map,
-                                GeneratedMutableMap.map10741map
+                                GeneratedMutableMap.map10879map,
+                                GeneratedMutableMap.map10880map,
+                                GeneratedMutableMap.map10881map,
+                                GeneratedMutableMap.map10882map,
+                                GeneratedMutableMap.map10883map,
+                                GeneratedMutableMap.map10884map,
+                                GeneratedMutableMap.map10885map
                         )
                         )
                 )
@@ -3474,14 +3450,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map15587map
+                                        GeneratedMutableMap.map15815map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15587map
+                                GeneratedMutableMap.map15815map
                         )
                         )
                 )
@@ -3507,7 +3483,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15587map
+                                GeneratedMutableMap.map15815map
                         )
                         )
                 )
@@ -3523,14 +3499,14 @@ class GeneratedPOPProjectionTest {
                                 LOPValues(listOf(
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map15588map
+                                        GeneratedMutableMap.map15816map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15588map
+                                GeneratedMutableMap.map15816map
                         )
                         )
                 )
@@ -3555,7 +3531,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15588map
+                                GeneratedMutableMap.map15816map
                         )
                         )
                 )
@@ -3573,16 +3549,16 @@ class GeneratedPOPProjectionTest {
                                         "x",
                                         "#c"
                                 ), listOf(
-                                        GeneratedMutableMap.map15626map,
-                                        GeneratedMutableMap.map15627map
+                                        GeneratedMutableMap.map15855map,
+                                        GeneratedMutableMap.map15856map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15630map,
-                                GeneratedMutableMap.map15630map
+                                GeneratedMutableMap.map15859map,
+                                GeneratedMutableMap.map15859map
                         )
                         )
                 )
@@ -3609,8 +3585,8 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15630map,
-                                GeneratedMutableMap.map15630map
+                                GeneratedMutableMap.map15859map,
+                                GeneratedMutableMap.map15859map
                         )
                         )
                 )
@@ -3627,16 +3603,16 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("x"),
                                         AOPVariable("#c")
                                 ), listOf(
-                                        GeneratedMutableMap.map15628map,
-                                        GeneratedMutableMap.map15629map
+                                        GeneratedMutableMap.map15857map,
+                                        GeneratedMutableMap.map15858map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15631map,
-                                GeneratedMutableMap.map15631map
+                                GeneratedMutableMap.map15860map,
+                                GeneratedMutableMap.map15860map
                         )
                         )
                 )
@@ -3662,8 +3638,8 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15631map,
-                                GeneratedMutableMap.map15631map
+                                GeneratedMutableMap.map15860map,
+                                GeneratedMutableMap.map15860map
                         )
                         )
                 )
@@ -3680,14 +3656,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map15672map
+                                        GeneratedMutableMap.map15902map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15672map
+                                GeneratedMutableMap.map15902map
                         )
                         )
                 )
@@ -3713,7 +3689,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map15672map
+                                GeneratedMutableMap.map15902map
                         )
                         )
                 )
@@ -3729,14 +3705,14 @@ class GeneratedPOPProjectionTest {
                                 LOPValues(listOf(
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map15673map
+                                        GeneratedMutableMap.map15903map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15673map
+                                GeneratedMutableMap.map15903map
                         )
                         )
                 )
@@ -3761,7 +3737,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map15673map
+                                GeneratedMutableMap.map15903map
                         )
                         )
                 )
@@ -3778,14 +3754,14 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                             ), listOf(
-                                GeneratedMutableMap.map15711map
+                                GeneratedMutableMap.map15941map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map15711map
+                            GeneratedMutableMap.map15941map
                         )
                     )
                 )
@@ -3804,7 +3780,7 @@ class GeneratedPOPProjectionTest {
                                 "x",
                                 "c"
                             ), listOf(
-                                GeneratedMutableMap.map15892map
+                                GeneratedMutableMap.map16122map
                             )
                         )
                     ),
@@ -3812,7 +3788,7 @@ class GeneratedPOPProjectionTest {
                             "x",
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map15892map
+                            GeneratedMutableMap.map16122map
                         )
                     )
                 )
@@ -3829,14 +3805,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map16016map
+                                        GeneratedMutableMap.map16247map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map16016map
+                                GeneratedMutableMap.map16247map
                         )
                         )
                 )
@@ -3862,7 +3838,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map16016map
+                                GeneratedMutableMap.map16247map
                         )
                         )
                 )
@@ -3878,14 +3854,14 @@ class GeneratedPOPProjectionTest {
                                 LOPValues(listOf(
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map16017map
+                                        GeneratedMutableMap.map16248map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map16017map
+                                GeneratedMutableMap.map16248map
                         )
                         )
                 )
@@ -3910,7 +3886,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map16017map
+                                GeneratedMutableMap.map16248map
                         )
                         )
                 )
@@ -3927,14 +3903,14 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                             ), listOf(
-                                GeneratedMutableMap.map16157map
+                                GeneratedMutableMap.map16388map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map16157map
+                            GeneratedMutableMap.map16388map
                         )
                     )
                 )
@@ -3951,14 +3927,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "f"
                                 ), listOf(
-                                        GeneratedMutableMap.map16201map
+                                        GeneratedMutableMap.map16433map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "f"
                         ), listOf(
-                                GeneratedMutableMap.map16201map
+                                GeneratedMutableMap.map16433map
                         )
                         )
                 )
@@ -3984,7 +3960,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "f"
                         ), listOf(
-                                GeneratedMutableMap.map16201map
+                                GeneratedMutableMap.map16433map
                         )
                         )
                 )
@@ -4000,14 +3976,14 @@ class GeneratedPOPProjectionTest {
                                 LOPValues(listOf(
                                         AOPVariable("f")
                                 ), listOf(
-                                        GeneratedMutableMap.map16202map
+                                        GeneratedMutableMap.map16434map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("f")
                         ), listOf(
-                                GeneratedMutableMap.map16202map
+                                GeneratedMutableMap.map16434map
                         )
                         )
                 )
@@ -4032,7 +4008,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("f")
                         ), listOf(
-                                GeneratedMutableMap.map16202map
+                                GeneratedMutableMap.map16434map
                         )
                         )
                 )
@@ -4051,8 +4027,8 @@ class GeneratedPOPProjectionTest {
                                         "x",
                                         "y"
                                 ), listOf(
-                                        GeneratedMutableMap.map16429map,
-                                        GeneratedMutableMap.map16430map
+                                        GeneratedMutableMap.map16665map,
+                                        GeneratedMutableMap.map16666map
                                 )
                                 )
                         ),
@@ -4060,8 +4036,8 @@ class GeneratedPOPProjectionTest {
                                 "x",
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map16429map,
-                                GeneratedMutableMap.map16430map
+                                GeneratedMutableMap.map16665map,
+                                GeneratedMutableMap.map16666map
                         )
                         )
                 )
@@ -4103,8 +4079,8 @@ class GeneratedPOPProjectionTest {
                                 "x",
                                 "y"
                         ), listOf(
-                                GeneratedMutableMap.map16429map,
-                                GeneratedMutableMap.map16430map
+                                GeneratedMutableMap.map16665map,
+                                GeneratedMutableMap.map16666map
                         )
                         )
                 )
@@ -4122,8 +4098,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("x"),
                                         AOPVariable("y")
                                 ), listOf(
-                                        GeneratedMutableMap.map16431map,
-                                        GeneratedMutableMap.map16432map
+                                        GeneratedMutableMap.map16667map,
+                                        GeneratedMutableMap.map16668map
                                 )
                                 )
                         ),
@@ -4131,8 +4107,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("x"),
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map16431map,
-                                GeneratedMutableMap.map16432map
+                                GeneratedMutableMap.map16667map,
+                                GeneratedMutableMap.map16668map
                         )
                         )
                 )
@@ -4172,8 +4148,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("x"),
                                 AOPVariable("y")
                         ), listOf(
-                                GeneratedMutableMap.map16431map,
-                                GeneratedMutableMap.map16432map
+                                GeneratedMutableMap.map16667map,
+                                GeneratedMutableMap.map16668map
                         )
                         )
                 )
@@ -4190,14 +4166,14 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "c"
                             ), listOf(
-                                GeneratedMutableMap.map16474map
+                                GeneratedMutableMap.map16711map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "c"
                         ), listOf(
-                            GeneratedMutableMap.map16474map
+                            GeneratedMutableMap.map16711map
                         )
                     )
                 )
@@ -4216,7 +4192,7 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "v"
                                 ), listOf(
-                                        GeneratedMutableMap.map16997map
+                                        GeneratedMutableMap.map17236map
                                 )
                                 )
                         ),
@@ -4224,7 +4200,7 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "v"
                         ), listOf(
-                                GeneratedMutableMap.map16997map
+                                GeneratedMutableMap.map17236map
                         )
                         )
                 )
@@ -4268,7 +4244,7 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "v"
                         ), listOf(
-                                GeneratedMutableMap.map16997map
+                                GeneratedMutableMap.map17236map
                         )
                         )
                 )
@@ -4286,7 +4262,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("v")
                                 ), listOf(
-                                        GeneratedMutableMap.map17001map
+                                        GeneratedMutableMap.map17240map
                                 )
                                 )
                         ),
@@ -4294,7 +4270,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("v")
                         ), listOf(
-                                GeneratedMutableMap.map17001map
+                                GeneratedMutableMap.map17240map
                         )
                         )
                 )
@@ -4336,7 +4312,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("v")
                         ), listOf(
-                                GeneratedMutableMap.map17001map
+                                GeneratedMutableMap.map17240map
                         )
                         )
                 )
@@ -4353,14 +4329,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map17045map
+                                        GeneratedMutableMap.map17286map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map17045map
+                                GeneratedMutableMap.map17286map
                         )
                         )
                 )
@@ -4386,7 +4362,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map17045map
+                                GeneratedMutableMap.map17286map
                         )
                         )
                 )
@@ -4402,14 +4378,14 @@ class GeneratedPOPProjectionTest {
                                 LOPValues(listOf(
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map17046map
+                                        GeneratedMutableMap.map17287map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map17046map
+                                GeneratedMutableMap.map17287map
                         )
                         )
                 )
@@ -4434,7 +4410,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map17046map
+                                GeneratedMutableMap.map17287map
                         )
                         )
                 )
@@ -4483,10 +4459,10 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map6732map,
-                                GeneratedMutableMap.map6733map,
-                                GeneratedMutableMap.map6734map,
-                                GeneratedMutableMap.map6735map
+                                GeneratedMutableMap.map6800map,
+                                GeneratedMutableMap.map6801map,
+                                GeneratedMutableMap.map6802map,
+                                GeneratedMutableMap.map6803map
                         )
                         )
                 )
@@ -4532,10 +4508,10 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map6736map,
-                                GeneratedMutableMap.map6737map,
-                                GeneratedMutableMap.map6738map,
-                                GeneratedMutableMap.map6739map
+                                GeneratedMutableMap.map6804map,
+                                GeneratedMutableMap.map6805map,
+                                GeneratedMutableMap.map6806map,
+                                GeneratedMutableMap.map6807map
                         )
                         )
                 )
@@ -4594,10 +4570,10 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "z2"
                         ), listOf(
-                                GeneratedMutableMap.map6891map,
-                                GeneratedMutableMap.map6892map,
-                                GeneratedMutableMap.map6893map,
-                                GeneratedMutableMap.map6894map
+                                GeneratedMutableMap.map6960map,
+                                GeneratedMutableMap.map6961map,
+                                GeneratedMutableMap.map6962map,
+                                GeneratedMutableMap.map6963map
                         )
                         )
                 )
@@ -4652,10 +4628,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("z2")
                         ), listOf(
-                                GeneratedMutableMap.map6895map,
-                                GeneratedMutableMap.map6896map,
-                                GeneratedMutableMap.map6897map,
-                                GeneratedMutableMap.map6898map
+                                GeneratedMutableMap.map6964map,
+                                GeneratedMutableMap.map6965map,
+                                GeneratedMutableMap.map6966map,
+                                GeneratedMutableMap.map6967map
                         )
                         )
                 )
@@ -4709,10 +4685,10 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7289map,
-                                GeneratedMutableMap.map7290map,
-                                GeneratedMutableMap.map7291map,
-                                GeneratedMutableMap.map7292map
+                                GeneratedMutableMap.map7359map,
+                                GeneratedMutableMap.map7360map,
+                                GeneratedMutableMap.map7361map,
+                                GeneratedMutableMap.map7362map
                         )
                         )
                 )
@@ -4764,10 +4740,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map7294map,
-                                GeneratedMutableMap.map7295map,
-                                GeneratedMutableMap.map7296map,
-                                GeneratedMutableMap.map7297map
+                                GeneratedMutableMap.map7364map,
+                                GeneratedMutableMap.map7365map,
+                                GeneratedMutableMap.map7366map,
+                                GeneratedMutableMap.map7367map
                         )
                         )
                 )
@@ -4827,7 +4803,7 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map7538map
+                                GeneratedMutableMap.map7609map
                         )
                         )
                 )
@@ -4883,7 +4859,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map7542map
+                                GeneratedMutableMap.map7613map
                         )
                         )
                 )
@@ -4938,10 +4914,10 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "z"
                         ), listOf(
-                                GeneratedMutableMap.map6724map,
-                                GeneratedMutableMap.map6725map,
-                                GeneratedMutableMap.map6726map,
-                                GeneratedMutableMap.map6727map
+                                GeneratedMutableMap.map6792map,
+                                GeneratedMutableMap.map6793map,
+                                GeneratedMutableMap.map6794map,
+                                GeneratedMutableMap.map6795map
                         )
                         )
                 )
@@ -4993,10 +4969,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("z")
                         ), listOf(
-                                GeneratedMutableMap.map6728map,
-                                GeneratedMutableMap.map6729map,
-                                GeneratedMutableMap.map6730map,
-                                GeneratedMutableMap.map6731map
+                                GeneratedMutableMap.map6796map,
+                                GeneratedMutableMap.map6797map,
+                                GeneratedMutableMap.map6798map,
+                                GeneratedMutableMap.map6799map
                         )
                         )
                 )
@@ -5017,8 +4993,8 @@ class GeneratedPOPProjectionTest {
                                         "Y1",
                                         "Y2"
                                 ), listOf(
-                                        GeneratedMutableMap.map18715map,
-                                        GeneratedMutableMap.map18716map
+                                        GeneratedMutableMap.map18989map,
+                                        GeneratedMutableMap.map18990map
                                 )
                                 )
                         ),
@@ -5027,8 +5003,8 @@ class GeneratedPOPProjectionTest {
                                 "Y1",
                                 "Y2"
                         ), listOf(
-                                GeneratedMutableMap.map18715map,
-                                GeneratedMutableMap.map18716map
+                                GeneratedMutableMap.map18989map,
+                                GeneratedMutableMap.map18990map
                         )
                         )
                 )
@@ -5086,8 +5062,8 @@ class GeneratedPOPProjectionTest {
                                 "Y1",
                                 "Y2"
                         ), listOf(
-                                GeneratedMutableMap.map18715map,
-                                GeneratedMutableMap.map18716map
+                                GeneratedMutableMap.map18989map,
+                                GeneratedMutableMap.map18990map
                         )
                         )
                 )
@@ -5107,8 +5083,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("Y1"),
                                         AOPVariable("Y2")
                                 ), listOf(
-                                        GeneratedMutableMap.map18717map,
-                                        GeneratedMutableMap.map18718map
+                                        GeneratedMutableMap.map18991map,
+                                        GeneratedMutableMap.map18992map
                                 )
                                 )
                         ),
@@ -5117,8 +5093,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("Y1"),
                                 AOPVariable("Y2")
                         ), listOf(
-                                GeneratedMutableMap.map18717map,
-                                GeneratedMutableMap.map18718map
+                                GeneratedMutableMap.map18991map,
+                                GeneratedMutableMap.map18992map
                         )
                         )
                 )
@@ -5173,8 +5149,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("Y1"),
                                 AOPVariable("Y2")
                         ), listOf(
-                                GeneratedMutableMap.map18717map,
-                                GeneratedMutableMap.map18718map
+                                GeneratedMutableMap.map18991map,
+                                GeneratedMutableMap.map18992map
                         )
                         )
                 )
@@ -5190,17 +5166,17 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "#a"
                             ), listOf(
-                                GeneratedMutableMap.map18761map,
-                                GeneratedMutableMap.map18762map,
-                                GeneratedMutableMap.map18763map
+                                GeneratedMutableMap.map19035map,
+                                GeneratedMutableMap.map19036map,
+                                GeneratedMutableMap.map19037map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                         ), listOf(
-                            GeneratedMutableMap.map5895map,
-                            GeneratedMutableMap.map5895map,
-                            GeneratedMutableMap.map5895map
+                            GeneratedMutableMap.map5965map,
+                            GeneratedMutableMap.map5965map,
+                            GeneratedMutableMap.map5965map
                         )
                     )
                 )
@@ -5222,7 +5198,7 @@ class GeneratedPOPProjectionTest {
                                         "Y",
                                         "Z"
                                 ), listOf(
-                                        GeneratedMutableMap.map18946map
+                                        GeneratedMutableMap.map19227map
                                 )
                                 )
                         ),
@@ -5231,7 +5207,7 @@ class GeneratedPOPProjectionTest {
                                 "Y",
                                 "Z"
                         ), listOf(
-                                GeneratedMutableMap.map18948map
+                                GeneratedMutableMap.map19229map
                         )
                         )
                 )
@@ -5298,7 +5274,7 @@ class GeneratedPOPProjectionTest {
                                 "Y",
                                 "Z"
                         ), listOf(
-                                GeneratedMutableMap.map18948map
+                                GeneratedMutableMap.map19229map
                         )
                         )
                 )
@@ -5319,7 +5295,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("Y"),
                                         AOPVariable("Z")
                                 ), listOf(
-                                        GeneratedMutableMap.map18947map
+                                        GeneratedMutableMap.map19228map
                                 )
                                 )
                         ),
@@ -5328,7 +5304,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("Y"),
                                 AOPVariable("Z")
                         ), listOf(
-                                GeneratedMutableMap.map18949map
+                                GeneratedMutableMap.map19230map
                         )
                         )
                 )
@@ -5391,7 +5367,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("Y"),
                                 AOPVariable("Z")
                         ), listOf(
-                                GeneratedMutableMap.map18949map
+                                GeneratedMutableMap.map19230map
                         )
                         )
                 )
@@ -5411,7 +5387,7 @@ class GeneratedPOPProjectionTest {
                                         "#a",
                                         "Y"
                                 ), listOf(
-                                        GeneratedMutableMap.map19008map
+                                        GeneratedMutableMap.map19292map
                                 )
                                 )
                         ),
@@ -5419,7 +5395,7 @@ class GeneratedPOPProjectionTest {
                                 "X",
                                 "Y"
                         ), listOf(
-                                GeneratedMutableMap.map19010map
+                                GeneratedMutableMap.map19294map
                         )
                         )
                 )
@@ -5460,7 +5436,7 @@ class GeneratedPOPProjectionTest {
                                 "X",
                                 "Y"
                         ), listOf(
-                                GeneratedMutableMap.map19010map
+                                GeneratedMutableMap.map19294map
                         )
                         )
                 )
@@ -5479,7 +5455,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("#a"),
                                         AOPVariable("Y")
                                 ), listOf(
-                                        GeneratedMutableMap.map19009map
+                                        GeneratedMutableMap.map19293map
                                 )
                                 )
                         ),
@@ -5487,7 +5463,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("X"),
                                 AOPVariable("Y")
                         ), listOf(
-                                GeneratedMutableMap.map19011map
+                                GeneratedMutableMap.map19295map
                         )
                         )
                 )
@@ -5526,7 +5502,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("X"),
                                 AOPVariable("Y")
                         ), listOf(
-                                GeneratedMutableMap.map19011map
+                                GeneratedMutableMap.map19295map
                         )
                         )
                 )
@@ -5546,9 +5522,9 @@ class GeneratedPOPProjectionTest {
                                         "#a",
                                         "Y"
                                 ), listOf(
-                                        GeneratedMutableMap.map19075map,
-                                        GeneratedMutableMap.map19076map,
-                                        GeneratedMutableMap.map19077map
+                                        GeneratedMutableMap.map19366map,
+                                        GeneratedMutableMap.map19367map,
+                                        GeneratedMutableMap.map19368map
                                 )
                                 )
                         ),
@@ -5556,9 +5532,9 @@ class GeneratedPOPProjectionTest {
                                 "X",
                                 "Y"
                         ), listOf(
-                                GeneratedMutableMap.map19085map,
-                                GeneratedMutableMap.map19086map,
-                                GeneratedMutableMap.map19087map
+                                GeneratedMutableMap.map19372map,
+                                GeneratedMutableMap.map19373map,
+                                GeneratedMutableMap.map19374map
                         )
                         )
                 )
@@ -5601,9 +5577,9 @@ class GeneratedPOPProjectionTest {
                                 "X",
                                 "Y"
                         ), listOf(
-                                GeneratedMutableMap.map19085map,
-                                GeneratedMutableMap.map19086map,
-                                GeneratedMutableMap.map19087map
+                                GeneratedMutableMap.map19372map,
+                                GeneratedMutableMap.map19373map,
+                                GeneratedMutableMap.map19374map
                         )
                         )
                 )
@@ -5622,9 +5598,9 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("#a"),
                                         AOPVariable("Y")
                                 ), listOf(
-                                        GeneratedMutableMap.map19082map,
-                                        GeneratedMutableMap.map19083map,
-                                        GeneratedMutableMap.map19084map
+                                        GeneratedMutableMap.map19369map,
+                                        GeneratedMutableMap.map19370map,
+                                        GeneratedMutableMap.map19371map
                                 )
                                 )
                         ),
@@ -5632,9 +5608,9 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("X"),
                                 AOPVariable("Y")
                         ), listOf(
-                                GeneratedMutableMap.map19088map,
-                                GeneratedMutableMap.map19089map,
-                                GeneratedMutableMap.map19090map
+                                GeneratedMutableMap.map19375map,
+                                GeneratedMutableMap.map19376map,
+                                GeneratedMutableMap.map19377map
                         )
                         )
                 )
@@ -5675,9 +5651,9 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("X"),
                                 AOPVariable("Y")
                         ), listOf(
-                                GeneratedMutableMap.map19088map,
-                                GeneratedMutableMap.map19089map,
-                                GeneratedMutableMap.map19090map
+                                GeneratedMutableMap.map19375map,
+                                GeneratedMutableMap.map19376map,
+                                GeneratedMutableMap.map19377map
                         )
                         )
                 )
@@ -5694,14 +5670,14 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "C"
                             ), listOf(
-                                GeneratedMutableMap.map19271map
+                                GeneratedMutableMap.map19558map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "C"
                         ), listOf(
-                            GeneratedMutableMap.map19271map
+                            GeneratedMutableMap.map19558map
                         )
                     )
                 )
@@ -5722,7 +5698,7 @@ class GeneratedPOPProjectionTest {
                                 "b",
                                 "x"
                             ), listOf(
-                                GeneratedMutableMap.map19352map
+                                GeneratedMutableMap.map19639map
                             )
                         )
                     ),
@@ -5731,7 +5707,7 @@ class GeneratedPOPProjectionTest {
                             "b",
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map19352map
+                            GeneratedMutableMap.map19639map
                         )
                     )
                 )
@@ -5749,16 +5725,16 @@ class GeneratedPOPProjectionTest {
                                         "parent",
                                         "child"
                                 ), listOf(
-                                        GeneratedMutableMap.map19440map,
-                                        GeneratedMutableMap.map19441map
+                                        GeneratedMutableMap.map19729map,
+                                        GeneratedMutableMap.map19730map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent"
                         ), listOf(
-                                GeneratedMutableMap.map19444map,
-                                GeneratedMutableMap.map19445map
+                                GeneratedMutableMap.map19733map,
+                                GeneratedMutableMap.map19734map
                         )
                         )
                 )
@@ -5785,8 +5761,8 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "parent"
                         ), listOf(
-                                GeneratedMutableMap.map19444map,
-                                GeneratedMutableMap.map19445map
+                                GeneratedMutableMap.map19733map,
+                                GeneratedMutableMap.map19734map
                         )
                         )
                 )
@@ -5803,16 +5779,16 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("parent"),
                                         AOPVariable("child")
                                 ), listOf(
-                                        GeneratedMutableMap.map19442map,
-                                        GeneratedMutableMap.map19443map
+                                        GeneratedMutableMap.map19731map,
+                                        GeneratedMutableMap.map19732map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("parent")
                         ), listOf(
-                                GeneratedMutableMap.map19446map,
-                                GeneratedMutableMap.map19447map
+                                GeneratedMutableMap.map19735map,
+                                GeneratedMutableMap.map19736map
                         )
                         )
                 )
@@ -5838,8 +5814,8 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("parent")
                         ), listOf(
-                                GeneratedMutableMap.map19446map,
-                                GeneratedMutableMap.map19447map
+                                GeneratedMutableMap.map19735map,
+                                GeneratedMutableMap.map19736map
                         )
                         )
                 )
@@ -5859,7 +5835,7 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "str1"
                                 ), listOf(
-                                        GeneratedMutableMap.map22710map
+                                        GeneratedMutableMap.map23000map
                                 )
                                 )
                         ),
@@ -5867,7 +5843,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map22712map
+                                GeneratedMutableMap.map23002map
                         )
                         )
                 )
@@ -5912,7 +5888,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map22712map
+                                GeneratedMutableMap.map23002map
                         )
                         )
                 )
@@ -5931,7 +5907,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("str1")
                                 ), listOf(
-                                        GeneratedMutableMap.map22711map
+                                        GeneratedMutableMap.map23001map
                                 )
                                 )
                         ),
@@ -5939,7 +5915,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map22713map
+                                GeneratedMutableMap.map23003map
                         )
                         )
                 )
@@ -5981,7 +5957,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map22713map
+                                GeneratedMutableMap.map23003map
                         )
                         )
                 )
@@ -6001,7 +5977,7 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "str1"
                                 ), listOf(
-                                        GeneratedMutableMap.map22984map
+                                        GeneratedMutableMap.map23276map
                                 )
                                 )
                         ),
@@ -6009,7 +5985,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map22986map
+                                GeneratedMutableMap.map23278map
                         )
                         )
                 )
@@ -6054,7 +6030,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map22986map
+                                GeneratedMutableMap.map23278map
                         )
                         )
                 )
@@ -6073,7 +6049,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("str1")
                                 ), listOf(
-                                        GeneratedMutableMap.map22985map
+                                        GeneratedMutableMap.map23277map
                                 )
                                 )
                         ),
@@ -6081,7 +6057,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map22987map
+                                GeneratedMutableMap.map23279map
                         )
                         )
                 )
@@ -6123,7 +6099,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map22987map
+                                GeneratedMutableMap.map23279map
                         )
                         )
                 )
@@ -6144,22 +6120,22 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "str1"
                                 ), listOf(
-                                        GeneratedMutableMap.map23191map,
-                                        GeneratedMutableMap.map23192map,
-                                        GeneratedMutableMap.map23193map,
-                                        GeneratedMutableMap.map23194map,
-                                        GeneratedMutableMap.map23195map,
-                                        GeneratedMutableMap.map23196map,
-                                        GeneratedMutableMap.map23197map,
-                                        GeneratedMutableMap.map23198map,
-                                        GeneratedMutableMap.map23199map,
-                                        GeneratedMutableMap.map23200map,
-                                        GeneratedMutableMap.map23201map,
-                                        GeneratedMutableMap.map23202map,
-                                        GeneratedMutableMap.map23203map,
-                                        GeneratedMutableMap.map23204map,
-                                        GeneratedMutableMap.map23205map,
-                                        GeneratedMutableMap.map23206map
+                                        GeneratedMutableMap.map23485map,
+                                        GeneratedMutableMap.map23486map,
+                                        GeneratedMutableMap.map23487map,
+                                        GeneratedMutableMap.map23488map,
+                                        GeneratedMutableMap.map23489map,
+                                        GeneratedMutableMap.map23490map,
+                                        GeneratedMutableMap.map23491map,
+                                        GeneratedMutableMap.map23492map,
+                                        GeneratedMutableMap.map23493map,
+                                        GeneratedMutableMap.map23494map,
+                                        GeneratedMutableMap.map23495map,
+                                        GeneratedMutableMap.map23496map,
+                                        GeneratedMutableMap.map23497map,
+                                        GeneratedMutableMap.map23498map,
+                                        GeneratedMutableMap.map23499map,
+                                        GeneratedMutableMap.map23500map
                                 )
                                 )
                         ),
@@ -6167,22 +6143,22 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map23223map,
-                                GeneratedMutableMap.map23224map,
-                                GeneratedMutableMap.map23225map,
-                                GeneratedMutableMap.map23226map,
-                                GeneratedMutableMap.map23227map,
-                                GeneratedMutableMap.map23228map,
-                                GeneratedMutableMap.map23229map,
-                                GeneratedMutableMap.map23230map,
-                                GeneratedMutableMap.map23231map,
-                                GeneratedMutableMap.map23232map,
-                                GeneratedMutableMap.map22712map,
-                                GeneratedMutableMap.map23233map,
-                                GeneratedMutableMap.map23234map,
-                                GeneratedMutableMap.map23235map,
-                                GeneratedMutableMap.map23236map,
-                                GeneratedMutableMap.map23237map
+                                GeneratedMutableMap.map23517map,
+                                GeneratedMutableMap.map23518map,
+                                GeneratedMutableMap.map23519map,
+                                GeneratedMutableMap.map23520map,
+                                GeneratedMutableMap.map23521map,
+                                GeneratedMutableMap.map23522map,
+                                GeneratedMutableMap.map23523map,
+                                GeneratedMutableMap.map23524map,
+                                GeneratedMutableMap.map23525map,
+                                GeneratedMutableMap.map23526map,
+                                GeneratedMutableMap.map23002map,
+                                GeneratedMutableMap.map23527map,
+                                GeneratedMutableMap.map23528map,
+                                GeneratedMutableMap.map23529map,
+                                GeneratedMutableMap.map23530map,
+                                GeneratedMutableMap.map23531map
                         )
                         )
                 )
@@ -6231,22 +6207,22 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map23223map,
-                                GeneratedMutableMap.map23224map,
-                                GeneratedMutableMap.map23225map,
-                                GeneratedMutableMap.map23226map,
-                                GeneratedMutableMap.map23227map,
-                                GeneratedMutableMap.map23228map,
-                                GeneratedMutableMap.map23229map,
-                                GeneratedMutableMap.map23230map,
-                                GeneratedMutableMap.map23231map,
-                                GeneratedMutableMap.map23232map,
-                                GeneratedMutableMap.map22712map,
-                                GeneratedMutableMap.map23233map,
-                                GeneratedMutableMap.map23234map,
-                                GeneratedMutableMap.map23235map,
-                                GeneratedMutableMap.map23236map,
-                                GeneratedMutableMap.map23237map
+                                GeneratedMutableMap.map23517map,
+                                GeneratedMutableMap.map23518map,
+                                GeneratedMutableMap.map23519map,
+                                GeneratedMutableMap.map23520map,
+                                GeneratedMutableMap.map23521map,
+                                GeneratedMutableMap.map23522map,
+                                GeneratedMutableMap.map23523map,
+                                GeneratedMutableMap.map23524map,
+                                GeneratedMutableMap.map23525map,
+                                GeneratedMutableMap.map23526map,
+                                GeneratedMutableMap.map23002map,
+                                GeneratedMutableMap.map23527map,
+                                GeneratedMutableMap.map23528map,
+                                GeneratedMutableMap.map23529map,
+                                GeneratedMutableMap.map23530map,
+                                GeneratedMutableMap.map23531map
                         )
                         )
                 )
@@ -6266,22 +6242,22 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("str1")
                                 ), listOf(
-                                        GeneratedMutableMap.map23207map,
-                                        GeneratedMutableMap.map23208map,
-                                        GeneratedMutableMap.map23209map,
-                                        GeneratedMutableMap.map23210map,
-                                        GeneratedMutableMap.map23211map,
-                                        GeneratedMutableMap.map23212map,
-                                        GeneratedMutableMap.map23213map,
-                                        GeneratedMutableMap.map23214map,
-                                        GeneratedMutableMap.map23215map,
-                                        GeneratedMutableMap.map23216map,
-                                        GeneratedMutableMap.map23217map,
-                                        GeneratedMutableMap.map23218map,
-                                        GeneratedMutableMap.map23219map,
-                                        GeneratedMutableMap.map23220map,
-                                        GeneratedMutableMap.map23221map,
-                                        GeneratedMutableMap.map23222map
+                                        GeneratedMutableMap.map23501map,
+                                        GeneratedMutableMap.map23502map,
+                                        GeneratedMutableMap.map23503map,
+                                        GeneratedMutableMap.map23504map,
+                                        GeneratedMutableMap.map23505map,
+                                        GeneratedMutableMap.map23506map,
+                                        GeneratedMutableMap.map23507map,
+                                        GeneratedMutableMap.map23508map,
+                                        GeneratedMutableMap.map23509map,
+                                        GeneratedMutableMap.map23510map,
+                                        GeneratedMutableMap.map23511map,
+                                        GeneratedMutableMap.map23512map,
+                                        GeneratedMutableMap.map23513map,
+                                        GeneratedMutableMap.map23514map,
+                                        GeneratedMutableMap.map23515map,
+                                        GeneratedMutableMap.map23516map
                                 )
                                 )
                         ),
@@ -6289,22 +6265,22 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map23238map,
-                                GeneratedMutableMap.map23239map,
-                                GeneratedMutableMap.map23240map,
-                                GeneratedMutableMap.map23241map,
-                                GeneratedMutableMap.map23242map,
-                                GeneratedMutableMap.map23243map,
-                                GeneratedMutableMap.map23244map,
-                                GeneratedMutableMap.map23245map,
-                                GeneratedMutableMap.map23246map,
-                                GeneratedMutableMap.map23247map,
-                                GeneratedMutableMap.map22713map,
-                                GeneratedMutableMap.map23248map,
-                                GeneratedMutableMap.map23249map,
-                                GeneratedMutableMap.map23250map,
-                                GeneratedMutableMap.map23251map,
-                                GeneratedMutableMap.map23252map
+                                GeneratedMutableMap.map23532map,
+                                GeneratedMutableMap.map23533map,
+                                GeneratedMutableMap.map23534map,
+                                GeneratedMutableMap.map23535map,
+                                GeneratedMutableMap.map23536map,
+                                GeneratedMutableMap.map23537map,
+                                GeneratedMutableMap.map23538map,
+                                GeneratedMutableMap.map23539map,
+                                GeneratedMutableMap.map23540map,
+                                GeneratedMutableMap.map23541map,
+                                GeneratedMutableMap.map23003map,
+                                GeneratedMutableMap.map23542map,
+                                GeneratedMutableMap.map23543map,
+                                GeneratedMutableMap.map23544map,
+                                GeneratedMutableMap.map23545map,
+                                GeneratedMutableMap.map23546map
                         )
                         )
                 )
@@ -6351,22 +6327,22 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map23238map,
-                                GeneratedMutableMap.map23239map,
-                                GeneratedMutableMap.map23240map,
-                                GeneratedMutableMap.map23241map,
-                                GeneratedMutableMap.map23242map,
-                                GeneratedMutableMap.map23243map,
-                                GeneratedMutableMap.map23244map,
-                                GeneratedMutableMap.map23245map,
-                                GeneratedMutableMap.map23246map,
-                                GeneratedMutableMap.map23247map,
-                                GeneratedMutableMap.map22713map,
-                                GeneratedMutableMap.map23248map,
-                                GeneratedMutableMap.map23249map,
-                                GeneratedMutableMap.map23250map,
-                                GeneratedMutableMap.map23251map,
-                                GeneratedMutableMap.map23252map
+                                GeneratedMutableMap.map23532map,
+                                GeneratedMutableMap.map23533map,
+                                GeneratedMutableMap.map23534map,
+                                GeneratedMutableMap.map23535map,
+                                GeneratedMutableMap.map23536map,
+                                GeneratedMutableMap.map23537map,
+                                GeneratedMutableMap.map23538map,
+                                GeneratedMutableMap.map23539map,
+                                GeneratedMutableMap.map23540map,
+                                GeneratedMutableMap.map23541map,
+                                GeneratedMutableMap.map23003map,
+                                GeneratedMutableMap.map23542map,
+                                GeneratedMutableMap.map23543map,
+                                GeneratedMutableMap.map23544map,
+                                GeneratedMutableMap.map23545map,
+                                GeneratedMutableMap.map23546map
                         )
                         )
                 )
@@ -6386,7 +6362,7 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "s2"
                                 ), listOf(
-                                        GeneratedMutableMap.map23505map
+                                        GeneratedMutableMap.map23800map
                                 )
                                 )
                         ),
@@ -6394,7 +6370,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "s2"
                         ), listOf(
-                                GeneratedMutableMap.map23506map
+                                GeneratedMutableMap.map23801map
                         )
                         )
                 )
@@ -6439,7 +6415,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "s2"
                         ), listOf(
-                                GeneratedMutableMap.map23506map
+                                GeneratedMutableMap.map23801map
                         )
                         )
                 )
@@ -6458,7 +6434,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("s2")
                                 ), listOf(
-                                        GeneratedMutableMap.map22711map
+                                        GeneratedMutableMap.map23001map
                                 )
                                 )
                         ),
@@ -6466,7 +6442,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("s2")
                         ), listOf(
-                                GeneratedMutableMap.map22713map
+                                GeneratedMutableMap.map23003map
                         )
                         )
                 )
@@ -6508,7 +6484,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("s2")
                         ), listOf(
-                                GeneratedMutableMap.map22713map
+                                GeneratedMutableMap.map23003map
                         )
                         )
                 )
@@ -6528,7 +6504,7 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "s2"
                                 ), listOf(
-                                        GeneratedMutableMap.map23774map
+                                        GeneratedMutableMap.map24071map
                                 )
                                 )
                         ),
@@ -6536,7 +6512,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "s2"
                         ), listOf(
-                                GeneratedMutableMap.map23776map
+                                GeneratedMutableMap.map24073map
                         )
                         )
                 )
@@ -6581,7 +6557,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "s2"
                         ), listOf(
-                                GeneratedMutableMap.map23776map
+                                GeneratedMutableMap.map24073map
                         )
                         )
                 )
@@ -6600,7 +6576,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("s2")
                                 ), listOf(
-                                        GeneratedMutableMap.map23775map
+                                        GeneratedMutableMap.map24072map
                                 )
                                 )
                         ),
@@ -6608,7 +6584,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("s2")
                         ), listOf(
-                                GeneratedMutableMap.map23777map
+                                GeneratedMutableMap.map24074map
                         )
                         )
                 )
@@ -6650,7 +6626,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("s2")
                         ), listOf(
-                                GeneratedMutableMap.map23777map
+                                GeneratedMutableMap.map24074map
                         )
                         )
                 )
@@ -6671,22 +6647,22 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "str1"
                                 ), listOf(
-                                        GeneratedMutableMap.map23191map,
-                                        GeneratedMutableMap.map23192map,
-                                        GeneratedMutableMap.map23193map,
-                                        GeneratedMutableMap.map23194map,
-                                        GeneratedMutableMap.map23195map,
-                                        GeneratedMutableMap.map23196map,
-                                        GeneratedMutableMap.map23197map,
-                                        GeneratedMutableMap.map23198map,
-                                        GeneratedMutableMap.map23199map,
-                                        GeneratedMutableMap.map23946map,
-                                        GeneratedMutableMap.map23201map,
-                                        GeneratedMutableMap.map23947map,
-                                        GeneratedMutableMap.map23948map,
-                                        GeneratedMutableMap.map23949map,
-                                        GeneratedMutableMap.map23205map,
-                                        GeneratedMutableMap.map23206map
+                                        GeneratedMutableMap.map23485map,
+                                        GeneratedMutableMap.map23486map,
+                                        GeneratedMutableMap.map23487map,
+                                        GeneratedMutableMap.map23488map,
+                                        GeneratedMutableMap.map23489map,
+                                        GeneratedMutableMap.map23490map,
+                                        GeneratedMutableMap.map23491map,
+                                        GeneratedMutableMap.map23492map,
+                                        GeneratedMutableMap.map23493map,
+                                        GeneratedMutableMap.map24245map,
+                                        GeneratedMutableMap.map23495map,
+                                        GeneratedMutableMap.map24246map,
+                                        GeneratedMutableMap.map24247map,
+                                        GeneratedMutableMap.map24248map,
+                                        GeneratedMutableMap.map23499map,
+                                        GeneratedMutableMap.map23500map
                                 )
                                 )
                         ),
@@ -6694,22 +6670,22 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map23223map,
-                                GeneratedMutableMap.map23224map,
-                                GeneratedMutableMap.map23225map,
-                                GeneratedMutableMap.map23226map,
-                                GeneratedMutableMap.map23227map,
-                                GeneratedMutableMap.map23228map,
-                                GeneratedMutableMap.map23229map,
-                                GeneratedMutableMap.map23230map,
-                                GeneratedMutableMap.map23231map,
-                                GeneratedMutableMap.map23954map,
-                                GeneratedMutableMap.map22712map,
-                                GeneratedMutableMap.map23955map,
-                                GeneratedMutableMap.map23956map,
-                                GeneratedMutableMap.map23957map,
-                                GeneratedMutableMap.map23236map,
-                                GeneratedMutableMap.map23237map
+                                GeneratedMutableMap.map23517map,
+                                GeneratedMutableMap.map23518map,
+                                GeneratedMutableMap.map23519map,
+                                GeneratedMutableMap.map23520map,
+                                GeneratedMutableMap.map23521map,
+                                GeneratedMutableMap.map23522map,
+                                GeneratedMutableMap.map23523map,
+                                GeneratedMutableMap.map23524map,
+                                GeneratedMutableMap.map23525map,
+                                GeneratedMutableMap.map24253map,
+                                GeneratedMutableMap.map23002map,
+                                GeneratedMutableMap.map24254map,
+                                GeneratedMutableMap.map24255map,
+                                GeneratedMutableMap.map24256map,
+                                GeneratedMutableMap.map23530map,
+                                GeneratedMutableMap.map23531map
                         )
                         )
                 )
@@ -6758,22 +6734,22 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str1"
                         ), listOf(
-                                GeneratedMutableMap.map23223map,
-                                GeneratedMutableMap.map23224map,
-                                GeneratedMutableMap.map23225map,
-                                GeneratedMutableMap.map23226map,
-                                GeneratedMutableMap.map23227map,
-                                GeneratedMutableMap.map23228map,
-                                GeneratedMutableMap.map23229map,
-                                GeneratedMutableMap.map23230map,
-                                GeneratedMutableMap.map23231map,
-                                GeneratedMutableMap.map23954map,
-                                GeneratedMutableMap.map22712map,
-                                GeneratedMutableMap.map23955map,
-                                GeneratedMutableMap.map23956map,
-                                GeneratedMutableMap.map23957map,
-                                GeneratedMutableMap.map23236map,
-                                GeneratedMutableMap.map23237map
+                                GeneratedMutableMap.map23517map,
+                                GeneratedMutableMap.map23518map,
+                                GeneratedMutableMap.map23519map,
+                                GeneratedMutableMap.map23520map,
+                                GeneratedMutableMap.map23521map,
+                                GeneratedMutableMap.map23522map,
+                                GeneratedMutableMap.map23523map,
+                                GeneratedMutableMap.map23524map,
+                                GeneratedMutableMap.map23525map,
+                                GeneratedMutableMap.map24253map,
+                                GeneratedMutableMap.map23002map,
+                                GeneratedMutableMap.map24254map,
+                                GeneratedMutableMap.map24255map,
+                                GeneratedMutableMap.map24256map,
+                                GeneratedMutableMap.map23530map,
+                                GeneratedMutableMap.map23531map
                         )
                         )
                 )
@@ -6793,22 +6769,22 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("str1")
                                 ), listOf(
-                                        GeneratedMutableMap.map23207map,
-                                        GeneratedMutableMap.map23208map,
-                                        GeneratedMutableMap.map23209map,
-                                        GeneratedMutableMap.map23210map,
-                                        GeneratedMutableMap.map23211map,
-                                        GeneratedMutableMap.map23212map,
-                                        GeneratedMutableMap.map23213map,
-                                        GeneratedMutableMap.map23214map,
-                                        GeneratedMutableMap.map23215map,
-                                        GeneratedMutableMap.map23950map,
-                                        GeneratedMutableMap.map23217map,
-                                        GeneratedMutableMap.map23951map,
-                                        GeneratedMutableMap.map23952map,
-                                        GeneratedMutableMap.map23953map,
-                                        GeneratedMutableMap.map23221map,
-                                        GeneratedMutableMap.map23222map
+                                        GeneratedMutableMap.map23501map,
+                                        GeneratedMutableMap.map23502map,
+                                        GeneratedMutableMap.map23503map,
+                                        GeneratedMutableMap.map23504map,
+                                        GeneratedMutableMap.map23505map,
+                                        GeneratedMutableMap.map23506map,
+                                        GeneratedMutableMap.map23507map,
+                                        GeneratedMutableMap.map23508map,
+                                        GeneratedMutableMap.map23509map,
+                                        GeneratedMutableMap.map24249map,
+                                        GeneratedMutableMap.map23511map,
+                                        GeneratedMutableMap.map24250map,
+                                        GeneratedMutableMap.map24251map,
+                                        GeneratedMutableMap.map24252map,
+                                        GeneratedMutableMap.map23515map,
+                                        GeneratedMutableMap.map23516map
                                 )
                                 )
                         ),
@@ -6816,22 +6792,22 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map23238map,
-                                GeneratedMutableMap.map23239map,
-                                GeneratedMutableMap.map23240map,
-                                GeneratedMutableMap.map23241map,
-                                GeneratedMutableMap.map23242map,
-                                GeneratedMutableMap.map23243map,
-                                GeneratedMutableMap.map23244map,
-                                GeneratedMutableMap.map23245map,
-                                GeneratedMutableMap.map23246map,
-                                GeneratedMutableMap.map23958map,
-                                GeneratedMutableMap.map22713map,
-                                GeneratedMutableMap.map23959map,
-                                GeneratedMutableMap.map23960map,
-                                GeneratedMutableMap.map23961map,
-                                GeneratedMutableMap.map23251map,
-                                GeneratedMutableMap.map23252map
+                                GeneratedMutableMap.map23532map,
+                                GeneratedMutableMap.map23533map,
+                                GeneratedMutableMap.map23534map,
+                                GeneratedMutableMap.map23535map,
+                                GeneratedMutableMap.map23536map,
+                                GeneratedMutableMap.map23537map,
+                                GeneratedMutableMap.map23538map,
+                                GeneratedMutableMap.map23539map,
+                                GeneratedMutableMap.map23540map,
+                                GeneratedMutableMap.map24257map,
+                                GeneratedMutableMap.map23003map,
+                                GeneratedMutableMap.map24258map,
+                                GeneratedMutableMap.map24259map,
+                                GeneratedMutableMap.map24260map,
+                                GeneratedMutableMap.map23545map,
+                                GeneratedMutableMap.map23546map
                         )
                         )
                 )
@@ -6878,22 +6854,22 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str1")
                         ), listOf(
-                                GeneratedMutableMap.map23238map,
-                                GeneratedMutableMap.map23239map,
-                                GeneratedMutableMap.map23240map,
-                                GeneratedMutableMap.map23241map,
-                                GeneratedMutableMap.map23242map,
-                                GeneratedMutableMap.map23243map,
-                                GeneratedMutableMap.map23244map,
-                                GeneratedMutableMap.map23245map,
-                                GeneratedMutableMap.map23246map,
-                                GeneratedMutableMap.map23958map,
-                                GeneratedMutableMap.map22713map,
-                                GeneratedMutableMap.map23959map,
-                                GeneratedMutableMap.map23960map,
-                                GeneratedMutableMap.map23961map,
-                                GeneratedMutableMap.map23251map,
-                                GeneratedMutableMap.map23252map
+                                GeneratedMutableMap.map23532map,
+                                GeneratedMutableMap.map23533map,
+                                GeneratedMutableMap.map23534map,
+                                GeneratedMutableMap.map23535map,
+                                GeneratedMutableMap.map23536map,
+                                GeneratedMutableMap.map23537map,
+                                GeneratedMutableMap.map23538map,
+                                GeneratedMutableMap.map23539map,
+                                GeneratedMutableMap.map23540map,
+                                GeneratedMutableMap.map24257map,
+                                GeneratedMutableMap.map23003map,
+                                GeneratedMutableMap.map24258map,
+                                GeneratedMutableMap.map24259map,
+                                GeneratedMutableMap.map24260map,
+                                GeneratedMutableMap.map23545map,
+                                GeneratedMutableMap.map23546map
                         )
                         )
                 )
@@ -6913,11 +6889,11 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "num"
                                 ), listOf(
-                                        GeneratedMutableMap.map24144map,
-                                        GeneratedMutableMap.map24145map,
-                                        GeneratedMutableMap.map24146map,
-                                        GeneratedMutableMap.map24147map,
-                                        GeneratedMutableMap.map24148map
+                                        GeneratedMutableMap.map24444map,
+                                        GeneratedMutableMap.map24445map,
+                                        GeneratedMutableMap.map24446map,
+                                        GeneratedMutableMap.map24447map,
+                                        GeneratedMutableMap.map24448map
                                 )
                                 )
                         ),
@@ -6925,11 +6901,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "num"
                         ), listOf(
-                                GeneratedMutableMap.map24156map,
-                                GeneratedMutableMap.map24157map,
-                                GeneratedMutableMap.map24158map,
-                                GeneratedMutableMap.map24159map,
-                                GeneratedMutableMap.map24160map
+                                GeneratedMutableMap.map24456map,
+                                GeneratedMutableMap.map24457map,
+                                GeneratedMutableMap.map24458map,
+                                GeneratedMutableMap.map24459map,
+                                GeneratedMutableMap.map24460map
                         )
                         )
                 )
@@ -6977,11 +6953,11 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "num"
                         ), listOf(
-                                GeneratedMutableMap.map24156map,
-                                GeneratedMutableMap.map24157map,
-                                GeneratedMutableMap.map24158map,
-                                GeneratedMutableMap.map24159map,
-                                GeneratedMutableMap.map24160map
+                                GeneratedMutableMap.map24456map,
+                                GeneratedMutableMap.map24457map,
+                                GeneratedMutableMap.map24458map,
+                                GeneratedMutableMap.map24459map,
+                                GeneratedMutableMap.map24460map
                         )
                         )
                 )
@@ -7000,11 +6976,11 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("num")
                                 ), listOf(
-                                        GeneratedMutableMap.map23179map,
-                                        GeneratedMutableMap.map23180map,
-                                        GeneratedMutableMap.map23181map,
-                                        GeneratedMutableMap.map23182map,
-                                        GeneratedMutableMap.map23183map
+                                        GeneratedMutableMap.map23473map,
+                                        GeneratedMutableMap.map23474map,
+                                        GeneratedMutableMap.map23475map,
+                                        GeneratedMutableMap.map23476map,
+                                        GeneratedMutableMap.map23477map
                                 )
                                 )
                         ),
@@ -7012,11 +6988,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("num")
                         ), listOf(
-                                GeneratedMutableMap.map24161map,
-                                GeneratedMutableMap.map24162map,
-                                GeneratedMutableMap.map24163map,
-                                GeneratedMutableMap.map24164map,
-                                GeneratedMutableMap.map24165map
+                                GeneratedMutableMap.map24461map,
+                                GeneratedMutableMap.map24462map,
+                                GeneratedMutableMap.map24463map,
+                                GeneratedMutableMap.map24464map,
+                                GeneratedMutableMap.map24465map
                         )
                         )
                 )
@@ -7062,11 +7038,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("num")
                         ), listOf(
-                                GeneratedMutableMap.map24161map,
-                                GeneratedMutableMap.map24162map,
-                                GeneratedMutableMap.map24163map,
-                                GeneratedMutableMap.map24164map,
-                                GeneratedMutableMap.map24165map
+                                GeneratedMutableMap.map24461map,
+                                GeneratedMutableMap.map24462map,
+                                GeneratedMutableMap.map24463map,
+                                GeneratedMutableMap.map24464map,
+                                GeneratedMutableMap.map24465map
                         )
                         )
                 )
@@ -7085,8 +7061,8 @@ class GeneratedPOPProjectionTest {
                                         "s",
                                         "num"
                                 ), listOf(
-                                        GeneratedMutableMap.map24159map,
-                                        GeneratedMutableMap.map24160map
+                                        GeneratedMutableMap.map24459map,
+                                        GeneratedMutableMap.map24460map
                                 )
                                 )
                         ),
@@ -7094,8 +7070,8 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "num"
                         ), listOf(
-                                GeneratedMutableMap.map24159map,
-                                GeneratedMutableMap.map24160map
+                                GeneratedMutableMap.map24459map,
+                                GeneratedMutableMap.map24460map
                         )
                         )
                 )
@@ -7132,8 +7108,8 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "num"
                         ), listOf(
-                                GeneratedMutableMap.map24159map,
-                                GeneratedMutableMap.map24160map
+                                GeneratedMutableMap.map24459map,
+                                GeneratedMutableMap.map24460map
                         )
                         )
                 )
@@ -7151,8 +7127,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("s"),
                                         AOPVariable("num")
                                 ), listOf(
-                                        GeneratedMutableMap.map24164map,
-                                        GeneratedMutableMap.map24165map
+                                        GeneratedMutableMap.map24464map,
+                                        GeneratedMutableMap.map24465map
                                 )
                                 )
                         ),
@@ -7160,8 +7136,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("num")
                         ), listOf(
-                                GeneratedMutableMap.map24164map,
-                                GeneratedMutableMap.map24165map
+                                GeneratedMutableMap.map24464map,
+                                GeneratedMutableMap.map24465map
                         )
                         )
                 )
@@ -7196,8 +7172,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("num")
                         ), listOf(
-                                GeneratedMutableMap.map24164map,
-                                GeneratedMutableMap.map24165map
+                                GeneratedMutableMap.map24464map,
+                                GeneratedMutableMap.map24465map
                         )
                         )
                 )
@@ -7218,11 +7194,11 @@ class GeneratedPOPProjectionTest {
                                         "num",
                                         "ceil"
                                 ), listOf(
-                                        GeneratedMutableMap.map24356map,
-                                        GeneratedMutableMap.map24357map,
-                                        GeneratedMutableMap.map24358map,
-                                        GeneratedMutableMap.map24359map,
-                                        GeneratedMutableMap.map24360map
+                                        GeneratedMutableMap.map24658map,
+                                        GeneratedMutableMap.map24659map,
+                                        GeneratedMutableMap.map24660map,
+                                        GeneratedMutableMap.map24661map,
+                                        GeneratedMutableMap.map24662map
                                 )
                                 )
                         ),
@@ -7231,11 +7207,11 @@ class GeneratedPOPProjectionTest {
                                 "num",
                                 "ceil"
                         ), listOf(
-                                GeneratedMutableMap.map24356map,
-                                GeneratedMutableMap.map24357map,
-                                GeneratedMutableMap.map24358map,
-                                GeneratedMutableMap.map24359map,
-                                GeneratedMutableMap.map24360map
+                                GeneratedMutableMap.map24658map,
+                                GeneratedMutableMap.map24659map,
+                                GeneratedMutableMap.map24660map,
+                                GeneratedMutableMap.map24661map,
+                                GeneratedMutableMap.map24662map
                         )
                         )
                 )
@@ -7275,11 +7251,11 @@ class GeneratedPOPProjectionTest {
                                 "num",
                                 "ceil"
                         ), listOf(
-                                GeneratedMutableMap.map24356map,
-                                GeneratedMutableMap.map24357map,
-                                GeneratedMutableMap.map24358map,
-                                GeneratedMutableMap.map24359map,
-                                GeneratedMutableMap.map24360map
+                                GeneratedMutableMap.map24658map,
+                                GeneratedMutableMap.map24659map,
+                                GeneratedMutableMap.map24660map,
+                                GeneratedMutableMap.map24661map,
+                                GeneratedMutableMap.map24662map
                         )
                         )
                 )
@@ -7299,11 +7275,11 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("num"),
                                         AOPVariable("ceil")
                                 ), listOf(
-                                        GeneratedMutableMap.map24361map,
-                                        GeneratedMutableMap.map24362map,
-                                        GeneratedMutableMap.map24363map,
-                                        GeneratedMutableMap.map24364map,
-                                        GeneratedMutableMap.map24365map
+                                        GeneratedMutableMap.map24663map,
+                                        GeneratedMutableMap.map24664map,
+                                        GeneratedMutableMap.map24665map,
+                                        GeneratedMutableMap.map24666map,
+                                        GeneratedMutableMap.map24667map
                                 )
                                 )
                         ),
@@ -7312,11 +7288,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("num"),
                                 AOPVariable("ceil")
                         ), listOf(
-                                GeneratedMutableMap.map24361map,
-                                GeneratedMutableMap.map24362map,
-                                GeneratedMutableMap.map24363map,
-                                GeneratedMutableMap.map24364map,
-                                GeneratedMutableMap.map24365map
+                                GeneratedMutableMap.map24663map,
+                                GeneratedMutableMap.map24664map,
+                                GeneratedMutableMap.map24665map,
+                                GeneratedMutableMap.map24666map,
+                                GeneratedMutableMap.map24667map
                         )
                         )
                 )
@@ -7354,11 +7330,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("num"),
                                 AOPVariable("ceil")
                         ), listOf(
-                                GeneratedMutableMap.map24361map,
-                                GeneratedMutableMap.map24362map,
-                                GeneratedMutableMap.map24363map,
-                                GeneratedMutableMap.map24364map,
-                                GeneratedMutableMap.map24365map
+                                GeneratedMutableMap.map24663map,
+                                GeneratedMutableMap.map24664map,
+                                GeneratedMutableMap.map24665map,
+                                GeneratedMutableMap.map24666map,
+                                GeneratedMutableMap.map24667map
                         )
                         )
                 )
@@ -7379,11 +7355,11 @@ class GeneratedPOPProjectionTest {
                                         "num",
                                         "floor"
                                 ), listOf(
-                                        GeneratedMutableMap.map24449map,
-                                        GeneratedMutableMap.map24450map,
-                                        GeneratedMutableMap.map24451map,
-                                        GeneratedMutableMap.map24452map,
-                                        GeneratedMutableMap.map24453map
+                                        GeneratedMutableMap.map24752map,
+                                        GeneratedMutableMap.map24753map,
+                                        GeneratedMutableMap.map24754map,
+                                        GeneratedMutableMap.map24755map,
+                                        GeneratedMutableMap.map24756map
                                 )
                                 )
                         ),
@@ -7392,11 +7368,11 @@ class GeneratedPOPProjectionTest {
                                 "num",
                                 "floor"
                         ), listOf(
-                                GeneratedMutableMap.map24449map,
-                                GeneratedMutableMap.map24450map,
-                                GeneratedMutableMap.map24451map,
-                                GeneratedMutableMap.map24452map,
-                                GeneratedMutableMap.map24453map
+                                GeneratedMutableMap.map24752map,
+                                GeneratedMutableMap.map24753map,
+                                GeneratedMutableMap.map24754map,
+                                GeneratedMutableMap.map24755map,
+                                GeneratedMutableMap.map24756map
                         )
                         )
                 )
@@ -7436,11 +7412,11 @@ class GeneratedPOPProjectionTest {
                                 "num",
                                 "floor"
                         ), listOf(
-                                GeneratedMutableMap.map24449map,
-                                GeneratedMutableMap.map24450map,
-                                GeneratedMutableMap.map24451map,
-                                GeneratedMutableMap.map24452map,
-                                GeneratedMutableMap.map24453map
+                                GeneratedMutableMap.map24752map,
+                                GeneratedMutableMap.map24753map,
+                                GeneratedMutableMap.map24754map,
+                                GeneratedMutableMap.map24755map,
+                                GeneratedMutableMap.map24756map
                         )
                         )
                 )
@@ -7460,11 +7436,11 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("num"),
                                         AOPVariable("floor")
                                 ), listOf(
-                                        GeneratedMutableMap.map24361map,
-                                        GeneratedMutableMap.map24454map,
-                                        GeneratedMutableMap.map24455map,
-                                        GeneratedMutableMap.map24364map,
-                                        GeneratedMutableMap.map24456map
+                                        GeneratedMutableMap.map24663map,
+                                        GeneratedMutableMap.map24757map,
+                                        GeneratedMutableMap.map24758map,
+                                        GeneratedMutableMap.map24666map,
+                                        GeneratedMutableMap.map24759map
                                 )
                                 )
                         ),
@@ -7473,11 +7449,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("num"),
                                 AOPVariable("floor")
                         ), listOf(
-                                GeneratedMutableMap.map24361map,
-                                GeneratedMutableMap.map24454map,
-                                GeneratedMutableMap.map24455map,
-                                GeneratedMutableMap.map24364map,
-                                GeneratedMutableMap.map24456map
+                                GeneratedMutableMap.map24663map,
+                                GeneratedMutableMap.map24757map,
+                                GeneratedMutableMap.map24758map,
+                                GeneratedMutableMap.map24666map,
+                                GeneratedMutableMap.map24759map
                         )
                         )
                 )
@@ -7515,11 +7491,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("num"),
                                 AOPVariable("floor")
                         ), listOf(
-                                GeneratedMutableMap.map24361map,
-                                GeneratedMutableMap.map24454map,
-                                GeneratedMutableMap.map24455map,
-                                GeneratedMutableMap.map24364map,
-                                GeneratedMutableMap.map24456map
+                                GeneratedMutableMap.map24663map,
+                                GeneratedMutableMap.map24757map,
+                                GeneratedMutableMap.map24758map,
+                                GeneratedMutableMap.map24666map,
+                                GeneratedMutableMap.map24759map
                         )
                         )
                 )
@@ -7540,11 +7516,11 @@ class GeneratedPOPProjectionTest {
                                         "num",
                                         "round"
                                 ), listOf(
-                                        GeneratedMutableMap.map24540map,
-                                        GeneratedMutableMap.map24541map,
-                                        GeneratedMutableMap.map24542map,
-                                        GeneratedMutableMap.map24543map,
-                                        GeneratedMutableMap.map24544map
+                                        GeneratedMutableMap.map24844map,
+                                        GeneratedMutableMap.map24845map,
+                                        GeneratedMutableMap.map24846map,
+                                        GeneratedMutableMap.map24847map,
+                                        GeneratedMutableMap.map24848map
                                 )
                                 )
                         ),
@@ -7553,11 +7529,11 @@ class GeneratedPOPProjectionTest {
                                 "num",
                                 "round"
                         ), listOf(
-                                GeneratedMutableMap.map24540map,
-                                GeneratedMutableMap.map24541map,
-                                GeneratedMutableMap.map24542map,
-                                GeneratedMutableMap.map24543map,
-                                GeneratedMutableMap.map24544map
+                                GeneratedMutableMap.map24844map,
+                                GeneratedMutableMap.map24845map,
+                                GeneratedMutableMap.map24846map,
+                                GeneratedMutableMap.map24847map,
+                                GeneratedMutableMap.map24848map
                         )
                         )
                 )
@@ -7597,11 +7573,11 @@ class GeneratedPOPProjectionTest {
                                 "num",
                                 "round"
                         ), listOf(
-                                GeneratedMutableMap.map24540map,
-                                GeneratedMutableMap.map24541map,
-                                GeneratedMutableMap.map24542map,
-                                GeneratedMutableMap.map24543map,
-                                GeneratedMutableMap.map24544map
+                                GeneratedMutableMap.map24844map,
+                                GeneratedMutableMap.map24845map,
+                                GeneratedMutableMap.map24846map,
+                                GeneratedMutableMap.map24847map,
+                                GeneratedMutableMap.map24848map
                         )
                         )
                 )
@@ -7621,11 +7597,11 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("num"),
                                         AOPVariable("round")
                                 ), listOf(
-                                        GeneratedMutableMap.map24361map,
-                                        GeneratedMutableMap.map24454map,
-                                        GeneratedMutableMap.map24455map,
-                                        GeneratedMutableMap.map24364map,
-                                        GeneratedMutableMap.map24365map
+                                        GeneratedMutableMap.map24663map,
+                                        GeneratedMutableMap.map24757map,
+                                        GeneratedMutableMap.map24758map,
+                                        GeneratedMutableMap.map24666map,
+                                        GeneratedMutableMap.map24667map
                                 )
                                 )
                         ),
@@ -7634,11 +7610,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("num"),
                                 AOPVariable("round")
                         ), listOf(
-                                GeneratedMutableMap.map24361map,
-                                GeneratedMutableMap.map24454map,
-                                GeneratedMutableMap.map24455map,
-                                GeneratedMutableMap.map24364map,
-                                GeneratedMutableMap.map24365map
+                                GeneratedMutableMap.map24663map,
+                                GeneratedMutableMap.map24757map,
+                                GeneratedMutableMap.map24758map,
+                                GeneratedMutableMap.map24666map,
+                                GeneratedMutableMap.map24667map
                         )
                         )
                 )
@@ -7676,11 +7652,11 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("num"),
                                 AOPVariable("round")
                         ), listOf(
-                                GeneratedMutableMap.map24361map,
-                                GeneratedMutableMap.map24454map,
-                                GeneratedMutableMap.map24455map,
-                                GeneratedMutableMap.map24364map,
-                                GeneratedMutableMap.map24365map
+                                GeneratedMutableMap.map24663map,
+                                GeneratedMutableMap.map24757map,
+                                GeneratedMutableMap.map24758map,
+                                GeneratedMutableMap.map24666map,
+                                GeneratedMutableMap.map24667map
                         )
                         )
                 )
@@ -7699,14 +7675,14 @@ class GeneratedPOPProjectionTest {
                                         "str2",
                                         "str"
                                 ), listOf(
-                                        GeneratedMutableMap.map24645map
+                                        GeneratedMutableMap.map24952map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map24647map
+                                GeneratedMutableMap.map24954map
                         )
                         )
                 )
@@ -7750,7 +7726,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map24647map
+                                GeneratedMutableMap.map24954map
                         )
                         )
                 )
@@ -7768,14 +7744,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str2"),
                                         AOPVariable("str")
                                 ), listOf(
-                                        GeneratedMutableMap.map24646map
+                                        GeneratedMutableMap.map24953map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map24648map
+                                GeneratedMutableMap.map24955map
                         )
                         )
                 )
@@ -7816,7 +7792,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map24648map
+                                GeneratedMutableMap.map24955map
                         )
                         )
                 )
@@ -7837,110 +7813,110 @@ class GeneratedPOPProjectionTest {
                                         "str2",
                                         "str"
                                 ), listOf(
-                                        GeneratedMutableMap.map25358map,
-                                        GeneratedMutableMap.map25359map,
-                                        GeneratedMutableMap.map25360map,
-                                        GeneratedMutableMap.map25361map,
-                                        GeneratedMutableMap.map25362map,
-                                        GeneratedMutableMap.map25363map,
-                                        GeneratedMutableMap.map25364map,
-                                        GeneratedMutableMap.map25365map,
-                                        GeneratedMutableMap.map25366map,
-                                        GeneratedMutableMap.map25367map,
-                                        GeneratedMutableMap.map25368map,
-                                        GeneratedMutableMap.map25369map,
-                                        GeneratedMutableMap.map25370map,
-                                        GeneratedMutableMap.map25371map,
-                                        GeneratedMutableMap.map25372map,
-                                        GeneratedMutableMap.map25373map,
-                                        GeneratedMutableMap.map25374map,
-                                        GeneratedMutableMap.map25375map,
-                                        GeneratedMutableMap.map25376map,
-                                        GeneratedMutableMap.map25377map,
-                                        GeneratedMutableMap.map25378map,
-                                        GeneratedMutableMap.map25379map,
-                                        GeneratedMutableMap.map25380map,
-                                        GeneratedMutableMap.map25381map,
-                                        GeneratedMutableMap.map25382map,
-                                        GeneratedMutableMap.map25383map,
-                                        GeneratedMutableMap.map25384map,
-                                        GeneratedMutableMap.map25385map,
-                                        GeneratedMutableMap.map25386map,
-                                        GeneratedMutableMap.map25387map,
-                                        GeneratedMutableMap.map25388map,
-                                        GeneratedMutableMap.map25389map,
-                                        GeneratedMutableMap.map25390map,
-                                        GeneratedMutableMap.map25391map,
-                                        GeneratedMutableMap.map25392map,
-                                        GeneratedMutableMap.map25393map,
-                                        GeneratedMutableMap.map25394map,
-                                        GeneratedMutableMap.map25395map,
-                                        GeneratedMutableMap.map25396map,
-                                        GeneratedMutableMap.map25397map,
-                                        GeneratedMutableMap.map25398map,
-                                        GeneratedMutableMap.map25399map,
-                                        GeneratedMutableMap.map25400map,
-                                        GeneratedMutableMap.map25401map,
-                                        GeneratedMutableMap.map25402map,
-                                        GeneratedMutableMap.map25403map,
-                                        GeneratedMutableMap.map25404map,
-                                        GeneratedMutableMap.map25405map,
-                                        GeneratedMutableMap.map25406map
+                                        GeneratedMutableMap.map25671map,
+                                        GeneratedMutableMap.map25672map,
+                                        GeneratedMutableMap.map25673map,
+                                        GeneratedMutableMap.map25674map,
+                                        GeneratedMutableMap.map25675map,
+                                        GeneratedMutableMap.map25676map,
+                                        GeneratedMutableMap.map25677map,
+                                        GeneratedMutableMap.map25678map,
+                                        GeneratedMutableMap.map25679map,
+                                        GeneratedMutableMap.map25680map,
+                                        GeneratedMutableMap.map25681map,
+                                        GeneratedMutableMap.map25682map,
+                                        GeneratedMutableMap.map25683map,
+                                        GeneratedMutableMap.map25684map,
+                                        GeneratedMutableMap.map25685map,
+                                        GeneratedMutableMap.map25686map,
+                                        GeneratedMutableMap.map25687map,
+                                        GeneratedMutableMap.map25688map,
+                                        GeneratedMutableMap.map25689map,
+                                        GeneratedMutableMap.map25690map,
+                                        GeneratedMutableMap.map25691map,
+                                        GeneratedMutableMap.map25692map,
+                                        GeneratedMutableMap.map25693map,
+                                        GeneratedMutableMap.map25694map,
+                                        GeneratedMutableMap.map25695map,
+                                        GeneratedMutableMap.map25696map,
+                                        GeneratedMutableMap.map25697map,
+                                        GeneratedMutableMap.map25698map,
+                                        GeneratedMutableMap.map25699map,
+                                        GeneratedMutableMap.map25700map,
+                                        GeneratedMutableMap.map25701map,
+                                        GeneratedMutableMap.map25702map,
+                                        GeneratedMutableMap.map25703map,
+                                        GeneratedMutableMap.map25704map,
+                                        GeneratedMutableMap.map25705map,
+                                        GeneratedMutableMap.map25706map,
+                                        GeneratedMutableMap.map25707map,
+                                        GeneratedMutableMap.map25708map,
+                                        GeneratedMutableMap.map25709map,
+                                        GeneratedMutableMap.map25710map,
+                                        GeneratedMutableMap.map25711map,
+                                        GeneratedMutableMap.map25712map,
+                                        GeneratedMutableMap.map25713map,
+                                        GeneratedMutableMap.map25714map,
+                                        GeneratedMutableMap.map25715map,
+                                        GeneratedMutableMap.map25716map,
+                                        GeneratedMutableMap.map25717map,
+                                        GeneratedMutableMap.map25718map,
+                                        GeneratedMutableMap.map25719map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map25456map,
-                                GeneratedMutableMap.map25457map,
-                                GeneratedMutableMap.map25458map,
-                                GeneratedMutableMap.map25459map,
-                                GeneratedMutableMap.map25460map,
-                                GeneratedMutableMap.map25461map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25463map,
-                                GeneratedMutableMap.map25464map,
-                                GeneratedMutableMap.map25465map,
-                                GeneratedMutableMap.map25466map,
-                                GeneratedMutableMap.map25467map,
-                                GeneratedMutableMap.map25468map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25469map,
-                                GeneratedMutableMap.map25470map,
-                                GeneratedMutableMap.map25471map,
-                                GeneratedMutableMap.map25472map,
-                                GeneratedMutableMap.map25473map,
-                                GeneratedMutableMap.map25474map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25475map,
-                                GeneratedMutableMap.map25476map,
-                                GeneratedMutableMap.map25477map,
-                                GeneratedMutableMap.map25478map,
-                                GeneratedMutableMap.map25479map,
-                                GeneratedMutableMap.map25480map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25481map,
-                                GeneratedMutableMap.map25482map,
-                                GeneratedMutableMap.map25483map,
-                                GeneratedMutableMap.map25484map,
-                                GeneratedMutableMap.map25485map,
-                                GeneratedMutableMap.map25486map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25487map,
-                                GeneratedMutableMap.map25488map,
-                                GeneratedMutableMap.map25489map,
-                                GeneratedMutableMap.map25490map,
-                                GeneratedMutableMap.map25491map,
-                                GeneratedMutableMap.map25492map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map
+                                GeneratedMutableMap.map25769map,
+                                GeneratedMutableMap.map25770map,
+                                GeneratedMutableMap.map25771map,
+                                GeneratedMutableMap.map25772map,
+                                GeneratedMutableMap.map25773map,
+                                GeneratedMutableMap.map25774map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25776map,
+                                GeneratedMutableMap.map25777map,
+                                GeneratedMutableMap.map25778map,
+                                GeneratedMutableMap.map25779map,
+                                GeneratedMutableMap.map25780map,
+                                GeneratedMutableMap.map25781map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25782map,
+                                GeneratedMutableMap.map25783map,
+                                GeneratedMutableMap.map25784map,
+                                GeneratedMutableMap.map25785map,
+                                GeneratedMutableMap.map25786map,
+                                GeneratedMutableMap.map25787map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25788map,
+                                GeneratedMutableMap.map25789map,
+                                GeneratedMutableMap.map25790map,
+                                GeneratedMutableMap.map25791map,
+                                GeneratedMutableMap.map25792map,
+                                GeneratedMutableMap.map25793map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25794map,
+                                GeneratedMutableMap.map25795map,
+                                GeneratedMutableMap.map25796map,
+                                GeneratedMutableMap.map25797map,
+                                GeneratedMutableMap.map25798map,
+                                GeneratedMutableMap.map25799map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25800map,
+                                GeneratedMutableMap.map25801map,
+                                GeneratedMutableMap.map25802map,
+                                GeneratedMutableMap.map25803map,
+                                GeneratedMutableMap.map25804map,
+                                GeneratedMutableMap.map25805map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map
                         )
                         )
                 )
@@ -7996,55 +7972,55 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map25456map,
-                                GeneratedMutableMap.map25457map,
-                                GeneratedMutableMap.map25458map,
-                                GeneratedMutableMap.map25459map,
-                                GeneratedMutableMap.map25460map,
-                                GeneratedMutableMap.map25461map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25463map,
-                                GeneratedMutableMap.map25464map,
-                                GeneratedMutableMap.map25465map,
-                                GeneratedMutableMap.map25466map,
-                                GeneratedMutableMap.map25467map,
-                                GeneratedMutableMap.map25468map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25469map,
-                                GeneratedMutableMap.map25470map,
-                                GeneratedMutableMap.map25471map,
-                                GeneratedMutableMap.map25472map,
-                                GeneratedMutableMap.map25473map,
-                                GeneratedMutableMap.map25474map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25475map,
-                                GeneratedMutableMap.map25476map,
-                                GeneratedMutableMap.map25477map,
-                                GeneratedMutableMap.map25478map,
-                                GeneratedMutableMap.map25479map,
-                                GeneratedMutableMap.map25480map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25481map,
-                                GeneratedMutableMap.map25482map,
-                                GeneratedMutableMap.map25483map,
-                                GeneratedMutableMap.map25484map,
-                                GeneratedMutableMap.map25485map,
-                                GeneratedMutableMap.map25486map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25487map,
-                                GeneratedMutableMap.map25488map,
-                                GeneratedMutableMap.map25489map,
-                                GeneratedMutableMap.map25490map,
-                                GeneratedMutableMap.map25491map,
-                                GeneratedMutableMap.map25492map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map,
-                                GeneratedMutableMap.map25462map
+                                GeneratedMutableMap.map25769map,
+                                GeneratedMutableMap.map25770map,
+                                GeneratedMutableMap.map25771map,
+                                GeneratedMutableMap.map25772map,
+                                GeneratedMutableMap.map25773map,
+                                GeneratedMutableMap.map25774map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25776map,
+                                GeneratedMutableMap.map25777map,
+                                GeneratedMutableMap.map25778map,
+                                GeneratedMutableMap.map25779map,
+                                GeneratedMutableMap.map25780map,
+                                GeneratedMutableMap.map25781map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25782map,
+                                GeneratedMutableMap.map25783map,
+                                GeneratedMutableMap.map25784map,
+                                GeneratedMutableMap.map25785map,
+                                GeneratedMutableMap.map25786map,
+                                GeneratedMutableMap.map25787map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25788map,
+                                GeneratedMutableMap.map25789map,
+                                GeneratedMutableMap.map25790map,
+                                GeneratedMutableMap.map25791map,
+                                GeneratedMutableMap.map25792map,
+                                GeneratedMutableMap.map25793map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25794map,
+                                GeneratedMutableMap.map25795map,
+                                GeneratedMutableMap.map25796map,
+                                GeneratedMutableMap.map25797map,
+                                GeneratedMutableMap.map25798map,
+                                GeneratedMutableMap.map25799map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25800map,
+                                GeneratedMutableMap.map25801map,
+                                GeneratedMutableMap.map25802map,
+                                GeneratedMutableMap.map25803map,
+                                GeneratedMutableMap.map25804map,
+                                GeneratedMutableMap.map25805map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map,
+                                GeneratedMutableMap.map25775map
                         )
                         )
                 )
@@ -8064,110 +8040,110 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str2"),
                                         AOPVariable("str")
                                 ), listOf(
-                                        GeneratedMutableMap.map25407map,
-                                        GeneratedMutableMap.map25408map,
-                                        GeneratedMutableMap.map25409map,
-                                        GeneratedMutableMap.map25410map,
-                                        GeneratedMutableMap.map25411map,
-                                        GeneratedMutableMap.map25412map,
-                                        GeneratedMutableMap.map25413map,
-                                        GeneratedMutableMap.map25414map,
-                                        GeneratedMutableMap.map25415map,
-                                        GeneratedMutableMap.map25416map,
-                                        GeneratedMutableMap.map25417map,
-                                        GeneratedMutableMap.map25418map,
-                                        GeneratedMutableMap.map25419map,
-                                        GeneratedMutableMap.map25420map,
-                                        GeneratedMutableMap.map25421map,
-                                        GeneratedMutableMap.map25422map,
-                                        GeneratedMutableMap.map25423map,
-                                        GeneratedMutableMap.map25424map,
-                                        GeneratedMutableMap.map25425map,
-                                        GeneratedMutableMap.map25426map,
-                                        GeneratedMutableMap.map25427map,
-                                        GeneratedMutableMap.map25428map,
-                                        GeneratedMutableMap.map25429map,
-                                        GeneratedMutableMap.map25430map,
-                                        GeneratedMutableMap.map25431map,
-                                        GeneratedMutableMap.map25432map,
-                                        GeneratedMutableMap.map25433map,
-                                        GeneratedMutableMap.map25434map,
-                                        GeneratedMutableMap.map25435map,
-                                        GeneratedMutableMap.map25436map,
-                                        GeneratedMutableMap.map25437map,
-                                        GeneratedMutableMap.map25438map,
-                                        GeneratedMutableMap.map25439map,
-                                        GeneratedMutableMap.map25440map,
-                                        GeneratedMutableMap.map25441map,
-                                        GeneratedMutableMap.map25442map,
-                                        GeneratedMutableMap.map25443map,
-                                        GeneratedMutableMap.map25444map,
-                                        GeneratedMutableMap.map25445map,
-                                        GeneratedMutableMap.map25446map,
-                                        GeneratedMutableMap.map25447map,
-                                        GeneratedMutableMap.map25448map,
-                                        GeneratedMutableMap.map25449map,
-                                        GeneratedMutableMap.map25450map,
-                                        GeneratedMutableMap.map25451map,
-                                        GeneratedMutableMap.map25452map,
-                                        GeneratedMutableMap.map25453map,
-                                        GeneratedMutableMap.map25454map,
-                                        GeneratedMutableMap.map25455map
+                                        GeneratedMutableMap.map25720map,
+                                        GeneratedMutableMap.map25721map,
+                                        GeneratedMutableMap.map25722map,
+                                        GeneratedMutableMap.map25723map,
+                                        GeneratedMutableMap.map25724map,
+                                        GeneratedMutableMap.map25725map,
+                                        GeneratedMutableMap.map25726map,
+                                        GeneratedMutableMap.map25727map,
+                                        GeneratedMutableMap.map25728map,
+                                        GeneratedMutableMap.map25729map,
+                                        GeneratedMutableMap.map25730map,
+                                        GeneratedMutableMap.map25731map,
+                                        GeneratedMutableMap.map25732map,
+                                        GeneratedMutableMap.map25733map,
+                                        GeneratedMutableMap.map25734map,
+                                        GeneratedMutableMap.map25735map,
+                                        GeneratedMutableMap.map25736map,
+                                        GeneratedMutableMap.map25737map,
+                                        GeneratedMutableMap.map25738map,
+                                        GeneratedMutableMap.map25739map,
+                                        GeneratedMutableMap.map25740map,
+                                        GeneratedMutableMap.map25741map,
+                                        GeneratedMutableMap.map25742map,
+                                        GeneratedMutableMap.map25743map,
+                                        GeneratedMutableMap.map25744map,
+                                        GeneratedMutableMap.map25745map,
+                                        GeneratedMutableMap.map25746map,
+                                        GeneratedMutableMap.map25747map,
+                                        GeneratedMutableMap.map25748map,
+                                        GeneratedMutableMap.map25749map,
+                                        GeneratedMutableMap.map25750map,
+                                        GeneratedMutableMap.map25751map,
+                                        GeneratedMutableMap.map25752map,
+                                        GeneratedMutableMap.map25753map,
+                                        GeneratedMutableMap.map25754map,
+                                        GeneratedMutableMap.map25755map,
+                                        GeneratedMutableMap.map25756map,
+                                        GeneratedMutableMap.map25757map,
+                                        GeneratedMutableMap.map25758map,
+                                        GeneratedMutableMap.map25759map,
+                                        GeneratedMutableMap.map25760map,
+                                        GeneratedMutableMap.map25761map,
+                                        GeneratedMutableMap.map25762map,
+                                        GeneratedMutableMap.map25763map,
+                                        GeneratedMutableMap.map25764map,
+                                        GeneratedMutableMap.map25765map,
+                                        GeneratedMutableMap.map25766map,
+                                        GeneratedMutableMap.map25767map,
+                                        GeneratedMutableMap.map25768map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map25493map,
-                                GeneratedMutableMap.map25494map,
-                                GeneratedMutableMap.map25495map,
-                                GeneratedMutableMap.map25496map,
-                                GeneratedMutableMap.map25497map,
-                                GeneratedMutableMap.map25498map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25500map,
-                                GeneratedMutableMap.map25501map,
-                                GeneratedMutableMap.map25502map,
-                                GeneratedMutableMap.map25503map,
-                                GeneratedMutableMap.map25504map,
-                                GeneratedMutableMap.map25505map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25506map,
-                                GeneratedMutableMap.map25507map,
-                                GeneratedMutableMap.map25508map,
-                                GeneratedMutableMap.map25509map,
-                                GeneratedMutableMap.map25510map,
-                                GeneratedMutableMap.map25511map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25512map,
-                                GeneratedMutableMap.map25513map,
-                                GeneratedMutableMap.map25514map,
-                                GeneratedMutableMap.map25515map,
-                                GeneratedMutableMap.map25516map,
-                                GeneratedMutableMap.map25517map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25518map,
-                                GeneratedMutableMap.map25519map,
-                                GeneratedMutableMap.map25520map,
-                                GeneratedMutableMap.map25521map,
-                                GeneratedMutableMap.map25522map,
-                                GeneratedMutableMap.map25523map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25524map,
-                                GeneratedMutableMap.map25525map,
-                                GeneratedMutableMap.map25526map,
-                                GeneratedMutableMap.map25527map,
-                                GeneratedMutableMap.map25528map,
-                                GeneratedMutableMap.map25529map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map
+                                GeneratedMutableMap.map25806map,
+                                GeneratedMutableMap.map25807map,
+                                GeneratedMutableMap.map25808map,
+                                GeneratedMutableMap.map25809map,
+                                GeneratedMutableMap.map25810map,
+                                GeneratedMutableMap.map25811map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25813map,
+                                GeneratedMutableMap.map25814map,
+                                GeneratedMutableMap.map25815map,
+                                GeneratedMutableMap.map25816map,
+                                GeneratedMutableMap.map25817map,
+                                GeneratedMutableMap.map25818map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25819map,
+                                GeneratedMutableMap.map25820map,
+                                GeneratedMutableMap.map25821map,
+                                GeneratedMutableMap.map25822map,
+                                GeneratedMutableMap.map25823map,
+                                GeneratedMutableMap.map25824map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25825map,
+                                GeneratedMutableMap.map25826map,
+                                GeneratedMutableMap.map25827map,
+                                GeneratedMutableMap.map25828map,
+                                GeneratedMutableMap.map25829map,
+                                GeneratedMutableMap.map25830map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25831map,
+                                GeneratedMutableMap.map25832map,
+                                GeneratedMutableMap.map25833map,
+                                GeneratedMutableMap.map25834map,
+                                GeneratedMutableMap.map25835map,
+                                GeneratedMutableMap.map25836map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25837map,
+                                GeneratedMutableMap.map25838map,
+                                GeneratedMutableMap.map25839map,
+                                GeneratedMutableMap.map25840map,
+                                GeneratedMutableMap.map25841map,
+                                GeneratedMutableMap.map25842map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map
                         )
                         )
                 )
@@ -8220,55 +8196,55 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map25493map,
-                                GeneratedMutableMap.map25494map,
-                                GeneratedMutableMap.map25495map,
-                                GeneratedMutableMap.map25496map,
-                                GeneratedMutableMap.map25497map,
-                                GeneratedMutableMap.map25498map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25500map,
-                                GeneratedMutableMap.map25501map,
-                                GeneratedMutableMap.map25502map,
-                                GeneratedMutableMap.map25503map,
-                                GeneratedMutableMap.map25504map,
-                                GeneratedMutableMap.map25505map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25506map,
-                                GeneratedMutableMap.map25507map,
-                                GeneratedMutableMap.map25508map,
-                                GeneratedMutableMap.map25509map,
-                                GeneratedMutableMap.map25510map,
-                                GeneratedMutableMap.map25511map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25512map,
-                                GeneratedMutableMap.map25513map,
-                                GeneratedMutableMap.map25514map,
-                                GeneratedMutableMap.map25515map,
-                                GeneratedMutableMap.map25516map,
-                                GeneratedMutableMap.map25517map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25518map,
-                                GeneratedMutableMap.map25519map,
-                                GeneratedMutableMap.map25520map,
-                                GeneratedMutableMap.map25521map,
-                                GeneratedMutableMap.map25522map,
-                                GeneratedMutableMap.map25523map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25524map,
-                                GeneratedMutableMap.map25525map,
-                                GeneratedMutableMap.map25526map,
-                                GeneratedMutableMap.map25527map,
-                                GeneratedMutableMap.map25528map,
-                                GeneratedMutableMap.map25529map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map,
-                                GeneratedMutableMap.map25499map
+                                GeneratedMutableMap.map25806map,
+                                GeneratedMutableMap.map25807map,
+                                GeneratedMutableMap.map25808map,
+                                GeneratedMutableMap.map25809map,
+                                GeneratedMutableMap.map25810map,
+                                GeneratedMutableMap.map25811map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25813map,
+                                GeneratedMutableMap.map25814map,
+                                GeneratedMutableMap.map25815map,
+                                GeneratedMutableMap.map25816map,
+                                GeneratedMutableMap.map25817map,
+                                GeneratedMutableMap.map25818map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25819map,
+                                GeneratedMutableMap.map25820map,
+                                GeneratedMutableMap.map25821map,
+                                GeneratedMutableMap.map25822map,
+                                GeneratedMutableMap.map25823map,
+                                GeneratedMutableMap.map25824map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25825map,
+                                GeneratedMutableMap.map25826map,
+                                GeneratedMutableMap.map25827map,
+                                GeneratedMutableMap.map25828map,
+                                GeneratedMutableMap.map25829map,
+                                GeneratedMutableMap.map25830map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25831map,
+                                GeneratedMutableMap.map25832map,
+                                GeneratedMutableMap.map25833map,
+                                GeneratedMutableMap.map25834map,
+                                GeneratedMutableMap.map25835map,
+                                GeneratedMutableMap.map25836map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25837map,
+                                GeneratedMutableMap.map25838map,
+                                GeneratedMutableMap.map25839map,
+                                GeneratedMutableMap.map25840map,
+                                GeneratedMutableMap.map25841map,
+                                GeneratedMutableMap.map25842map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map,
+                                GeneratedMutableMap.map25812map
                         )
                         )
                 )
@@ -8288,13 +8264,13 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "len"
                                 ), listOf(
-                                        GeneratedMutableMap.map25690map,
-                                        GeneratedMutableMap.map25691map,
-                                        GeneratedMutableMap.map25692map,
-                                        GeneratedMutableMap.map25693map,
-                                        GeneratedMutableMap.map25694map,
-                                        GeneratedMutableMap.map25695map,
-                                        GeneratedMutableMap.map25696map
+                                        GeneratedMutableMap.map26004map,
+                                        GeneratedMutableMap.map26005map,
+                                        GeneratedMutableMap.map26006map,
+                                        GeneratedMutableMap.map26007map,
+                                        GeneratedMutableMap.map26008map,
+                                        GeneratedMutableMap.map26009map,
+                                        GeneratedMutableMap.map26010map
                                 )
                                 )
                         ),
@@ -8302,13 +8278,13 @@ class GeneratedPOPProjectionTest {
                                 "str",
                                 "len"
                         ), listOf(
-                                GeneratedMutableMap.map25704map,
-                                GeneratedMutableMap.map25705map,
-                                GeneratedMutableMap.map25706map,
-                                GeneratedMutableMap.map25707map,
-                                GeneratedMutableMap.map25708map,
-                                GeneratedMutableMap.map25709map,
-                                GeneratedMutableMap.map25710map
+                                GeneratedMutableMap.map26018map,
+                                GeneratedMutableMap.map26019map,
+                                GeneratedMutableMap.map26020map,
+                                GeneratedMutableMap.map26021map,
+                                GeneratedMutableMap.map26022map,
+                                GeneratedMutableMap.map26023map,
+                                GeneratedMutableMap.map26024map
                         )
                         )
                 )
@@ -8348,13 +8324,13 @@ class GeneratedPOPProjectionTest {
                                 "str",
                                 "len"
                         ), listOf(
-                                GeneratedMutableMap.map25704map,
-                                GeneratedMutableMap.map25705map,
-                                GeneratedMutableMap.map25706map,
-                                GeneratedMutableMap.map25707map,
-                                GeneratedMutableMap.map25708map,
-                                GeneratedMutableMap.map25709map,
-                                GeneratedMutableMap.map25710map
+                                GeneratedMutableMap.map26018map,
+                                GeneratedMutableMap.map26019map,
+                                GeneratedMutableMap.map26020map,
+                                GeneratedMutableMap.map26021map,
+                                GeneratedMutableMap.map26022map,
+                                GeneratedMutableMap.map26023map,
+                                GeneratedMutableMap.map26024map
                         )
                         )
                 )
@@ -8373,13 +8349,13 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("len")
                                 ), listOf(
-                                        GeneratedMutableMap.map25697map,
-                                        GeneratedMutableMap.map25698map,
-                                        GeneratedMutableMap.map25699map,
-                                        GeneratedMutableMap.map25700map,
-                                        GeneratedMutableMap.map25701map,
-                                        GeneratedMutableMap.map25702map,
-                                        GeneratedMutableMap.map25703map
+                                        GeneratedMutableMap.map26011map,
+                                        GeneratedMutableMap.map26012map,
+                                        GeneratedMutableMap.map26013map,
+                                        GeneratedMutableMap.map26014map,
+                                        GeneratedMutableMap.map26015map,
+                                        GeneratedMutableMap.map26016map,
+                                        GeneratedMutableMap.map26017map
                                 )
                                 )
                         ),
@@ -8387,13 +8363,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("str"),
                                 AOPVariable("len")
                         ), listOf(
-                                GeneratedMutableMap.map25711map,
-                                GeneratedMutableMap.map25712map,
-                                GeneratedMutableMap.map25713map,
-                                GeneratedMutableMap.map25714map,
-                                GeneratedMutableMap.map25715map,
-                                GeneratedMutableMap.map25716map,
-                                GeneratedMutableMap.map25717map
+                                GeneratedMutableMap.map26025map,
+                                GeneratedMutableMap.map26026map,
+                                GeneratedMutableMap.map26027map,
+                                GeneratedMutableMap.map26028map,
+                                GeneratedMutableMap.map26029map,
+                                GeneratedMutableMap.map26030map,
+                                GeneratedMutableMap.map26031map
                         )
                         )
                 )
@@ -8431,13 +8407,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("str"),
                                 AOPVariable("len")
                         ), listOf(
-                                GeneratedMutableMap.map25711map,
-                                GeneratedMutableMap.map25712map,
-                                GeneratedMutableMap.map25713map,
-                                GeneratedMutableMap.map25714map,
-                                GeneratedMutableMap.map25715map,
-                                GeneratedMutableMap.map25716map,
-                                GeneratedMutableMap.map25717map
+                                GeneratedMutableMap.map26025map,
+                                GeneratedMutableMap.map26026map,
+                                GeneratedMutableMap.map26027map,
+                                GeneratedMutableMap.map26028map,
+                                GeneratedMutableMap.map26029map,
+                                GeneratedMutableMap.map26030map,
+                                GeneratedMutableMap.map26031map
                         )
                         )
                 )
@@ -8457,13 +8433,13 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "ustr"
                                 ), listOf(
-                                        GeneratedMutableMap.map25810map,
-                                        GeneratedMutableMap.map25811map,
-                                        GeneratedMutableMap.map25812map,
-                                        GeneratedMutableMap.map25813map,
-                                        GeneratedMutableMap.map25814map,
-                                        GeneratedMutableMap.map25815map,
-                                        GeneratedMutableMap.map25816map
+                                        GeneratedMutableMap.map26125map,
+                                        GeneratedMutableMap.map26126map,
+                                        GeneratedMutableMap.map26127map,
+                                        GeneratedMutableMap.map26128map,
+                                        GeneratedMutableMap.map26129map,
+                                        GeneratedMutableMap.map26130map,
+                                        GeneratedMutableMap.map26131map
                                 )
                                 )
                         ),
@@ -8471,13 +8447,13 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "ustr"
                         ), listOf(
-                                GeneratedMutableMap.map25824map,
-                                GeneratedMutableMap.map25825map,
-                                GeneratedMutableMap.map25826map,
-                                GeneratedMutableMap.map25827map,
-                                GeneratedMutableMap.map25828map,
-                                GeneratedMutableMap.map25829map,
-                                GeneratedMutableMap.map25830map
+                                GeneratedMutableMap.map26139map,
+                                GeneratedMutableMap.map26140map,
+                                GeneratedMutableMap.map26141map,
+                                GeneratedMutableMap.map26142map,
+                                GeneratedMutableMap.map26143map,
+                                GeneratedMutableMap.map26144map,
+                                GeneratedMutableMap.map26145map
                         )
                         )
                 )
@@ -8517,13 +8493,13 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "ustr"
                         ), listOf(
-                                GeneratedMutableMap.map25824map,
-                                GeneratedMutableMap.map25825map,
-                                GeneratedMutableMap.map25826map,
-                                GeneratedMutableMap.map25827map,
-                                GeneratedMutableMap.map25828map,
-                                GeneratedMutableMap.map25829map,
-                                GeneratedMutableMap.map25830map
+                                GeneratedMutableMap.map26139map,
+                                GeneratedMutableMap.map26140map,
+                                GeneratedMutableMap.map26141map,
+                                GeneratedMutableMap.map26142map,
+                                GeneratedMutableMap.map26143map,
+                                GeneratedMutableMap.map26144map,
+                                GeneratedMutableMap.map26145map
                         )
                         )
                 )
@@ -8542,13 +8518,13 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("ustr")
                                 ), listOf(
-                                        GeneratedMutableMap.map25817map,
-                                        GeneratedMutableMap.map25818map,
-                                        GeneratedMutableMap.map25819map,
-                                        GeneratedMutableMap.map25820map,
-                                        GeneratedMutableMap.map25821map,
-                                        GeneratedMutableMap.map25822map,
-                                        GeneratedMutableMap.map25823map
+                                        GeneratedMutableMap.map26132map,
+                                        GeneratedMutableMap.map26133map,
+                                        GeneratedMutableMap.map26134map,
+                                        GeneratedMutableMap.map26135map,
+                                        GeneratedMutableMap.map26136map,
+                                        GeneratedMutableMap.map26137map,
+                                        GeneratedMutableMap.map26138map
                                 )
                                 )
                         ),
@@ -8556,13 +8532,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("ustr")
                         ), listOf(
-                                GeneratedMutableMap.map25831map,
-                                GeneratedMutableMap.map25832map,
-                                GeneratedMutableMap.map22705map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map25833map,
-                                GeneratedMutableMap.map22709map
+                                GeneratedMutableMap.map26146map,
+                                GeneratedMutableMap.map26147map,
+                                GeneratedMutableMap.map22995map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map26148map,
+                                GeneratedMutableMap.map22999map
                         )
                         )
                 )
@@ -8600,13 +8576,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("ustr")
                         ), listOf(
-                                GeneratedMutableMap.map25831map,
-                                GeneratedMutableMap.map25832map,
-                                GeneratedMutableMap.map22705map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map25833map,
-                                GeneratedMutableMap.map22709map
+                                GeneratedMutableMap.map26146map,
+                                GeneratedMutableMap.map26147map,
+                                GeneratedMutableMap.map22995map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map26148map,
+                                GeneratedMutableMap.map22999map
                         )
                         )
                 )
@@ -8626,13 +8602,13 @@ class GeneratedPOPProjectionTest {
                                         "str",
                                         "lstr"
                                 ), listOf(
-                                        GeneratedMutableMap.map25926map,
-                                        GeneratedMutableMap.map25927map,
-                                        GeneratedMutableMap.map25928map,
-                                        GeneratedMutableMap.map25929map,
-                                        GeneratedMutableMap.map25930map,
-                                        GeneratedMutableMap.map25931map,
-                                        GeneratedMutableMap.map25932map
+                                        GeneratedMutableMap.map26242map,
+                                        GeneratedMutableMap.map26243map,
+                                        GeneratedMutableMap.map26244map,
+                                        GeneratedMutableMap.map26245map,
+                                        GeneratedMutableMap.map26246map,
+                                        GeneratedMutableMap.map26247map,
+                                        GeneratedMutableMap.map26248map
                                 )
                                 )
                         ),
@@ -8640,13 +8616,13 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "lstr"
                         ), listOf(
-                                GeneratedMutableMap.map25938map,
-                                GeneratedMutableMap.map25939map,
-                                GeneratedMutableMap.map25940map,
-                                GeneratedMutableMap.map25941map,
-                                GeneratedMutableMap.map25942map,
-                                GeneratedMutableMap.map25943map,
-                                GeneratedMutableMap.map25944map
+                                GeneratedMutableMap.map26254map,
+                                GeneratedMutableMap.map26255map,
+                                GeneratedMutableMap.map26256map,
+                                GeneratedMutableMap.map26257map,
+                                GeneratedMutableMap.map26258map,
+                                GeneratedMutableMap.map26259map,
+                                GeneratedMutableMap.map26260map
                         )
                         )
                 )
@@ -8686,13 +8662,13 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "lstr"
                         ), listOf(
-                                GeneratedMutableMap.map25938map,
-                                GeneratedMutableMap.map25939map,
-                                GeneratedMutableMap.map25940map,
-                                GeneratedMutableMap.map25941map,
-                                GeneratedMutableMap.map25942map,
-                                GeneratedMutableMap.map25943map,
-                                GeneratedMutableMap.map25944map
+                                GeneratedMutableMap.map26254map,
+                                GeneratedMutableMap.map26255map,
+                                GeneratedMutableMap.map26256map,
+                                GeneratedMutableMap.map26257map,
+                                GeneratedMutableMap.map26258map,
+                                GeneratedMutableMap.map26259map,
+                                GeneratedMutableMap.map26260map
                         )
                         )
                 )
@@ -8711,13 +8687,13 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("str"),
                                         AOPVariable("lstr")
                                 ), listOf(
-                                        GeneratedMutableMap.map25933map,
-                                        GeneratedMutableMap.map25934map,
-                                        GeneratedMutableMap.map25935map,
-                                        GeneratedMutableMap.map25820map,
-                                        GeneratedMutableMap.map25821map,
-                                        GeneratedMutableMap.map25936map,
-                                        GeneratedMutableMap.map25937map
+                                        GeneratedMutableMap.map26249map,
+                                        GeneratedMutableMap.map26250map,
+                                        GeneratedMutableMap.map26251map,
+                                        GeneratedMutableMap.map26135map,
+                                        GeneratedMutableMap.map26136map,
+                                        GeneratedMutableMap.map26252map,
+                                        GeneratedMutableMap.map26253map
                                 )
                                 )
                         ),
@@ -8725,13 +8701,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("lstr")
                         ), listOf(
-                                GeneratedMutableMap.map22703map,
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map25945map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map22708map,
-                                GeneratedMutableMap.map25946map
+                                GeneratedMutableMap.map22993map,
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map26261map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map22998map,
+                                GeneratedMutableMap.map26262map
                         )
                         )
                 )
@@ -8769,13 +8745,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("lstr")
                         ), listOf(
-                                GeneratedMutableMap.map22703map,
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map25945map,
-                                GeneratedMutableMap.map22706map,
-                                GeneratedMutableMap.map22707map,
-                                GeneratedMutableMap.map22708map,
-                                GeneratedMutableMap.map25946map
+                                GeneratedMutableMap.map22993map,
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map26261map,
+                                GeneratedMutableMap.map22996map,
+                                GeneratedMutableMap.map22997map,
+                                GeneratedMutableMap.map22998map,
+                                GeneratedMutableMap.map26262map
                         )
                         )
                 )
@@ -8794,8 +8770,8 @@ class GeneratedPOPProjectionTest {
                                         "s",
                                         "str"
                                 ), listOf(
-                                        GeneratedMutableMap.map22697map,
-                                        GeneratedMutableMap.map22701map
+                                        GeneratedMutableMap.map22987map,
+                                        GeneratedMutableMap.map22991map
                                 )
                                 )
                         ),
@@ -8803,8 +8779,8 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map22697map,
-                                GeneratedMutableMap.map22701map
+                                GeneratedMutableMap.map22987map,
+                                GeneratedMutableMap.map22991map
                         )
                         )
                 )
@@ -8843,8 +8819,8 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map22697map,
-                                GeneratedMutableMap.map22701map
+                                GeneratedMutableMap.map22987map,
+                                GeneratedMutableMap.map22991map
                         )
                         )
                 )
@@ -8862,8 +8838,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("s"),
                                         AOPVariable("str")
                                 ), listOf(
-                                        GeneratedMutableMap.map22704map,
-                                        GeneratedMutableMap.map22708map
+                                        GeneratedMutableMap.map22994map,
+                                        GeneratedMutableMap.map22998map
                                 )
                                 )
                         ),
@@ -8871,8 +8847,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map22708map
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map22998map
                         )
                         )
                 )
@@ -8909,8 +8885,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map22704map,
-                                GeneratedMutableMap.map22708map
+                                GeneratedMutableMap.map22994map,
+                                GeneratedMutableMap.map22998map
                         )
                         )
                 )
@@ -8930,8 +8906,8 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "str"
                                 ), listOf(
-                                        GeneratedMutableMap.map26690map,
-                                        GeneratedMutableMap.map26697map
+                                        GeneratedMutableMap.map27009map,
+                                        GeneratedMutableMap.map27016map
                                 )
                                 )
                         ),
@@ -8939,8 +8915,8 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map26700map,
-                                GeneratedMutableMap.map22700map
+                                GeneratedMutableMap.map27019map,
+                                GeneratedMutableMap.map22990map
                         )
                         )
                 )
@@ -8988,8 +8964,8 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map26700map,
-                                GeneratedMutableMap.map22700map
+                                GeneratedMutableMap.map27019map,
+                                GeneratedMutableMap.map22990map
                         )
                         )
                 )
@@ -9008,8 +8984,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("str")
                                 ), listOf(
-                                        GeneratedMutableMap.map23181map,
-                                        GeneratedMutableMap.map23188map
+                                        GeneratedMutableMap.map23475map,
+                                        GeneratedMutableMap.map23482map
                                 )
                                 )
                         ),
@@ -9017,8 +8993,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map24163map,
-                                GeneratedMutableMap.map22707map
+                                GeneratedMutableMap.map24463map,
+                                GeneratedMutableMap.map22997map
                         )
                         )
                 )
@@ -9064,8 +9040,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map24163map,
-                                GeneratedMutableMap.map22707map
+                                GeneratedMutableMap.map24463map,
+                                GeneratedMutableMap.map22997map
                         )
                         )
                 )
@@ -9085,7 +9061,7 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "str"
                                 ), listOf(
-                                        GeneratedMutableMap.map26698map
+                                        GeneratedMutableMap.map27017map
                                 )
                                 )
                         ),
@@ -9093,7 +9069,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map22701map
+                                GeneratedMutableMap.map22991map
                         )
                         )
                 )
@@ -9141,7 +9117,7 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "str"
                         ), listOf(
-                                GeneratedMutableMap.map22701map
+                                GeneratedMutableMap.map22991map
                         )
                         )
                 )
@@ -9160,7 +9136,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("str")
                                 ), listOf(
-                                        GeneratedMutableMap.map23189map
+                                        GeneratedMutableMap.map23483map
                                 )
                                 )
                         ),
@@ -9168,7 +9144,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map22708map
+                                GeneratedMutableMap.map22998map
                         )
                         )
                 )
@@ -9214,7 +9190,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("str")
                         ), listOf(
-                                GeneratedMutableMap.map22708map
+                                GeneratedMutableMap.map22998map
                         )
                         )
                 )
@@ -9236,14 +9212,14 @@ class GeneratedPOPProjectionTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        GeneratedMutableMap.map27202map,
-                                        GeneratedMutableMap.map27200map,
-                                        GeneratedMutableMap.map27203map,
-                                        GeneratedMutableMap.map27204map,
-                                        GeneratedMutableMap.map27201map,
-                                        GeneratedMutableMap.map27197map,
-                                        GeneratedMutableMap.map27199map,
-                                        GeneratedMutableMap.map27198map
+                                        GeneratedMutableMap.map27527map,
+                                        GeneratedMutableMap.map27525map,
+                                        GeneratedMutableMap.map27528map,
+                                        GeneratedMutableMap.map27529map,
+                                        GeneratedMutableMap.map27526map,
+                                        GeneratedMutableMap.map27522map,
+                                        GeneratedMutableMap.map27524map,
+                                        GeneratedMutableMap.map27523map
                                 )
                                 )
                         ),
@@ -9252,14 +9228,14 @@ class GeneratedPOPProjectionTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map27213map,
-                                GeneratedMutableMap.map27214map,
-                                GeneratedMutableMap.map27215map,
-                                GeneratedMutableMap.map27216map,
-                                GeneratedMutableMap.map27217map,
-                                GeneratedMutableMap.map27218map,
-                                GeneratedMutableMap.map27219map,
-                                GeneratedMutableMap.map27220map
+                                GeneratedMutableMap.map27538map,
+                                GeneratedMutableMap.map27539map,
+                                GeneratedMutableMap.map27540map,
+                                GeneratedMutableMap.map27541map,
+                                GeneratedMutableMap.map27542map,
+                                GeneratedMutableMap.map27543map,
+                                GeneratedMutableMap.map27544map,
+                                GeneratedMutableMap.map27545map
                         )
                         )
                 )
@@ -9339,14 +9315,14 @@ class GeneratedPOPProjectionTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map27213map,
-                                GeneratedMutableMap.map27214map,
-                                GeneratedMutableMap.map27215map,
-                                GeneratedMutableMap.map27216map,
-                                GeneratedMutableMap.map27217map,
-                                GeneratedMutableMap.map27218map,
-                                GeneratedMutableMap.map27219map,
-                                GeneratedMutableMap.map27220map
+                                GeneratedMutableMap.map27538map,
+                                GeneratedMutableMap.map27539map,
+                                GeneratedMutableMap.map27540map,
+                                GeneratedMutableMap.map27541map,
+                                GeneratedMutableMap.map27542map,
+                                GeneratedMutableMap.map27543map,
+                                GeneratedMutableMap.map27544map,
+                                GeneratedMutableMap.map27545map
                         )
                         )
                 )
@@ -9367,14 +9343,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("y"),
                                         AOPVariable("sum")
                                 ), listOf(
-                                        GeneratedMutableMap.map27210map,
-                                        GeneratedMutableMap.map27208map,
-                                        GeneratedMutableMap.map27211map,
-                                        GeneratedMutableMap.map27212map,
-                                        GeneratedMutableMap.map27209map,
-                                        GeneratedMutableMap.map27205map,
-                                        GeneratedMutableMap.map27207map,
-                                        GeneratedMutableMap.map27206map
+                                        GeneratedMutableMap.map27535map,
+                                        GeneratedMutableMap.map27533map,
+                                        GeneratedMutableMap.map27536map,
+                                        GeneratedMutableMap.map27537map,
+                                        GeneratedMutableMap.map27534map,
+                                        GeneratedMutableMap.map27530map,
+                                        GeneratedMutableMap.map27532map,
+                                        GeneratedMutableMap.map27531map
                                 )
                                 )
                         ),
@@ -9383,14 +9359,14 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("y"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map27221map,
-                                GeneratedMutableMap.map27222map,
-                                GeneratedMutableMap.map27223map,
-                                GeneratedMutableMap.map27224map,
-                                GeneratedMutableMap.map27225map,
-                                GeneratedMutableMap.map27226map,
-                                GeneratedMutableMap.map27227map,
-                                GeneratedMutableMap.map27228map
+                                GeneratedMutableMap.map27546map,
+                                GeneratedMutableMap.map27547map,
+                                GeneratedMutableMap.map27548map,
+                                GeneratedMutableMap.map27549map,
+                                GeneratedMutableMap.map27550map,
+                                GeneratedMutableMap.map27551map,
+                                GeneratedMutableMap.map27552map,
+                                GeneratedMutableMap.map27553map
                         )
                         )
                 )
@@ -9464,14 +9440,14 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("y"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map27221map,
-                                GeneratedMutableMap.map27222map,
-                                GeneratedMutableMap.map27223map,
-                                GeneratedMutableMap.map27224map,
-                                GeneratedMutableMap.map27225map,
-                                GeneratedMutableMap.map27226map,
-                                GeneratedMutableMap.map27227map,
-                                GeneratedMutableMap.map27228map
+                                GeneratedMutableMap.map27546map,
+                                GeneratedMutableMap.map27547map,
+                                GeneratedMutableMap.map27548map,
+                                GeneratedMutableMap.map27549map,
+                                GeneratedMutableMap.map27550map,
+                                GeneratedMutableMap.map27551map,
+                                GeneratedMutableMap.map27552map,
+                                GeneratedMutableMap.map27553map
                         )
                         )
                 )
@@ -9493,14 +9469,14 @@ class GeneratedPOPProjectionTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        GeneratedMutableMap.map27202map,
-                                        GeneratedMutableMap.map27477map,
-                                        GeneratedMutableMap.map27203map,
-                                        GeneratedMutableMap.map27204map,
-                                        GeneratedMutableMap.map27478map,
-                                        GeneratedMutableMap.map27197map,
-                                        GeneratedMutableMap.map27199map,
-                                        GeneratedMutableMap.map27198map
+                                        GeneratedMutableMap.map27527map,
+                                        GeneratedMutableMap.map27805map,
+                                        GeneratedMutableMap.map27528map,
+                                        GeneratedMutableMap.map27529map,
+                                        GeneratedMutableMap.map27806map,
+                                        GeneratedMutableMap.map27522map,
+                                        GeneratedMutableMap.map27524map,
+                                        GeneratedMutableMap.map27523map
                                 )
                                 )
                         ),
@@ -9509,14 +9485,14 @@ class GeneratedPOPProjectionTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map27213map,
-                                GeneratedMutableMap.map27481map,
-                                GeneratedMutableMap.map27215map,
-                                GeneratedMutableMap.map27216map,
-                                GeneratedMutableMap.map27482map,
-                                GeneratedMutableMap.map27218map,
-                                GeneratedMutableMap.map27219map,
-                                GeneratedMutableMap.map27220map
+                                GeneratedMutableMap.map27538map,
+                                GeneratedMutableMap.map27809map,
+                                GeneratedMutableMap.map27540map,
+                                GeneratedMutableMap.map27541map,
+                                GeneratedMutableMap.map27810map,
+                                GeneratedMutableMap.map27543map,
+                                GeneratedMutableMap.map27544map,
+                                GeneratedMutableMap.map27545map
                         )
                         )
                 )
@@ -9596,14 +9572,14 @@ class GeneratedPOPProjectionTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map27213map,
-                                GeneratedMutableMap.map27481map,
-                                GeneratedMutableMap.map27215map,
-                                GeneratedMutableMap.map27216map,
-                                GeneratedMutableMap.map27482map,
-                                GeneratedMutableMap.map27218map,
-                                GeneratedMutableMap.map27219map,
-                                GeneratedMutableMap.map27220map
+                                GeneratedMutableMap.map27538map,
+                                GeneratedMutableMap.map27809map,
+                                GeneratedMutableMap.map27540map,
+                                GeneratedMutableMap.map27541map,
+                                GeneratedMutableMap.map27810map,
+                                GeneratedMutableMap.map27543map,
+                                GeneratedMutableMap.map27544map,
+                                GeneratedMutableMap.map27545map
                         )
                         )
                 )
@@ -9624,14 +9600,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("y"),
                                         AOPVariable("sum")
                                 ), listOf(
-                                        GeneratedMutableMap.map27210map,
-                                        GeneratedMutableMap.map27479map,
-                                        GeneratedMutableMap.map27211map,
-                                        GeneratedMutableMap.map27212map,
-                                        GeneratedMutableMap.map27480map,
-                                        GeneratedMutableMap.map27205map,
-                                        GeneratedMutableMap.map27207map,
-                                        GeneratedMutableMap.map27206map
+                                        GeneratedMutableMap.map27535map,
+                                        GeneratedMutableMap.map27807map,
+                                        GeneratedMutableMap.map27536map,
+                                        GeneratedMutableMap.map27537map,
+                                        GeneratedMutableMap.map27808map,
+                                        GeneratedMutableMap.map27530map,
+                                        GeneratedMutableMap.map27532map,
+                                        GeneratedMutableMap.map27531map
                                 )
                                 )
                         ),
@@ -9640,14 +9616,14 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("y"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map27221map,
-                                GeneratedMutableMap.map27483map,
-                                GeneratedMutableMap.map27223map,
-                                GeneratedMutableMap.map27224map,
-                                GeneratedMutableMap.map27484map,
-                                GeneratedMutableMap.map27226map,
-                                GeneratedMutableMap.map27227map,
-                                GeneratedMutableMap.map27228map
+                                GeneratedMutableMap.map27546map,
+                                GeneratedMutableMap.map27811map,
+                                GeneratedMutableMap.map27548map,
+                                GeneratedMutableMap.map27549map,
+                                GeneratedMutableMap.map27812map,
+                                GeneratedMutableMap.map27551map,
+                                GeneratedMutableMap.map27552map,
+                                GeneratedMutableMap.map27553map
                         )
                         )
                 )
@@ -9721,14 +9697,14 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("y"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map27221map,
-                                GeneratedMutableMap.map27483map,
-                                GeneratedMutableMap.map27223map,
-                                GeneratedMutableMap.map27224map,
-                                GeneratedMutableMap.map27484map,
-                                GeneratedMutableMap.map27226map,
-                                GeneratedMutableMap.map27227map,
-                                GeneratedMutableMap.map27228map
+                                GeneratedMutableMap.map27546map,
+                                GeneratedMutableMap.map27811map,
+                                GeneratedMutableMap.map27548map,
+                                GeneratedMutableMap.map27549map,
+                                GeneratedMutableMap.map27812map,
+                                GeneratedMutableMap.map27551map,
+                                GeneratedMutableMap.map27552map,
+                                GeneratedMutableMap.map27553map
                         )
                         )
                 )
@@ -9746,14 +9722,14 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "hash"
                                 ), listOf(
-                                        GeneratedMutableMap.map27555map
+                                        GeneratedMutableMap.map27884map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27557map
+                                GeneratedMutableMap.map27886map
                         )
                         )
                 )
@@ -9785,7 +9761,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27557map
+                                GeneratedMutableMap.map27886map
                         )
                         )
                 )
@@ -9802,14 +9778,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("hash")
                                 ), listOf(
-                                        GeneratedMutableMap.map27556map
+                                        GeneratedMutableMap.map27885map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27558map
+                                GeneratedMutableMap.map27887map
                         )
                         )
                 )
@@ -9839,7 +9815,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27558map
+                                GeneratedMutableMap.map27887map
                         )
                         )
                 )
@@ -9857,14 +9833,14 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "hash"
                                 ), listOf(
-                                        GeneratedMutableMap.map27629map
+                                        GeneratedMutableMap.map27960map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27631map
+                                GeneratedMutableMap.map27962map
                         )
                         )
                 )
@@ -9896,7 +9872,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27631map
+                                GeneratedMutableMap.map27962map
                         )
                         )
                 )
@@ -9913,14 +9889,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("hash")
                                 ), listOf(
-                                        GeneratedMutableMap.map27630map
+                                        GeneratedMutableMap.map27961map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27632map
+                                GeneratedMutableMap.map27963map
                         )
                         )
                 )
@@ -9950,7 +9926,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27632map
+                                GeneratedMutableMap.map27963map
                         )
                         )
                 )
@@ -9968,14 +9944,14 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "hash"
                                 ), listOf(
-                                        GeneratedMutableMap.map27701map
+                                        GeneratedMutableMap.map28034map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27703map
+                                GeneratedMutableMap.map28036map
                         )
                         )
                 )
@@ -10007,7 +9983,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27703map
+                                GeneratedMutableMap.map28036map
                         )
                         )
                 )
@@ -10024,14 +10000,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("hash")
                                 ), listOf(
-                                        GeneratedMutableMap.map27702map
+                                        GeneratedMutableMap.map28035map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27704map
+                                GeneratedMutableMap.map28037map
                         )
                         )
                 )
@@ -10061,7 +10037,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27704map
+                                GeneratedMutableMap.map28037map
                         )
                         )
                 )
@@ -10079,14 +10055,14 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "hash"
                                 ), listOf(
-                                        GeneratedMutableMap.map27775map
+                                        GeneratedMutableMap.map28110map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27777map
+                                GeneratedMutableMap.map28112map
                         )
                         )
                 )
@@ -10118,7 +10094,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27777map
+                                GeneratedMutableMap.map28112map
                         )
                         )
                 )
@@ -10135,14 +10111,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("hash")
                                 ), listOf(
-                                        GeneratedMutableMap.map27776map
+                                        GeneratedMutableMap.map28111map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27778map
+                                GeneratedMutableMap.map28113map
                         )
                         )
                 )
@@ -10172,7 +10148,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27778map
+                                GeneratedMutableMap.map28113map
                         )
                         )
                 )
@@ -10190,14 +10166,14 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "hash"
                                 ), listOf(
-                                        GeneratedMutableMap.map27847map
+                                        GeneratedMutableMap.map28184map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27849map
+                                GeneratedMutableMap.map28186map
                         )
                         )
                 )
@@ -10229,7 +10205,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27849map
+                                GeneratedMutableMap.map28186map
                         )
                         )
                 )
@@ -10246,14 +10222,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("hash")
                                 ), listOf(
-                                        GeneratedMutableMap.map27848map
+                                        GeneratedMutableMap.map28185map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27850map
+                                GeneratedMutableMap.map28187map
                         )
                         )
                 )
@@ -10283,7 +10259,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27850map
+                                GeneratedMutableMap.map28187map
                         )
                         )
                 )
@@ -10301,14 +10277,14 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "hash"
                                 ), listOf(
-                                        GeneratedMutableMap.map27919map
+                                        GeneratedMutableMap.map28258map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27921map
+                                GeneratedMutableMap.map28260map
                         )
                         )
                 )
@@ -10340,7 +10316,7 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "hash"
                         ), listOf(
-                                GeneratedMutableMap.map27921map
+                                GeneratedMutableMap.map28260map
                         )
                         )
                 )
@@ -10357,14 +10333,14 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("hash")
                                 ), listOf(
-                                        GeneratedMutableMap.map27920map
+                                        GeneratedMutableMap.map28259map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27922map
+                                GeneratedMutableMap.map28261map
                         )
                         )
                 )
@@ -10394,7 +10370,7 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("hash")
                         ), listOf(
-                                GeneratedMutableMap.map27922map
+                                GeneratedMutableMap.map28261map
                         )
                         )
                 )
@@ -10414,10 +10390,10 @@ class GeneratedPOPProjectionTest {
                                         "date",
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map28096map,
-                                        GeneratedMutableMap.map28097map,
-                                        GeneratedMutableMap.map28098map,
-                                        GeneratedMutableMap.map28099map
+                                        GeneratedMutableMap.map28437map,
+                                        GeneratedMutableMap.map28438map,
+                                        GeneratedMutableMap.map28439map,
+                                        GeneratedMutableMap.map28440map
                                 )
                                 )
                         ),
@@ -10425,10 +10401,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28104map,
-                                GeneratedMutableMap.map28105map,
-                                GeneratedMutableMap.map28106map,
-                                GeneratedMutableMap.map28107map
+                                GeneratedMutableMap.map28445map,
+                                GeneratedMutableMap.map28446map,
+                                GeneratedMutableMap.map28447map,
+                                GeneratedMutableMap.map28448map
                         )
                         )
                 )
@@ -10465,10 +10441,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28104map,
-                                GeneratedMutableMap.map28105map,
-                                GeneratedMutableMap.map28106map,
-                                GeneratedMutableMap.map28107map
+                                GeneratedMutableMap.map28445map,
+                                GeneratedMutableMap.map28446map,
+                                GeneratedMutableMap.map28447map,
+                                GeneratedMutableMap.map28448map
                         )
                         )
                 )
@@ -10487,445 +10463,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("date"),
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map28100map,
-                                        GeneratedMutableMap.map28101map,
-                                        GeneratedMutableMap.map28102map,
-                                        GeneratedMutableMap.map28103map
-                                )
-                                )
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("x")
-                        ), listOf(
-                                GeneratedMutableMap.map28108map,
-                                GeneratedMutableMap.map28109map,
-                                GeneratedMutableMap.map28110map,
-                                GeneratedMutableMap.map28111map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/minutes-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                LOPBind(
-                                        AOPVariable("x"),
-                                        AOPBuildInCallMINUTES(AOPVariable("date")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example.org/date>"), AOPVariable("date"), graphName, false)
-                                        }()
-
-                                )
-
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("x")
-                        ), listOf(
-                                GeneratedMutableMap.map28108map,
-                                GeneratedMutableMap.map28109map,
-                                GeneratedMutableMap.map28110map,
-                                GeneratedMutableMap.map28111map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/minutes-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "date",
-                                        "x"
-                                ), listOf(
-                                        GeneratedMutableMap.map28186map,
-                                        GeneratedMutableMap.map28187map,
-                                        GeneratedMutableMap.map28188map,
-                                        GeneratedMutableMap.map28189map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                GeneratedMutableMap.map28194map,
-                                GeneratedMutableMap.map28195map,
-                                GeneratedMutableMap.map28196map,
-                                GeneratedMutableMap.map28197map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                POPBind(
-                                        dictionary,
-                                        AOPVariable("x"),
-                                        AOPBuildInCallSECONDS(AOPVariable("date")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example.org/date>", "date", false, true, false, EIndexPattern.SPO)
-                                        }()
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                GeneratedMutableMap.map28194map,
-                                GeneratedMutableMap.map28195map,
-                                GeneratedMutableMap.map28196map,
-                                GeneratedMutableMap.map28197map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                LOPValues(listOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("date"),
-                                        AOPVariable("x")
-                                ), listOf(
-                                        GeneratedMutableMap.map28190map,
-                                        GeneratedMutableMap.map28191map,
-                                        GeneratedMutableMap.map28192map,
-                                        GeneratedMutableMap.map28193map
-                                )
-                                )
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("x")
-                        ), listOf(
-                                GeneratedMutableMap.map28198map,
-                                GeneratedMutableMap.map28199map,
-                                GeneratedMutableMap.map28200map,
-                                GeneratedMutableMap.map28201map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                LOPBind(
-                                        AOPVariable("x"),
-                                        AOPBuildInCallSECONDS(AOPVariable("date")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example.org/date>"), AOPVariable("date"), graphName, false)
-                                        }()
-
-                                )
-
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("x")
-                        ), listOf(
-                                GeneratedMutableMap.map28198map,
-                                GeneratedMutableMap.map28199map,
-                                GeneratedMutableMap.map28200map,
-                                GeneratedMutableMap.map28201map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "date",
-                                        "x"
-                                ), listOf(
-                                        GeneratedMutableMap.map28313map,
-                                        GeneratedMutableMap.map28314map,
-                                        GeneratedMutableMap.map28315map,
-                                        GeneratedMutableMap.map28316map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                GeneratedMutableMap.map28321map,
-                                GeneratedMutableMap.map28322map,
-                                GeneratedMutableMap.map28323map,
-                                GeneratedMutableMap.map28324map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                POPBind(
-                                        dictionary,
-                                        AOPVariable("x"),
-                                        AOPBuildInCallHOURS(AOPVariable("date")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example.org/date>", "date", false, true, false, EIndexPattern.SPO)
-                                        }()
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                GeneratedMutableMap.map28321map,
-                                GeneratedMutableMap.map28322map,
-                                GeneratedMutableMap.map28323map,
-                                GeneratedMutableMap.map28324map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                LOPValues(listOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("date"),
-                                        AOPVariable("x")
-                                ), listOf(
-                                        GeneratedMutableMap.map28317map,
-                                        GeneratedMutableMap.map28318map,
-                                        GeneratedMutableMap.map28319map,
-                                        GeneratedMutableMap.map28320map
-                                )
-                                )
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("x")
-                        ), listOf(
-                                GeneratedMutableMap.map28325map,
-                                GeneratedMutableMap.map28326map,
-                                GeneratedMutableMap.map28327map,
-                                GeneratedMutableMap.map28328map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                LOPBind(
-                                        AOPVariable("x"),
-                                        AOPBuildInCallHOURS(AOPVariable("date")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example.org/date>"), AOPVariable("date"), graphName, false)
-                                        }()
-
-                                )
-
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("x")
-                        ), listOf(
-                                GeneratedMutableMap.map28325map,
-                                GeneratedMutableMap.map28326map,
-                                GeneratedMutableMap.map28327map,
-                                GeneratedMutableMap.map28328map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "date",
-                                        "x"
-                                ), listOf(
-                                        GeneratedMutableMap.map28440map,
                                         GeneratedMutableMap.map28441map,
                                         GeneratedMutableMap.map28442map,
-                                        GeneratedMutableMap.map28099map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                GeneratedMutableMap.map28446map,
-                                GeneratedMutableMap.map28447map,
-                                GeneratedMutableMap.map28448map,
-                                GeneratedMutableMap.map28107map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/month-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                POPBind(
-                                        dictionary,
-                                        AOPVariable("x"),
-                                        AOPBuildInCallMONTH(AOPVariable("date")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example.org/date>", "date", false, true, false, EIndexPattern.SPO)
-                                        }()
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                GeneratedMutableMap.map28446map,
-                                GeneratedMutableMap.map28447map,
-                                GeneratedMutableMap.map28448map,
-                                GeneratedMutableMap.map28107map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/month-01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("x")
-                                ),
-                                LOPValues(listOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("date"),
-                                        AOPVariable("x")
-                                ), listOf(
                                         GeneratedMutableMap.map28443map,
-                                        GeneratedMutableMap.map28444map,
-                                        GeneratedMutableMap.map28445map,
-                                        GeneratedMutableMap.map28103map
+                                        GeneratedMutableMap.map28444map
                                 )
                                 )
                         ),
@@ -10936,7 +10477,442 @@ class GeneratedPOPProjectionTest {
                                 GeneratedMutableMap.map28449map,
                                 GeneratedMutableMap.map28450map,
                                 GeneratedMutableMap.map28451map,
-                                GeneratedMutableMap.map28111map
+                                GeneratedMutableMap.map28452map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/minutes-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                LOPBind(
+                                        AOPVariable("x"),
+                                        AOPBuildInCallMINUTES(AOPVariable("date")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example.org/date>"), AOPVariable("date"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x")
+                        ), listOf(
+                                GeneratedMutableMap.map28449map,
+                                GeneratedMutableMap.map28450map,
+                                GeneratedMutableMap.map28451map,
+                                GeneratedMutableMap.map28452map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/minutes-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "date",
+                                        "x"
+                                ), listOf(
+                                        GeneratedMutableMap.map28529map,
+                                        GeneratedMutableMap.map28530map,
+                                        GeneratedMutableMap.map28531map,
+                                        GeneratedMutableMap.map28532map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                GeneratedMutableMap.map28537map,
+                                GeneratedMutableMap.map28538map,
+                                GeneratedMutableMap.map28539map,
+                                GeneratedMutableMap.map28540map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                POPBind(
+                                        dictionary,
+                                        AOPVariable("x"),
+                                        AOPBuildInCallSECONDS(AOPVariable("date")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            DistributedTripleStore.commit(1L)
+                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example.org/date>", "date", false, true, false, EIndexPattern.SPO)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                GeneratedMutableMap.map28537map,
+                                GeneratedMutableMap.map28538map,
+                                GeneratedMutableMap.map28539map,
+                                GeneratedMutableMap.map28540map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                LOPValues(listOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("date"),
+                                        AOPVariable("x")
+                                ), listOf(
+                                        GeneratedMutableMap.map28533map,
+                                        GeneratedMutableMap.map28534map,
+                                        GeneratedMutableMap.map28535map,
+                                        GeneratedMutableMap.map28536map
+                                )
+                                )
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x")
+                        ), listOf(
+                                GeneratedMutableMap.map28541map,
+                                GeneratedMutableMap.map28542map,
+                                GeneratedMutableMap.map28543map,
+                                GeneratedMutableMap.map28544map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                LOPBind(
+                                        AOPVariable("x"),
+                                        AOPBuildInCallSECONDS(AOPVariable("date")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example.org/date>"), AOPVariable("date"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x")
+                        ), listOf(
+                                GeneratedMutableMap.map28541map,
+                                GeneratedMutableMap.map28542map,
+                                GeneratedMutableMap.map28543map,
+                                GeneratedMutableMap.map28544map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/seconds-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "date",
+                                        "x"
+                                ), listOf(
+                                        GeneratedMutableMap.map28657map,
+                                        GeneratedMutableMap.map28658map,
+                                        GeneratedMutableMap.map28659map,
+                                        GeneratedMutableMap.map28660map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                GeneratedMutableMap.map28665map,
+                                GeneratedMutableMap.map28666map,
+                                GeneratedMutableMap.map28667map,
+                                GeneratedMutableMap.map28668map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                POPBind(
+                                        dictionary,
+                                        AOPVariable("x"),
+                                        AOPBuildInCallHOURS(AOPVariable("date")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            DistributedTripleStore.commit(1L)
+                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example.org/date>", "date", false, true, false, EIndexPattern.SPO)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                GeneratedMutableMap.map28665map,
+                                GeneratedMutableMap.map28666map,
+                                GeneratedMutableMap.map28667map,
+                                GeneratedMutableMap.map28668map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                LOPValues(listOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("date"),
+                                        AOPVariable("x")
+                                ), listOf(
+                                        GeneratedMutableMap.map28661map,
+                                        GeneratedMutableMap.map28662map,
+                                        GeneratedMutableMap.map28663map,
+                                        GeneratedMutableMap.map28664map
+                                )
+                                )
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x")
+                        ), listOf(
+                                GeneratedMutableMap.map28669map,
+                                GeneratedMutableMap.map28670map,
+                                GeneratedMutableMap.map28671map,
+                                GeneratedMutableMap.map28672map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                LOPBind(
+                                        AOPVariable("x"),
+                                        AOPBuildInCallHOURS(AOPVariable("date")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example.org/date>"), AOPVariable("date"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x")
+                        ), listOf(
+                                GeneratedMutableMap.map28669map,
+                                GeneratedMutableMap.map28670map,
+                                GeneratedMutableMap.map28671map,
+                                GeneratedMutableMap.map28672map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/hours-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "date",
+                                        "x"
+                                ), listOf(
+                                        GeneratedMutableMap.map28786map,
+                                        GeneratedMutableMap.map28787map,
+                                        GeneratedMutableMap.map28788map,
+                                        GeneratedMutableMap.map28440map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                GeneratedMutableMap.map28792map,
+                                GeneratedMutableMap.map28793map,
+                                GeneratedMutableMap.map28794map,
+                                GeneratedMutableMap.map28448map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/month-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                POPBind(
+                                        dictionary,
+                                        AOPVariable("x"),
+                                        AOPBuildInCallMONTH(AOPVariable("date")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/d1>", "<http://example.org/date>", "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d2>", "<http://example.org/date>", "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d3>", "<http://example.org/date>", "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            graph.addData(1L, listOf("<http://example.org/d4>", "<http://example.org/date>", "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                            DistributedTripleStore.commit(1L)
+                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example.org/date>", "date", false, true, false, EIndexPattern.SPO)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                GeneratedMutableMap.map28792map,
+                                GeneratedMutableMap.map28793map,
+                                GeneratedMutableMap.map28794map,
+                                GeneratedMutableMap.map28448map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/month-01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("x")
+                                ),
+                                LOPValues(listOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("date"),
+                                        AOPVariable("x")
+                                ), listOf(
+                                        GeneratedMutableMap.map28789map,
+                                        GeneratedMutableMap.map28790map,
+                                        GeneratedMutableMap.map28791map,
+                                        GeneratedMutableMap.map28444map
+                                )
+                                )
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x")
+                        ), listOf(
+                                GeneratedMutableMap.map28795map,
+                                GeneratedMutableMap.map28796map,
+                                GeneratedMutableMap.map28797map,
+                                GeneratedMutableMap.map28452map
                         )
                         )
                 )
@@ -10971,10 +10947,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28449map,
-                                GeneratedMutableMap.map28450map,
-                                GeneratedMutableMap.map28451map,
-                                GeneratedMutableMap.map28111map
+                                GeneratedMutableMap.map28795map,
+                                GeneratedMutableMap.map28796map,
+                                GeneratedMutableMap.map28797map,
+                                GeneratedMutableMap.map28452map
                         )
                         )
                 )
@@ -10994,10 +10970,10 @@ class GeneratedPOPProjectionTest {
                                         "date",
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map28563map,
-                                        GeneratedMutableMap.map28564map,
-                                        GeneratedMutableMap.map28565map,
-                                        GeneratedMutableMap.map28566map
+                                        GeneratedMutableMap.map28911map,
+                                        GeneratedMutableMap.map28912map,
+                                        GeneratedMutableMap.map28913map,
+                                        GeneratedMutableMap.map28914map
                                 )
                                 )
                         ),
@@ -11005,10 +10981,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28571map,
-                                GeneratedMutableMap.map28572map,
-                                GeneratedMutableMap.map28573map,
-                                GeneratedMutableMap.map28574map
+                                GeneratedMutableMap.map28919map,
+                                GeneratedMutableMap.map28920map,
+                                GeneratedMutableMap.map28921map,
+                                GeneratedMutableMap.map28922map
                         )
                         )
                 )
@@ -11045,10 +11021,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28571map,
-                                GeneratedMutableMap.map28572map,
-                                GeneratedMutableMap.map28573map,
-                                GeneratedMutableMap.map28574map
+                                GeneratedMutableMap.map28919map,
+                                GeneratedMutableMap.map28920map,
+                                GeneratedMutableMap.map28921map,
+                                GeneratedMutableMap.map28922map
                         )
                         )
                 )
@@ -11067,10 +11043,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("date"),
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map28567map,
-                                        GeneratedMutableMap.map28568map,
-                                        GeneratedMutableMap.map28569map,
-                                        GeneratedMutableMap.map28570map
+                                        GeneratedMutableMap.map28915map,
+                                        GeneratedMutableMap.map28916map,
+                                        GeneratedMutableMap.map28917map,
+                                        GeneratedMutableMap.map28918map
                                 )
                                 )
                         ),
@@ -11078,10 +11054,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28575map,
-                                GeneratedMutableMap.map28576map,
-                                GeneratedMutableMap.map28577map,
-                                GeneratedMutableMap.map28578map
+                                GeneratedMutableMap.map28923map,
+                                GeneratedMutableMap.map28924map,
+                                GeneratedMutableMap.map28925map,
+                                GeneratedMutableMap.map28926map
                         )
                         )
                 )
@@ -11116,10 +11092,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28575map,
-                                GeneratedMutableMap.map28576map,
-                                GeneratedMutableMap.map28577map,
-                                GeneratedMutableMap.map28578map
+                                GeneratedMutableMap.map28923map,
+                                GeneratedMutableMap.map28924map,
+                                GeneratedMutableMap.map28925map,
+                                GeneratedMutableMap.map28926map
                         )
                         )
                 )
@@ -11139,10 +11115,10 @@ class GeneratedPOPProjectionTest {
                                         "date",
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map28690map,
-                                        GeneratedMutableMap.map28691map,
-                                        GeneratedMutableMap.map28692map,
-                                        GeneratedMutableMap.map28316map
+                                        GeneratedMutableMap.map29040map,
+                                        GeneratedMutableMap.map29041map,
+                                        GeneratedMutableMap.map29042map,
+                                        GeneratedMutableMap.map28660map
                                 )
                                 )
                         ),
@@ -11150,10 +11126,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28696map,
-                                GeneratedMutableMap.map28697map,
-                                GeneratedMutableMap.map28698map,
-                                GeneratedMutableMap.map28324map
+                                GeneratedMutableMap.map29046map,
+                                GeneratedMutableMap.map29047map,
+                                GeneratedMutableMap.map29048map,
+                                GeneratedMutableMap.map28668map
                         )
                         )
                 )
@@ -11190,10 +11166,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28696map,
-                                GeneratedMutableMap.map28697map,
-                                GeneratedMutableMap.map28698map,
-                                GeneratedMutableMap.map28324map
+                                GeneratedMutableMap.map29046map,
+                                GeneratedMutableMap.map29047map,
+                                GeneratedMutableMap.map29048map,
+                                GeneratedMutableMap.map28668map
                         )
                         )
                 )
@@ -11212,10 +11188,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("date"),
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map28693map,
-                                        GeneratedMutableMap.map28694map,
-                                        GeneratedMutableMap.map28695map,
-                                        GeneratedMutableMap.map28320map
+                                        GeneratedMutableMap.map29043map,
+                                        GeneratedMutableMap.map29044map,
+                                        GeneratedMutableMap.map29045map,
+                                        GeneratedMutableMap.map28664map
                                 )
                                 )
                         ),
@@ -11223,10 +11199,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28699map,
-                                GeneratedMutableMap.map28700map,
-                                GeneratedMutableMap.map28701map,
-                                GeneratedMutableMap.map28328map
+                                GeneratedMutableMap.map29049map,
+                                GeneratedMutableMap.map29050map,
+                                GeneratedMutableMap.map29051map,
+                                GeneratedMutableMap.map28672map
                         )
                         )
                 )
@@ -11261,10 +11237,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28699map,
-                                GeneratedMutableMap.map28700map,
-                                GeneratedMutableMap.map28701map,
-                                GeneratedMutableMap.map28328map
+                                GeneratedMutableMap.map29049map,
+                                GeneratedMutableMap.map29050map,
+                                GeneratedMutableMap.map29051map,
+                                GeneratedMutableMap.map28672map
                         )
                         )
                 )
@@ -11284,10 +11260,10 @@ class GeneratedPOPProjectionTest {
                                 "date",
                                 "x"
                             ), listOf(
-                                GeneratedMutableMap.map28776map,
-                                GeneratedMutableMap.map28777map,
-                                GeneratedMutableMap.map28778map,
-                                GeneratedMutableMap.map28779map
+                                GeneratedMutableMap.map29127map,
+                                GeneratedMutableMap.map29128map,
+                                GeneratedMutableMap.map29129map,
+                                GeneratedMutableMap.map29130map
                             )
                         )
                     ),
@@ -11295,10 +11271,10 @@ class GeneratedPOPProjectionTest {
                             "s",
                             "x"
                         ), listOf(
-                            GeneratedMutableMap.map28780map,
-                            GeneratedMutableMap.map28781map,
-                            GeneratedMutableMap.map28782map,
-                            GeneratedMutableMap.map28783map
+                            GeneratedMutableMap.map29131map,
+                            GeneratedMutableMap.map29132map,
+                            GeneratedMutableMap.map29133map,
+                            GeneratedMutableMap.map29134map
                         )
                     )
                 )
@@ -11318,10 +11294,10 @@ class GeneratedPOPProjectionTest {
                                         "date",
                                         "x"
                                 ), listOf(
-                                        GeneratedMutableMap.map28895map,
-                                        GeneratedMutableMap.map28896map,
-                                        GeneratedMutableMap.map28897map,
-                                        GeneratedMutableMap.map28779map
+                                        GeneratedMutableMap.map29247map,
+                                        GeneratedMutableMap.map29248map,
+                                        GeneratedMutableMap.map29249map,
+                                        GeneratedMutableMap.map29130map
                                 )
                                 )
                         ),
@@ -11329,10 +11305,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28902map,
-                                GeneratedMutableMap.map28903map,
-                                GeneratedMutableMap.map28904map,
-                                GeneratedMutableMap.map28783map
+                                GeneratedMutableMap.map29254map,
+                                GeneratedMutableMap.map29255map,
+                                GeneratedMutableMap.map29256map,
+                                GeneratedMutableMap.map29134map
                         )
                         )
                 )
@@ -11369,10 +11345,10 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "x"
                         ), listOf(
-                                GeneratedMutableMap.map28902map,
-                                GeneratedMutableMap.map28903map,
-                                GeneratedMutableMap.map28904map,
-                                GeneratedMutableMap.map28783map
+                                GeneratedMutableMap.map29254map,
+                                GeneratedMutableMap.map29255map,
+                                GeneratedMutableMap.map29256map,
+                                GeneratedMutableMap.map29134map
                         )
                         )
                 )
@@ -11391,10 +11367,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("date"),
                                         AOPVariable("x")
                                 ), listOf(
-                                        GeneratedMutableMap.map28898map,
-                                        GeneratedMutableMap.map28899map,
-                                        GeneratedMutableMap.map28900map,
-                                        GeneratedMutableMap.map28901map
+                                        GeneratedMutableMap.map29250map,
+                                        GeneratedMutableMap.map29251map,
+                                        GeneratedMutableMap.map29252map,
+                                        GeneratedMutableMap.map29253map
                                 )
                                 )
                         ),
@@ -11402,10 +11378,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28905map,
-                                GeneratedMutableMap.map28906map,
-                                GeneratedMutableMap.map28907map,
-                                GeneratedMutableMap.map28908map
+                                GeneratedMutableMap.map29257map,
+                                GeneratedMutableMap.map29258map,
+                                GeneratedMutableMap.map29259map,
+                                GeneratedMutableMap.map29260map
                         )
                         )
                 )
@@ -11440,10 +11416,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("s"),
                                 AOPVariable("x")
                         ), listOf(
-                                GeneratedMutableMap.map28905map,
-                                GeneratedMutableMap.map28906map,
-                                GeneratedMutableMap.map28907map,
-                                GeneratedMutableMap.map28908map
+                                GeneratedMutableMap.map29257map,
+                                GeneratedMutableMap.map29258map,
+                                GeneratedMutableMap.map29259map,
+                                GeneratedMutableMap.map29260map
                         )
                         )
                 )
@@ -11468,10 +11444,10 @@ class GeneratedPOPProjectionTest {
                                         "b2",
                                         "b1"
                                 ), listOf(
-                                        GeneratedMutableMap.map31068map,
-                                        GeneratedMutableMap.map31069map,
-                                        GeneratedMutableMap.map31070map,
-                                        GeneratedMutableMap.map31071map
+                                        GeneratedMutableMap.map31423map,
+                                        GeneratedMutableMap.map31424map,
+                                        GeneratedMutableMap.map31425map,
+                                        GeneratedMutableMap.map31426map
                                 )
                                 )
                         ),
@@ -11481,10 +11457,10 @@ class GeneratedPOPProjectionTest {
                                 "b1",
                                 "b2"
                         ), listOf(
-                                GeneratedMutableMap.map31076map,
-                                GeneratedMutableMap.map31077map,
-                                GeneratedMutableMap.map31078map,
-                                GeneratedMutableMap.map31079map
+                                GeneratedMutableMap.map31431map,
+                                GeneratedMutableMap.map31432map,
+                                GeneratedMutableMap.map31433map,
+                                GeneratedMutableMap.map31434map
                         )
                         )
                 )
@@ -11562,10 +11538,10 @@ class GeneratedPOPProjectionTest {
                                 "b1",
                                 "b2"
                         ), listOf(
-                                GeneratedMutableMap.map31076map,
-                                GeneratedMutableMap.map31077map,
-                                GeneratedMutableMap.map31078map,
-                                GeneratedMutableMap.map31079map
+                                GeneratedMutableMap.map31431map,
+                                GeneratedMutableMap.map31432map,
+                                GeneratedMutableMap.map31433map,
+                                GeneratedMutableMap.map31434map
                         )
                         )
                 )
@@ -11589,10 +11565,10 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("b2"),
                                         AOPVariable("b1")
                                 ), listOf(
-                                        GeneratedMutableMap.map31072map,
-                                        GeneratedMutableMap.map31073map,
-                                        GeneratedMutableMap.map31074map,
-                                        GeneratedMutableMap.map31075map
+                                        GeneratedMutableMap.map31427map,
+                                        GeneratedMutableMap.map31428map,
+                                        GeneratedMutableMap.map31429map,
+                                        GeneratedMutableMap.map31430map
                                 )
                                 )
                         ),
@@ -11602,10 +11578,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("b1"),
                                 AOPVariable("b2")
                         ), listOf(
-                                GeneratedMutableMap.map31080map,
-                                GeneratedMutableMap.map31081map,
-                                GeneratedMutableMap.map31082map,
-                                GeneratedMutableMap.map31083map
+                                GeneratedMutableMap.map31435map,
+                                GeneratedMutableMap.map31436map,
+                                GeneratedMutableMap.map31437map,
+                                GeneratedMutableMap.map31438map
                         )
                         )
                 )
@@ -11677,10 +11653,10 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("b1"),
                                 AOPVariable("b2")
                         ), listOf(
-                                GeneratedMutableMap.map31080map,
-                                GeneratedMutableMap.map31081map,
-                                GeneratedMutableMap.map31082map,
-                                GeneratedMutableMap.map31083map
+                                GeneratedMutableMap.map31435map,
+                                GeneratedMutableMap.map31436map,
+                                GeneratedMutableMap.map31437map,
+                                GeneratedMutableMap.map31438map
                         )
                         )
                 )
@@ -11699,7 +11675,7 @@ class GeneratedPOPProjectionTest {
                                         "b2",
                                         "b1"
                                 ), listOf(
-                                        GeneratedMutableMap.map31160map
+                                        GeneratedMutableMap.map31515map
                                 )
                                 )
                         ),
@@ -11707,7 +11683,7 @@ class GeneratedPOPProjectionTest {
                                 "b1",
                                 "b2"
                         ), listOf(
-                                GeneratedMutableMap.map31161map
+                                GeneratedMutableMap.map31516map
                         )
                         )
                 )
@@ -11726,7 +11702,7 @@ class GeneratedPOPProjectionTest {
                                         "b2",
                                         "b1"
                                 ), listOf(
-                                        GeneratedMutableMap.map31163map
+                                        GeneratedMutableMap.map31518map
                                 )
                                 )
                         ),
@@ -11734,7 +11710,7 @@ class GeneratedPOPProjectionTest {
                                 "b1",
                                 "b2"
                         ), listOf(
-                                GeneratedMutableMap.map31164map
+                                GeneratedMutableMap.map31519map
                         )
                         )
                 )
@@ -11751,14 +11727,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "n"
                                 ), listOf(
-                                        GeneratedMutableMap.map31436map
+                                        GeneratedMutableMap.map31791map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "n"
                         ), listOf(
-                                GeneratedMutableMap.map31436map
+                                GeneratedMutableMap.map31791map
                         )
                         )
                 )
@@ -11777,7 +11753,7 @@ class GeneratedPOPProjectionTest {
                                         "iri",
                                         "uri"
                                 ), listOf(
-                                        GeneratedMutableMap.map31527map
+                                        GeneratedMutableMap.map31882map
                                 )
                                 )
                         ),
@@ -11785,7 +11761,7 @@ class GeneratedPOPProjectionTest {
                                 "uri",
                                 "iri"
                         ), listOf(
-                                GeneratedMutableMap.map31528map
+                                GeneratedMutableMap.map31883map
                         )
                         )
                 )
@@ -11806,13 +11782,13 @@ class GeneratedPOPProjectionTest {
                                         "o",
                                         "integer"
                                 ), listOf(
-                                        GeneratedMutableMap.map31753map,
-                                        GeneratedMutableMap.map31754map,
-                                        GeneratedMutableMap.map31755map,
-                                        GeneratedMutableMap.map31756map,
-                                        GeneratedMutableMap.map31757map,
-                                        GeneratedMutableMap.map31758map,
-                                        GeneratedMutableMap.map31759map
+                                        GeneratedMutableMap.map32109map,
+                                        GeneratedMutableMap.map32110map,
+                                        GeneratedMutableMap.map32111map,
+                                        GeneratedMutableMap.map32112map,
+                                        GeneratedMutableMap.map32113map,
+                                        GeneratedMutableMap.map32114map,
+                                        GeneratedMutableMap.map32115map
                                 )
                                 )
                         ),
@@ -11820,13 +11796,13 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "integer"
                         ), listOf(
-                                GeneratedMutableMap.map31767map,
-                                GeneratedMutableMap.map31768map,
-                                GeneratedMutableMap.map31769map,
-                                GeneratedMutableMap.map31770map,
-                                GeneratedMutableMap.map31771map,
-                                GeneratedMutableMap.map31772map,
-                                GeneratedMutableMap.map31773map
+                                GeneratedMutableMap.map32123map,
+                                GeneratedMutableMap.map32124map,
+                                GeneratedMutableMap.map32125map,
+                                GeneratedMutableMap.map32126map,
+                                GeneratedMutableMap.map32127map,
+                                GeneratedMutableMap.map32128map,
+                                GeneratedMutableMap.map32129map
                         )
                         )
                 )
@@ -11866,13 +11842,13 @@ class GeneratedPOPProjectionTest {
                                 "o",
                                 "integer"
                         ), listOf(
-                                GeneratedMutableMap.map31767map,
-                                GeneratedMutableMap.map31768map,
-                                GeneratedMutableMap.map31769map,
-                                GeneratedMutableMap.map31770map,
-                                GeneratedMutableMap.map31771map,
-                                GeneratedMutableMap.map31772map,
-                                GeneratedMutableMap.map31773map
+                                GeneratedMutableMap.map32123map,
+                                GeneratedMutableMap.map32124map,
+                                GeneratedMutableMap.map32125map,
+                                GeneratedMutableMap.map32126map,
+                                GeneratedMutableMap.map32127map,
+                                GeneratedMutableMap.map32128map,
+                                GeneratedMutableMap.map32129map
                         )
                         )
                 )
@@ -11892,13 +11868,13 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("o"),
                                         AOPVariable("integer")
                                 ), listOf(
-                                        GeneratedMutableMap.map31760map,
-                                        GeneratedMutableMap.map31761map,
-                                        GeneratedMutableMap.map31762map,
-                                        GeneratedMutableMap.map31763map,
-                                        GeneratedMutableMap.map31764map,
-                                        GeneratedMutableMap.map31765map,
-                                        GeneratedMutableMap.map31766map
+                                        GeneratedMutableMap.map32116map,
+                                        GeneratedMutableMap.map32117map,
+                                        GeneratedMutableMap.map32118map,
+                                        GeneratedMutableMap.map32119map,
+                                        GeneratedMutableMap.map32120map,
+                                        GeneratedMutableMap.map32121map,
+                                        GeneratedMutableMap.map32122map
                                 )
                                 )
                         ),
@@ -11906,13 +11882,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("integer")
                         ), listOf(
-                                GeneratedMutableMap.map31774map,
-                                GeneratedMutableMap.map31775map,
-                                GeneratedMutableMap.map31776map,
-                                GeneratedMutableMap.map31777map,
-                                GeneratedMutableMap.map31778map,
-                                GeneratedMutableMap.map31779map,
-                                GeneratedMutableMap.map31780map
+                                GeneratedMutableMap.map32130map,
+                                GeneratedMutableMap.map32131map,
+                                GeneratedMutableMap.map32132map,
+                                GeneratedMutableMap.map32133map,
+                                GeneratedMutableMap.map32134map,
+                                GeneratedMutableMap.map32135map,
+                                GeneratedMutableMap.map32136map
                         )
                         )
                 )
@@ -11950,13 +11926,13 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("o"),
                                 AOPVariable("integer")
                         ), listOf(
-                                GeneratedMutableMap.map31774map,
-                                GeneratedMutableMap.map31775map,
-                                GeneratedMutableMap.map31776map,
-                                GeneratedMutableMap.map31777map,
-                                GeneratedMutableMap.map31778map,
-                                GeneratedMutableMap.map31779map,
-                                GeneratedMutableMap.map31780map
+                                GeneratedMutableMap.map32130map,
+                                GeneratedMutableMap.map32131map,
+                                GeneratedMutableMap.map32132map,
+                                GeneratedMutableMap.map32133map,
+                                GeneratedMutableMap.map32134map,
+                                GeneratedMutableMap.map32135map,
+                                GeneratedMutableMap.map32136map
                         )
                         )
                 )
@@ -11973,14 +11949,14 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "error"
                                 ), listOf(
-                                        GeneratedMutableMap.map31842map
+                                        GeneratedMutableMap.map32198map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "error"
                         ), listOf(
-                                GeneratedMutableMap.map31842map
+                                GeneratedMutableMap.map32198map
                         )
                         )
                 )
@@ -11997,16 +11973,16 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "s"
                                 ), listOf(
-                                        GeneratedMutableMap.map32428map,
-                                        GeneratedMutableMap.map32429map
+                                        GeneratedMutableMap.map32785map,
+                                        GeneratedMutableMap.map32786map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "s"
                         ), listOf(
-                                GeneratedMutableMap.map32428map,
-                                GeneratedMutableMap.map32429map
+                                GeneratedMutableMap.map32785map,
+                                GeneratedMutableMap.map32786map
                         )
                         )
                 )
@@ -12025,8 +12001,8 @@ class GeneratedPOPProjectionTest {
                                         "w",
                                         "S"
                                 ), listOf(
-                                        GeneratedMutableMap.map32565map,
-                                        GeneratedMutableMap.map32566map
+                                        GeneratedMutableMap.map32926map,
+                                        GeneratedMutableMap.map32927map
                                 )
                                 )
                         ),
@@ -12034,8 +12010,8 @@ class GeneratedPOPProjectionTest {
                                 "w",
                                 "S"
                         ), listOf(
-                                GeneratedMutableMap.map32565map,
-                                GeneratedMutableMap.map32566map
+                                GeneratedMutableMap.map32926map,
+                                GeneratedMutableMap.map32927map
                         )
                         )
                 )
@@ -12054,9 +12030,9 @@ class GeneratedPOPProjectionTest {
                                         "s",
                                         "w"
                                 ), listOf(
-                                        GeneratedMutableMap.map32559map,
-                                        GeneratedMutableMap.map32710map,
-                                        GeneratedMutableMap.map32711map
+                                        GeneratedMutableMap.map32918map,
+                                        GeneratedMutableMap.map33077map,
+                                        GeneratedMutableMap.map33078map
                                 )
                                 )
                         ),
@@ -12064,9 +12040,9 @@ class GeneratedPOPProjectionTest {
                                 "s",
                                 "w"
                         ), listOf(
-                                GeneratedMutableMap.map32559map,
-                                GeneratedMutableMap.map32710map,
-                                GeneratedMutableMap.map32711map
+                                GeneratedMutableMap.map32918map,
+                                GeneratedMutableMap.map33077map,
+                                GeneratedMutableMap.map33078map
                         )
                         )
                 )
@@ -12087,12 +12063,12 @@ class GeneratedPOPProjectionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map32984map,
-                                        GeneratedMutableMap.map10287map,
-                                        GeneratedMutableMap.map32985map,
-                                        GeneratedMutableMap.map10289map
+                                        GeneratedMutableMap.map10419map,
+                                        GeneratedMutableMap.map10420map,
+                                        GeneratedMutableMap.map33355map,
+                                        GeneratedMutableMap.map10422map,
+                                        GeneratedMutableMap.map33356map,
+                                        GeneratedMutableMap.map10424map
                                 )
                                 )
                         ),
@@ -12101,12 +12077,12 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map32984map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map32985map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map33355map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map33356map,
+                                GeneratedMutableMap.map10424map
                         )
                         )
                 )
@@ -12159,12 +12135,12 @@ class GeneratedPOPProjectionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map32984map,
-                                GeneratedMutableMap.map10287map,
-                                GeneratedMutableMap.map32985map,
-                                GeneratedMutableMap.map10289map
+                                GeneratedMutableMap.map10419map,
+                                GeneratedMutableMap.map10420map,
+                                GeneratedMutableMap.map33355map,
+                                GeneratedMutableMap.map10422map,
+                                GeneratedMutableMap.map33356map,
+                                GeneratedMutableMap.map10424map
                         )
                         )
                 )
@@ -12184,12 +12160,12 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p"),
                                         AOPVariable("o")
                                 ), listOf(
-                                        GeneratedMutableMap.map10366map,
-                                        GeneratedMutableMap.map10367map,
-                                        GeneratedMutableMap.map32986map,
-                                        GeneratedMutableMap.map10369map,
-                                        GeneratedMutableMap.map32987map,
-                                        GeneratedMutableMap.map10371map
+                                        GeneratedMutableMap.map10502map,
+                                        GeneratedMutableMap.map10503map,
+                                        GeneratedMutableMap.map33357map,
+                                        GeneratedMutableMap.map10505map,
+                                        GeneratedMutableMap.map33358map,
+                                        GeneratedMutableMap.map10507map
                                 )
                                 )
                         ),
@@ -12198,12 +12174,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map32986map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map32987map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map33357map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map33358map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -12252,12 +12228,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10366map,
-                                GeneratedMutableMap.map10367map,
-                                GeneratedMutableMap.map32986map,
-                                GeneratedMutableMap.map10369map,
-                                GeneratedMutableMap.map32987map,
-                                GeneratedMutableMap.map10371map
+                                GeneratedMutableMap.map10502map,
+                                GeneratedMutableMap.map10503map,
+                                GeneratedMutableMap.map33357map,
+                                GeneratedMutableMap.map10505map,
+                                GeneratedMutableMap.map33358map,
+                                GeneratedMutableMap.map10507map
                         )
                         )
                 )
@@ -12282,12 +12258,12 @@ class GeneratedPOPProjectionTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10475map,
-                                        GeneratedMutableMap.map33114map,
-                                        GeneratedMutableMap.map10477map,
-                                        GeneratedMutableMap.map33115map,
-                                        GeneratedMutableMap.map10479map
+                                        GeneratedMutableMap.map10611map,
+                                        GeneratedMutableMap.map10612map,
+                                        GeneratedMutableMap.map33489map,
+                                        GeneratedMutableMap.map10614map,
+                                        GeneratedMutableMap.map33490map,
+                                        GeneratedMutableMap.map10616map
                                 )
                                 )
                         ),
@@ -12298,12 +12274,12 @@ class GeneratedPOPProjectionTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map,
-                                GeneratedMutableMap.map33114map,
-                                GeneratedMutableMap.map10477map,
-                                GeneratedMutableMap.map33115map,
-                                GeneratedMutableMap.map10479map
+                                GeneratedMutableMap.map10611map,
+                                GeneratedMutableMap.map10612map,
+                                GeneratedMutableMap.map33489map,
+                                GeneratedMutableMap.map10614map,
+                                GeneratedMutableMap.map33490map,
+                                GeneratedMutableMap.map10616map
                         )
                         )
                 )
@@ -12389,12 +12365,12 @@ class GeneratedPOPProjectionTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map,
-                                GeneratedMutableMap.map33114map,
-                                GeneratedMutableMap.map10477map,
-                                GeneratedMutableMap.map33115map,
-                                GeneratedMutableMap.map10479map
+                                GeneratedMutableMap.map10611map,
+                                GeneratedMutableMap.map10612map,
+                                GeneratedMutableMap.map33489map,
+                                GeneratedMutableMap.map10614map,
+                                GeneratedMutableMap.map33490map,
+                                GeneratedMutableMap.map10616map
                         )
                         )
                 )
@@ -12418,12 +12394,12 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("p2"),
                                         AOPVariable("o2")
                                 ), listOf(
-                                        GeneratedMutableMap.map10604map,
-                                        GeneratedMutableMap.map10605map,
-                                        GeneratedMutableMap.map33116map,
-                                        GeneratedMutableMap.map10607map,
-                                        GeneratedMutableMap.map33117map,
-                                        GeneratedMutableMap.map10609map
+                                        GeneratedMutableMap.map10744map,
+                                        GeneratedMutableMap.map10745map,
+                                        GeneratedMutableMap.map33491map,
+                                        GeneratedMutableMap.map10747map,
+                                        GeneratedMutableMap.map33492map,
+                                        GeneratedMutableMap.map10749map
                                 )
                                 )
                         ),
@@ -12434,12 +12410,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10604map,
-                                GeneratedMutableMap.map10605map,
-                                GeneratedMutableMap.map33116map,
-                                GeneratedMutableMap.map10607map,
-                                GeneratedMutableMap.map33117map,
-                                GeneratedMutableMap.map10609map
+                                GeneratedMutableMap.map10744map,
+                                GeneratedMutableMap.map10745map,
+                                GeneratedMutableMap.map33491map,
+                                GeneratedMutableMap.map10747map,
+                                GeneratedMutableMap.map33492map,
+                                GeneratedMutableMap.map10749map
                         )
                         )
                 )
@@ -12518,12 +12494,12 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("p2"),
                                 AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10604map,
-                                GeneratedMutableMap.map10605map,
-                                GeneratedMutableMap.map33116map,
-                                GeneratedMutableMap.map10607map,
-                                GeneratedMutableMap.map33117map,
-                                GeneratedMutableMap.map10609map
+                                GeneratedMutableMap.map10744map,
+                                GeneratedMutableMap.map10745map,
+                                GeneratedMutableMap.map33491map,
+                                GeneratedMutableMap.map10747map,
+                                GeneratedMutableMap.map33492map,
+                                GeneratedMutableMap.map10749map
                         )
                         )
                 )
@@ -12538,13 +12514,13 @@ class GeneratedPOPProjectionTest {
                                 ),
                                 POPValues(dictionary, listOf(
                                 ), listOf(
-                                        GeneratedMutableMap.map5895map
+                                        GeneratedMutableMap.map5965map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                         ), listOf(
-                                GeneratedMutableMap.map5895map
+                                GeneratedMutableMap.map5965map
                         )
                         )
                 )
@@ -12568,7 +12544,7 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                         ), listOf(
-                                GeneratedMutableMap.map5895map
+                                GeneratedMutableMap.map5965map
                         )
                         )
                 )
@@ -12582,13 +12558,13 @@ class GeneratedPOPProjectionTest {
                                 ),
                                 LOPValues(listOf(
                                 ), listOf(
-                                        GeneratedMutableMap.map33164map
+                                        GeneratedMutableMap.map33543map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                         ), listOf(
-                                GeneratedMutableMap.map33164map
+                                GeneratedMutableMap.map33543map
                         )
                         )
                 )
@@ -12611,7 +12587,7 @@ class GeneratedPOPProjectionTest {
                         ),
                         LOPValues(listOf(
                         ), listOf(
-                                GeneratedMutableMap.map33164map
+                                GeneratedMutableMap.map33543map
                         )
                         )
                 )
@@ -12634,8 +12610,8 @@ class GeneratedPOPProjectionTest {
                                         "z",
                                         "eq"
                                 ), listOf(
-                                        GeneratedMutableMap.map34849map,
-                                        GeneratedMutableMap.map34850map
+                                        GeneratedMutableMap.map35246map,
+                                        GeneratedMutableMap.map35247map
                                 )
                                 )
                         ),
@@ -12645,8 +12621,8 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "eq"
                         ), listOf(
-                                GeneratedMutableMap.map34849map,
-                                GeneratedMutableMap.map34850map
+                                GeneratedMutableMap.map35246map,
+                                GeneratedMutableMap.map35247map
                         )
                         )
                 )
@@ -12697,8 +12673,8 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "eq"
                         ), listOf(
-                                GeneratedMutableMap.map34849map,
-                                GeneratedMutableMap.map34850map
+                                GeneratedMutableMap.map35246map,
+                                GeneratedMutableMap.map35247map
                         )
                         )
                 )
@@ -12720,8 +12696,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("z"),
                                         AOPVariable("eq")
                                 ), listOf(
-                                        GeneratedMutableMap.map34851map,
-                                        GeneratedMutableMap.map34852map
+                                        GeneratedMutableMap.map35248map,
+                                        GeneratedMutableMap.map35249map
                                 )
                                 )
                         ),
@@ -12731,8 +12707,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("eq")
                         ), listOf(
-                                GeneratedMutableMap.map34851map,
-                                GeneratedMutableMap.map34852map
+                                GeneratedMutableMap.map35248map,
+                                GeneratedMutableMap.map35249map
                         )
                         )
                 )
@@ -12780,8 +12756,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("eq")
                         ), listOf(
-                                GeneratedMutableMap.map34851map,
-                                GeneratedMutableMap.map34852map
+                                GeneratedMutableMap.map35248map,
+                                GeneratedMutableMap.map35249map
                         )
                         )
                 )
@@ -12804,8 +12780,8 @@ class GeneratedPOPProjectionTest {
                                         "z",
                                         "sum"
                                 ), listOf(
-                                        GeneratedMutableMap.map34971map,
-                                        GeneratedMutableMap.map34972map
+                                        GeneratedMutableMap.map35374map,
+                                        GeneratedMutableMap.map35375map
                                 )
                                 )
                         ),
@@ -12815,8 +12791,8 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map34971map,
-                                GeneratedMutableMap.map34972map
+                                GeneratedMutableMap.map35374map,
+                                GeneratedMutableMap.map35375map
                         )
                         )
                 )
@@ -12867,8 +12843,8 @@ class GeneratedPOPProjectionTest {
                                 "z",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map34971map,
-                                GeneratedMutableMap.map34972map
+                                GeneratedMutableMap.map35374map,
+                                GeneratedMutableMap.map35375map
                         )
                         )
                 )
@@ -12890,8 +12866,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("z"),
                                         AOPVariable("sum")
                                 ), listOf(
-                                        GeneratedMutableMap.map34973map,
-                                        GeneratedMutableMap.map34974map
+                                        GeneratedMutableMap.map35376map,
+                                        GeneratedMutableMap.map35377map
                                 )
                                 )
                         ),
@@ -12901,8 +12877,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map34973map,
-                                GeneratedMutableMap.map34974map
+                                GeneratedMutableMap.map35376map,
+                                GeneratedMutableMap.map35377map
                         )
                         )
                 )
@@ -12950,8 +12926,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("z"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map34973map,
-                                GeneratedMutableMap.map34974map
+                                GeneratedMutableMap.map35376map,
+                                GeneratedMutableMap.map35377map
                         )
                         )
                 )
@@ -12976,7 +12952,7 @@ class GeneratedPOPProjectionTest {
                                 "twice",
                                 "sum"
                             ), listOf(
-                                GeneratedMutableMap.map35076map
+                                GeneratedMutableMap.map35482map
                             )
                         )
                     ),
@@ -12987,7 +12963,7 @@ class GeneratedPOPProjectionTest {
                             "sum",
                             "twice"
                         ), listOf(
-                            GeneratedMutableMap.map35077map
+                            GeneratedMutableMap.map35483map
                         )
                     )
                 )
@@ -13008,8 +12984,8 @@ class GeneratedPOPProjectionTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        GeneratedMutableMap.map35189map,
-                                        GeneratedMutableMap.map35190map
+                                        GeneratedMutableMap.map35596map,
+                                        GeneratedMutableMap.map35597map
                                 )
                                 )
                         ),
@@ -13018,8 +12994,8 @@ class GeneratedPOPProjectionTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map35189map,
-                                GeneratedMutableMap.map35190map
+                                GeneratedMutableMap.map35596map,
+                                GeneratedMutableMap.map35597map
                         )
                         )
                 )
@@ -13062,8 +13038,8 @@ class GeneratedPOPProjectionTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                GeneratedMutableMap.map35189map,
-                                GeneratedMutableMap.map35190map
+                                GeneratedMutableMap.map35596map,
+                                GeneratedMutableMap.map35597map
                         )
                         )
                 )
@@ -13083,8 +13059,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("y"),
                                         AOPVariable("sum")
                                 ), listOf(
-                                        GeneratedMutableMap.map34848map,
-                                        GeneratedMutableMap.map35191map
+                                        GeneratedMutableMap.map35244map,
+                                        GeneratedMutableMap.map35598map
                                 )
                                 )
                         ),
@@ -13093,8 +13069,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("y"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map34848map,
-                                GeneratedMutableMap.map35191map
+                                GeneratedMutableMap.map35244map,
+                                GeneratedMutableMap.map35598map
                         )
                         )
                 )
@@ -13134,8 +13110,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("y"),
                                 AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map34848map,
-                                GeneratedMutableMap.map35191map
+                                GeneratedMutableMap.map35244map,
+                                GeneratedMutableMap.map35598map
                         )
                         )
                 )
@@ -13156,8 +13132,8 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "dt"
                                 ), listOf(
-                                        GeneratedMutableMap.map35286map,
-                                        GeneratedMutableMap.map35287map
+                                        GeneratedMutableMap.map35695map,
+                                        GeneratedMutableMap.map35696map
                                 )
                                 )
                         ),
@@ -13166,8 +13142,8 @@ class GeneratedPOPProjectionTest {
                                 "l",
                                 "dt"
                         ), listOf(
-                                GeneratedMutableMap.map35286map,
-                                GeneratedMutableMap.map35287map
+                                GeneratedMutableMap.map35695map,
+                                GeneratedMutableMap.map35696map
                         )
                         )
                 )
@@ -13204,8 +13180,8 @@ class GeneratedPOPProjectionTest {
                                 "l",
                                 "dt"
                         ), listOf(
-                                GeneratedMutableMap.map35286map,
-                                GeneratedMutableMap.map35287map
+                                GeneratedMutableMap.map35695map,
+                                GeneratedMutableMap.map35696map
                         )
                         )
                 )
@@ -13225,8 +13201,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("dt")
                                 ), listOf(
-                                        GeneratedMutableMap.map35288map,
-                                        GeneratedMutableMap.map35289map
+                                        GeneratedMutableMap.map35697map,
+                                        GeneratedMutableMap.map35698map
                                 )
                                 )
                         ),
@@ -13235,8 +13211,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("l"),
                                 AOPVariable("dt")
                         ), listOf(
-                                GeneratedMutableMap.map35288map,
-                                GeneratedMutableMap.map35289map
+                                GeneratedMutableMap.map35697map,
+                                GeneratedMutableMap.map35698map
                         )
                         )
                 )
@@ -13271,8 +13247,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("l"),
                                 AOPVariable("dt")
                         ), listOf(
-                                GeneratedMutableMap.map35288map,
-                                GeneratedMutableMap.map35289map
+                                GeneratedMutableMap.map35697map,
+                                GeneratedMutableMap.map35698map
                         )
                         )
                 )
@@ -13293,7 +13269,7 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "dt"
                                 ), listOf(
-                                        GeneratedMutableMap.map35369map
+                                        GeneratedMutableMap.map35780map
                                 )
                                 )
                         ),
@@ -13302,7 +13278,7 @@ class GeneratedPOPProjectionTest {
                                 "l",
                                 "dt"
                         ), listOf(
-                                GeneratedMutableMap.map35369map
+                                GeneratedMutableMap.map35780map
                         )
                         )
                 )
@@ -13338,7 +13314,7 @@ class GeneratedPOPProjectionTest {
                                 "l",
                                 "dt"
                         ), listOf(
-                                GeneratedMutableMap.map35369map
+                                GeneratedMutableMap.map35780map
                         )
                         )
                 )
@@ -13358,7 +13334,7 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("dt")
                                 ), listOf(
-                                        GeneratedMutableMap.map35370map
+                                        GeneratedMutableMap.map35781map
                                 )
                                 )
                         ),
@@ -13367,7 +13343,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("l"),
                                 AOPVariable("dt")
                         ), listOf(
-                                GeneratedMutableMap.map35370map
+                                GeneratedMutableMap.map35781map
                         )
                         )
                 )
@@ -13401,7 +13377,7 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("l"),
                                 AOPVariable("dt")
                         ), listOf(
-                                GeneratedMutableMap.map35370map
+                                GeneratedMutableMap.map35781map
                         )
                         )
                 )
@@ -13422,8 +13398,8 @@ class GeneratedPOPProjectionTest {
                                         "l",
                                         "dt"
                                 ), listOf(
-                                        GeneratedMutableMap.map35466map,
-                                        GeneratedMutableMap.map35467map
+                                        GeneratedMutableMap.map35881map,
+                                        GeneratedMutableMap.map35882map
                                 )
                                 )
                         ),
@@ -13431,8 +13407,8 @@ class GeneratedPOPProjectionTest {
                                 "x",
                                 "dt"
                         ), listOf(
-                                GeneratedMutableMap.map35470map,
-                                GeneratedMutableMap.map35471map
+                                GeneratedMutableMap.map35885map,
+                                GeneratedMutableMap.map35886map
                         )
                         )
                 )
@@ -13479,8 +13455,8 @@ class GeneratedPOPProjectionTest {
                                 "x",
                                 "dt"
                         ), listOf(
-                                GeneratedMutableMap.map35470map,
-                                GeneratedMutableMap.map35471map
+                                GeneratedMutableMap.map35885map,
+                                GeneratedMutableMap.map35886map
                         )
                         )
                 )
@@ -13500,8 +13476,8 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("l"),
                                         AOPVariable("dt")
                                 ), listOf(
-                                        GeneratedMutableMap.map35468map,
-                                        GeneratedMutableMap.map35469map
+                                        GeneratedMutableMap.map35883map,
+                                        GeneratedMutableMap.map35884map
                                 )
                                 )
                         ),
@@ -13509,8 +13485,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("x"),
                                 AOPVariable("dt")
                         ), listOf(
-                                GeneratedMutableMap.map35472map,
-                                GeneratedMutableMap.map35473map
+                                GeneratedMutableMap.map35887map,
+                                GeneratedMutableMap.map35888map
                         )
                         )
                 )
@@ -13554,8 +13530,8 @@ class GeneratedPOPProjectionTest {
                                 AOPVariable("x"),
                                 AOPVariable("dt")
                         ), listOf(
-                                GeneratedMutableMap.map35472map,
-                                GeneratedMutableMap.map35473map
+                                GeneratedMutableMap.map35887map,
+                                GeneratedMutableMap.map35888map
                         )
                         )
                 )
@@ -13572,16 +13548,16 @@ class GeneratedPOPProjectionTest {
                                 POPValues(dictionary, listOf(
                                         "O"
                                 ), listOf(
-                                        GeneratedMutableMap.map36952map,
-                                        GeneratedMutableMap.map36953map
+                                        GeneratedMutableMap.map37371map,
+                                        GeneratedMutableMap.map37372map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "O"
                         ), listOf(
-                                GeneratedMutableMap.map36952map,
-                                GeneratedMutableMap.map36953map
+                                GeneratedMutableMap.map37371map,
+                                GeneratedMutableMap.map37372map
                         )
                         )
                 )
@@ -13621,8 +13597,8 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "O"
                         ), listOf(
-                                GeneratedMutableMap.map36952map,
-                                GeneratedMutableMap.map36953map
+                                GeneratedMutableMap.map37371map,
+                                GeneratedMutableMap.map37372map
                         )
                         )
                 )
@@ -13638,16 +13614,16 @@ class GeneratedPOPProjectionTest {
                                 LOPValues(listOf(
                                         AOPVariable("O")
                                 ), listOf(
-                                        GeneratedMutableMap.map36956map,
-                                        GeneratedMutableMap.map36957map
+                                        GeneratedMutableMap.map37375map,
+                                        GeneratedMutableMap.map37376map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36956map,
-                                GeneratedMutableMap.map36957map
+                                GeneratedMutableMap.map37375map,
+                                GeneratedMutableMap.map37376map
                         )
                         )
                 )
@@ -13684,629 +13660,12 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36956map,
-                                GeneratedMutableMap.map36957map
+                                GeneratedMutableMap.map37375map,
+                                GeneratedMutableMap.map37376map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("L")
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "#_36776",
-                                        "L",
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36922map,
-                                        GeneratedMutableMap.map36925map,
-                                        GeneratedMutableMap.map36926map,
-                                        GeneratedMutableMap.map36923map,
-                                        GeneratedMutableMap.map36927map,
-                                        GeneratedMutableMap.map36924map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "L"
-                        ), listOf(
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36961map,
-                                GeneratedMutableMap.map36962map,
-                                GeneratedMutableMap.map36963map,
-                                GeneratedMutableMap.map36964map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("L")
-                                ),
-                                POPSort(
-                                        dictionary,
-                                        AOPVariable("L"),
-                                        true,
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                POPJoinHashMap(
-                                                        dictionary,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("_:_36753", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                            graph.addData(1L, listOf("_:_36754", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                            graph.addData(1L, listOf("_:_36755", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                            graph.addData(1L, listOf("_:_36756", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                            graph.addData(1L, listOf("_:_36757", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                            graph.addData(1L, listOf("_:_36758", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                            graph.addData(1L, listOf("_:_36759", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                            graph.addData(1L, listOf("_:_36760", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                            graph.addData(1L, listOf("_:_36761", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                            graph.addData(1L, listOf("_:_36762", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_36776", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36753"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36754"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36755"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36756"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36757"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36758"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36759"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36760"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36761"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36762"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_36776", false, true, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        false)
-                                                ,
-                                                POPDistinct(
-                                                        dictionary,
-                                                        POPProjection(
-                                                                dictionary,
-                                                                mutableListOf(
-                                                                        AOPVariable("O")
-                                                                ),
-                                                                POPLimit(
-                                                                        dictionary,
-                                                                        2,
-                                                                        POPSort(
-                                                                                dictionary,
-                                                                                AOPVariable("O"),
-                                                                                true,
-                                                                                {
-                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    DistributedTripleStore.commit(1L)
-                                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
-                                                                                }()
-
-                                                                        )
-
-                                                                )
-
-                                                        )
-
-                                                )
-                                                ,
-                                                false)
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "L"
-                        ), listOf(
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36961map,
-                                GeneratedMutableMap.map36962map,
-                                GeneratedMutableMap.map36963map,
-                                GeneratedMutableMap.map36964map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("L")
-                                ),
-                                LOPValues(listOf(
-                                        AOPVariable("#_36776"),
-                                        AOPVariable("L"),
-                                        AOPVariable("O")
-                                ), listOf(
-                                        GeneratedMutableMap.map36942map,
-                                        GeneratedMutableMap.map36945map,
-                                        GeneratedMutableMap.map36946map,
-                                        GeneratedMutableMap.map36943map,
-                                        GeneratedMutableMap.map36947map,
-                                        GeneratedMutableMap.map36944map
-                                )
-                                )
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("L")
-                        ), listOf(
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36966map,
-                                GeneratedMutableMap.map36967map,
-                                GeneratedMutableMap.map36968map,
-                                GeneratedMutableMap.map36969map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("L")
-                                ),
-                                LOPSort(
-                                        true,
-                                        AOPVariable("L"),
-                                        LOPJoin(
-                                                LOPJoin(
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("_:_36753", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                            graph.addData(1L, listOf("_:_36754", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                            graph.addData(1L, listOf("_:_36755", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                            graph.addData(1L, listOf("_:_36756", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                            graph.addData(1L, listOf("_:_36757", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                            graph.addData(1L, listOf("_:_36758", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                            graph.addData(1L, listOf("_:_36759", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                            graph.addData(1L, listOf("_:_36760", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                            graph.addData(1L, listOf("_:_36761", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                            graph.addData(1L, listOf("_:_36762", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("#_36776"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36753"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36754"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36755"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36756"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36757"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36758"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36759"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36760"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36761"))
-                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36762"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_36776"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        false)
-                                                ,
-                                                LOPDistinct(
-                                                        LOPProjection(
-                                                                mutableListOf(
-                                                                        AOPVariable("O")
-                                                                ),
-                                                                LOPLimit(
-                                                                        2,
-                                                                        LOPSort(
-                                                                                true,
-                                                                                AOPVariable("O"),
-                                                                                {
-                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                                    DistributedTripleStore.commit(1L)
-                                                                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
-                                                                                }()
-
-                                                                        )
-
-                                                                )
-
-                                                        )
-
-                                                )
-                                                ,
-                                                false)
-
-                                )
-
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("L")
-                        ), listOf(
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36966map,
-                                GeneratedMutableMap.map36967map,
-                                GeneratedMutableMap.map36968map,
-                                GeneratedMutableMap.map36969map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("P"),
-                                        AOPVariable("FullName")
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "P",
-                                        "F",
-                                        "L",
-                                        "FullName"
-                                ), listOf(
-                                        GeneratedMutableMap.map37158map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "P",
-                                "FullName"
-                        ), listOf(
-                                GeneratedMutableMap.map37160map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("P"),
-                                        AOPVariable("FullName")
-                                ),
-                                POPBind(
-                                        dictionary,
-                                        AOPVariable("FullName"),
-                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/firstName>", "F", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/lastName>", "L", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                false)
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "P",
-                                "FullName"
-                        ), listOf(
-                                GeneratedMutableMap.map37160map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("P"),
-                                        AOPVariable("FullName")
-                                ),
-                                LOPValues(listOf(
-                                        AOPVariable("P"),
-                                        AOPVariable("F"),
-                                        AOPVariable("L"),
-                                        AOPVariable("FullName")
-                                ), listOf(
-                                        GeneratedMutableMap.map37159map
-                                )
-                                )
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("P"),
-                                AOPVariable("FullName")
-                        ), listOf(
-                                GeneratedMutableMap.map37161map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("P"),
-                                        AOPVariable("FullName")
-                                ),
-                                LOPBind(
-                                        AOPVariable("FullName"),
-                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
-                                                }()
-                                                ,
-                                                false)
-
-                                )
-
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("P"),
-                                AOPVariable("FullName")
-                        ), listOf(
-                                GeneratedMutableMap.map37161map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("p"),
-                                        AOPVariable("o")
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map37166map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map37166map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPProjection(
-                                dictionary,
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("p"),
-                                        AOPVariable("o")
-                                ),
-                                POPRename(
-                                        dictionary,
-                                        AOPVariable("o"),
-                                        AOPVariable("FullName"),
-                                        POPBind(
-                                                dictionary,
-                                                AOPVariable("p"),
-                                                AOPIri("http://xmlns.com/foaf/0.1/name"),
-                                                POPRename(
-                                                        dictionary,
-                                                        AOPVariable("s"),
-                                                        AOPVariable("P"),
-                                                        POPProjection(
-                                                                dictionary,
-                                                                mutableListOf(
-                                                                        AOPVariable("P"),
-                                                                        AOPVariable("FullName")
-                                                                ),
-                                                                POPBind(
-                                                                        dictionary,
-                                                                        AOPVariable("FullName"),
-                                                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
-                                                                        POPJoinHashMap(
-                                                                                dictionary,
-                                                                                {
-                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
-                                                                                    DistributedTripleStore.commit(1L)
-                                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/firstName>", "F", false, true, false, EIndexPattern.SPO)
-                                                                                }()
-                                                                                ,
-                                                                                {
-                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
-                                                                                    DistributedTripleStore.commit(1L)
-                                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/lastName>", "L", false, true, false, EIndexPattern.SPO)
-                                                                                }()
-                                                                                ,
-                                                                                false)
-
-                                                                )
-
-                                                        )
-
-                                                )
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map37166map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("p"),
-                                        AOPVariable("o")
-                                ),
-                                LOPValues(listOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("p"),
-                                        AOPVariable("o")
-                                ), listOf(
-                                        GeneratedMutableMap.map37167map
-                                )
-                                )
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("p"),
-                                AOPVariable("o")
-                        ), listOf(
-                                GeneratedMutableMap.map37167map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPProjection(
-                                mutableListOf(
-                                        AOPVariable("s"),
-                                        AOPVariable("p"),
-                                        AOPVariable("o")
-                                ),
-                                LOPRename(
-                                        AOPVariable("o"),
-                                        AOPVariable("FullName"),
-                                        LOPBind(
-                                                AOPVariable("p"),
-                                                AOPIri("http://xmlns.com/foaf/0.1/name"),
-                                                LOPRename(
-                                                        AOPVariable("s"),
-                                                        AOPVariable("P"),
-                                                        LOPProjection(
-                                                                mutableListOf(
-                                                                        AOPVariable("P"),
-                                                                        AOPVariable("FullName")
-                                                                ),
-                                                                LOPBind(
-                                                                        AOPVariable("FullName"),
-                                                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
-                                                                        LOPJoin(
-                                                                                {
-                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
-                                                                                    DistributedTripleStore.commit(1L)
-                                                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
-                                                                                }()
-                                                                                ,
-                                                                                {
-                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
-                                                                                    DistributedTripleStore.commit(1L)
-                                                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
-                                                                                }()
-                                                                                ,
-                                                                                false)
-
-                                                                )
-
-                                                        )
-
-                                                )
-
-                                        )
-
-                                )
-
-                        ),
-                        LOPValues(listOf(
-                                AOPVariable("s"),
-                                AOPVariable("p"),
-                                AOPVariable("o")
-                        ), listOf(
-                                GeneratedMutableMap.map37167map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -14321,24 +13680,24 @@ class GeneratedPOPProjectionTest {
                                         "L",
                                         "O"
                                 ), listOf(
-                                        GeneratedMutableMap.map37347map,
-                                        GeneratedMutableMap.map37350map,
-                                        GeneratedMutableMap.map37351map,
-                                        GeneratedMutableMap.map37348map,
-                                        GeneratedMutableMap.map37352map,
-                                        GeneratedMutableMap.map37349map
+                                        GeneratedMutableMap.map37339map,
+                                        GeneratedMutableMap.map37342map,
+                                        GeneratedMutableMap.map37343map,
+                                        GeneratedMutableMap.map37340map,
+                                        GeneratedMutableMap.map37344map,
+                                        GeneratedMutableMap.map37341map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "L"
                         ), listOf(
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36961map,
-                                GeneratedMutableMap.map36962map,
-                                GeneratedMutableMap.map36963map,
-                                GeneratedMutableMap.map36964map
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37380map,
+                                GeneratedMutableMap.map37381map,
+                                GeneratedMutableMap.map37382map,
+                                GeneratedMutableMap.map37383map
                         )
                         )
                 )
@@ -14437,12 +13796,12 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "L"
                         ), listOf(
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36960map,
-                                GeneratedMutableMap.map36961map,
-                                GeneratedMutableMap.map36962map,
-                                GeneratedMutableMap.map36963map,
-                                GeneratedMutableMap.map36964map
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37380map,
+                                GeneratedMutableMap.map37381map,
+                                GeneratedMutableMap.map37382map,
+                                GeneratedMutableMap.map37383map
                         )
                         )
                 )
@@ -14460,24 +13819,24 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("L"),
                                         AOPVariable("O")
                                 ), listOf(
-                                        GeneratedMutableMap.map37357map,
-                                        GeneratedMutableMap.map37360map,
-                                        GeneratedMutableMap.map37361map,
-                                        GeneratedMutableMap.map37358map,
+                                        GeneratedMutableMap.map37359map,
                                         GeneratedMutableMap.map37362map,
-                                        GeneratedMutableMap.map37359map
+                                        GeneratedMutableMap.map37363map,
+                                        GeneratedMutableMap.map37360map,
+                                        GeneratedMutableMap.map37364map,
+                                        GeneratedMutableMap.map37361map
                                 )
                                 )
                         ),
                         LOPValues(listOf(
                                 AOPVariable("L")
                         ), listOf(
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36966map,
-                                GeneratedMutableMap.map36967map,
-                                GeneratedMutableMap.map36968map,
-                                GeneratedMutableMap.map36969map
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37385map,
+                                GeneratedMutableMap.map37386map,
+                                GeneratedMutableMap.map37387map,
+                                GeneratedMutableMap.map37388map
                         )
                         )
                 )
@@ -14568,12 +13927,629 @@ class GeneratedPOPProjectionTest {
                         LOPValues(listOf(
                                 AOPVariable("L")
                         ), listOf(
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36965map,
-                                GeneratedMutableMap.map36966map,
-                                GeneratedMutableMap.map36967map,
-                                GeneratedMutableMap.map36968map,
-                                GeneratedMutableMap.map36969map
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37385map,
+                                GeneratedMutableMap.map37386map,
+                                GeneratedMutableMap.map37387map,
+                                GeneratedMutableMap.map37388map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("P"),
+                                        AOPVariable("FullName")
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "P",
+                                        "F",
+                                        "L",
+                                        "FullName"
+                                ), listOf(
+                                        GeneratedMutableMap.map37584map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "P",
+                                "FullName"
+                        ), listOf(
+                                GeneratedMutableMap.map37586map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("P"),
+                                        AOPVariable("FullName")
+                                ),
+                                POPBind(
+                                        dictionary,
+                                        AOPVariable("FullName"),
+                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                        POPJoinHashMap(
+                                                dictionary,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                                                    DistributedTripleStore.commit(1L)
+                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/firstName>", "F", false, true, false, EIndexPattern.SPO)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                                                    DistributedTripleStore.commit(1L)
+                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/lastName>", "L", false, true, false, EIndexPattern.SPO)
+                                                }()
+                                                ,
+                                                false)
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "P",
+                                "FullName"
+                        ), listOf(
+                                GeneratedMutableMap.map37586map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("P"),
+                                        AOPVariable("FullName")
+                                ),
+                                LOPValues(listOf(
+                                        AOPVariable("P"),
+                                        AOPVariable("F"),
+                                        AOPVariable("L"),
+                                        AOPVariable("FullName")
+                                ), listOf(
+                                        GeneratedMutableMap.map37585map
+                                )
+                                )
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("P"),
+                                AOPVariable("FullName")
+                        ), listOf(
+                                GeneratedMutableMap.map37587map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("P"),
+                                        AOPVariable("FullName")
+                                ),
+                                LOPBind(
+                                        AOPVariable("FullName"),
+                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
+                                                }()
+                                                ,
+                                                false)
+
+                                )
+
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("P"),
+                                AOPVariable("FullName")
+                        ), listOf(
+                                GeneratedMutableMap.map37587map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("p"),
+                                        AOPVariable("o")
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map37592map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map37592map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("p"),
+                                        AOPVariable("o")
+                                ),
+                                POPRename(
+                                        dictionary,
+                                        AOPVariable("o"),
+                                        AOPVariable("FullName"),
+                                        POPBind(
+                                                dictionary,
+                                                AOPVariable("p"),
+                                                AOPIri("http://xmlns.com/foaf/0.1/name"),
+                                                POPRename(
+                                                        dictionary,
+                                                        AOPVariable("s"),
+                                                        AOPVariable("P"),
+                                                        POPProjection(
+                                                                dictionary,
+                                                                mutableListOf(
+                                                                        AOPVariable("P"),
+                                                                        AOPVariable("FullName")
+                                                                ),
+                                                                POPBind(
+                                                                        dictionary,
+                                                                        AOPVariable("FullName"),
+                                                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                                                        POPJoinHashMap(
+                                                                                dictionary,
+                                                                                {
+                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                                                                                    DistributedTripleStore.commit(1L)
+                                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/firstName>", "F", false, true, false, EIndexPattern.SPO)
+                                                                                }()
+                                                                                ,
+                                                                                {
+                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                                                                                    DistributedTripleStore.commit(1L)
+                                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "P", "<http://xmlns.com/foaf/0.1/lastName>", "L", false, true, false, EIndexPattern.SPO)
+                                                                                }()
+                                                                                ,
+                                                                                false)
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map37592map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("p"),
+                                        AOPVariable("o")
+                                ),
+                                LOPValues(listOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("p"),
+                                        AOPVariable("o")
+                                ), listOf(
+                                        GeneratedMutableMap.map37593map
+                                )
+                                )
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                        ), listOf(
+                                GeneratedMutableMap.map37593map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("s"),
+                                        AOPVariable("p"),
+                                        AOPVariable("o")
+                                ),
+                                LOPRename(
+                                        AOPVariable("o"),
+                                        AOPVariable("FullName"),
+                                        LOPBind(
+                                                AOPVariable("p"),
+                                                AOPIri("http://xmlns.com/foaf/0.1/name"),
+                                                LOPRename(
+                                                        AOPVariable("s"),
+                                                        AOPVariable("P"),
+                                                        LOPProjection(
+                                                                mutableListOf(
+                                                                        AOPVariable("P"),
+                                                                        AOPVariable("FullName")
+                                                                ),
+                                                                LOPBind(
+                                                                        AOPVariable("FullName"),
+                                                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                                                        LOPJoin(
+                                                                                {
+                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                                                                                    DistributedTripleStore.commit(1L)
+                                                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
+                                                                                }()
+                                                                                ,
+                                                                                {
+                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                                    graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                                                                                    DistributedTripleStore.commit(1L)
+                                                                                    LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
+                                                                                }()
+                                                                                ,
+                                                                                false)
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                        ), listOf(
+                                GeneratedMutableMap.map37593map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("L")
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "#_37620",
+                                        "L",
+                                        "O"
+                                ), listOf(
+                                        GeneratedMutableMap.map37768map,
+                                        GeneratedMutableMap.map37771map,
+                                        GeneratedMutableMap.map37772map,
+                                        GeneratedMutableMap.map37769map,
+                                        GeneratedMutableMap.map37773map,
+                                        GeneratedMutableMap.map37770map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "L"
+                        ), listOf(
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37380map,
+                                GeneratedMutableMap.map37381map,
+                                GeneratedMutableMap.map37382map,
+                                GeneratedMutableMap.map37383map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        dictionary,
+                        POPProjection(
+                                dictionary,
+                                mutableListOf(
+                                        AOPVariable("L")
+                                ),
+                                POPSort(
+                                        dictionary,
+                                        AOPVariable("L"),
+                                        true,
+                                        POPJoinHashMap(
+                                                dictionary,
+                                                POPJoinHashMap(
+                                                        dictionary,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("_:_37597", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                            graph.addData(1L, listOf("_:_37598", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                                                            graph.addData(1L, listOf("_:_37599", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                                                            graph.addData(1L, listOf("_:_37600", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                            graph.addData(1L, listOf("_:_37601", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                                                            graph.addData(1L, listOf("_:_37602", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                            graph.addData(1L, listOf("_:_37603", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                                                            graph.addData(1L, listOf("_:_37604", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                            graph.addData(1L, listOf("_:_37605", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                                                            graph.addData(1L, listOf("_:_37606", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                            DistributedTripleStore.commit(1L)
+                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_37620", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37597"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37598"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37599"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37600"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37601"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37602"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37603"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37604"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37605"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37606"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_37620", false, true, false, EIndexPattern.SPO)
+                                                        }()
+                                                        ,
+                                                        false)
+                                                ,
+                                                POPDistinct(
+                                                        dictionary,
+                                                        POPProjection(
+                                                                dictionary,
+                                                                mutableListOf(
+                                                                        AOPVariable("O")
+                                                                ),
+                                                                POPLimit(
+                                                                        dictionary,
+                                                                        2,
+                                                                        POPSort(
+                                                                                dictionary,
+                                                                                AOPVariable("O"),
+                                                                                true,
+                                                                                {
+                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    DistributedTripleStore.commit(1L)
+                                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
+                                                                                }()
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+                                                ,
+                                                false)
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "L"
+                        ), listOf(
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37379map,
+                                GeneratedMutableMap.map37380map,
+                                GeneratedMutableMap.map37381map,
+                                GeneratedMutableMap.map37382map,
+                                GeneratedMutableMap.map37383map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("L")
+                                ),
+                                LOPValues(listOf(
+                                        AOPVariable("#_37620"),
+                                        AOPVariable("L"),
+                                        AOPVariable("O")
+                                ), listOf(
+                                        GeneratedMutableMap.map37788map,
+                                        GeneratedMutableMap.map37791map,
+                                        GeneratedMutableMap.map37792map,
+                                        GeneratedMutableMap.map37789map,
+                                        GeneratedMutableMap.map37793map,
+                                        GeneratedMutableMap.map37790map
+                                )
+                                )
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("L")
+                        ), listOf(
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37385map,
+                                GeneratedMutableMap.map37386map,
+                                GeneratedMutableMap.map37387map,
+                                GeneratedMutableMap.map37388map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPProjection(
+                                mutableListOf(
+                                        AOPVariable("L")
+                                ),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("L"),
+                                        LOPJoin(
+                                                LOPJoin(
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("_:_37597", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                            graph.addData(1L, listOf("_:_37598", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                                                            graph.addData(1L, listOf("_:_37599", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                                                            graph.addData(1L, listOf("_:_37600", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                            graph.addData(1L, listOf("_:_37601", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                                                            graph.addData(1L, listOf("_:_37602", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                            graph.addData(1L, listOf("_:_37603", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                                                            graph.addData(1L, listOf("_:_37604", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                            graph.addData(1L, listOf("_:_37605", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                                                            graph.addData(1L, listOf("_:_37606", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("#_37620"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37597"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37598"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_37599"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37600"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37601"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_37602"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37603"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_37604"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37605"))
+                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_37606"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_37620"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        false)
+                                                ,
+                                                LOPDistinct(
+                                                        LOPProjection(
+                                                                mutableListOf(
+                                                                        AOPVariable("O")
+                                                                ),
+                                                                LOPLimit(
+                                                                        2,
+                                                                        LOPSort(
+                                                                                true,
+                                                                                AOPVariable("O"),
+                                                                                {
+                                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                                    DistributedTripleStore.commit(1L)
+                                                                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
+                                                                                }()
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+                                                ,
+                                                false)
+
+                                )
+
+                        ),
+                        LOPValues(listOf(
+                                AOPVariable("L")
+                        ), listOf(
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37384map,
+                                GeneratedMutableMap.map37385map,
+                                GeneratedMutableMap.map37386map,
+                                GeneratedMutableMap.map37387map,
+                                GeneratedMutableMap.map37388map
                         )
                         )
                 )

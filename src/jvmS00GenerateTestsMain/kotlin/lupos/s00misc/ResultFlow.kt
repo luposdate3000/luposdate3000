@@ -56,10 +56,54 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray) {
         is POPJoinHashMap -> {
             toBinary(operator.children[0], buffer)
             toBinary(operator.children[1], buffer)
-            if (operator.optional)
-                buffer.appendInt(1)
+            buffer.appendInt(DynamicByteArray.boolToInt(operator.optional))
+        }
+        is TripleStoreIteratorGlobal -> {
+            val s: String
+            val p: String
+            val o: String
+            val sv = operator.sFilter != null
+            val pv = operator.pFilter != null
+            val ov = operator.oFilter != null
+            if (sv)
+                s = operator.sFilter!!
             else
+                s = operator.nameS
+            if (pv)
+                p = operator.pFilter!!
+            else
+                p = operator.nameP
+            if (ov)
+                o = operator.oFilter!!
+            else
+                o = operator.nameO
+            val tmp = rowMapProduced[operator.uuid]
+            buffer.appendInt(DynamicByteArray.boolToInt(sv))
+            buffer.appendInt(DynamicByteArray.boolToInt(pv))
+            buffer.appendInt(DynamicByteArray.boolToInt(ov))
+            buffer.appendString(s)
+            buffer.appendString(p)
+            buffer.appendString(o)
+            buffer.appendInt(operator.idx.ordinal)
+            if (tmp != null) {
+                buffer.appendInt(tmp.size)
+                for (r in tmp) {
+                    if (sv)
+                        buffer.appendString(s)
+                    else
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(s)]!!)!!)
+                    if (pv)
+                        buffer.appendString(p)
+                    else
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(p)]!!)!!)
+                    if (ov)
+                        buffer.appendString(o)
+                    else
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(o)]!!)!!)
+                }
+            } else {
                 buffer.appendInt(0)
+            }
         }
         else -> throw Exception("BinaryHelper.toBinary ${operator.operatorID} undefined")
     }
@@ -76,8 +120,28 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.POPJoinHashMapID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
-            val optional = buffer.getNextInt() == 1
+            val optional = DynamicByteArray.intToBool(buffer.getNextInt())
             return POPJoinHashMap(dictionary, childA, childB, optional)
+        }
+        EOperatorID.TripleStoreIteratorGlobalID -> {
+            var graphName = "graph" + DistributedTripleStore.getGraphNames().size
+            val graph = DistributedTripleStore.createGraph(graphName)
+            val sv = DynamicByteArray.intToBool(buffer.getNextInt())
+            val pv = DynamicByteArray.intToBool(buffer.getNextInt())
+            val ov = DynamicByteArray.intToBool(buffer.getNextInt())
+            val s = buffer.getNextString()
+            val p = buffer.getNextString()
+            val o = buffer.getNextString()
+            val idx = EIndexPattern.values()[buffer.getNextInt()]
+            val tripleCount = buffer.getNextInt()
+            for (i in 0 until tripleCount) {
+                val st = buffer.getNextString()
+                val pt = buffer.getNextString()
+                val ot = buffer.getNextString()
+                graph.addData(1L, listOf(st, pt, ot))
+            }
+            DistributedTripleStore.commit(1L)
+            return TripleStoreIteratorGlobal(1L, dictionary, graphName, s, p, o, sv, pv, ov, idx)
         }
         else -> throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
     }

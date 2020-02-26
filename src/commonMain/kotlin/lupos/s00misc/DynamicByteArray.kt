@@ -5,6 +5,15 @@ import lupos.s00misc.EOperatorID
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {
+    companion object {
+        fun intToBool(i: Int) = i == 1
+        fun boolToInt(b: Boolean): Int {
+            if (b)
+                return 1
+            return 0
+        }
+    }
+
     var data: ByteArray
     val maxlen: Int
 
