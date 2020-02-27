@@ -1,7 +1,6 @@
 package lupos.s00misc
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s00misc.EOperatorID
-import lupos.s04arithmetikOperators.*
-import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet

@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.*
+import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType

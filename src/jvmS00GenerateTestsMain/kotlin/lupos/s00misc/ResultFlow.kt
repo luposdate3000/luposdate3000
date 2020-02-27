@@ -1,11 +1,10 @@
 package lupos.s00misc
-import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.AOPBase
 import java.io.File
 import lupos.s00misc.classNameToString
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
@@ -625,7 +624,6 @@ fun printAllMicroTest() {
                 out.println("import lupos.s12p2p.P2P")
                 out.println("import lupos.s14endpoint.EndpointImpl")
                 out.println("import lupos.s15tripleStoreDistributed.*")
-                out.println("import lupos.s04arithmetikOperators.*")
                 out.println("import lupos.s04logicalOperators.*")
                 out.println("import lupos.s04logicalOperators.noinput.*")
                 out.println("import lupos.s04logicalOperators.multiinput.*")
@@ -716,7 +714,6 @@ fun printAllMicroTest() {
         out.println("import lupos.s12p2p.P2P")
         out.println("import lupos.s14endpoint.EndpointImpl")
         out.println("import lupos.s15tripleStoreDistributed.*")
-        out.println("import lupos.s04arithmetikOperators.*")
         out.println("import lupos.s04logicalOperators.*")
         out.println("import lupos.s04logicalOperators.noinput.*")
         out.println("import lupos.s04logicalOperators.multiinput.*")

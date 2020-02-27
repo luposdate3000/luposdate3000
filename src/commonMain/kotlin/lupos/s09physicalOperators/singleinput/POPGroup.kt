@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.*
+import lupos.s00misc.resultFlowConsume
+import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
