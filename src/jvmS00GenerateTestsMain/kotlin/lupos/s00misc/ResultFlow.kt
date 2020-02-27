@@ -1,4 +1,21 @@
 package lupos.s04arithmetikOperators
+import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
+import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
+import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
+import lupos.s09physicalOperators.singleinput.POPBind
+import lupos.s09physicalOperators.singleinput.POPBindUndefined
+import lupos.s09physicalOperators.singleinput.POPFilter
+import lupos.s09physicalOperators.singleinput.POPFilterExact
+import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.s09physicalOperators.singleinput.POPRename
+import lupos.s09physicalOperators.singleinput.POPSort
+import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPValues
+import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.POPBase
+import lupos.s04logicalOperators.OPBase
 
 import java.io.File
 import lupos.s00misc.classNameToString
@@ -63,22 +80,9 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.multiinput.*
-import lupos.s04logicalOperators.noinput.*
-import lupos.s04logicalOperators.singleinput.*
-import lupos.s04logicalOperators.singleinput.modifiers.*
-import lupos.s08logicalOptimisation.*
-import lupos.s09physicalOperators.*
-import lupos.s09physicalOperators.multiinput.*
-import lupos.s09physicalOperators.noinput.*
-import lupos.s09physicalOperators.singleinput.*
-import lupos.s09physicalOperators.singleinput.modifiers.*
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s15tripleStoreDistributed.*
 
 
 val prefix = ""
@@ -618,14 +622,14 @@ fun printAllMicroTest() {
                 out.println("import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer")
                 out.println("import lupos.s12p2p.P2P")
                 out.println("import lupos.s14endpoint.EndpointImpl")
-                out.println("import lupos.s15tripleStoreDistributed.*")
+ out.println("import lupos.s15tripleStoreDistributed.*")
                 out.println("import lupos.s04arithmetikOperators.*")
-                out.println("import lupos.s04logicalOperators.*")
-                out.println("import lupos.s04logicalOperators.noinput.*")
-                out.println("import lupos.s04logicalOperators.multiinput.*")
-                out.println("import lupos.s04logicalOperators.singleinput.*")
-                out.println("import lupos.s04logicalOperators.singleinput.modifiers.*")
-                out.println("import lupos.s08logicalOptimisation.*")
+        out.println("import lupos.s04logicalOperators.*")
+        out.println("import lupos.s04logicalOperators.noinput.*")
+        out.println("import lupos.s04logicalOperators.multiinput.*")
+        out.println("import lupos.s04logicalOperators.singleinput.*")
+        out.println("import lupos.s04logicalOperators.singleinput.modifiers.*")
+        out.println("import lupos.s08logicalOptimisation.*")
                 out.println("import lupos.s09physicalOperators.*")
                 out.println("import lupos.s09physicalOperators.multiinput.*")
                 out.println("import lupos.s09physicalOperators.noinput.*")
@@ -709,7 +713,7 @@ fun printAllMicroTest() {
         out.println("import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer")
         out.println("import lupos.s12p2p.P2P")
         out.println("import lupos.s14endpoint.EndpointImpl")
-        out.println("import lupos.s15tripleStoreDistributed.*")
+    out.println("import lupos.s15tripleStoreDistributed.*")
         out.println("import lupos.s04arithmetikOperators.*")
         out.println("import lupos.s04logicalOperators.*")
         out.println("import lupos.s04logicalOperators.noinput.*")

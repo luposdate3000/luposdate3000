@@ -1,4 +1,11 @@
 package lupos.s14endpoint
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Trace
 
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -7,16 +14,12 @@ import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
 import lupos.s12p2p.P2P
 import lupos.s12p2p.TransferHelperNetwork
 import lupos.s14endpoint.Endpoint
