@@ -1,8 +1,6 @@
 package lupos
-import lupos.s04arithmetikOperators.printAllMicroTest
-import lupos.s04arithmetikOperators.updateAllMicroTest
-import lupos.s00misc.CoroutinesHelper
 
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
@@ -23,6 +21,8 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.printAllMicroTest
+import lupos.s04arithmetikOperators.updateAllMicroTest
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml

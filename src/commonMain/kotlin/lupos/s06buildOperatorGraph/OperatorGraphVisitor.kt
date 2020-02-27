@@ -1,75 +1,4 @@
 package lupos.s06buildOperatorGraph
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE0
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONCAT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONTAINS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIF
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANGMATCHES
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRDT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRENDS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLANG
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRSTARTS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRUUID
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTIMEZONE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUUID
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04arithmetikOperators.noinput.AOPAggregation
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPDateTime
-import lupos.s04arithmetikOperators.noinput.AOPDecimal
-import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPFunctionCall
-import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
-import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPNot
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
-import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.multiinput.AOPAddition
-import lupos.s04arithmetikOperators.multiinput.AOPAnd
-import lupos.s04arithmetikOperators.multiinput.AOPDivision
-import lupos.s04arithmetikOperators.multiinput.AOPEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGT
-import lupos.s04arithmetikOperators.multiinput.AOPIn
-import lupos.s04arithmetikOperators.multiinput.AOPLEQ
-import lupos.s04arithmetikOperators.multiinput.AOPLT
-import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
-import lupos.s04arithmetikOperators.multiinput.AOPNEQ
-import lupos.s04arithmetikOperators.multiinput.AOPNotIn
-import lupos.s04arithmetikOperators.multiinput.AOPOr
-import lupos.s04arithmetikOperators.multiinput.AOPSet
-import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
@@ -164,7 +93,78 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTUpdateGrapOperation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.multiinput.AOPAddition
+import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPDivision
+import lupos.s04arithmetikOperators.multiinput.AOPEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGT
+import lupos.s04arithmetikOperators.multiinput.AOPIn
+import lupos.s04arithmetikOperators.multiinput.AOPLEQ
+import lupos.s04arithmetikOperators.multiinput.AOPLT
+import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
+import lupos.s04arithmetikOperators.multiinput.AOPNEQ
+import lupos.s04arithmetikOperators.multiinput.AOPNotIn
+import lupos.s04arithmetikOperators.multiinput.AOPOr
+import lupos.s04arithmetikOperators.multiinput.AOPSet
+import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
+import lupos.s04arithmetikOperators.noinput.AOPAggregation
+import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPDateTime
+import lupos.s04arithmetikOperators.noinput.AOPDecimal
+import lupos.s04arithmetikOperators.noinput.AOPDouble
+import lupos.s04arithmetikOperators.noinput.AOPFunctionCall
+import lupos.s04arithmetikOperators.noinput.AOPInteger
+import lupos.s04arithmetikOperators.noinput.AOPIri
+import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
+import lupos.s04arithmetikOperators.noinput.AOPNot
+import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
+import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
+import lupos.s04arithmetikOperators.noinput.AOPUndef
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE0
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONCAT
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONTAINS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIF
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANGMATCHES
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRDT
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRENDS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLANG
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRSTARTS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRUUID
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTIMEZONE
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUUID
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -300,9 +300,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             val template = t.visit(this)
             var tmp: OPBase = child
             if (template is LOPTriple) {
-                val s = template.s
-                val p = template.p
-                val o = template.o
+                val s = template.children[0]
+                val p = template.children[1]
+                val o = template.children[2]
                 if (s is AOPVariable)
                     tmp = LOPRename(AOPVariable("s"), AOPVariable(s.name), tmp)
                 else
@@ -680,7 +680,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 3)
-        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2], null, false)
+        return LOPTriple(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, null, false)
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
@@ -1065,7 +1065,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         when (node) {
             is OPNothing -> return node
-            is LOPTriple -> return LOPTriple(node.s, node.p, node.o, iri, false)
+            is LOPTriple -> return LOPTriple(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
             is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name)
             is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name), setGraphNameForAllTriples(node.children[1], name), node.optional)
             else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)}")

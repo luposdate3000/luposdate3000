@@ -9,7 +9,7 @@ class LOPUnion(first: OPBase, second: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPUnionID
     override val classname = "LOPUnion"
 
-    override val children: Array<OPBase> = arrayOf(first,second)
+    override val children: Array<OPBase> = arrayOf(first, second)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPUnion)

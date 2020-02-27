@@ -1,15 +1,16 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.resultFlowConsume
-import lupos.s04arithmetikOperators.resultFlowProduce
-import lupos.s00misc.GlobalLogger
-import lupos.s00misc.ELoggerType
+
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.resultFlowConsume
+import lupos.s04arithmetikOperators.resultFlowProduce
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase

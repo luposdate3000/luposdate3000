@@ -1,10 +1,10 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.resultFlow
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
 
 import lupos.s00misc.EOperatorID
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.resultFlow
 import lupos.s04logicalOperators.OPBase
 
 

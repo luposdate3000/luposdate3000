@@ -2,8 +2,8 @@ package lupos.s08logicalOptimisation
 
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import org.junit.jupiter.api.Assertions.assertTrue

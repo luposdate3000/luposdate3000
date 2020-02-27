@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 
 
 object GlobalLogger {
-    var enabled = ELoggerType.RELEASE
+    var enabled = ELoggerType.TEST_RESULT
     fun log(type: ELoggerType, action: () -> Any?) {
         if (enabled.ordinal >= type.ordinal)
             println(action())

@@ -1,10 +1,10 @@
 package lupos.s04arithmetikOperators
-import lupos.s03resultRepresentation.ResultRow
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
+import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.AOPAggregation
 import lupos.s04arithmetikOperators.noinput.AOPBnode

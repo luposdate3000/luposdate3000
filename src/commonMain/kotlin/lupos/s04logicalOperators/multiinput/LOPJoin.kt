@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 class LOPJoin(first: OPBase, second: OPBase, val optional: Boolean) : LOPBase() {
     override val operatorID = EOperatorID.LOPJoinID
     override val classname = "LOPJoin"
-    override val children: Array<OPBase> = arrayOf(first,second)
+    override val children: Array<OPBase> = arrayOf(first, second)
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
 

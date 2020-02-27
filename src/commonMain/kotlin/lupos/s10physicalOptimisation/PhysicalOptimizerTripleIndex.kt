@@ -34,7 +34,7 @@ import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
-import lupos.s08logicalOptimisation.OptimizerCompoundBase
+import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -56,9 +56,32 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerCompoundBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerID) {
-    override val classname = "PhysicalOptimizer"
-    override val childrenOptimizers = arrayOf(//
-            PhysicalOptimizerTripleIndex(transactionID, dictionary),//
-            PhysicalOptimizerNaive(transactionID, dictionary))
+class PhysicalOptimizerTripleIndex(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerTripleIndexID) {
+    override val classname = "PhysicalOptimizerTripleIndex"
+
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+        var res = node
+        if (node is LOPTriple) {
+        }
+
+/*
+is LOPTriple -> {
+                    val ts = optimizeTriple(node.s)
+                    val tp = optimizeTriple(node.p)
+                    val to = optimizeTriple(node.o)
+                    if (node.graph == null)
+                        res = DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+                    else
+                        res = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+                }
+fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
+        when (param) {
+            is AOPVariable -> return Pair(param.name, false)
+            is AOPConstant -> return Pair(param.valueToString()!!, true)
+            else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
+        }
+    }
+*/
+        res
+    })
 }

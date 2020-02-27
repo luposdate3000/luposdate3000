@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 class LOPMinus(first: OPBase, second: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPMinusID
     override val classname = "LOPMinus"
-    override val children: Array<OPBase> = arrayOf(first,second)
+    override val children: Array<OPBase> = arrayOf(first, second)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPMinus)

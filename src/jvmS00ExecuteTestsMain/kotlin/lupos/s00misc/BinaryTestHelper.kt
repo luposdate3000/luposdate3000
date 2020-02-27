@@ -410,17 +410,17 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
-            val mys: OPBase
+            val mys: AOPBase
             if (sv)
                 mys = AOPVariable.calculate(s)
             else
                 mys = AOPVariable(s)
-            val myp: OPBase
+            val myp: AOPBase
             if (pv)
                 myp = AOPVariable.calculate(p)
             else
                 myp = AOPVariable(p)
-            val myo: OPBase
+            val myo: AOPBase
             if (ov)
                 myo = AOPVariable.calculate(o)
             else
@@ -473,12 +473,12 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
 }
 
 fun executeBinaryTests(folder: String) {
-var testcases=0
+    var testcases = 0
     try {
         File(folder).walk().forEach {
             val filename: String = it.toRelativeString(File("."))
             if (filename.endsWith(".bin")) {
-testcases++
+                testcases++
                 println("execute test $filename")
                 val dictionary = ResultSetDictionary()
                 var input: OPBase? = null
@@ -493,7 +493,7 @@ testcases++
                     }
                     input = fromBinary(dictionary, buffer)
                 }
-                println("input::"+ input!!.toXMLElement().toPrettyString())
+                println("input::" + input!!.toXMLElement().toPrettyString())
                 var expectPOP: POPValues? = null
                 try {
                     File(filename + ".expect").inputStream().use { instream ->
@@ -537,5 +537,5 @@ testcases++
     } catch (e: Throwable) {
         e.printStackTrace()
     }
-println("executed testcases : $testcases")
+    println("executed testcases : $testcases")
 }
