@@ -2,7 +2,6 @@ package lupos.s12p2p
 
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement

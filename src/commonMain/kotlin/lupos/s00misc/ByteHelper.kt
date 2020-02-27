@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.experimental.and
-import lupos.s00misc.EOperatorID
 
 
 inline fun Byte.bit0(): Boolean = (this and 1) > 0

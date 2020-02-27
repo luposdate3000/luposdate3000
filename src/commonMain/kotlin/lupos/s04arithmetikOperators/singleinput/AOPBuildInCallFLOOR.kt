@@ -1,9 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import com.benasher44.uuid.uuid4
-import com.soywiz.krypto.md5
-import com.soywiz.krypto.sha1
-import com.soywiz.krypto.sha256
 import kotlin.math.floor
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow

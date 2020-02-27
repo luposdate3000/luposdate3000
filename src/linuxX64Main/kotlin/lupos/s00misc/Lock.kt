@@ -1,12 +1,7 @@
 package lupos.s00misc
 
-import kotlin.native.concurrent.AtomicLong
-import kotlin.native.concurrent.AtomicReference
-import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.sync.Mutex
-import lupos.s00misc.EOperatorID
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t

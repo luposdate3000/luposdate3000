@@ -5,7 +5,6 @@ import com.soywiz.korio.stream.AsyncStreamBase
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType
-import lupos.s00misc.EOperatorID
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value

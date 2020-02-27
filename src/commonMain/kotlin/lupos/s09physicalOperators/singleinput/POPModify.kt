@@ -6,12 +6,6 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
-import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
-import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
-import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
-import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary

@@ -1,6 +1,5 @@
 package lupos.s13keyDistributionOptimizer
 
-import lupos.s00misc.EOperatorID
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.ResultSetDictionary

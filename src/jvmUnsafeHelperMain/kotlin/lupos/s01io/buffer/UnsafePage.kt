@@ -1,6 +1,5 @@
 package lupos.s01io.buffer
 
-import lupos.s00misc.EOperatorID
 
 
 class UnsafePage {

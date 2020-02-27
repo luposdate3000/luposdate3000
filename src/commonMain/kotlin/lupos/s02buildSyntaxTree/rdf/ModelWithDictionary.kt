@@ -1,6 +1,5 @@
 package lupos.s02buildSyntaxTree.rdf
 
-import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.rdf.RDFTerm
