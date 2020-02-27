@@ -1,22 +1,15 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.*
+
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.XMLElement
+import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
-
-import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-
 
 
 class AOPBuildInCallSTRDT(child: AOPBase, childB: AOPBase) : AOPBase() {

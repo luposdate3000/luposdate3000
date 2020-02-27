@@ -3,10 +3,6 @@ import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.singleinput.AOPAggregation
-import lupos.s04arithmetikOperators.singleinput.AOPFunctionCall
-import lupos.s04arithmetikOperators.singleinput.AOPNot
-
 
 
 abstract class AOPConstant : AOPBase() {

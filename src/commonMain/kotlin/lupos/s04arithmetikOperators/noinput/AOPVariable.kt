@@ -1,15 +1,11 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s00misc.*
+
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-
-import lupos.s04arithmetikOperators.singleinput.AOPAggregation
-import lupos.s04arithmetikOperators.singleinput.AOPFunctionCall
-import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.OPBase
-
 
 
 class AOPVariable(var name: String) : AOPBase() {
