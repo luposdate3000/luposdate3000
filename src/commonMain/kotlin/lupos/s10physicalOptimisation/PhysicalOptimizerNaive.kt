@@ -98,13 +98,10 @@ class PhysicalOptimizerNaive(transactionID: Long, dictionary: ResultSetDictionar
                 }
                 is LOPJoin -> res = POPJoinHashMap(dictionary, node.children[0], node.children[1], node.optional)
                 is LOPTriple -> {
-                    val ts = optimizeTriple(node.children[0])
-                    val tp = optimizeTriple(node.children[1])
-                    val to = optimizeTriple(node.children[2])
                     if (node.graph == null)
-                        res = DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
                     else
-                        res = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
                 }
                 is OPNothing -> res = POPEmptyRow(dictionary)
                 else -> {
@@ -118,11 +115,4 @@ class PhysicalOptimizerNaive(transactionID: Long, dictionary: ResultSetDictionar
         res
     })
 
-    fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
-        when (param) {
-            is AOPVariable -> return Pair(param.name, false)
-            is AOPConstant -> return Pair(param.valueToString()!!, true)
-            else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
-        }
-    }
 }

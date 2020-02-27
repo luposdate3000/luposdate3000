@@ -195,57 +195,16 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             return res
         }
         "TripleStoreIteratorLocalFilter" -> {
-            val sFilter = node.attributes["filterS"]
-            val sName = node.attributes["nameS"]
-            val pFilter = node.attributes["filterP"]
-            val pName = node.attributes["nameP"]
-            val oFilter = node.attributes["filterO"]
-            val oName = node.attributes["nameO"]
-
-            val sv = sFilter != null
-            val pv = pFilter != null
-            val ov = oFilter != null
-            val s = if (sv)
-                sFilter!!
-            else
-                sName!!
-            val p = if (pv)
-                pFilter!!
-            else
-                pName!!
-            val o = if (ov)
-                oFilter!!
-            else
-                oName!!
-
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s, p, o, sv, pv, ov, EIndexPattern.SPO)
-            return res
+            val s = convertToOPBase(dictionary, transactionID, node["sparam"]!!.childs[0]!!, mapping) as AOPBase
+            val p = convertToOPBase(dictionary, transactionID, node["pparam"]!!.childs[0]!!, mapping) as AOPBase
+            val o = convertToOPBase(dictionary, transactionID, node["oparam"]!!.childs[0]!!, mapping) as AOPBase
+            return DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s, p, o, EIndexPattern.SPO)
         }
         "TripleStoreIteratorGlobalFilter" -> {
-            val sFilter = node.attributes["filterS"]
-            val sName = node.attributes["nameS"]
-            val pFilter = node.attributes["filterP"]
-            val pName = node.attributes["nameP"]
-            val oFilter = node.attributes["filterO"]
-            val oName = node.attributes["nameO"]
-
-            val sv = sFilter != null
-            val pv = pFilter != null
-            val ov = oFilter != null
-            val s = if (sv)
-                sFilter!!
-            else
-                sName!!
-            val p = if (pv)
-                pFilter!!
-            else
-                pName!!
-            val o = if (ov)
-                oFilter!!
-            else
-                oName!!
-
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s, p, o, sv, pv, ov, EIndexPattern.SPO)
+            val s = convertToOPBase(dictionary, transactionID, node["sparam"]!!.childs[0]!!, mapping) as AOPBase
+            val p = convertToOPBase(dictionary, transactionID, node["pparam"]!!.childs[0]!!, mapping) as AOPBase
+            val o = convertToOPBase(dictionary, transactionID, node["oparam"]!!.childs[0]!!, mapping) as AOPBase
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s, p, o, EIndexPattern.SPO)
             return res
         }
         "TripleStoreIteratorGlobal" -> {

@@ -4,76 +4,36 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 
 
 class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
     override val operatorID = EOperatorID.TripleStoreIteratorLocalFilterID
     override val classname = "TripleStoreIteratorLocalFilter"
-    var sFilter: Value? = null
-    var pFilter: Value? = null
-    var oFilter: Value? = null
-
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("TripleStoreIteratorLocalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName())
-        if (sFilter == null)
-            res.addAttribute("nameS", nameS)
-        else
-            res.addAttribute("filterS", store.resultSet.getValue(sFilter!!)!!)
-        if (pFilter == null)
-            res.addAttribute("nameP", nameP)
-        else
-            res.addAttribute("filterP", store.resultSet.getValue(pFilter!!)!!)
-        if (oFilter == null)
-            res.addAttribute("nameO", nameO)
-        else
-            res.addAttribute("filterO", store.resultSet.getValue(oFilter!!)!!)
-        return res
-    }
 
     constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : super(resultSet, store, index)
 
-    fun setSFilterV(s: String) {
-        sFilter = store.resultSet.createValue(s)
-    }
-
-    fun setPFilterV(p: String) {
-        pFilter = store.resultSet.createValue(p)
-    }
-
-    fun setOFilterV(o: String) {
-        oFilter = store.resultSet.createValue(o)
-    }
-
-    override fun getProvidedVariableNames(): List<String> {
-        val tmp = mutableListOf<String>()
-        if (sFilter == null)
-            tmp += nameS
-        if (pFilter == null)
-            tmp += nameP
-        if (oFilter == null)
-            tmp += nameO
-        return tmp.distinct()
-    }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
         val sNew: Variable?
         val pNew: Variable?
         val oNew: Variable?
-        if (sFilter == null)
-            sNew = resultSet.createVariable(nameS)
+        if (sparam is AOPVariable)
+            sNew = resultSet.createVariable((sparam as AOPVariable).name)
         else
             sNew = null
-        if (pFilter == null)
-            pNew = resultSet.createVariable(nameP)
+        if (pparam is AOPVariable)
+            pNew = resultSet.createVariable((pparam as AOPVariable).name)
         else
             pNew = null
-        if (oFilter == null)
-            oNew = resultSet.createVariable(nameO)
+        if (oparam is AOPVariable)
+            oNew = resultSet.createVariable((oparam as AOPVariable).name)
         else
             oNew = null
         CoroutinesHelper.run {
             try {
-                store.forEach(sFilter, pFilter, oFilter, { sv, pv, ov ->
+                store.forEach(sparam, pparam, oparam, { sv, pv, ov ->
                     val result = resultSet.createResultRow()
                     if (sNew != null)
                         result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))

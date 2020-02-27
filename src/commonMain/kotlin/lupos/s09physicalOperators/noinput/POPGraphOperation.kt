@@ -16,6 +16,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.resultFlowProduce
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -100,7 +101,7 @@ class POPGraphOperation : POPBase {
                                             DistributedTripleStore.clearGraph(i2s(graphref2))
                                         } catch (e: Throwable) {
                                         }
-                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                                 }
@@ -112,7 +113,7 @@ class POPGraphOperation : POPBase {
                                             DistributedTripleStore.clearGraph(i2s(graphref2))
                                         } catch (e: Throwable) {
                                         }
-                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                         DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -121,7 +122,7 @@ class POPGraphOperation : POPBase {
                             EGraphOperationType.ADD -> {
                                 when (graphref2) {
                                     is ASTIriGraphRef -> {
-                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                                 }
@@ -147,12 +148,12 @@ class POPGraphOperation : POPBase {
                                                 DistributedTripleStore.clearGraph(i2s(graphref2))
                                             } catch (e: Throwable) {
                                             }
-                                            DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                            DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                         }
                                     }
                                     is ASTDefaultGraphRef -> {
                                         DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                        DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                                 }
@@ -165,13 +166,13 @@ class POPGraphOperation : POPBase {
                                                 DistributedTripleStore.clearGraph(i2s(graphref2))
                                             } catch (e: Throwable) {
                                             }
-                                            DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                            DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                             DistributedTripleStore.dropGraph(i2s(graphref1))
                                         }
                                     }
                                     is ASTDefaultGraphRef -> {
                                         DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                        DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                         DistributedTripleStore.dropGraph(i2s(graphref1))
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -181,10 +182,10 @@ class POPGraphOperation : POPBase {
                                 when (graphref2) {
                                     is ASTIriGraphRef -> {
                                         if (i2s(graphref2) != i2s(graphref1))
-                                            DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                            DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
                                     is ASTDefaultGraphRef -> {
-                                        DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o", EIndexPattern.SPO))
+                                        DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                                 }

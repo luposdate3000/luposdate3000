@@ -375,12 +375,9 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.TripleStoreIteratorGlobalID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
-            val sv = DynamicByteArray.intToBool(buffer.getNextInt())
-            val pv = DynamicByteArray.intToBool(buffer.getNextInt())
-            val ov = DynamicByteArray.intToBool(buffer.getNextInt())
-            val s = buffer.getNextString()
-            val p = buffer.getNextString()
-            val o = buffer.getNextString()
+            val s = fromBinary(dictionary, buffer)
+            val p = fromBinary(dictionary, buffer)
+            val o = fromBinary(dictionary, buffer)
             val idx = EIndexPattern.values()[buffer.getNextInt()]
             val tripleCount = buffer.getNextInt()
             for (i in 0 until tripleCount) {
@@ -390,7 +387,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
-            return TripleStoreIteratorGlobal(1L, dictionary, graphName, s, p, o, sv, pv, ov, idx)
+            return TripleStoreIteratorGlobal(1L, dictionary, graphName, s, p, o, idx)
         }
         EOperatorID.LOPTripleID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size

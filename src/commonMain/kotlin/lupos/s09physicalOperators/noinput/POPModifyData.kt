@@ -9,7 +9,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.resultFlowProduce
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -44,10 +45,20 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
                 for (t in data) {
                     if (type == EModifyType.INSERT) {
                         val store = DistributedTripleStore.getNamedGraph(t[3].first, true)
-                        store.addDataVar(transactionID, t)
+                        var l = mutableListOf<AOPConstant>()
+                        for (i in 0 until 3)
+                            l.add(AOPVariable.calculate(t[i].first))
+                        store.addData(transactionID, l)
                     } else {
                         val store = DistributedTripleStore.getNamedGraph(t[3].first, false)
-                        store.deleteDataVar(transactionID, t)
+                        var l = mutableListOf<AOPBase>()
+                        for (i in 0 until 3) {
+                            if (t[i].second)
+                                l.add(AOPVariable.calculate(t[i].first))
+                            else
+                                l.add(AOPVariable(t[i].first))
+                        }
+                        store.deleteDataVar(transactionID, l)
                     }
                 }
                 channel.send(resultFlowProduce({ this@POPModifyData }, { resultSet.createResultRow() }))

@@ -4,18 +4,17 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 
 
 abstract class POPTripleStoreIteratorBase : POPBase() {
     override val operatorID = EOperatorID.POPTripleStoreIteratorBaseID
     override val classname = "POPTripleStoreIteratorBase"
-    var nameS = "#s" + uuid
-    var nameP = "#p" + uuid
-    var nameO = "#o" + uuid
-    abstract fun setMNameS(n: String)
-    abstract fun setMNameP(n: String)
-    abstract fun setMNameO(n: String)
+    var sparam: AOPBase = AOPVariable("#s$uuid")
+    var pparam: AOPBase = AOPVariable("#p$uuid")
+    var oparam: AOPBase = AOPVariable("#o$uuid")
     abstract fun getGraphName(): String
 
     override fun equals(other: Any?): Boolean {

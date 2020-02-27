@@ -18,6 +18,8 @@ import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -87,7 +89,7 @@ object P2P {
         }
     })
 
-    fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd start" })
         if (node == EndpointImpl.fullname)
             Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
@@ -142,21 +144,44 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
-    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
         var res: POPBase? = null
         if (node == EndpointImpl.fullname)
-            res = Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, sv, pv, ov, idx)
+            res = Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, idx)
         else {
+            val sstr: String
+            if (s is AOPConstant)
+                sstr = s.valueToString()!!
+            else if (s is AOPVariable)
+                sstr = s.name
+            else
+                throw Exception("not reachable")
+
+            val pstr: String
+            if (p is AOPConstant)
+                pstr = p.valueToString()!!
+            else if (p is AOPVariable)
+                pstr = p.name
+            else
+                throw Exception("not reachable")
+
+            val ostr: String
+            if (o is AOPConstant)
+                ostr = o.valueToString()!!
+            else if (o is AOPVariable)
+                ostr = o.name
+            else
+                throw Exception("not reachable")
             val req = "${EndpointImpl.REQUEST_TRIPLE_GET[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent("" + transactionID)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(s)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[4]}=${URL.encodeComponent(p)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[5]}=${URL.encodeComponent(o)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[6]}=${URL.encodeComponent("" + sv)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[7]}=${URL.encodeComponent("" + pv)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[8]}=${URL.encodeComponent("" + ov)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(sstr)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[4]}=${URL.encodeComponent(pstr)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[5]}=${URL.encodeComponent(ostr)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[6]}=${URL.encodeComponent("" + (s is AOPConstant))}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[7]}=${URL.encodeComponent("" + (p is AOPConstant))}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[8]}=${URL.encodeComponent("" + (o is AOPConstant))}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[9]}=${URL.encodeComponent("" + idx)}"
             CoroutinesHelper.runBlock {
                 val response = retryRequestGet("http://${resolveNodeName(node)}$req")
@@ -168,20 +193,35 @@ object P2P {
         return res!!
     })
 
-    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
+    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })
         if (node == EndpointImpl.fullname)
-            Endpoint.process_local_triple_delete(graphName, transactionID, data[0].first, data[1].first, data[2].first, data[0].second, data[1].second, data[2].second, idx)
+            Endpoint.process_local_triple_delete(graphName, transactionID, data[0], data[1], data[2], idx)
         else {
+            val s: String
+            if (data[0] is AOPConstant)
+                s = (data[0] as AOPConstant).valueToString()!!
+            else
+                s = (data[0] as AOPVariable).name
+            val p: String
+            if (data[1] is AOPConstant)
+                p = (data[1] as AOPConstant).valueToString()!!
+            else
+                p = (data[1] as AOPVariable).name
+            val o: String
+            if (data[2] is AOPConstant)
+                o = (data[2] as AOPConstant).valueToString()!!
+            else
+                o = (data[2] as AOPVariable).name
             val req = "${EndpointImpl.REQUEST_TRIPLE_DELETE[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_DELETE[1]}=${URL.encodeComponent(graphName)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[2]}=${URL.encodeComponent("" + transactionID)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[3]}=${URL.encodeComponent(data[0].first)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[4]}=${URL.encodeComponent(data[1].first)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[5]}=${URL.encodeComponent(data[2].first)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[6]}=${URL.encodeComponent("" + data[0].second)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[7]}=${URL.encodeComponent("" + data[1].second)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent("" + data[2].second)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[3]}=${URL.encodeComponent(s)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[4]}=${URL.encodeComponent(p)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[5]}=${URL.encodeComponent(o)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[6]}=${URL.encodeComponent("" + (data[0] is AOPConstant))}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[7]}=${URL.encodeComponent("" + (data[1] is AOPConstant))}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent("" + (data[2] is AOPConstant))}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[9]}=${URL.encodeComponent("" + idx)}"
             CoroutinesHelper.runBlock {
                 retryRequestGet("http://${resolveNodeName(node)}$req")

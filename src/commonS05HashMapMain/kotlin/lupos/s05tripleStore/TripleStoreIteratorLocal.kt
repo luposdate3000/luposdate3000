@@ -1,11 +1,13 @@
 package lupos.s05tripleStore
 
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
@@ -21,19 +23,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return store.name
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
-
-    override fun setMNameS(n: String) {
-        nameS = n
-    }
-
-    override fun setMNameP(n: String) {
-        nameP = n
-    }
-
-    override fun setMNameO(n: String) {
-        nameO = n
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
 
     constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) {
         this.dictionary = resultSet.dictionary
@@ -44,15 +34,21 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
 
     constructor(resultSet: ResultSet, store: TripleStoreLocal) : this(resultSet, store, EIndexPattern.SPO)
 
-    override fun getProvidedVariableNames() = listOf(nameS, nameP, nameO).distinct()
+    override fun getProvidedVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        tmp.addAll(sparam.getRequiredVariableNames())
+        tmp.addAll(pparam.getRequiredVariableNames())
+        tmp.addAll(oparam.getRequiredVariableNames())
+        return tmp.distinct()
+    }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocal.evaluate" }, {
-        val sNew = resultSet.createVariable(nameS)
-        val pNew = resultSet.createVariable(nameP)
-        val oNew = resultSet.createVariable(nameO)
+        val sNew = resultSet.createVariable((sparam as AOPVariable).name)
+        val pNew = resultSet.createVariable((pparam as AOPVariable).name)
+        val oNew = resultSet.createVariable((oparam as AOPVariable).name)
         CoroutinesHelper.run {
             try {
-                store.forEach(null, null, null, { sv, pv, ov ->
+                store.forEach(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), { sv, pv, ov ->
                     val result = resultSet.createResultRow()
                     result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
                     result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))

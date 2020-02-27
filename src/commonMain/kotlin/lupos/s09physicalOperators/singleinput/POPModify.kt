@@ -15,6 +15,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.resultFlowConsume
 import lupos.s04arithmetikOperators.resultFlowProduce
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -65,8 +66,8 @@ class POPModify : POPBase {
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
-    fun evaluateRow(node: OPBase, row: ResultRow): String? {
-        return (node as AOPBase).calculate(children[0].resultSet, row).valueToString()
+    fun evaluateRow(node: OPBase, row: ResultRow): AOPConstant {
+        return (node as AOPBase).calculate(children[0].resultSet, row)
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
@@ -87,7 +88,7 @@ class POPModify : POPBase {
                                         else
                                             DistributedTripleStore.getNamedGraph(i.graph, true)
                                     }
-                                    val data = mutableListOf<String?>()
+                                    val data = mutableListOf<AOPConstant>()
                                     for (c in i.children)
                                         data.add(evaluateRow(c, row))
                                     store.addData(transactionID, data)
@@ -110,7 +111,7 @@ class POPModify : POPBase {
                                         else
                                             DistributedTripleStore.getNamedGraph(i.graph, false)
                                     }
-                                    val data = mutableListOf<String?>()
+                                    val data = mutableListOf<AOPConstant>()
                                     for (c in i.children)
                                         data.add(evaluateRow(c, row))
                                     store.deleteData(transactionID, data)

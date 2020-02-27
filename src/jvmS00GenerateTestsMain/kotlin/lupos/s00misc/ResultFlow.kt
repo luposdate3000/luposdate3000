@@ -338,47 +338,26 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is TripleStoreIteratorGlobal -> {
-            val s: String
-            val p: String
-            val o: String
-            val sv = operator.sFilter != null
-            val pv = operator.pFilter != null
-            val ov = operator.oFilter != null
-            if (sv)
-                s = operator.sFilter!!
-            else
-                s = operator.nameS
-            if (pv)
-                p = operator.pFilter!!
-            else
-                p = operator.nameP
-            if (ov)
-                o = operator.oFilter!!
-            else
-                o = operator.nameO
+            toBinary(operator.sparam, buffer, asPOP)
+            toBinary(operator.pparam, buffer, asPOP)
+            toBinary(operator.oparam, buffer, asPOP)
             val tmp = rowMapProduced[operator.uuid]
-            buffer.appendInt(DynamicByteArray.boolToInt(sv))
-            buffer.appendInt(DynamicByteArray.boolToInt(pv))
-            buffer.appendInt(DynamicByteArray.boolToInt(ov))
-            buffer.appendString(s)
-            buffer.appendString(p)
-            buffer.appendString(o)
             buffer.appendInt(operator.idx.ordinal)
             if (tmp != null) {
                 buffer.appendInt(tmp.size)
                 for (r in tmp) {
-                    if (sv)
-                        buffer.appendString(s)
+                    if (operator.sparam is AOPConstant)
+                        buffer.appendString((operator.sparam as AOPConstant).valueToString()!!)
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(s)])!!)
-                    if (pv)
-                        buffer.appendString(p)
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.sparam as AOPVariable).name)])!!)
+                    if (operator.pparam is AOPConstant)
+                        buffer.appendString((operator.pparam as AOPConstant).valueToString()!!)
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(p)])!!)
-                    if (ov)
-                        buffer.appendString(o)
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.pparam as AOPVariable).name)])!!)
+                    if (operator.oparam is AOPConstant)
+                        buffer.appendString((operator.oparam as AOPConstant).valueToString()!!)
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable(o)])!!)
+                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.oparam as AOPVariable).name)])!!)
                 }
             } else {
                 buffer.appendInt(0)

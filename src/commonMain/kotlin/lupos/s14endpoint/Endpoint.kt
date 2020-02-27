@@ -21,6 +21,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -98,21 +100,21 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
-    fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_add" }, {
+    fun process_local_triple_add(graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_add" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
         g.addData(transactionID, s, p, o, idx)
         return XMLElement("success")
     })
 
-    fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_delete" }, {
+    fun process_local_triple_delete(graphName: String, transactionID: Long, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_delete" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
-        g.deleteDataVar(transactionID, s, p, o, sv, pv, ov, idx)
+        g.deleteDataVar(transactionID, s, p, o, idx)
         return XMLElement("success")
     })
 
-    fun process_local_triple_get(graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
+    fun process_local_triple_get(graphName: String, resultSet: ResultSet, transactionID: Long, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
-        return g.getIterator(transactionID, resultSet, s, p, o, sv, pv, ov, idx)
+        return g.getIterator(transactionID, resultSet, s, p, o, idx)
     })
 
     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {

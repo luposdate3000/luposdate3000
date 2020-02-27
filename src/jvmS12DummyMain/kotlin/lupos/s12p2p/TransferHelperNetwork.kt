@@ -9,6 +9,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s14endpoint.Endpoint
 
 
@@ -30,9 +31,9 @@ class TransferHelperNetwork : AsyncStreamBase {
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
                             val graphName = dictionary.getValue(data.getNextInt())!!
-                            val s = dictionary.getValue(data.getNextInt())!!
-                            val p = dictionary.getValue(data.getNextInt())!!
-                            val o = dictionary.getValue(data.getNextInt())!!
+                            val s = AOPVariable.calculate(dictionary.getValue(data.getNextInt()))
+                            val p = AOPVariable.calculate(dictionary.getValue(data.getNextInt()))
+                            val o = AOPVariable.calculate(dictionary.getValue(data.getNextInt()))
                             val idx = EIndexPattern.values()[data.getNextInt()]
                             try {
                                 Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
@@ -72,8 +73,12 @@ class TransferHelperNetwork : AsyncStreamBase {
         }
     }
 
-    fun createDictionaryValue(s: String): Value {
-        val tmp = dictionary.createValue(s)
+    fun createDictionaryValue(s: String?): Value {
+        val tmp: Value
+        if (s != null)
+            tmp = dictionary.createValue(s)
+        else
+            return dictionary.undefValue
         if (lastDictionaryKey == null || tmp > lastDictionaryKey!!) {
             enforceHeader(ENetworkMessageType.DICTIONARY_ENTRY)
             data.appendString(s)
@@ -82,11 +87,11 @@ class TransferHelperNetwork : AsyncStreamBase {
         return tmp
     }
 
-    fun addTriple(graphName: String, s: String, p: String, o: String, idx: EIndexPattern) {
+    fun addTriple(graphName: String, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) {
         val gv = createDictionaryValue(graphName)
-        val sv = createDictionaryValue(s)
-        val pv = createDictionaryValue(p)
-        val ov = createDictionaryValue(o)
+        val sv = createDictionaryValue(s.valueToString())
+        val pv = createDictionaryValue(p.valueToString())
+        val ov = createDictionaryValue(o.valueToString())
         enforceHeader(ENetworkMessageType.TRIPLE_ADD)
         data.appendInt(gv)
         data.appendInt(sv)

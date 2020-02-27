@@ -5,6 +5,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 
 
 class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {
@@ -115,7 +117,22 @@ class TripleStoreLocal {
     val tripleStoreSPO = SortedSetDictionary(resultSet.dictionary, 3)
     val name: String
 
-    suspend inline fun forEach(sv: Value?, pv: Value?, ov: Value?, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
+    suspend inline fun forEach(sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
+        val sv: Value?
+        if (sparam is AOPConstant)
+            sv = resultSet.createValue((sparam as AOPConstant).valueToString())
+        else
+            sv = null
+        val pv: Value?
+        if (pparam is AOPConstant)
+            pv = resultSet.createValue((pparam as AOPConstant).valueToString())
+        else
+            pv = null
+        val ov: Value?
+        if (oparam is AOPConstant)
+            ov = resultSet.createValue((oparam as AOPConstant).valueToString())
+        else
+            ov = null
         when (idx) {
             EIndexPattern.S -> {
                 if (sv != null) {
@@ -361,38 +378,31 @@ class TripleStoreLocal {
         }
     })
 
-    fun addData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
-        val vals = resultSet.createValue(ss)
-        val valp = resultSet.createValue(ps)
-        val valo = resultSet.createValue(os)
+    fun addData(transactionID: Long, ss: AOPConstant, ps: AOPConstant, os: AOPConstant, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
+        val vals = resultSet.createValue(ss.valueToString())
+        val valp = resultSet.createValue(ps.valueToString())
+        val valo = resultSet.createValue(os.valueToString())
         modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
     })
 
-    fun deleteDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
+    fun deleteDataVar(transactionID: Long, sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         CoroutinesHelper.runBlock {
-            val vals: Value = resultSet.createValue(ss)
-            val valp: Value = resultSet.createValue(ps)
-            val valo: Value = resultSet.createValue(os)
-            var vars: Value? = null
-            var varp: Value? = null
-            var varo: Value? = null
             var tmp = 0
-            if (sv) {
-                vars = vals
+            if (sparam is AOPConstant)
                 tmp++
-            }
-            if (pv) {
-                varp = valp
+            if (pparam is AOPConstant)
                 tmp++
-            }
-            if (ov) {
-                varo = valo
+            if (oparam is AOPConstant)
                 tmp++
-            }
             when (tmp) {
-                3 -> modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
+                3 -> {
+                    val vals: Value = resultSet.createValue((sparam as AOPConstant).valueToString())
+                    val valp: Value = resultSet.createValue((pparam as AOPConstant).valueToString())
+                    val valo: Value = resultSet.createValue((oparam as AOPConstant).valueToString())
+                    modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
+                }
                 else -> {
-                    forEach(vars, varp, varo, { svv, pvv, ovv ->
+                    forEach(sparam, pparam, oparam, { svv, pvv, ovv ->
                         modifyData(transactionID, svv, pvv, ovv, EModifyType.DELETE, idx)
                     }, idx)
                 }
@@ -404,29 +414,12 @@ class TripleStoreLocal {
         return TripleStoreIteratorLocal(resultSet, this, index)
     })
 
-    fun getIterator(transactionID: Long, resultSet: ResultSet, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator b" }, {
-        val res = TripleStoreIteratorLocal(resultSet, this, index)
-        res.setMNameS(s)
-        res.setMNameP(p)
-        res.setMNameO(o)
-        return res
-    })
-
-    fun getIterator(transactionID: Long, resultSet: ResultSet, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
-        GlobalLogger.log(ELoggerType.DEBUG, { "local get iterator :: $s $p $o $sv $pv $ov" })
+    fun getIterator(transactionID: Long, resultSet: ResultSet, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
+        GlobalLogger.log(ELoggerType.DEBUG, { "local get iterator :: $s $p $o " })
         val res = TripleStoreIteratorLocalFilter(resultSet, this, index)
-        if (sv)
-            res.setSFilterV(s)
-        else
-            res.setMNameS(s)
-        if (pv)
-            res.setPFilterV(p)
-        else
-            res.setMNameP(p)
-        if (ov)
-            res.setOFilterV(o)
-        else
-            res.setMNameO(o)
+        res.sparam = s
+        res.pparam = p
+        res.oparam = o
         return res
     })
 }
