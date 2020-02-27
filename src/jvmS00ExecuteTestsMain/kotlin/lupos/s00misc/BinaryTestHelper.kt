@@ -1,4 +1,34 @@
 package lupos.s00misc
+
+import java.io.File
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ThreadSafeMutableList
+import lupos.s00misc.ThreadSafeMutableMap
+import lupos.s00misc.ThreadSafeMutableSet
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.multiinput.AOPAddition
+import lupos.s04arithmetikOperators.multiinput.AOPDivision
+import lupos.s04arithmetikOperators.multiinput.AOPEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPOr
+import lupos.s04arithmetikOperators.noinput.AOPAggregation
+import lupos.s04arithmetikOperators.noinput.AOPBnode
+import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPDateTime
+import lupos.s04arithmetikOperators.noinput.AOPDecimal
+import lupos.s04arithmetikOperators.noinput.AOPDouble
+import lupos.s04arithmetikOperators.noinput.AOPInteger
+import lupos.s04arithmetikOperators.noinput.AOPIri
+import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
+import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
+import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
+import lupos.s04arithmetikOperators.noinput.AOPUndef
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -30,54 +60,43 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.multiinput.AOPAddition
-import lupos.s04arithmetikOperators.multiinput.AOPDivision
-import lupos.s04arithmetikOperators.multiinput.AOPEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGEQ
-import lupos.s04arithmetikOperators.multiinput.AOPOr
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-
-import java.io.File
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ThreadSafeMutableList
-import lupos.s00misc.ThreadSafeMutableMap
-import lupos.s00misc.ThreadSafeMutableSet
-import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.noinput.AOPAggregation
-import lupos.s04arithmetikOperators.noinput.AOPBnode
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.noinput.AOPDateTime
-import lupos.s04arithmetikOperators.noinput.AOPDecimal
-import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
-import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
-import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
-import lupos.s04logicalOperators.*
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.multiinput.*
-import lupos.s04logicalOperators.noinput.*
-import lupos.s04logicalOperators.singleinput.*
-import lupos.s04logicalOperators.singleinput.modifiers.*
-import lupos.s08logicalOptimisation.*
-import lupos.s09physicalOperators.*
-import lupos.s09physicalOperators.multiinput.*
-import lupos.s09physicalOperators.noinput.*
-import lupos.s09physicalOperators.singleinput.*
-import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPUnion
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.LOPValues
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s04logicalOperators.singleinput.LOPRename
+import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s08logicalOptimisation.LogicalOptimizer
+import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPValues
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
+import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
+import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
+import lupos.s09physicalOperators.singleinput.POPBind
+import lupos.s09physicalOperators.singleinput.POPBindUndefined
+import lupos.s09physicalOperators.singleinput.POPFilter
+import lupos.s09physicalOperators.singleinput.POPFilterExact
+import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.s09physicalOperators.singleinput.POPRename
+import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.*
+import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s15tripleStoreDistributed.*
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
@@ -519,7 +538,6 @@ fun executeBinaryTests(folder: String) {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
-                require(expectPOP!! is POPValues)
                 val expected = QueryResultToXML.toXML(expectPOP!!).first()
                 if (input!! is POPBase) {
                     val output = QueryResultToXML.toXML(input!! as POPBase).first()
