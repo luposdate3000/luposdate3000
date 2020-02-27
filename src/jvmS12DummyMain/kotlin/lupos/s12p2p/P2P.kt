@@ -1,11 +1,4 @@
 package lupos.s12p2p
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Trace
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
@@ -14,15 +7,22 @@ import com.soywiz.korio.net.URL
 import com.soywiz.korio.stream.AsyncStream
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
+import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml
