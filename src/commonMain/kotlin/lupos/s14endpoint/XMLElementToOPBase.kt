@@ -194,15 +194,15 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             return res
         }
         "TripleStoreIteratorLocalFilter" -> {
-            val s = convertToOPBase(dictionary, transactionID, node["sparam"]!!.childs[0]!!, mapping) as AOPBase
-            val p = convertToOPBase(dictionary, transactionID, node["pparam"]!!.childs[0]!!, mapping) as AOPBase
-            val o = convertToOPBase(dictionary, transactionID, node["oparam"]!!.childs[0]!!, mapping) as AOPBase
+            val s = convertToOPBase(dictionary, transactionID, node["sparam"]!!.childs[0], mapping) as AOPBase
+            val p = convertToOPBase(dictionary, transactionID, node["pparam"]!!.childs[0], mapping) as AOPBase
+            val o = convertToOPBase(dictionary, transactionID, node["oparam"]!!.childs[0], mapping) as AOPBase
             return DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s, p, o, EIndexPattern.SPO)
         }
         "TripleStoreIteratorGlobalFilter" -> {
-            val s = convertToOPBase(dictionary, transactionID, node["sparam"]!!.childs[0]!!, mapping) as AOPBase
-            val p = convertToOPBase(dictionary, transactionID, node["pparam"]!!.childs[0]!!, mapping) as AOPBase
-            val o = convertToOPBase(dictionary, transactionID, node["oparam"]!!.childs[0]!!, mapping) as AOPBase
+            val s = convertToOPBase(dictionary, transactionID, node["sparam"]!!.childs[0], mapping) as AOPBase
+            val p = convertToOPBase(dictionary, transactionID, node["pparam"]!!.childs[0], mapping) as AOPBase
+            val o = convertToOPBase(dictionary, transactionID, node["oparam"]!!.childs[0], mapping) as AOPBase
             val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s, p, o, EIndexPattern.SPO)
             return res
         }

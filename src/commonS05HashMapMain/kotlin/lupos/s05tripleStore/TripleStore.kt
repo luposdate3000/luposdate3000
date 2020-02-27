@@ -127,17 +127,17 @@ class TripleStoreLocal {
     suspend inline fun forEach(sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
         val sv: Value?
         if (sparam is AOPConstant)
-            sv = resultSet.createValue((sparam as AOPConstant).valueToString())
+            sv = resultSet.createValue(sparam.valueToString())
         else
             sv = null
         val pv: Value?
         if (pparam is AOPConstant)
-            pv = resultSet.createValue((pparam as AOPConstant).valueToString())
+            pv = resultSet.createValue(pparam.valueToString())
         else
             pv = null
         val ov: Value?
         if (oparam is AOPConstant)
-            ov = resultSet.createValue((oparam as AOPConstant).valueToString())
+            ov = resultSet.createValue(oparam.valueToString())
         else
             ov = null
         when (idx) {
