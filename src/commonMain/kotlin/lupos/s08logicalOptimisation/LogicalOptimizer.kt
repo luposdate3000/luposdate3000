@@ -14,5 +14,6 @@ class LogicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : O
             LogicalOptimizerRemovePrefix(transactionID, dictionary),//
             LogicalOptimizerRemoveNOOP(transactionID, dictionary),//
             LogicalOptimizerArithmetic(transactionID, dictionary),//
+            LogicalOptimizerBindToFilter(transactionID, dictionary),//
             LogicalOptimizerFilterDown(transactionID, dictionary))
 }

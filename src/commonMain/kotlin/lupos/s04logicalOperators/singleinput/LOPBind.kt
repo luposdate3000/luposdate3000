@@ -7,20 +7,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPBind : LOPBase {
+class LOPBind (val name: AOPVariable, expression: OPBase, child: OPBase=OPNothing()): LOPBase() {
     override val operatorID = EOperatorID.LOPBindID
     override val classname = "LOPBind"
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    val name: AOPVariable
-
-    constructor(name: AOPVariable, expression: OPBase) : super() {
-        this.name = name
-        children[1] = expression
-    }
-
-    constructor(name: AOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
-        children[0] = child
-    }
+    override val children: Array<OPBase> = arrayOf(child, expression)
 
     override fun childrenToVerifyCount(): Int = 1
 

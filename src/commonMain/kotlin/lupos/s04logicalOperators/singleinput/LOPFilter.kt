@@ -7,19 +7,11 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPFilter : LOPBase {
+class LOPFilter(filter: AOPBase, child: OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPFilterID
     override val classname = "LOPFilter"
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    override val children: Array<OPBase> = arrayOf(child,filter)
     override fun childrenToVerifyCount() = 1
-
-    constructor(filter: AOPBase) : super() {
-        children[1] = filter
-    }
-
-    constructor(filter: AOPBase, child: OPBase) : this(filter) {
-        children[0] = child
-    }
 
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames().distinct()
