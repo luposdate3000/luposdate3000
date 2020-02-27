@@ -1,7 +1,6 @@
 package lupos.s01io.buffer
 
 
-
 data class PageAddress(val fileName: String, val pageNumber: Int)
 
 override val classname = "PageAddress"

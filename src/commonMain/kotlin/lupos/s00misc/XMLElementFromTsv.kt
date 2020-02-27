@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
     val res = mutableListOf<XMLElement>()
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")

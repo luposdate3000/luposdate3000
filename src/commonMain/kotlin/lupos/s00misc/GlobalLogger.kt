@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 object GlobalLogger {
     var enabled = ELoggerType.TEST_RESULT
     fun log(type: ELoggerType, action: () -> Any?) {

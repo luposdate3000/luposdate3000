@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
     val res = mutableListOf<XMLElement>()

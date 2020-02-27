@@ -19,8 +19,8 @@ do
 		        f2=$(echo $f2 | sed "s-.*/kotlin/-/-g")
 		        f2=$(echo $f2 | sed "s-.*/java/-/-g")
 		        f2=$(echo $f2 | sed "s-/[^/]*\$--g")
-			        f2=$(echo $f2 | sed "s-^/--g")
-		        p=$(grep "package" $f)
+			f2=$(echo $f2 | sed "s-^/--g")
+		        p=$(grep "^package" $f)
 		        p=$(echo $p | sed "s/package //g")
 		        p=$(echo $p | sed "s-\.-/-g")
 		        if [ "$f2" != "$p" ]

@@ -1,7 +1,6 @@
 package lupos.s01io.buffer
 
 
-
 /**
  * This is one element of the doubly linked list.
  * The list should have a dummy element, which succeeding element is the head of the list

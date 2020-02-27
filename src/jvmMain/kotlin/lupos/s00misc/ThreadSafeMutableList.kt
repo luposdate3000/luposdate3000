@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 class ThreadSafeMutableList<T> {
     val values = mutableListOf<T>()
     val mutex = ReadWriteLock()

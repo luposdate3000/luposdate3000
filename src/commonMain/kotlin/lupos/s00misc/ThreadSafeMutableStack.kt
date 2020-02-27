@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 class ThreadSafeMutableStack<T> {
     val elements = ThreadSafeMutableList<T>()
 
