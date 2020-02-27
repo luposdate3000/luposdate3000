@@ -33,9 +33,7 @@ class LogicalOptimizerFilterIntoTriple(transactionID: Long, dictionary: ResultSe
                             if (tmp is AOPVariable) {
                                 if (tmp.name == compareVar.name) {
                                     onChange()
-                                    println("xxx")
-                                    println(lopfilter)
-                                    println(loptriple)
+require(false)/*TODO check this*/
                                     loptriple.children[i] = compareVal
                                     res = loptriple
                                 }
