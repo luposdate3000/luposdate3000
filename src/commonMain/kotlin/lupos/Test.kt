@@ -88,7 +88,7 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
 }
 
 private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-    val ltit = lupos.s02buildSyntaxTree.LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(lupos.s02buildSyntaxTree.LexerCharIterator(readFileContents(filename))), 3)
+    val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(readFileContents(filename))), 3)
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {
@@ -150,7 +150,7 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
             }
         }
     }
-    return Pair<Int, Int>(numberOfTests, numberOfErrors)
+    return Pair(numberOfTests, numberOfErrors)
 }
 
 private fun readFileOrNull(name: String?): String? {

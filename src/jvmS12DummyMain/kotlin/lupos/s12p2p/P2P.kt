@@ -175,7 +175,7 @@ object P2P {
                 ostr = o.name
             else
                 throw Exception("not reachable")
-            val req = "${EndpointImpl.REQUEST_TRIPLE_GET[0]}" +//
+            val req = EndpointImpl.REQUEST_TRIPLE_GET[0] +//
                     "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent("" + transactionID)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(sstr)}" +//
@@ -215,7 +215,7 @@ object P2P {
                 o = (data[2] as AOPConstant).valueToString()!!
             else
                 o = (data[2] as AOPVariable).name
-            val req = "${EndpointImpl.REQUEST_TRIPLE_DELETE[0]}" +//
+            val req = EndpointImpl.REQUEST_TRIPLE_DELETE[0] +//
                     "?${EndpointImpl.REQUEST_TRIPLE_DELETE[1]}=${URL.encodeComponent(graphName)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[2]}=${URL.encodeComponent("" + transactionID)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[3]}=${URL.encodeComponent(s)}" +//
@@ -326,7 +326,7 @@ object P2P {
             knownClientsCopy.forEach {
                 if (it != EndpointImpl.fullname) {
                     GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 3 $it" })
-                    GlobalLogger.log(ELoggerType.DEBUG, { "req ${it} ${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]} ${hostname}" })
+                    GlobalLogger.log(ELoggerType.DEBUG, { "req $it ${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]} $hostname" })
                     retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
                             "?${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[1]}=${URL.encodeComponent(hostname)}")
                 }
@@ -344,7 +344,7 @@ object P2P {
         }
         if (bootstrap != null && bootstrap != "$EndpointImpl.fullname") {
             GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start 2 $bootstrap" })
-            GlobalLogger.log(ELoggerType.DEBUG, { "req ${bootstrap} ${EndpointImpl.REQUEST_PEERS_JOIN[0]} ${EndpointImpl.fullname}" })
+            GlobalLogger.log(ELoggerType.DEBUG, { "req $bootstrap ${EndpointImpl.REQUEST_PEERS_JOIN[0]} ${EndpointImpl.fullname}" })
             var response = retryRequestGet("http://${resolveNodeName(bootstrap)}${EndpointImpl.REQUEST_PEERS_JOIN[0]}" +//
                     "?${EndpointImpl.REQUEST_PEERS_JOIN[1]}=${URL.encodeComponent(EndpointImpl.fullname)}")
             var responseString = response.readAllString()

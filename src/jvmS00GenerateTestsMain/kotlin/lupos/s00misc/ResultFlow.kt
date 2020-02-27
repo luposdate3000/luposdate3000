@@ -295,23 +295,20 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             buffer.appendInt(variables.size)
             for (v in variables)
                 buffer.appendString(v)
-            if (operator.data != null) {
-                buffer.appendInt(operator.data.size)
-                for (row in operator.data) {
-                    for (k in variables) {
-                        val tmp = row[operator.resultSet.createVariable(k)]
-                        if (tmp == null)
-                            buffer.appendInt(DynamicByteArray.boolToInt(true))
-                        else {
-                            val v = operator.resultSet.getValue(tmp)
-                            buffer.appendInt(DynamicByteArray.boolToInt(v == null))
-                            if (v != null)
-                                buffer.appendString(v)
-                        }
+            buffer.appendInt(operator.data.size)
+            for (row in operator.data) {
+                for (k in variables) {
+                    val tmp = row[operator.resultSet.createVariable(k)]
+                    if (tmp == null)
+                        buffer.appendInt(DynamicByteArray.boolToInt(true))
+                    else {
+                        val v = operator.resultSet.getValue(tmp)
+                        buffer.appendInt(DynamicByteArray.boolToInt(v == null))
+                        if (v != null)
+                            buffer.appendString(v)
                     }
                 }
-            } else
-                buffer.appendInt(0)
+            }
         }
         is POPUnion -> {
             toBinary(operator.children[0], buffer, asPOP)
@@ -838,7 +835,7 @@ fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: St
     res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
     for (v in resultSet.getVariableNames()) {
         val name = helperVariableName(v, variableNames)
-        val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
+        val value = AOPVariable(name).calculate(resultSet, resultRow).valueToString()
         if (value == null)
             res += "${prefix}    resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
         else

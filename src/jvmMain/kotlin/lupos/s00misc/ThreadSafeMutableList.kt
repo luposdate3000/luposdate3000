@@ -5,7 +5,7 @@ class ThreadSafeMutableList<T> {
     val values = mutableListOf<T>()
     val mutex = ReadWriteLock()
     fun size(): Int {
-        var res: Int = 0
+        var res = 0
         mutex.withReadLock {
             res = values.size
         }

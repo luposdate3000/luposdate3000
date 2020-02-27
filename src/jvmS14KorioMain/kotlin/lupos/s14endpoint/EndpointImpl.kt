@@ -24,7 +24,7 @@ import lupos.s12p2p.TransferHelperNetwork
 import lupos.s14endpoint.Endpoint
 
 
-@UseExperimental(kotlin.ExperimentalStdlibApi::class)
+@UseExperimental(ExperimentalStdlibApi::class)
 object EndpointImpl {
     var hostname = "localhost"
     var port = 80
