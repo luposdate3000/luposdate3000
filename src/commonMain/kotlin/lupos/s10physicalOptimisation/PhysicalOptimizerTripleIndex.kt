@@ -63,6 +63,7 @@ class PhysicalOptimizerTripleIndex(transactionID: Long, dictionary: ResultSetDic
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is LOPTriple) {
+            onChange()
             val store: DistributedGraph
             if (node.graph == null)
                 store = DistributedTripleStore.getDefaultGraph()

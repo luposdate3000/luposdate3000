@@ -1,7 +1,10 @@
 #!/bin/bash
 mkdir log
 
-visitedArray[0]=0
+jvmS00GenerateTestsMain=0
+jvmS00ExecuteTestsMain=0
+commonS00ExecutionSequentialMain=0
+commonS00TraceOnMain=0
 
 for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "jvmS00ExecuteTestsMain"
 do
@@ -42,33 +45,58 @@ then
 #debugging only work with that combination
         continue
 fi
-
-if [ "${visitedArray[${chooseS00ResultFlow}]}" == 1 ] && [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
 then
 #faster test-build
+if [ "$jvmS00GenerateTestsMain" == "1" ]
+then
 continue
 fi
-if [ "${visitedArray[${chooseS00ResultFlow}]}" == 1 ] && [ "${chooseS00ResultFlow}" == "jvmS00ExecuteTestsMain" ]
+fi
+if [ "${chooseS00ResultFlow}" == "jvmS00ExecuteTestsMain" ]
 then
 #faster test-build
+if [ "$jvmS00ExecuteTestsMain" == "1" ]
+then
 continue
 fi
-if [ "${visitedArray[${chooseS00Execution}]}" == 1 ] && [ "${chooseS00Execution}" == "commonS00ExecutionSequentialMain" ]
+fi
+if [ "${chooseS00Execution}" == "commonS00ExecutionSequentialMain" ]
 then
 #faster test-build
+if [ "$commonS00ExecutionSequentialMain" == "1" ]
+then
 continue
 fi
-if [ "${visitedArray[${chooseS00Trace}]}" == 1 ] && [ "${chooseS00Trace}" == "commonS00TraceOnMain" ]
+fi
+if [ "${chooseS00Trace}" == "commonS00TraceOnMain" ]
 then
 #faster test-build
+if [ "$commonS00TraceOnMain" == "1" ]
+then
 continue
 fi
-
-visitedArray["${chooseS00ResultFlow}"]=1
-visitedArray["${chooseS00Execution}"]=1
-visitedArray["${chooseS00Trace}"]=1
-
-
+fi
+if [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
+then
+#faster test-build
+jvmS00GenerateTestsMain=1
+fi
+if [ "${chooseS00ResultFlow}" == "jvmS00ExecuteTestsMain" ]
+then
+#faster test-build
+jvmS00ExecuteTestsMain=1
+fi
+if [ "${chooseS00Execution}" == "commonS00ExecutionSequentialMain" ]
+then
+#faster test-build
+commonS00ExecutionSequentialMain=1
+fi
+if [ "${chooseS00Trace}" == "commonS00TraceOnMain" ]
+then
+#faster test-build
+commonS00TraceOnMain=1
+fi
 buildName="${chooseS00ResultFlow}-${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
 buildFile="build.gradle-${buildName}"
 buildDir="buildJvm${buildName}"

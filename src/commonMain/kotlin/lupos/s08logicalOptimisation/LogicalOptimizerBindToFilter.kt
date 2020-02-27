@@ -19,8 +19,10 @@ class LogicalOptimizerBindToFilter(transactionID: Long, dictionary: ResultSetDic
     override val classname = "LogicalOptimizerBindToFilter"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-        if (node is LOPBind && (node.children[0].getProvidedVariableNames().contains(node.name.name)))
+        if (node is LOPBind && (node.children[0].getProvidedVariableNames().contains(node.name.name))) {
             res = LOPFilter(AOPEQ(AOPVariable(node.name.name), node.children[1] as AOPBase), node.children[0])
+            onChange()
+        }
         res
     })
 }

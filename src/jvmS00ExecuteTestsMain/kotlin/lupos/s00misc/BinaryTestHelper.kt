@@ -387,7 +387,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
-            return TripleStoreIteratorGlobal(1L, dictionary, graphName, s, p, o, idx)
+            return DistributedTripleStore.getNamedGraph(graphName).getIterator(1L, dictionary, s, p, o, idx)
         }
         EOperatorID.LOPTripleID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
