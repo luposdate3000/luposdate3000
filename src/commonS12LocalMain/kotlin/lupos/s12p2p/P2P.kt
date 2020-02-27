@@ -1,5 +1,6 @@
 package lupos.s12p2p
-
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.*
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -23,7 +24,7 @@ object P2P {
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
     })
 
-    fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
     })
 
@@ -39,12 +40,12 @@ object P2P {
         Endpoint.process_local_graph_operation(name, type)
     })
 
-    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
-        return Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, sv, pv, ov, idx)
+    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+        return Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, idx)
     })
 
-    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
-        Endpoint.process_local_triple_delete(graphName, transactionID, data[0].first, data[1].first, data[2].first, data[0].second, data[1].second, data[2].second, idx)
+    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
+        Endpoint.process_local_triple_delete(graphName, transactionID, data[0], data[1], data[2], idx)
     })
 
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {

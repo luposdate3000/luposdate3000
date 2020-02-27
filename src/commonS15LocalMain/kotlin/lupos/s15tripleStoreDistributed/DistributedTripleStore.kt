@@ -1,5 +1,6 @@
 package lupos.s15tripleStoreDistributed
-
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.*
 import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -49,47 +50,21 @@ class DistributedGraph(val name: String) {
         return setOf(EndpointImpl.fullname)
     }
 
-    fun addData(transactionID: Long, t: List<String?>) {
+    fun addData(transactionID: Long, t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-            val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!, it)
-            Endpoint.process_local_triple_add(name, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
+            Endpoint.process_local_triple_add(EndpointImpl.fullname, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
         }
     }
 
-    fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        require(t[0].second && t[1].second && t[2].second)
+    fun deleteData(transactionID: Long, t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-            val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first, it)
-            Endpoint.process_local_triple_add(name, transactionID, t[0].first, t[1].first, t[2].first, it)
+                Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
         }
     }
 
-    fun deleteData(transactionID: Long, t: List<String?>) {
-        val l = mutableListOf<Pair<String, Boolean>>()
-        if (t[0] != null)
-            l.add(Pair(t[0]!!, true))
-        else
-            l.add(Pair("s", false))
-        if (t[1] != null)
-            l.add(Pair(t[1]!!, true))
-        else
-            l.add(Pair("p", false))
-        if (t[2] != null)
-            l.add(Pair(t[2]!!, true))
-        else
-            l.add(Pair("o", false))
+    fun deleteDataVar(transactionID: Long, t: List<AOPBase>) {
         EIndexPattern.values().forEach {
-            for (node in calculateNodeForDataMaybe(l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)) {
-                Endpoint.process_local_triple_delete(name, transactionID, l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)
-            }
-        }
-    }
-
-    fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        EIndexPattern.values().forEach {
-            for (node in calculateNodeForDataMaybe(t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it)) {
-                Endpoint.process_local_triple_delete(name, transactionID, t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it)
-            }
+                Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
         }
     }
 
@@ -101,9 +76,9 @@ class DistributedGraph(val name: String) {
         iterator.evaluate()
         CoroutinesHelper.runBlock {
             for (v in iterator.channel) {
-                val s = rs.getValue(v[ks])
-                val p = rs.getValue(v[kp])
-                val o = rs.getValue(v[ko])
+ val s = AOPVariable.calculate(rs.getValue(v[ks]))
+            val p = AOPVariable.calculate(rs.getValue(v[kp]))
+            val o = AOPVariable.calculate(rs.getValue(v[ko]))
                 addData(transactionID, listOf(s, p, o))
             }
         }
@@ -113,15 +88,11 @@ class DistributedGraph(val name: String) {
         return DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, ResultSet(dictionary), index)
     }
 
-    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase {
         val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, ResultSet(dictionary), s, p, o, index)
         return res
     }
 
-    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, ResultSet(dictionary), s, p, o, sv, pv, ov, index)
-        return res
-    }
 }
 
 object DistributedTripleStore {
