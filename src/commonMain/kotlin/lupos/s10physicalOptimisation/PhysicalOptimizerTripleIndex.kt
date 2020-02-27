@@ -54,7 +54,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
+import lupos.s15tripleStoreDistributed.DistributedGraph
 
 class PhysicalOptimizerTripleIndex(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
@@ -62,26 +62,40 @@ class PhysicalOptimizerTripleIndex(transactionID: Long, dictionary: ResultSetDic
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is LOPTriple) {
+val store:DistributedGraph
+if (node.graph == null)
+store=DistributedTripleStore.getDefaultGraph()
+else
+store=DistributedTripleStore.getNamedGraph(node.graph)
+val idx: EIndexPattern
+var count=0
+for(n in node.children)
+if(n is AOPConstant)
+count++
+if(count==0 || count==3)
+idx=EIndexPattern.SPO
+else if(count==1){
+if(node.children[0] is AOPConstant)
+idx=EIndexPattern.S
+else if(node.children[1] is AOPConstant)
+idx=EIndexPattern.P
+else{
+require(node.children[2] is AOPConstant)
+idx=EIndexPattern.O
+}
+}else{
+require(count==2)
+if(node.children[0] !is AOPConstant)
+idx=EIndexPattern.PO
+else if(node.children[1] !is AOPConstant)
+idx=EIndexPattern.SO
+else{
+require(node.children[2] !is AOPConstant)
+idx=EIndexPattern.SP
+}
+}
+res=store.getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, idx)
         }
-
-/*
-is LOPTriple -> {
-                    val ts = optimizeTriple(node.s)
-                    val tp = optimizeTriple(node.p)
-                    val to = optimizeTriple(node.o)
-                    if (node.graph == null)
-                        res = DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
-                    else
-                        res = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
-                }
-fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
-        when (param) {
-            is AOPVariable -> return Pair(param.name, false)
-            is AOPConstant -> return Pair(param.valueToString()!!, true)
-            else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
-        }
-    }
-*/
         res
     })
 }

@@ -375,15 +375,15 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.TripleStoreIteratorGlobalID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
-            val s = fromBinary(dictionary, buffer)
-            val p = fromBinary(dictionary, buffer)
-            val o = fromBinary(dictionary, buffer)
+            val s = fromBinary(dictionary, buffer)as AOPBase
+            val p = fromBinary(dictionary, buffer)as AOPBase
+            val o = fromBinary(dictionary, buffer)as AOPBase
             val idx = EIndexPattern.values()[buffer.getNextInt()]
             val tripleCount = buffer.getNextInt()
             for (i in 0 until tripleCount) {
-                val st = buffer.getNextString()
-                val pt = buffer.getNextString()
-                val ot = buffer.getNextString()
+                val st =AOPVariable.calculate( buffer.getNextString())
+                val pt = AOPVariable.calculate(buffer.getNextString())
+                val ot =AOPVariable.calculate( buffer.getNextString())
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
@@ -392,37 +392,19 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.LOPTripleID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
-            val sv = DynamicByteArray.intToBool(buffer.getNextInt())
-            val pv = DynamicByteArray.intToBool(buffer.getNextInt())
-            val ov = DynamicByteArray.intToBool(buffer.getNextInt())
-            val s = buffer.getNextString()
-            val p = buffer.getNextString()
-            val o = buffer.getNextString()
+            val s = fromBinary(dictionary, buffer)as AOPBase
+            val p = fromBinary(dictionary, buffer)as AOPBase
+            val o = fromBinary(dictionary, buffer)as AOPBase
             val idx = EIndexPattern.values()[buffer.getNextInt()]
             val tripleCount = buffer.getNextInt()
             for (i in 0 until tripleCount) {
-                val st = buffer.getNextString()
-                val pt = buffer.getNextString()
-                val ot = buffer.getNextString()
+                val st =AOPVariable.calculate( buffer.getNextString())
+                val pt = AOPVariable.calculate( buffer.getNextString())
+                val ot = AOPVariable.calculate( buffer.getNextString())
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
-            val mys: AOPBase
-            if (sv)
-                mys = AOPVariable.calculate(s)
-            else
-                mys = AOPVariable(s)
-            val myp: AOPBase
-            if (pv)
-                myp = AOPVariable.calculate(p)
-            else
-                myp = AOPVariable(p)
-            val myo: AOPBase
-            if (ov)
-                myo = AOPVariable.calculate(o)
-            else
-                myo = AOPVariable(o)
-            return LOPTriple(mys, myp, myo, graphName, false)
+            return LOPTriple(s,p,o, graphName, false)
         }
         EOperatorID.POPValuesID -> {
             val variables = mutableListOf<String>()

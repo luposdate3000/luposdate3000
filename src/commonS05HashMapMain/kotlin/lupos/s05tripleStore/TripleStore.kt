@@ -1,12 +1,19 @@
 package lupos.s05tripleStore
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.EModifyType
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ThreadSafeMutableMap
+import lupos.s00misc.ThreadSafeMutableSet
+import lupos.s00misc.Trace
 
-import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
 
 
 class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {

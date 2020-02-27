@@ -6,7 +6,7 @@ enum class EOptimizerID(val optional: Boolean) {
     LogicalOptimizerRemoveNOOPID(false),
     LogicalOptimizerRemovePrefixID(false),
     PhysicalOptimizerID(false),
-    PhysicalOptimizerTripleIndexID(false),
+    PhysicalOptimizerTripleIndexID(true),
     PhysicalOptimizerNaiveID(false),
     KeyDistributionOptimizerID(false),
     LogicalOptimizerID(false)
