@@ -16,3 +16,4 @@ run
 log
 src/commonTest/kotlin/lupos/testcase-*.bin
 src/commonTest/kotlin/lupos/testcase-*.bin.expect
+src/commonTest/kotlin/lupos/Generated*
