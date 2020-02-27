@@ -1,5 +1,4 @@
 package lupos.s06buildOperatorGraph
-
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGroupMember
@@ -98,6 +97,14 @@ import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
@@ -111,39 +118,35 @@ import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
-import lupos.s04arithmetikOperators.noinput.AOPAggregation
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPFunctionCall
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPNot
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.AOPAggregation
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONCAT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIF
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
@@ -153,18 +156,14 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRDT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRENDS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRSTARTS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRUUID
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTIMEZONE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCall
+import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -192,6 +191,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
+
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {

@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
@@ -9,6 +8,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+
 
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {

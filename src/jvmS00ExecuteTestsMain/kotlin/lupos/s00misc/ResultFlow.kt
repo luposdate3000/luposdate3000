@@ -1,12 +1,12 @@
-package lupos.s04arithmetikOperators
-
+package lupos.s00misc
 import lupos.s00misc.EOperatorID
+import lupos.s04arithmetikOperators.*
+import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.noinput.AOPAggregation
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
@@ -17,10 +17,12 @@ import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.AOPAggregation
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+
 
 
 inline fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultRow): ResultRow = action()
@@ -35,5 +37,3 @@ inline fun printAllMicroTest() {
 fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
 }
 
-fun executeBinaryTests(folder: String) {
-}

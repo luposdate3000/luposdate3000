@@ -1,5 +1,4 @@
 package lupos.s15tripleStoreDistributed
-
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -18,6 +17,7 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
+
 
 
 val uuid = ThreadSafeUuid()

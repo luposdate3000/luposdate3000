@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -14,6 +13,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
+
 
 
 class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {

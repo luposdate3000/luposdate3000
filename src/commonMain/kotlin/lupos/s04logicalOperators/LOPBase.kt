@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators
-
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
+
 
 
 abstract class LOPBase : OPBase() {

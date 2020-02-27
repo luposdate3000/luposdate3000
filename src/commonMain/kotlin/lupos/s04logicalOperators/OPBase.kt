@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators
-
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -11,6 +10,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.singleinput.LOPBind
+
 
 
 abstract class OPBase {

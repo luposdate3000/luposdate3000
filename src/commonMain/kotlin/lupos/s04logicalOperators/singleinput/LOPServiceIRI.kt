@@ -1,8 +1,8 @@
 package lupos.s04logicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+
 
 
 class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPBase() {

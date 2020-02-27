@@ -1,5 +1,4 @@
 package lupos.s12p2p
-
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
@@ -16,6 +15,7 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.Endpoint
 import lupos.testMain
+
 
 
 object P2P {

@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -8,6 +7,7 @@ import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+
 
 
 class LogicalOptimizerRemoveNOOPTest {

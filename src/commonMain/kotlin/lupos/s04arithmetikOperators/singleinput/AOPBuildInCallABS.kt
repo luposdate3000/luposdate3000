@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-
+import lupos.s00misc.*
 import com.benasher44.uuid.uuid4
 import com.soywiz.krypto.md5
 import com.soywiz.krypto.sha1
@@ -17,13 +17,25 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.resultFlow
+
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+
 
 
 class AOPBuildInCallABS(child: AOPBase) : AOPBase() {

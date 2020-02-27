@@ -1,5 +1,4 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.ELoggerType
@@ -7,6 +6,7 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
+
 
 
 object ResultRepresenationNetwork {

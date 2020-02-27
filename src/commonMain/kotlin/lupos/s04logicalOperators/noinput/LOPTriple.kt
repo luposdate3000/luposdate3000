@@ -1,9 +1,9 @@
 package lupos.s04logicalOperators.noinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+
 
 
 class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String?, val graphVar: Boolean) : LOPBase() {

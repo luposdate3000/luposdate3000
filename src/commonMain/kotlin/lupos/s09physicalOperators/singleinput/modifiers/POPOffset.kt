@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
@@ -8,11 +8,12 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.resultFlowConsume
-import lupos.s04arithmetikOperators.resultFlowProduce
+
+
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
+
 
 
 class POPOffset : POPBase {

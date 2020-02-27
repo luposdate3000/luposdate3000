@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
@@ -11,10 +11,11 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.resultFlowProduce
+
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
+
 
 
 class POPValues : POPBase {

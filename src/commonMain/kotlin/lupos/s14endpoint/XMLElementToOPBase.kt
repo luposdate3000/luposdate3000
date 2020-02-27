@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
@@ -7,6 +6,14 @@ import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGT
@@ -14,33 +21,25 @@ import lupos.s04arithmetikOperators.multiinput.AOPIn
 import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
 import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
-import lupos.s04arithmetikOperators.noinput.AOPAggregation
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE0
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONCAT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCONTAINS
+import lupos.s04arithmetikOperators.singleinput.AOPAggregation
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIF
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRDT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRENDS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLANG
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04logicalOperators.OPBase
@@ -65,6 +64,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 
 fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVariable {

@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
@@ -54,6 +53,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 
 class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerCompoundBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerID) {
