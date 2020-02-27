@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.*
+import lupos.s00misc.resultFlow
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
