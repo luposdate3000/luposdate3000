@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPBind (val name: AOPVariable, expression: OPBase, child: OPBase=OPNothing()): LOPBase() {
+class LOPBind(val name: AOPVariable, expression: OPBase, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPBindID
     override val classname = "LOPBind"
     override val children: Array<OPBase> = arrayOf(child, expression)

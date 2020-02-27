@@ -375,15 +375,15 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.TripleStoreIteratorGlobalID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
-            val s = fromBinary(dictionary, buffer)as AOPBase
-            val p = fromBinary(dictionary, buffer)as AOPBase
-            val o = fromBinary(dictionary, buffer)as AOPBase
+            val s = fromBinary(dictionary, buffer) as AOPBase
+            val p = fromBinary(dictionary, buffer) as AOPBase
+            val o = fromBinary(dictionary, buffer) as AOPBase
             val idx = EIndexPattern.values()[buffer.getNextInt()]
             val tripleCount = buffer.getNextInt()
             for (i in 0 until tripleCount) {
-                val st =AOPVariable.calculate( buffer.getNextString())
+                val st = AOPVariable.calculate(buffer.getNextString())
                 val pt = AOPVariable.calculate(buffer.getNextString())
-                val ot =AOPVariable.calculate( buffer.getNextString())
+                val ot = AOPVariable.calculate(buffer.getNextString())
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
@@ -392,19 +392,19 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.LOPTripleID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
-            val s = fromBinary(dictionary, buffer)as AOPBase
-            val p = fromBinary(dictionary, buffer)as AOPBase
-            val o = fromBinary(dictionary, buffer)as AOPBase
+            val s = fromBinary(dictionary, buffer) as AOPBase
+            val p = fromBinary(dictionary, buffer) as AOPBase
+            val o = fromBinary(dictionary, buffer) as AOPBase
             val idx = EIndexPattern.values()[buffer.getNextInt()]
             val tripleCount = buffer.getNextInt()
             for (i in 0 until tripleCount) {
-                val st =AOPVariable.calculate( buffer.getNextString())
-                val pt = AOPVariable.calculate( buffer.getNextString())
-                val ot = AOPVariable.calculate( buffer.getNextString())
+                val st = AOPVariable.calculate(buffer.getNextString())
+                val pt = AOPVariable.calculate(buffer.getNextString())
+                val ot = AOPVariable.calculate(buffer.getNextString())
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
-            return LOPTriple(s,p,o, graphName, false)
+            return LOPTriple(s, p, o, graphName, false)
         }
         EOperatorID.POPValuesID -> {
             val variables = mutableListOf<String>()

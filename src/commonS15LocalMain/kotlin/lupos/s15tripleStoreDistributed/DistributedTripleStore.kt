@@ -1,11 +1,7 @@
 package lupos.s15tripleStoreDistributed
-import lupos.s05tripleStore.PersistentStoreLocal
-import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
+
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
@@ -13,8 +9,13 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
+import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
 
@@ -61,13 +62,13 @@ class DistributedGraph(val name: String) {
 
     fun deleteData(transactionID: Long, t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-                Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
+            Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
         }
     }
 
     fun deleteDataVar(transactionID: Long, t: List<AOPBase>) {
         EIndexPattern.values().forEach {
-                Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
+            Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
         }
     }
 
@@ -79,9 +80,9 @@ class DistributedGraph(val name: String) {
         iterator.evaluate()
         CoroutinesHelper.runBlock {
             for (v in iterator.channel) {
- val s = AOPVariable.calculate(rs.getValue(v[ks]))
-            val p = AOPVariable.calculate(rs.getValue(v[kp]))
-            val o = AOPVariable.calculate(rs.getValue(v[ko]))
+                val s = AOPVariable.calculate(rs.getValue(v[ks]))
+                val p = AOPVariable.calculate(rs.getValue(v[kp]))
+                val o = AOPVariable.calculate(rs.getValue(v[ko]))
                 addData(transactionID, listOf(s, p, o))
             }
         }

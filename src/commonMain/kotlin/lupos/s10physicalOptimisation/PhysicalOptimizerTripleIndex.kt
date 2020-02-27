@@ -53,8 +53,9 @@ import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedGraph
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 class PhysicalOptimizerTripleIndex(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
@@ -62,39 +63,39 @@ class PhysicalOptimizerTripleIndex(transactionID: Long, dictionary: ResultSetDic
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is LOPTriple) {
-val store:DistributedGraph
-if (node.graph == null)
-store=DistributedTripleStore.getDefaultGraph()
-else
-store=DistributedTripleStore.getNamedGraph(node.graph)
-val idx: EIndexPattern
-var count=0
-for(n in node.children)
-if(n is AOPConstant)
-count++
-if(count==0 || count==3)
-idx=EIndexPattern.SPO
-else if(count==1){
-if(node.children[0] is AOPConstant)
-idx=EIndexPattern.S
-else if(node.children[1] is AOPConstant)
-idx=EIndexPattern.P
-else{
-require(node.children[2] is AOPConstant)
-idx=EIndexPattern.O
-}
-}else{
-require(count==2)
-if(node.children[0] !is AOPConstant)
-idx=EIndexPattern.PO
-else if(node.children[1] !is AOPConstant)
-idx=EIndexPattern.SO
-else{
-require(node.children[2] !is AOPConstant)
-idx=EIndexPattern.SP
-}
-}
-res=store.getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, idx)
+            val store: DistributedGraph
+            if (node.graph == null)
+                store = DistributedTripleStore.getDefaultGraph()
+            else
+                store = DistributedTripleStore.getNamedGraph(node.graph)
+            val idx: EIndexPattern
+            var count = 0
+            for (n in node.children)
+                if (n is AOPConstant)
+                    count++
+            if (count == 0 || count == 3)
+                idx = EIndexPattern.SPO
+            else if (count == 1) {
+                if (node.children[0] is AOPConstant)
+                    idx = EIndexPattern.S
+                else if (node.children[1] is AOPConstant)
+                    idx = EIndexPattern.P
+                else {
+                    require(node.children[2] is AOPConstant)
+                    idx = EIndexPattern.O
+                }
+            } else {
+                require(count == 2)
+                if (node.children[0] !is AOPConstant)
+                    idx = EIndexPattern.PO
+                else if (node.children[1] !is AOPConstant)
+                    idx = EIndexPattern.SO
+                else {
+                    require(node.children[2] !is AOPConstant)
+                    idx = EIndexPattern.SP
+                }
+            }
+            res = store.getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, idx)
         }
         res
     })
