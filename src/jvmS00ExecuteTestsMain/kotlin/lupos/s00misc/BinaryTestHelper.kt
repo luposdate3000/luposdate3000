@@ -486,6 +486,7 @@ testcases++
                     val data = instream.readBytes()
                     val buffer = DynamicByteArray(data)
                     val optimizerEnabledCount = buffer.getNextInt()
+                    ExecuteOptimizer.enabledOptimizers.clear()
                     for (o in 0 until optimizerEnabledCount) {
                         val optimizer = EOptimizerID.values()[buffer.getNextInt()]
                         ExecuteOptimizer.enabledOptimizers[optimizer] = true
@@ -516,7 +517,6 @@ testcases++
                     require(expected.myEquals(output))
                 } else {
                     val lop_node = input!! as LOPBase
-                    ExecuteOptimizer.enabledOptimizers.clear()
                     val lOptimizer = LogicalOptimizer(1L, dictionary)
                     val pOptimizer = PhysicalOptimizer(1L, dictionary)
                     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
