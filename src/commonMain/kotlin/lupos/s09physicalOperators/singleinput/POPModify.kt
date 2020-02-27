@@ -1,9 +1,10 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.resultFlowConsume
-import lupos.s00misc.resultFlowProduce
+
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.resultFlowConsume
+import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
@@ -17,14 +18,11 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
-
-
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
 
 
 class POPModify : POPBase {

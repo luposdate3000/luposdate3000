@@ -1,11 +1,12 @@
 package lupos.s00misc
-import lupos.s04arithmetikOperators.AOPBase
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBnode
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
@@ -22,7 +23,6 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-
 
 
 inline fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultRow): ResultRow = action()

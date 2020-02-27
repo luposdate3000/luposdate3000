@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import java.io.File
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableList
@@ -96,7 +97,6 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
 
 
 fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {

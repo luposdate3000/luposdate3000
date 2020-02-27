@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
@@ -64,7 +65,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
 
 
 fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVariable {

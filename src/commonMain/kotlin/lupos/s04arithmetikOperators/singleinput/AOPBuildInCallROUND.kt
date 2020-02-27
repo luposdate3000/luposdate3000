@@ -4,6 +4,7 @@ import com.benasher44.uuid.uuid4
 import com.soywiz.krypto.md5
 import com.soywiz.krypto.sha1
 import com.soywiz.krypto.sha256
+import kotlin.math.roundToInt
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow
@@ -14,7 +15,6 @@ import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
-import kotlin.math.roundToInt
 
 
 class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {

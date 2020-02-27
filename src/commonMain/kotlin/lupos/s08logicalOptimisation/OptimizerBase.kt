@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerID
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -29,7 +30,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-
 
 
 abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary, val optimizerID: EOptimizerID) {

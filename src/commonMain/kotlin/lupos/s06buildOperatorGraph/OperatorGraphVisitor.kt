@@ -1,4 +1,5 @@
 package lupos.s06buildOperatorGraph
+
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGroupMember
@@ -191,7 +192,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {

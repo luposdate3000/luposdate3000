@@ -1,4 +1,5 @@
 package lupos.s13keyDistributionOptimizer
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
@@ -8,7 +9,6 @@ import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.POPServiceIRI
-
 
 
 class KeyDistributionOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.KeyDistributionOptimizerID) {

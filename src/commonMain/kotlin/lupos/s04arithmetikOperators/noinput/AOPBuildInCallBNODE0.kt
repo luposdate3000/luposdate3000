@@ -5,8 +5,8 @@ import com.soywiz.krypto.md5
 import com.soywiz.krypto.sha1
 import com.soywiz.krypto.sha256
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.resultFlow
+import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase

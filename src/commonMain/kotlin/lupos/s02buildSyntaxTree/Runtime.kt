@@ -1,7 +1,7 @@
 package lupos.s02buildSyntaxTree
+
 import lupos.s00misc.EOperatorID
 import lupos.s02buildSyntaxTree.turtle.EOF
-
 
 
 interface TokenIterator {

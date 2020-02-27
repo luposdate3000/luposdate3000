@@ -1,5 +1,5 @@
 package lupos.s00misc
-import lupos.s04arithmetikOperators.AOPBase
+
 import java.io.File
 import lupos.s00misc.classNameToString
 import lupos.s00misc.DynamicByteArray
@@ -11,6 +11,7 @@ import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
@@ -83,7 +84,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-
 
 
 val prefix = ""

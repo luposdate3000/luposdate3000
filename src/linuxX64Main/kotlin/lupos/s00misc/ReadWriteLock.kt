@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import kotlin.native.concurrent.AtomicLong
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
@@ -10,7 +11,6 @@ import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
-
 
 
 class ReadWriteLock {

@@ -1,6 +1,6 @@
 package lupos.s03resultRepresentation
-import lupos.s00misc.CoroutinesHelper
 
+import lupos.s00misc.CoroutinesHelper
 
 
 class ResultSet {

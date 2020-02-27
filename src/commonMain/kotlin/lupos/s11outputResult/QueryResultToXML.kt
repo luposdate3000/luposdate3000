@@ -1,10 +1,10 @@
 package lupos.s11outputResult
+
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
-
 
 
 object QueryResultToXML {

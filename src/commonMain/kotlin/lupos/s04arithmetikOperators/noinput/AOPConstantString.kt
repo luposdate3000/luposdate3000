@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s00misc.EOperatorID
 
 

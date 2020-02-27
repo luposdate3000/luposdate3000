@@ -1,4 +1,5 @@
 package lupos.datastructures.radix_tree
+
 import kotlin.math.abs
 import kotlin.math.min
 import lupos.s00misc.ELoggerType
@@ -7,7 +8,6 @@ import lupos.s01io.buffer.bufferManager
 import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.toBytesUTF
 import lupos.s01io.buffer.toStringUTF
-
 
 
 class NotFoundException : Exception()

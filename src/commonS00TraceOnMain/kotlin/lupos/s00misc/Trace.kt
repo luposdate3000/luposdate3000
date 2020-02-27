@@ -1,9 +1,9 @@
 package lupos.s00misc
+
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
 import lupos.s00misc.EOperatorID
-
 
 
 @UseExperimental(kotlin.time.ExperimentalTime::class)
