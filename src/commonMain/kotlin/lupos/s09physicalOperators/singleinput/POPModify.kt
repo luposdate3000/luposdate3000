@@ -1,4 +1,9 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.resultFlowConsume
+import lupos.s04arithmetikOperators.resultFlowProduce
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -14,10 +19,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 

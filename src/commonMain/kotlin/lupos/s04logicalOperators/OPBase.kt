@@ -1,4 +1,6 @@
 package lupos.s04logicalOperators
+import lupos.s04arithmetikOperators.noinput.AOPUndef
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
@@ -8,7 +10,6 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 
