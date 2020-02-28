@@ -92,26 +92,37 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
-val operatorID=EOperatorID.values()[buffer.getInt(buffer.pos)]
- if(operatorID==       EOperatorID.OPNothingID )
-            return OPNothing()
-if(EOperatorIDLOP.contains(operatorID))
-return fromBinaryLOP(dictionary,buffer)
-if(EOperatorIDPOP.contains(operatorID))
-return fromBinaryPOP(dictionary,buffer)
-if(EOperatorIDAOP.contains(operatorID))
-return fromBinaryAOP(dictionary,buffer)
-throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
+    var id = buffer.getInt(buffer.pos)
+    val operatorID: EOperatorID
+    if (id > EOperatorID.values().size)
+        operatorID = EOperatorID.values()[id % EOperatorID.values().size]
+    else
+        operatorID = EOperatorID.values()[id]
+
+    if (operatorID == EOperatorID.OPNothingID)
+        return OPNothing()
+    if (EOperatorIDLOP.contains(operatorID))
+        return fromBinaryLOP(dictionary, buffer)
+    if (EOperatorIDPOP.contains(operatorID))
+        return fromBinaryPOP(dictionary, buffer)
+    if (EOperatorIDAOP.contains(operatorID))
+        return fromBinaryAOP(dictionary, buffer)
+    throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
 }
 
 fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): POPBase {
-    val operatorID = EOperatorID.values()[buffer.getNextInt()]
+    var id = buffer.getNextInt()
+    val operatorID: EOperatorID
+    if (id > EOperatorID.values().size || !EOperatorIDPOP.contains(EOperatorID.values()[id]))
+        operatorID = EOperatorIDPOP[id % EOperatorIDPOP.size]
+    else
+        operatorID = EOperatorID.values()[id]
 
     when (operatorID) {
-  EOperatorID.POPEmptyRowID -> {
+        EOperatorID.POPEmptyRowID -> {
             return POPEmptyRow(dictionary)
         }
-         EOperatorID.POPUnionID -> {
+        EOperatorID.POPUnionID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
             return POPUnion(dictionary, childA, childB)
@@ -144,7 +155,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             val child = fromBinary(dictionary, buffer)
             return POPFilterExact(dictionary, name, value, child)
         }
-          EOperatorID.POPBindID -> {
+        EOperatorID.POPBindID -> {
             val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
             val value = fromBinaryAOP(dictionary, buffer)
             val child = fromBinary(dictionary, buffer)
@@ -173,12 +184,12 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             val child = fromBinary(dictionary, buffer)
             return POPLimit(dictionary, value, child)
         }
-      EOperatorID.POPOffsetID -> {
+        EOperatorID.POPOffsetID -> {
             var value = buffer.getNextInt()
             val child = fromBinary(dictionary, buffer)
             return POPOffset(dictionary, value, child)
         }
-  EOperatorID.TripleStoreIteratorGlobalID -> {
+        EOperatorID.TripleStoreIteratorGlobalID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
             val s = fromBinaryAOP(dictionary, buffer)
@@ -218,22 +229,28 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
         else -> throw Exception("BinaryHelper.fromBinaryPOP ${operatorID} undefined")
     }
 }
+
 fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LOPBase {
-    val operatorID = EOperatorID.values()[buffer.getNextInt()]
+    var id = buffer.getNextInt()
+    val operatorID: EOperatorID
+    if (id > EOperatorID.values().size || !EOperatorIDLOP.contains(EOperatorID.values()[id]))
+        operatorID = EOperatorIDLOP[id % EOperatorIDLOP.size]
+    else
+        operatorID = EOperatorID.values()[id]
 
     when (operatorID) {
- EOperatorID.LOPUnionID -> {
+        EOperatorID.LOPUnionID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
             return LOPUnion(childA, childB)
         }
- EOperatorID.LOPJoinID -> {
+        EOperatorID.LOPJoinID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
             val optional = DynamicByteArray.intToBool(buffer.getNextInt())
             return LOPJoin(childA, childB, optional)
         }
-       EOperatorID.LOPRenameID -> {
+        EOperatorID.LOPRenameID -> {
             val nameTo = fromBinaryAOP(dictionary, buffer) as AOPVariable
             val nameFrom = fromBinaryAOP(dictionary, buffer) as AOPVariable
             val child = fromBinary(dictionary, buffer)
@@ -244,13 +261,13 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             val child = fromBinary(dictionary, buffer)
             return LOPFilter(filter, child)
         }
-       EOperatorID.LOPBindID -> {
+        EOperatorID.LOPBindID -> {
             val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
             val value = fromBinaryAOP(dictionary, buffer)
             val child = fromBinary(dictionary, buffer)
             return LOPBind(name, value, child)
         }
-       EOperatorID.LOPSortID -> {
+        EOperatorID.LOPSortID -> {
             val sortBy = fromBinaryAOP(dictionary, buffer) as AOPVariable
             val sortOrder = DynamicByteArray.intToBool(buffer.getNextInt())
             val child = fromBinary(dictionary, buffer)
@@ -268,17 +285,17 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             val child = fromBinary(dictionary, buffer)
             return LOPProjection(variables, child)
         }
-       EOperatorID.LOPLimitID -> {
+        EOperatorID.LOPLimitID -> {
             var value = buffer.getNextInt()
             val child = fromBinary(dictionary, buffer)
             return LOPLimit(value, child)
         }
-      EOperatorID.LOPOffsetID -> {
+        EOperatorID.LOPOffsetID -> {
             var value = buffer.getNextInt()
             val child = fromBinary(dictionary, buffer)
             return LOPOffset(value, child)
         }
-       EOperatorID.LOPTripleID -> {
+        EOperatorID.LOPTripleID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
             val s = fromBinaryAOP(dictionary, buffer)
@@ -295,7 +312,7 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             DistributedTripleStore.commit(1L)
             return LOPTriple(s, p, o, graphName, false)
         }
-   EOperatorID.LOPValuesID -> {
+        EOperatorID.LOPValuesID -> {
             val variables = mutableListOf<AOPVariable>()
             val values = mutableListOf<AOPValue>()
             val variableCount = buffer.getNextInt()
@@ -319,8 +336,14 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
         else -> throw Exception("BinaryHelper.fromBinaryLOP ${operatorID} undefined")
     }
 }
+
 fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
-    val operatorID = EOperatorID.values()[buffer.getNextInt()]
+    var id = buffer.getNextInt()
+    val operatorID: EOperatorID
+    if (id > EOperatorID.values().size || !EOperatorIDAOP.contains(EOperatorID.values()[id]))
+        operatorID = EOperatorIDAOP[id % EOperatorIDAOP.size]
+    else
+        operatorID = EOperatorID.values()[id]
 
     when (operatorID) {
         EOperatorID.AOPAndID -> {
