@@ -46,6 +46,12 @@ kotlin {
             executable()
         }
     }
+    macosX64("macosX64") {
+        binaries {
+            //-fPIC for debug required
+            executable()
+        }
+    }
     sourceSets {
         commonMain {
             dependencies{
@@ -53,10 +59,15 @@ kotlin {
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
                 implementation("com.benasher44:uuid:0.0.7")
                 implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-		implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
             }
         }
     }
+sourceSets["linuxX64Main"].dependencies{
+                implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
+            }
+sourceSets["macosX64Main"].dependencies{
+                implementation("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
+            }
     sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/nativeMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonMain/kotlin")
@@ -70,4 +81,17 @@ kotlin {
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS14NoneMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS15LocalMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/linuxX64/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/nativeMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS00TraceOnMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS00FastMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS05HashMapMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS14NoneMain/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/commonS15LocalMain/kotlin")
 }
