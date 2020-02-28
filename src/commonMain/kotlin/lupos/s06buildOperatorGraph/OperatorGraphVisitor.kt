@@ -1056,27 +1056,31 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return AOPValue(tmp)
     }
 
-    fun setGraphNameForAllTriples(node: OPBase, name: ASTNode): OPBase {
+    fun setGraphNameForAllTriples(node: OPBase, name: ASTNode,optional:Boolean): OPBase {
         val iri = when (name) {
             is ASTIri -> name.iri
             is ASTIriGraphRef -> name.iri
-            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)} $optional")
         }
         when (node) {
             is OPNothing -> return node
-            is LOPTriple -> return LOPTriple(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
-            is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name)
-            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name), setGraphNameForAllTriples(node.children[1], name), node.optional)
-            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)}")
+            is LOPTriple -> {
+if(!optional||node.graph==null)
+return LOPTriple(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
+else
+return node
+}
+            is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name,optional)
+            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name,optional), setGraphNameForAllTriples(node.children[1], name,optional), node.optional)
+            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} $optional")
         }
         return node
     }
 
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-//val iriOrVar: ASTNode, constraint: Array<ASTNode>
         var res: OPBase = OPNothing()
         for (c in childrenValues) {
-            val tmp = setGraphNameForAllTriples(c, node.iriOrVar)
+            val tmp = setGraphNameForAllTriples(c, node.iriOrVar,false)
             if (res is OPNothing)
                 res = tmp
             else
@@ -1173,13 +1177,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-if(node.iri==null){
         val child: OPBase = if (node.using.isEmpty()) {
             parseGroup(node.children)
         } else {
             var tmp: OPBase? = null
             for (c in node.using) {
-                val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c)
+                val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c,false)
                 if (tmp == null)
                     tmp = tmp2
                 else
@@ -1187,20 +1190,20 @@ if(node.iri==null){
             }
             tmp!!
         }
+val iri=node.iri
+if(iri!=null){
+        val res = LOPModify(setGraphNameForAllTriples(child,ASTIri(iri),true))
+        for (e in node.insert)
+            res.insert.add(setGraphNameForAllTriples(e.visit(this),ASTIri(iri),true))
+        for (e in node.delete)
+            res.delete.add(setGraphNameForAllTriples(e.visit(this),ASTIri(iri),true))
+        return res
+}else{
         val res = LOPModify(child)
         for (e in node.insert)
             res.insert.add(e.visit(this))
         for (e in node.delete)
             res.delete.add(e.visit(this))
-        return res
-}else{
-require(node.using.isEmpty())
-        val child: OPBase = setGraphNameForAllTriples(parseGroup(node.children),ASTIri(node.iri))
-        val res = LOPModify(child)
-        for (e in node.insert)
-            res.insert.add(setGraphNameForAllTriples(e.visit(this),ASTIri(node.iri)))
-        for (e in node.delete)
-            res.delete.add(setGraphNameForAllTriples(e.visit(this),ASTIri(node.iri)))
         return res
 }
     }
