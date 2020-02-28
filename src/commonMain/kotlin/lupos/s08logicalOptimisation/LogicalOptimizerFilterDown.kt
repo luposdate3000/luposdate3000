@@ -6,6 +6,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s04arithmetikOperators.AOPBase
 
 
 class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.LogicalOptimizerFilterDownID) {
@@ -22,7 +23,18 @@ class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDicti
                     onChange()
                     res = c
                 }
-            }
+            }else {
+		var moved=false
+		for(ci in c.children.indices){
+val cc=c.children[ci]
+			if (cc.getProvidedVariableNames().containsAll(node.getRequiredVariableNames())) {
+      	                    c.children[ci] = LOPFilter(node.children[1]as AOPBase,c.children[ci])
+				moved=true
+	                }
+		}
+		if(moved)
+			res=c
+	    }
         }
         res
     })
