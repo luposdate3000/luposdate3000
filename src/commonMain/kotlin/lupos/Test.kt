@@ -50,16 +50,16 @@ fun testMain() {
         val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
         GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
         GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-/*
+
         val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
         val inputDataFile = "resources/sp2b/sp2b.n3"
         for (f in sp2bFiles) {
             GlobalLogger.log(ELoggerType.RELEASE, { "  Test: sp2b/$f" })
             val queryFile = "resources/sp2b/$f.sparql"
             val resultFile = "resources/sp2b/$f.srj"
-            parseSPARQLAndEvaluate("sp2b/$f",true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+            parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
         }
-*/
+
     }
     GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace" })
     Trace.print()

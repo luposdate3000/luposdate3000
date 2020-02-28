@@ -44,8 +44,22 @@ class AOPGEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPBoolean(a.toInt() >= b.toInt())
             })
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPGEQ only works with numeric input")
+        val vala = a.valueToString()
+        val valb = b.valueToString()
+        if (vala == null && b == null)
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPBoolean(true)
+            })
+        if (vala == null)
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPBoolean(false)
+            })
+        if (valb == null)
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPBoolean(true)
+            })
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
+            AOPBoolean(vala >= valb)
         })
     }
 

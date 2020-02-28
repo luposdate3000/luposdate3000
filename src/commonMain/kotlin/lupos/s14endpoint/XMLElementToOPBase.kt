@@ -6,6 +6,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
+import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
@@ -18,7 +19,9 @@ import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGT
 import lupos.s04arithmetikOperators.multiinput.AOPIn
+import lupos.s04arithmetikOperators.multiinput.AOPLT
 import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
+import lupos.s04arithmetikOperators.multiinput.AOPNEQ
 import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
@@ -27,9 +30,11 @@ import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
+import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPAggregation
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
@@ -42,6 +47,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
+import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
@@ -76,9 +82,11 @@ fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVar
 fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transactionID: Long, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
         "AOPDateTime" -> AOPDateTime(node.attributes["value"]!!)
+        "AOPNot" -> AOPNot(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPAddition" -> AOPAddition(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallCONTAINS" -> AOPBuildInCallCONTAINS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallDAY" -> AOPBuildInCallDAY(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallBOUND" -> AOPBuildInCallBOUND(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallHOURS" -> AOPBuildInCallHOURS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallIF" -> AOPBuildInCallIF(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[2], mapping) as AOPBase)
         "AOPBuildInCallLANGMATCHES" -> AOPBuildInCallLANGMATCHES(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
@@ -97,6 +105,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "AOPInteger" -> AOPInteger(node.attributes["value"]!!.toInt())
         "AOPMultiplication" -> AOPMultiplication(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPSimpleLiteral" -> AOPSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!)
+        "AOPTypedLiteral" -> AOPTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!)
         "AOPBoolean" -> AOPBoolean(node.attributes["value"]!!.toBoolean())
         "AOPBuildInCallSTRDT" -> AOPBuildInCallSTRDT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallSTRLANG" -> AOPBuildInCallSTRLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
@@ -116,6 +125,9 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "AOPIn" -> AOPIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPNotIn" -> AOPNotIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPOr" -> AOPOr(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPLT" -> AOPLT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPNEQ" -> AOPNEQ(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPAnd" -> AOPAnd(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallTZ" -> AOPBuildInCallTZ(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "POPSort" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)

@@ -754,6 +754,20 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     tmp["${prefix}            /*" + it + "*/"] = queryFile
             }
         }
+        if (!success) {
+            rowMapProduced.forEach { k, v ->
+                println("operator-produced :: $k -> ${v.size}")
+            }
+            rowMapConsumed.forEach { k, v ->
+                println("operator-consumed :: $k -> ${v.size}")
+                if (rowMapProduced[k.first] == null || rowMapProduced[k.first]!!.size == 0) {
+                    println("no-a ${k.second}")
+                }
+                if (rowMapProduced[k.second] == null || rowMapProduced[k.second]!!.size == 0) {
+                    println("no-b ${k.first}")
+                }
+            }
+        }
         if (popMap.keySize() > 0) {
             popMap.forEachValue {
                 val name = classNameToString(it)
