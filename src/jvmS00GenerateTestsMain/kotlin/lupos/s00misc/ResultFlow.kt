@@ -132,28 +132,28 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             buffer.appendInt(operator.operatorID.ordinal)
     }
     when (operator) {
-is AOPAnd -> {
+        is AOPAnd -> {
             toBinary(operator.children[0], buffer, asPOP)
             toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPSimpleLiteral -> {
             buffer.appendString(operator.valueToString())
         }
-is AOPLanguageTaggedLiteral-> {
+        is AOPLanguageTaggedLiteral -> {
             buffer.appendString(operator.valueToString())
         }
-is AOPTypedLiteral-> {
+        is AOPTypedLiteral -> {
             buffer.appendString(operator.valueToString())
         }
-is AOPLT -> {
+        is AOPLT -> {
             toBinary(operator.children[0], buffer, asPOP)
             toBinary(operator.children[1], buffer, asPOP)
         }
-is AOPNEQ -> {
+        is AOPNEQ -> {
             toBinary(operator.children[0], buffer, asPOP)
             toBinary(operator.children[1], buffer, asPOP)
         }
-is AOPNot -> {
+        is AOPNot -> {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPAddition -> {

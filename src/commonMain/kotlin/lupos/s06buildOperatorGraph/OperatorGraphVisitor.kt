@@ -1056,7 +1056,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return AOPValue(tmp)
     }
 
-    fun setGraphNameForAllTriples(node: OPBase, name: ASTNode,optional:Boolean): OPBase {
+    fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
         val iri = when (name) {
             is ASTIri -> name.iri
             is ASTIriGraphRef -> name.iri
@@ -1065,13 +1065,13 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         when (node) {
             is OPNothing -> return node
             is LOPTriple -> {
-if(!optional||node.graph==null)
-return LOPTriple(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
-else
-return node
-}
-            is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name,optional)
-            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name,optional), setGraphNameForAllTriples(node.children[1], name,optional), node.optional)
+                if (!optional || node.graph == null)
+                    return LOPTriple(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
+                else
+                    return node
+            }
+            is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name, optional)
+            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
             else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} $optional")
         }
         return node
@@ -1080,7 +1080,7 @@ return node
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
         var res: OPBase = OPNothing()
         for (c in childrenValues) {
-            val tmp = setGraphNameForAllTriples(c, node.iriOrVar,false)
+            val tmp = setGraphNameForAllTriples(c, node.iriOrVar, false)
             if (res is OPNothing)
                 res = tmp
             else
@@ -1182,7 +1182,7 @@ return node
         } else {
             var tmp: OPBase? = null
             for (c in node.using) {
-                val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c,false)
+                val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c, false)
                 if (tmp == null)
                     tmp = tmp2
                 else
@@ -1190,22 +1190,22 @@ return node
             }
             tmp!!
         }
-val iri=node.iri
-if(iri!=null){
-        val res = LOPModify(setGraphNameForAllTriples(child,ASTIri(iri),true))
-        for (e in node.insert)
-            res.insert.add(setGraphNameForAllTriples(e.visit(this),ASTIri(iri),true))
-        for (e in node.delete)
-            res.delete.add(setGraphNameForAllTriples(e.visit(this),ASTIri(iri),true))
-        return res
-}else{
-        val res = LOPModify(child)
-        for (e in node.insert)
-            res.insert.add(e.visit(this))
-        for (e in node.delete)
-            res.delete.add(e.visit(this))
-        return res
-}
+        val iri = node.iri
+        if (iri != null) {
+            val res = LOPModify(setGraphNameForAllTriples(child, ASTIri(iri), true))
+            for (e in node.insert)
+                res.insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true))
+            for (e in node.delete)
+                res.delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true))
+            return res
+        } else {
+            val res = LOPModify(child)
+            for (e in node.insert)
+                res.insert.add(e.visit(this))
+            for (e in node.delete)
+                res.delete.add(e.visit(this))
+            return res
+        }
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {

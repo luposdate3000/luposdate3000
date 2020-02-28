@@ -6,6 +6,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
@@ -18,18 +19,17 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
-import lupos.s04arithmetikOperators.multiinput.AOPOr
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPAggregation
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
@@ -93,35 +93,35 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
     val operatorID = EOperatorID.values()[buffer.getNextInt()]
+
     when (operatorID) {
-EOperatorID.AOPAndID -> {
+        EOperatorID.AOPAndID -> {
             val childA = fromBinary(dictionary, buffer) as AOPBase
             val childB = fromBinary(dictionary, buffer) as AOPBase
-            return AOPAddition(childA, childB)
+            return AOPAnd(childA, childB)
         }
         EOperatorID.AOPSimpleLiteralID -> {
             return AOPVariable.calculate(buffer.getNextString()) as AOPSimpleLiteral
         }
-EOperatorID.AOPLanguageTaggedLiteralID -> {
+        EOperatorID.AOPLanguageTaggedLiteralID -> {
             return AOPVariable.calculate(buffer.getNextString()) as AOPLanguageTaggedLiteral
         }
-EOperatorID.AOPTypedLiteralID -> {
+        EOperatorID.AOPTypedLiteralID -> {
             return AOPVariable.calculate(buffer.getNextString()) as AOPTypedLiteral
         }
-EOperatorID.AOPLTID -> {
+        EOperatorID.AOPLTID -> {
             val childA = fromBinary(dictionary, buffer) as AOPBase
             val childB = fromBinary(dictionary, buffer) as AOPBase
-            return AOPAddition(childA, childB)
+            return AOPLT(childA, childB)
         }
-EOperatorID.AOPNEQID -> {
+        EOperatorID.AOPNEQID -> {
             val childA = fromBinary(dictionary, buffer) as AOPBase
             val childB = fromBinary(dictionary, buffer) as AOPBase
-            return AOPAddition(childA, childB)
+            return AOPNEQ(childA, childB)
         }
-EOperatorID.AOPNotID -> {
+        EOperatorID.AOPNotID -> {
             val childA = fromBinary(dictionary, buffer) as AOPBase
-            val childB = fromBinary(dictionary, buffer) as AOPBase
-            return AOPAddition(childA, childB)
+            return AOPNot(childA)
         }
         EOperatorID.AOPAdditionID -> {
             val childA = fromBinary(dictionary, buffer) as AOPBase
@@ -531,83 +531,106 @@ fun executeBinaryTests(folder: String) {
             val filename: String = it.toRelativeString(File("."))
             if (filename.endsWith(".bin")) {
                 testcases++
-                println("execute test $filename")
-                val dictionary = ResultSetDictionary()
-                var input: OPBase? = null
-                File(filename).inputStream().use { instream ->
-                    val data = instream.readBytes()
-                    val buffer = DynamicByteArray(data)
-                    val optimizerEnabledCount = buffer.getNextInt()
-                    ExecuteOptimizer.enabledOptimizers.clear()
-                    for (o in 0 until optimizerEnabledCount) {
-                        val optimizer = EOptimizerID.values()[buffer.getNextInt()]
-                        ExecuteOptimizer.enabledOptimizers[optimizer] = true
+                {
+                    val tmp = DistributedTripleStore.getGraphNames().toList()
+                    tmp.forEach {
+                        DistributedTripleStore.dropGraph(it)
                     }
-                    input = fromBinary(dictionary, buffer)
                 }
-                var expectPOP: POPValues? = null
-                try {
-                    File(filename + ".expect").inputStream().use { instream ->
-                        val data = instream.readBytes()
-                        val buffer = DynamicByteArray(data)
-                        expectPOP = fromBinary(dictionary, buffer) as POPValues
-                    }
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
-                val expected = QueryResultToXML.toXML(expectPOP!!).first()
-                if (input!! is POPBase) {
-                    val output = QueryResultToXML.toXML(input!! as POPBase).first()
-                    if (!expected.myEquals(output)) {
-                        println("a")
-                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
-                        println(input!!.toXMLElement().toPrettyString())
-                        println(expected.toPrettyString())
-                        println(output.toPrettyString())
-                    }
-                    require(expected.myEquals(output))
-                    val output2 = QueryResultToXML.toXML(input!!.cloneOP() as POPBase).first()
-                    if (!expected.myEquals(output2)) {
-                        println("b")
-                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
-                        println(input!!.toXMLElement().toPrettyString())
-                        println(expected.toPrettyString())
-                        println(output2.toPrettyString())
-                    }
-                    require(expected.myEquals(output2))
-                } else {
-                    val lop_node = input!! as LOPBase
-                    val lOptimizer = LogicalOptimizer(1L, dictionary)
-                    val pOptimizer = PhysicalOptimizer(1L, dictionary)
-                    val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
-                    val lop_node2 = lOptimizer.optimizeCall(lop_node)
-                    val pop_node = pOptimizer.optimizeCall(lop_node2)
-                    val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
-                    val output = QueryResultToXML.toXML(input2).first()
-                    if (!expected.myEquals(output)) {
-                        println("c")
-                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
-                        println(input!!.toXMLElement().toPrettyString())
-                        println(input2!!.toXMLElement().toPrettyString())
-                        println(expected.toPrettyString())
-                        println(output.toPrettyString())
-                    }
-                    require(expected.myEquals(output))
-                    val output2 = QueryResultToXML.toXML(input2.cloneOP() as POPBase).first()
-                    if (!expected.myEquals(output2)) {
-                        println("d")
-                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
-                        println(input!!.toXMLElement().toPrettyString())
-                        println(input2!!.toXMLElement().toPrettyString())
-                        println(expected.toPrettyString())
-                        println(output2.toPrettyString())
-                    }
-                    require(expected.myEquals(output2))
-                }
+                executeBinaryTest(filename, false)
             }
         }
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     println("executed testcases : $testcases")
+}
+
+
+fun executeBinaryTest(filename: String, detailedLog: Boolean) {
+    val dictionary = ResultSetDictionary()
+    var input: OPBase? = null
+    File(filename).inputStream().use { instream ->
+        val data = instream.readBytes()
+        val buffer = DynamicByteArray(data)
+        val optimizerEnabledCount = buffer.getNextInt()
+        ExecuteOptimizer.enabledOptimizers.clear()
+        for (o in 0 until optimizerEnabledCount) {
+            val optimizer = EOptimizerID.values()[buffer.getNextInt()]
+            ExecuteOptimizer.enabledOptimizers[optimizer] = true
+        }
+        input = fromBinary(dictionary, buffer)
+    }
+    println("execute test $filename ${ExecuteOptimizer.enabledOptimizers}")
+    var expectPOP: POPValues? = null
+    try {
+        File(filename + ".expect").inputStream().use { instream ->
+            val data = instream.readBytes()
+            val buffer = DynamicByteArray(data)
+            expectPOP = fromBinary(dictionary, buffer) as POPValues
+        }
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    val expected = QueryResultToXML.toXML(expectPOP!!).first()
+    if (input!! is POPBase) {
+        val output = QueryResultToXML.toXML(input!! as POPBase).first()
+        if (!expected.myEqualsUnclean(output)) {
+            if (detailedLog) {
+                println("a")
+                println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                println(input!!.toXMLElement().toPrettyString())
+                println(expected.toPrettyString())
+                println(output.toPrettyString())
+            } else
+                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
+        }
+//          require(expected.myEqualsUnclean(output))
+        val output2 = QueryResultToXML.toXML(input!!.cloneOP() as POPBase).first()
+        if (!expected.myEqualsUnclean(output2)) {
+            if (detailedLog) {
+                println("b")
+                println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                println(input!!.toXMLElement().toPrettyString())
+                println(expected.toPrettyString())
+                println(output2.toPrettyString())
+            } else
+                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
+        }
+//          require(expected.myEqualsUnclean(output2))
+    } else {
+        val lop_node = input!! as LOPBase
+        val lOptimizer = LogicalOptimizer(1L, dictionary)
+        val pOptimizer = PhysicalOptimizer(1L, dictionary)
+        val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+        val lop_node2 = lOptimizer.optimizeCall(lop_node)
+        val pop_node = pOptimizer.optimizeCall(lop_node2)
+        val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
+        val output = QueryResultToXML.toXML(input2).first()
+        if (!expected.myEqualsUnclean(output)) {
+            if (detailedLog) {
+                println("c")
+                println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                println(input!!.toXMLElement().toPrettyString())
+                println(input2!!.toXMLElement().toPrettyString())
+                println(expected.toPrettyString())
+                println(output.toPrettyString())
+            } else
+                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
+        }
+//          require(expected.myEqualsUnclean(output))
+        val output2 = QueryResultToXML.toXML(input2.cloneOP() as POPBase).first()
+        if (!expected.myEqualsUnclean(output2)) {
+            if (detailedLog) {
+                println("d")
+                println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                println(input!!.toXMLElement().toPrettyString())
+                println(input2!!.toXMLElement().toPrettyString())
+                println(expected.toPrettyString())
+                println(output2.toPrettyString())
+            } else
+                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
+        }
+//          require(expected.myEqualsUnclean(output2))
+    }
 }

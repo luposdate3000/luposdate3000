@@ -206,7 +206,7 @@ class XMLElement {
             if (c.isEmpty()) {
                 res += ">\n"
                 for (c in childs)
-                    res += c.toPrettyString(indention + "\t")
+                    res += c.toPrettyString(indention + " ")
                 res += "${indention}</${encodeText(tag)}>\n"
             } else {
                 res += ">${c}</${encodeText(tag)}>\n"
