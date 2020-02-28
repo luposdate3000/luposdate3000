@@ -7,6 +7,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
+import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -17,7 +18,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 
 
 class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {
-    val values = mutableListOf<Value>()
+    val values = ThreadSafeMutableList<Value>()
 
     inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { dictionary.getValue(key[it])!! }
 
@@ -32,7 +33,7 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
             nextStep = step / 2 + 1
         var cmp = 0
         for (i in 0 until components) {
-            val tmp = dictionary.getValue(values[realIdx + i])!!
+            val tmp = dictionary.getValue(values[realIdx + i]!!)!!
             if (tmp < value[i]) {
                 cmp = +1
                 break
@@ -53,10 +54,10 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
                 modifyInternal(key, value, type, 0, nextStep)
         } else if (cmp > 0) {
             if (step > 0) {
-                if (idx + step < values.size / components)
+                if (idx + step < values.size ()/ components)
                     modifyInternal(key, value, type, idx + step, nextStep)
                 else
-                    modifyInternal(key, value, type, values.size / components - 1, nextStep)
+                    modifyInternal(key, value, type, values.size() / components - 1, nextStep)
             } else {
                 require(step <= 1)
                 if (type == EModifyType.INSERT)
@@ -78,12 +79,12 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
     fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
         require(key.size == components)
         require(value.size == components)
-        if (values.size == 0) {
+        if (values.size ()== 0) {
             if (type == EModifyType.INSERT)
                 for (i in 0 until components)
                     values.add(key[i])
         } else {
-            val tmp = values.size / (components * 2)
+            val tmp = values.size() / (components * 2)
             val step = tmp / 2 + 1
             modifyInternal(key, value, type, tmp, step)
         }
@@ -99,13 +100,13 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
     inline fun remove(key1: Value, key2: Value, key3: Value) = remove(arrayOf(key1, key2, key3))
 
     fun forEach(action: (Array<Value>) -> Unit) {
-        for (i in 0 until values.size step components)
-            action(Array(components) { values[i + it] })
+        for (i in 0 until values.size() step components)
+            action(Array(components) { values[i + it] !!})
     }
 
     suspend fun forEachSuspend(action: suspend (Array<Value>) -> Unit) {
-        for (i in 0 until values.size step components)
-            action(Array(components) { values[i + it] })
+        for (i in 0 until values.size ()step components)
+            action(Array(components) { values[i + it] !!})
     }
 }
 

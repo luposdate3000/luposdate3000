@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
-import lupos.s00misc.EIndexPattern
+import lupos.s00misc.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
@@ -32,10 +32,10 @@ import lupos.testMain
 
 
 object P2P {
-    val nodeNameRemapping = mutableMapOf<String, String>()
+    val nodeNameRemapping = ThreadSafeMutableMap<String, String>()
     val client = createHttpClient()
-    val knownClients = mutableListOf<String>()
-    val pendingModifications = mutableMapOf<Long, MutableMap<String, TransferHelperNetwork>>()
+    val knownClients = ThreadSafeMutableList<String>()
+    val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
 
     fun getPendingModifications(transactionID: Long, nodeName: String): TransferHelperNetwork {
         val transaction = pendingModifications[transactionID]
@@ -285,7 +285,11 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
         var res: String
         synchronized(knownClients) {
-            res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
+val map=mutableListOf<String>()
+knownClients.forEach{
+map.add(it)
+}
+            res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(map, "server").toPrettyString()
         }
         return res
     })

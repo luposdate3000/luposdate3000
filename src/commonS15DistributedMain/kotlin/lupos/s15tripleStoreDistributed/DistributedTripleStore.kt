@@ -122,7 +122,7 @@ class DistributedGraph(val name: String) {
         val sh = +myHashCode("" + s.valueToString(), K)
         val ph = +myHashCode("" + p.valueToString(), K)
         val oh = +myHashCode("" + o.valueToString(), K)
-        return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size, index)]
+        return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size(), index)]
     })
 
     fun calculateNodeForDataMaybe(s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
@@ -145,7 +145,7 @@ class DistributedGraph(val name: String) {
         for (si in sr) {
             for (pi in pr) {
                 for (oi in or) {
-                    res.add(P2P.getKnownClientsCopy()[myHashCode(si, pi, oi, P2P.knownClients.size, index)])
+                    res.add(P2P.getKnownClientsCopy()[myHashCode(si, pi, oi, P2P.knownClients.size(), index)])
                 }
             }
         }

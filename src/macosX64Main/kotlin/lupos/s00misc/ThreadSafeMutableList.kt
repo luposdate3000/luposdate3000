@@ -38,6 +38,12 @@ class ThreadSafeMutableList<T> {
         global_values.value = values.freeze()
     }
 
+    fun add(idx:Int,value: T) = mutex.withWriteLock {
+        val values = global_values.value.toMutableList()
+        values.add(idx,value)
+        global_values.value = values.freeze()
+    }
+
     fun removeAt(idx: Int) = mutex.withWriteLock {
         val values = global_values.value.toMutableList()
         values.removeAt(idx)

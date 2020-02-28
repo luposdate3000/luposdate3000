@@ -2,7 +2,7 @@
 mkdir log
 if [ "$(uname)" == "Darwin" ]
 then
-gradle linkReleaseExecutableMacosX64 --project-cache-dir="gradleNativeOSX"
+gradle linkReleaseExecutableMacosX64 --project-cache-dir="gradleNative"
 else
-gradle linkDebugExecutableLinuxX64 --project-cache-dir="gradleNativeLinux"
+gradle linkDebugExecutableLinuxX64 --project-cache-dir="gradleNative"
 fi

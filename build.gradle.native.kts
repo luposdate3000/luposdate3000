@@ -69,10 +69,11 @@ sourceSets["macosX64Main"].dependencies{
                 implementation("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
             }
     sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
+    sourceSets["macosX64Main"].kotlin.srcDir("src/macosX64Main/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/nativeMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00TraceOnMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionParallelMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS00TraceOffMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS00FastMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
@@ -81,5 +82,4 @@ sourceSets["macosX64Main"].dependencies{
     sourceSets["commonMain"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS14NoneMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS15LocalMain/kotlin")
-    sourceSets["macosX64Main"].kotlin.srcDir("src/macosX64Main/kotlin")
 }

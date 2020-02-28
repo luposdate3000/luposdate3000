@@ -1,7 +1,7 @@
 ./tool-gradle-build-without-tests-native.sh
 function execNative
 {
-	./buildNative/bin/linuxX64/releaseExecutable/luposdate3000.kexe > log/x 2>&1
+	./buildNative/bin/linuxX64/debugExecutable/luposdate3000.kexe > log/x 2>&1
 }
 
 { { time execNative ; } > log/c 2>&1 ;} &
