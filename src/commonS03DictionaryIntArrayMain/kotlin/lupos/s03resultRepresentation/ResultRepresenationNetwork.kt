@@ -106,7 +106,9 @@ object ResultRepresenationNetwork {
             }
             return true
         }
-override fun cloneOP()=throw Exception("not implemented")
+
+        override fun cloneOP() = throw Exception("not implemented")
+
         constructor(resultSet: ResultSet, data: DynamicByteArray) {
             this.dictionary = resultSet.dictionary
             this.resultSet = resultSet

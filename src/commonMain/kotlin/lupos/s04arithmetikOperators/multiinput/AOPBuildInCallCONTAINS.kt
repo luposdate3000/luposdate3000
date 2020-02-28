@@ -40,5 +40,6 @@ class AOPBuildInCallCONTAINS(child: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall CONTAINS only works with string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallCONTAINS(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallCONTAINS(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

@@ -48,5 +48,6 @@ class AOPGEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
             Exception("AOPGEQ only works with numeric input")
         })
     }
-override fun cloneOP()=AOPGEQ(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPGEQ(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

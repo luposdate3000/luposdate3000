@@ -33,5 +33,6 @@ class AOPBuildInCallSECONDS(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall SECONDS only works with dateTime input")
         })
     }
-override fun cloneOP()=AOPBuildInCallSECONDS(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallSECONDS(children[0].cloneOP() as AOPBase)
 }

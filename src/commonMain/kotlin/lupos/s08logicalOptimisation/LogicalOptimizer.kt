@@ -10,7 +10,7 @@ class LogicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : O
             LogicalOptimizerRemovePrefix(transactionID, dictionary),//
             LogicalOptimizerRemoveNOOP(transactionID, dictionary),//
             LogicalOptimizerBindToFilter(transactionID, dictionary),//
-LogicalOptimizerFilterSplitAND(transactionID, dictionary),//
+            LogicalOptimizerFilterSplitAND(transactionID, dictionary),//
             LogicalOptimizerArithmetic(transactionID, dictionary),//
             LogicalOptimizerFilterDown(transactionID, dictionary),//
             LogicalOptimizerFilterIntoTriple(transactionID, dictionary))

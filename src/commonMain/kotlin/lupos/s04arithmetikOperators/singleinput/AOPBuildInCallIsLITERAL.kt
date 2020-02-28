@@ -29,5 +29,6 @@ class AOPBuildInCallIsLITERAL(child: AOPBase) : AOPBase() {
             AOPBoolean(a is AOPSimpleLiteral)
         })
     }
-override fun cloneOP()=AOPBuildInCallIsLITERAL(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallIsLITERAL(children[0].cloneOP() as AOPBase)
 }

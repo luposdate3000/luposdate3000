@@ -23,9 +23,9 @@ class POPSort : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-     var data: MutableList<ResultRow>? = null
-     val variables = mutableListOf<Pair<Variable, Variable>>()
-     var iterator: Iterator<ResultRow>? = null
+    var data: MutableList<ResultRow>? = null
+    val variables = mutableListOf<Pair<Variable, Variable>>()
+    var iterator: Iterator<ResultRow>? = null
     var sortBy: Variable
     val sortOrder: Boolean
     override fun equals(other: Any?): Boolean {
@@ -44,7 +44,7 @@ class POPSort : POPBase {
         return true
     }
 
-override fun cloneOP()=POPSort(dictionary,AOPVariable(resultSet.getVariable(sortBy)),sortOrder,children[0].cloneOP())
+    override fun cloneOP() = POPSort(dictionary, AOPVariable(resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
 
     constructor(dictionary: ResultSetDictionary, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super() {
         this.dictionary = dictionary
@@ -52,7 +52,7 @@ override fun cloneOP()=POPSort(dictionary,AOPVariable(resultSet.getVariable(sort
         children[0] = child
         this.sortOrder = sortOrder
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (name in children[0].getProvidedVariableNames()) 
+        for (name in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         this.sortBy = resultSet.createVariable(sortBy.name)
     }

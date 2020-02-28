@@ -19,8 +19,8 @@ import lupos.s09physicalOperators.POPBase
 class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPFilterID
     override val classname = "POPFilter"
-    override val resultSet= child.resultSet
-    override val children = arrayOf(child,filter)
+    override val resultSet = child.resultSet
+    override val children = arrayOf(child, filter)
     override fun childrenToVerifyCount() = 1
 
     override fun equals(other: Any?): Boolean {
@@ -34,11 +34,12 @@ class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, c
         }
         return true
     }
-override fun cloneOP()=POPFilter(dictionary,children[1].cloneOP()as AOPBase,children[0].cloneOP())
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames()
+    override fun cloneOP() = POPFilter(dictionary, children[1].cloneOP() as AOPBase, children[0].cloneOP())
 
-    override fun getRequiredVariableNames()=children[1].getRequiredVariableNamesRecoursive()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames()
+
+    override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
         children[0].evaluate()

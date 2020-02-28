@@ -37,7 +37,8 @@ class POPProjection : POPBase {
         }
         return true
     }
-override fun cloneOP()=POPProjection(dictionary,variables,children[0].cloneOP())
+
+    override fun cloneOP() = POPProjection(dictionary, variables, children[0].cloneOP())
 
     constructor(dictionary: ResultSetDictionary, variables: MutableList<AOPVariable>, child: OPBase) : super() {
         this.dictionary = dictionary
@@ -45,8 +46,8 @@ override fun cloneOP()=POPProjection(dictionary,variables,children[0].cloneOP())
         children[0] = child
         this.variables = variables
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        variablesOld = Array(variables.size){children[0].resultSet.createVariable(variables[it].name)}
-        variablesNew = Array(variables.size){resultSet.createVariable(variables[it].name)}
+        variablesOld = Array(variables.size) { children[0].resultSet.createVariable(variables[it].name) }
+        variablesNew = Array(variables.size) { resultSet.createVariable(variables[it].name) }
     }
 
     override fun getProvidedVariableNames(): List<String> {

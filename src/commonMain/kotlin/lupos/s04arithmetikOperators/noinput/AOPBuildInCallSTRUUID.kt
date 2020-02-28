@@ -25,5 +25,6 @@ class AOPBuildInCallSTRUUID : AOPBase() {
             AOPSimpleLiteral("\"", "" + uuid4())
         })
     }
-override fun cloneOP()=this
+
+    override fun cloneOP() = this
 }

@@ -43,5 +43,6 @@ class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall ROUND only works with numeric input")
         })
     }
-override fun cloneOP()=AOPBuildInCallROUND(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallROUND(children[0].cloneOP() as AOPBase)
 }

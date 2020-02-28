@@ -30,5 +30,6 @@ class AOPBuildInCallIsNUMERIC(child: AOPBase) : AOPBase() {
             AOPBoolean(a is AOPDouble || a is AOPDecimal || a is AOPInteger)
         })
     }
-override fun cloneOP()=AOPBuildInCallIsNUMERIC(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallIsNUMERIC(children[0].cloneOP() as AOPBase)
 }

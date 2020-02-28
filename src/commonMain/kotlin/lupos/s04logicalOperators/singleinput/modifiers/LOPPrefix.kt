@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPPrefix(val name: String, val iri: String,child:OPBase=OPNothing()) : LOPBase() {
+class LOPPrefix(val name: String, val iri: String, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPPrefixID
     override val classname = "LOPPrefix"
     override val children: Array<OPBase> = arrayOf(child)
@@ -26,5 +26,6 @@ class LOPPrefix(val name: String, val iri: String,child:OPBase=OPNothing()) : LO
         }
         return true
     }
-override fun cloneOP()=LOPPrefix(name,iri,children[0].cloneOP())
+
+    override fun cloneOP() = LOPPrefix(name, iri, children[0].cloneOP())
 }

@@ -28,5 +28,6 @@ class AOPBuildInCallBNODE1(child: AOPBase) : AOPBase() {
             AOPBnode("" + uuid + a.valueToString())
         })
     }
-override fun cloneOP()=AOPBuildInCallBNODE1(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallBNODE1(children[0].cloneOP() as AOPBase)
 }

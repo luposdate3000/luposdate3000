@@ -40,5 +40,6 @@ class AOPBuildInCallSTR(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall STR only works with string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallSTR(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallSTR(children[0].cloneOP() as AOPBase)
 }

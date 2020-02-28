@@ -54,5 +54,6 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall DATATYPE only works with typed string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallDATATYPE(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallDATATYPE(children[0].cloneOP() as AOPBase)
 }

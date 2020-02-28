@@ -42,7 +42,8 @@ class POPBind : POPBase {
         return true
     }
 
-override fun cloneOP()=POPBind(dictionary,name,children[1].cloneOP()as AOPBase,children[0].cloneOP())
+    override fun cloneOP() = POPBind(dictionary, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+
     constructor(dictionary: ResultSetDictionary, name: AOPVariable, value: AOPBase, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

@@ -11,13 +11,13 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPEmptyRow (override val dictionary: ResultSetDictionary): POPBase (){
+class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
     override val operatorID = EOperatorID.POPEmptyRowID
     override val classname = "POPEmptyRow"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
- var first = true
-override fun cloneOP()=POPEmptyRow(dictionary)
+    var first = true
+    override fun cloneOP() = POPEmptyRow(dictionary)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPEmptyRow)

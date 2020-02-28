@@ -30,5 +30,6 @@ class LOPFilter(filter: AOPBase, child: OPBase = OPNothing()) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPFilter(children[1].cloneOP()as AOPBase,children[0].cloneOP())
+
+    override fun cloneOP() = LOPFilter(children[1].cloneOP() as AOPBase, children[0].cloneOP())
 }

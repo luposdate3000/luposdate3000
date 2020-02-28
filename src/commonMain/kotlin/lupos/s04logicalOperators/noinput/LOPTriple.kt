@@ -10,7 +10,9 @@ class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String?, val grap
     override val operatorID = EOperatorID.LOPTripleID
     override val classname = "LOPTriple"
     override val children = arrayOf<OPBase>(s, p, o)
+
     override fun getRequiredVariableNames() = listOf<String>()
+
     override fun getProvidedVariableNames(): List<String> {
         var res = mutableListOf<String>()
         for (c in children)
@@ -18,8 +20,7 @@ class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String?, val grap
         return res.distinct()
     }
 
-    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
-    }
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPTriple)
@@ -33,5 +34,6 @@ class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String?, val grap
                 return false
         return true
     }
-	override fun cloneOP()=LOPTriple(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase,children[2].cloneOP()as AOPBase,graph,graphVar)
+
+    override fun cloneOP() = LOPTriple(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
 }

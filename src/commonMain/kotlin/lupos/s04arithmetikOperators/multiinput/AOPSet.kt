@@ -27,5 +27,6 @@ class AOPSet(childs: List<AOPBase>) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         TODO("not implemented")
     }
-override fun cloneOP()=AOPSet(List(children.size){children[it].cloneOP()as AOPBase})
+
+    override fun cloneOP() = AOPSet(List(children.size) { children[it].cloneOP() as AOPBase })
 }

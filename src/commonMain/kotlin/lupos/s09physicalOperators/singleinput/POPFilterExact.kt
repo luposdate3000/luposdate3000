@@ -41,7 +41,8 @@ class POPFilterExact : POPBase {
         return true
     }
 
-override fun cloneOP()=POPFilterExact(dictionary,variable,value,children[0].cloneOP())
+    override fun cloneOP() = POPFilterExact(dictionary, variable, value, children[0].cloneOP())
+
     constructor(dictionary: ResultSetDictionary, variable: AOPVariable, value: String, child: OPBase) : super() {
         this.dictionary = dictionary
         children[0] = child

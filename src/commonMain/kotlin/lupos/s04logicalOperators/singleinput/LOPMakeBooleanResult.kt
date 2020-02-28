@@ -28,5 +28,6 @@ class LOPMakeBooleanResult() : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPMakeBooleanResult(children[0].cloneOP())
+
+    override fun cloneOP() = LOPMakeBooleanResult(children[0].cloneOP())
 }

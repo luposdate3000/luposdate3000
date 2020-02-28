@@ -8,8 +8,8 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
 
 
 class LogicalOptimizerFilterIntoTriple(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.LogicalOptimizerFilterIntoTripleID) {
@@ -31,7 +31,7 @@ class LogicalOptimizerFilterIntoTriple(transactionID: Long, dictionary: ResultSe
                                     onChange()
                                     require(false)/*TODO check this*/
                                     loptriple.children[i] = compareVal
-                                    res = LOPBind(compareVar,compareVal,loptriple)
+                                    res = LOPBind(compareVar, compareVal, loptriple)
                                 }
                             }
                         }

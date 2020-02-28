@@ -46,5 +46,6 @@ class LOPModify(child: OPBase) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPModify(children[0].cloneOP())
+
+    override fun cloneOP() = LOPModify(children[0].cloneOP())
 }

@@ -30,5 +30,6 @@ class AOPBuildInCallBNODE0 : AOPBase() {
             AOPBnode("" + uuid + localbnode.next())
         })
     }
-override fun cloneOP()=this
+
+    override fun cloneOP() = this
 }

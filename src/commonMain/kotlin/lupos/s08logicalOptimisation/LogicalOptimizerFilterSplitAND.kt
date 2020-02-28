@@ -3,13 +3,13 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
 
 
 class LogicalOptimizerFilterSplitAND(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.LogicalOptimizerFilterSplitANDID) {
@@ -20,9 +20,9 @@ class LogicalOptimizerFilterSplitAND(transactionID: Long, dictionary: ResultSetD
             val child = node.children[0]
             val aopcompare = node.children[1]
             if (aopcompare is AOPAnd) {
-		onChange()
-require(false)/*TODO check this*/
-		res=LOPFilter(aopcompare.children[0]as AOPBase,LOPFilter(aopcompare.children[1] as AOPBase,child))
+                onChange()
+                require(false)/*TODO check this*/
+                res = LOPFilter(aopcompare.children[0] as AOPBase, LOPFilter(aopcompare.children[1] as AOPBase, child))
             }
         }
         res

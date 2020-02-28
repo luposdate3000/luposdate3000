@@ -39,5 +39,6 @@ class AOPBuildInCallSTRDT(child: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
         })
     }
-override fun cloneOP()=AOPBuildInCallSTRDT(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallSTRDT(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

@@ -7,14 +7,10 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGraphOperation : LOPBase() {
+class LOPGraphOperation(var action: EGraphOperationType = EGraphOperationType.CREATE, var silent: Boolean = false, var graphref1: ASTGraphRef? = null, var graphref2: ASTGraphRef? = null) : LOPBase() {
     override val operatorID = EOperatorID.LOPGraphOperationID
     override val classname = "LOPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
-    var silent = false
-    var graphref1: ASTGraphRef? = null
-    var graphref2: ASTGraphRef? = null
-    var action = EGraphOperationType.CREATE
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation)
@@ -29,5 +25,6 @@ class LOPGraphOperation : LOPBase() {
             return false
         return true
     }
-override fun cloneOP()=LOPGraphOperation()
+
+    override fun cloneOP() = LOPGraphOperation(action, silent, graphref1, graphref2)
 }

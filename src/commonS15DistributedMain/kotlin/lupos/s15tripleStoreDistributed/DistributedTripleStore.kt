@@ -35,11 +35,11 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     val transactionID: Long
     val graphNameL: String
     val index: EIndexPattern
-override fun cloneOP()=TripleStoreIteratorGlobal(transactionID,dictionary,graphNameL,sparam,pparam,oparam,index)
+    override fun cloneOP() = TripleStoreIteratorGlobal(transactionID, dictionary, graphNameL, sparam, pparam, oparam, index)
 
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern=EIndexPattern.SPO) {
-     this.   index = index
-this.        graphNameL = graphName
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern = EIndexPattern.SPO) {
+        this.index = index
+        this.graphNameL = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
         resultSet = ResultSet(dictionary)
@@ -47,8 +47,8 @@ this.        graphNameL = graphName
     }
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern) {
-this.        index = index
-     this.   graphNameL = graphName
+        this.index = index
+        this.graphNameL = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
         resultSet = ResultSet(dictionary)

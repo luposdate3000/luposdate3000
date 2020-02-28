@@ -37,7 +37,7 @@ class POPImportFromXml : POPBase {
         return true
     }
 
-override fun cloneOP()=POPImportFromXml(dictionary,data)
+    override fun cloneOP() = POPImportFromXml(dictionary, data)
 
     constructor(dictionary: ResultSetDictionary, data: XMLElement) {
         this.dictionary = dictionary

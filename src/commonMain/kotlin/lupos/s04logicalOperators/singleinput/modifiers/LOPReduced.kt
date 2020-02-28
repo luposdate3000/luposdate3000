@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPReduced(child:OPBase=OPNothing()) : LOPBase() {
+class LOPReduced(child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPReducedID
     override val classname = "LOPReduced"
     override val children: Array<OPBase> = arrayOf(child)
@@ -20,5 +20,6 @@ class LOPReduced(child:OPBase=OPNothing()) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPReduced(children[0].cloneOP())
+
+    override fun cloneOP() = LOPReduced(children[0].cloneOP())
 }

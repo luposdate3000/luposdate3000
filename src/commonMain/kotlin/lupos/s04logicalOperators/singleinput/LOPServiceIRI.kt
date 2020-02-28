@@ -25,5 +25,6 @@ class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPB
         }
         return true
     }
-override fun cloneOP()=LOPServiceIRI(name,silent,children[0].cloneOP())
+
+    override fun cloneOP() = LOPServiceIRI(name, silent, children[0].cloneOP())
 }

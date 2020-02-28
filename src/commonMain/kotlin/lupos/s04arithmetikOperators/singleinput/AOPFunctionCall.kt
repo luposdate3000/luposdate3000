@@ -32,5 +32,6 @@ class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         TODO("not implemented")
     }
-override fun cloneOP()=AOPFunctionCall(iri,distinct,List(children.size){children[it].cloneOP()})
+
+    override fun cloneOP() = AOPFunctionCall(iri, distinct, List(children.size) { children[it].cloneOP() })
 }

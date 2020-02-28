@@ -48,5 +48,6 @@ class AOPLT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
             Exception("AOPLT only works with numeric input")
         })
     }
-override fun cloneOP()=AOPLT(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPLT(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

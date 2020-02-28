@@ -74,5 +74,5 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
         return true
     }
 
-override fun cloneOP()=LOPGroup(by,children[1].cloneOP(),children[0].cloneOP())
+    override fun cloneOP() = LOPGroup(by, children[1].cloneOP(), children[0].cloneOP())
 }

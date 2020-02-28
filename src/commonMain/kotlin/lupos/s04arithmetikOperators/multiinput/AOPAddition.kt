@@ -46,5 +46,6 @@ class AOPAddition(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
             Exception("AOPAddition only works with numeric input")
         })
     }
-override fun cloneOP()=AOPAddition(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPAddition(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

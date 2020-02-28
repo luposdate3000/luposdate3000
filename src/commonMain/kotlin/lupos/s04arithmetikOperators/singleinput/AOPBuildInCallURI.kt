@@ -39,5 +39,6 @@ class AOPBuildInCallURI(child: AOPBase, var prefix: String = "") : AOPBase() {
             Exception("AOPBuiltInCall URI only works with simple string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallURI(children[0].cloneOP()as AOPBase,prefix)
+
+    override fun cloneOP() = AOPBuildInCallURI(children[0].cloneOP() as AOPBase, prefix)
 }

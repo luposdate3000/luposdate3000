@@ -41,5 +41,6 @@ class AOPBuildInCallSTRENDS(child: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall STRENDS only works with string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallSTRENDS(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallSTRENDS(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

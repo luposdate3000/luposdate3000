@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOptional(child: OPBase=OPNothing()) : LOPBase() {
+class LOPOptional(child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPOptionalID
     override val classname = "LOPOptional"
     override val children: Array<OPBase> = arrayOf(child)
@@ -20,5 +20,6 @@ class LOPOptional(child: OPBase=OPNothing()) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPOptional(children[0].cloneOP())
+
+    override fun cloneOP() = LOPOptional(children[0].cloneOP())
 }

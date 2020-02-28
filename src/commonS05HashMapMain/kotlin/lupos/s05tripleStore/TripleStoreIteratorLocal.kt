@@ -25,13 +25,14 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
 
-    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern=EIndexPattern.SPO) {
+    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern = EIndexPattern.SPO) {
         this.dictionary = resultSet.dictionary
         this.resultSet = resultSet
         this.store = store
         this.index = index
     }
-override fun cloneOP()=TripleStoreIteratorLocal(resultSet,store,index)
+
+    override fun cloneOP() = TripleStoreIteratorLocal(resultSet, store, index)
 
 
     override fun getProvidedVariableNames(): List<String> {

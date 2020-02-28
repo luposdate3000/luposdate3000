@@ -33,5 +33,6 @@ class AOPBuildInCallMONTH(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall MONTH only works with dateTime input")
         })
     }
-override fun cloneOP()=AOPBuildInCallMONTH(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallMONTH(children[0].cloneOP() as AOPBase)
 }

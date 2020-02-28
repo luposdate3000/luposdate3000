@@ -141,5 +141,6 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             a!!
         })
     }
-override fun cloneOP()=AOPAggregation(type,distinct,Array(children.size) { (children[it].cloneOP())as AOPBase })
+
+    override fun cloneOP() = AOPAggregation(type, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

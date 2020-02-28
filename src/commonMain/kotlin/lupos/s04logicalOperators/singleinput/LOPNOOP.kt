@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPNOOP(child:OPBase=OPNothing()) : LOPBase() {
+class LOPNOOP(child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPNOOPID
     override val classname = "LOPNOOP"
     override val children: Array<OPBase> = arrayOf(child)
@@ -20,6 +20,7 @@ class LOPNOOP(child:OPBase=OPNothing()) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPNOOP(children[0].cloneOP())
+
+    override fun cloneOP() = LOPNOOP(children[0].cloneOP())
 }
 

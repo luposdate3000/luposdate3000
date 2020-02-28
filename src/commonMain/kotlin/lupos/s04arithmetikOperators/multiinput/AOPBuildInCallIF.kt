@@ -38,5 +38,6 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
             Exception("AOPBuiltInCall IF only works with boolean condition")
         })
     }
-override fun cloneOP()=AOPBuildInCallIF(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase,children[2].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallIF(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase)
 }

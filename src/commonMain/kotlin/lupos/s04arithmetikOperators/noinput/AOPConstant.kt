@@ -14,5 +14,5 @@ abstract class AOPConstant : AOPBase() {
     abstract fun toDouble(): Double
     abstract fun toInt(): Int
     abstract fun toBoolean(): Boolean
-override fun cloneOP()=this
+    override fun cloneOP() = this
 }

@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPDistinct(child:OPBase=OPNothing()) : LOPBase() {
+class LOPDistinct(child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPDistinctID
     override val classname = "LOPDistinct"
     override val children: Array<OPBase> = arrayOf(child)
@@ -20,5 +20,6 @@ class LOPDistinct(child:OPBase=OPNothing()) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPDistinct(children[0].cloneOP())
+
+    override fun cloneOP() = LOPDistinct(children[0].cloneOP())
 }

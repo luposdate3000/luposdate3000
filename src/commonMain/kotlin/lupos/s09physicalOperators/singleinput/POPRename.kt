@@ -22,8 +22,8 @@ class POPRename : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var nameTo: AOPVariable
     var nameFrom: AOPVariable
-     val variablesOld: Array<Variable?>
-     val variablesNew: Array<Variable?>
+    val variablesOld: Array<Variable?>
+    val variablesNew: Array<Variable?>
     override fun equals(other: Any?): Boolean {
         if (other !is POPRename)
             return false
@@ -54,7 +54,9 @@ class POPRename : POPBase {
             }
         }
     }
-override fun cloneOP()=POPRename(dictionary,nameTo,nameFrom,children[0].cloneOP())
+
+    override fun cloneOP() = POPRename(dictionary, nameTo, nameFrom, children[0].cloneOP())
+
     constructor(dictionary: ResultSetDictionary, nameTo: AOPVariable, nameFrom: AOPVariable, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
@@ -63,8 +65,8 @@ override fun cloneOP()=POPRename(dictionary,nameTo,nameFrom,children[0].cloneOP(
         this.nameFrom = nameFrom
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = children[0].getProvidedVariableNames()
-        variablesOld = Array(variableNames.size){null as Variable?}
-        variablesNew = Array(variableNames.size){null as Variable?}
+        variablesOld = Array(variableNames.size) { null as Variable? }
+        variablesNew = Array(variableNames.size) { null as Variable? }
         var i = 0
         for (name in variableNames) {
             variablesOld[i] = children[0].resultSet.createVariable(name)

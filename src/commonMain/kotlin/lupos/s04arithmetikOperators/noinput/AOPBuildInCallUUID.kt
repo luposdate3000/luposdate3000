@@ -27,5 +27,6 @@ class AOPBuildInCallUUID : AOPBase() {
             AOPIri("urn:uuid:" + uuid4())
         })
     }
-override fun cloneOP()=this
+
+    override fun cloneOP() = this
 }

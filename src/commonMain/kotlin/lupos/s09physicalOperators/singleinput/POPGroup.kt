@@ -46,16 +46,16 @@ class POPGroup : POPBase {
         }
         return true
     }
-override fun cloneOP():POPGroup{
-if(bindings.size>0){
-	var tmpBindings=POPBind(dictionary,AOPVariable(resultSet.getVariable(bindings[0].first)),bindings[0].second,OPNothing())
-	for(bp in 1 until bindings.size)
-		tmpBindings=POPBind(dictionary,AOPVariable(resultSet.getVariable(bindings[0].first)),bindings[0].second,tmpBindings)
-	return POPGroup(dictionary,by,tmpBindings,children[0].cloneOP())
-}
-else
-return POPGroup(dictionary,by,null,children[0].cloneOP())
-}
+
+    override fun cloneOP(): POPGroup {
+        if (bindings.size > 0) {
+            var tmpBindings = POPBind(dictionary, AOPVariable(resultSet.getVariable(bindings[0].first)), bindings[0].second, OPNothing())
+            for (bp in 1 until bindings.size)
+                tmpBindings = POPBind(dictionary, AOPVariable(resultSet.getVariable(bindings[0].first)), bindings[0].second, tmpBindings)
+            return POPGroup(dictionary, by, tmpBindings, children[0].cloneOP())
+        } else
+            return POPGroup(dictionary, by, null, children[0].cloneOP())
+    }
 
     constructor(dictionary: ResultSetDictionary, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super() {
         this.dictionary = dictionary

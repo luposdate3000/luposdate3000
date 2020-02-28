@@ -251,7 +251,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = AOPVariable(sel.variable.name)
                         projection.variables.add(v)
-                        val tmp2 = LOPBind(v, sel.expression.visit(this)as AOPBase)
+                        val tmp2 = LOPBind(v, sel.expression.visit(this) as AOPBase)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
                         if (bind != null)
                             bind = mergeLOPBind(bind, tmp2)
@@ -299,9 +299,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             val template = t.visit(this)
             var tmp: OPBase = child
             if (template is LOPTriple) {
-                val s = template.children[0]as AOPBase
-                val p = template.children[1]as AOPBase
-                val o = template.children[2]as AOPBase
+                val s = template.children[0] as AOPBase
+                val p = template.children[1] as AOPBase
+                val o = template.children[2] as AOPBase
                 if (s is AOPVariable)
                     tmp = LOPRename(AOPVariable("s"), AOPVariable(s.name), tmp)
                 else
@@ -367,7 +367,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = AOPVariable(b.variable.name)
                         variables.add(v)
-                        val tmp2 = LOPBind(v, b.expression.visit(this)as AOPBase)
+                        val tmp2 = LOPBind(v, b.expression.visit(this) as AOPBase)
                         if (child != null)
                             child = mergeLOPBind(child, tmp2)
                         else
@@ -820,7 +820,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPBind(node.variable.visit(this) as AOPVariable, node.expression.visit(this)as AOPBase)
+        return LOPBind(node.variable.visit(this) as AOPVariable, node.expression.visit(this) as AOPBase)
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
@@ -1087,58 +1087,37 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation()
-        res.action = EGraphOperationType.ADD
-        res.silent = node.silent
-        res.graphref1 = node.fromGraph
-        res.graphref2 = node.toGraph
+        val res = LOPGraphOperation(EGraphOperationType.ADD, node.silent, node.fromGraph, node.toGraph)
         return res
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation()
-        res.action = EGraphOperationType.MOVE
-        res.silent = node.silent
-        res.graphref1 = node.fromGraph
-        res.graphref2 = node.toGraph
+        val res = LOPGraphOperation(EGraphOperationType.MOVE, node.silent, node.fromGraph, node.toGraph)
         return res
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation()
-        res.action = EGraphOperationType.COPY
-        res.silent = node.silent
-        res.graphref1 = node.fromGraph
-        res.graphref2 = node.toGraph
+        val res = LOPGraphOperation(EGraphOperationType.COPY, node.silent, node.fromGraph, node.toGraph)
         return res
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation()
-        res.action = EGraphOperationType.CLEAR
-        res.silent = node.silent
-        res.graphref1 = node.graphref
+        val res = LOPGraphOperation(EGraphOperationType.CLEAR, node.silent, node.graphref)
         return res
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation()
-        res.action = EGraphOperationType.DROP
-        res.silent = node.silent
-        res.graphref1 = node.graphref
+        val res = LOPGraphOperation(EGraphOperationType.DROP, node.silent, node.graphref)
         return res
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation()
-        res.action = EGraphOperationType.CREATE
-        res.silent = node.silent
-        res.graphref1 = node.graphref
+        val res = LOPGraphOperation(EGraphOperationType.CREATE, node.silent, node.graphref)
         return res
     }
 

@@ -170,5 +170,5 @@ class POPJoinHashMap : POPBase {
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-override fun cloneOP()=POPJoinHashMap(dictionary,children[0].cloneOP(),children[1].cloneOP(),optional)
+    override fun cloneOP() = POPJoinHashMap(dictionary, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

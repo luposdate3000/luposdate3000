@@ -22,7 +22,7 @@ abstract class OPBase {
     val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
 
     abstract fun evaluate()
-    abstract fun cloneOP():OPBase
+    abstract fun cloneOP(): OPBase
 
     open fun applyPrefix(prefix: String, iri: String) {
         for (c in children)

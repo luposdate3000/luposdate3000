@@ -67,7 +67,9 @@ class TripleInsertIterator : POPBase {
         }
         return res
     })
-override fun cloneOP()=throw Exception ("not implemented")
+
+    override fun cloneOP() = throw Exception("not implemented")
+
     constructor(dictionary: ResultSetDictionary, triple: ID_Triple) {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

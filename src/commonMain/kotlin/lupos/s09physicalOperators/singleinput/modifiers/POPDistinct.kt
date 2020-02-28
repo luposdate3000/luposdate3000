@@ -42,7 +42,8 @@ class POPDistinct : POPBase {
         for (name in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
     }
-override fun cloneOP()=POPDistinct(dictionary,children[0].cloneOP())
+
+    override fun cloneOP() = POPDistinct(dictionary, children[0].cloneOP())
     override fun evaluate() = Trace.trace<Unit>({ "POPDistinct.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {

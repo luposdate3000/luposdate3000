@@ -15,5 +15,6 @@ class OPNothing : LOPBase() {
             return false
         return true
     }
-override fun cloneOP()=this
+
+    override fun cloneOP() = this
 }

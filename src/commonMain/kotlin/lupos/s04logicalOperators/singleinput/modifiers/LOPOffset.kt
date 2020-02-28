@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOffset(val offset: Int,child:OPBase=OPNothing()) : LOPBase() {
+class LOPOffset(val offset: Int, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPOffsetID
     override val classname = "LOPOffset"
     override val children: Array<OPBase> = arrayOf(child)
@@ -24,5 +24,6 @@ class LOPOffset(val offset: Int,child:OPBase=OPNothing()) : LOPBase() {
         }
         return true
     }
-override fun cloneOP()=LOPOffset(offset,children[0].cloneOP())
+
+    override fun cloneOP() = LOPOffset(offset, children[0].cloneOP())
 }

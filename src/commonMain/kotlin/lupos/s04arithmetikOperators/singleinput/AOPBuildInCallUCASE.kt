@@ -42,5 +42,6 @@ class AOPBuildInCallUCASE(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall UCASE only works with string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallUCASE(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallUCASE(children[0].cloneOP() as AOPBase)
 }

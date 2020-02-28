@@ -35,7 +35,8 @@ class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall MD5 only works with string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallMD5(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallMD5(children[0].cloneOP() as AOPBase)
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)

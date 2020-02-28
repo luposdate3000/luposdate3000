@@ -7,10 +7,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPServiceVAR (val name: String, val silent: Boolean, constraint: OPBase, child: OPBase=OPNothing()): LOPBase() {
+class LOPServiceVAR(val name: String, val silent: Boolean, constraint: OPBase, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPServiceVARID
     override val classname = "LOPServiceVAR"
-    override val children: Array<OPBase> = arrayOf(child,constraint)
+    override val children: Array<OPBase> = arrayOf(child, constraint)
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent).addContent(XMLElement("constraint").addContent(children[1].toXMLElement()))
 
@@ -28,5 +28,5 @@ class LOPServiceVAR (val name: String, val silent: Boolean, constraint: OPBase, 
         return true
     }
 
-override fun cloneOP()=LOPServiceVAR(name,silent,children[1].cloneOP(),children[0].cloneOP())
+    override fun cloneOP() = LOPServiceVAR(name, silent, children[1].cloneOP(), children[0].cloneOP())
 }

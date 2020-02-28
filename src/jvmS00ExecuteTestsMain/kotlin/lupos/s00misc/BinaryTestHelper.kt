@@ -533,12 +533,22 @@ fun executeBinaryTests(folder: String) {
                 if (input!! is POPBase) {
                     val output = QueryResultToXML.toXML(input!! as POPBase).first()
                     if (!expected.myEquals(output)) {
+                        println("a")
                         println((expectPOP as POPValues).toXMLElement().toPrettyString())
                         println(input!!.toXMLElement().toPrettyString())
                         println(expected.toPrettyString())
                         println(output.toPrettyString())
                     }
                     require(expected.myEquals(output))
+                    val output2 = QueryResultToXML.toXML(input!!.cloneOP() as POPBase).first()
+                    if (!expected.myEquals(output2)) {
+                        println("b")
+                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                        println(input!!.toXMLElement().toPrettyString())
+                        println(expected.toPrettyString())
+                        println(output2.toPrettyString())
+                    }
+                    require(expected.myEquals(output2))
                 } else {
                     val lop_node = input!! as LOPBase
                     val lOptimizer = LogicalOptimizer(1L, dictionary)
@@ -549,6 +559,7 @@ fun executeBinaryTests(folder: String) {
                     val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
                     val output = QueryResultToXML.toXML(input2).first()
                     if (!expected.myEquals(output)) {
+                        println("c")
                         println((expectPOP as POPValues).toXMLElement().toPrettyString())
                         println(input!!.toXMLElement().toPrettyString())
                         println(input2!!.toXMLElement().toPrettyString())
@@ -556,6 +567,16 @@ fun executeBinaryTests(folder: String) {
                         println(output.toPrettyString())
                     }
                     require(expected.myEquals(output))
+                    val output2 = QueryResultToXML.toXML(input2.cloneOP() as POPBase).first()
+                    if (!expected.myEquals(output2)) {
+                        println("d")
+                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                        println(input!!.toXMLElement().toPrettyString())
+                        println(input2!!.toXMLElement().toPrettyString())
+                        println(expected.toPrettyString())
+                        println(output2.toPrettyString())
+                    }
+                    require(expected.myEquals(output2))
                 }
             }
         }

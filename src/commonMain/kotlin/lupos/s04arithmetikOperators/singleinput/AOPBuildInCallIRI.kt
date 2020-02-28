@@ -42,5 +42,6 @@ class AOPBuildInCallIRI(child: AOPBase, var prefix: String = "") : AOPBase() {
             Exception("AOPBuiltInCall IRI only works with simple string input")
         })
     }
-override fun cloneOP()=AOPBuildInCallIRI(children[0].cloneOP()as AOPBase,prefix)
+
+    override fun cloneOP() = AOPBuildInCallIRI(children[0].cloneOP() as AOPBase, prefix)
 }

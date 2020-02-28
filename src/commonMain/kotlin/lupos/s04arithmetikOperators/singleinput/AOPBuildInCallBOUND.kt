@@ -29,5 +29,6 @@ class AOPBuildInCallBOUND(child: AOPBase) : AOPBase() {
             AOPBoolean(a !is AOPUndef)
         })
     }
-override fun cloneOP()=AOPBuildInCallBOUND(children[0].cloneOP()as AOPBase)
+
+    override fun cloneOP() = AOPBuildInCallBOUND(children[0].cloneOP() as AOPBase)
 }

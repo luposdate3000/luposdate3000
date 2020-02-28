@@ -35,7 +35,7 @@ class POPTemporaryStore : POPBase {
         return true
     }
 
-override fun cloneOP()=POPTemporaryStore(dictionary,children[0].cloneOP())
+    override fun cloneOP() = POPTemporaryStore(dictionary, children[0].cloneOP())
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary

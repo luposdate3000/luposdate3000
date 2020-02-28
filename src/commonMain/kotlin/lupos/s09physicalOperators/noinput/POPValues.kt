@@ -40,12 +40,14 @@ class POPValues : POPBase {
         }
         return true
     }
-override fun cloneOP()=POPValues(dictionary,variables.map{resultSet.getVariable(it)},data.map{
-val res=mutableMapOf<String,String?>()
-for((k,v) in (it as Map<Variable, Value>))
-res[resultSet.getVariable(k as Variable)as String]=resultSet.getValue(v as Value) as String?
-res
-})
+
+    override fun cloneOP() = POPValues(dictionary, variables.map { resultSet.getVariable(it) }, data.map {
+        val res = mutableMapOf<String, String?>()
+        for ((k, v) in (it as Map<Variable, Value>))
+            res[resultSet.getVariable(k as Variable) as String] = resultSet.getValue(v as Value) as String?
+        res
+    })
+
     constructor(dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String?>>) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
