@@ -2,12 +2,13 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPBind(val name: AOPVariable, expression: OPBase, child: OPBase = OPNothing()) : LOPBase() {
+class LOPBind(val name: AOPVariable, expression: AOPBase, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPBindID
     override val classname = "LOPBind"
     override val children: Array<OPBase> = arrayOf(child, expression)

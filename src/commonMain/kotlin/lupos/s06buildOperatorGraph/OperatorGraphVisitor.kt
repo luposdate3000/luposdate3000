@@ -251,7 +251,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = AOPVariable(sel.variable.name)
                         projection.variables.add(v)
-                        val tmp2 = LOPBind(v, sel.expression.visit(this))
+                        val tmp2 = LOPBind(v, sel.expression.visit(this)as AOPBase)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
                         if (bind != null)
                             bind = mergeLOPBind(bind, tmp2)
@@ -299,9 +299,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             val template = t.visit(this)
             var tmp: OPBase = child
             if (template is LOPTriple) {
-                val s = template.children[0]
-                val p = template.children[1]
-                val o = template.children[2]
+                val s = template.children[0]as AOPBase
+                val p = template.children[1]as AOPBase
+                val o = template.children[2]as AOPBase
                 if (s is AOPVariable)
                     tmp = LOPRename(AOPVariable("s"), AOPVariable(s.name), tmp)
                 else
@@ -367,7 +367,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = AOPVariable(b.variable.name)
                         variables.add(v)
-                        val tmp2 = LOPBind(v, b.expression.visit(this))
+                        val tmp2 = LOPBind(v, b.expression.visit(this)as AOPBase)
                         if (child != null)
                             child = mergeLOPBind(child, tmp2)
                         else
@@ -820,7 +820,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPBind(node.variable.visit(this) as AOPVariable, node.expression.visit(this))
+        return LOPBind(node.variable.visit(this) as AOPVariable, node.expression.visit(this)as AOPBase)
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
@@ -1010,7 +1010,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-        val tmp = childrenValues.first()
+        val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable)
             return LOPSort(node.asc, tmp)
         val v = AOPVariable("#f${tmp.uuid}")
