@@ -29,4 +29,5 @@ class LOPGraphOperation : LOPBase() {
             return false
         return true
     }
+override fun cloneOP()=LOPGraphOperation()
 }

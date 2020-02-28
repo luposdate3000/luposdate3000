@@ -48,4 +48,5 @@ class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
             Exception("AOPGT only works with numeric input")
         })
     }
+override fun cloneOP()=AOPGT(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

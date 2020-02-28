@@ -43,4 +43,5 @@ class AOPBuildInCallSTRLEN(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall STRLEN only works with string input")
         })
     }
+override fun cloneOP()=AOPBuildInCallSTRLEN(children[0].cloneOP()as AOPBase)
 }

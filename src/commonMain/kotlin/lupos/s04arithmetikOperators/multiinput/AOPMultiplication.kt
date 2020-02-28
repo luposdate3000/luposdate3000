@@ -47,4 +47,5 @@ class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFi
             Exception("AOPMultiplication only works with numeric input")
         })
     }
+override fun cloneOP()=AOPMultiplication(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

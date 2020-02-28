@@ -16,9 +16,13 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 abstract class OPBase {
     abstract val operatorID: EOperatorID
     abstract val classname: String
-    val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
     abstract val resultSet: ResultSet
     abstract val children: Array<OPBase>
+
+    val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+
+    abstract fun evaluate()
+    abstract fun cloneOP():OPBase
 
     open fun applyPrefix(prefix: String, iri: String) {
         for (c in children)
@@ -31,8 +35,6 @@ abstract class OPBase {
         require(i < children.size)
         children[i] = child
     }
-
-    abstract fun evaluate()
 
     open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
 

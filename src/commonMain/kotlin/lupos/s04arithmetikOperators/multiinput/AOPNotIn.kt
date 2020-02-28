@@ -27,4 +27,5 @@ class AOPNotIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         TODO("not implemented")
     }
+override fun cloneOP()=AOPNotIn(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

@@ -48,7 +48,7 @@ class POPModify : POPBase {
         }
         return true
     }
-
+override fun cloneOP()=POPModify(dictionary,transactionID,iri,insert,delete,children[0].cloneOP())
     constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<OPBase>, delete: List<OPBase>, child: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID

@@ -22,17 +22,11 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPGraphOperation : POPBase {
+class POPGraphOperation (override val dictionary: ResultSetDictionary, val transactionID: Long,val  silent: Boolean,val  graphref1: ASTGraphRef,val  graphref2: ASTGraphRef?, val action: EGraphOperationType): POPBase (){
     override val operatorID = EOperatorID.POPGraphOperationID
     override val classname = "POPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    val transactionID: Long
-    val silent: Boolean
-    val graphref1: ASTGraphRef
-    val graphref2: ASTGraphRef?
-    val action: EGraphOperationType
+    override val resultSet= ResultSet(dictionary)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPGraphOperation)
@@ -53,17 +47,7 @@ class POPGraphOperation : POPBase {
         }
         return true
     }
-
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, silent: Boolean, graphref1: ASTGraphRef, graphref2: ASTGraphRef?, action: EGraphOperationType) : super() {
-        this.dictionary = dictionary
-        this.transactionID = transactionID
-        this.silent = silent
-        this.graphref1 = graphref1
-        this.graphref2 = graphref2
-        this.action = action
-        this.resultSet = ResultSet(dictionary)
-    }
-
+override fun cloneOP()=POPGraphOperation(dictionary,transactionID,silent,graphref1,graphref2,action)
 
     fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri

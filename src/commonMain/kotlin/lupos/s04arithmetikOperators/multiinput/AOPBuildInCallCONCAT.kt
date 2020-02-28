@@ -47,4 +47,5 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall CONCAT only works with compatible string input")
         })
     }
+override fun cloneOP()=AOPBuildInCallCONCAT(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

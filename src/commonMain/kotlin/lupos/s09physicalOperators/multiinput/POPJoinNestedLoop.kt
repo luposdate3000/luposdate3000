@@ -121,4 +121,5 @@ class POPJoinNestedLoop : POPBase {
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+override fun cloneOP()=POPJoinNestedLoop(dictionary,children[0].cloneOP(),children[1].cloneOP(),optional)
 }

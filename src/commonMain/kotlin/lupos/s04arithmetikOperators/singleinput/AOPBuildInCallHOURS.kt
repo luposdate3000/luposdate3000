@@ -33,4 +33,5 @@ class AOPBuildInCallHOURS(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall HOURS only works with dateTime input")
         })
     }
+override fun cloneOP()=AOPBuildInCallHOURS(children[0].cloneOP()as AOPBase)
 }

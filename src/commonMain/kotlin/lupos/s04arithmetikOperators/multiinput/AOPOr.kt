@@ -37,4 +37,5 @@ class AOPOr(childA: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPOr only works with boolean input")
         })
     }
+override fun cloneOP()=AOPOr(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

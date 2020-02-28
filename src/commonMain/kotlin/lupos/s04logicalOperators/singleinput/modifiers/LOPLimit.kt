@@ -6,15 +6,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPLimit(val limit: Int) : LOPBase() {
+class LOPLimit(val limit: Int, child: OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPLimitID
     override val classname = "LOPLimit"
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-
-    constructor(limit: Int, child: OPBase) : this(limit) {
-        this.children[0] = child
-    }
-
+    override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 
@@ -29,4 +24,6 @@ class LOPLimit(val limit: Int) : LOPBase() {
         }
         return true
     }
+
+override fun cloneOP()=LOPLimit(limit,children[0].cloneOP())
 }

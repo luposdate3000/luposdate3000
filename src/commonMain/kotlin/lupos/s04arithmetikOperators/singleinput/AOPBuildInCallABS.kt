@@ -43,4 +43,5 @@ class AOPBuildInCallABS(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall ABS only works with numeric input")
         })
     }
+override fun cloneOP()=AOPBuildInCallABS(children[0].cloneOP()as AOPBase)
 }

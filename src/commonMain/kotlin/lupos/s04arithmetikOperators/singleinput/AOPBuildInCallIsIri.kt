@@ -28,4 +28,5 @@ class AOPBuildInCallIsIri(child: AOPBase) : AOPBase() {
             AOPBoolean(a is AOPIri)
         })
     }
+override fun cloneOP()=AOPBuildInCallIsIri(children[0].cloneOP()as AOPBase)
 }

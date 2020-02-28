@@ -43,4 +43,5 @@ class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall CEIL only works with numeric input")
         })
     }
+override fun cloneOP()=AOPBuildInCallCEIL(children[0].cloneOP()as AOPBase)
 }

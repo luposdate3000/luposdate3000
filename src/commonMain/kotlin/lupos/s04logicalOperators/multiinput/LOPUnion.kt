@@ -20,4 +20,5 @@ class LOPUnion(first: OPBase, second: OPBase) : LOPBase() {
         }
         return true
     }
+override fun cloneOP()=LOPUnion(children[0].cloneOP(),children[1].cloneOP())
 }

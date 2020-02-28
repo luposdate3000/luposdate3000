@@ -25,7 +25,6 @@ class POPValues : POPBase {
     override val children: Array<OPBase> = arrayOf()
     private val variables = mutableListOf<Variable>()
     private var iterator: Iterator<Map<Variable, Value>>
-    private val rs: ResultSet
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
     override fun equals(other: Any?): Boolean {
@@ -41,11 +40,15 @@ class POPValues : POPBase {
         }
         return true
     }
-
+override fun cloneOP()=POPValues(dictionary,variables.map{resultSet.getVariable(it)},data.map{
+val res=mutableMapOf<String,String?>()
+for((k,v) in (it as Map<Variable, Value>))
+res[resultSet.getVariable(k as Variable)as String]=resultSet.getValue(v as Value) as String?
+res
+})
     constructor(dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String?>>) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
-        rs = ResultSet(dictionary)
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -66,8 +69,7 @@ class POPValues : POPBase {
     constructor(dictionary: ResultSetDictionary, values: LOPValues) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
-        rs = ResultSet(dictionary)
-        val rr = rs.createResultRow()
+        val rr = resultSet.createResultRow()
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))

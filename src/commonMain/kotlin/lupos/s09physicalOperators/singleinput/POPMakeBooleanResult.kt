@@ -14,14 +14,13 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPMakeBooleanResult : POPBase {
+class POPMakeBooleanResult (override val dictionary: ResultSetDictionary, child: OPBase): POPBase (){
     override val operatorID = EOperatorID.POPMakeBooleanResultID
     override val classname = "POPMakeBooleanResult"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val variableNew: Variable
-    private var count = 0
+    override val resultSet=ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child)
+     val variableNew= resultSet.createVariable("?boolean")
+     var count = 0
     override fun equals(other: Any?): Boolean {
         if (other !is POPMakeBooleanResult)
             return false
@@ -33,19 +32,11 @@ class POPMakeBooleanResult : POPBase {
         }
         return true
     }
-
-    constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
-        this.variableNew = resultSet.createVariable("?boolean")
-    }
+override fun cloneOP()=POPMakeBooleanResult(dictionary,children[0].cloneOP())
 
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
 
-    override fun getRequiredVariableNames(): List<String> {
-        return listOf()
-    }
+    override fun getRequiredVariableNames()=listOf<String>()
 
     override fun evaluate() = Trace.trace<Unit>({ "POPMakeBooleanResult.evaluate" }, {
         children[0].evaluate()

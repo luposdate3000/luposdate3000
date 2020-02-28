@@ -519,7 +519,6 @@ fun executeBinaryTests(folder: String) {
                     }
                     input = fromBinary(dictionary, buffer)
                 }
-                println("input::" + input!!.toXMLElement().toPrettyString())
                 var expectPOP: POPValues? = null
                 try {
                     File(filename + ".expect").inputStream().use { instream ->
@@ -552,6 +551,7 @@ fun executeBinaryTests(folder: String) {
                     if (!expected.myEquals(output)) {
                         println((expectPOP as POPValues).toXMLElement().toPrettyString())
                         println(input!!.toXMLElement().toPrettyString())
+                        println(input2!!.toXMLElement().toPrettyString())
                         println(expected.toPrettyString())
                         println(output.toPrettyString())
                     }

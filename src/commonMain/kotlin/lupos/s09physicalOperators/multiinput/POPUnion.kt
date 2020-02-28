@@ -86,4 +86,5 @@ class POPUnion : POPBase {
         }
     })
 
+override fun cloneOP()=POPUnion(dictionary,children[0].cloneOP(),children[1].cloneOP())
 }

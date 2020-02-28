@@ -27,4 +27,5 @@ class AOPIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         TODO("not implemented")
     }
+override fun cloneOP()=AOPIn(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

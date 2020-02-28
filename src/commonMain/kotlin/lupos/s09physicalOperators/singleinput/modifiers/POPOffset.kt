@@ -38,6 +38,7 @@ class POPOffset : POPBase {
         return true
     }
 
+override fun cloneOP()=POPOffset(dictionary,offset,children[0].cloneOP())
     constructor(dictionary: ResultSetDictionary, offset: Int, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

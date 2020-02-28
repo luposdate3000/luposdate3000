@@ -62,4 +62,5 @@ class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
             Exception("AOPDivision only works with numeric input")
         })
     }
+override fun cloneOP()=AOPDivision(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

@@ -36,4 +36,5 @@ class AOPNot(var child: AOPBase) : AOPBase() {
             Exception("AOPNot only works with boolean input")
         })
     }
+override fun cloneOP()=AOPNot(children[0].cloneOP()as AOPBase)
 }

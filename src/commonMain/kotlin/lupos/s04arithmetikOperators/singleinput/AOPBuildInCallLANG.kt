@@ -33,4 +33,5 @@ class AOPBuildInCallLANG(child: AOPBase) : AOPBase() {
             AOPSimpleLiteral("\"", "")
         })
     }
+override fun cloneOP()=AOPBuildInCallLANG(children[0].cloneOP()as AOPBase)
 }

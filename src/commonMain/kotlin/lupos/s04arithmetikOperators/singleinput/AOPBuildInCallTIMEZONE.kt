@@ -33,4 +33,5 @@ class AOPBuildInCallTIMEZONE(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall TIMEZONE only works with dateTime input")
         })
     }
+override fun cloneOP()=AOPBuildInCallTIMEZONE(children[0].cloneOP()as AOPBase)
 }

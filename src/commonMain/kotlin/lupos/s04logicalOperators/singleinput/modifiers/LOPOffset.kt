@@ -6,15 +6,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOffset(val offset: Int) : LOPBase() {
+class LOPOffset(val offset: Int,child:OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPOffsetID
     override val classname = "LOPOffset"
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-
-    constructor(offset: Int, child: OPBase) : this(offset) {
-        this.children[0] = child
-    }
-
+    override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 
@@ -29,4 +24,5 @@ class LOPOffset(val offset: Int) : LOPBase() {
         }
         return true
     }
+override fun cloneOP()=LOPOffset(offset,children[0].cloneOP())
 }

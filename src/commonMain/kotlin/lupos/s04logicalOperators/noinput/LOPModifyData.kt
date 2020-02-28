@@ -34,4 +34,5 @@ class LOPModifyData(val type: EModifyType) : LOPBase() {
             return false
         return data == other.data
     }
+override fun cloneOP()=LOPModifyData(type)
 }

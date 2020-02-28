@@ -39,6 +39,7 @@ class POPLimit : POPBase {
         return true
     }
 
+override fun cloneOP()=POPLimit(dictionary,limit,children[0].cloneOP())
     constructor(dictionary: ResultSetDictionary, limit: Int, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

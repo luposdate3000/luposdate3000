@@ -19,4 +19,5 @@ class LOPMinus(first: OPBase, second: OPBase) : LOPBase() {
         }
         return true
     }
+override fun cloneOP()=LOPMinus(children[0].cloneOP(),children[1].cloneOP())
 }

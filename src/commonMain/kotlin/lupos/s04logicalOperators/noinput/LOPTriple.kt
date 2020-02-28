@@ -33,4 +33,5 @@ class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String?, val grap
                 return false
         return true
     }
+	override fun cloneOP()=LOPTriple(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase,children[2].cloneOP()as AOPBase,graph,graphVar)
 }

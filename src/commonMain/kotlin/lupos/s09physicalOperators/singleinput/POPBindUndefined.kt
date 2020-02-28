@@ -41,6 +41,7 @@ class POPBindUndefined : POPBase {
         return true
     }
 
+override fun cloneOP()=POPBindUndefined(dictionary,name,children[0].cloneOP())
     constructor(dictionary: ResultSetDictionary, name: AOPVariable, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

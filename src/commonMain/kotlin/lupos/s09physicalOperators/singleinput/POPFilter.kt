@@ -16,12 +16,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPFilter : POPBase {
+class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPFilterID
     override val classname = "POPFilter"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    override val resultSet= child.resultSet
+    override val children = arrayOf(child,filter)
     override fun childrenToVerifyCount() = 1
 
     override fun equals(other: Any?): Boolean {
@@ -35,21 +34,11 @@ class POPFilter : POPBase {
         }
         return true
     }
+override fun cloneOP()=POPFilter(dictionary,children[1].cloneOP()as AOPBase,children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, filter: AOPBase, child: OPBase) : super() {
-        this.dictionary = dictionary
-        children[0] = child
-        children[1] = filter
-        resultSet = children[0].resultSet
-    }
+    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames()
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames().distinct()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[1].getRequiredVariableNamesRecoursive()
-    }
+    override fun getRequiredVariableNames()=children[1].getRequiredVariableNamesRecoursive()
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
         children[0].evaluate()

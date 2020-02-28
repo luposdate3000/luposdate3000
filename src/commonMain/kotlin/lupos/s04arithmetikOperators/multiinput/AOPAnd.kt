@@ -36,4 +36,5 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPAnd only works with boolean input")
         })
     }
+override fun cloneOP()=AOPAnd(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

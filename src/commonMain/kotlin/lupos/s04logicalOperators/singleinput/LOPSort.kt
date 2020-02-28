@@ -8,15 +8,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
+class LOPSort(val asc: Boolean, var by: AOPVariable,child: OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPSortID
     override val classname = "LOPSort"
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-
-    constructor(asc: Boolean, by: AOPVariable, child: OPBase) : this(asc, by) {
-        this.children[0] = child
-    }
-
+    override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
@@ -42,4 +37,6 @@ class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
         }
         return true
     }
+
+override fun cloneOP()=LOPSort(asc,by,children[0].cloneOP())
 }

@@ -40,7 +40,6 @@ class POPJoinHashMap : POPBase {
         return true
     }
 
-
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
@@ -171,4 +170,5 @@ class POPJoinHashMap : POPBase {
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+override fun cloneOP()=POPJoinHashMap(dictionary,children[0].cloneOP(),children[1].cloneOP(),optional)
 }

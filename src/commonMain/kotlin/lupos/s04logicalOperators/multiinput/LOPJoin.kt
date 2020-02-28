@@ -23,4 +23,5 @@ class LOPJoin(first: OPBase, second: OPBase, val optional: Boolean) : LOPBase() 
         }
         return true
     }
+override fun cloneOP()=LOPJoin(children[0].cloneOP(),children[1].cloneOP(),optional)
 }

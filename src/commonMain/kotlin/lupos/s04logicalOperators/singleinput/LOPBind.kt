@@ -30,4 +30,5 @@ class LOPBind(val name: AOPVariable, expression: AOPBase, child: OPBase = OPNoth
         }
         return true
     }
+override fun cloneOP()=LOPBind(name,children[1].cloneOP()as AOPBase,children[0].cloneOP())
 }

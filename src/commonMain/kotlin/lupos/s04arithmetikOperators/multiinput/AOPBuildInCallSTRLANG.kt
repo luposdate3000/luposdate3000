@@ -38,4 +38,5 @@ class AOPBuildInCallSTRLANG(child: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall STRLANG only works with simple string input")
         })
     }
+override fun cloneOP()=AOPBuildInCallSTRLANG(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

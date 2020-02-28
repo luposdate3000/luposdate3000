@@ -14,6 +14,16 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
 
+    constructor(by: List<AOPVariable>, child: OPBase) : this(by) {
+        children[0] = child
+    }
+
+    constructor(by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
+        if (bindings != null)
+            children[1] = bindings
+        children[0] = child
+    }
+
     override fun getProvidedVariableNames(): List<String> {
         return (children[1].getProvidedVariableNames() + Array(by.size) { by[it].name }).distinct()
     }
@@ -44,16 +54,6 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
         }
     }
 
-    constructor(by: List<AOPVariable>, child: OPBase) : this(by) {
-        children[0] = child
-    }
-
-    constructor(by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
-        if (bindings != null)
-            children[1] = bindings
-        children[0] = child
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPGroup")
         val byxml = XMLElement("LocalBy")
@@ -73,4 +73,6 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
         }
         return true
     }
+
+override fun cloneOP()=LOPGroup(by,children[1].cloneOP(),children[0].cloneOP())
 }

@@ -6,15 +6,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPPrefix(val name: String, val iri: String) : LOPBase() {
+class LOPPrefix(val name: String, val iri: String,child:OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPPrefixID
     override val classname = "LOPPrefix"
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-
-    constructor(name: String, iri: String, child: OPBase) : this(name, iri) {
-        this.children[0] = child
-    }
-
+    override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
 
@@ -31,4 +26,5 @@ class LOPPrefix(val name: String, val iri: String) : LOPBase() {
         }
         return true
     }
+override fun cloneOP()=LOPPrefix(name,iri,children[0].cloneOP())
 }

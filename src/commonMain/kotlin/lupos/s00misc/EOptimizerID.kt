@@ -5,6 +5,8 @@ enum class EOptimizerID(val optional: Boolean) {
     LogicalOptimizerArithmeticID(true),
     LogicalOptimizerFilterDownID(true),
     LogicalOptimizerFilterIntoTripleID(true),
+    LogicalOptimizerFilterSplitANDID(true),
+    LogicalOptimizerFilterSplitORID(true),
     LogicalOptimizerBindToFilterID(false),
     LogicalOptimizerRemoveNOOPID(false),
     LogicalOptimizerRemovePrefixID(false),

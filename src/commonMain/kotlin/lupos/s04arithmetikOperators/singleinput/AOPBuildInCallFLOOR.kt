@@ -43,4 +43,5 @@ class AOPBuildInCallFLOOR(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall FLOOR only works with numeric input")
         })
     }
+override fun cloneOP()=AOPBuildInCallFLOOR(children[0].cloneOP()as AOPBase)
 }

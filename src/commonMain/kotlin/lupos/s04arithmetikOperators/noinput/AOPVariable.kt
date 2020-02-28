@@ -76,4 +76,5 @@ class AOPVariable(var name: String) : AOPBase() {
             })
         }
     }
+override fun cloneOP()=this
 }

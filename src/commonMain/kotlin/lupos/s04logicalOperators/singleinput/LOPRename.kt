@@ -7,14 +7,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() {
+class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPRenameID
     override val classname = "LOPRename"
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-
-    constructor(nameTo: AOPVariable, nameFrom: AOPVariable, child: OPBase) : this(nameTo, nameFrom) {
-        this.children[0] = child
-    }
+    override val children: Array<OPBase> = arrayOf(child)
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         val localProvide = children[0].getProvidedVariableNames()
@@ -54,4 +50,5 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() 
         }
         return true
     }
+override fun cloneOP()=LOPRename(nameTo,nameFrom,children[0].cloneOP())
 }

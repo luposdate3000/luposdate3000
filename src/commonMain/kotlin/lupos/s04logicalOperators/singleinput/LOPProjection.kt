@@ -8,14 +8,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) : LOPBase() {
+class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf(),child:OPBase=OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPProjectionID
     override val classname = "LOPProjection"
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-
-    constructor(variables: MutableList<AOPVariable> = mutableListOf(), child: OPBase) : this(variables) {
-        this.children[0] = child
-    }
+    override val children: Array<OPBase> = arrayOf(child)
 
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
@@ -46,4 +42,5 @@ class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) :
         }
         return true
     }
+override fun cloneOP()=LOPProjection(variables,children[0].cloneOP())
 }

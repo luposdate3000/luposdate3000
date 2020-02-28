@@ -26,4 +26,5 @@ class AOPValue(childs: List<AOPConstant>) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         TODO("not implemented")
     }
+override fun cloneOP()=this
 }

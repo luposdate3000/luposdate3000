@@ -25,6 +25,8 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     override val children: Array<OPBase> = arrayOf()
     private var first = true
 
+override fun cloneOP()=POPModifyData(dictionary,transactionID,type,data)
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPModifyData)
             return false

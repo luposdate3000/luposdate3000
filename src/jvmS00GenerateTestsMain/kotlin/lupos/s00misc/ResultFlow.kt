@@ -380,7 +380,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.pparam, buffer, asPOP)
             toBinary(operator.oparam, buffer, asPOP)
             val tmp = rowMapProduced[operator.uuid]
-            buffer.appendInt(operator.idx.ordinal)
+            buffer.appendInt(operator.index.ordinal)
             if (tmp != null) {
                 buffer.appendInt(tmp.size)
                 for (r in tmp) {

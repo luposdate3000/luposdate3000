@@ -33,4 +33,5 @@ class AOPEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
             AOPBoolean(a == b)
         })
     }
+override fun cloneOP()=AOPEQ(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

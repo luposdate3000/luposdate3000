@@ -35,6 +35,7 @@ class AOPBuildInCallSHA1(child: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall SHA1 only works with string input")
         })
     }
+override fun cloneOP()=AOPBuildInCallSHA1(children[0].cloneOP()as AOPBase)
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)

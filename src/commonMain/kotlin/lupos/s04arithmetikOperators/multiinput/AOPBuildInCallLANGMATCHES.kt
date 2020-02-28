@@ -34,4 +34,5 @@ class AOPBuildInCallLANGMATCHES(child: AOPBase, childB: AOPBase) : AOPBase() {
             Exception("AOPBuiltInCall LANGMATCHES only works with simple language string input")
         })
     }
+override fun cloneOP()=AOPBuildInCallLANGMATCHES(children[0].cloneOP()as AOPBase,children[1].cloneOP()as AOPBase)
 }

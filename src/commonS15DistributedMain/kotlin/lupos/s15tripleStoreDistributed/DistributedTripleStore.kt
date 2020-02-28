@@ -34,20 +34,12 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     var remoteIterator: Iterator<ResultRow>? = null
     val transactionID: Long
     val graphNameL: String
-    val idx: EIndexPattern
+    val index: EIndexPattern
+override fun cloneOP()=TripleStoreIteratorGlobal(transactionID,dictionary,graphNameL,sparam,pparam,oparam,index)
 
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) {
-        this.transactionID = transactionID
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        graphNameL = graphName
-        idx = EIndexPattern.SPO
-        nodeNameIterator = P2P.getKnownClientsCopy().iterator()
-    }
-
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) {
-        idx = index
-        graphNameL = graphName
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern=EIndexPattern.SPO) {
+     this.   index = index
+this.        graphNameL = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
         resultSet = ResultSet(dictionary)
@@ -55,8 +47,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern) {
-        idx = index
-        graphNameL = graphName
+this.        index = index
+     this.   graphNameL = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
         resultSet = ResultSet(dictionary)
@@ -86,7 +78,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 for (nodeName in nodeNameIterator) {
                     var remoteNode: OPBase? = null
                     try {
-                        remoteNode = P2P.execTripleGet(nodeName, graphNameL, resultSet, transactionID, sparam, pparam, oparam, idx)
+                        remoteNode = P2P.execTripleGet(nodeName, graphNameL, resultSet, transactionID, sparam, pparam, oparam, index)
                         remoteNode.evaluate()
                         for (c in remoteNode.channel)
                             channel.send(resultFlowProduce({ this@TripleStoreIteratorGlobal }, { c }))
@@ -114,8 +106,8 @@ class DistributedGraph(val name: String) {
         return c % d
     }
 
-    fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int = Trace.trace({ "DistributedGraph.myHashCode" }, {
-        when (idx) {
+    fun myHashCode(s: Int, p: Int, o: Int, d: Int, index: EIndexPattern): Int = Trace.trace({ "DistributedGraph.myHashCode" }, {
+        when (index) {
             EIndexPattern.S -> return myHashCode("" + s, d)
             EIndexPattern.P -> return myHashCode("" + p, d)
             EIndexPattern.O -> return myHashCode("" + o, d)
@@ -126,14 +118,14 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    fun calculateNodeForDataFull(s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
+    fun calculateNodeForDataFull(s: AOPConstant, p: AOPConstant, o: AOPConstant, index: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
         val sh = +myHashCode("" + s.valueToString(), K)
         val ph = +myHashCode("" + p.valueToString(), K)
         val oh = +myHashCode("" + o.valueToString(), K)
-        return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size, idx)]
+        return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size, index)]
     })
 
-    fun calculateNodeForDataMaybe(s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
+    fun calculateNodeForDataMaybe(s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
         val res = mutableSetOf<String>()
         val sr = if (s is AOPConstant) {
             val h = myHashCode("" + s.valueToString(), K)
@@ -153,7 +145,7 @@ class DistributedGraph(val name: String) {
         for (si in sr) {
             for (pi in pr) {
                 for (oi in or) {
-                    res.add(P2P.getKnownClientsCopy()[myHashCode(si, pi, oi, P2P.knownClients.size, idx)])
+                    res.add(P2P.getKnownClientsCopy()[myHashCode(si, pi, oi, P2P.knownClients.size, index)])
                 }
             }
         }

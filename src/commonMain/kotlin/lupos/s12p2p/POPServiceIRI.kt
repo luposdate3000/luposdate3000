@@ -44,7 +44,7 @@ class POPServiceIRI : POPBase {
         }
         return true
     }
-
+override fun cloneOP()=POPServiceIRI(dictionary,transactionID,serverName,silent,originalConstraint)
     constructor(dictionary: ResultSetDictionary, transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID

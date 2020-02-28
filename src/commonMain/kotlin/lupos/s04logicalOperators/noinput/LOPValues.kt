@@ -40,4 +40,5 @@ class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPB
         }
         return true
     }
+override fun cloneOP()=LOPValues(variables,List(children.size){children[it].cloneOP()as AOPValue})
 }
