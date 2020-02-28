@@ -1173,7 +1173,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-        require(node.iri == null)
+if(node.iri==null){
         val child: OPBase = if (node.using.isEmpty()) {
             parseGroup(node.children)
         } else {
@@ -1193,6 +1193,16 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         for (e in node.delete)
             res.delete.add(e.visit(this))
         return res
+}else{
+require(node.using.isEmpty())
+        val child: OPBase = setGraphNameForAllTriples(parseGroup(node.children),ASTIri(node.iri))
+        val res = LOPModify(child)
+        for (e in node.insert)
+            res.insert.add(setGraphNameForAllTriples(e.visit(this),ASTIri(node.iri)))
+        for (e in node.delete)
+            res.delete.add(setGraphNameForAllTriples(e.visit(this),ASTIri(node.iri)))
+        return res
+}
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {

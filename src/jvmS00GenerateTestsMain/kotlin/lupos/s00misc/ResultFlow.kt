@@ -11,7 +11,7 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.multiinput.AOPAddition
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
@@ -24,7 +24,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
 import lupos.s04arithmetikOperators.multiinput.AOPOr
-import lupos.s04arithmetikOperators.noinput.AOPBnode
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -38,7 +38,7 @@ import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPAggregation
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
@@ -132,6 +132,30 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             buffer.appendInt(operator.operatorID.ordinal)
     }
     when (operator) {
+is AOPAnd -> {
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
+        }
+        is AOPSimpleLiteral -> {
+            buffer.appendString(operator.valueToString())
+        }
+is AOPLanguageTaggedLiteral-> {
+            buffer.appendString(operator.valueToString())
+        }
+is AOPTypedLiteral-> {
+            buffer.appendString(operator.valueToString())
+        }
+is AOPLT -> {
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
+        }
+is AOPNEQ -> {
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
+        }
+is AOPNot -> {
+            toBinary(operator.children[0], buffer, asPOP)
+        }
         is AOPAddition -> {
             toBinary(operator.children[0], buffer, asPOP)
             toBinary(operator.children[1], buffer, asPOP)
@@ -269,9 +293,6 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             buffer.appendString(operator.valueToString())
         }
         is AOPIri -> {
-            buffer.appendString(operator.valueToString())
-        }
-        is AOPSimpleLiteral -> {
             buffer.appendString(operator.valueToString())
         }
         is AOPUndef -> {

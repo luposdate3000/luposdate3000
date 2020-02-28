@@ -94,6 +94,35 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
     val operatorID = EOperatorID.values()[buffer.getNextInt()]
     when (operatorID) {
+EOperatorID.AOPAndID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPAddition(childA, childB)
+        }
+        EOperatorID.AOPSimpleLiteralID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPSimpleLiteral
+        }
+EOperatorID.AOPLanguageTaggedLiteralID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPLanguageTaggedLiteral
+        }
+EOperatorID.AOPTypedLiteralID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPTypedLiteral
+        }
+EOperatorID.AOPLTID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPAddition(childA, childB)
+        }
+EOperatorID.AOPNEQID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPAddition(childA, childB)
+        }
+EOperatorID.AOPNotID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPAddition(childA, childB)
+        }
         EOperatorID.AOPAdditionID -> {
             val childA = fromBinary(dictionary, buffer) as AOPBase
             val childB = fromBinary(dictionary, buffer) as AOPBase
@@ -274,9 +303,6 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         }
         EOperatorID.AOPIriID -> {
             return AOPVariable.calculate(buffer.getNextString()) as AOPIri
-        }
-        EOperatorID.AOPSimpleLiteralID -> {
-            return AOPVariable.calculate(buffer.getNextString()) as AOPSimpleLiteral
         }
         EOperatorID.AOPUndefID -> {
             return AOPUndef()
