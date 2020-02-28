@@ -78,12 +78,9 @@ class PersistentStoreLocal {
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {
-println("a")
         val tmp = stores[name]
-println("b $tmp")
         if (tmp != null || !create)
             return tmp!!
-println("c")
         return createGraph(name)
     }
 

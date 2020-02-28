@@ -81,5 +81,5 @@ sourceSets["macosX64Main"].dependencies{
     sourceSets["commonMain"].kotlin.srcDir("src/commonS05HashMapMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS14NoneMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS15LocalMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS15DistributedMain/kotlin")
 }

@@ -70,7 +70,6 @@ object P2P {
         }
 
 
-        synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
                     CoroutinesHelper.runBlock {
@@ -79,7 +78,6 @@ object P2P {
                     }
                 }
             }
-        }
         GlobalLogger.log(ELoggerType.DEBUG, { "execCommit $transactionID end" })
     })
 
@@ -115,7 +113,6 @@ object P2P {
     fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
         /*execute clear on every known node - for TESTING only*/
         Endpoint.process_local_graph_clear_all()
-        synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
                     CoroutinesHelper.runBlock {
@@ -123,7 +120,6 @@ object P2P {
                     }
                 }
             }
-        }
         nodeNameRemapping.clear()
     })
 
@@ -132,7 +128,6 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P a" })
         Endpoint.process_local_graph_operation(name, type)
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
-        synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
                     CoroutinesHelper.runBlock {
@@ -142,7 +137,6 @@ object P2P {
                     }
                 }
             }
-        }
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
@@ -284,13 +278,11 @@ object P2P {
         /*nice to have, but not required*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
         var res: String
-        synchronized(knownClients) {
 val map=mutableListOf<String>()
 knownClients.forEach{
 map.add(it)
 }
             res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(map, "server").toPrettyString()
-        }
         return res
     })
 
@@ -306,11 +298,9 @@ map.add(it)
 
     fun getKnownClientsCopy(): List<String> = Trace.trace({ "P2P.getKnownClientsCopy" }, {
         val knownClientsCopy = mutableListOf<String>()
-        synchronized(knownClients) {
             knownClients.forEach {
                 knownClientsCopy.add(it)
             }
-        }
         return knownClientsCopy
     })
 
