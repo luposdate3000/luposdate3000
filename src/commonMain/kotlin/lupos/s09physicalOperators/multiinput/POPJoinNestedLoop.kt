@@ -1,13 +1,13 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -73,8 +73,8 @@ class POPJoinNestedLoop : POPBase {
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinNestedLoop.evaluate" }, {
-val channels=children.map{it.evaluate()}
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channels = children.map { it.evaluate() }
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (resultRowA in channels[0]) {
@@ -120,7 +120,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                     c.close(e)
             }
         }
-return channel
+        return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -49,8 +49,8 @@ class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, chi
             if (!variablesA.contains(name))
                 variablesOldMissing[0].add(resultSet.createVariable(name))
         }
-val channels=children.map{it.evaluate()}
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channels = children.map { it.evaluate() }
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (idx in channels.indices) {
@@ -74,7 +74,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                     c.close(e)
             }
         }
-return channel
+        return channel
     })
 
     override fun cloneOP() = POPUnion(dictionary, children[0].cloneOP(), children[1].cloneOP())

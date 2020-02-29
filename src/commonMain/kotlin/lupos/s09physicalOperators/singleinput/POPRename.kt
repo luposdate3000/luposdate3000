@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
@@ -76,8 +76,8 @@ class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVar
                 variablesNew[i] = resultSet.createVariable(name)
             i++
         }
-        val children0Channel=children[0].evaluate()
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val children0Channel = children[0].evaluate()
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (rsOld in children0Channel) {
@@ -94,7 +94,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 children0Channel.close(e)
             }
         }
-return channel
+        return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)

@@ -1,13 +1,13 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -42,8 +42,8 @@ class POPOffset(override val dictionary: ResultSetDictionary, val offset: Int, c
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
-        val children0Channel=children[0].evaluate()
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val children0Channel = children[0].evaluate()
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 var count = 0
@@ -64,7 +64,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 children0Channel.close(e)
             }
         }
-return channel
+        return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)

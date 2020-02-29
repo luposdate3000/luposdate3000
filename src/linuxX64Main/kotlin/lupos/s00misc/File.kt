@@ -1,6 +1,7 @@
 package lupos.s00misc
-import kotlin.native.concurrent.*
+
 import dirent.*
+import kotlin.native.concurrent.*
 import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar

@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
@@ -14,6 +13,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -57,7 +57,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPGraphOperation.evaluate" }, {
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 when (graphref1) {
@@ -218,7 +218,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 channel.close(e)
             }
         }
-return channel
+        return channel
     })
 
 }

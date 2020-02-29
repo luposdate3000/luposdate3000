@@ -6,8 +6,8 @@ import lupos.s14endpoint.EndpointImpl
 
 
 fun main(args: Array<String>) {
-    println(args.toList())
-    return
+//    println(args.toList())
+//    return
     P2P.knownClients.add(EndpointImpl.fullname)
     if (args.isEmpty())
         executeBinaryTests("src/commonTest/kotlin/lupos")

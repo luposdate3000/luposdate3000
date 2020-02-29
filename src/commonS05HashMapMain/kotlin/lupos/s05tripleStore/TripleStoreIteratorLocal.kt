@@ -1,12 +1,12 @@
 package lupos.s05tripleStore
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -49,7 +49,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         val sNew = resultSet.createVariable((sparam as AOPVariable).name)
         val pNew = resultSet.createVariable((pparam as AOPVariable).name)
         val oNew = resultSet.createVariable((oparam as AOPVariable).name)
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 store.forEach(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), { sv, pv, ov ->
@@ -64,6 +64,6 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 channel.close(e)
             }
         }
-return channel
+        return channel
     })
 }

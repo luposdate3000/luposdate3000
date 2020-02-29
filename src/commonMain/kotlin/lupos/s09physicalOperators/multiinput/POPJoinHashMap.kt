@@ -1,14 +1,14 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s03resultRepresentation.*
+
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
-
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -73,7 +73,7 @@ class POPJoinHashMap : POPBase {
         }
     }
 
-    suspend fun joinHelper(rowA: ResultRow, rowsB: List<ResultRow>, idx: Int,channel:Channel<ResultRow>){
+    suspend fun joinHelper(rowA: ResultRow, rowsB: List<ResultRow>, idx: Int, channel: Channel<ResultRow>) {
         for (rowB in rowsB) {
             val row = resultSet.createResultRow()
             for (p in variables[idx])
@@ -90,7 +90,7 @@ class POPJoinHashMap : POPBase {
         }
     }
 
-    suspend fun joinHelper(idx: Int,channel:Channel<ResultRow>,channels:List<Channel<ResultRow>>) {
+    suspend fun joinHelper(idx: Int, channel: Channel<ResultRow>, channels: List<Channel<ResultRow>>) {
         try {
             for (rowA in channels[idx]) {
                 resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
@@ -129,7 +129,7 @@ class POPJoinHashMap : POPBase {
                         map[idx][key] = mutableListOf()
                     val rowsB = map[1 - idx][key]
                     if (rowsB != null)
-                        joinHelper(rowA, rowsB, idx,channel)
+                        joinHelper(rowA, rowsB, idx, channel)
                 }
             }
         } catch (e: Throwable) {
@@ -139,12 +139,12 @@ class POPJoinHashMap : POPBase {
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinHashMap.evaluate" }, {
-val channels=children.map{it.evaluate()}
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channels = children.map { it.evaluate() }
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                joinHelper(0,channel,channels)
-                joinHelper(1,channel,channels)
+                joinHelper(0, channel, channels)
+                joinHelper(1, channel, channels)
                 if (optional) {
                     for ((k, v) in map[0]) {
                         if (map[1][k] == null) {
@@ -170,7 +170,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                     c.close(e)
             }
         }
-return channel
+        return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators
-import lupos.s03resultRepresentation.*
 
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
@@ -7,6 +6,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.AOPUndef
@@ -20,7 +20,7 @@ abstract class OPBase {
     abstract val resultSet: ResultSet
     abstract val children: Array<OPBase>
 
-    abstract fun evaluate():Channel<ResultRow>
+    abstract fun evaluate(): Channel<ResultRow>
     abstract fun cloneOP(): OPBase
 
     open fun applyPrefix(prefix: String, iri: String) {

@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -42,8 +42,8 @@ class POPTemporaryStore(override val dictionary: ResultSetDictionary, child: OPB
         for (name in children[0].getProvidedVariableNames()) {
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         }
-        val children0Channel=children[0].evaluate()
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val children0Channel = children[0].evaluate()
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (rsOld in children0Channel) {
@@ -58,14 +58,14 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 channel.close(e)
             }
         }
-return channel
+        return channel
     })
 
-    suspend fun reset()= Trace.trace<Channel<ResultRow>>({ "POPTemporaryStore.reset" }, { 
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+    suspend fun reset() = Trace.trace<Channel<ResultRow>>({ "POPTemporaryStore.reset" }, {
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         for (c in data)
             channel.send(resultFlowProduce({ this@POPTemporaryStore }, { c }))
-return channel
+        return channel
     })
 
 }

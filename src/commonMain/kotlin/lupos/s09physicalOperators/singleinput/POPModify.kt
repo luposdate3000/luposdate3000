@@ -1,13 +1,13 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -55,8 +55,8 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPModify.evaluate" }, {
-        val children0Channel=children[0].evaluate()
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val children0Channel = children[0].evaluate()
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (row in children0Channel) {
@@ -116,7 +116,7 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 children0Channel.close(e)
             }
         }
-return channel
+        return channel
     })
 
 

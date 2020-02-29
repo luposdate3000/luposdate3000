@@ -8,7 +8,7 @@ import lupos.s09physicalOperators.POPBase
 
 object QueryResultToXML {
     fun toXML(query: POPBase): List<XMLElement> {
-val queryChannel=        query.evaluate()
+        val queryChannel = query.evaluate()
         val res = mutableListOf<XMLElement>()
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         res.add(nodeSparql)

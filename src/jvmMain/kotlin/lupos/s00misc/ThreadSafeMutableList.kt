@@ -1,9 +1,11 @@
 package lupos.s00misc
 
 
-class ThreadSafeMutableList<T> (val values:MutableList<T> =mutableListOf<T>()){
+class ThreadSafeMutableList<T>(val values: MutableList<T> = mutableListOf<T>()) {
     val mutex = ReadWriteLock()
-constructor(value:T):this(mutableListOf(value))
+
+    constructor(value: T) : this(mutableListOf(value))
+
     fun size(): Int {
         var res = 0
         mutex.withReadLock {

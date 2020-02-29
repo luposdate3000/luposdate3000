@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s03resultRepresentation.*
-import kotlinx.coroutines.channels.Channel
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -53,12 +53,12 @@ class POPImportFromXml(override val dictionary: ResultSetDictionary, val data: X
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPImportFromXml.evaluate" }, {
-                val variables = mutableMapOf<String, Variable>()
-                if (data.tag != "sparql")
-                    throw Exception("can only parse sparql xml into an iterator")
-                for (v in data["head"]!!.childs)
-                    variables[v.attributes["name"]!!] = resultSet.createVariable(v.attributes["name"]!!)
-val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val variables = mutableMapOf<String, Variable>()
+        if (data.tag != "sparql")
+            throw Exception("can only parse sparql xml into an iterator")
+        for (v in data["head"]!!.childs)
+            variables[v.attributes["name"]!!] = resultSet.createVariable(v.attributes["name"]!!)
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (node in data["results"]!!.childs) {
@@ -83,6 +83,6 @@ val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
                 channel.close(e)
             }
         }
-return channel
+        return channel
     })
 }

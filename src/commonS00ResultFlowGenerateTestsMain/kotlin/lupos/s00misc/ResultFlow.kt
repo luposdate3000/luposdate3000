@@ -1,10 +1,10 @@
 package lupos.s00misc
 
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
@@ -404,7 +404,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             buffer.appendInt(operator.index.ordinal)
             if (tmp != null) {
                 buffer.appendInt(tmp.size())
-tmp.forEach{r->
+                tmp.forEach { r ->
                     if (operator.sparam is AOPConstant)
                         buffer.appendString((operator.sparam as AOPConstant).valueToString()!!)
                     else
@@ -435,7 +435,7 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Thre
         buffer.appendString(v)
     if (rows != null) {
         buffer.appendInt(rows.size())
-rows.forEach{row->
+        rows.forEach { row ->
             for (k in variables) {
                 val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])
                 buffer.appendInt(DynamicByteArray.boolToInt(v == null))
@@ -518,7 +518,7 @@ fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: 
 }
 
 fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
-println("a")
+    println("a")
     val res = action()
     val producer = producerv() as POPBase
     popMap[producer.uuid] = producer
@@ -558,9 +558,9 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
             res += "${prefix}                        listOf(\n"
             val tmp = mapOfAggregationChilds[input.uuid]
             if (tmp != null) {
-tmp.forEach{x->
+                tmp.forEach { x ->
                     res += x
-}
+                }
                 res = res.substring(0, res.length - 2) + "\n"
             }
             res += "${prefix}                        ),\n"
