@@ -55,4 +55,6 @@ char    *tempnam(const char *, const char *);
 FILE    *tmpfile(void);
 char    *tmpnam(char *);
 int      ungetc(int, FILE *);
-
+int      luposfprintf(FILE *f, const char *s){
+return fprintf(f,s);
+}

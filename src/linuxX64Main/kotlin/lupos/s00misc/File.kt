@@ -73,10 +73,46 @@ actual class File {
     }
 
     actual fun write(buffer: DynamicByteArray) {
-        throw Exception("not implemented")
+        val file = fopen(filename, "w")
+        if (file == null)
+            throw Exception("can not open file $filename")
+        try {
+            var offset = 0
+            val buf = buffer.finish()
+            while (offset < buffer.pos) {
+                val len = fwrite(buf.refTo(offset), (buffer.pos - offset).toULong(), 1L.toULong(), file)
+                offset += len.toInt()
+            }
+        } finally {
+            fclose(file)
+        }
     }
 
-    actual fun printWriter(action: (Any) -> Unit) {
-        throw Exception("not implemented")
+    actual fun printWriter(action: (PrintWriter) -> Unit) {
+        val p = PrintWriterImpl(this)
+        try {
+            p.open()
+            action(p)
+        } finally {
+            p.close()
+        }
+    }
+}
+
+
+class PrintWriterImpl(val f: File) : PrintWriter {
+    var file: CPointer<FILE>? = null
+    fun open() {
+        file = fopen(f.filename, "w")
+        if (f == null)
+            throw Exception("can not open file ${f.filename}")
+    }
+
+    fun close() {
+        fclose(file)
+    }
+
+    override fun println(s: String) {
+        luposfprintf(file, s + "\n")
     }
 }

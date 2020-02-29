@@ -448,8 +448,9 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Muta
 }
 
 var testcasenumber = 0
+val testcasenumberLock = CoroutinesHelper.createLock()
 fun createBinaryTestCase(operator: OPBase) {
-    synchronized(testcasenumber) {
+    CoroutinesHelper.runBlockWithLock(testcasenumberLock) {
         try {
             var asPOP = true
             val buffer = DynamicByteArray()
