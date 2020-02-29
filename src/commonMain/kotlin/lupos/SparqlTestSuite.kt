@@ -1,6 +1,6 @@
 package lupos
 
-import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
@@ -35,7 +35,7 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s14endpoint.EndpointImpl
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
+class SparqlTestSuite(){
 val errorBoundForDecimalsDigits = 6
 
 fun testMain() {
@@ -395,7 +395,8 @@ fun parseSPARQLAndEvaluate(//
                 val transactionID = DistributedTripleStore.nextTransactionID()
                 val dictionary = ResultSetDictionary()
                 CoroutinesHelper.runBlock {
-                    DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
+val tmp=POPImportFromXml(dictionary, xmlQueryInput!!.first())
+                    DistributedTripleStore.getDefaultGraph().addData(transactionID, tmp)
                 }
                 DistributedTripleStore.commit(transactionID)
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
@@ -577,6 +578,7 @@ fun parseSPARQLAndEvaluate(//
         updateAllMicroTest("invalidxxx", "invalidxxx", false)
     }
 }
+}
 
 class SevenIndices {
     private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
@@ -648,4 +650,3 @@ class SevenIndices {
         }
     }
 }
-

@@ -1,4 +1,6 @@
 package lupos.s12p2p
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -63,9 +65,10 @@ class POPServiceIRI : POPBase {
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPServiceIRI.evaluate" }, {
         for (n in getProvidedVariableNames())
             resultSet.createVariable(n)
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 if (constraint == null) {
@@ -82,8 +85,8 @@ class POPServiceIRI : POPBase {
                     val variables = mutableListOf<Pair<Variable, Variable>>()
                     for (n in getProvidedVariableNames())
                         variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
-                    constraint.evaluate()
-                    for (value in constraint.channel) {
+val constraintChannel                    =constraint.evaluate()
+                    for (value in constraintChannel) {
                         val res = resultSet.createResultRow()
                         for (n in variables) {
                             res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
@@ -96,6 +99,7 @@ class POPServiceIRI : POPBase {
                 channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement(): XMLElement {

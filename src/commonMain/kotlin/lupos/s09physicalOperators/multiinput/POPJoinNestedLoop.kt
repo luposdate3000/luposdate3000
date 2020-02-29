@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -70,14 +72,14 @@ class POPJoinNestedLoop : POPBase {
             variablesOldJ.add(Pair(Pair(children[0].resultSet.createVariable(name), children[1].resultSet.createVariable(name)), resultSet.createVariable(name)))
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPJoinNestedLoop.evaluate" }, {
-        for (c in children)
-            c.evaluate()
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinNestedLoop.evaluate" }, {
+val channels=children.map{it.evaluate()}
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (resultRowA in children[0].channel) {
+                for (resultRowA in channels[0]) {
                     resultFlowConsume({ this@POPJoinNestedLoop }, { children[0] }, { resultRowA })
-                    for (resultRowB in children[1].channel) {
+                    for (resultRowB in channels[1]) {
                         resultFlowConsume({ this@POPJoinNestedLoop }, { children[1] }, { resultRowB })
                         var joinVariableOk = true
                         var rsNew = resultSet.createResultRow()
@@ -110,14 +112,15 @@ class POPJoinNestedLoop : POPBase {
                     (children[1] as POPTemporaryStore).reset()
                 }
                 channel.close()
-                for (c in children)
-                    c.channel.close()
+                for (c in channels)
+                    c.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                for (c in children)
-                    c.channel.close(e)
+                for (c in channels)
+                    c.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

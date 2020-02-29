@@ -4,7 +4,7 @@ import lupos.s00misc.classNameToString
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.File
+import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
@@ -86,13 +86,13 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 val prefix = ""
 val listOfMicroTests = ThreadSafeMutableList<String>()
-val mapOfAggregationChilds = ThreadSafeMutableMap<Long, MutableList<String>>()
+val mapOfAggregationChilds = ThreadSafeMutableMap<Long, ThreadSafeMutableList<String>>()
 
-val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
+val mapOfResultRows = ThreadSafeMutableMap<Long, ThreadSafeMutableList<String>>()
 
 val popMap = ThreadSafeMutableMap<Long, POPBase>()
-val rowMapConsumed = ThreadSafeMutableMap<Pair<Long, Long>, MutableList<ResultRow>>()
-val rowMapProduced = ThreadSafeMutableMap<Long, MutableList<ResultRow>>()
+val rowMapConsumed = ThreadSafeMutableMap<Pair<Long, Long>, ThreadSafeMutableList<ResultRow>>()
+val rowMapProduced = ThreadSafeMutableMap<Long, ThreadSafeMutableList<ResultRow>>()
 val mutableMapsForTest = ThreadSafeMutableMap<String, String>()
 val myuuid = ThreadSafeUuid()
 
@@ -403,8 +403,8 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             val tmp = rowMapProduced[operator.uuid]
             buffer.appendInt(operator.index.ordinal)
             if (tmp != null) {
-                buffer.appendInt(tmp.size)
-                for (r in tmp) {
+                buffer.appendInt(tmp.size())
+tmp.forEach{r->
                     if (operator.sparam is AOPConstant)
                         buffer.appendString((operator.sparam as AOPConstant).valueToString()!!)
                     else
@@ -427,15 +427,15 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
 }
 
 
-fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: MutableList<ResultRow>?, o: OPBase) {
+fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: ThreadSafeMutableList<ResultRow>?, o: OPBase) {
     buffer.appendInt(EOperatorID.POPValuesID.ordinal)
     val variables = o.getProvidedVariableNames()
     buffer.appendInt(variables.size)
     for (v in variables)
         buffer.appendString(v)
     if (rows != null) {
-        buffer.appendInt(rows.size)
-        for (row in rows) {
+        buffer.appendInt(rows.size())
+rows.forEach{row->
             for (k in variables) {
                 val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])
                 buffer.appendInt(DynamicByteArray.boolToInt(v == null))
@@ -511,19 +511,20 @@ fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: 
     val key = Pair(consumer.uuid, producer.uuid)
     val list = rowMapConsumed[key]
     if (list == null)
-        rowMapConsumed[key] = mutableListOf(res)
+        rowMapConsumed[key] = ThreadSafeMutableList(res)
     else
         list.add(res)
     return res
 }
 
 fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
+println("a")
     val res = action()
     val producer = producerv() as POPBase
     popMap[producer.uuid] = producer
     val list = rowMapProduced[producer.uuid]
     if (list == null)
-        rowMapProduced[producer.uuid] = mutableListOf(res)
+        rowMapProduced[producer.uuid] = ThreadSafeMutableList(res)
     else
         list.add(res)
     return res
@@ -542,7 +543,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
         if (input.collectMode) {
             val tmp = mapOfAggregationChilds[input.uuid]
             if (tmp == null)
-                mapOfAggregationChilds[input.uuid] = mutableListOf(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
+                mapOfAggregationChilds[input.uuid] = ThreadSafeMutableList(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
             else
                 tmp.add(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
             return expected
@@ -557,8 +558,9 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
             res += "${prefix}                        listOf(\n"
             val tmp = mapOfAggregationChilds[input.uuid]
             if (tmp != null) {
-                for (x in tmp)
+tmp.forEach{x->
                     res += x
+}
                 res = res.substring(0, res.length - 2) + "\n"
             }
             res += "${prefix}                        ),\n"
@@ -760,14 +762,14 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
         }
         if (!success) {
             rowMapProduced.forEach { k, v ->
-                println("operator-produced :: $k -> ${v.size}")
+                println("operator-produced :: $k -> ${v.size()}")
             }
             rowMapConsumed.forEach { k, v ->
-                println("operator-consumed :: $k -> ${v.size}")
-                if (rowMapProduced[k.first] == null || rowMapProduced[k.first]!!.size == 0) {
+                println("operator-consumed :: $k -> ${v.size()}")
+                if (rowMapProduced[k.first] == null || rowMapProduced[k.first]!!.size() == 0) {
                     println("no-a ${k.second}")
                 }
-                if (rowMapProduced[k.second] == null || rowMapProduced[k.second]!!.size == 0) {
+                if (rowMapProduced[k.second] == null || rowMapProduced[k.second]!!.size() == 0) {
                     println("no-b ${k.first}")
                 }
             }

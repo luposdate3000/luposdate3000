@@ -1,4 +1,6 @@
 package lupos.s05tripleStore
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
@@ -16,7 +18,7 @@ class TripleStoreIteratorLocalFilter(resultSet: ResultSet, store: TripleStoreLoc
 
     override fun cloneOP() = TripleStoreIteratorLocalFilter(resultSet, store, index)
 
-    override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
         val sNew: Variable?
         val pNew: Variable?
         val oNew: Variable?
@@ -32,6 +34,7 @@ class TripleStoreIteratorLocalFilter(resultSet: ResultSet, store: TripleStoreLoc
             oNew = resultSet.createVariable((oparam as AOPVariable).name)
         else
             oNew = null
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 store.forEach(sparam, pparam, oparam, { sv, pv, ov ->
@@ -49,5 +52,6 @@ class TripleStoreIteratorLocalFilter(resultSet: ResultSet, store: TripleStoreLoc
                 channel.close(e)
             }
         }
+return channel
     })
 }

@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -57,12 +59,13 @@ class POPSort : POPBase {
         this.sortBy = resultSet.createVariable(sortBy.name)
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPSort.evaluate" }, {
-        children[0].evaluate()
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPSort.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
+        val children0Channel=children[0].evaluate()
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPSort }, { children[0] }, { rsOld })
                     val rsNew = resultSet.createResultRow()
                     var key = ""
@@ -94,12 +97,13 @@ class POPSort : POPBase {
                     for (c in tmpMutableMap[k]!!)
                         channel.send(resultFlowProduce({ this@POPSort }, { c }))
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement(): XMLElement {

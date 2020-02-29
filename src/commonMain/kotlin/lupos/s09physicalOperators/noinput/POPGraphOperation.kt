@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -54,7 +56,8 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
         return iri.iri
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPGraphOperation.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPGraphOperation.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 when (graphref1) {
@@ -215,6 +218,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 channel.close(e)
             }
         }
+return channel
     })
 
 }

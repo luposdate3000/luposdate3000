@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -49,7 +51,7 @@ class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariabl
         return children[1].getRequiredVariableNames()
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPBind.evaluate" }, {
         val variablesOld: Array<Variable?>
         val variablesNew: Array<Variable?>
         val variableBound: Variable
@@ -64,10 +66,11 @@ class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariabl
             i++
         }
         variablesNew[i] = variableBound
-        children[0].evaluate()
+       val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPBind }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesOld.indices)
@@ -86,12 +89,13 @@ class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariabl
                     channel.send(resultFlowProduce({ this@POPBind }, { rsNew }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)

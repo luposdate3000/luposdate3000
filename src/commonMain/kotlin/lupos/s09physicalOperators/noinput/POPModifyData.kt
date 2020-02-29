@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EModifyType
@@ -43,7 +45,8 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
         return true
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPModifyData.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPModifyData.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (t in data) {
@@ -71,6 +74,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
                 channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement(): XMLElement {

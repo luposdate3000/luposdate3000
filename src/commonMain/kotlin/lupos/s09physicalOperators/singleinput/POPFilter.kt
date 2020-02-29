@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -41,11 +43,12 @@ class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, c
 
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
-        children[0].evaluate()
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPFilter.evaluate" }, {
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (nextRow in children[0].channel) {
+                for (nextRow in children0Channel) {
                     resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
                     try {
                         val expression = children[1] as AOPBase
@@ -58,12 +61,13 @@ class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, c
                     }
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
 }

@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -37,15 +39,16 @@ class POPLimit(override val dictionary: ResultSetDictionary, val limit: Int, chi
 
     override fun cloneOP() = POPLimit(dictionary, limit, children[0].cloneOP())
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPLimit.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPLimit.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 var count = 0
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPLimit }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     if (count >= limit)
@@ -56,12 +59,13 @@ class POPLimit(override val dictionary: ResultSetDictionary, val limit: Int, chi
                     channel.send(resultFlowProduce({ this@POPLimit }, { rsNew }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)

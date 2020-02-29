@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -113,15 +115,16 @@ class POPGroup : POPBase {
         }
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPGroup.evaluate" }, {
-        children[0].evaluate()
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPGroup.evaluate" }, {
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
                 val variables = mutableListOf<Pair<Variable, Variable>>()
                 for (v in by)
                     variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPGroup }, { children[0] }, { rsOld })
                     var key = "|"
                     for (variable in variables)
@@ -167,12 +170,13 @@ class POPGroup : POPBase {
                     channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement(): XMLElement {

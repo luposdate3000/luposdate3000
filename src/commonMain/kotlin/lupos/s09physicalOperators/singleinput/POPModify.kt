@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -52,11 +54,12 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
         return (node as AOPBase).calculate(children[0].resultSet, row)
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
-        children[0].evaluate()
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPModify.evaluate" }, {
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (row in children[0].channel) {
+                for (row in children0Channel) {
                     resultFlowConsume({ this@POPModify }, { children[0] }, { row })
                     for (i in insert) {
                         try {
@@ -107,12 +110,13 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                     channel.send(resultFlowProduce({ this@POPModify }, { resultSet.createResultRow() }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
 

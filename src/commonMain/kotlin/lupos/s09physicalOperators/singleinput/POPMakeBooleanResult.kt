@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -37,16 +39,17 @@ class POPMakeBooleanResult(override val dictionary: ResultSetDictionary, child: 
 
     override fun getRequiredVariableNames() = listOf<String>()
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPMakeBooleanResult.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPMakeBooleanResult.evaluate" }, {
         val variableNew = resultSet.createVariable("?boolean")
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 var first = true
-                for (c in children[0].channel) {
+                for (c in children0Channel) {
                     resultFlowConsume({ this@POPMakeBooleanResult }, { children[0] }, { c })
                     first = false
-                    children[0].channel.close()
+                    children0Channel.close()
                     break
                 }
                 var rsNew = resultSet.createResultRow()
@@ -57,6 +60,7 @@ class POPMakeBooleanResult(override val dictionary: ResultSetDictionary, child: 
                 channel.close(e)
             }
         }
+return channel
     })
 
 }

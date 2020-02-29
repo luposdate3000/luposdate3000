@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -94,7 +96,8 @@ class POPValues : POPBase {
         return mutableListOf()
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPValues.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPValues.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (rsOld in iterator) {
@@ -108,6 +111,7 @@ class POPValues : POPBase {
                 channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement(): XMLElement {

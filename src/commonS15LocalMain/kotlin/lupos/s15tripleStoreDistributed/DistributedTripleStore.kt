@@ -1,4 +1,4 @@
-package lupos.s15tripleStoreDistributed
+apackage lupos.s15tripleStoreDistributed
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType

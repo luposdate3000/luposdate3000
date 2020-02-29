@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -32,7 +34,7 @@ class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, chi
         return true
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPUnion.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPUnion.evaluate" }, {
         val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
         val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
         var variablesA = children[0].getProvidedVariableNames()
@@ -47,13 +49,13 @@ class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, chi
             if (!variablesA.contains(name))
                 variablesOldMissing[0].add(resultSet.createVariable(name))
         }
-        for (c in children)
-            c.evaluate()
+val channels=children.map{it.evaluate()}
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (idx in children.indices) {
+                for (idx in channels.indices) {
                     val c = children[idx]
-                    for (rsOld in c.channel) {
+                    for (rsOld in channels[idx]) {
                         resultFlowConsume({ this@POPUnion }, { c }, { rsOld })
                         val rsNew = resultSet.createResultRow()
                         for (p in variablesOldMissing[idx])
@@ -64,14 +66,15 @@ class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, chi
                     }
                 }
                 channel.close()
-                for (c in children)
-                    c.channel.close()
+                for (c in channels)
+                    c.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                for (c in children)
-                    c.channel.close(e)
+                for (c in channels)
+                    c.close(e)
             }
         }
+return channel
     })
 
     override fun cloneOP() = POPUnion(dictionary, children[0].cloneOP(), children[1].cloneOP())

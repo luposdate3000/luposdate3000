@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -36,15 +38,16 @@ class POPOffset(override val dictionary: ResultSetDictionary, val offset: Int, c
 
     override fun cloneOP() = POPOffset(dictionary, offset, children[0].cloneOP())
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPOffset.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPOffset.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 var count = 0
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPOffset }, { children[0] }, { rsOld })
                     if (count >= offset) {
                         var rsNew = resultSet.createResultRow()
@@ -55,12 +58,13 @@ class POPOffset(override val dictionary: ResultSetDictionary, val offset: Int, c
                     count++
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)

@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -31,7 +33,8 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
         return true
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPEmptyRow.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPEmptyRow.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 channel.send(resultFlowProduce({ this@POPEmptyRow }, { resultSet.createResultRow() }))
@@ -40,6 +43,7 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
                 channel.close(e)
             }
         }
+return channel
     })
 
 }

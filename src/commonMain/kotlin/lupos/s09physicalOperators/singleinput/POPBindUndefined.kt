@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -45,7 +47,7 @@ class POPBindUndefined(override val dictionary: ResultSetDictionary, val name: A
         return res.distinct()
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPBindUndefined.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPBindUndefined.evaluate" }, {
         val variableNames = children[0].getProvidedVariableNames()
         val variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
         val variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
@@ -57,10 +59,11 @@ class POPBindUndefined(override val dictionary: ResultSetDictionary, val name: A
             i++
         }
         variablesNew[i] = variableBound
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPBindUndefined }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesOld.indices)
@@ -69,12 +72,13 @@ class POPBindUndefined(override val dictionary: ResultSetDictionary, val name: A
                     channel.send(resultFlowProduce({ this@POPBindUndefined }, { rsNew }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)

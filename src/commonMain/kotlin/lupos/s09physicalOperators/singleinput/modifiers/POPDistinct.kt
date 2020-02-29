@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -32,16 +34,17 @@ class POPDistinct(override val dictionary: ResultSetDictionary, child: OPBase) :
     }
 
     override fun cloneOP() = POPDistinct(dictionary, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<Unit>({ "POPDistinct.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPDistinct.evaluate" }, {
         var data: MutableList<ResultRow>? = null
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (name in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPDistinct }, { children[0] }, { rsOld })
                     val rsNew = resultSet.createResultRow()
                     var key = ""
@@ -54,12 +57,13 @@ class POPDistinct(override val dictionary: ResultSetDictionary, child: OPBase) :
                 for (k in tmpMutableMap.keys)
                     channel.send(resultFlowProduce({ this@POPDistinct }, { tmpMutableMap[k]!! }))
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
 }

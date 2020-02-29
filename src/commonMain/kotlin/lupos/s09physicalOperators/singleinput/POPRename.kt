@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -59,7 +61,7 @@ class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVar
         return res
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPRename.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPRename.evaluate" }, {
         val variablesOld: Array<Variable?>
         val variablesNew: Array<Variable?>
         val variableNames = children[0].getProvidedVariableNames()
@@ -74,10 +76,11 @@ class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVar
                 variablesNew[i] = resultSet.createVariable(name)
             i++
         }
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPRename }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
@@ -85,12 +88,13 @@ class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVar
                     channel.send(resultFlowProduce({ this@POPRename }, { rsNew }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)

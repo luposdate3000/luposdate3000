@@ -1,6 +1,8 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
-import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
@@ -50,23 +52,16 @@ class POPImportFromXml(override val dictionary: ResultSetDictionary, val data: X
         }
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPImportFromXml.evaluate" }, {
-        var iterator: Iterator<XMLElement>? = null
-        val variables = mutableMapOf<String, Variable>()
-        if (data.tag != "sparql")
-            throw Exception("can only parse sparql xml into an iterator")
-        for (r in data.childs) {
-            if (r.tag == "results")
-                iterator = r.childs.iterator()
-            if (r.tag == "head")
-                for (v in r.childs)
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPImportFromXml.evaluate" }, {
+                val variables = mutableMapOf<String, Variable>()
+                if (data.tag != "sparql")
+                    throw Exception("can only parse sparql xml into an iterator")
+                for (v in data["head"]!!.childs)
                     variables[v.attributes["name"]!!] = resultSet.createVariable(v.attributes["name"]!!)
-        }
-        if (iterator == null)
-            throw Exception("can only parse sparql xml into an iterator")
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (node in iterator!!) {
+                for (node in data["results"]!!.childs) {
                     val result = resultSet.createResultRow()
                     for (v in node.childs) {
                         val name = v.attributes["name"]
@@ -88,5 +83,6 @@ class POPImportFromXml(override val dictionary: ResultSetDictionary, val data: X
                 channel.close(e)
             }
         }
+return channel
     })
 }

@@ -5,6 +5,6 @@ import lupos.s14endpoint.EndpointImpl
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     P2P.knownClients.add(EndpointImpl.fullname)
-    testMain()
+    SparqlTestSuite().testMain()
     printAllMicroTest()
 }

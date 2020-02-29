@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators
+import lupos.s03resultRepresentation.*
 
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
@@ -19,9 +20,7 @@ abstract class OPBase {
     abstract val resultSet: ResultSet
     abstract val children: Array<OPBase>
 
-    val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-
-    abstract fun evaluate()
+    abstract fun evaluate():Channel<ResultRow>
     abstract fun cloneOP(): OPBase
 
     open fun applyPrefix(prefix: String, iri: String) {

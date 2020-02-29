@@ -8,7 +8,7 @@ import lupos.s09physicalOperators.POPBase
 
 object QueryResultToXML {
     fun toXML(query: POPBase): List<XMLElement> {
-        query.evaluate()
+val queryChannel=        query.evaluate()
         val res = mutableListOf<XMLElement>()
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         res.add(nodeSparql)
@@ -18,12 +18,12 @@ object QueryResultToXML {
         val variables = mutableListOf<Pair<String, Variable>>()
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             CoroutinesHelper.runBlock {
-                for (resultRow in query.channel) {
+                for (resultRow in queryChannel) {
                     val value = query.resultSet.getValue(resultRow[query.resultSet.createVariable("?boolean")])!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     require(value.endsWith("\"^^<" + datatype + ">"))
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
-                    query.channel.close()
+                    queryChannel.close()
                 }
             }
         } else {
@@ -35,7 +35,7 @@ object QueryResultToXML {
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
             CoroutinesHelper.runBlock {
-                for (resultRow in query.channel) {
+                for (resultRow in queryChannel) {
                     val nodeResult = XMLElement("result")
                     nodeResults.addContent(nodeResult)
                     for (variable in variables) {

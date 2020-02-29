@@ -1,4 +1,6 @@
 package lupos.s03resultRepresentation
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.DynamicByteArray
@@ -11,7 +13,7 @@ import lupos.s09physicalOperators.POPBase
 
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
-        query.evaluate()
+val queryChannel=        query.evaluate()
         val res = DynamicByteArray()
         val variableNames = query.getProvidedVariableNames().toTypedArray()
         val variablesCount = variableNames.size
@@ -30,7 +32,7 @@ object ResultRepresenationNetwork {
         var currentRowCounter = 0
         CoroutinesHelper.runBlock {
             var firstDict = true
-            for (resultRow in query.channel) {
+            for (resultRow in queryChannel) {
                 var newDictionaryMax = latestDictionaryMax
                 for (v in variables)
                     if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || resultRow[v] > newDictionaryMax))
@@ -124,7 +126,8 @@ object ResultRepresenationNetwork {
 
         override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
 
-        override fun evaluate() = Trace.trace<Unit>({ "POPImportFromNetworkPackage.evaluate" }, {
+        override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPImportFromNetworkPackage.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
             CoroutinesHelper.runBlock {
                 try {
                     while (true) {
@@ -159,6 +162,7 @@ object ResultRepresenationNetwork {
                     channel.close(e)
                 }
             }
+return channel
         })
     }
 }

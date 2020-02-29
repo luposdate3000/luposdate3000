@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -44,13 +46,14 @@ class POPProjection(override val dictionary: ResultSetDictionary, val variables:
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPProjection.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPProjection.evaluate" }, {
         val variablesOld = Array(variables.size) { children[0].resultSet.createVariable(variables[it].name) }
         val variablesNew = Array(variables.size) { resultSet.createVariable(variables[it].name) }
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children[0].channel) {
+                for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPProjection }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
@@ -58,12 +61,13 @@ class POPProjection(override val dictionary: ResultSetDictionary, val variables:
                     channel.send(resultFlowProduce({ this@POPProjection }, { rsNew }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement(): XMLElement {

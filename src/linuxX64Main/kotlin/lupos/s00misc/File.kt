@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlin.native.concurrent.*
 import dirent.*
 import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
@@ -116,3 +116,4 @@ class PrintWriterImpl(val f: File) : PrintWriter {
         luposfprintf(file, s + "\n")
     }
 }
+

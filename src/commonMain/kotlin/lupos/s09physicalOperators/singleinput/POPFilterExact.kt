@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -43,26 +45,28 @@ class POPFilterExact(override val dictionary: ResultSetDictionary, val variable:
         return mutableListOf(variable.name)
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPFilterExact.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPFilterExact.evaluate" }, {
         val filterVariable: Variable
         val valueR: Value
         valueR = resultSet.createValue(value)
         filterVariable = resultSet.createVariable(variable.name)
-        children[0].evaluate()
+        val children0Channel=children[0].evaluate()
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (nextRow in children[0].channel) {
+                for (nextRow in children0Channel) {
                     resultFlowConsume({ this@POPFilterExact }, { children[0] }, { nextRow })
                     if (nextRow[filterVariable] == valueR)
                         channel.send(resultFlowProduce({ this@POPFilterExact }, { nextRow }))
                 }
                 channel.close()
-                children[0].channel.close()
+                children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children[0].channel.close(e)
+                children0Channel.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", variable.name).addAttribute("value", value)

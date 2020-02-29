@@ -1,4 +1,6 @@
 package lupos.s14endpoint
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
@@ -79,7 +81,8 @@ class TripleInsertIterator : POPBase {
         result[resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "TripleInsertIterator.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleInsertIterator.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 channel.send(result)
@@ -88,6 +91,7 @@ class TripleInsertIterator : POPBase {
                 channel.close(e)
             }
         }
+return channel
     })
 }
 

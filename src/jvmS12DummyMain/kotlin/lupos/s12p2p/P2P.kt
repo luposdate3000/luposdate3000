@@ -28,7 +28,7 @@ import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
-import lupos.testMain
+import lupos.SparqlTestSuite
 
 
 object P2P {
@@ -270,7 +270,7 @@ object P2P {
     })
 
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {
-        testMain()
+        SparqlTestSuite().testMain()
         return XMLElement.XMLHeader
     })
 

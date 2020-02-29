@@ -1,6 +1,8 @@
 package lupos.s15tripleStoreDistributed
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
 
-import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -72,18 +74,20 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return tmp.distinct()
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorGlobal.evaluate" }, {
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorGlobal.evaluate" }, {
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
                 for (nodeName in nodeNameIterator) {
                     var remoteNode: OPBase? = null
+  var remoteNodeChannel:Channel<ResultRow>?=null
                     try {
                         remoteNode = P2P.execTripleGet(nodeName, graphNameL, resultSet, transactionID, sparam, pparam, oparam, index)
-                        remoteNode.evaluate()
-                        for (c in remoteNode.channel)
+      remoteNodeChannel=                   remoteNode.evaluate()
+                        for (c in remoteNodeChannel)
                             channel.send(resultFlowProduce({ this@TripleStoreIteratorGlobal }, { c }))
                     } catch (e: Throwable) {
-                        remoteNode?.channel?.close(e)
+                        remoteNodeChannel?.close(e)
                         channel.close(e)
                     }
                 }
@@ -92,6 +96,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 channel.close(e)
             }
         }
+return channel
     })
 
 }
@@ -180,8 +185,8 @@ class DistributedGraph(val name: String) {
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
-        iterator.evaluate()
-        for (v in iterator.channel) {
+val channel=        iterator.evaluate()
+        for (v in channel) {
             val s = AOPVariable.calculate(rs.getValue(v[ks]))
             val p = AOPVariable.calculate(rs.getValue(v[kp]))
             val o = AOPVariable.calculate(rs.getValue(v[ko]))

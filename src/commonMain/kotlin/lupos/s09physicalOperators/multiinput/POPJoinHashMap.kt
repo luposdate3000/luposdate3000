@@ -1,4 +1,7 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -70,7 +73,7 @@ class POPJoinHashMap : POPBase {
         }
     }
 
-    suspend fun joinHelper(rowA: ResultRow, rowsB: List<ResultRow>, idx: Int) {
+    suspend fun joinHelper(rowA: ResultRow, rowsB: List<ResultRow>, idx: Int,channel:Channel<ResultRow>){
         for (rowB in rowsB) {
             val row = resultSet.createResultRow()
             for (p in variables[idx])
@@ -87,9 +90,9 @@ class POPJoinHashMap : POPBase {
         }
     }
 
-    suspend fun joinHelper(idx: Int) {
+    suspend fun joinHelper(idx: Int,channel:Channel<ResultRow>,channels:List<Channel<ResultRow>>) {
         try {
-            for (rowA in children[idx].channel) {
+            for (rowA in channels[idx]) {
                 resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
                 var keys = mutableSetOf<String>()
                 keys.add("")
@@ -126,7 +129,7 @@ class POPJoinHashMap : POPBase {
                         map[idx][key] = mutableListOf()
                     val rowsB = map[1 - idx][key]
                     if (rowsB != null)
-                        joinHelper(rowA, rowsB, idx)
+                        joinHelper(rowA, rowsB, idx,channel)
                 }
             }
         } catch (e: Throwable) {
@@ -135,13 +138,13 @@ class POPJoinHashMap : POPBase {
         }
     }
 
-    override fun evaluate() = Trace.trace<Unit>({ "POPJoinHashMap.evaluate" }, {
-        for (c in children)
-            c.evaluate()
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinHashMap.evaluate" }, {
+val channels=children.map{it.evaluate()}
+val channel=Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                joinHelper(0)
-                joinHelper(1)
+                joinHelper(0,channel,channels)
+                joinHelper(1,channel,channels)
                 if (optional) {
                     for ((k, v) in map[0]) {
                         if (map[1][k] == null) {
@@ -159,14 +162,15 @@ class POPJoinHashMap : POPBase {
                     }
                 }
                 channel.close()
-                for (c in children)
-                    c.channel.close()
+                for (c in channels)
+                    c.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                for (c in children)
-                    c.channel.close(e)
+                for (c in channels)
+                    c.close(e)
             }
         }
+return channel
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
