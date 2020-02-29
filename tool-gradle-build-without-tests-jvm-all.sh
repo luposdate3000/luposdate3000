@@ -1,12 +1,12 @@
 #!/bin/bash
 mkdir log
 
-jvmS00GenerateTestsMain=0
-commonS00ExecuteTestsMain=0
+commonS00ResultFlowGenerateTestsMain=0
+commonS00ResultFlowExecuteTestsMain=0
 commonS00ExecutionSequentialMain=0
 commonS00TraceOnMain=0
 
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00ExecuteFastMain" "commonS00ExecuteTestsMain"
+for chooseS00ResultFlow in "commonS00ResultFlowGenerateTestsMain" "commonS00ResultFlowFastMain" "commonS00ResultFlowExecuteTestsMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
@@ -40,23 +40,23 @@ then
         continue
 fi
 fi
-if [ "$chooseS00ResultFlow" == "jvmS00GenerateTestsMain" ] && [ "$chooseS15" != "commonS15DistributedMain" ]
+if [ "$chooseS00ResultFlow" == "commonS00ResultFlowGenerateTestsMain" ] && [ "$chooseS15" != "commonS15DistributedMain" ]
 then
 #debugging only work with that combination
         continue
 fi
-if [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "commonS00ResultFlowGenerateTestsMain" ]
 then
 #faster test-build
-if [ "$jvmS00GenerateTestsMain" == "1" ]
+if [ "$commonS00ResultFlowGenerateTestsMain" == "1" ]
 then
 continue
 fi
 fi
-if [ "${chooseS00ResultFlow}" == "commonS00ExecuteTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "commonS00ResultFlowExecuteTestsMain" ]
 then
 #faster test-build
-if [ "$commonS00ExecuteTestsMain" == "1" ]
+if [ "$commonS00ResultFlowExecuteTestsMain" == "1" ]
 then
 continue
 fi
@@ -77,15 +77,15 @@ then
 continue
 fi
 fi
-if [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "commonS00ResultFlowGenerateTestsMain" ]
 then
 #faster test-build
-jvmS00GenerateTestsMain=1
+commonS00ResultFlowGenerateTestsMain=1
 fi
-if [ "${chooseS00ResultFlow}" == "commonS00ExecuteTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "commonS00ResultFlowExecuteTestsMain" ]
 then
 #faster test-build
-commonS00ExecuteTestsMain=1
+commonS00ResultFlowExecuteTestsMain=1
 fi
 if [ "${chooseS00Execution}" == "commonS00ExecutionSequentialMain" ]
 then
