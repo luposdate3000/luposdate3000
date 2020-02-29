@@ -6,6 +6,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
@@ -23,7 +24,7 @@ class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDicti
                     onChange()
                     res = c
                 }
-            } else {
+            } else if(c !is LOPGroup) {
                 var moved = false
                 for (ci in c.children.indices) {
                     val cc = c.children[ci]

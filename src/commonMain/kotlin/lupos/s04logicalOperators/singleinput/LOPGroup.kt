@@ -49,6 +49,9 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
+println(this)
+println(localProvide)
+println(localRequire)
                 throw Exception("undefined Variable")
             }
         }

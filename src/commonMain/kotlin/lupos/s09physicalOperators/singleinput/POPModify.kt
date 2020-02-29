@@ -43,6 +43,7 @@ class POPModify (override val dictionary: ResultSetDictionary,val transactionID:
         }
         return true
     }
+ override fun getProvidedVariableNames()=listOf<String>()
 
     override fun cloneOP() = POPModify(dictionary, transactionID, iri, insert, delete, children[0].cloneOP())
 

@@ -453,12 +453,14 @@ fun parseSPARQLAndEvaluate(//
             val pop_distributed_node = KeyDistributionOptimizer(transactionID, dictionary).optimizeCall(pop_node) as POPBase
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_distributed_node })
             var xmlQueryResult: XMLElement? = null
+println("init a")
             if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
                 xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                 DistributedTripleStore.commit(transactionID)
             }
+println("init b")
             var verifiedOutput = false
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
