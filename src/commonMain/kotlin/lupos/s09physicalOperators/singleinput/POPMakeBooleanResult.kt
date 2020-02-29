@@ -19,8 +19,6 @@ class POPMakeBooleanResult(override val dictionary: ResultSetDictionary, child: 
     override val classname = "POPMakeBooleanResult"
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
-    val variableNew = resultSet.createVariable("?boolean")
-    var count = 0
     override fun equals(other: Any?): Boolean {
         if (other !is POPMakeBooleanResult)
             return false
@@ -40,6 +38,7 @@ class POPMakeBooleanResult(override val dictionary: ResultSetDictionary, child: 
     override fun getRequiredVariableNames() = listOf<String>()
 
     override fun evaluate() = Trace.trace<Unit>({ "POPMakeBooleanResult.evaluate" }, {
+    val variableNew = resultSet.createVariable("?boolean")
         children[0].evaluate()
         CoroutinesHelper.run {
             try {

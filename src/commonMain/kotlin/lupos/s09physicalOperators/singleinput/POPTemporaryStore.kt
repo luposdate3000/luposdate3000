@@ -14,14 +14,12 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPTemporaryStore : POPBase {
+class POPTemporaryStore(override val dictionary: ResultSetDictionary, child: OPBase) : POPBase (){
     override val operatorID = EOperatorID.POPTemporaryStoreID
     override val classname = "POPTemporaryStore"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val data = mutableListOf<ResultRow>()
-    private val variables = mutableListOf<Pair<Variable, Variable>>()
+    override val resultSet= ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child)
+     val data = mutableListOf<ResultRow>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPTemporaryStore)
@@ -37,17 +35,11 @@ class POPTemporaryStore : POPBase {
 
     override fun cloneOP() = POPTemporaryStore(dictionary, children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+    override fun evaluate() = Trace.trace<Unit>({ "POPTemporaryStore.evaluate" }, {
+     val variables = mutableListOf<Pair<Variable, Variable>>()
         for (name in children[0].getProvidedVariableNames()) {
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         }
-    }
-
-    override fun evaluate() = Trace.trace<Unit>({ "POPTemporaryStore.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
             try {
@@ -66,9 +58,8 @@ class POPTemporaryStore : POPBase {
     })
 
     suspend fun reset() {
-        for (c in data) {
+        for (c in data) 
             channel.send(resultFlowProduce({ this@POPTemporaryStore }, { c }))
-        }
     }
 
 }

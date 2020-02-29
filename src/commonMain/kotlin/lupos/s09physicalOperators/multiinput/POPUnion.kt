@@ -14,14 +14,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPUnion : POPBase {
+class POPUnion (override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase): POPBase() {
     override val operatorID = EOperatorID.POPUnionID
     override val classname = "POPUnion"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    private val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
-    private val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
+    override val resultSet = ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(childA,childB)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPUnion)
@@ -35,16 +32,11 @@ class POPUnion : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        this.children[0] = childA
-        this.children[1] = childB
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
-        var variablesA = children[0].getProvidedVariableNames()
+    override fun evaluate() = Trace.trace<Unit>({ "POPUnion.evaluate" }, {
+    val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
+     val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
+	 var variablesA = children[0].getProvidedVariableNames()
         var variablesB = children[1].getProvidedVariableNames()
-
         for (name in variablesA) {
             variablesOld[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
             if (!variablesB.contains(name))
@@ -55,10 +47,6 @@ class POPUnion : POPBase {
             if (!variablesA.contains(name))
                 variablesOldMissing[0].add(resultSet.createVariable(name))
         }
-
-    }
-
-    override fun evaluate() = Trace.trace<Unit>({ "POPUnion.evaluate" }, {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {

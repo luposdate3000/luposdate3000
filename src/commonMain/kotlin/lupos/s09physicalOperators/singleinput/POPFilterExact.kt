@@ -15,16 +15,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPFilterExact : POPBase {
+class POPFilterExact (override val dictionary: ResultSetDictionary, val variable: AOPVariable, val value: String, child: OPBase) : POPBase (){
     override val operatorID = EOperatorID.POPFilterExactID
     override val classname = "POPFilterExact"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    val variable: AOPVariable
-    val value: String
-    val valueR: Value
-    private val filterVariable: Variable
+    override val children: Array<OPBase> = arrayOf(child)
+    override val resultSet= children[0].resultSet
     override fun equals(other: Any?): Boolean {
         if (other !is POPFilterExact)
             return false
@@ -43,22 +38,16 @@ class POPFilterExact : POPBase {
 
     override fun cloneOP() = POPFilterExact(dictionary, variable, value, children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, variable: AOPVariable, value: String, child: OPBase) : super() {
-        this.dictionary = dictionary
-        children[0] = child
-        this.variable = variable
-        this.value = value
-        resultSet = children[0].resultSet
-        valueR = resultSet.createValue(value)
-        require(resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        filterVariable = resultSet.createVariable(variable.name)
-    }
 
     override fun getRequiredVariableNames(): MutableList<String> {
         return mutableListOf(variable.name)
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilterExact.evaluate" }, {
+     val filterVariable: Variable
+val valueR: Value
+        valueR = resultSet.createValue(value)
+        filterVariable = resultSet.createVariable(variable.name)
         children[0].evaluate()
         CoroutinesHelper.run {
             try {

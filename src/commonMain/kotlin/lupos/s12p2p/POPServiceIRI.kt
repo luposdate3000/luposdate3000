@@ -25,7 +25,6 @@ class POPServiceIRI : POPBase {
     val silent: Boolean
     var first = true
     val originalConstraint: OPBase
-    val variables = mutableListOf<Pair<Variable, Variable>>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPServiceIRI)
@@ -60,24 +59,29 @@ class POPServiceIRI : POPBase {
         this.silent = silent
         //todo ... handle the case if the target node is not part of this p2p network
         resultSet = ResultSet(dictionary)
-        for (n in getProvidedVariableNames()) {
-            variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
-        }
     }
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
 
     override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
+	for (n in getProvidedVariableNames())
+            resultSet.createVariable(n)
         CoroutinesHelper.run {
             try {
                 if (constraint == null) {
                     if (silent) {
+	val variables = mutableListOf<Variable>()
+	for (n in getProvidedVariableNames())
+            variables.add(resultSet.createVariable(n))
                         val res = resultSet.createResultRow()
-                        for (n in getProvidedVariableNames())
-                            resultSet.setUndefValue(res, resultSet.createVariable(n))
+                        for (n in variables)
+                            resultSet.setUndefValue(res, n)
                         channel.send(res)
                     }
                 } else {
+	val variables = mutableListOf<Pair<Variable, Variable>>()
+	for (n in getProvidedVariableNames())
+            variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
                     constraint.evaluate()
                     for (value in constraint.channel) {
                         val res = resultSet.createResultRow()

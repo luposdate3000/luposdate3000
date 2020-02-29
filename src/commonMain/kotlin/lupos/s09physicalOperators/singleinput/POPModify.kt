@@ -19,16 +19,11 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify : POPBase {
+class POPModify (override val dictionary: ResultSetDictionary,val transactionID: Long,val iri: String?,val insert: List<OPBase>,val delete: List<OPBase>, child: OPBase) : POPBase (){
     override val operatorID = EOperatorID.POPModifyID
     override val classname = "POPModify"
-    override val resultSet: ResultSet
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    override val dictionary: ResultSetDictionary
-    val transactionID: Long
-    val iri: String?
-    val insert: List<OPBase>
-    val delete: List<OPBase>
+    override val resultSet= ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPModify)
             return false
@@ -50,17 +45,6 @@ class POPModify : POPBase {
     }
 
     override fun cloneOP() = POPModify(dictionary, transactionID, iri, insert, delete, children[0].cloneOP())
-
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<OPBase>, delete: List<OPBase>, child: OPBase) : super() {
-        this.dictionary = dictionary
-        this.transactionID = transactionID
-        this.iri = iri
-        this.insert = insert
-        this.delete = delete
-        children[0] = child
-        resultSet = ResultSet(dictionary)
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-    }
 
     fun evaluateRow(node: OPBase, row: ResultRow): AOPConstant {
         return (node as AOPBase).calculate(children[0].resultSet, row)

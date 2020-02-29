@@ -17,16 +17,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPBind : POPBase {
+class POPBind(override val dictionary: ResultSetDictionary,val name: AOPVariable, value: AOPBase, child: OPBase)  : POPBase() {
     override val operatorID = EOperatorID.POPBindID
     override val classname = "POPBind"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    val name: AOPVariable
-    private val variablesOld: Array<Variable?>
-    private val variablesNew: Array<Variable?>
-    private val variableBound: Variable
+    override val resultSet= ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child,value)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPBind)
@@ -44,25 +39,6 @@ class POPBind : POPBase {
 
     override fun cloneOP() = POPBind(dictionary, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, name: AOPVariable, value: AOPBase, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        this.name = name
-        children[0] = child
-        children[1] = value
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variableNames = children[0].getProvidedVariableNames()
-        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
-        var i = 0
-        variableBound = resultSet.createVariable(name.name)
-        for (n in variableNames) {
-            variablesOld[i] = children[0].resultSet.createVariable(n)
-            variablesNew[i] = resultSet.createVariable(n)
-            i++
-        }
-        variablesNew[i] = variableBound
-    }
 
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): List<String> {
@@ -74,6 +50,20 @@ class POPBind : POPBase {
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
+     val variablesOld: Array<Variable?>
+     val variablesNew: Array<Variable?>
+     val variableBound: Variable
+      val variableNames = children[0].getProvidedVariableNames()
+        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
+        var i = 0
+        variableBound = resultSet.createVariable(name.name)
+        for (n in variableNames) {
+            variablesOld[i] = children[0].resultSet.createVariable(n)
+            variablesNew[i] = resultSet.createVariable(n)
+            i++
+        }
+        variablesNew[i] = variableBound
         children[0].evaluate()
         CoroutinesHelper.run {
             try {

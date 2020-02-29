@@ -15,15 +15,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPProjection : POPBase {
+class POPProjection (override val dictionary: ResultSetDictionary, val variables: MutableList<AOPVariable>, child: OPBase) : POPBase (){
     override val operatorID = EOperatorID.POPProjectionID
     override val classname = "POPProjection"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    val variables: MutableList<AOPVariable>
-    private val variablesOld: Array<Variable>
-    private val variablesNew: Array<Variable>
+    override val resultSet = ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPProjection)
             return false
@@ -40,16 +36,6 @@ class POPProjection : POPBase {
 
     override fun cloneOP() = POPProjection(dictionary, variables, children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, variables: MutableList<AOPVariable>, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
-        this.variables = variables
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        variablesOld = Array(variables.size) { children[0].resultSet.createVariable(variables[it].name) }
-        variablesNew = Array(variables.size) { resultSet.createVariable(variables[it].name) }
-    }
-
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
@@ -59,6 +45,8 @@ class POPProjection : POPBase {
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPProjection.evaluate" }, {
+     val variablesOld= Array(variables.size) { children[0].resultSet.createVariable(variables[it].name) }
+     val variablesNew= Array(variables.size) { resultSet.createVariable(variables[it].name) }
         children[0].evaluate()
         CoroutinesHelper.run {
             try {

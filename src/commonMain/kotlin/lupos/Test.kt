@@ -38,7 +38,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 val errorBoundForDecimalsDigits = 6
 
-fun main(args: Array<String>) {
+fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
     printAllMicroTest()

@@ -15,15 +15,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPOffset : POPBase {
+class POPOffset (override val dictionary: ResultSetDictionary,val  offset: Int, child: OPBase): POPBase (){
     override val operatorID = EOperatorID.POPOffsetID
     override val classname = "POPOffset"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val variables = mutableListOf<Pair<Variable, Variable>>()
-    val offset: Int
-    private var count = 0
+    override val resultSet= ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset)
             return false
@@ -40,17 +36,10 @@ class POPOffset : POPBase {
 
     override fun cloneOP() = POPOffset(dictionary, offset, children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, offset: Int, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
-        this.offset = offset
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+    override fun evaluate() = Trace.trace<Unit>({ "POPOffset.evaluate" }, {
+     val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
-    }
-
-    override fun evaluate() = Trace.trace<Unit>({ "POPOffset.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
             try {

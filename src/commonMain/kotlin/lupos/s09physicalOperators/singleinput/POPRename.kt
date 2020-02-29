@@ -14,16 +14,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPRename : POPBase {
+class POPRename (override val dictionary: ResultSetDictionary, val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBase) : POPBase (){
     override val operatorID = EOperatorID.POPRenameID
     override val classname = "POPRename"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    var nameTo: AOPVariable
-    var nameFrom: AOPVariable
-    val variablesOld: Array<Variable?>
-    val variablesNew: Array<Variable?>
+    override val resultSet= ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPRename)
             return false
@@ -57,14 +52,17 @@ class POPRename : POPBase {
 
     override fun cloneOP() = POPRename(dictionary, nameTo, nameFrom, children[0].cloneOP())
 
-    constructor(dictionary: ResultSetDictionary, nameTo: AOPVariable, nameFrom: AOPVariable, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
-        this.nameTo = nameTo
-        this.nameFrom = nameFrom
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variableNames = children[0].getProvidedVariableNames()
+    override fun getProvidedVariableNames()=         (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
+
+    override fun getRequiredVariableNames(): List<String> {
+        val res = listOf(nameFrom.name)
+        return res
+    }
+
+    override fun evaluate() = Trace.trace<Unit>({ "POPRename.evaluate" }, {
+    val variablesOld: Array<Variable?>
+    val variablesNew: Array<Variable?>
+ val variableNames = children[0].getProvidedVariableNames()
         variablesOld = Array(variableNames.size) { null as Variable? }
         variablesNew = Array(variableNames.size) { null as Variable? }
         var i = 0
@@ -76,19 +74,6 @@ class POPRename : POPBase {
                 variablesNew[i] = resultSet.createVariable(name)
             i++
         }
-    }
-
-    override fun getProvidedVariableNames(): List<String> {
-        return (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        val res = listOf(nameFrom.name)
-        println("($classname)($uuid)getRequiredVariableNames $res")
-        return res
-    }
-
-    override fun evaluate() = Trace.trace<Unit>({ "POPRename.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
             try {

@@ -13,15 +13,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPImportFromXml : POPBase {
+class POPImportFromXml (override val dictionary: ResultSetDictionary, val data: XMLElement): POPBase (){
     override val operatorID = EOperatorID.POPImportFromXmlID
     override val classname = "POPImportFromXml"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
+    override val resultSet= ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
-    val data: XMLElement
-    var iterator: Iterator<XMLElement>? = null
-    val variables = mutableMapOf<String, Variable>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPImportFromXml)
@@ -39,23 +35,6 @@ class POPImportFromXml : POPBase {
 
     override fun cloneOP() = POPImportFromXml(dictionary, data)
 
-    constructor(dictionary: ResultSetDictionary, data: XMLElement) {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        this.data = data
-        if (data.tag != "sparql")
-            throw Exception("can only parse sparql xml into an iterator")
-        for (r in data.childs) {
-            if (r.tag == "results")
-                iterator = r.childs.iterator()
-            if (r.tag == "head")
-                for (v in r.childs)
-                    variables[v.attributes["name"]!!] = resultSet.createVariable(v.attributes["name"]!!)
-        }
-        if (iterator == null)
-            throw Exception("can only parse sparql xml into an iterator")
-    }
-
     override fun toXMLElement() = super.toXMLElement().addContent(data)
 
     override fun getProvidedVariableNames() = mutableListOf("s", "p", "o")
@@ -72,6 +51,19 @@ class POPImportFromXml : POPBase {
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPImportFromXml.evaluate" }, {
+    var iterator: Iterator<XMLElement>? = null
+    val variables = mutableMapOf<String, Variable>()
+        if (data.tag != "sparql")
+            throw Exception("can only parse sparql xml into an iterator")
+        for (r in data.childs) {
+            if (r.tag == "results")
+                iterator = r.childs.iterator()
+            if (r.tag == "head")
+                for (v in r.childs)
+                    variables[v.attributes["name"]!!] = resultSet.createVariable(v.attributes["name"]!!)
+        }
+        if (iterator == null)
+            throw Exception("can only parse sparql xml into an iterator")
         CoroutinesHelper.run {
             try {
                 for (node in iterator!!) {
