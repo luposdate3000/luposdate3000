@@ -14,10 +14,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPDistinct(override val dictionary: ResultSetDictionary, child: OPBase)  : POPBase() {
+class POPDistinct(override val dictionary: ResultSetDictionary, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPDistinctID
     override val classname = "POPDistinct"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPDistinct)
@@ -33,8 +33,8 @@ class POPDistinct(override val dictionary: ResultSetDictionary, child: OPBase)  
 
     override fun cloneOP() = POPDistinct(dictionary, children[0].cloneOP())
     override fun evaluate() = Trace.trace<Unit>({ "POPDistinct.evaluate" }, {
-     var data: MutableList<ResultRow>? = null
-     val variables = mutableListOf<Pair<Variable, Variable>>()
+        var data: MutableList<ResultRow>? = null
+        val variables = mutableListOf<Pair<Variable, Variable>>()
         for (name in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         children[0].evaluate()

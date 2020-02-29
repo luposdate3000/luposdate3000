@@ -64,11 +64,11 @@ object P2P {
     })
 
     fun getKnownClientsCopy(): List<String> = Trace.trace({ "P2P.getKnownClientsCopy" }, {
-val res=mutableListOf<String>()
-knownClients.forEach{
-res.add(it)
-}
-return res
+        val res = mutableListOf<String>()
+        knownClients.forEach {
+            res.add(it)
+        }
+        return res
     })
 
     suspend fun process_peers_join(hostname: String?): String = Trace.trace({ "P2P.process_peers_join" }, {

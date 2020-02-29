@@ -15,10 +15,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPOffset (override val dictionary: ResultSetDictionary,val  offset: Int, child: OPBase): POPBase (){
+class POPOffset(override val dictionary: ResultSetDictionary, val offset: Int, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPOffsetID
     override val classname = "POPOffset"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset)
@@ -37,7 +37,7 @@ class POPOffset (override val dictionary: ResultSetDictionary,val  offset: Int, 
     override fun cloneOP() = POPOffset(dictionary, offset, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Unit>({ "POPOffset.evaluate" }, {
-     val variables = mutableListOf<Pair<Variable, Variable>>()
+        val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
         children[0].evaluate()

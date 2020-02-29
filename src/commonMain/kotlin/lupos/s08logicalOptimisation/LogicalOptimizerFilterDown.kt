@@ -24,7 +24,7 @@ class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDicti
                     onChange()
                     res = c
                 }
-            } else if(c !is LOPGroup) {
+            } else if (c !is LOPGroup) {
                 var moved = false
                 for (ci in c.children.indices) {
                     val cc = c.children[ci]

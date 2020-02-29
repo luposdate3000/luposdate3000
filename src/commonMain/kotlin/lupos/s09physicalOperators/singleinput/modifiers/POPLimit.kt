@@ -15,10 +15,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPLimit (override val dictionary: ResultSetDictionary,val  limit: Int, child: OPBase): POPBase (){
+class POPLimit(override val dictionary: ResultSetDictionary, val limit: Int, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPLimitID
     override val classname = "POPLimit"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun equals(other: Any?): Boolean {
@@ -38,7 +38,7 @@ class POPLimit (override val dictionary: ResultSetDictionary,val  limit: Int, ch
     override fun cloneOP() = POPLimit(dictionary, limit, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Unit>({ "POPLimit.evaluate" }, {
-     val variables = mutableListOf<Pair<Variable, Variable>>()
+        val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
         children[0].evaluate()

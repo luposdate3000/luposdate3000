@@ -13,10 +13,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPImportFromXml (override val dictionary: ResultSetDictionary, val data: XMLElement): POPBase (){
+class POPImportFromXml(override val dictionary: ResultSetDictionary, val data: XMLElement) : POPBase() {
     override val operatorID = EOperatorID.POPImportFromXmlID
     override val classname = "POPImportFromXml"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
 
     override fun equals(other: Any?): Boolean {
@@ -51,8 +51,8 @@ class POPImportFromXml (override val dictionary: ResultSetDictionary, val data: 
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPImportFromXml.evaluate" }, {
-    var iterator: Iterator<XMLElement>? = null
-    val variables = mutableMapOf<String, Variable>()
+        var iterator: Iterator<XMLElement>? = null
+        val variables = mutableMapOf<String, Variable>()
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
         for (r in data.childs) {

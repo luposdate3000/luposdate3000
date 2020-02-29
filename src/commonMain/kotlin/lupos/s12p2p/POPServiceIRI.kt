@@ -64,24 +64,24 @@ class POPServiceIRI : POPBase {
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
 
     override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
-	for (n in getProvidedVariableNames())
+        for (n in getProvidedVariableNames())
             resultSet.createVariable(n)
         CoroutinesHelper.run {
             try {
                 if (constraint == null) {
                     if (silent) {
-	val variables = mutableListOf<Variable>()
-	for (n in getProvidedVariableNames())
-            variables.add(resultSet.createVariable(n))
+                        val variables = mutableListOf<Variable>()
+                        for (n in getProvidedVariableNames())
+                            variables.add(resultSet.createVariable(n))
                         val res = resultSet.createResultRow()
                         for (n in variables)
                             resultSet.setUndefValue(res, n)
                         channel.send(res)
                     }
                 } else {
-	val variables = mutableListOf<Pair<Variable, Variable>>()
-	for (n in getProvidedVariableNames())
-            variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
+                    val variables = mutableListOf<Pair<Variable, Variable>>()
+                    for (n in getProvidedVariableNames())
+                        variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
                     constraint.evaluate()
                     for (value in constraint.channel) {
                         val res = resultSet.createResultRow()

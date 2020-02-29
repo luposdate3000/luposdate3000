@@ -17,11 +17,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPBind(override val dictionary: ResultSetDictionary,val name: AOPVariable, value: AOPBase, child: OPBase)  : POPBase() {
+class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPBindID
     override val classname = "POPBind"
-    override val resultSet= ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(child,value)
+    override val resultSet = ResultSet(dictionary)
+    override val children: Array<OPBase> = arrayOf(child, value)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPBind)
@@ -50,10 +50,10 @@ class POPBind(override val dictionary: ResultSetDictionary,val name: AOPVariable
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
-     val variablesOld: Array<Variable?>
-     val variablesNew: Array<Variable?>
-     val variableBound: Variable
-      val variableNames = children[0].getProvidedVariableNames()
+        val variablesOld: Array<Variable?>
+        val variablesNew: Array<Variable?>
+        val variableBound: Variable
+        val variableNames = children[0].getProvidedVariableNames()
         variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0

@@ -14,10 +14,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPRename (override val dictionary: ResultSetDictionary, val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBase) : POPBase (){
+class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPRenameID
     override val classname = "POPRename"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPRename)
@@ -52,7 +52,7 @@ class POPRename (override val dictionary: ResultSetDictionary, val nameTo: AOPVa
 
     override fun cloneOP() = POPRename(dictionary, nameTo, nameFrom, children[0].cloneOP())
 
-    override fun getProvidedVariableNames()=         (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         val res = listOf(nameFrom.name)
@@ -60,9 +60,9 @@ class POPRename (override val dictionary: ResultSetDictionary, val nameTo: AOPVa
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPRename.evaluate" }, {
-    val variablesOld: Array<Variable?>
-    val variablesNew: Array<Variable?>
- val variableNames = children[0].getProvidedVariableNames()
+        val variablesOld: Array<Variable?>
+        val variablesNew: Array<Variable?>
+        val variableNames = children[0].getProvidedVariableNames()
         variablesOld = Array(variableNames.size) { null as Variable? }
         variablesNew = Array(variableNames.size) { null as Variable? }
         var i = 0

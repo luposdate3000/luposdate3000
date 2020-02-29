@@ -7,9 +7,9 @@ import com.soywiz.korio.net.URL
 import com.soywiz.korio.stream.AsyncStream
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
-import lupos.s00misc.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
@@ -70,14 +70,14 @@ object P2P {
         }
 
 
-            knownClients.forEach {
-                if (it != EndpointImpl.fullname) {
-                    CoroutinesHelper.runBlock {
-                        retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_COMMIT[0]}" +//
-                                "?${EndpointImpl.REQUEST_COMMIT[1]}=${URL.encodeComponent("" + transactionID)}")
-                    }
+        knownClients.forEach {
+            if (it != EndpointImpl.fullname) {
+                CoroutinesHelper.runBlock {
+                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_COMMIT[0]}" +//
+                            "?${EndpointImpl.REQUEST_COMMIT[1]}=${URL.encodeComponent("" + transactionID)}")
                 }
             }
+        }
         GlobalLogger.log(ELoggerType.DEBUG, { "execCommit $transactionID end" })
     })
 
@@ -113,13 +113,13 @@ object P2P {
     fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
         /*execute clear on every known node - for TESTING only*/
         Endpoint.process_local_graph_clear_all()
-            knownClients.forEach {
-                if (it != EndpointImpl.fullname) {
-                    CoroutinesHelper.runBlock {
-                        retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_CLEAR_ALL[0]}")
-                    }
+        knownClients.forEach {
+            if (it != EndpointImpl.fullname) {
+                CoroutinesHelper.runBlock {
+                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_CLEAR_ALL[0]}")
                 }
             }
+        }
         nodeNameRemapping.clear()
     })
 
@@ -128,15 +128,15 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P a" })
         Endpoint.process_local_graph_operation(name, type)
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
-            knownClients.forEach {
-                if (it != EndpointImpl.fullname) {
-                    CoroutinesHelper.runBlock {
-                        retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_OPERATION[0]}" +//
-                                "?${EndpointImpl.REQUEST_GRAPH_OPERATION[1]}=${URL.encodeComponent(name)}" +//
-                                "&${EndpointImpl.REQUEST_GRAPH_OPERATION[2]}=${URL.encodeComponent("" + type)}")
-                    }
+        knownClients.forEach {
+            if (it != EndpointImpl.fullname) {
+                CoroutinesHelper.runBlock {
+                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_OPERATION[0]}" +//
+                            "?${EndpointImpl.REQUEST_GRAPH_OPERATION[1]}=${URL.encodeComponent(name)}" +//
+                            "&${EndpointImpl.REQUEST_GRAPH_OPERATION[2]}=${URL.encodeComponent("" + type)}")
                 }
             }
+        }
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
@@ -278,11 +278,11 @@ object P2P {
         /*nice to have, but not required*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
         var res: String
-val map=mutableListOf<String>()
-knownClients.forEach{
-map.add(it)
-}
-            res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(map, "server").toPrettyString()
+        val map = mutableListOf<String>()
+        knownClients.forEach {
+            map.add(it)
+        }
+        res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(map, "server").toPrettyString()
         return res
     })
 
@@ -298,9 +298,9 @@ map.add(it)
 
     fun getKnownClientsCopy(): List<String> = Trace.trace({ "P2P.getKnownClientsCopy" }, {
         val knownClientsCopy = mutableListOf<String>()
-            knownClients.forEach {
-                knownClientsCopy.add(it)
-            }
+        knownClients.forEach {
+            knownClientsCopy.add(it)
+        }
         return knownClientsCopy
     })
 

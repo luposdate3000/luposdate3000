@@ -31,8 +31,9 @@ class ThreadSafeMutableList<T> {
     fun add(value: T) = mutex.withWriteLock {
         values.add(value)
     }
-    fun add(idx:Int,value: T) = mutex.withWriteLock {
-        values.add(idx,value)
+
+    fun add(idx: Int, value: T) = mutex.withWriteLock {
+        values.add(idx, value)
     }
 
     fun removeAt(idx: Int) = mutex.withWriteLock {

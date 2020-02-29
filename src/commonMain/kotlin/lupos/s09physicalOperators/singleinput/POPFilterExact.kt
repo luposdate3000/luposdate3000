@@ -15,11 +15,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPFilterExact (override val dictionary: ResultSetDictionary, val variable: AOPVariable, val value: String, child: OPBase) : POPBase (){
+class POPFilterExact(override val dictionary: ResultSetDictionary, val variable: AOPVariable, val value: String, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPFilterExactID
     override val classname = "POPFilterExact"
     override val children: Array<OPBase> = arrayOf(child)
-    override val resultSet= children[0].resultSet
+    override val resultSet = children[0].resultSet
     override fun equals(other: Any?): Boolean {
         if (other !is POPFilterExact)
             return false
@@ -44,8 +44,8 @@ class POPFilterExact (override val dictionary: ResultSetDictionary, val variable
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilterExact.evaluate" }, {
-     val filterVariable: Variable
-val valueR: Value
+        val filterVariable: Variable
+        val valueR: Value
         valueR = resultSet.createValue(value)
         filterVariable = resultSet.createVariable(variable.name)
         children[0].evaluate()

@@ -5,9 +5,9 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
-import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -54,7 +54,7 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
                 modifyInternal(key, value, type, 0, nextStep)
         } else if (cmp > 0) {
             if (step > 0) {
-                if (idx + step < values.size ()/ components)
+                if (idx + step < values.size() / components)
                     modifyInternal(key, value, type, idx + step, nextStep)
                 else
                     modifyInternal(key, value, type, values.size() / components - 1, nextStep)
@@ -79,7 +79,7 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
     fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
         require(key.size == components)
         require(value.size == components)
-        if (values.size ()== 0) {
+        if (values.size() == 0) {
             if (type == EModifyType.INSERT)
                 for (i in 0 until components)
                     values.add(key[i])
@@ -101,12 +101,12 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
 
     fun forEach(action: (Array<Value>) -> Unit) {
         for (i in 0 until values.size() step components)
-            action(Array(components) { values[i + it] !!})
+            action(Array(components) { values[i + it]!! })
     }
 
     suspend fun forEachSuspend(action: suspend (Array<Value>) -> Unit) {
-        for (i in 0 until values.size ()step components)
-            action(Array(components) { values[i + it] !!})
+        for (i in 0 until values.size() step components)
+            action(Array(components) { values[i + it]!! })
     }
 }
 

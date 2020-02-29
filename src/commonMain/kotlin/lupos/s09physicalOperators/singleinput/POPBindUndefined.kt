@@ -17,7 +17,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
 
 
-class POPBindUndefined (override val dictionary: ResultSetDictionary, val name: AOPVariable, child: OPBase): POPBase() {
+class POPBindUndefined(override val dictionary: ResultSetDictionary, val name: AOPVariable, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPBindUndefinedID
     override val classname = "POPBindUndefined"
     override val resultSet = ResultSet(dictionary)
@@ -46,11 +46,11 @@ class POPBindUndefined (override val dictionary: ResultSetDictionary, val name: 
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBindUndefined.evaluate" }, {
-val variableNames = children[0].getProvidedVariableNames()
-val        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
-   val     variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
+        val variableNames = children[0].getProvidedVariableNames()
+        val variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        val variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0
-      val  variableBound = resultSet.createVariable(name.name)
+        val variableBound = resultSet.createVariable(name.name)
         for (n in variableNames) {
             variablesOld[i] = children[0].resultSet.createVariable(n)
             variablesNew[i] = resultSet.createVariable(n)

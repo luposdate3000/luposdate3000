@@ -14,11 +14,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPUnion (override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase): POPBase() {
+class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPUnionID
     override val classname = "POPUnion"
     override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(childA,childB)
+    override val children: Array<OPBase> = arrayOf(childA, childB)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPUnion)
@@ -33,9 +33,9 @@ class POPUnion (override val dictionary: ResultSetDictionary, childA: OPBase, ch
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPUnion.evaluate" }, {
-    val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
-     val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
-	 var variablesA = children[0].getProvidedVariableNames()
+        val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
+        val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
+        var variablesA = children[0].getProvidedVariableNames()
         var variablesB = children[1].getProvidedVariableNames()
         for (name in variablesA) {
             variablesOld[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))

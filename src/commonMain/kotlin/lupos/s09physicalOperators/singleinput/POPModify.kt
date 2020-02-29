@@ -19,10 +19,10 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify (override val dictionary: ResultSetDictionary,val transactionID: Long,val iri: String?,val insert: List<OPBase>,val delete: List<OPBase>, child: OPBase) : POPBase (){
+class POPModify(override val dictionary: ResultSetDictionary, val transactionID: Long, val iri: String?, val insert: List<OPBase>, val delete: List<OPBase>, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPModifyID
     override val classname = "POPModify"
-    override val resultSet= ResultSet(dictionary)
+    override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
     override fun equals(other: Any?): Boolean {
         if (other !is POPModify)
@@ -43,7 +43,8 @@ class POPModify (override val dictionary: ResultSetDictionary,val transactionID:
         }
         return true
     }
- override fun getProvidedVariableNames()=listOf<String>()
+
+    override fun getProvidedVariableNames() = listOf<String>()
 
     override fun cloneOP() = POPModify(dictionary, transactionID, iri, insert, delete, children[0].cloneOP())
 
