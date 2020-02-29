@@ -659,7 +659,7 @@ fun printAllMicroTest() {
                 out.println("")
                 out.println("${prefix} @TestFactory")
                 out.println("${prefix} fun test() = listOf(")
-testcases.forEach{k,v->
+                testcases.forEach { k, v ->
                     if (k.endsWith("*/"))
                         out.println("${prefix}$k /* $v */")
                     else

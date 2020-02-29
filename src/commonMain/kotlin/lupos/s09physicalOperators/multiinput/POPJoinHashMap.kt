@@ -17,17 +17,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPJoinHashMap : POPBase {
+class POPJoinHashMap(override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, val optional: Boolean) : POPBase() {
     override val operatorID = EOperatorID.POPJoinHashMapID
     override val classname = "POPJoinHashMap"
-    override val dictionary: ResultSetDictionary
-    override val resultSet: ResultSet
-    override val children: Array<OPBase>
-    val optional: Boolean
-    val joinVariables = mutableListOf<String>()
-    val map: Array<MutableMap<String, MutableList<ResultRow>>>
-    val variables: Array<MutableList<Pair<Variable, Variable>>>
-    val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
+    override val resultSet = ResultSet(dictionary)
+    override val children = arrayOf(childA, childB)
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinHashMap)
@@ -43,14 +37,11 @@ class POPJoinHashMap : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        map = arrayOf(mutableMapOf(), mutableMapOf())
-        children = arrayOf(childA, childB)
-        this.optional = optional
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
+    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinHashMap.evaluate" }, {
+        val joinVariables = mutableListOf<String>()
+        val map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
+        val variables: Array<MutableList<Pair<Variable, Variable>>>
+        val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
         val variablesAt = children[0].getProvidedVariableNames()
         val variablesBt = children[1].getProvidedVariableNames()
         val variablesA = MutableList(variablesAt.size) { variablesAt[it] }
@@ -71,80 +62,71 @@ class POPJoinHashMap : POPBase {
             variablesJ[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
             variablesJ[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
         }
-    }
-
-    suspend fun joinHelper(rowA: ResultRow, rowsB: List<ResultRow>, idx: Int, channel: Channel<ResultRow>) {
-        for (rowB in rowsB) {
-            val row = resultSet.createResultRow()
-            for (p in variables[idx])
-                row[p.second] = rowA[p.first]
-            for (p in variables[1 - idx])
-                row[p.second] = rowB[p.first]
-            for (p in variablesJ[idx])
-                row[p.second] = rowA[p.first]
-            for (p in variablesJ[1 - idx]) {
-                if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
-                    row[p.second] = rowB[p.first]
-            }
-            channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
-        }
-    }
-
-    suspend fun joinHelper(idx: Int, channel: Channel<ResultRow>, channels: List<Channel<ResultRow>>) {
-        try {
-            for (rowA in channels[idx]) {
-                resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
-                var keys = mutableSetOf<String>()
-                keys.add("")
-                var exactkey = ""
-                for (k in variablesJ[idx]) {
-                    val v = children[idx].resultSet.getValue(rowA[k.first])
-                    val kk = if (children[idx].resultSet.isUndefValue(rowA, k.first))
-                        "-"
-                    else
-                        v + "-"
-                    exactkey += kk
-                    val newkeys = mutableSetOf<String>()
-                    for (x in keys) {
-                        if (kk == "-") {
-                            newkeys.add(x + "-")
-                            for (a in map[1 - idx].keys)
-                                if (a.startsWith(x)) {
-                                    newkeys.add(a.substring(0, a.indexOf("-", x.length + 1) + 1))
-                                }
-                        } else {
-                            newkeys.add(x + kk)
-                            newkeys.add(x + "-")
-                        }
-                    }
-                    keys = newkeys
-                }
-                var t = map[idx][exactkey]
-                if (t == null)
-                    t = mutableListOf()
-                t.add(rowA)
-                map[idx][exactkey] = t
-                for (key in keys) {
-                    if (map[idx][key] == null)
-                        map[idx][key] = mutableListOf()
-                    val rowsB = map[1 - idx][key]
-                    if (rowsB != null)
-                        joinHelper(rowA, rowsB, idx, channel)
-                }
-            }
-        } catch (e: Throwable) {
-            if (idx == 0 || !optional)
-                throw e
-        }
-    }
-
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinHashMap.evaluate" }, {
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                joinHelper(0, channel, channels)
-                joinHelper(1, channel, channels)
+                for (idx in 0 until 2) {
+                    try {
+                        for (rowA in channels[idx]) {
+                            resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
+                            var keys = mutableSetOf<String>()
+                            keys.add("")
+                            var exactkey = ""
+                            for (k in variablesJ[idx]) {
+                                val v = children[idx].resultSet.getValue(rowA[k.first])
+                                val kk = if (children[idx].resultSet.isUndefValue(rowA, k.first))
+                                    "-"
+                                else
+                                    v + "-"
+                                exactkey += kk
+                                val newkeys = mutableSetOf<String>()
+                                for (x in keys) {
+                                    if (kk == "-") {
+                                        newkeys.add(x + "-")
+                                        for (a in map[1 - idx].keys)
+                                            if (a.startsWith(x)) {
+                                                newkeys.add(a.substring(0, a.indexOf("-", x.length + 1) + 1))
+                                            }
+                                    } else {
+                                        newkeys.add(x + kk)
+                                        newkeys.add(x + "-")
+                                    }
+                                }
+                                keys = newkeys
+                            }
+                            var t = map[idx][exactkey]
+                            if (t == null)
+                                t = mutableListOf()
+                            t.add(rowA)
+                            map[idx][exactkey] = t
+                            for (key in keys) {
+                                if (map[idx][key] == null)
+                                    map[idx][key] = mutableListOf()
+                                val rowsB = map[1 - idx][key]
+                                if (rowsB != null) {
+                                    for (rowB in rowsB) {
+                                        val row = resultSet.createResultRow()
+                                        for (p in variables[idx])
+                                            row[p.second] = rowA[p.first]
+                                        for (p in variables[1 - idx])
+                                            row[p.second] = rowB[p.first]
+                                        for (p in variablesJ[idx])
+                                            row[p.second] = rowA[p.first]
+                                        for (p in variablesJ[1 - idx]) {
+                                            if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
+                                                row[p.second] = rowB[p.first]
+                                        }
+                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
+                                    }
+                                }
+                            }
+                        }
+                    } catch (e: Throwable) {
+                        if (idx == 0 || !optional)
+                            throw e
+                    }
+                }
                 if (optional) {
                     for ((k, v) in map[0]) {
                         if (map[1][k] == null) {
