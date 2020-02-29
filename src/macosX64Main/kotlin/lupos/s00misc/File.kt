@@ -9,28 +9,29 @@ import platform.posix.fgets
 import platform.posix.fopen
 import platform.posix.perror
 
-actual class File(val filename:String){
-actual fun readAsString(): String {
-    var result: String = ""
-    val file = fopen(filename, "r")
-    if (file == null) {
-        perror("cannot open input file $filename")
-        return ""
-    }
-    try {
-        memScoped {
-            val bufferLength = 64 * 1024
-            val buffer = allocArray<ByteVar>(bufferLength)
 
-            while (true) {
-                val nextLine = fgets(buffer, bufferLength, file)?.toKString()
-                if (nextLine == null || nextLine.isEmpty()) break
-                result += nextLine
-            }
+actual class File(val filename: String) {
+    actual fun readAsString(): String {
+        var result: String = ""
+        val file = fopen(filename, "r")
+        if (file == null) {
+            perror("cannot open input file $filename")
+            return ""
         }
-    } finally {
-        fclose(file)
+        try {
+            memScoped {
+                val bufferLength = 64 * 1024
+                val buffer = allocArray<ByteVar>(bufferLength)
+
+                while (true) {
+                    val nextLine = fgets(buffer, bufferLength, file)?.toKString()
+                    if (nextLine == null || nextLine.isEmpty()) break
+                    result += nextLine
+                }
+            }
+        } finally {
+            fclose(file)
+        }
+        return result
     }
-    return result
-}
 }

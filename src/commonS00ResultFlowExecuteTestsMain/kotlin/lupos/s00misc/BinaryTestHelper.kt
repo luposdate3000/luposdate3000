@@ -573,7 +573,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
 fun executeBinaryTests(folder: String) {
     var testcases = 0
     try {
-        File(folder).walk{
+        File(folder).walk {
             if (it.endsWith(".bin")) {
                 testcases++
                 {
@@ -595,19 +595,19 @@ fun executeBinaryTests(folder: String) {
 fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     val dictionary = ResultSetDictionary()
     var input: OPBase? = null
-val buffer=File(filename).readAsDynamicByteArray()
-        val optimizerEnabledCount = buffer.getNextInt()
-        ExecuteOptimizer.enabledOptimizers.clear()
-        for (o in 0 until optimizerEnabledCount) {
-            val optimizer = EOptimizerID.values()[buffer.getNextInt()]
-            ExecuteOptimizer.enabledOptimizers[optimizer] = true
-        }
-        input = fromBinary(dictionary, buffer)
+    val buffer = File(filename).readAsDynamicByteArray()
+    val optimizerEnabledCount = buffer.getNextInt()
+    ExecuteOptimizer.enabledOptimizers.clear()
+    for (o in 0 until optimizerEnabledCount) {
+        val optimizer = EOptimizerID.values()[buffer.getNextInt()]
+        ExecuteOptimizer.enabledOptimizers[optimizer] = true
+    }
+    input = fromBinary(dictionary, buffer)
     println("execute test $filename ${ExecuteOptimizer.enabledOptimizers}")
     var expectPOP: POPValues? = null
     try {
-val	buffer=File(filename+ ".expect").readAsDynamicByteArray()
-            expectPOP = fromBinary(dictionary, buffer) as POPValues
+        val buffer = File(filename + ".expect").readAsDynamicByteArray()
+        expectPOP = fromBinary(dictionary, buffer) as POPValues
     } catch (e: Throwable) {
         e.printStackTrace()
     }

@@ -74,7 +74,7 @@ sourceSets["macosX64Main"].dependencies{
     sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS00TraceOffMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ResultFlowFastMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ResultFlowExecuteTestsMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
