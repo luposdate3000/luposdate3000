@@ -1,7 +1,6 @@
 package lupos.s00misc
 
-import java.io.File
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -574,9 +573,8 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
 fun executeBinaryTests(folder: String) {
     var testcases = 0
     try {
-        File(folder).walk().forEach {
-            val filename: String = it.toRelativeString(File("."))
-            if (filename.endsWith(".bin")) {
+        File(folder).walk{
+            if (it.endsWith(".bin")) {
                 testcases++
                 {
                     val tmp = DistributedTripleStore.getGraphNames().toList()
@@ -584,7 +582,7 @@ fun executeBinaryTests(folder: String) {
                         DistributedTripleStore.dropGraph(it)
                     }
                 }
-                executeBinaryTest(filename, false)
+                executeBinaryTest(it, false)
             }
         }
     } catch (e: Throwable) {
@@ -597,9 +595,7 @@ fun executeBinaryTests(folder: String) {
 fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     val dictionary = ResultSetDictionary()
     var input: OPBase? = null
-    File(filename).inputStream().use { instream ->
-        val data = instream.readBytes()
-        val buffer = DynamicByteArray(data)
+buffer=File(filename).readAsDynamicByteArray()
         val optimizerEnabledCount = buffer.getNextInt()
         ExecuteOptimizer.enabledOptimizers.clear()
         for (o in 0 until optimizerEnabledCount) {
@@ -607,15 +603,11 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
             ExecuteOptimizer.enabledOptimizers[optimizer] = true
         }
         input = fromBinary(dictionary, buffer)
-    }
     println("execute test $filename ${ExecuteOptimizer.enabledOptimizers}")
     var expectPOP: POPValues? = null
     try {
-        File(filename + ".expect").inputStream().use { instream ->
-            val data = instream.readBytes()
-            val buffer = DynamicByteArray(data)
+	buffer=File(filename+ ".expect").readAsDynamicByteArray()
             expectPOP = fromBinary(dictionary, buffer) as POPValues
-        }
     } catch (e: Throwable) {
         e.printStackTrace()
     }

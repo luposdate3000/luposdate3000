@@ -2,11 +2,11 @@
 mkdir log
 
 jvmS00GenerateTestsMain=0
-jvmS00ExecuteTestsMain=0
+commonS00ExecuteTestsMain=0
 commonS00ExecutionSequentialMain=0
 commonS00TraceOnMain=0
 
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "jvmS00ExecuteTestsMain"
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "commonS00ExecuteTestsMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
@@ -53,10 +53,10 @@ then
 continue
 fi
 fi
-if [ "${chooseS00ResultFlow}" == "jvmS00ExecuteTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "commonS00ExecuteTestsMain" ]
 then
 #faster test-build
-if [ "$jvmS00ExecuteTestsMain" == "1" ]
+if [ "$commonS00ExecuteTestsMain" == "1" ]
 then
 continue
 fi
@@ -82,10 +82,10 @@ then
 #faster test-build
 jvmS00GenerateTestsMain=1
 fi
-if [ "${chooseS00ResultFlow}" == "jvmS00ExecuteTestsMain" ]
+if [ "${chooseS00ResultFlow}" == "commonS00ExecuteTestsMain" ]
 then
 #faster test-build
-jvmS00ExecuteTestsMain=1
+commonS00ExecuteTestsMain=1
 fi
 if [ "${chooseS00Execution}" == "commonS00ExecutionSequentialMain" ]
 then

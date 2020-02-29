@@ -5,7 +5,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.printAllMicroTest
-import lupos.s00misc.readFileContents
+import lupos.s00misc.File
 import lupos.s00misc.Trace
 import lupos.s00misc.updateAllMicroTest
 import lupos.s00misc.XMLElement
@@ -88,7 +88,7 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
 }
 
 private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-    val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(readFileContents(filename))), 3)
+    val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {
@@ -156,7 +156,7 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
 private fun readFileOrNull(name: String?): String? {
     if (name == null)
         return null
-    return readFileContents(name)
+return File(name).readAsString()
 }
 
 private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {

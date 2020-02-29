@@ -1,6 +1,6 @@
 package lupos.s00misc
 
-import lupos.s00misc.readFileContents
 
-
-expect fun readFileContents(filename: String): String
+expect class File(val filename:String){
+ fun readAsString(): String
+}

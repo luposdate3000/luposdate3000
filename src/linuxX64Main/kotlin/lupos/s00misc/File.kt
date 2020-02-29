@@ -4,14 +4,13 @@ import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.toKString
-import lupos.s00misc.readFileContents
 import platform.posix.fclose
 import platform.posix.fgets
 import platform.posix.fopen
 import platform.posix.perror
 
-
-actual fun readFileContents(filename: String): String {
+actual class File(val filename:String){
+actual fun readAsString(): String {
     var result: String = ""
     val file = fopen(filename, "r")
     if (file == null) {
@@ -33,4 +32,5 @@ actual fun readFileContents(filename: String): String {
         fclose(file)
     }
     return result
+}
 }

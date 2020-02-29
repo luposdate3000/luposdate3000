@@ -1,6 +1,6 @@
 ./tool-gradle-build-without-tests-jvm-all.sh
 
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "jvmS00ExecuteTestsMain"
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "commonS00ExecuteTestsMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
