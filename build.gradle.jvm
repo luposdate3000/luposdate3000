@@ -86,8 +86,8 @@ compileKotlin {
 sourceSets {
     main.kotlin.srcDirs += 'src/jvmMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonFastMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonS00ExecutionParallelMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS00FastMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS00ExecutionSequentialMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS00TraceOffMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS01HeapMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
