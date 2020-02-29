@@ -41,12 +41,16 @@ repositories {
 kotlin {
     project.buildDir = file("buildNative")
     linuxX64("linuxX64") {
+val main by compilations.getting
+val luposposix by main.cinterops.creating
         binaries {
             //-fPIC for debug required
             executable()
         }
     }
     macosX64("macosX64") {
+val main by compilations.getting
+val luposposix by main.cinterops.creating
         binaries {
             //-fPIC for debug required
             executable()

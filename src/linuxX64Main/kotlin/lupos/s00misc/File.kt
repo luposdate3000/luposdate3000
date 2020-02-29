@@ -4,11 +4,7 @@ import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.*
-import platform.posix.*
-import platform.posix.fclose
-import platform.posix.fgets
-import platform.posix.fopen
-import platform.posix.perror
+import platform.luposposix.*
 
 
 actual class File {
@@ -42,10 +38,10 @@ actual    fun walk(action: (String) -> Unit) {
 val        d = opendir(filename);
         if (d!=null) {
             while (true){
-	val dir=readdir(d)
-if(dir==null)
+	val dir:CPointer<dirent>?=readdir(d)
+ if(dir==null) 
 break
-                action(dir?.d_name?.toKString())
+                action(dir_d_name(dir)!!.toKString())
 }
             closedir(d);
         }

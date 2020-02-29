@@ -1,9 +1,5 @@
-package = platform.posix
-headers = alloca.h ar.h assert.h complex.h ctype.h dirent.h dlfcn.h err.h errno.h fcntl.h \
-    fenv.h fnmatch.h fts.h ftw.h getopt.h grp.h inttypes.h libgen.h limits.h \
-    locale.h math.h memory.h netdb.h paths.h poll.h \
-    pthread.h pwd.h regex.h resolv.h sched.h search.h semaphore.h setjmp.h sgtty.h signal.h \
-    stdatomic.h stdint.h stdio.h stdlib.h string.h strings.h syslog.h termios.h \
+package = platform.luposposix
+headers = alloca.h ar.h assert.h complex.h ctype.h dirent.h dlfcn.h err.h errno.h fcntl.h fenv.h fnmatch.h fts.h ftw.h getopt.h grp.h inttypes.h libgen.h limits.h locale.h math.h memory.h netdb.h paths.h poll.h pthread.h pwd.h regex.h resolv.h sched.h search.h semaphore.h setjmp.h sgtty.h signal.h stdatomic.h stdint.h stdio.h stdlib.h string.h strings.h syslog.h termios.h \
     time.h ucontext.h unistd.h utime.h utmp.h wchar.h wctype.h xlocale.h \
     net/ethernet.h net/if.h net/if_arp.h net/route.h \
     netinet/icmp6.h netinet/if_ether.h netinet/in.h netinet/in_systm.h \
@@ -36,7 +32,6 @@ excludedFunctions = bindresvport6 __p_section __res_nisourserver __res_npquery \
 		    __remquof __lrintf __llrintf __lroundf __llroundf __fdimf __fmaxf __fminf \
 		    __fmaf __scalbf _ns_flagdata
 ---
-// cinterop -target linux -def klib/src/platform/linux/posix.def -o platform.posix.klib
 
 // Wrapper to access errno variable.
 static int posix_errno() {
@@ -77,4 +72,8 @@ static int init_sockets() {
 }
 
 static void deinit_sockets() {
+}
+
+static char* dir_d_name(struct dirent* dir){
+    return dir->d_name;
 }
