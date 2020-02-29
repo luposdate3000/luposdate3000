@@ -25,8 +25,7 @@ class POPValues : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val variables = mutableListOf<Variable>()
-    private var iterator: Iterator<Map<Variable, Value>>
+    val variables = mutableListOf<Variable>()
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
     override fun equals(other: Any?): Boolean {
@@ -67,7 +66,6 @@ class POPValues : POPBase {
                     entry[resultSet.createVariable(k)] = resultSet.createValue(v)
             }
         }
-        iterator = data.iterator()
     }
 
     constructor(dictionary: ResultSetDictionary, values: LOPValues) : super() {
@@ -87,7 +85,6 @@ class POPValues : POPBase {
                 entry[v2] = resultSet.createValue((it.next() as AOPConstant).valueToString())
             }
         }
-        iterator = data.iterator()
     }
 
     override fun getProvidedVariableNames() = stringVars.distinct()
@@ -100,7 +97,7 @@ class POPValues : POPBase {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in iterator) {
+                for (rsOld in data) {
                     var rsNew = resultSet.createResultRow()
                     for ((variable, value) in rsOld)
                         rsNew[variable] = value
