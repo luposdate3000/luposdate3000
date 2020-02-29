@@ -4,8 +4,8 @@ import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.*
-import platform.luposposix.*
-
+import dirent.*
+import stdio.*
 
 actual class File {
 actual val filename:String
@@ -38,10 +38,10 @@ actual    fun walk(action: (String) -> Unit) {
 val        d = opendir(filename);
         if (d!=null) {
             while (true){
-	val dir:CPointer<dirent>?=readdir(d)
+	val dir=readdir(d)
  if(dir==null) 
 break
-                action(dir_d_name(dir)!!.toKString())
+                action(dir.pointed.d_name!!.toKString())
 }
             closedir(d);
         }

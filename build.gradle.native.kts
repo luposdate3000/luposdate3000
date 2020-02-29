@@ -38,21 +38,21 @@ repositories {
             "https://kotlin.bintray.com/kotlinx"
     )
 }
+val mingwPath = File(System.getenv("MINGW64_DIR") ?: "C:/msys64/mingw64")
 kotlin {
     project.buildDir = file("buildNative")
-    linuxX64("linuxX64") {
-val main by compilations.getting
-val luposposix by main.cinterops.creating
-        binaries {
-            //-fPIC for debug required
-            executable()
-        }
+    val hostOs = System.getProperty("os.name")
+    val hostTarget = when {
+        hostOs == "Mac OS X" -> macosX64("macosX64")
+        hostOs == "Linux" -> linuxX64("linuxX64")
+        hostOs.startsWith("Windows") -> mingwX64("mingwX64")
+        else -> throw GradleException("Host OS '$hostOs' is not supported in Kotlin/Native $project.")
     }
-    macosX64("macosX64") {
-val main by compilations.getting
-val luposposix by main.cinterops.creating
+    hostTarget.apply {
+        val main by compilations.getting
+        val dirent by main.cinterops.creating
+        val stdio by main.cinterops.creating
         binaries {
-            //-fPIC for debug required
             executable()
         }
     }
@@ -66,14 +66,21 @@ val luposposix by main.cinterops.creating
             }
         }
     }
-sourceSets["linuxX64Main"].dependencies{
+    when{
+        hostOs=="Linux"->{
+            sourceSets["linuxX64Main"].dependencies{
                 implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
             }
-sourceSets["macosX64Main"].dependencies{
+            sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
+        }
+        hostOs=="Mac OS X"->{
+            sourceSets["macosX64Main"].dependencies{
                 implementation("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
             }
-    sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
-    sourceSets["macosX64Main"].kotlin.srcDir("src/macosX64Main/kotlin")
+            sourceSets["macosX64Main"].kotlin.srcDir("src/macosX64Main/kotlin")
+        }
+        else -> throw GradleException("Host OS '$hostOs' is not supported in Luposdate3000 $project.")
+    }
     sourceSets["commonMain"].kotlin.srcDir("src/nativeMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
