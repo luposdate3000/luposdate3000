@@ -535,7 +535,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
     val resultRow = resultRowv()
     val resultSet = resultSetv()
     val expected = action()
-    val variableNames = mutableMapOf<String, String>()
+    val variableNames = ThreadSafeMutableMap<String, String>()
     if (input is AOPVariable)
         return expected
     var res = "{\n"
@@ -610,11 +610,11 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
     return expected
 }
 
-val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, MutableMap<String/*query*/, String/*file*/>>()
+val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, ThreadSafeMutableMap<String/*query*/, String/*file*/>>()
 
 fun printAllMicroTest() {
     mapOfTestCases.forEach { operator, testcases ->
-        if (testcases.keys.size > 0) {
+        if (testcases.keySize() > 0) {
             val fileName = "src/commonTest/kotlin/lupos/Generated${operator}.kt"
             val myfile = File(fileName)
             myfile.printWriter { out ->
@@ -659,7 +659,7 @@ fun printAllMicroTest() {
                 out.println("")
                 out.println("${prefix} @TestFactory")
                 out.println("${prefix} fun test() = listOf(")
-                for ((k, v) in testcases) {
+testcases.forEach{k,v->
                     if (k.endsWith("*/"))
                         out.println("${prefix}$k /* $v */")
                     else
@@ -745,9 +745,9 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                 val b = it.indexOf("(", a + 1)
                 val name = it.substring(a, b).replace(".* ".toRegex(), "")
                 val x = mapOfTestCases[name]
-                val tmp: MutableMap<String, String>
+                val tmp: ThreadSafeMutableMap<String, String>
                 if (x == null) {
-                    mapOfTestCases[name] = mutableMapOf<String, String>()
+                    mapOfTestCases[name] = ThreadSafeMutableMap<String, String>()
                     tmp = mapOfTestCases[name]!!
                 } else
                     tmp = x
@@ -778,9 +778,9 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
             popMap.forEachValue {
                 val name = classNameToString(it)
                 val x = mapOfTestCases[name]
-                val tmp: MutableMap<String, String>
+                val tmp: ThreadSafeMutableMap<String, String>
                 if (x == null) {
-                    mapOfTestCases[name] = mutableMapOf<String, String>()
+                    mapOfTestCases[name] = ThreadSafeMutableMap<String, String>()
                     tmp = mapOfTestCases[name]!!
                 } else
                     tmp = x
@@ -849,7 +849,7 @@ fun testCaseFromAOPBase(input: AOPBase): String {
     }
 }
 
-fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: String, variableNames: MutableMap<String, String>): String {
+fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: String, variableNames: ThreadSafeMutableMap<String, String>): String {
     var res = ""
     res += "${prefix}{\n"
     res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
@@ -885,11 +885,11 @@ fun childContainsVariable(input: OPBase): Boolean {
 }
 
 
-fun helperVariableName(v: String, variableNames: MutableMap<String, String>): String {
+fun helperVariableName(v: String, variableNames: ThreadSafeMutableMap<String, String>): String {
     return when {
         variableNames[v] != null -> variableNames[v]!!
         v.startsWith("#") -> {
-            variableNames[v] = "#" + variableNames.keys.size
+            variableNames[v] = "#" + variableNames.keySize()
             variableNames[v]!!
         }
         else -> {
