@@ -33,7 +33,7 @@ apply plugin: 'kotlin-platform-jvm'
 apply plugin: 'application'
 
 application {
-    mainClassName = 'lupos.TestKt'
+    mainClassName = 'MainKt'
 }
 
 repositories {
