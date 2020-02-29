@@ -1,6 +1,6 @@
-import lupos.s00misc.executeBinaryTest
-import lupos.s00misc.*
 import lupos.*
+import lupos.s00misc.*
+import lupos.s00misc.executeBinaryTest
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.EndpointImpl
 

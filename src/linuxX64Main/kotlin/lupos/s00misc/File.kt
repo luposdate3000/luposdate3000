@@ -1,21 +1,24 @@
 package lupos.s00misc
 
+import dirent.*
+import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.*
-import dirent.*
 import stdio.*
 
+
 actual class File {
-actual val filename:String
-actual constructor(filename:String){
-this.filename=filename
-}
+    actual val filename: String
+
+    actual constructor(filename: String) {
+        this.filename = filename
+    }
+
     actual fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
-        if (file==null)
+        if (file == null)
             throw Exception("can not open file $filename")
         try {
             memScoped {
@@ -34,15 +37,15 @@ this.filename=filename
         return result
     }
 
-actual    fun walk(action: (String) -> Unit) {
-val        d = opendir(filename);
-        if (d!=null) {
-            while (true){
-	val dir=readdir(d)
- if(dir==null) 
-break
+    actual fun walk(action: (String) -> Unit) {
+        val d = opendir(filename);
+        if (d != null) {
+            while (true) {
+                val dir = readdir(d)
+                if (dir == null)
+                    break
                 action(dir.pointed.d_name!!.toKString())
-}
+            }
             closedir(d);
         }
     }
@@ -50,7 +53,7 @@ break
     actual fun readAsDynamicByteArray(): DynamicByteArray {
         var res = ByteArray(0)
         val file = fopen(filename, "r")
-        if (file==null)
+        if (file == null)
             throw Exception("can not open file $filename")
         try {
             memScoped {
