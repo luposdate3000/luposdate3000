@@ -7,6 +7,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
@@ -84,6 +85,12 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "AOPDateTime" -> AOPDateTime(node.attributes["value"]!!)
         "AOPNot" -> AOPNot(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPAddition" -> AOPAddition(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPSet" ->{
+val children=mutableListOf<AOPBase>()
+for (c in node["children"]!!.childs)
+children.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
+ AOPSet( children)
+}
         "AOPBuildInCallCONTAINS" -> AOPBuildInCallCONTAINS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallDAY" -> AOPBuildInCallDAY(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallBOUND" -> AOPBuildInCallBOUND(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)

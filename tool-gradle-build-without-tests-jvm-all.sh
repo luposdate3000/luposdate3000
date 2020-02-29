@@ -6,7 +6,7 @@ commonS00ExecuteTestsMain=0
 commonS00ExecutionSequentialMain=0
 commonS00TraceOnMain=0
 
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "commonS00ExecuteTestsMain"
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00ExecuteFastMain" "commonS00ExecuteTestsMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
