@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import java.io.InputStream
 
 class File(val filename:String){
 
@@ -17,5 +16,14 @@ java.io.File(filename).inputStream().use { instream ->
         res = DynamicByteArray(data)
 }
 return res!!
+}
+fun write(buffer:DynamicByteArray){
+java.io.File(filename).outputStream().use { out ->
+                val data = buffer.finish()
+                out.write(data, 0, buffer.pos)
+            }
+}
+fun printWriter(action:(java.io.PrintWriter)->Unit)=java.io.File(filename).printWriter().use{
+action(it)
 }
 }

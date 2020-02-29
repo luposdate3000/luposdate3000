@@ -1,6 +1,6 @@
 package lupos.s00misc
 
-import java.io.File
+import lupos.s00misc.File
 import lupos.s00misc.classNameToString
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EOperatorID
@@ -456,16 +456,10 @@ fun createBinaryTestCase(operator: OPBase) {
             buffer.appendInt(0)
             toBinary(operator, buffer, asPOP)
             val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
-            File(filename).outputStream().use { out ->
-                val data = buffer.finish()
-                out.write(data, 0, buffer.pos)
-            }
+            File(filename).write(buffer)
             val buffer2 = DynamicByteArray()
             testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
-            File(filename + ".expect").outputStream().use { out ->
-                val data = buffer2.finish()
-                out.write(data, 0, buffer2.pos)
-            }
+            File(filename + ".expect").write(buffer2)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -475,16 +469,10 @@ fun createBinaryTestCase(operator: OPBase) {
             buffer.appendInt(0)
             toBinary(operator, buffer, asPOP)
             val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
-            File(filename).outputStream().use { out ->
-                val data = buffer.finish()
-                out.write(data, 0, buffer.pos)
-            }
+File(filename).write(buffer)
             val buffer2 = DynamicByteArray()
             testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
-            File(filename + ".expect").outputStream().use { out ->
-                val data = buffer2.finish()
-                out.write(data, 0, buffer2.pos)
-            }
+File(filename + ".expect").write(buffer2)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -501,16 +489,10 @@ fun createBinaryTestCase(operator: OPBase) {
                     buffer.appendInt(x.ordinal)
                 toBinary(operator, buffer, asPOP)
                 val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
-                File(filename).outputStream().use { out ->
-                    val data = buffer.finish()
-                    out.write(data, 0, buffer.pos)
-                }
+File(filename).write(buffer)
                 val buffer2 = DynamicByteArray()
                 testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
-                File(filename + ".expect").outputStream().use { out ->
-                    val data = buffer2.finish()
-                    out.write(data, 0, buffer2.pos)
-                }
+File(filename + ".expect").write(buffer2)
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
@@ -632,7 +614,7 @@ fun printAllMicroTest() {
         if (testcases.keys.size > 0) {
             val fileName = "src/commonTest/kotlin/lupos/Generated${operator}.kt"
             val myfile = File(fileName)
-            myfile.printWriter().use { out ->
+            myfile.printWriter { out ->
                 out.println("package lupos")
                 out.println("")
                 out.println("import lupos.s10physicalOptimisation.PhysicalOptimizer")
@@ -722,7 +704,7 @@ fun printAllMicroTest() {
     }
     val fileName = "src/commonTest/kotlin/lupos/GeneratedMain.kt"
     val myfile = File(fileName)
-    myfile.printWriter().use { out ->
+    myfile.printWriter { out ->
         out.println("package lupos")
         out.println("")
         out.println("import lupos.s10physicalOptimisation.PhysicalOptimizer")
