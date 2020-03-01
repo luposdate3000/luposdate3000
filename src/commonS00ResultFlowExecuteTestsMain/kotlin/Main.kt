@@ -6,10 +6,12 @@ import lupos.s14endpoint.EndpointImpl
 
 
 fun main(args: Array<String>) {
-//    println(args.toList())
-//    return
+val input=File.readStdInAsDynamicByteArray()
+
     P2P.knownClients.add(EndpointImpl.fullname)
-    if (args.isEmpty())
+if(input!=null)
+executeBinaryTest(input!!)
+else    if (args.isEmpty())
         executeBinaryTests("/opt/tmpfs")
     else
         executeBinaryTest(args[0], true)

@@ -673,3 +673,40 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
 //          require(expected.myEqualsUnclean(output2))
     }
 }
+fun executeBinaryTest(buffer:DynamicByteArray) {
+    val dictionary = ResultSetDictionary()
+    var input: OPBase? = null
+    val optimizerEnabledCount = buffer.getNextInt()
+    ExecuteOptimizer.enabledOptimizers.clear()
+    for (o in 0 until optimizerEnabledCount) {
+        val optimizer = EOptimizerID.values()[buffer.getNextInt()]
+        ExecuteOptimizer.enabledOptimizers[optimizer] = true
+    }
+    input = fromBinary(dictionary, buffer)
+    println("execute test filename ${ExecuteOptimizer.enabledOptimizers}")
+    if (input!! is POPBase) {
+         val output = QueryResultToXML.toXML(input!! as POPBase).first()
+        val output2 = QueryResultToXML.toXML(input!!.cloneOP() as POPBase).first()
+require(output.myEquals(output2))
+    } else {
+        val lop_node = input!! as LOPBase
+        val lOptimizer = LogicalOptimizer(1L, dictionary)
+        val pOptimizer = PhysicalOptimizer(1L, dictionary)
+        val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+        val lop_node2 = lOptimizer.optimizeCall(lop_node)
+        val pop_node = pOptimizer.optimizeCall(lop_node2)
+        val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
+        val output = QueryResultToXML.toXML(input2).first()
+        val output2 = QueryResultToXML.toXML(input2.cloneOP() as POPBase).first()
+require(output.myEquals(output2))
+ExecuteOptimizer.enabledOptimizers.clear()
+        val lop_node3 = input!! as LOPBase
+        val lop_node4 = lOptimizer.optimizeCall(lop_node3)
+        val pop_node2 = pOptimizer.optimizeCall(lop_node4)
+        val input3 = dOptimizer.optimizeCall(pop_node2) as POPBase
+        val output3 = QueryResultToXML.toXML(input3).first()
+        val output4 = QueryResultToXML.toXML(input3.cloneOP() as POPBase).first()
+require(output.myEqualsUnclean(output3))
+require(output3.myEquals(output4))
+    }
+}

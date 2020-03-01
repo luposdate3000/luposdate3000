@@ -3,8 +3,9 @@ headers = stdio.h
 
 ---
 
-struct FILE;
-
+static FILE* luposstdin(){
+	return stdin;
+}
 void     clearerr(FILE *);
 char    *ctermid(char *);
 int      fclose(FILE *);

@@ -6,16 +6,36 @@ import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
+import platform.posix.FILE
 import stdio.*
 
 
-class File {
-     val filename: String
-
-     constructor(filename: String) {
-        this.filename = filename
+class File (val filename:String){
+companion object{
+     fun readStdInAsDynamicByteArray(): DynamicByteArray? {
+        var res = ByteArray(0)
+freopen(null, "rb", luposstdin());
+        val file = luposstdin();
+        if (file == null)
+            throw Exception("can not open stdin")
+            memScoped {
+                val bufferLength = 64 * 1024
+                val buffer = allocArray<ByteVar>(bufferLength)
+                while (true) {
+                    val len = fread(buffer, 1L.toULong(), bufferLength.toULong(), file)
+                    if (len == (0L).toULong())
+                        break
+                    res += buffer.readBytes(len.toInt())
+                }
+            }
+if(res.size<4)
+return null
+val result=DynamicByteArray(res)
+if(res.size<result.getInt(0))
+result.setInt(res.size,0)//ensure there are enough available Bytes
+        return result
     }
-
+}
      fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
@@ -104,7 +124,7 @@ class File {
 
 
 class PrintWriter(val f: File)  {
-    var file: CPointer<FILE>? = null
+    var file: CValuesRef<FILE>? = null
     fun open() {
         file = fopen(f.filename, "w")
         if (f == null)
