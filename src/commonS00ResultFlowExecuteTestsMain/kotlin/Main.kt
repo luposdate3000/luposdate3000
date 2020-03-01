@@ -6,7 +6,7 @@ import lupos.s14endpoint.EndpointImpl
 
 
 fun main(args: Array<String>) {
-    val buffer = File("/opt/tmpfs/Dictionary").readAsDynamicByteArray()
+    val buffer = File("/resources/Dictionary").readAsDynamicByteArray()
     val len = buffer.getNextInt()
     for (i in 0 until len) {
         val v = testDictionary.createValue(buffer.getNextString())
