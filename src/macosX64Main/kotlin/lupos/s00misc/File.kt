@@ -10,13 +10,13 @@ import stdio.*
 
 
 class File {
-     val filename: String
+    val filename: String
 
-     constructor(filename: String) {
+    constructor(filename: String) {
         this.filename = filename
     }
 
-     fun readAsString(): String {
+    fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
         if (file == null)
@@ -38,7 +38,7 @@ class File {
         return result
     }
 
-     fun walk(action: (String) -> Unit) {
+    fun walk(action: (String) -> Unit) {
         val d = opendir(filename);
         if (d != null) {
             while (true) {
@@ -51,7 +51,7 @@ class File {
         }
     }
 
-     fun readAsDynamicByteArray(): DynamicByteArray {
+    fun readAsDynamicByteArray(): DynamicByteArray {
         var res = ByteArray(0)
         val file = fopen(filename, "r")
         if (file == null)
@@ -73,7 +73,7 @@ class File {
         return DynamicByteArray(res)
     }
 
-     fun write(buffer: DynamicByteArray) {
+    fun write(buffer: DynamicByteArray) {
         val file = fopen(filename, "w")
         if (file == null)
             throw Exception("can not open file $filename")
@@ -91,7 +91,7 @@ class File {
         }
     }
 
-     fun printWriter(action: (PrintWriter) -> Unit) {
+    fun printWriter(action: (PrintWriter) -> Unit) {
         val p = PrintWriter(this)
         try {
             p.open()
@@ -103,7 +103,7 @@ class File {
 }
 
 
-class PrintWriter(val f: File)  {
+class PrintWriter(val f: File) {
     var file: CPointer<FILE>? = null
     fun open() {
         file = fopen(f.filename, "w")
@@ -115,7 +115,7 @@ class PrintWriter(val f: File)  {
         fclose(file)
     }
 
-     fun println(s: String) {
+    fun println(s: String) {
         luposfprintf(file, s + "\n")
     }
 }
