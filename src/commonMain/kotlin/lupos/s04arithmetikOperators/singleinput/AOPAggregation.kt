@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultRow
@@ -35,23 +35,23 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
         return true
     }
 
-    var a: AOPConstant? = null
-    var count = 0
-    var collectMode = true
+    var a= ThreadSafeMutableAny<AOPConstant?>(null)
+    var count =ThreadSafeMutableAny(0)
+    var collectMode = ThreadSafeMutableAny(true)
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         if (type == Aggregation.COUNT)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(count)
+                AOPInteger(count.get())
             })
-        if (!collectMode) {
-            if (a == null)
+        if (!collectMode.get()) {
+            if (a.get() == null)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
                     AOPUndef()
                 })
             else
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    a!!
+                    a.get()!!
                 })
         }
         if (distinct)
@@ -61,22 +61,22 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
         when (type) {
             Aggregation.SAMPLE -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-                a = b
+                a .set( b)
             }
             Aggregation.AVG -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-                if (a == null && b is AOPDouble)
-                    a = AOPDouble(b.toDouble() / (0.0 + count))
-                else if (a == null && b is AOPDecimal)
-                    a = AOPDecimal(b.toDouble() / (0.0 + count))
-                else if (a == null && b is AOPInteger)
-                    a = AOPDecimal(b.toDouble() / (0.0 + count))
-                else if (a is AOPDouble || b is AOPDouble)
-                    a = AOPDouble(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
-                else if (a is AOPDecimal || b is AOPDecimal)
-                    a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
-                else if (a is AOPInteger || b is AOPInteger)
-                    a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
+                if (a.get() == null && b is AOPDouble)
+                    a.set( AOPDouble(b.toDouble() / (0.0 + count.get())))
+                else if (a.get()== null && b is AOPDecimal)
+                    a.set( AOPDecimal(b.toDouble() / (0.0 + count.get())))
+                else if (a.get()== null && b is AOPInteger)
+                    a.set( AOPDecimal(b.toDouble() / (0.0 + count.get())))
+                else if (a.get() is AOPDouble || b is AOPDouble)
+                    a.set( AOPDouble(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+                else if (a.get() is AOPDecimal || b is AOPDecimal)
+                    a.set( AOPDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+                else if (a.get() is AOPInteger || b is AOPInteger)
+                    a.set( AOPDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
                 else
                     throw resultFlow({ this }, { resultRow }, { resultSet }, {
                         Exception("AOPAggregation avg only defined on numberic input")
@@ -85,49 +85,49 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             Aggregation.MIN -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
                 var flag = false
-                if (a == null)
+                if (a.get()== null)
                     flag = true
-                else if (a is AOPDouble || b is AOPDouble)
-                    flag = a!!.toDouble() > b.toDouble()
-                else if (a is AOPDecimal || b is AOPDecimal)
-                    flag = a!!.toDouble() > b.toDouble()
-                else if (a is AOPInteger || b is AOPInteger)
-                    flag = a!!.toInt() > b.toInt()
+                else if (a.get() is AOPDouble || b is AOPDouble)
+                    flag = a.get()!!.toDouble() > b.toDouble()
+                else if (a.get() is AOPDecimal || b is AOPDecimal)
+                    flag = a.get()!!.toDouble() > b.toDouble()
+                else if (a.get() is AOPInteger || b is AOPInteger)
+                    flag = a.get()!!.toInt() > b.toInt()
                 else
                     throw resultFlow({ this }, { resultRow }, { resultSet }, {
                         Exception("AOPAggregation avg only defined on numeric input")
                     })
                 if (flag)
-                    a = b
+                    a.set( b)
             }
             Aggregation.MAX -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
                 var flag = false
-                if (a == null)
+                if (a.get()== null)
                     flag = true
-                else if (a is AOPDouble || b is AOPDouble)
-                    flag = a!!.toDouble() < b.toDouble()
-                else if (a is AOPDecimal || b is AOPDecimal)
-                    flag = a!!.toDouble() < b.toDouble()
-                else if (a is AOPInteger || b is AOPInteger)
-                    flag = a!!.toInt() < b.toInt()
+                else if (a.get() is AOPDouble || b is AOPDouble)
+                    flag = a.get()!!.toDouble() < b.toDouble()
+                else if (a.get() is AOPDecimal || b is AOPDecimal)
+                    flag = a.get()!!.toDouble() < b.toDouble()
+                else if (a.get() is AOPInteger || b is AOPInteger)
+                    flag = a.get()!!.toInt() < b.toInt()
                 else
                     throw resultFlow({ this }, { resultRow }, { resultSet }, {
                         Exception("AOPAggregation avg only defined on numeric input")
                     })
                 if (flag)
-                    a = b
+                    a.set( b)
             }
             Aggregation.SUM -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-                if (a == null)
-                    a = b
-                else if (a is AOPDouble || b is AOPDouble)
-                    a = AOPDouble(a!!.toDouble() + b.toDouble())
-                else if (a is AOPDecimal || b is AOPDecimal)
-                    a = AOPDecimal(a!!.toDouble() + b.toDouble())
-                else if (a is AOPInteger || b is AOPInteger)
-                    a = AOPInteger(a!!.toInt() + b.toInt())
+                if (a.get()== null)
+                    a.set( b)
+                else if (a.get() is AOPDouble || b is AOPDouble)
+                    a.set( AOPDouble(a.get()!!.toDouble() + b.toDouble()))
+                else if (a.get() is AOPDecimal || b is AOPDecimal)
+                    a.set( AOPDecimal(a.get()!!.toDouble() + b.toDouble()))
+                else if (a.get() is AOPInteger || b is AOPInteger)
+                    a.set( AOPInteger(a.get()!!.toInt() + b.toInt()))
                 else
                     throw resultFlow({ this }, { resultRow }, { resultSet }, {
                         Exception("AOPAggregation avg only defined on numeric input")
@@ -138,7 +138,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             })
         }
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            a!!
+            a.get()!!
         })
     }
 

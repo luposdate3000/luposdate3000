@@ -540,7 +540,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
         return expected
     var res = "{\n"
     if (input is AOPAggregation) {
-        if (input.collectMode) {
+        if (input.collectMode.get()) {
             val tmp = mapOfAggregationChilds[input.uuid]
             if (tmp == null)
                 mapOfAggregationChilds[input.uuid] = ThreadSafeMutableList(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
