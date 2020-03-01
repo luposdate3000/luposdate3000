@@ -61,7 +61,7 @@ actual class File {
                 val bufferLength = 64 * 1024
                 val buffer = allocArray<ByteVar>(bufferLength)
                 while (true) {
-                    val len = fread(buffer, bufferLength.toULong(), 1L.toULong(), file)
+                    val len = fread(buffer,1L.toULong(),  bufferLength.toULong(), file)
                     if (len == (0L).toULong())
                         break
                     res += buffer.readBytes(len.toInt())
@@ -80,8 +80,10 @@ actual class File {
         try {
             var offset = 0
             val buf = buffer.finish()
+println("write start ${buffer.pos}")
             while (offset < buffer.pos) {
-                val len = fwrite(buf.refTo(offset), (buffer.pos - offset).toULong(), 1L.toULong(), file)
+                val len = fwrite(buf.refTo(offset),1L.toULong(), (buffer.pos - offset).toULong(), file)
+println("write loop ${offset} ${buffer.pos - offset} ${len}")
                 offset += len.toInt()
             }
         } finally {

@@ -456,7 +456,7 @@ fun createBinaryTestCase(operator: OPBase) {
             val buffer = DynamicByteArray()
             buffer.appendInt(0)
             toBinary(operator, buffer, asPOP)
-            val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
+            val filename = "/opt/tmpfs/testcase-${testcasenumber++}.bin"
             File(filename).write(buffer)
             val buffer2 = DynamicByteArray()
             testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
@@ -469,7 +469,7 @@ fun createBinaryTestCase(operator: OPBase) {
             val buffer = DynamicByteArray()
             buffer.appendInt(0)
             toBinary(operator, buffer, asPOP)
-            val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
+            val filename = "/opt/tmpfs/testcase-${testcasenumber++}.bin"
             File(filename).write(buffer)
             val buffer2 = DynamicByteArray()
             testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
@@ -489,7 +489,7 @@ fun createBinaryTestCase(operator: OPBase) {
                 for (x in optimizers)
                     buffer.appendInt(x.ordinal)
                 toBinary(operator, buffer, asPOP)
-                val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
+                val filename = "/opt/tmpfs/testcase-${testcasenumber++}.bin"
                 File(filename).write(buffer)
                 val buffer2 = DynamicByteArray()
                 testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
@@ -615,7 +615,7 @@ val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, ThreadSafeMuta
 fun printAllMicroTest() {
     mapOfTestCases.forEach { operator, testcases ->
         if (testcases.keySize() > 0) {
-            val fileName = "src/commonTest/kotlin/lupos/Generated${operator}.kt"
+            val fileName = "/opt/tmpfs/Generated${operator}.kt"
             val myfile = File(fileName)
             myfile.printWriter { out ->
                 out.println("package lupos")
@@ -705,7 +705,7 @@ fun printAllMicroTest() {
             }
         }
     }
-    val fileName = "src/commonTest/kotlin/lupos/GeneratedMain.kt"
+    val fileName = "/opt/tmpfs/GeneratedMain.kt"
     val myfile = File(fileName)
     myfile.printWriter { out ->
         out.println("package lupos")

@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
 //    return
     P2P.knownClients.add(EndpointImpl.fullname)
     if (args.isEmpty())
-        executeBinaryTests("src/commonTest/kotlin/lupos")
+        executeBinaryTests("/opt/tmpfs")
     else
         executeBinaryTest(args[0], true)
 }
