@@ -1,6 +1,9 @@
 #!/bin/bash
-rm -rf afltmpin/Generated* afl-cmin-*
 
+afl-cmin -m 2000000 -i resources/afl -o afl-cmin-out -Q ./buildNative/bin/linuxX64/debugExecutable/luposdate3000.kexe
+
+exit
+rm -rf afltmpin/Generated* afl-cmin-*
 for i in $(seq 0 11)
 do
 	mkdir afl-cmin-input-$i
