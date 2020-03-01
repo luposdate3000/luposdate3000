@@ -1,29 +1,33 @@
 package lupos.s00misc
 
-import dirent.*
+import dirent.closedir
+import dirent.opendir
+import dirent.readdir
 import kotlin.native.concurrent.*
 import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
 import platform.posix.FILE
-import stdio.*
+import stdio.fclose
+import stdio.fgets
+import stdio.fopen
+import stdio.fread
+import stdio.fwrite
+import stdio.luposfprintf
+import unistd.luposSTDINread
 
 
 class File(val filename: String) {
     companion object {
         fun readStdInAsDynamicByteArray(): DynamicByteArray? {
             var res = ByteArray(0)
-            freopen(null, "rb", luposstdin());
-            val file = luposstdin();
-            if (file == null)
-                throw Exception("can not open stdin")
             memScoped {
                 val bufferLength = 64 * 1024
                 val buffer = allocArray<ByteVar>(bufferLength)
                 while (true) {
-                    val len = fread(buffer, 1L.toULong(), bufferLength.toULong(), file)
-                    if (len == (0L).toULong())
+                    val len = luposSTDINread(buffer, bufferLength.toULong())
+                    if (len <= 0)
                         break
                     res += buffer.readBytes(len.toInt())
                 }
@@ -66,7 +70,7 @@ class File(val filename: String) {
                 val dir = readdir(d)
                 if (dir == null)
                     break
-                action(dir.pointed.d_name!!.toKString())
+                action(filename + "/" + dir.pointed.d_name!!.toKString())
             }
             closedir(d);
         }
@@ -101,10 +105,8 @@ class File(val filename: String) {
         try {
             var offset = 0
             val buf = buffer.finish()
-            println("write start ${buffer.pos}")
             while (offset < buffer.pos) {
                 val len = fwrite(buf.refTo(offset), 1L.toULong(), (buffer.pos - offset).toULong(), file)
-                println("write loop ${offset} ${buffer.pos - offset} ${len}")
                 offset += len.toInt()
             }
         } finally {

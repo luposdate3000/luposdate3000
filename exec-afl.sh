@@ -6,4 +6,5 @@ echo core >/proc/sys/kernel/core_pattern
 	echo performance | tee cpu*/cpufreq/scaling_governor
 )
 rm /opt/tmpfs/Generated*
-afl-fuzz -i /opt/tmpfs -o afl-out -Q ./buildNative/bin/linuxX64/debugExecutable/luposdate3000.kexe
+afl-cmin -m 200 -i /opt/tmpfs -o afl-out-cmin -Q ./buildNative/bin/linuxX64/debugExecutable/luposdate3000.kexe
+afl-fuzz -i afl-out-cmin -o afl-out -Q ./buildNative/bin/linuxX64/debugExecutable/luposdate3000.kexe

@@ -52,6 +52,7 @@ kotlin {
         val main by compilations.getting
         val dirent by main.cinterops.creating
         val stdio by main.cinterops.creating
+        val unistd by main.cinterops.creating
         binaries {
             executable()
         }
