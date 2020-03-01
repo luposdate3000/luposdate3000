@@ -1,6 +1,6 @@
 package lupos.s00misc
 
 
-actual fun Throwable.kotlinStacktrace() {
+ fun Throwable.kotlinStacktrace() {
     this.printStackTrace()
 }

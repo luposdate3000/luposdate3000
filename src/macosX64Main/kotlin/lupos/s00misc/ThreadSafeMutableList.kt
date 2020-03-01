@@ -4,9 +4,11 @@ import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 
 
-class ThreadSafeMutableList<T> {
+class ThreadSafeMutableList<T>(values: MutableList<T> = mutableListOf<T>()) {
     val mutex = ReadWriteLock()
-    val global_values = AtomicReference(mutableListOf<T>().freeze())
+    val global_values = AtomicReference(values.freeze())
+
+    constructor(value: T) : this(mutableListOf(value))
 
     fun size(): Int {
         var res: Int = 0
