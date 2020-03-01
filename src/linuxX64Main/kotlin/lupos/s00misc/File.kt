@@ -9,14 +9,14 @@ import kotlinx.cinterop.memScoped
 import stdio.*
 
 
-actual class File {
-    actual val filename: String
+class File {
+     val filename: String
 
-    actual constructor(filename: String) {
+     constructor(filename: String) {
         this.filename = filename
     }
 
-    actual fun readAsString(): String {
+     fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
         if (file == null)
@@ -38,7 +38,7 @@ actual class File {
         return result
     }
 
-    actual fun walk(action: (String) -> Unit) {
+     fun walk(action: (String) -> Unit) {
         val d = opendir(filename);
         if (d != null) {
             while (true) {
@@ -51,7 +51,7 @@ actual class File {
         }
     }
 
-    actual fun readAsDynamicByteArray(): DynamicByteArray {
+     fun readAsDynamicByteArray(): DynamicByteArray {
         var res = ByteArray(0)
         val file = fopen(filename, "r")
         if (file == null)
@@ -73,7 +73,7 @@ actual class File {
         return DynamicByteArray(res)
     }
 
-    actual fun write(buffer: DynamicByteArray) {
+     fun write(buffer: DynamicByteArray) {
         val file = fopen(filename, "w")
         if (file == null)
             throw Exception("can not open file $filename")
@@ -91,8 +91,8 @@ actual class File {
         }
     }
 
-    actual fun printWriter(action: (PrintWriter) -> Unit) {
-        val p = PrintWriterImpl(this)
+     fun printWriter(action: (PrintWriter) -> Unit) {
+        val p = PrintWriter(this)
         try {
             p.open()
             action(p)
@@ -103,7 +103,7 @@ actual class File {
 }
 
 
-class PrintWriterImpl(val f: File) : PrintWriter {
+class PrintWriter(val f: File)  {
     var file: CPointer<FILE>? = null
     fun open() {
         file = fopen(f.filename, "w")
@@ -115,7 +115,7 @@ class PrintWriterImpl(val f: File) : PrintWriter {
         fclose(file)
     }
 
-    override fun println(s: String) {
+     fun println(s: String) {
         luposfprintf(file, s + "\n")
     }
 }
