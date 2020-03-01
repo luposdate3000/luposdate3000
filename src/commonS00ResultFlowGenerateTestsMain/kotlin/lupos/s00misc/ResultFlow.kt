@@ -9,7 +9,7 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
@@ -83,6 +83,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
+val testDictionary=ResultSetDictionary()
 
 val prefix = ""
 val listOfMicroTests = ThreadSafeMutableList<String>()
@@ -137,13 +138,13 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPSimpleLiteral -> {
-            buffer.appendString(operator.valueToString())
+buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPLanguageTaggedLiteral -> {
-            buffer.appendString(operator.valueToString())
+            buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPTypedLiteral -> {
-            buffer.appendString(operator.valueToString())
+            buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPLT -> {
             toBinary(operator.children[0], buffer, asPOP)
@@ -192,7 +193,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPVariable -> {
-            buffer.appendString(operator.name)
+buffer.appendInt(testDictionary.createValue(operator.name))
         }
         is POPEmptyRow -> {
         }
@@ -230,7 +231,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
         }
         is AOPBuildInCallIRI -> {
             toBinary(operator.children[0], buffer, asPOP)
-            buffer.appendString(operator.prefix)
+buffer.appendInt(testDictionary.createValue(operator.prefix))
         }
         is AOPBuildInCallLANG -> {
             toBinary(operator.children[0], buffer, asPOP)
@@ -281,19 +282,19 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
         }
         is AOPBuildInCallURI -> {
             toBinary(operator.children[0], buffer, asPOP)
-            buffer.appendString(operator.prefix)
+buffer.appendInt(testDictionary.createValue(operator.prefix))
         }
         is AOPBuildInCallYEAR -> {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPDateTime -> {
-            buffer.appendString(operator.valueToString())
+            buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPInteger -> {
-            buffer.appendString(operator.valueToString())
+            buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPIri -> {
-            buffer.appendString(operator.valueToString())
+            buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPUndef -> {
         }
@@ -305,7 +306,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
                 toBinary(c, buffer, asPOP)
         }
         is AOPBoolean -> {
-            buffer.appendString(operator.valueToString())
+            buffer.appendInt(testDictionary.createValue(operator.valueToString()))
         }
         is AOPDivision -> {
             toBinary(operator.children[0], buffer, asPOP)
@@ -315,7 +316,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             val variables = operator.getProvidedVariableNames()
             buffer.appendInt(variables.size)
             for (v in variables)
-                buffer.appendString(v)
+buffer.appendInt(testDictionary.createValue(v))
             buffer.appendInt(operator.data.size)
             for (row in operator.data) {
                 for (k in variables) {
@@ -326,7 +327,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
                         val v = operator.resultSet.getValue(tmp)
                         buffer.appendInt(DynamicByteArray.boolToInt(v == null))
                         if (v != null)
-                            buffer.appendString(v)
+buffer.appendInt(testDictionary.createValue(v))
                     }
                 }
             }
@@ -373,7 +374,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
         is POPFilterExact -> {
             if (asPOP) {
                 toBinary(operator.variable, buffer, asPOP)
-                buffer.appendString(operator.value)
+buffer.appendInt(testDictionary.createValue(operator.value))
                 toBinary(operator.children[0], buffer, asPOP)
             } else {
                 toBinary(AOPEQ(operator.variable, AOPVariable.calculate(operator.value)), buffer, asPOP)
@@ -406,17 +407,17 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
                 buffer.appendInt(tmp.size())
                 tmp.forEach { r ->
                     if (operator.sparam is AOPConstant)
-                        buffer.appendString((operator.sparam as AOPConstant).valueToString()!!)
+buffer.appendInt(testDictionary.createValue((operator.sparam as AOPConstant).valueToString()!!))
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.sparam as AOPVariable).name)])!!)
+buffer.appendInt(testDictionary.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.sparam as AOPVariable).name)])!!))
                     if (operator.pparam is AOPConstant)
-                        buffer.appendString((operator.pparam as AOPConstant).valueToString()!!)
+                        buffer.appendInt(testDictionary.createValue((operator.pparam as AOPConstant).valueToString()!!))
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.pparam as AOPVariable).name)])!!)
+                        buffer.appendInt(testDictionary.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.pparam as AOPVariable).name)])!!))
                     if (operator.oparam is AOPConstant)
-                        buffer.appendString((operator.oparam as AOPConstant).valueToString()!!)
+                        buffer.appendInt(testDictionary.createValue((operator.oparam as AOPConstant).valueToString()!!))
                     else
-                        buffer.appendString(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.oparam as AOPVariable).name)])!!)
+                        buffer.appendInt(testDictionary.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.oparam as AOPVariable).name)])!!))
                 }
             } else {
                 buffer.appendInt(0)
@@ -432,7 +433,7 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Thre
     val variables = o.getProvidedVariableNames()
     buffer.appendInt(variables.size)
     for (v in variables)
-        buffer.appendString(v)
+buffer.appendInt(testDictionary.createValue(v))
     if (rows != null) {
         buffer.appendInt(rows.size())
         rows.forEach { row ->
@@ -440,7 +441,7 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Thre
                 val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])
                 buffer.appendInt(DynamicByteArray.boolToInt(v == null))
                 if (v != null)
-                    buffer.appendString(v)
+buffer.appendInt(testDictionary.createValue(v))
             }
         }
     } else
@@ -733,6 +734,12 @@ fun printAllMicroTest() {
         out.println("class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
         out.println("class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
     }
+val dictbinary=DynamicByteArray()
+val s=testDictionary.mapLTS.size()
+dictbinary.appendInt(s)
+for(i in 0 until s)
+dictbinary.appendString(testDictionary.getValue(i)!!)
+File("/opt/tmpfs/Dictionary").write(dictbinary)
 }
 
 fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {

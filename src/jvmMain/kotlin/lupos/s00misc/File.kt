@@ -1,12 +1,24 @@
 package lupos.s00misc
+import java.io.InputStreamReader
 
+import java.io.BufferedReader
 
 class File(val filename: String) {
-
+companion object{
+    fun readStdInAsDynamicByteArray(): DynamicByteArray ?{
+        System.`in`.use { instream ->
+            val data = instream.readBytes()
+if(data.size<4)
+return null
+            return DynamicByteArray(data)
+        }
+return null
+    }
+}
     fun readAsString() = java.io.File(filename).inputStream().bufferedReader().use { it.readText() }
     fun walk(action: (String) -> Unit) {
         java.io.File(filename).walk().forEach {
-            action(it.toRelativeString(java.io.File(".")))
+            action(filename+"/"+it.toRelativeString(java.io.File(filename)))
         }
     }
 
