@@ -18,3 +18,4 @@ src/commonTest/kotlin/lupos/testcase-*.bin
 src/commonTest/kotlin/lupos/testcase-*.bin.expect
 src/commonTest/kotlin/lupos/Generated*
 afl-out
+.afl-showmap*

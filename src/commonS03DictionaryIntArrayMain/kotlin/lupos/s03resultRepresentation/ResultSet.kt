@@ -3,15 +3,10 @@ package lupos.s03resultRepresentation
 import lupos.s00misc.CoroutinesHelper
 
 
-class ResultSet {
-    val dictionary: ResultSetDictionary
+class ResultSet(val dictionary: ResultSetDictionary) {
     val variablesSTL = mutableMapOf<String, Variable>()
     val variablesLTS = mutableListOf<String>()
     val mutex = CoroutinesHelper.createLock()
-
-    constructor(dictionary: ResultSetDictionary) {
-        this.dictionary = dictionary
-    }
 
     fun renameVariable(variableOld: String, variableNew: String): Variable {
         var res: Variable? = null
@@ -41,17 +36,11 @@ class ResultSet {
         return res!!
     }
 
-    fun getVariable(variable: Variable): String {
-        return variablesLTS[variable.toInt()]
-    }
+    fun getVariable(variable: Variable) = variablesLTS[variable.toInt()]
 
-    fun hasVariable(name: String): Boolean {
-        return variablesLTS.contains(name)
-    }
+    fun hasVariable(name: String) = variablesLTS.contains(name)
 
-    fun getVariableNames(): List<String> {
-        return variablesLTS
-    }
+    fun getVariableNames() = variablesLTS
 
     fun createValue(value: String?): Value {
         if (value == null)
@@ -59,19 +48,11 @@ class ResultSet {
         return dictionary.createValue(value)
     }
 
-    fun createResultRow(): ResultRow {
-        val res = ResultRow(variablesLTS.size, dictionary.undefValue)
-        res.resultSet = this
-        return res
-    }
+    fun createResultRow() = ResultRow(variablesLTS.size, dictionary.undefValue)
 
-    fun getValue(value: Value): String? {
-        return dictionary.getValue(value)
-    }
+    fun getValue(value: Value) = dictionary.getValue(value)
 
-    fun isUndefValue(r: ResultRow, v: Variable): Boolean {
-        return r[v] == dictionary.undefValue
-    }
+    fun isUndefValue(r: ResultRow, v: Variable) = r[v] == dictionary.undefValue
 
     fun setUndefValue(r: ResultRow, v: Variable) {
         r[v] = dictionary.undefValue
