@@ -108,10 +108,10 @@ class POPGroup : POPBase {
         for (n in node.children)
             setAggregationMode(n, mode, count)
         if (node is AOPAggregation) {
-            node.count .set( count)
-            node.collectMode .set( mode)
+            node.count.set(count)
+            node.collectMode.set(mode)
             if (mode)
-                node.a .set( null)
+                node.a.set(null)
         }
     }
 
@@ -162,7 +162,7 @@ class POPGroup : POPBase {
                             else
                                 rsNew[b.first] = resultSet.createValue(value)
                         } catch (e: Throwable) {
-e.printStackTrace()
+                            e.printStackTrace()
                             resultSet.setUndefValue(rsNew, b.first)
                             GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
@@ -173,7 +173,7 @@ e.printStackTrace()
                 channel.close()
                 children0Channel.close()
             } catch (e: Throwable) {
-e.printStackTrace()
+                e.printStackTrace()
                 channel.close(e)
                 children0Channel.close(e)
             }
