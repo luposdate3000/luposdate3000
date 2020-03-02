@@ -18,6 +18,8 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallCONCAT"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
+override fun toSparql()="CONCAT("+children[0].toSparql()+", "+children[1].toSparql()+")"
+
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCONCAT)
             return false

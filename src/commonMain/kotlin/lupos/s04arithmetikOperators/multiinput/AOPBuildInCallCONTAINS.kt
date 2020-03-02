@@ -17,6 +17,8 @@ class AOPBuildInCallCONTAINS(child: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallCONTAINS"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
+override fun toSparql()="CONTAINS("+children[0].toSparql()+", "+children[1].toSparql()+")"
+
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCONTAINS)
             return false

@@ -17,7 +17,7 @@ class AOPBuildInCallSTRENDS(child: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallSTRENDS"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
-
+override fun toSparql()="STRENDS("+children[0].toSparql()+", "+children[1].toSparql()+")"
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSTRENDS)
             return false

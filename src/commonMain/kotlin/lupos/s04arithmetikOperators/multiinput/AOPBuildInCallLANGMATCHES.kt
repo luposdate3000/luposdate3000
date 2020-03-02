@@ -15,7 +15,7 @@ class AOPBuildInCallLANGMATCHES(child: AOPBase, childB: AOPBase) : AOPBase() {
     override val operatorID = EOperatorID.AOPBuildInCallLANGMATCHESID
     override val classname = "AOPBuildInCallLANGMATCHES"
     override val children: Array<OPBase> = arrayOf(child, childB)
-
+override fun toSparql()="LANGMATCHES("+children[0].toSparql()+", "+children[1].toSparql()+")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallLANGMATCHES)
