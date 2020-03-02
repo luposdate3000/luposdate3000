@@ -14,6 +14,8 @@ class AOPBuildInCallBNODE0 : AOPBase() {
     override val classname = "AOPBuildInCallBNODE0"
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toSparql() = "BNODE()"
+
     companion object {
         val localbnode = ThreadSafeUuid()
     }

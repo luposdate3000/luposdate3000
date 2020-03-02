@@ -60,7 +60,18 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         oparam = o
     }
 
-    override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
+    override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobalFilter").//
+            addAttribute("uuid", "" + uuid).//
+            addAttribute("name", graphNameL).//
+            addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).//
+            addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).//
+            addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
+
+    override fun toSparql(): String {
+        if (graphNameL == "")
+            return sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + ".\n"
+        return "GRAPH <$graphNameL> {" + sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "}\n"
+    }
 
     override fun getGraphName(): String = Trace.trace({ "TripleStoreIteratorGlobal.getGraphName" }, {
         return graphNameL

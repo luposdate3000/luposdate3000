@@ -14,6 +14,7 @@ class AOPBuildInCallUUID : AOPBase() {
     override val classname = "AOPBuildInCallUUID"
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toSparql() = "UUID()"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallUUID)

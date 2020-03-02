@@ -16,6 +16,7 @@ class AOPBuildInCallIsIri(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallIsIri"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "isIRI(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallIsIri)
             return false

@@ -16,6 +16,7 @@ class AOPBuildInCallLANG(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallLANG"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "LANG(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallLANG)

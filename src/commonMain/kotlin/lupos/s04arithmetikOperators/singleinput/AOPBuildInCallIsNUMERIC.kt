@@ -17,6 +17,7 @@ class AOPBuildInCallIsNUMERIC(child: AOPBase) : AOPBase() {
     override val operatorID = EOperatorID.AOPBuildInCallIsNUMERICID
     override val classname = "AOPBuildInCallIsNUMERIC"
     override val children: Array<OPBase> = arrayOf(child)
+    override fun toSparql() = "isNumeric(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallIsNUMERIC)

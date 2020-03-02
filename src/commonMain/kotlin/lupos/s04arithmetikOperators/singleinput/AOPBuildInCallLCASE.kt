@@ -17,6 +17,7 @@ class AOPBuildInCallLCASE(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallLCASE"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "LCASE(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallLCASE)
             return false

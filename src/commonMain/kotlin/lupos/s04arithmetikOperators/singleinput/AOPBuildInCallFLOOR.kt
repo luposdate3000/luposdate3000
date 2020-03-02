@@ -18,6 +18,7 @@ class AOPBuildInCallFLOOR(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallFLOOR"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "FLOOR(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallFLOOR)

@@ -18,6 +18,7 @@ class AOPBuildInCallABS(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallABS"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "ABS(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallABS)

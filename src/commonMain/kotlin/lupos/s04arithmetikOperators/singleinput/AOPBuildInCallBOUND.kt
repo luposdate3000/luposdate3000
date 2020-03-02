@@ -16,6 +16,7 @@ class AOPBuildInCallBOUND(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallBOUND"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "BOUND(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallBOUND)

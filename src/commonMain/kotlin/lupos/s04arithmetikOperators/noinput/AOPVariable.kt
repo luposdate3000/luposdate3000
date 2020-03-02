@@ -13,6 +13,7 @@ class AOPVariable(var name: String) : AOPBase() {
     override val classname = "AOPVariable"
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toSparql() = "?$name"
 
     companion object {
         fun calculate(tmp: String?): AOPConstant {

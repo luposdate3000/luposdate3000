@@ -16,6 +16,7 @@ class AOPBuildInCallMONTH(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallMONTH"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "MONTH(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallMONTH)

@@ -16,6 +16,7 @@ class AOPBuildInCallMINUTES(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallMINUTES"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "MINUTES(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallMINUTES)

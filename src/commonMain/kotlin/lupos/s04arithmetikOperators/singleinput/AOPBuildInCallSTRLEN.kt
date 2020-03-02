@@ -18,6 +18,7 @@ class AOPBuildInCallSTRLEN(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallSTRLEN"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "STRLEN(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSTRLEN)

@@ -63,6 +63,19 @@ abstract class OPBase {
         return res.distinct()
     }
 
+    fun toSparqlQuery(): String {
+        var res = "SELECT * \n"
+        res += "WHERE{\n"
+        res += toSparql()
+        res += "}"
+        return res
+    }
+
+    open fun toSparql(): String {
+        println(this)
+        throw Exception("not implemented $classname.toSparql()")
+    }
+
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)

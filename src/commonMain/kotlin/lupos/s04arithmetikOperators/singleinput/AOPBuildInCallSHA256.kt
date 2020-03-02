@@ -18,6 +18,7 @@ class AOPBuildInCallSHA256(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallSHA256"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "SHA256(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSHA256)

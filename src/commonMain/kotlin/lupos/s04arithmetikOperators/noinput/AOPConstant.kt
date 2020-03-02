@@ -15,4 +15,10 @@ abstract class AOPConstant : AOPBase() {
     abstract fun toInt(): Int
     abstract fun toBoolean(): Boolean
     override fun cloneOP() = this
+    override fun toSparql(): String {
+        val res = valueToString()
+        if (res == null)
+            return "UNDEF"
+        return res
+    }
 }

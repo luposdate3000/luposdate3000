@@ -18,6 +18,7 @@ class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallMD5"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "MD5(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallMD5)

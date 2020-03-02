@@ -20,7 +20,6 @@ fun main(args: Array<String>) {
             val tmp = buffer.getNextString()
             val w = k.createValue(tmp)
             require(w == i)
-            println("$v -> $tmp")
         }
     }
     testDictionaryValue.mapLTS.forEach {

@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import lupos.*
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultSet
@@ -648,6 +649,18 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     }
     val expected = QueryResultToXML.toXML(expectPOP!!).first()
     if (input!! is POPBase) {
+        val sparql = input.toSparqlQuery()
+        println("sparql::\n" + sparql)
+        val jena = JenaRequest()
+        val jenaout = jena.requestQuery(sparql)
+        if (!expected.myEqualsUnclean(jenaout)) {
+            if (detailedLog) {
+                println("jena")
+                println(jenaout.toPrettyString())
+                println(expected.toPrettyString())
+            } else
+                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
+        }
         val output = QueryResultToXML.toXML(input!! as POPBase).first()
         if (!expected.myEqualsUnclean(output)) {
             if (detailedLog) {

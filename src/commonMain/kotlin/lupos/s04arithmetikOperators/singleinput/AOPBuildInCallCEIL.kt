@@ -18,6 +18,7 @@ class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallCEIL"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "CEIL(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCEIL)

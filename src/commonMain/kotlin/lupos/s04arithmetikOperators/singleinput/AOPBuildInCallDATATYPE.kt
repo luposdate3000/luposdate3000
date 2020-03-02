@@ -21,6 +21,7 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallDATATYPE"
     override val children: Array<OPBase> = arrayOf(child)
 
+    override fun toSparql() = "DATATYPE(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallDATATYPE)
