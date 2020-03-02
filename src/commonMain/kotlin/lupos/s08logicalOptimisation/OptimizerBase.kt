@@ -19,6 +19,7 @@ abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetD
     }
 
     open fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
+        println(node)
         node.syntaxVerifyAllVariableExists(listOf(), true)
         val res = optimizeInternal(node, null, onChange)
         res.syntaxVerifyAllVariableExists(listOf(), false)

@@ -17,6 +17,8 @@ class AOPVariable(var name: String) : AOPBase() {
         return "?$name".replace("#", "LuposVariable")
     }
 
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
+
     companion object {
         fun calculate(tmp: String?): AOPConstant {
             if (tmp == null || tmp.length == 0)

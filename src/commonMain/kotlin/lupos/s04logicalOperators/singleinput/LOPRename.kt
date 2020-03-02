@@ -22,7 +22,7 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBas
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("undefined Variable")
+                throw Exception("$classname undefined Variable")
             }
         }
     }

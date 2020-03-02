@@ -47,7 +47,7 @@ class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVar
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("undefined Variable")
+                throw Exception("$classname undefined Variable")
             }
         }
     }

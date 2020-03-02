@@ -99,7 +99,7 @@ class POPGroup : POPBase {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("undefined Variable")
+                throw Exception("$classname undefined Variable")
             }
         }
     }

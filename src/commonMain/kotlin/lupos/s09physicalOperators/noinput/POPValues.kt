@@ -39,7 +39,7 @@ class POPValues : POPBase {
             res += "("
             for (v in variables) {
                 val s = m[v]
-                if (s == null|| s==dictionary.undefValue)
+                if (s == null || s == dictionary.undefValue)
                     res += "UNDEF "
                 else
                     res += resultSet.getValue(s) + " "
@@ -93,7 +93,6 @@ class POPValues : POPBase {
     constructor(dictionary: ResultSetDictionary, values: LOPValues) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
-        val rr = resultSet.createResultRow()
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))

@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
@@ -25,7 +25,16 @@ class AOPNotIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        TODO("not implemented")
+        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        val b = (children[1] as AOPBase)
+        if (b is AOPSet) {
+            for (c in b.children) {
+                if ((c as AOPBase).calculate(resultSet, resultRow) == a)
+                    return AOPBoolean(false)
+            }
+            return AOPBoolean(true)
+        } else
+            return AOPBoolean(false)
     }
 
     override fun cloneOP() = AOPNotIn(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

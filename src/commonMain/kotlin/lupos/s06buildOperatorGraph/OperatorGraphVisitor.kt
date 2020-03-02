@@ -1,9 +1,9 @@
 package lupos.s06buildOperatorGraph
 
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGroupMember
-import lupos.s00misc.EModifyType
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -673,7 +673,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-throw Exception("not implemented")
+        throw Exception("not implemented")
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
@@ -1088,39 +1088,62 @@ throw Exception("not implemented")
         return res
     }
 
+    fun graphRefToEnum(ref: ASTGraphRef): Pair<EGraphRefType, String?> {
+        if (ref is ASTIriGraphRef)
+            return Pair(EGraphRefType.IriGraphRef, ref.iri)
+        if (ref is ASTNamedIriGraphRef)
+            return Pair(EGraphRefType.NamedIriGraphRef, ref.iri)
+        if (ref is ASTDefaultGraphRef)
+            return Pair(EGraphRefType.DefaultGraphRef, null)
+        if (ref is ASTNamedGraphRef)
+            return Pair(EGraphRefType.NamedGraphRef, null)
+        if (ref is ASTAllGraphRef)
+            return Pair(EGraphRefType.AllGraphRef, null)
+        throw Exception("not reachable")
+    }
+
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation(EGraphOperationType.ADD, node.silent, node.fromGraph, node.toGraph)
+        val g1 = graphRefToEnum(node.fromGraph)
+        val g2 = graphRefToEnum(node.toGraph)
+        val res = LOPGraphOperation(EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
         return res
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation(EGraphOperationType.MOVE, node.silent, node.fromGraph, node.toGraph)
+        val g1 = graphRefToEnum(node.fromGraph)
+        val g2 = graphRefToEnum(node.toGraph)
+        val res = LOPGraphOperation(EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
         return res
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation(EGraphOperationType.COPY, node.silent, node.fromGraph, node.toGraph)
+        val g1 = graphRefToEnum(node.fromGraph)
+        val g2 = graphRefToEnum(node.toGraph)
+        val res = LOPGraphOperation(EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
         return res
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation(EGraphOperationType.CLEAR, node.silent, node.graphref)
+        val g1 = graphRefToEnum(node.graphref)
+        val res = LOPGraphOperation(EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation(EGraphOperationType.DROP, node.silent, node.graphref)
+        val g1 = graphRefToEnum(node.graphref)
+        val res = LOPGraphOperation(EGraphOperationType.DROP, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        val res = LOPGraphOperation(EGraphOperationType.CREATE, node.silent, node.graphref)
+        val g1 = graphRefToEnum(node.graphref)
+        val res = LOPGraphOperation(EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
         return res
     }
 

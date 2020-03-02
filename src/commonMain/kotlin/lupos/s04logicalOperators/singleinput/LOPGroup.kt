@@ -49,7 +49,7 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("undefined Variable")
+                throw Exception("$classname undefined Variable")
             }
         }
     }

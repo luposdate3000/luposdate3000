@@ -63,12 +63,12 @@ abstract class OPBase {
         return res.distinct()
     }
 
-open    fun toSparqlQuery(): String {
-        return "SELECT * WHERE{"+toSparql()+"}"
+    open fun toSparqlQuery(): String {
+        println(this)
+        return "SELECT * WHERE{" + toSparql() + "}"
     }
 
     open fun toSparql(): String {
-        println(this)
         throw Exception("not implemented $classname.toSparql()")
     }
 

@@ -47,7 +47,7 @@ class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
             })
         val vala = a.valueToString()
         val valb = b.valueToString()
-        if (vala == null && b == null)
+        if (vala == null && valb == null)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPBoolean(false)
             })

@@ -193,7 +193,6 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPVariable -> {
-            println("xxx AOPVariable " + operator.name)
             buffer.appendInt(testDictionaryVarName.createValue(operator.name))
         }
         is POPEmptyRow -> {
@@ -317,7 +316,6 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             val variables = operator.getProvidedVariableNames()
             buffer.appendInt(variables.size)
             for (v in variables) {
-                println("xxx AOPValues " + v)
                 buffer.appendInt(testDictionaryVarName.createValue(v))
             }
             buffer.appendInt(operator.data.size)
@@ -426,7 +424,6 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Thre
     val variables = o.getProvidedVariableNames()
     buffer.appendInt(variables.size)
     for (v in variables) {
-        println("xxx as POPValues " + v)
         buffer.appendInt(testDictionaryVarName.createValue(v))
     }
     if (rows != null) {
@@ -780,22 +777,12 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                 }
             }
         }
-        if (popMap.keySize() > 0) {
-            popMap.forEachValue {
-                val name = classNameToString(it)
-                val x = mapOfTestCases[name]
-                val tmp: ThreadSafeMutableMap<String, String>
-                if (x == null) {
-                    mapOfTestCases[name] = ThreadSafeMutableMap<String, String>()
-                    tmp = mapOfTestCases[name]!!
-                } else
-                    tmp = x
-                try {
-                    if (success)
-                        createBinaryTestCase(it)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
+        popMap.forEachValue {
+            try {
+                if (success)
+                    createBinaryTestCase(it)
+            } catch (e: Throwable) {
+                e.printStackTrace()
             }
         }
     }
