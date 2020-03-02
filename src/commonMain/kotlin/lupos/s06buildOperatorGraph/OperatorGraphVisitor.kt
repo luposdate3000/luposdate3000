@@ -162,7 +162,6 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04arithmetikOperators.singleinput.AOPFunctionCall
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
@@ -674,7 +673,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-        return AOPFunctionCall(node.iri, node.distinct, childrenValues)
+throw Exception("not implemented")
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {

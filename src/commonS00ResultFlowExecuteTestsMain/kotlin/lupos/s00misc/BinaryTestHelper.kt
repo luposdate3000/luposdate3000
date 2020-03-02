@@ -89,11 +89,11 @@ import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
+val MAX_SET=10
 val MAX_VARIABLES = 10
 val MAX_LIMIT = 100
 val MAX_OFFSET = 100
-val MAX_TRIPLES = 391
+val MAX_TRIPLES = 400
 
 val testDictionaryVarName = ResultSetDictionary()
 val testDictionaryValue = ResultSetDictionary()
@@ -405,6 +405,19 @@ return AOPBuildInCallIsIri(child)
             val childB = fromBinaryAOP(dictionary, buffer)
             return AOPMultiplication(childA, childB)
         }
+EOperatorID.AOPSetID->{
+val childCount=nextInt(buffer,MAX_SET)
+val list=mutableListOf<AOPBase>()
+for(i in 0 until childCount)
+list.add(fromBinaryAOP(dictionary, buffer))
+return AOPSet(list)
+}
+EOperatorID.AOPBuildInCallSTRUUIDID->{
+return AOPBuildInCallSTRUUID()
+}
+EOperatorID.AOPBuildInCallUUIDID->{
+return AOPBuildInCallUUID()
+}
         EOperatorID.AOPSimpleLiteralID -> {
             return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPSimpleLiteralID))
         }
@@ -418,6 +431,11 @@ return AOPBuildInCallIsIri(child)
             val childA = fromBinaryAOP(dictionary, buffer)
             val childB = fromBinaryAOP(dictionary, buffer)
             return AOPLT(childA, childB)
+        }
+        EOperatorID.AOPSubtractionID -> {
+            val childA = fromBinaryAOP(dictionary, buffer)
+            val childB = fromBinaryAOP(dictionary, buffer)
+            return AOPSubtraction(childA, childB)
         }
         EOperatorID.AOPNEQID -> {
             val childA = fromBinaryAOP(dictionary, buffer)
@@ -665,32 +683,16 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     }
     input = fromBinary(dictionary, buffer)
     println("execute test $filename ${ExecuteOptimizer.enabledOptimizers}")
-    var expectPOP: POPValues? = null
-    try {
-        val buffer = File(filename + ".expect").readAsDynamicByteArray()
-        expectPOP = fromBinary(dictionary, buffer) as POPValues
-    } catch (e: Throwable) {
-        e.printStackTrace()
-    }
-    val expected = QueryResultToXML.toXML(expectPOP!!).first()
+
     if (input!! is POPBase) {
         val sparql = input.toSparqlQuery()
         println("sparql::" + sparql)
         val jena = JenaRequest()
-        val jenaout = jena.requestQuery(sparql)
-        if (!expected.myEqualsUnclean(jenaout)) {
-            if (detailedLog) {
-                println("jena")
-                println(jenaout.toPrettyString())
-                println(expected.toPrettyString())
-            } else
-                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
-        }
+        val expected = jena.requestQuery(sparql)
         val output = QueryResultToXML.toXML(input!! as POPBase).first()
         if (!expected.myEqualsUnclean(output)) {
             if (detailedLog) {
                 println("a")
-                println((expectPOP as POPValues).toXMLElement().toPrettyString())
                 println(input!!.toXMLElement().toPrettyString())
                 println(expected.toPrettyString())
                 println(output.toPrettyString())
@@ -702,7 +704,6 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
         if (!expected.myEqualsUnclean(output2)) {
             if (detailedLog) {
                 println("b")
-                println((expectPOP as POPValues).toXMLElement().toPrettyString())
                 println(input!!.toXMLElement().toPrettyString())
                 println(expected.toPrettyString())
                 println(output2.toPrettyString())
@@ -719,10 +720,13 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
         val pop_node = pOptimizer.optimizeCall(lop_node2)
         val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
         val output = QueryResultToXML.toXML(input2).first()
+        val sparql = pop_node.toSparqlQuery()
+        println("sparql::" + sparql)
+        val jena = JenaRequest()
+        val expected = jena.requestQuery(sparql)
         if (!expected.myEqualsUnclean(output)) {
             if (detailedLog) {
                 println("c")
-                println((expectPOP as POPValues).toXMLElement().toPrettyString())
                 println(input!!.toXMLElement().toPrettyString())
                 println(input2!!.toXMLElement().toPrettyString())
                 println(expected.toPrettyString())
@@ -735,7 +739,6 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
         if (!expected.myEqualsUnclean(output2)) {
             if (detailedLog) {
                 println("d")
-                println((expectPOP as POPValues).toXMLElement().toPrettyString())
                 println(input!!.toXMLElement().toPrettyString())
                 println(input2!!.toXMLElement().toPrettyString())
                 println(expected.toPrettyString())
