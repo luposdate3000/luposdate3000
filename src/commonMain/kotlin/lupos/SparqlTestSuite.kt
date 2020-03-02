@@ -382,7 +382,9 @@ class SparqlTestSuite() {
                 }
                 val inputData = readFileOrNull(inputDataFileName)
                 val resultData = readFileOrNull(resultDataFileName)
-                P2P.execGraphClearAll()
+                val transactionID2 = DistributedTripleStore.nextTransactionID()
+                P2P.execGraphClearAll(transactionID2)
+                DistributedTripleStore.commit(transactionID2)
                 if (inputData != null && inputDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
@@ -485,11 +487,11 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     val jenaResult = jenaRequest.requestQuery(toParse)
-println("check jena")
-                    if (!jenaResult.myEqualsUnclean(xmlQueryTarget)) {
-println(jenaResult.myEqualsUnclean(xmlQueryResult))
-println(jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!))
-println(xmlQueryTarget!!.first()!!.myEqualsUnclean(xmlQueryResult))
+                    println("check jena")
+                    if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!)) {
+                        println(jenaResult.myEqualsUnclean(xmlQueryResult))
+                        println(jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!))
+                        println(xmlQueryTarget!!.first()!!.myEqualsUnclean(xmlQueryResult))
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })

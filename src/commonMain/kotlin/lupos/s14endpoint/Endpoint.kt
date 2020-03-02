@@ -123,7 +123,7 @@ object Endpoint {
         return g.getIterator(transactionID, resultSet, s, p, o, idx)
     })
 
-    fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
+    fun process_local_graph_clear_all(transactionID: Long): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
         DistributedTripleStore.localStore.getDefaultGraph().clear()
         for (g in DistributedTripleStore.getGraphNames())
             DistributedTripleStore.dropGraph(g)

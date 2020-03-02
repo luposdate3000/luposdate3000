@@ -36,7 +36,6 @@ object EndpointImpl {
     val REQUEST_COMMIT = arrayOf("/commit", "id")
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
-    val REQUEST_GRAPH_CLEAR_ALL = arrayOf("/graph/clear")
     val REQUEST_GRAPH_OPERATION = arrayOf("/graph/operation", "name", "type")
     val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
     val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
@@ -153,7 +152,6 @@ object EndpointImpl {
                 REQUEST_COMMIT[0] -> responseStr = Endpoint.process_local_commit(params[REQUEST_COMMIT[1]]!!.first().toLong()).toPrettyString()
                 REQUEST_PEERS_JOIN[0] -> responseStr = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 REQUEST_PEERS_JOIN_INTERNAL[0] -> responseStr = P2P.process_peers_join_internal(params[REQUEST_PEERS_JOIN_INTERNAL[1]]?.first())
-                REQUEST_GRAPH_CLEAR_ALL[0] -> responseStr = Endpoint.process_local_graph_clear_all().toPrettyString()
                 REQUEST_GRAPH_OPERATION[0] -> responseStr = Endpoint.process_local_graph_operation(params[REQUEST_GRAPH_OPERATION[1]]!!.first(), EGraphOperationType.valueOf(params[REQUEST_GRAPH_OPERATION[2]]!!.first())).toPrettyString()
                 REQUEST_OPERATOR_QUERY[0] -> {
                     if (request.method == Http.Method.POST)

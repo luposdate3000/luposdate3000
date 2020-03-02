@@ -10,7 +10,6 @@ object EndpointImpl {
     val REQUEST_COMMIT = arrayOf("/commit", "id")
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
-    val REQUEST_GRAPH_CLEAR_ALL = arrayOf("/graph/clear")
     val REQUEST_GRAPH_OPERATION = arrayOf("/graph/operation", "name", "type")
     val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
     val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")

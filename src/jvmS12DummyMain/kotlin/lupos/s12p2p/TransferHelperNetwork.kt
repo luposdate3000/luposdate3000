@@ -44,7 +44,7 @@ class TransferHelperNetwork : AsyncStreamBase {
                         }
                     }
                     ENetworkMessageType.GRAPH_CLEAR_ALL -> {
-                        Endpoint.process_local_graph_clear_all()
+                        Endpoint.process_local_graph_clear_all(transactionID)
                     }
                 }
                 header = ENetworkMessageType.values()[data.getNextInt()]

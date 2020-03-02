@@ -49,33 +49,33 @@ class JenaRequest {
 
 
     fun insertDataIntoGraph(graph: String?, data: XMLElement) {
-var query="INSERT DATA{\n"
-if(graph!=null)
-query+="GRAPH <$graph> {"
+        var query = "INSERT DATA{\n"
+        if (graph != null)
+            query += "GRAPH <$graph> {"
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
         for (v in data["head"]!!.childs)
-                for (node in data["results"]!!.childs) {
-                    val result = mutableMapOf<String,String>()
-                    for (v in node.childs) {
-                        val name = v.attributes["name"]!!
-                        val child = v.childs.first()
-                        val content = child.content
-                        val value = when {
-                            child.tag == "uri" -> "<" + content + ">"
-                            child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                            child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
-                            child.tag == "bnode" -> "_:" + content
-                            else -> "\"" + content + "\""
-                        }
-                        result[name] = value
+            for (node in data["results"]!!.childs) {
+                val result = mutableMapOf<String, String>()
+                for (v in node.childs) {
+                    val name = v.attributes["name"]!!
+                    val child = v.childs.first()
+                    val content = child.content
+                    val value = when {
+                        child.tag == "uri" -> "<" + content + ">"
+                        child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                        child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                        child.tag == "bnode" -> "_:" + content
+                        else -> "\"" + content + "\""
                     }
-			query+=result["s"]+" "+result["p"]+" "+result["o"]+".\n"
+                    result[name] = value
                 }
-if(graph!=null)
-query+="}\n"
-query+="}"
-requestUpdate(query)
+                query += result["s"] + " " + result["p"] + " " + result["o"] + ".\n"
+            }
+        if (graph != null)
+            query += "}\n"
+        query += "}"
+        requestUpdate(query)
     }
 
     fun requestUpdate(query: String): XMLElement {
@@ -89,8 +89,9 @@ requestUpdate(query)
             }
         }
         println(message)
-        return XMLElement("sparql").addAttribute("xmlns","http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
+        return XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
     }
+
     fun requestQuery(query: String): XMLElement {
         var message: String? = null
         CoroutinesHelper.runBlock {
@@ -104,12 +105,13 @@ requestUpdate(query)
         println(message)
         return XMLElement.parseFromJson(message!!)!!.first()
     }
-fun requestAny(query:String):XMLElement{
-val tmp=query.toLowerCase()
-if(tmp.contains("add"))
-	return requestUpdate(query)
-	return requestQuery(query)
-}
+
+    fun requestAny(query: String): XMLElement {
+        val tmp = query.toLowerCase()
+        if (tmp.contains("add"))
+            return requestUpdate(query)
+        return requestQuery(query)
+    }
 
     fun finalize() {
         client.close()

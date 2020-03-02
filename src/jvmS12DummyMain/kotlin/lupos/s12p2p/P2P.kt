@@ -102,8 +102,8 @@ object P2P {
         return res
     })
 
-    fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
-        Endpoint.process_local_graph_clear_all()
+    fun execGraphClearAll(transactionID: Long) = Trace.trace({ "P2P.execGraphClearAll" }, {
+        Endpoint.process_local_graph_clear_all(transactionID)
         knownClients.forEach {
             if (it != EndpointImpl.fullname)
                 getPendingModifications(transactionID, it).graphClearAll()

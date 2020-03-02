@@ -34,8 +34,8 @@ object P2P {
         return POPEmptyRow(dictionary)
     })
 
-    fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
-        Endpoint.process_local_graph_clear_all()
+    fun execGraphClearAll(transactionID: Long) = Trace.trace({ "P2P.execGraphClearAll" }, {
+        Endpoint.process_local_graph_clear_all(transactionID)
     })
 
     fun execGraphOperation(name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {

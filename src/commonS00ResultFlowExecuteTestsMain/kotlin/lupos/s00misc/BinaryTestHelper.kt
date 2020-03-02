@@ -95,10 +95,25 @@ val MAX_LIMIT = 100
 val MAX_OFFSET = 100
 val MAX_TRIPLES = 391
 
-val testDictionary = ResultSetDictionary()
+val testDictionaryVarName = ResultSetDictionary()
+val testDictionaryValue = ResultSetDictionary()
+val testDictionaryValueTyped = mutableMapOf<EOperatorID, ResultSetDictionary>()
 
-fun nextString(buffer: DynamicByteArray): String {
-    return testDictionary.getValue(nextInt(buffer, testDictionary.mapLTS.size()))!!
+
+fun nextStringVarName(buffer: DynamicByteArray): String {
+    return testDictionaryVarName.getValue(nextInt(buffer, testDictionaryVarName.mapLTS.size()))!!
+}
+
+fun nextStringValue(buffer: DynamicByteArray): String {
+    return testDictionaryValue.getValue(nextInt(buffer, testDictionaryValue.mapLTS.size()))!!
+}
+
+fun nextStringValueTyped(buffer: DynamicByteArray, type: EOperatorID): String {
+    val idx = nextInt(buffer, testDictionaryValue.mapLTS.size())
+    val tmp = AOPVariable.calculate(testDictionaryValue.mapLTS[idx])
+    if (tmp.operatorID == type)
+        return testDictionaryValue.mapLTS[idx]!!
+    return testDictionaryValueTyped[type]!!.getValue(idx % testDictionaryValueTyped[type]!!.mapLTS.size())!!
 }
 
 fun nextInt(buffer: DynamicByteArray, maxValue: Int): Int {
@@ -170,7 +185,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
         }
         EOperatorID.POPFilterExactID -> {
             val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
-            val value = nextString(buffer)
+            val value = nextStringValue(buffer)
             val child = fromBinary(dictionary, buffer)
             return POPFilterExact(dictionary, name, value, child)
         }
@@ -217,9 +232,9 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
             val tripleCount = nextInt(buffer, MAX_TRIPLES)
             for (i in 0 until tripleCount) {
-                val st = AOPVariable.calculate(nextString(buffer))
-                val pt = AOPVariable.calculate(nextString(buffer))
-                val ot = AOPVariable.calculate(nextString(buffer))
+                val st = AOPVariable.calculate(nextStringValue(buffer))
+                val pt = AOPVariable.calculate(nextStringValue(buffer))
+                val ot = AOPVariable.calculate(nextStringValue(buffer))
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
@@ -230,7 +245,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             val values = mutableListOf<MutableMap<String, String>>()
             val variableCount = nextInt(buffer, MAX_VARIABLES)
             for (i in 0 until variableCount)
-                variables.add(nextString(buffer))
+                variables.add(nextStringVarName(buffer))
             val valuesCount = nextInt(buffer, MAX_TRIPLES)
             for (j in 0 until valuesCount) {
                 val map = mutableMapOf<String, String>()
@@ -238,7 +253,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 for (i in 0 until variableCount) {
                     val isNull = DynamicByteArray.intToBool(nextInt(buffer, 2))
                     if (!isNull) {
-                        val value = nextString(buffer)
+                        val value = nextStringValue(buffer)
                         map[variables[i]] = value
                     }
                 }
@@ -323,9 +338,9 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
             val tripleCount = nextInt(buffer, MAX_TRIPLES)
             for (i in 0 until tripleCount) {
-                val st = AOPVariable.calculate(nextString(buffer))
-                val pt = AOPVariable.calculate(nextString(buffer))
-                val ot = AOPVariable.calculate(nextString(buffer))
+                val st = AOPVariable.calculate(nextStringValue(buffer))
+                val pt = AOPVariable.calculate(nextStringValue(buffer))
+                val ot = AOPVariable.calculate(nextStringValue(buffer))
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
@@ -336,14 +351,14 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             val values = mutableListOf<AOPValue>()
             val variableCount = nextInt(buffer, MAX_VARIABLES)
             for (i in 0 until variableCount)
-                variables.add(AOPVariable(nextString(buffer)))
+                variables.add(AOPVariable(nextStringVarName(buffer)))
             val valuesCount = nextInt(buffer, MAX_TRIPLES)
             for (j in 0 until valuesCount) {
                 val list = mutableListOf<AOPConstant>()
                 for (i in 0 until variableCount) {
                     val isNull = DynamicByteArray.intToBool(nextInt(buffer, 2))
                     if (!isNull) {
-                        val value = nextString(buffer)
+                        val value = nextStringValue(buffer)
                         list.add(AOPVariable.calculate(value))
                     } else
                         list.add(AOPUndef())
@@ -371,13 +386,13 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             return AOPAnd(childA, childB)
         }
         EOperatorID.AOPSimpleLiteralID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPSimpleLiteral
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPSimpleLiteralID))
         }
         EOperatorID.AOPLanguageTaggedLiteralID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPLanguageTaggedLiteral
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPLanguageTaggedLiteralID))
         }
         EOperatorID.AOPTypedLiteralID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPTypedLiteral
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPTypedLiteralID))
         }
         EOperatorID.AOPLTID -> {
             val childA = fromBinaryAOP(dictionary, buffer)
@@ -438,7 +453,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             return AOPOr(childA, childB)
         }
         EOperatorID.AOPVariableID -> {
-            val name = nextString(buffer)
+            val name = nextStringVarName(buffer)
             return AOPVariable(name)
         }
         EOperatorID.AOPBuildInCallABSID -> {
@@ -485,7 +500,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
         }
         EOperatorID.AOPBuildInCallIRIID -> {
             val childA = fromBinaryAOP(dictionary, buffer)
-            val prefix = nextString(buffer)
+            val prefix = nextStringValue(buffer)
             return AOPBuildInCallIRI(childA, prefix)
         }
         EOperatorID.AOPBuildInCallLANGID -> {
@@ -552,7 +567,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
         }
         EOperatorID.AOPBuildInCallURIID -> {
             val childA = fromBinaryAOP(dictionary, buffer)
-            val prefix = nextString(buffer)
+            val prefix = nextStringValue(buffer)
             return AOPBuildInCallURI(childA, prefix)
         }
         EOperatorID.AOPBuildInCallYEARID -> {
@@ -560,13 +575,13 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             return AOPBuildInCallYEAR(childA)
         }
         EOperatorID.AOPDateTimeID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPDateTime
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPDateTimeID))
         }
         EOperatorID.AOPIntegerID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPInteger
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPIntegerID))
         }
         EOperatorID.AOPIriID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPIri
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPIriID))
         }
         EOperatorID.AOPUndefID -> {
             return AOPUndef()
@@ -579,7 +594,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             return AOPAggregation(type, distinct, variables)
         }
         EOperatorID.AOPBooleanID -> {
-            return AOPVariable.calculate(nextString(buffer)) as AOPBoolean
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPBooleanID))
         }
         EOperatorID.AOPDivisionID -> {
             val childA = fromBinaryAOP(dictionary, buffer)
@@ -734,7 +749,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
             resultSet.createVariable(v)
         val resultRow = resultSet.createResultRow()
         for (v in node3.getRequiredVariableNamesRecoursive())
-            resultRow[resultSet.createVariable(v)] = v.hashCode() % testDictionary.mapLTS.size()
+            resultRow[resultSet.createVariable(v)] = resultSet.createValue(testDictionaryValue.getValue(v.hashCode() % testDictionaryValue.mapLTS.size()))
         val output = node3.calculate(resultSet, resultRow)
         val output2 = input.calculate(resultSet, resultRow)
         require(output == output2)
