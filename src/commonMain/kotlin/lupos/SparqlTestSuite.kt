@@ -369,24 +369,19 @@ class SparqlTestSuite() {
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
+        val jenaRequest = JenaRequest()
         try {
-//    i++
-//    if (i > 50)
-//        return true
-
-            for (g in DistributedTripleStore.getGraphNames()) {
-                DistributedTripleStore.dropGraph(g)
-            }
-            DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-            val toParse = readFileOrNull(queryFile)!!
-            if (toParse.contains("service", true)) {
-                updateAllMicroTest(testName, queryFile, false)
-                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
-                return false
-            }
-            val inputData = readFileOrNull(inputDataFileName)
-            val resultData = readFileOrNull(resultDataFileName)
             try {
+                jenaRequest.clearAll()
+                DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                val toParse = readFileOrNull(queryFile)!!
+                if (toParse.contains("service", true)) {
+                    updateAllMicroTest(testName, queryFile, false)
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
+                    return false
+                }
+                val inputData = readFileOrNull(inputDataFileName)
+                val resultData = readFileOrNull(resultDataFileName)
                 P2P.execGraphClearAll()
                 if (inputData != null && inputDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
@@ -401,6 +396,7 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
+                    jenaRequest.insertDataIntoGraph(null, xmlQueryInput!!.first())
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -415,6 +411,7 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
+                    jenaRequest.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
                 }
                 if (services != null)
                     for (s in services) {
@@ -487,6 +484,20 @@ class SparqlTestSuite() {
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
+                    val jenaResult = jenaRequest.requestQuery(toParse)
+println("check jena")
+                    if (!jenaResult.myEqualsUnclean(xmlQueryTarget)) {
+println(jenaResult.myEqualsUnclean(xmlQueryResult))
+println(jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!))
+println(xmlQueryTarget!!.first()!!.myEqualsUnclean(xmlQueryResult))
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget!!.first()!!.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
+                        return false
+                    }
+
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
@@ -577,6 +588,7 @@ class SparqlTestSuite() {
             }
         } finally {
             updateAllMicroTest("invalidxxx", "invalidxxx", false)
+            jenaRequest.finalize()
         }
     }
 }

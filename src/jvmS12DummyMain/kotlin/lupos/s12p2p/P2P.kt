@@ -55,10 +55,8 @@ object P2P {
     }
 
     fun execCommit(transactionID: Long) = Trace.trace({ "P2P.execCommit" }, {
-        /*execute clear on every known node - for TESTING only*/
         GlobalLogger.log(ELoggerType.DEBUG, { "execCommit $transactionID begin" })
         Endpoint.process_local_commit(transactionID)
-
         val pending = pendingModifications[transactionID]
         if (pending != null) {
             for ((node, data) in pending) {
@@ -68,8 +66,6 @@ object P2P {
             }
             pendingModifications.remove(transactionID)
         }
-
-
         knownClients.forEach {
             if (it != EndpointImpl.fullname) {
                 CoroutinesHelper.runBlock {
@@ -82,7 +78,6 @@ object P2P {
     })
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
-        /*insert "data" on remote node - if it exist - otherwiese throw an exception*/
         CoroutinesHelper.runBlock {
             retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}" +//
                     "?EndpointImpl.REQUEST_XML_INPUT[1]=${URL.encodeComponent(data.toPrettyString())}")
@@ -90,16 +85,13 @@ object P2P {
     })
 
     fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
-        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd start" })
         if (node == EndpointImpl.fullname)
             Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
         else
             getPendingModifications(transactionID, node).addTriple(graphName, s, p, o, idx)
-        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
     })
 
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
-        /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         var res: POPBase = POPEmptyRow(dictionary)
         CoroutinesHelper.runBlock {
             val response = retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}" +//
@@ -111,20 +103,15 @@ object P2P {
     })
 
     fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
-        /*execute clear on every known node - for TESTING only*/
         Endpoint.process_local_graph_clear_all()
         knownClients.forEach {
-            if (it != EndpointImpl.fullname) {
-                CoroutinesHelper.runBlock {
-                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_CLEAR_ALL[0]}")
-                }
-            }
+            if (it != EndpointImpl.fullname)
+                getPendingModifications(transactionID, it).graphClearAll()
         }
         nodeNameRemapping.clear()
     })
 
     fun execGraphOperation(name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {
-        /*execute clear on every known node - for TESTING only*/
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P a" })
         Endpoint.process_local_graph_operation(name, type)
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
@@ -275,7 +262,6 @@ object P2P {
     })
 
     fun process_peers_list(): String = Trace.trace({ "P2P.process_peers_list" }, {
-        /*nice to have, but not required*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
         var res: String
         val map = mutableListOf<String>()
@@ -287,7 +273,6 @@ object P2P {
     })
 
     fun process_peers_join_internal(hostname: String?): String = Trace.trace({ "P2P.process_peers_join_internal" }, {
-        /*just a dummy ... should be removed if there is a real p2p*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join_internal $hostname" })
         synchronized(knownClients) {
             if (hostname != null && hostname != "localhost")
@@ -305,7 +290,6 @@ object P2P {
     })
 
     suspend fun process_peers_join(hostname: String?): String = Trace.trace({ "P2P.process_peers_join" }, {
-        /*just a dummy ... should be removed if there is a real p2p*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname" })
         val knownClientsCopy = mutableListOf<String>()
         synchronized(knownClients) {
@@ -331,7 +315,6 @@ object P2P {
     })
 
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
-        /*start the p2p network. DONT block the thread*/
         GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start $bootstrap" })
         synchronized(knownClients) {
             knownClients.add(EndpointImpl.fullname)

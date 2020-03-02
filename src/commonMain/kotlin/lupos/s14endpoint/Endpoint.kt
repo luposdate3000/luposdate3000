@@ -125,6 +125,8 @@ object Endpoint {
 
     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
         DistributedTripleStore.localStore.getDefaultGraph().clear()
+        for (g in DistributedTripleStore.getGraphNames())
+            DistributedTripleStore.dropGraph(g)
         return XMLElement("success")
     })
 

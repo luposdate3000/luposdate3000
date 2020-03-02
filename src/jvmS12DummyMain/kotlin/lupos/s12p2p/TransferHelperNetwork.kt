@@ -43,6 +43,9 @@ class TransferHelperNetwork : AsyncStreamBase {
                             }
                         }
                     }
+                    ENetworkMessageType.GRAPH_CLEAR_ALL -> {
+                        Endpoint.process_local_graph_clear_all()
+                    }
                 }
                 header = ENetworkMessageType.values()[data.getNextInt()]
             }
@@ -85,6 +88,10 @@ class TransferHelperNetwork : AsyncStreamBase {
             lastCounterValue++
         }
         return tmp
+    }
+
+    fun graphClearAll() {
+        enforceHeader(ENetworkMessageType.GRAPH_CLEAR_ALL)
     }
 
     fun addTriple(graphName: String, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) {
