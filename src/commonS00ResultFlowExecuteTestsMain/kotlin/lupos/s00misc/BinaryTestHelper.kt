@@ -62,7 +62,7 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPSort
@@ -78,7 +78,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
-import lupos.s09physicalOperators.singleinput.POPBind
+import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPProjection
@@ -88,6 +88,8 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
+class ExceptionTopLevelOperator(val data:OPBase):Exception("this object needs to be toplevel")
 
 val MAX_SET=10
 val MAX_VARIABLES = 10
@@ -144,6 +146,15 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
 return OPNothing()
 }
 
+fun hasChildRecoursive(base:OPBase,search:List<EOperatorID>,skip:List<EOperatorID>):Boolean{
+if(search.contains(base.operatorID))
+return true
+for(c in base.children)
+if(skip.contains(c.operatorID)&&hasChildRecoursive(c,search,skip))
+return true
+return false
+}
+
 fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): POPBase {
 try{
     var id = nextInt(buffer)
@@ -178,6 +189,10 @@ try{
             val filter = fromBinaryAOP(dictionary, buffer)
             val child = fromBinary(dictionary, buffer)
             return POPFilter(dictionary, filter, child)
+        }
+        EOperatorID.POPMakeBooleanResultID -> {
+            val child = fromBinary(dictionary, buffer)
+            throw ExceptionTopLevelOperator( POPMakeBooleanResult(dictionary, child))
         }
         EOperatorID.POPFilterExactID -> {
             val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
@@ -214,6 +229,11 @@ try{
         EOperatorID.POPLimitID -> {
             var value = nextInt(buffer, MAX_LIMIT)
             val child = fromBinary(dictionary, buffer)
+if(hasChildRecoursive(child,listOf(EOperatorID.POPLimitID,EOperatorID.LOPLimitID),listOf(EOperatorID.POPLimitID,EOperatorID.LOPLimitID,EOperatorID.POPOffsetID,EOperatorID.LOPOffsetID))){
+if(child is POPBase)
+return child
+return POPEmptyRow(dictionary)
+}
             return POPLimit(dictionary, value, child)
         }
         EOperatorID.POPOffsetID -> {
@@ -221,7 +241,7 @@ try{
             val child = fromBinary(dictionary, buffer)
             return POPOffset(dictionary, value, child)
         }
-        EOperatorID.TripleStoreIteratorGlobalID,EOperatorID.TripleInsertIteratorID -> {
+        EOperatorID.TripleStoreIteratorGlobalID,EOperatorID.TripleInsertIteratorID,EOperatorID.TripleStoreIteratorLocalFilterID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
             val s = fromBinaryAOP(dictionary, buffer)
@@ -275,6 +295,10 @@ try{
         operatorID = EOperatorID.values()[id]
 
     when (operatorID) {
+EOperatorID.LOPMakeBooleanResultID->{
+ val child = fromBinary(dictionary, buffer)
+throw ExceptionTopLevelOperator( LOPMakeBooleanResult(child))
+}
         EOperatorID.LOPUnionID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
@@ -324,6 +348,11 @@ try{
         EOperatorID.LOPLimitID -> {
             var value = nextInt(buffer, MAX_LIMIT)
             val child = fromBinary(dictionary, buffer)
+if(hasChildRecoursive(child,listOf(EOperatorID.POPLimitID,EOperatorID.LOPLimitID),listOf(EOperatorID.POPLimitID,EOperatorID.LOPLimitID,EOperatorID.POPOffsetID,EOperatorID.LOPOffsetID))){
+if(child is LOPBase)
+return child
+return OPNothing()
+}
             return LOPLimit(value, child)
         }
         EOperatorID.LOPOffsetID -> {
@@ -681,7 +710,11 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
         val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
         ExecuteOptimizer.enabledOptimizers[optimizer] = true
     }
+try{
     input = fromBinary(dictionary, buffer)
+}catch (e:ExceptionTopLevelOperator){
+input=e.data
+}
     println("execute test $filename ${ExecuteOptimizer.enabledOptimizers}")
 
     if (input!! is POPBase) {
@@ -758,7 +791,12 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
         val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
         ExecuteOptimizer.enabledOptimizers[optimizer] = true
     }
-    val input = fromBinary(dictionary, buffer)
+var input:OPBase=OPNothing()
+try{
+     input = fromBinary(dictionary, buffer)
+}catch (e:ExceptionTopLevelOperator){
+input=e.data
+}
     val lOptimizer = LogicalOptimizer(1L, dictionary)
     val pOptimizer = PhysicalOptimizer(1L, dictionary)
     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)

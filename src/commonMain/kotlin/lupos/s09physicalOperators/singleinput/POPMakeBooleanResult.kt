@@ -33,6 +33,8 @@ class POPMakeBooleanResult(override val dictionary: ResultSetDictionary, child: 
         return true
     }
 
+override fun toSparqlQuery()="ASK{"+children[0].toSparql()+"}"
+
     override fun cloneOP() = POPMakeBooleanResult(dictionary, children[0].cloneOP())
 
     override fun getProvidedVariableNames() = mutableListOf("?boolean")

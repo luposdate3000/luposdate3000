@@ -63,13 +63,8 @@ abstract class OPBase {
         return res.distinct()
     }
 
-    fun toSparqlQuery(): String {
-        println("toSparqlQuery" + this)
-        var res = "SELECT * "
-        res += "WHERE{"
-        res += toSparql()
-        res += "}"
-        return res
+open    fun toSparqlQuery(): String {
+        return "SELECT * WHERE{"+toSparql()+"}"
     }
 
     open fun toSparql(): String {

@@ -8,6 +8,6 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 abstract class LOPBase : OPBase() {
     override val resultSet = ResultSet(ResultSetDictionary())
     override fun evaluate(): Channel<ResultRow> {
-        throw Exception("this should not be called")
+        throw Exception("not implemented $classname.evaluate")
     }
 }

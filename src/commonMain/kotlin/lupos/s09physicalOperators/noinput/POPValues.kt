@@ -39,7 +39,7 @@ class POPValues : POPBase {
             res += "("
             for (v in variables) {
                 val s = m[v]
-                if (s == null)
+                if (s == null|| s==dictionary.undefValue)
                     res += "UNDEF "
                 else
                     res += resultSet.getValue(s) + " "

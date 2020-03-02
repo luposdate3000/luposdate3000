@@ -13,6 +13,6 @@ abstract class AOPBase : OPBase() {
     override val classname = "AOPBase"
 
     override val resultSet = ResultSet(ResultSetDictionary())
-    override fun evaluate() = throw Exception("this should not be called")
+    override fun evaluate() = throw Exception("not implemented $classname.evaluate")
     abstract fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant
 }
