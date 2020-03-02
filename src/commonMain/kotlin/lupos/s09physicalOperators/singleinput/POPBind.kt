@@ -14,6 +14,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -40,6 +41,8 @@ class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariabl
     }
 
     override fun toSparql(): String {
+if(children[1] is AOPUndef)
+return children[0].toSparql()
         var res = "{SELECT "
         for (v in children[0].getProvidedVariableNames())
             res += AOPVariable(v).toSparql()+" "
