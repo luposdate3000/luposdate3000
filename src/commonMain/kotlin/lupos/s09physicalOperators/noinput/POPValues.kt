@@ -14,6 +14,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -32,7 +33,7 @@ class POPValues : POPBase {
 override fun toSparql():String{
 var res="VALUES("
 for(v in stringVars)
-res+="?$v "
+res+=AOPVariable(v).toSparql()+" "
 res+=") {\n"
 for (m in data){
 res+="("

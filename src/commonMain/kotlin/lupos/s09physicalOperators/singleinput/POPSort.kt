@@ -46,6 +46,32 @@ class POPSort : POPBase {
         return true
     }
 
+fun getRecoursiveSortVariables():List<String>{
+val c=children[0]
+if(c is POPSort)
+return c.getRecoursiveSortVariables()+resultSet.getVariable(sortBy)
+return listOf(resultSet.getVariable(sortBy))
+}
+
+override fun toSparql():String{
+val variables=getRecoursiveSortVariables()
+var child:OPBase=this
+for(i in 0 until variables.size)
+child=child.children[0]
+require (child !is POPSort)
+var res="{\n"
+res+=child.toSparql()
+res+="} ORDER BY "
+for(v in variables)
+res+=AOPVariable(v).toSparql()+" "
+if (sortOrder)
+res+="ASC"
+else
+res+="DESC"
+return res
+}
+
+
     override fun cloneOP() = POPSort(dictionary, AOPVariable(resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
 
     constructor(dictionary: ResultSetDictionary, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super() {

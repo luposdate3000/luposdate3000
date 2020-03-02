@@ -42,7 +42,7 @@ class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariabl
     override fun toSparql(): String {
         var res = "SELECT "
         for (v in children[0].getProvidedVariableNames())
-            res += "?$v "
+            res += AOPVariable(v).toSparql()+" "
         res += "(" + children[1].toSparql() + " as " + name.toSparql() + "){\n"
         res += children[0].toSparql()
         res += "}\n"
