@@ -28,6 +28,27 @@ class POPValues : POPBase {
     val variables = mutableListOf<Variable>()
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
+
+override fun toSparql():String{
+var res="VALUES("
+for(v in stringVars)
+res+="?$v "
+res+=") {\n"
+for (m in data){
+res+="("
+for(v in variables){
+val s=m[v]
+if(s==null)
+res+="UNDEF "
+else
+res+=resultSet.getValue(s)+" "
+}
+res+=")\n"
+}
+res+="}\n"
+return res
+}
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPValues)
             return false
