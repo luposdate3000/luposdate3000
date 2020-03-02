@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.AOPBase
 
 
 abstract class AOPConstant : AOPBase() {
-    override val operatorID = EOperatorID.AOPConstantID
     override val classname = "AOPConstant"
     abstract fun valueToString(): String?
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant = this

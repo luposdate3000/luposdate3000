@@ -6,6 +6,7 @@ import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
@@ -37,7 +38,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
@@ -84,7 +84,7 @@ class PhysicalOptimizerNaive(transactionID: Long, dictionary: ResultSetDictionar
                             if (child.getProvidedVariableNames().contains(variable.name))
                                 res = POPRename(dictionary, variable, node.children[1] as AOPVariable, child)
                             else
-                                res = POPBindUndefined(dictionary, variable, child)
+                                res = POPBind(dictionary, variable,AOPUndef(), child)
                         else -> res = POPBind(dictionary, variable, node.children[1] as AOPBase, child)
                     }
                 }

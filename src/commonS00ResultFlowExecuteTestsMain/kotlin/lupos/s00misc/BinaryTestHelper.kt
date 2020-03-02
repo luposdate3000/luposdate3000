@@ -22,7 +22,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPGEQ
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
@@ -79,7 +79,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPProjection
@@ -142,10 +141,11 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         return fromBinaryPOP(dictionary, buffer)
     if (EOperatorIDAOP.contains(operatorID))
         return fromBinaryAOP(dictionary, buffer)
-    throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
+return OPNothing()
 }
 
 fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): POPBase {
+try{
     var id = nextInt(buffer)
     val operatorID: EOperatorID
     if (id > EOperatorID.values().size || !EOperatorIDPOP.contains(EOperatorID.values()[id]))
@@ -178,11 +178,6 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             val filter = fromBinaryAOP(dictionary, buffer)
             val child = fromBinary(dictionary, buffer)
             return POPFilter(dictionary, filter, child)
-        }
-        EOperatorID.POPBindUndefinedID -> {
-            val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
-            val child = fromBinary(dictionary, buffer)
-            return POPBindUndefined(dictionary, name, child)
         }
         EOperatorID.POPFilterExactID -> {
             val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
@@ -226,7 +221,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             val child = fromBinary(dictionary, buffer)
             return POPOffset(dictionary, value, child)
         }
-        EOperatorID.TripleStoreIteratorGlobalID -> {
+        EOperatorID.TripleStoreIteratorGlobalID,EOperatorID.TripleInsertIteratorID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
             val s = fromBinaryAOP(dictionary, buffer)
@@ -265,9 +260,13 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
         }
         else -> throw Exception("BinaryHelper.fromBinaryPOP ${operatorID} undefined")
     }
+}catch(e:ArrayIndexOutOfBoundsException){
+return POPEmptyRow(dictionary)
+}
 }
 
 fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LOPBase {
+try{
     var id = nextInt(buffer)
     val operatorID: EOperatorID
     if (id > EOperatorID.values().size || !EOperatorIDLOP.contains(EOperatorID.values()[id]))
@@ -372,9 +371,13 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
         }
         else -> throw Exception("BinaryHelper.fromBinaryLOP ${operatorID} undefined")
     }
+}catch(e:ArrayIndexOutOfBoundsException){
+return OPNothing()
+}
 }
 
 fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
+try{
     var id = nextInt(buffer)
     val operatorID: EOperatorID
     if (id > EOperatorID.values().size || !EOperatorIDAOP.contains(EOperatorID.values()[id]))
@@ -383,10 +386,24 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
         operatorID = EOperatorID.values()[id]
 
     when (operatorID) {
+EOperatorID.AOPBuildInCallIsIriID->{
+val child = fromBinaryAOP(dictionary, buffer)
+return AOPBuildInCallIsIri(child)
+}
         EOperatorID.AOPAndID -> {
             val childA = fromBinaryAOP(dictionary, buffer)
             val childB = fromBinaryAOP(dictionary, buffer)
             return AOPAnd(childA, childB)
+        }
+        EOperatorID.AOPLEQID -> {
+            val childA = fromBinaryAOP(dictionary, buffer)
+            val childB = fromBinaryAOP(dictionary, buffer)
+            return AOPLEQ(childA, childB)
+        }
+        EOperatorID.AOPMultiplicationID -> {
+            val childA = fromBinaryAOP(dictionary, buffer)
+            val childB = fromBinaryAOP(dictionary, buffer)
+            return AOPMultiplication(childA, childB)
         }
         EOperatorID.AOPSimpleLiteralID -> {
             return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPSimpleLiteralID))
@@ -583,6 +600,9 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
         EOperatorID.AOPIntegerID -> {
             return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPIntegerID))
         }
+        EOperatorID.AOPBnodeID -> {
+            return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPBnodeID))
+        }
         EOperatorID.AOPIriID -> {
             return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPIriID))
         }
@@ -606,6 +626,9 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
         }
         else -> throw Exception("BinaryHelper.fromBinaryAOP ${operatorID} undefined")
     }
+}catch (e:ArrayIndexOutOfBoundsException){
+return AOPUndef()
+}
 }
 
 fun executeBinaryTests(folder: String) {

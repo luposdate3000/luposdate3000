@@ -47,7 +47,6 @@ enum class EOperatorID {
     AOPBuildInCallURIID,
     AOPBuildInCallUUIDID,
     AOPBuildInCallYEARID,
-    AOPConstantID,
     AOPConstantStringID,
     AOPDateTimeID,
     AOPDecimalID,
@@ -104,7 +103,6 @@ enum class EOperatorID {
     OPNothingID,
     POPBaseID,
     POPBindID,
-    POPBindUndefinedID,
     POPDistinctID,
     POPEmptyRowID,
     POPFilterExactID,
@@ -135,7 +133,6 @@ enum class EOperatorID {
 }
 
 val EOperatorIDLOP = arrayOf(
-        EOperatorID.LOPBaseID,
         EOperatorID.LOPBindID,
         EOperatorID.LOPDistinctID,
         EOperatorID.LOPFilterID,
@@ -163,9 +160,7 @@ val EOperatorIDLOP = arrayOf(
         EOperatorID.LOPValuesID
 )
 val EOperatorIDPOP = arrayOf(
-        EOperatorID.POPBaseID,
         EOperatorID.POPBindID,
-        EOperatorID.POPBindUndefinedID,
         EOperatorID.POPDistinctID,
         EOperatorID.POPEmptyRowID,
         EOperatorID.POPFilterExactID,
@@ -186,7 +181,6 @@ val EOperatorIDPOP = arrayOf(
         EOperatorID.POPServiceIRIID,
         EOperatorID.POPSortID,
         EOperatorID.POPTemporaryStoreID,
-        EOperatorID.POPTripleStoreIteratorBaseID,
         EOperatorID.POPUnionID,
         EOperatorID.POPValuesID,
         EOperatorID.TripleInsertIteratorID,
@@ -196,7 +190,6 @@ val EOperatorIDPOP = arrayOf(
 val EOperatorIDAOP = arrayOf(EOperatorID.AOPAdditionID,
         EOperatorID.AOPAggregationID,
         EOperatorID.AOPAndID,
-        EOperatorID.AOPBaseID,
         EOperatorID.AOPBinaryOperationFixedNameID,
         EOperatorID.AOPBnodeID,
         EOperatorID.AOPBooleanID,
@@ -239,7 +232,6 @@ val EOperatorIDAOP = arrayOf(EOperatorID.AOPAdditionID,
         EOperatorID.AOPBuildInCallURIID,
         EOperatorID.AOPBuildInCallUUIDID,
         EOperatorID.AOPBuildInCallYEARID,
-        EOperatorID.AOPConstantID,
         EOperatorID.AOPConstantStringID,
         EOperatorID.AOPDateTimeID,
         EOperatorID.AOPDecimalID,

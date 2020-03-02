@@ -73,7 +73,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPProjection
@@ -101,7 +100,6 @@ val myuuid = ThreadSafeUuid()
 
 val mapPopToLop = mapOf(
         EOperatorID.POPBindID to EOperatorID.LOPBindID,
-        EOperatorID.POPBindUndefinedID to EOperatorID.LOPBindID,
         EOperatorID.POPDistinctID to EOperatorID.LOPDistinctID,
         EOperatorID.POPEmptyRowID to EOperatorID.OPNothingID,
         EOperatorID.POPFilterExactID to EOperatorID.LOPFilterID,
@@ -360,16 +358,6 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             for (v in operator.variables)
                 toBinary(v, buffer, asPOP)
             toBinary(operator.children[0], buffer, asPOP)
-        }
-        is POPBindUndefined -> {
-            if (asPOP) {
-                toBinary(operator.name, buffer, asPOP)
-                toBinary(operator.children[0], buffer, asPOP)
-            } else {
-                toBinary(operator.name, buffer, asPOP)
-                toBinary(AOPUndef(), buffer, asPOP)
-                toBinary(operator.children[0], buffer, asPOP)
-            }
         }
         is POPBind -> {
             toBinary(operator.name, buffer, asPOP)
