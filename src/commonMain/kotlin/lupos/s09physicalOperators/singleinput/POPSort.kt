@@ -59,15 +59,24 @@ var child:OPBase=this
 for(i in 0 until variables.size)
 child=child.children[0]
 require (child !is POPSort)
-var res="{\n"
-res+=child.toSparql()
-res+="} ORDER BY "
+
+val sparql=child.toSparql()
+var res=""
+if(sparql.startsWith("{SELECT "))
+res=sparql
+else
+res="{SELECT *{"+sparql+"}"
+res+=" ORDER BY "
+if (sortOrder)
+res+="ASC("
+else
+res+="DESC("
 for(v in variables)
 res+=AOPVariable(v).toSparql()+" "
-if (sortOrder)
-res+="ASC"
-else
-res+="DESC"
+res+=")"
+res+="\n"
+if(!sparql.startsWith("{SELECT "))
+res+="}"
 return res
 }
 

@@ -33,6 +33,13 @@ class POPDistinct(override val dictionary: ResultSetDictionary, child: OPBase) :
         return true
     }
 
+override fun toSparql():String{
+val sparql=children[0].toSparql()
+if(sparql.startsWith("{SELECT "))
+return "{SELECT DISTINCT "+sparql.substring("{SELECT ".length,sparql.length)
+return "{SELECT DISTINCT * {\n"+sparql+"}}\n"
+}
+
     override fun cloneOP() = POPDistinct(dictionary, children[0].cloneOP())
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPDistinct.evaluate" }, {
         var data: MutableList<ResultRow>? = null

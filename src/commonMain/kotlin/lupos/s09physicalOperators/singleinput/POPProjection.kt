@@ -36,6 +36,16 @@ class POPProjection(override val dictionary: ResultSetDictionary, val variables:
         return true
     }
 
+override fun toSparql():String{
+var res="{SELECT "
+for(c in variables)
+res+=c.toSparql()+" "
+res+="{"
+res+=children[0].toSparql()
+res+="}}"
+return res
+}
+
     override fun cloneOP() = POPProjection(dictionary, variables, children[0].cloneOP())
 
     override fun getProvidedVariableNames(): List<String> {

@@ -23,6 +23,13 @@ class POPLimit(override val dictionary: ResultSetDictionary, val limit: Int, chi
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
 
+override fun toSparql():String{
+val sparql=children[0].toSparql()
+if (sparql.startsWith("{SELECT "))
+return sparql.substring(0,sparql.length-1)+" LIMIT "+limit+"}\n"
+return "{SELECT * {"+sparql+"} LIMIT "+limit+"}\n"
+}
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPLimit)
             return false
