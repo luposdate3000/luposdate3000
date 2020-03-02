@@ -15,7 +15,7 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
     override val classname = "AOPBuildInCallIF"
     override val children: Array<OPBase> = arrayOf(child, childA, childB)
 
-override fun toSparql()="IF("+children[0].toSparql()+", "+children[1].toSparql()+", "+children[1].toSparql()+")"
+    override fun toSparql() = "IF(" + children[0].toSparql() + ", " + children[1].toSparql() + ", " + children[1].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallIF)

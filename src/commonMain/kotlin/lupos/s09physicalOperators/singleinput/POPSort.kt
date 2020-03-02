@@ -46,39 +46,36 @@ class POPSort : POPBase {
         return true
     }
 
-fun getRecoursiveSortVariables():List<String>{
-val c=children[0]
-if(c is POPSort)
-return c.getRecoursiveSortVariables()+resultSet.getVariable(sortBy)
-return listOf(resultSet.getVariable(sortBy))
-}
+    fun getRecoursiveSortVariables(): List<String> {
+        val c = children[0]
+        if (c is POPSort)
+            return c.getRecoursiveSortVariables() + resultSet.getVariable(sortBy)
+        return listOf(resultSet.getVariable(sortBy))
+    }
 
-override fun toSparql():String{
-val variables=getRecoursiveSortVariables()
-var child:OPBase=this
-for(i in 0 until variables.size)
-child=child.children[0]
-require (child !is POPSort)
-
-val sparql=child.toSparql()
-var res=""
-if(sparql.startsWith("{SELECT "))
-res=sparql
-else
-res="{SELECT *{"+sparql+"}"
-res+=" ORDER BY "
-if (sortOrder)
-res+="ASC("
-else
-res+="DESC("
-for(v in variables)
-res+=AOPVariable(v).toSparql()+" "
-res+=")"
-res+=""
-if(!sparql.startsWith("{SELECT "))
-res+="}"
-return res
-}
+    override fun toSparql(): String {
+        val variables = getRecoursiveSortVariables()
+        var child: OPBase = this
+        for (i in 0 until variables.size)
+            child = child.children[0]
+        require(child !is POPSort)
+        val sparql = child.toSparql()
+        var res = ""
+        if (sparql.startsWith("{SELECT "))
+            res = sparql.substring(0, sparql.length - 1)
+        else
+            res = "{SELECT *{" + sparql + "}"
+        res += " ORDER BY "
+        if (sortOrder)
+            res += "ASC("
+        else
+            res += "DESC("
+        for (v in variables)
+            res += AOPVariable(v).toSparql() + " "
+        res += ")"
+        res += "}"
+        return res
+    }
 
 
     override fun cloneOP() = POPSort(dictionary, AOPVariable(resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())

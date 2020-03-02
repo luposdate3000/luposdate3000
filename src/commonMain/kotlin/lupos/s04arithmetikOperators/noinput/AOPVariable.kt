@@ -13,9 +13,9 @@ class AOPVariable(var name: String) : AOPBase() {
     override val classname = "AOPVariable"
     override val children: Array<OPBase> = arrayOf()
 
-    override fun toSparql() :String{
-return "?$name".replace("#","LuposVariable")
-}
+    override fun toSparql(): String {
+        return "?$name".replace("#", "LuposVariable")
+    }
 
     companion object {
         fun calculate(tmp: String?): AOPConstant {

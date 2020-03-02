@@ -208,8 +208,8 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
         }
         EOperatorID.POPProjectionID -> {
             val childCount = nextInt(buffer, MAX_VARIABLES)
-if(childCount==0)
-return fromBinaryPOP(dictionary, buffer)
+            if (childCount == 0)
+                return fromBinaryPOP(dictionary, buffer)
             val variables = mutableListOf<AOPVariable>()
             for (i in 0 until childCount)
                 variables.add(fromBinaryAOP(dictionary, buffer) as AOPVariable)

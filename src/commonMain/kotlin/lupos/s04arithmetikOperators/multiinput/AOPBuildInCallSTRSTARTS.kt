@@ -16,7 +16,7 @@ class AOPBuildInCallSTRSTARTS(child: AOPBase, childB: AOPBase) : AOPBase() {
     override val operatorID = EOperatorID.AOPBuildInCallSTRSTARTSID
     override val classname = "AOPBuildInCallSTRSTARTS"
     override val children: Array<OPBase> = arrayOf(child, childB)
-override fun toSparql()="STRSTARTS("+children[0].toSparql()+", "+children[1].toSparql()+")"
+    override fun toSparql() = "STRSTARTS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSTRSTARTS)

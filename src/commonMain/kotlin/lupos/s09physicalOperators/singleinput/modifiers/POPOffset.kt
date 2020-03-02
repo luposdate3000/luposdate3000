@@ -35,12 +35,14 @@ class POPOffset(override val dictionary: ResultSetDictionary, val offset: Int, c
         }
         return true
     }
-override fun toSparql():String{
-val sparql=children[0].toSparql()
-if (sparql.startsWith("{SELECT "))
-return sparql.substring(0,sparql.length-1)+" OFFSET "+offset+"}"
-return "{SELECT * {"+sparql+"} OFFSET "+offset+"}"
-}
+
+    override fun toSparql(): String {
+        val sparql = children[0].toSparql()
+        if (sparql.startsWith("{SELECT "))
+            return sparql.substring(0, sparql.length - 1) + " OFFSET " + offset + "}"
+        return "{SELECT * {" + sparql + "} OFFSET " + offset + "}"
+    }
+
     override fun cloneOP() = POPOffset(dictionary, offset, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPOffset.evaluate" }, {

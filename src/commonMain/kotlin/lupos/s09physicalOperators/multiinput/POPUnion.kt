@@ -22,7 +22,7 @@ class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, chi
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
-override fun toSparql()="{"+children[0].toSparql()+"} UNION {"+children[1].toSparql()+"}"
+    override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPUnion)

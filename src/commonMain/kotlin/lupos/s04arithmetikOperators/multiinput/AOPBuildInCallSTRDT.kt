@@ -17,7 +17,7 @@ class AOPBuildInCallSTRDT(child: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPBuildInCallSTRDT"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
-override fun toSparql()="STRDT("+children[0].toSparql()+", "+children[1].toSparql()+")"
+    override fun toSparql() = "STRDT(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSTRDT)
             return false
