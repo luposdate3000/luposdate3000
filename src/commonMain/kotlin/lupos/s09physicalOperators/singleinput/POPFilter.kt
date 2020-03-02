@@ -25,6 +25,10 @@ class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, c
     override val children = arrayOf(child, filter)
     override fun childrenToVerifyCount() = 1
 
+override fun toSparql():String{
+return "{" +children[0].toSparql()+ " FILTER ("+children[1].toSparql()+")}"
+}
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPFilter)
             return false

@@ -21,6 +21,8 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
     var first = true
     override fun cloneOP() = POPEmptyRow(dictionary)
 
+override fun toSparql()="{}"
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPEmptyRow)
             return false

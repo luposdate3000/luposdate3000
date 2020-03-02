@@ -17,6 +17,9 @@ class AOPAddition(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
     override val classname = "AOPAddition"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
+
+override fun toSparql()=children[0].toSparql()+" + "+children[1].toSparql()
+
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAddition)
             return false
