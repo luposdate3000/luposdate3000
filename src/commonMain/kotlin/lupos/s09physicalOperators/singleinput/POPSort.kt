@@ -74,7 +74,7 @@ res+="DESC("
 for(v in variables)
 res+=AOPVariable(v).toSparql()+" "
 res+=")"
-res+="\n"
+res+=""
 if(!sparql.startsWith("{SELECT "))
 res+="}"
 return res

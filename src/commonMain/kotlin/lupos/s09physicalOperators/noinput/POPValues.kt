@@ -34,7 +34,7 @@ override fun toSparql():String{
 var res="VALUES("
 for(v in stringVars)
 res+=AOPVariable(v).toSparql()+" "
-res+=") {\n"
+res+=") {"
 for (m in data){
 res+="("
 for(v in variables){
@@ -44,9 +44,9 @@ res+="UNDEF "
 else
 res+=resultSet.getValue(s)+" "
 }
-res+=")\n"
+res+=")"
 }
-res+="}\n"
+res+="}"
 return res
 }
 

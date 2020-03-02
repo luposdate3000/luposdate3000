@@ -37,7 +37,7 @@ override fun toSparql():String{
 val sparql=children[0].toSparql()
 if(sparql.startsWith("{SELECT "))
 return "{SELECT DISTINCT "+sparql.substring("{SELECT ".length,sparql.length)
-return "{SELECT DISTINCT * {\n"+sparql+"}}\n"
+return "{SELECT DISTINCT * {"+sparql+"}}"
 }
 
     override fun cloneOP() = POPDistinct(dictionary, children[0].cloneOP())

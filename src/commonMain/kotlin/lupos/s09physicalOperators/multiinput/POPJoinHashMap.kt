@@ -25,7 +25,7 @@ class POPJoinHashMap(override val dictionary: ResultSetDictionary, childA: OPBas
 
     override fun toSparql(): String {
         if (optional)
-            return "OPTIONAL{\n" + children[0].toSparql() + children[1].toSparql() + "}\n"
+            return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
         return children[0].toSparql() + children[1].toSparql()
     }
 

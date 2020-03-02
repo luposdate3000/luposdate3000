@@ -69,8 +69,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 
     override fun toSparql(): String {
         if (graphNameL == "")
-            return sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + ".\n"
-        return "GRAPH <$graphNameL> {" + sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "}\n"
+            return sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "."
+        return "GRAPH <$graphNameL> {" + sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "}"
     }
 
     override fun getGraphName(): String = Trace.trace({ "TripleStoreIteratorGlobal.getGraphName" }, {

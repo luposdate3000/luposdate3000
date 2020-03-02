@@ -64,8 +64,8 @@ abstract class OPBase {
     }
 
     fun toSparqlQuery(): String {
-        var res = "SELECT * \n"
-        res += "WHERE{\n"
+        var res = "SELECT * "
+        res += "WHERE{"
         res += toSparql()
         res += "}"
         return res

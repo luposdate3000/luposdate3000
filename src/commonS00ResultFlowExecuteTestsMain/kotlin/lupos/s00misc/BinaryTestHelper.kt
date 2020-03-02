@@ -650,7 +650,7 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     val expected = QueryResultToXML.toXML(expectPOP!!).first()
     if (input!! is POPBase) {
         val sparql = input.toSparqlQuery()
-        println("sparql::\n" + sparql)
+        println("sparql::" + sparql)
         val jena = JenaRequest()
         val jenaout = jena.requestQuery(sparql)
         if (!expected.myEqualsUnclean(jenaout)) {
