@@ -30,7 +30,7 @@ class AOPBuildInCallLANG(child: AOPBase) : AOPBase() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPSimpleLiteral(a.delimiter, a.language)
             })
-if(a is AOPConstantString)
+if(a is AOPConstantString|| a is AOPNumeric || a is AOPBoolean || a is AOPDateTime)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             AOPSimpleLiteral("\"", "")
         })
