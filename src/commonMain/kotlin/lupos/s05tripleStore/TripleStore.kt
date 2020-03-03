@@ -30,10 +30,10 @@ abstract class POPTripleStoreIteratorBase : POPBase() {
 }
 
 class PersistentStoreLocal {
-    val defaultGraphName = ""
     val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
 
     companion object {
+    val defaultGraphName = ""
         private val global_transactionID = ThreadSafeUuid()
 
     }

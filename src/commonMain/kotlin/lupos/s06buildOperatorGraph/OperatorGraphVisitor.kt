@@ -1092,7 +1092,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (ref is ASTIriGraphRef)
             return Pair(EGraphRefType.IriGraphRef, ref.iri)
         if (ref is ASTNamedIriGraphRef)
-            return Pair(EGraphRefType.NamedIriGraphRef, ref.iri)
+            return Pair(EGraphRefType.IriGraphRef, ref.iri)
         if (ref is ASTDefaultGraphRef)
             return Pair(EGraphRefType.DefaultGraphRef, null)
         if (ref is ASTNamedGraphRef)

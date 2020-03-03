@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-
+import lupos.s05tripleStore.*
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
@@ -36,6 +36,39 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
     override val classname = "POPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
     override val resultSet = ResultSet(dictionary)
+
+
+    override fun toSparql(): String {
+        var res = ""
+        when (action) {
+            EGraphOperationType.CLEAR -> res += "CLEAR"
+            EGraphOperationType.DROP -> res += "DROP"
+            EGraphOperationType.CREATE -> res += "CREATE"
+            EGraphOperationType.COPY -> res += "COPY"
+            EGraphOperationType.MOVE -> res += "MOVE"
+            EGraphOperationType.ADD -> res += "ADD"
+        }
+        if (silent)
+            res += " SILENT "
+        else
+            res += " "
+        when (graph1type) {
+            EGraphRefType.AllGraphRef -> res += "ALL"
+            EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
+            EGraphRefType.NamedGraphRef -> res += "NAMED"
+            EGraphRefType.IriGraphRef -> res += "<" + graph1iri!! + ">"
+        }
+        if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
+            res += " TO "
+            when (graph2type) {
+                EGraphRefType.AllGraphRef -> res += "ALL"
+                EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
+                EGraphRefType.NamedGraphRef -> res += "NAMED"
+                EGraphRefType.IriGraphRef -> res += "<" + graph2iri!! + ">"
+            }
+        }
+        return res
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPGraphOperation)
@@ -80,7 +113,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                 }
                             }
                             EGraphOperationType.DROP -> {
-                                DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                                DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                                 for (s in DistributedTripleStore.getGraphNames(false)) {
                                     DistributedTripleStore.dropGraph(s)
                                 }
@@ -90,8 +123,8 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                     }
                     EGraphRefType.DefaultGraphRef -> {
                         when (action) {
-                            EGraphOperationType.CLEAR -> DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                            EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                            EGraphOperationType.CLEAR -> DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
+                            EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                             EGraphOperationType.COPY -> {
                                 when (graph2type) {
                                     EGraphRefType.IriGraphRef -> {
@@ -112,7 +145,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         } catch (e: Throwable) {
                                         }
                                         DistributedTripleStore.getNamedGraph(graph2iri!!, true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
-                                        DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                                        DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
                                 }
@@ -150,7 +183,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         }
                                     }
                                     EGraphRefType.DefaultGraphRef -> {
-                                        DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                                        DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                                         DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(graph1iri!!).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
@@ -169,7 +202,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         }
                                     }
                                     EGraphRefType.DefaultGraphRef -> {
-                                        DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                                        DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                                         DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(graph1iri!!).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                         DistributedTripleStore.dropGraph(graph1iri!!)
                                     }

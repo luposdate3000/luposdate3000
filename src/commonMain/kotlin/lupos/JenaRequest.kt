@@ -20,6 +20,10 @@ import lupos.s00misc.*
 
 
 class JenaRequest {
+    fun finalize() {
+        client.close()
+    }
+
     val client = HttpClient() {
         install(Logging) {
             logger = Logger.SIMPLE
@@ -30,7 +34,6 @@ class JenaRequest {
     constructor() {
         var message: String? = null
         CoroutinesHelper.runBlock {
-            println("request :: localhost:3030/$/datasets dbName=sp2b&dbType=mem")
             try {
                 message = client.post<String> {
                     url(URLBuilder(URLProtocol.HTTP, "localhost", 3030, encodedPath = "/$/datasets").build())
@@ -39,12 +42,11 @@ class JenaRequest {
                 }
             } catch (e: Throwable) {
                 if (e.message != "Client request(http://localhost:3030/$/datasets) invalid: 409 Name already registered /sp2b") {
-                    println(e.message)
                     throw e
                 }
             }
         }
-        println(message)
+        requestUpdate("DROP SILENT ALL")
     }
 
 
@@ -81,28 +83,24 @@ class JenaRequest {
     fun requestUpdate(query: String): XMLElement {
         var message: String? = null
         CoroutinesHelper.runBlock {
-            println("request :: localhost:3030/sp2b/query query=${query}")
             message = client.post<String> {
                 url(URLBuilder(URLProtocol.HTTP, "localhost", 3030, encodedPath = "/sp2b/update").build())
                 contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
                 body = listOf("update" to query).formUrlEncode()
             }
         }
-        println(message)
         return XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
     }
 
     fun requestQuery(query: String): XMLElement {
         var message: String? = null
         CoroutinesHelper.runBlock {
-            println("request :: localhost:3030/sp2b/query query=${query}")
             message = client.post<String> {
                 url(URLBuilder(URLProtocol.HTTP, "localhost", 3030, encodedPath = "/sp2b/query").build())
                 contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
                 body = listOf("query" to query).formUrlEncode()
             }
         }
-        println(message)
         return XMLElement.parseFromJson(message!!)!!.first()
     }
 
@@ -113,11 +111,4 @@ class JenaRequest {
         return requestQuery(query)
     }
 
-    fun finalize() {
-        client.close()
-    }
-
-    fun clearAll() {
-        requestUpdate("DROP SILENT ALL")
-    }
 }

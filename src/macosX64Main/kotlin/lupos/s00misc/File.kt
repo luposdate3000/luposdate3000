@@ -80,10 +80,8 @@ class File {
         try {
             var offset = 0
             val buf = buffer.finish()
-            println("write start ${buffer.pos}")
             while (offset < buffer.pos) {
                 val len = fwrite(buf.refTo(offset), 1L.toULong(), (buffer.pos - offset).toULong(), file)
-                println("write loop ${offset} ${buffer.pos - offset} ${len}")
                 offset += len.toInt()
             }
         } finally {

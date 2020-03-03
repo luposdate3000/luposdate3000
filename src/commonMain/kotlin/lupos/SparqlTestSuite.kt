@@ -23,6 +23,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -369,11 +370,10 @@ class SparqlTestSuite() {
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
-        val jenaRequest = JenaRequest()
+        val jena = JenaRequest()
         try {
             try {
-                jenaRequest.clearAll()
-                DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                 val toParse = readFileOrNull(queryFile)!!
                 if (toParse.contains("service", true)) {
                     updateAllMicroTest(testName, queryFile, false)
@@ -398,7 +398,7 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
-                    jenaRequest.insertDataIntoGraph(null, xmlQueryInput!!.first())
+                    jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -413,7 +413,7 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
-                    jenaRequest.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
+                    jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
                 }
                 if (services != null)
                     for (s in services) {
@@ -486,7 +486,7 @@ class SparqlTestSuite() {
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
-                    val jenaResult = jenaRequest.requestQuery(toParse)
+                    val jenaResult = jena.requestQuery(toParse)
                     println("check jena")
                     if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!)) {
                         println(jenaResult.myEqualsUnclean(xmlQueryResult))
@@ -590,7 +590,7 @@ class SparqlTestSuite() {
             }
         } finally {
             updateAllMicroTest("invalidxxx", "invalidxxx", false)
-            jenaRequest.finalize()
+            jena.finalize()
         }
     }
 }

@@ -70,7 +70,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override fun toSparql(): String {
         if (graphNameL == "")
             return sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "."
-        return "GRAPH <$graphNameL> {" + sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "}"
+        return "GRAPH <$graphNameL> {" + sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "}."
     }
 
     override fun getGraphName(): String = Trace.trace({ "TripleStoreIteratorGlobal.getGraphName" }, {
@@ -245,7 +245,7 @@ object DistributedTripleStore {
     })
 
     fun getDefaultGraph(): DistributedGraph = Trace.trace({ "DistributedTripleStore.getDefaultGraph" }, {
-        return DistributedGraph(localStore.defaultGraphName)
+        return DistributedGraph(PersistentStoreLocal.defaultGraphName)
     })
 
     fun commit(transactionID: Long) = Trace.trace({ "DistributedTripleStore.commit" }, {

@@ -12,7 +12,6 @@ abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetD
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
 
     override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
-        println(node)
         node.syntaxVerifyAllVariableExists(listOf(), true)
         var tmp = node
         for (o in childrenOptimizers) {

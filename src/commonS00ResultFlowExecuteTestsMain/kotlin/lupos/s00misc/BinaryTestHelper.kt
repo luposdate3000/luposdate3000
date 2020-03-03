@@ -2,7 +2,8 @@ package lupos.s00misc
 
 import lupos.*
 import lupos.s00misc.*
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.*
+import lupos.s02buildSyntaxTree.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
@@ -68,11 +69,13 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s05tripleStore.*
+import lupos.s06buildOperatorGraph.*
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
@@ -101,7 +104,7 @@ val MAX_GRAPH_NAMES = 10
 val testDictionaryVarName = ResultSetDictionary()
 val testDictionaryValue = ResultSetDictionary()
 val testDictionaryValueTyped = mutableMapOf<EOperatorID, ResultSetDictionary>()
-
+var hadArrayIndexOutOfBoundsException = false
 
 fun nextStringVarName(buffer: DynamicByteArray): String {
     return testDictionaryVarName.getValue(nextInt(buffer, testDictionaryVarName.mapLTS.size()))!!
@@ -117,6 +120,53 @@ fun nextStringValueTyped(buffer: DynamicByteArray, type: EOperatorID): String {
     if (tmp.operatorID == type)
         return testDictionaryValue.mapLTS[idx]!!
     return testDictionaryValueTyped[type]!!.getValue(idx % testDictionaryValueTyped[type]!!.mapLTS.size())!!
+}
+
+fun fromBinaryAOPConstOrVar(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
+    try {
+        var id = buffer.getNextInt()
+        if (id % 2 == 0)
+            return AOPVariable(testDictionaryVarName.getValue(id % testDictionaryVarName.mapLTS.size())!!)
+        return AOPVariable.calculate(testDictionaryValue.getValue(id % testDictionaryValue.mapLTS.size())!!)
+    } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
+        return AOPUndef()
+    }
+}
+
+fun fromBinaryAOPIriOrVar(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
+    try {
+        var id = buffer.getNextInt()
+        var id2 = buffer.getNextInt()
+        if (id % 2 == 0)
+            return AOPVariable(testDictionaryVarName.getValue(id2 % testDictionaryVarName.mapLTS.size())!!)
+        val resultSet = testDictionaryValueTyped[EOperatorID.AOPIriID]!!
+        return AOPVariable.calculate(resultSet.mapLTS[id2 % resultSet.mapLTS.size()])
+    } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
+        val resultSet = testDictionaryValueTyped[EOperatorID.AOPIriID]!!
+        return AOPVariable.calculate(resultSet.mapLTS[0])
+    }
+}
+
+fun fromBinaryAOPIriOrBnodeOrVar(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
+    try {
+        var id = buffer.getNextInt()
+        var id2 = buffer.getNextInt()
+        when (id % 3) {
+            0 -> return AOPVariable(testDictionaryVarName.getValue(id2 % testDictionaryVarName.mapLTS.size())!!)
+            1 -> {
+                val resultSet = testDictionaryValueTyped[EOperatorID.AOPIriID]!!
+                return AOPVariable.calculate(resultSet.mapLTS[id2 % resultSet.mapLTS.size()])
+            }
+            else -> {
+                return AOPBuildInCallBNODE0()
+            }
+        }
+    } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
+        return AOPBuildInCallBNODE0()
+    }
 }
 
 fun nextInt(buffer: DynamicByteArray, maxValue: Int): Int {
@@ -145,6 +195,24 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         if (EOperatorIDAOP.contains(operatorID))
             return fromBinaryAOP(dictionary, buffer)
     } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
+    }
+    return OPNothing()
+}
+
+fun fromBinaryPOPLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
+    try {
+        val poploplist = EOperatorIDPOP + EOperatorIDLOP
+        var id = buffer.getInt(buffer.pos)
+        val operatorID = poploplist[id % poploplist.size]
+        if (operatorID == EOperatorID.OPNothingID)
+            return OPNothing()
+        if (EOperatorIDLOP.contains(operatorID))
+            return fromBinaryLOP(dictionary, buffer)
+        if (EOperatorIDPOP.contains(operatorID))
+            return fromBinaryPOP(dictionary, buffer)
+    } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
     }
     return OPNothing()
 }
@@ -172,51 +240,51 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 return POPEmptyRow(dictionary)
             }
             EOperatorID.POPUnionID -> {
-                val childA = fromBinary(dictionary, buffer)
-                val childB = fromBinary(dictionary, buffer)
+                val childA = fromBinaryPOPLOP(dictionary, buffer)
+                val childB = fromBinaryPOPLOP(dictionary, buffer)
                 return POPUnion(dictionary, childA, childB)
             }
             EOperatorID.POPJoinHashMapID -> {
-                val childA = fromBinary(dictionary, buffer)
-                val childB = fromBinary(dictionary, buffer)
+                val childA = fromBinaryPOPLOP(dictionary, buffer)
+                val childB = fromBinaryPOPLOP(dictionary, buffer)
                 val optional = DynamicByteArray.intToBool(nextInt(buffer, 2))
                 return POPJoinHashMap(dictionary, childA, childB, optional)
             }
             EOperatorID.POPRenameID -> {
                 val nameTo = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val nameFrom = fromBinaryAOP(dictionary, buffer) as AOPVariable
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPRename(dictionary, nameTo, nameFrom, child)
             }
             EOperatorID.POPFilterID -> {
                 val filter = fromBinaryAOP(dictionary, buffer)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPFilter(dictionary, filter, child)
             }
             EOperatorID.POPMakeBooleanResultID -> {
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 throw ExceptionTopLevelOperator(POPMakeBooleanResult(dictionary, child))
             }
             EOperatorID.POPFilterExactID -> {
                 val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val value = nextStringValue(buffer)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPFilterExact(dictionary, name, value, child)
             }
             EOperatorID.POPBindID -> {
                 val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val value = fromBinaryAOP(dictionary, buffer)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPBind(dictionary, name, value, child)
             }
             EOperatorID.POPSortID -> {
                 val sortBy = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val sortOrder = DynamicByteArray.intToBool(nextInt(buffer, 2))
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPSort(dictionary, sortBy, sortOrder, child)
             }
             EOperatorID.POPDistinctID -> {
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPDistinct(dictionary, child)
             }
             EOperatorID.POPProjectionID -> {
@@ -226,12 +294,12 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 val variables = mutableListOf<AOPVariable>()
                 for (i in 0 until childCount)
                     variables.add(fromBinaryAOP(dictionary, buffer) as AOPVariable)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPProjection(dictionary, variables, child)
             }
             EOperatorID.POPLimitID -> {
                 var value = nextInt(buffer, MAX_LIMIT)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 if (hasChildRecoursive(child, listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
                     if (child is POPBase)
                         return child
@@ -241,15 +309,32 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             }
             EOperatorID.POPOffsetID -> {
                 var value = nextInt(buffer, MAX_OFFSET)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                if (hasChildRecoursive(child, listOf(EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
+                    if (child is POPBase)
+                        return child
+                    return POPEmptyRow(dictionary)
+                }
                 return POPOffset(dictionary, value, child)
             }
+            EOperatorID.POPGraphOperationID -> {
+                val action = EGraphOperationType.values()[nextInt(buffer, EGraphOperationType.values().size)]
+                val silent = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                val graph1type = EGraphRefType.values()[nextInt(buffer, EGraphRefType.values().size)]
+                val graph1nameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+                val graph1name = graph1nameTmp.substring(1, graph1nameTmp.length - 1)
+                val graph2type = EGraphRefType.values()[nextInt(buffer, EGraphRefType.values().size)]
+                val graph2nameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+                val graph2name = graph2nameTmp.substring(1, graph2nameTmp.length - 1)
+                throw ExceptionTopLevelOperator(POPGraphOperation(dictionary, 1L, silent, graph1type, graph1name, graph2type, graph2name, action))
+            }
             EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleInsertIteratorID, EOperatorID.TripleStoreIteratorLocalFilterID -> {
-                val graphName = (nextStringValueTyped(buffer, EOperatorID.AOPIriID) as AOPIri).iri
-                val graph = DistributedTripleStore.createGraph(graphName)
-                val s = fromBinaryAOP(dictionary, buffer)
-                val p = fromBinaryAOP(dictionary, buffer)
-                val o = fromBinaryAOP(dictionary, buffer)
+                val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+                val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
+                val graph = DistributedTripleStore.getNamedGraph(graphName, true)
+                val s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+                val p = fromBinaryAOPIriOrVar(dictionary, buffer)
+                val o = fromBinaryAOPConstOrVar(dictionary, buffer)
                 val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
                 val tripleCount = nextInt(buffer, MAX_TRIPLES)
                 for (i in 0 until tripleCount) {
@@ -284,6 +369,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             else -> throw Exception("BinaryHelper.fromBinaryPOP ${operatorID} undefined")
         }
     } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
         return POPEmptyRow(dictionary)
     }
 }
@@ -305,48 +391,48 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 val graph1name = (nextStringValueTyped(buffer, EOperatorID.AOPIriID) as AOPIri).iri
                 val graph2type = EGraphRefType.values()[nextInt(buffer, EGraphRefType.values().size)]
                 val graph2name = (nextStringValueTyped(buffer, EOperatorID.AOPIriID) as AOPIri).iri
-                return LOPGraphOperation(action, silent, graph1type, graph1name, graph2type, graph2name)
+                throw ExceptionTopLevelOperator(LOPGraphOperation(action, silent, graph1type, graph1name, graph2type, graph2name))
             }
             EOperatorID.LOPMakeBooleanResultID -> {
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 throw ExceptionTopLevelOperator(LOPMakeBooleanResult(child))
             }
             EOperatorID.LOPUnionID -> {
-                val childA = fromBinary(dictionary, buffer)
-                val childB = fromBinary(dictionary, buffer)
+                val childA = fromBinaryPOPLOP(dictionary, buffer)
+                val childB = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPUnion(childA, childB)
             }
             EOperatorID.LOPJoinID -> {
-                val childA = fromBinary(dictionary, buffer)
-                val childB = fromBinary(dictionary, buffer)
+                val childA = fromBinaryPOPLOP(dictionary, buffer)
+                val childB = fromBinaryPOPLOP(dictionary, buffer)
                 val optional = DynamicByteArray.intToBool(nextInt(buffer, 2))
                 return LOPJoin(childA, childB, optional)
             }
             EOperatorID.LOPRenameID -> {
                 val nameTo = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val nameFrom = fromBinaryAOP(dictionary, buffer) as AOPVariable
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPRename(nameTo, nameFrom, child)
             }
             EOperatorID.LOPFilterID -> {
                 val filter = fromBinaryAOP(dictionary, buffer)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPFilter(filter, child)
             }
             EOperatorID.LOPBindID -> {
                 val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val value = fromBinaryAOP(dictionary, buffer)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPBind(name, value, child)
             }
             EOperatorID.LOPSortID -> {
                 val sortBy = fromBinaryAOP(dictionary, buffer) as AOPVariable
                 val sortOrder = DynamicByteArray.intToBool(nextInt(buffer, 2))
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPSort(sortOrder, sortBy, child)
             }
             EOperatorID.LOPDistinctID -> {
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPDistinct(child)
             }
             EOperatorID.LOPProjectionID -> {
@@ -354,12 +440,12 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 val variables = mutableListOf<AOPVariable>()
                 for (i in 0 until childCount)
                     variables.add(fromBinaryAOP(dictionary, buffer) as AOPVariable)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPProjection(variables, child)
             }
             EOperatorID.LOPLimitID -> {
                 var value = nextInt(buffer, MAX_LIMIT)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
                 if (hasChildRecoursive(child, listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
                     if (child is LOPBase)
                         return child
@@ -369,16 +455,21 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             }
             EOperatorID.LOPOffsetID -> {
                 var value = nextInt(buffer, MAX_OFFSET)
-                val child = fromBinary(dictionary, buffer)
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                if (hasChildRecoursive(child, listOf(EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
+                    if (child is LOPBase)
+                        return child
+                    return OPNothing()
+                }
                 return LOPOffset(value, child)
             }
             EOperatorID.LOPTripleID -> {
                 val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
                 val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-                val graph = DistributedTripleStore.createGraph(graphName)
-                val s = fromBinaryAOP(dictionary, buffer)
-                val p = fromBinaryAOP(dictionary, buffer)
-                val o = fromBinaryAOP(dictionary, buffer)
+                val graph = DistributedTripleStore.getNamedGraph(graphName, true)
+                var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+                var p = fromBinaryAOPIriOrVar(dictionary, buffer)
+                var o = fromBinaryAOPConstOrVar(dictionary, buffer)
                 val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
                 val tripleCount = nextInt(buffer, MAX_TRIPLES)
                 for (i in 0 until tripleCount) {
@@ -414,6 +505,7 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             else -> throw Exception("BinaryHelper.fromBinaryLOP ${operatorID} undefined")
         }
     } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
         return OPNothing()
     }
 }
@@ -431,6 +523,10 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             EOperatorID.AOPBuildInCallIsIriID -> {
                 val child = fromBinaryAOP(dictionary, buffer)
                 return AOPBuildInCallIsIri(child)
+            }
+            EOperatorID.AOPBuildInCallIsLITERALID -> {
+                val child = fromBinaryAOP(dictionary, buffer)
+                return AOPBuildInCallIsLITERAL(child)
             }
             EOperatorID.AOPAndID -> {
                 val childA = fromBinaryAOP(dictionary, buffer)
@@ -586,6 +682,8 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             }
             EOperatorID.AOPBuildInCallCEILID -> {
                 val childA = fromBinaryAOP(dictionary, buffer)
+                if (childA is AOPBuildInCallCEIL)
+                    return childA
                 return AOPBuildInCallCEIL(childA)
             }
             EOperatorID.AOPBuildInCallCONCATID -> {
@@ -698,7 +796,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
                 return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPIntegerID))
             }
             EOperatorID.AOPBnodeID -> {
-                return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPBnodeID))
+                return AOPBuildInCallBNODE0()
             }
             EOperatorID.AOPIriID -> {
                 return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPIriID))
@@ -724,6 +822,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             else -> throw Exception("BinaryHelper.fromBinaryAOP ${operatorID} undefined")
         }
     } catch (e: ArrayIndexOutOfBoundsException) {
+        hadArrayIndexOutOfBoundsException = true
         return AOPUndef()
     }
 }
@@ -751,136 +850,114 @@ fun executeBinaryTests(folder: String) {
 
 
 fun executeBinaryTest(filename: String, detailedLog: Boolean) {
-    val dictionary = ResultSetDictionary()
-    var input: OPBase? = null
     val buffer = File(filename).readAsDynamicByteArray()
-    val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
-    ExecuteOptimizer.enabledOptimizers.clear()
-    for (o in 0 until optimizerEnabledCount) {
-        val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
-        ExecuteOptimizer.enabledOptimizers[optimizer] = true
-    }
-    try {
-        input = fromBinary(dictionary, buffer)
-    } catch (e: ExceptionTopLevelOperator) {
-        input = e.data
-    }
-    println("execute test $filename ${ExecuteOptimizer.enabledOptimizers}")
-
-    if (input!! is POPBase) {
-        val sparql = input.toSparqlQuery()
-        println("sparql::" + sparql)
-        val jena = JenaRequest()
-        val expected = jena.requestQuery(sparql)
-        val output = QueryResultToXML.toXML(input!! as POPBase).first()
-        if (!expected.myEqualsUnclean(output)) {
-            if (detailedLog) {
-                println("a")
-                println(input!!.toXMLElement().toPrettyString())
-                println(expected.toPrettyString())
-                println(output.toPrettyString())
-            } else
-                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
-        }
-//          require(expected.myEqualsUnclean(output))
-        val output2 = QueryResultToXML.toXML(input!!.cloneOP() as POPBase).first()
-        if (!expected.myEqualsUnclean(output2)) {
-            if (detailedLog) {
-                println("b")
-                println(input!!.toXMLElement().toPrettyString())
-                println(expected.toPrettyString())
-                println(output2.toPrettyString())
-            } else
-                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
-        }
-//          require(expected.myEqualsUnclean(output2))
-    } else {
-        val lop_node = input!! as LOPBase
-        val lOptimizer = LogicalOptimizer(1L, dictionary)
-        val pOptimizer = PhysicalOptimizer(1L, dictionary)
-        val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
-        val lop_node2 = lOptimizer.optimizeCall(lop_node)
-        val pop_node = pOptimizer.optimizeCall(lop_node2)
-        val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
-        val output = QueryResultToXML.toXML(input2).first()
-        val sparql = pop_node.toSparqlQuery()
-        println("sparql::" + sparql)
-        val jena = JenaRequest()
-        val expected = jena.requestQuery(sparql)
-        if (!expected.myEqualsUnclean(output)) {
-            if (detailedLog) {
-                println("c")
-                println(input!!.toXMLElement().toPrettyString())
-                println(input2!!.toXMLElement().toPrettyString())
-                println(expected.toPrettyString())
-                println(output.toPrettyString())
-            } else
-                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
-        }
-//          require(expected.myEqualsUnclean(output))
-        val output2 = QueryResultToXML.toXML(input2.cloneOP() as POPBase).first()
-        if (!expected.myEqualsUnclean(output2)) {
-            if (detailedLog) {
-                println("d")
-                println(input!!.toXMLElement().toPrettyString())
-                println(input2!!.toXMLElement().toPrettyString())
-                println(expected.toPrettyString())
-                println(output2.toPrettyString())
-            } else
-                println("failed ${input!!.toXMLElement().toPrettyString().length} $filename ${input!!.toXMLElement().toPrettyString()}")
-        }
-//          require(expected.myEqualsUnclean(output2))
-    }
+    executeBinaryTest(buffer)
 }
 
 fun executeBinaryTest(buffer: DynamicByteArray) {
     val dictionary = ResultSetDictionary()
-    val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
-    ExecuteOptimizer.enabledOptimizers.clear()
-    for (o in 0 until optimizerEnabledCount) {
-        val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
-        ExecuteOptimizer.enabledOptimizers[optimizer] = true
-    }
-    var input: OPBase = OPNothing()
-    try {
-        input = fromBinary(dictionary, buffer)
-    } catch (e: ExceptionTopLevelOperator) {
-        input = e.data
-    }
     val lOptimizer = LogicalOptimizer(1L, dictionary)
     val pOptimizer = PhysicalOptimizer(1L, dictionary)
     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
-    if (input is POPBase) {
-        val output = QueryResultToXML.toXML(input).first()
-        val output2 = QueryResultToXML.toXML(input.cloneOP() as POPBase).first()
-        require(output.myEquals(output2))
-    } else if (input is LOPBase) {
-        val node1 = lOptimizer.optimizeCall(input)
-        val node2 = pOptimizer.optimizeCall(node1)
-        val node3 = dOptimizer.optimizeCall(node2) as POPBase
-        val output = QueryResultToXML.toXML(node3).first()
-        val output2 = QueryResultToXML.toXML(node3.cloneOP() as POPBase).first()
-        require(output.myEquals(output2))
+    val jena = JenaRequest()
+    try {
+        val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
         ExecuteOptimizer.enabledOptimizers.clear()
-        val node4 = lOptimizer.optimizeCall(input)
-        val node5 = pOptimizer.optimizeCall(node4)
-        val input3 = dOptimizer.optimizeCall(node5) as POPBase
-        val output3 = QueryResultToXML.toXML(input3).first()
-        val output4 = QueryResultToXML.toXML(input3.cloneOP() as POPBase).first()
-        require(output.myEqualsUnclean(output3))
-        require(output3.myEquals(output4))
-    } else if (input is AOPBase) {
-        val node1 = lOptimizer.optimizeCall(input)
-        val node2 = pOptimizer.optimizeCall(node1)
-        val node3 = dOptimizer.optimizeCall(node2) as AOPBase
-        val resultSet = ResultSet(dictionary)
-        for (v in node3.getRequiredVariableNamesRecoursive())
-            resultSet.createVariable(v)
-        val resultRow = resultSet.createResultRow()
-        for (v in node3.getRequiredVariableNamesRecoursive())
-            resultRow[resultSet.createVariable(v)] = resultSet.createValue(testDictionaryValue.getValue(v.hashCode() % testDictionaryValue.mapLTS.size()))
-        val output = node3.calculate(resultSet, resultRow)
-        val output2 = input.calculate(resultSet, resultRow)
-        require(output == output2)
+        for (o in 0 until optimizerEnabledCount) {
+            val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
+            ExecuteOptimizer.enabledOptimizers[optimizer] = true
+        }
+        val backupOptimizers = ExecuteOptimizer.enabledOptimizers
+        ExecuteOptimizer.enabledOptimizers.clear()
+        var globalSparql = mutableListOf<String>()
+        hadArrayIndexOutOfBoundsException = false
+        while (!hadArrayIndexOutOfBoundsException) {
+            var node1: OPBase
+            try {
+                node1 = fromBinaryPOPLOP(dictionary, buffer)
+            } catch (e: ExceptionTopLevelOperator) {
+                node1 = e.data
+            }
+            val node2 = lOptimizer.optimizeCall(node1)
+            val node3 = pOptimizer.optimizeCall(node2)
+            val node4 = dOptimizer.optimizeCall(node3) as POPBase
+            val output = QueryResultToXML.toXML(node4).first()
+            val sparql = node3.toSparqlQuery()
+            globalSparql.add(sparql)
+        }
+for(gname in DistributedTripleStore.getGraphNames(true)){
+val g=DistributedTripleStore.getNamedGraph(gname)
+val iterator=g.getIterator(1,dictionary,AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),EIndexPattern.SPO)
+val data=QueryResultToXML.toXML(iterator).first()
+var sparql="INSERT DATA{"
+if(gname!=PersistentStoreLocal.defaultGraphName)
+sparql+= "GRAPH <$gname> "
+        if (data.tag != "sparql")
+            throw Exception("can only parse sparql xml into an iterator")
+        CoroutinesHelper.run {
+                for (node in data["results"]!!.childs) {
+                    val result = mutableMapOf<String,String>()
+                    for (v in node.childs) {
+                        val name = v.attributes["name"]
+                        val child = v.childs.first()
+                        val content = child.content
+                        val value = when {
+                            child.tag == "uri" -> "<" + content + ">"
+                            child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                            child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                            child.tag == "bnode" -> "_:" + content
+                            else -> "\"" + content + "\""
+                        }
+                        result[name!!] = value!!
+                    }
+sparql+="( "+result["s"]+" " +result["p"]+" " +result["o"]+" " +")."
+                }
+        }
+sparql+="}"
+globalSparql.add(0,sparql)
+}
+        for (sparql in globalSparql) {
+            var output = XMLElement("crashed")
+            var isUpdate = false
+            try {
+                println("sparql::" + sparql)
+                val lcit = LexerCharIterator(sparql)
+                val tit = TokenIteratorSPARQLParser(lcit)
+                val ltit = LookAheadTokenIterator(tit, 3)
+                val parser = SPARQLParser(ltit)
+                val ast_node = parser.expr()
+                val node1 = ast_node.visit(OperatorGraphVisitor())
+                val node2 = lOptimizer.optimizeCall(node1)
+                val node3 = pOptimizer.optimizeCall(node2)
+                val node4 = dOptimizer.optimizeCall(node3) as POPBase
+                output = QueryResultToXML.toXML(node4).first()
+                isUpdate = node4 is POPGraphOperation
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+            if (isUpdate) {
+                try {
+                    val expected = jena.requestUpdate(sparql)
+                } catch (e: Throwable) {
+if(output.tag!="crashed")
+throw e
+                }
+            } else {
+var expected= XMLElement("crashed")
+                try {
+                    expected = jena.requestQuery(sparql)
+                } catch (e: Throwable) {
+if(output.tag!="crashed")
+throw e
+                }
+                if (!expected.myEqualsUnclean(output)) {
+println("expected :: $expected")
+println("output :: $output")
+                    throw Exception("failed $sparql")
+                }
+            }
+        }
+    } finally {
+        jena.finalize()
     }
 }

@@ -64,7 +64,6 @@ abstract class OPBase {
     }
 
     open fun toSparqlQuery(): String {
-        println(this)
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
