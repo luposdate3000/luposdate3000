@@ -13,6 +13,7 @@ class AOPIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPIn"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
+override fun toSparql()="( "+children[0].toSparql()+" IN "+children[1].toSparql()+" )"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPIn)

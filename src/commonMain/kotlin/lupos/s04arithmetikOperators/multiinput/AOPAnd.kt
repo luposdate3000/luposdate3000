@@ -15,7 +15,7 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPAnd"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
-    override fun toSparql() = children[0].toSparql() + " && " + children[1].toSparql()
+    override fun toSparql() = "("+children[0].toSparql() + " && " + children[1].toSparql()+")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAnd)

@@ -13,6 +13,7 @@ class AOPNotIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override val classname = "AOPNotIn"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
+override fun toSparql()="( "+children[0].toSparql()+" NOT IN "+children[1].toSparql()+" )"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPNotIn)
