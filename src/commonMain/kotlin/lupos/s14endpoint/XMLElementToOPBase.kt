@@ -60,7 +60,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPProjection
@@ -196,10 +195,6 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             return POPGroup(dictionary, by, bindings as POPBind, child)
         }
         "POPFilter" -> POPFilter(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
-        "POPFilterExact" -> {
-            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
-            POPFilterExact(dictionary, createAOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)
-        }
         "POPBind" -> {
             val child0 = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             val child1 = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)

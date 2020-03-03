@@ -82,7 +82,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
@@ -295,12 +294,6 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 throw ExceptionTopLevelOperator(POPMakeBooleanResult(dictionary, child))
             }
-            EOperatorID.POPFilterExactID -> {
-                val name = AOPVariable(nextStringVarName(buffer))
-                val value = nextStringValue(buffer)
-                val child = fromBinaryPOPLOP(dictionary, buffer)
-                return POPFilterExact(dictionary, name, value, child)
-            }
             EOperatorID.POPBindID -> {
                 val name = AOPVariable(nextStringVarName(buffer))
                 val value = fromBinaryAOP(dictionary, buffer)
@@ -422,6 +415,24 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
+            EOperatorID.LOPGroupID -> {
+                val by = mutableListOf<AOPVariable>()
+                var bindings: POPBind? = null
+                val byCount = nextInt(buffer, MAX_VARIABLES)
+                for (i in 0 until byCount)
+                    by.add(AOPVariable(nextStringVarName(buffer)))
+                val bindCount = nextInt(buffer, MAX_VARIABLES)
+                for (i in 0 until bindCount) {
+                    val name = AOPVariable(nextStringVarName(buffer))
+                    val value = fromBinaryAOP(dictionary, buffer)
+                    if (bindings == null)
+                        bindings = POPBind(dictionary, name, value, POPEmptyRow(dictionary))
+                    else
+                        bindings = POPBind(dictionary, name, value, bindings)
+                }
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                return LOPGroup( by, bindings, child)
+            }
             EOperatorID.LOPNOOPID -> {
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPNOOP(child)
@@ -959,6 +970,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
     var globalSparql = mutableListOf<String>()
     hadArrayIndexOutOfBoundsException = false
     while (!hadArrayIndexOutOfBoundsException) {
+try{
         var node1: OPBase
         try {
             node1 = fromBinaryPOPLOP(dictionary, buffer)
@@ -971,6 +983,8 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
         val output = QueryResultToXML.toXML(node4).first()
         val sparql = node3.toSparqlQuery()
         globalSparql.add(sparql)
+}catch(e:Throwable){
+}
     }
     for (gname in DistributedTripleStore.getGraphNames(true)) {
         val g = DistributedTripleStore.getNamedGraph(gname)

@@ -74,7 +74,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
@@ -102,7 +101,6 @@ val mapPopToLop = mapOf(
         EOperatorID.POPBindID to EOperatorID.LOPBindID,
         EOperatorID.POPDistinctID to EOperatorID.LOPDistinctID,
         EOperatorID.POPEmptyRowID to EOperatorID.OPNothingID,
-        EOperatorID.POPFilterExactID to EOperatorID.LOPFilterID,
         EOperatorID.POPFilterID to EOperatorID.LOPFilterID,
         EOperatorID.POPGraphOperationID to EOperatorID.LOPGraphOperationID,
         EOperatorID.POPGroupID to EOperatorID.LOPGroupID,
@@ -354,16 +352,6 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.name, buffer, asPOP)
             toBinary(operator.children[1], buffer, asPOP)
             toBinary(operator.children[0], buffer, asPOP)
-        }
-        is POPFilterExact -> {
-            if (asPOP) {
-                toBinary(operator.variable, buffer, asPOP)
-                buffer.appendInt(testDictionaryValue.createValue(operator.value))
-                toBinary(operator.children[0], buffer, asPOP)
-            } else {
-                toBinary(AOPEQ(operator.variable, AOPVariable.calculate(operator.value)), buffer, asPOP)
-                toBinary(operator.children[0], buffer, asPOP)
-            }
         }
         is POPSort -> {
             toBinary(AOPVariable(operator.resultSet.getVariable(operator.sortBy)), buffer, asPOP)
