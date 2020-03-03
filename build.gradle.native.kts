@@ -68,7 +68,7 @@ kotlin {
                 implementation ("io.ktor:ktor-client-core-native:1.3.1")
                 implementation ("io.ktor:ktor-client-cio:1.3.1")
                 implementation ("io.ktor:ktor-client-logging:1.3.1")
-                implementation ("io.ktor:ktor-client-logging-jvm:1.3.1")
+                implementation ("io.ktor:ktor-client-logging-native:1.3.1")
                 implementation ("org.slf4j:slf4j-nop:1.7.25")
             }
         }

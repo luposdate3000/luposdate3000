@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
     mapOf(
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
-    ).forEach { k, v ->
+    ).forEach { (k, v) ->
         val buffer = File("resources/$v").readAsDynamicByteArray()
         val len = buffer.getNextInt()
         for (c in args)
