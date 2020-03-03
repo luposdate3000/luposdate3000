@@ -218,15 +218,6 @@ fun fromBinaryPOPLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray):
     return OPNothing()
 }
 
-fun hasChildRecoursive(base: OPBase, search: List<EOperatorID>, skip: List<EOperatorID>): Boolean {
-    if (search.contains(base.operatorID))
-        return true
-    for (c in base.children)
-        if (skip.contains(c.operatorID) && hasChildRecoursive(c, search, skip))
-            return true
-    return false
-}
-
 fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): POPBase {
     try {
         var id = nextInt(buffer)
@@ -237,6 +228,12 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
+EOperatorID.POPServiceIRIID->{
+return fromBinaryPOP(dictionary,buffer)
+}
+EOperatorID.POPImportFromNetworkPackageID->{
+return fromBinaryPOP(dictionary,buffer)
+}
             EOperatorID.POPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
@@ -339,21 +336,11 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             EOperatorID.POPLimitID -> {
                 var value = nextInt(buffer, MAX_LIMIT)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
-                if (hasChildRecoursive(child, listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
-                    if (child is POPBase)
-                        return child
-                    return POPEmptyRow(dictionary)
-                }
                 return POPLimit(dictionary, value, child)
             }
             EOperatorID.POPOffsetID -> {
                 var value = nextInt(buffer, MAX_OFFSET)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
-                if (hasChildRecoursive(child, listOf(EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
-                    if (child is POPBase)
-                        return child
-                    return POPEmptyRow(dictionary)
-                }
                 return POPOffset(dictionary, value, child)
             }
             EOperatorID.POPGraphOperationID -> {
@@ -367,7 +354,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 val graph2name = graph2nameTmp.substring(1, graph2nameTmp.length - 1)
                 throw ExceptionTopLevelOperator(POPGraphOperation(dictionary, 1L, silent, graph1type, graph1name, graph2type, graph2name, action))
             }
-            EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleInsertIteratorID, EOperatorID.TripleStoreIteratorLocalFilterID -> {
+            EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleInsertIteratorID, EOperatorID.TripleStoreIteratorLocalFilterID , EOperatorID.TripleStoreIteratorLocalID-> {
                 val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
                 val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
                 val graph = DistributedTripleStore.getNamedGraph(graphName, true)
@@ -447,9 +434,9 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 val action = EGraphOperationType.values()[nextInt(buffer, EGraphOperationType.values().size)]
                 val silent = DynamicByteArray.intToBool(nextInt(buffer, 2))
                 val graph1type = EGraphRefType.values()[nextInt(buffer, EGraphRefType.values().size)]
-                val graph1name = (nextStringValueTyped(buffer, EOperatorID.AOPIriID) as AOPIri).iri
+                val graph1name = nextStringValueTyped(buffer, EOperatorID.AOPIriID)
                 val graph2type = EGraphRefType.values()[nextInt(buffer, EGraphRefType.values().size)]
-                val graph2name = (nextStringValueTyped(buffer, EOperatorID.AOPIriID) as AOPIri).iri
+                val graph2name = nextStringValueTyped(buffer, EOperatorID.AOPIriID)
                 throw ExceptionTopLevelOperator(LOPGraphOperation(action, silent, graph1type, graph1name, graph2type, graph2name))
             }
             EOperatorID.LOPMakeBooleanResultID -> {
@@ -505,21 +492,11 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             EOperatorID.LOPLimitID -> {
                 var value = nextInt(buffer, MAX_LIMIT)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
-                if (hasChildRecoursive(child, listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
-                    if (child is LOPBase)
-                        return child
-                    return OPNothing()
-                }
                 return LOPLimit(value, child)
             }
             EOperatorID.LOPOffsetID -> {
                 var value = nextInt(buffer, MAX_OFFSET)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
-                if (hasChildRecoursive(child, listOf(EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID), listOf(EOperatorID.POPLimitID, EOperatorID.LOPLimitID, EOperatorID.POPOffsetID, EOperatorID.LOPOffsetID))) {
-                    if (child is LOPBase)
-                        return child
-                    return OPNothing()
-                }
                 return LOPOffset(value, child)
             }
             EOperatorID.LOPTripleID -> {

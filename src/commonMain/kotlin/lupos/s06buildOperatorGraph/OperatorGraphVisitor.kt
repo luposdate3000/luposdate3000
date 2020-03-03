@@ -1,5 +1,5 @@
 package lupos.s06buildOperatorGraph
-
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
@@ -134,7 +134,7 @@ import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPAggregation
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
@@ -990,7 +990,15 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
-        return AOPAggregation(node.type, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+when(node.type){
+Aggregation.COUNT        ->return AOPAggregationCOUNT(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+Aggregation.MIN        ->return AOPAggregationMIN(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+Aggregation.MAX        ->return AOPAggregationMAX(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+Aggregation.SAMPLE        ->return AOPAggregationSAMPLE(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+Aggregation.AVG        ->return AOPAggregationAVG(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+Aggregation.SUM        ->return AOPAggregationSUM(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+ else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.type}")
+}
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {

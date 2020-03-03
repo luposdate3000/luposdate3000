@@ -298,13 +298,6 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
         }
         is AOPUndef -> {
         }
-        is AOPAggregation -> {
-            buffer.appendInt(operator.type.ordinal)
-            buffer.appendInt(DynamicByteArray.boolToInt(operator.distinct))
-            buffer.appendInt(operator.children.size)
-            for (c in operator.children)
-                toBinary(c, buffer, asPOP)
-        }
         is AOPBoolean -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
@@ -523,83 +516,7 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
 }
 
 fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSetv: () -> ResultSet, action: () -> T): T {
-    val input = inputv()
-    val resultRow = resultRowv()
-    val resultSet = resultSetv()
-    val expected = action()
-    val variableNames = ThreadSafeMutableMap<String, String>()
-    if (input is AOPVariable)
-        return expected
-    var res = "{\n"
-    if (input is AOPAggregation) {
-        if (input.collectMode.get()) {
-            val tmp = mapOfAggregationChilds[input.uuid]
-            if (tmp == null)
-                mapOfAggregationChilds[input.uuid] = ThreadSafeMutableList(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
-            else
-                tmp.add(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
-            return expected
-        } else {
-            res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
-            for (v in resultSet.getVariableNames()) {
-                val name = helperVariableName(v, variableNames)
-                res += "${prefix}                resultSet.createVariable(\"$name\")\n"
-            }
-            res += "${prefix}                MicroTestAN(\n"
-            res += "${prefix}                        " + testCaseFromAOPBase(input) + ",\n"
-            res += "${prefix}                        listOf(\n"
-            val tmp = mapOfAggregationChilds[input.uuid]
-            if (tmp != null) {
-                tmp.forEach { x ->
-                    res += x
-                }
-                res = res.substring(0, res.length - 2) + "\n"
-            }
-            res += "${prefix}                        ),\n"
-            res += "${prefix}                        resultSet,\n"
-            if (expected is AOPBase)
-                res += "${prefix}                        " + testCaseFromAOPBase(expected) + "\n"
-            else
-                res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
-            res += "${prefix}                )\n"
-            mapOfAggregationChilds.remove(input.uuid)
-        }
-    } else if (childContainsAggregation(input)) {
-        return expected
-    } else if (childContainsVariable(input)) {
-        res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
-        for (v in resultSet.getVariableNames()) {
-            val name = helperVariableName(v, variableNames)
-            res += "${prefix}                resultSet.createVariable(\"$name\")\n"
-        }
-        res += "${prefix}                MicroTestA1(\n"
-        res += "${prefix}                        " + testCaseFromAOPBase(input) + ",\n"
-        res += testCaseFromResultRow(resultRow, resultSet, "${prefix}                        ", variableNames)
-        res += "${prefix}                        resultSet,\n"
-        if (expected is AOPBase)
-            res += "${prefix}                        " + testCaseFromAOPBase(expected) + "\n"
-        else
-            res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
-        res += "${prefix}                )\n"
-    } else {
-        res += "${prefix}                MicroTest0(\n"
-        res += "${prefix}                        " + testCaseFromAOPBase(input) + ",\n"
-        if (expected is AOPBase)
-            res += "${prefix}                        " + testCaseFromAOPBase(expected) + "\n"
-        else
-            res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
-        res += "${prefix}                )\n"
-
-    }
-    res += "${prefix}            }()"
-    var found = false
-    listOfMicroTests.forEach {
-        if (it == res)
-            found = true
-    }
-    if (!found)
-        listOfMicroTests.add(res)
-    return expected
+return action()
 }
 
 val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, ThreadSafeMutableMap<String/*query*/, String/*file*/>>()
@@ -641,7 +558,7 @@ fun printAllMicroTest() {
                 out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")
                 out.println("        for (n in  node.children)")
                 out.println("            setAggregationMode(n, mode, count)")
-                out.println("        if (node is AOPAggregation) {")
+                out.println("        if (node is AOPAggregationBase) {")
                 out.println("                node.count = count")
                 out.println("            node.collectMode = mode")
                 out.println("            if (node.collectMode)")
@@ -793,101 +710,6 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
     rowMapProduced.clear()
 }
 
-fun testCaseFromAOPBase(input: AOPBase): String {
-    when (input) {
-        is AOPBuildInCallURI -> return "AOPBuildInCallURI(${testCaseFromAOPBase(input.children[0] as AOPBase)}, \"${input.prefix}\")"
-        is AOPBuildInCallIRI -> return "AOPBuildInCallIRI(${testCaseFromAOPBase(input.children[0] as AOPBase)}, \"${input.prefix}\")"
-        is AOPDecimal -> return "AOPDecimal(${input.value})"
-        is AOPBoolean -> return "AOPBoolean(${input.value})"
-        is AOPDateTime -> return "AOPDateTime(\"${input.valueToString().replace("\"", "\\\"")}\")"
-        is AOPVariable -> return "AOPVariable(\"${input.name}\")"
-        is AOPUndef -> return "AOPUndef()"
-        is AOPInteger -> return "AOPInteger(${input.value})"
-        is AOPLanguageTaggedLiteral -> {
-            if (input.delimiter == "\"")
-                return "AOPLanguageTaggedLiteral(\"\\\"\", \"${input.content.replace("\"", "\\\"")}\", \"${input.language.replace("\"", "\\\"")}\")"
-            return "AOPLanguageTaggedLiteral(\"${input.delimiter}\", \"${input.content.replace("\"", "\\\"")}\", \"${input.language.replace("\"", "\\\"")}\")"
-        }
-        is AOPSimpleLiteral -> {
-            if (input.delimiter == "\"")
-                return "AOPSimpleLiteral(\"\\\"\", \"${input.content.replace("\"", "\\\"")}\")"
-            return "AOPSimpleLiteral(\"${input.delimiter}\", \"${input.content.replace("\"", "\\\"")}\")"
-        }
-        is AOPDouble -> return "AOPDouble(${input.value})"
-        is AOPIri -> return "AOPIri(\"${input.iri}\")"
-        is AOPTypedLiteral -> {
-            if (input.delimiter == "\"")
-                return "AOPTypedLiteral(\"\\\"\", \"${input.content.replace("\"", "\\\"")}\", \"${input.type_iri.replace("\"", "\\\"")}\")"
-            return "AOPTypedLiteral(\"${input.delimiter}\", \"${input.content.replace("\"", "\\\"")}\", \"${input.type_iri.replace("\"", "\\\"")}\")"
-        }
-        is AOPBnode -> return "AOPBnode(\"${input.value.replace("\"", "\\\"")}\")"
-        is AOPAggregation -> {
-            var res = "AOPAggregation(Aggregation.${input.type}, ${input.distinct}, arrayOf("
-            if (input.children.size > 0)
-                res += testCaseFromAOPBase(input.children[0] as AOPBase)
-            for (i in 1 until input.children.size)
-                res += "," + testCaseFromAOPBase(input.children[i] as AOPBase)
-            return res + "))"
-        }
-        else -> {
-            var res = ""
-            res += "${classNameToString(input)}("
-            if (input.children.size > 0)
-                res += testCaseFromAOPBase((input.children[0] as AOPBase))
-            for (i in 1 until input.children.size)
-                res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase))
-            res += ")"
-            return res
-        }
-    }
-}
-
-fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: String, variableNames: ThreadSafeMutableMap<String, String>): String {
-    var res = ""
-    res += "${prefix}{\n"
-    res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
-    for (v in resultSet.getVariableNames()) {
-        val name = helperVariableName(v, variableNames)
-        val value = AOPVariable(name).calculate(resultSet, resultRow).valueToString()
-        if (value == null)
-            res += "${prefix}    resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
-        else
-            res += "${prefix}    resultRow[resultSet.createVariable(\"$name\")] = resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
-    }
-    res += "${prefix}    resultRow\n"
-    res += "${prefix}}(),\n"
-    return res
-}
-
-fun childContainsAggregation(input: OPBase): Boolean {
-    if (input is AOPAggregation)
-        return true
-    for (c in input.children)
-        if (childContainsAggregation(c))
-            return true
-    return false
-}
-
-fun childContainsVariable(input: OPBase): Boolean {
-    if (input is AOPVariable)
-        return true
-    for (c in input.children)
-        if (childContainsVariable(c))
-            return true
-    return false
-}
 
 
-fun helperVariableName(v: String, variableNames: ThreadSafeMutableMap<String, String>): String {
-    return when {
-        variableNames[v] != null -> variableNames[v]!!
-        v.startsWith("#") -> {
-            variableNames[v] = "#" + variableNames.keySize()
-            variableNames[v]!!
-        }
-        else -> {
-            variableNames[v] = v
-            variableNames[v]!!
-        }
-    }
-}
+

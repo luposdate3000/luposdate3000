@@ -15,9 +15,8 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPAggregation
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -118,7 +117,7 @@ class POPGroup : POPBase {
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
-        if (node is AOPAggregation) {
+        if (node is AOPAggregationBase) {
             node.count.set(count)
             node.collectMode.set(mode)
             if (mode)

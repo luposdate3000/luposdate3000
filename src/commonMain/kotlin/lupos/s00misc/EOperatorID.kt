@@ -2,7 +2,12 @@ package lupos.s00misc
 
 enum class EOperatorID {
     AOPAdditionID,
-    AOPAggregationID,
+    AOPAggregationSUMID,
+    AOPAggregationMINID,
+    AOPAggregationMAXID,
+    AOPAggregationAVGID,
+    AOPAggregationSAMPLEID,
+    AOPAggregationCOUNTID,
     AOPAndID,
     AOPBaseID,
     AOPBinaryOperationFixedNameID,
@@ -187,7 +192,12 @@ val EOperatorIDPOP = arrayOf(
         EOperatorID.TripleStoreIteratorLocalFilterID,
         EOperatorID.TripleStoreIteratorLocalID)
 val EOperatorIDAOP = arrayOf(EOperatorID.AOPAdditionID,
-        EOperatorID.AOPAggregationID,
+        EOperatorID.AOPAggregationMINID,
+        EOperatorID.AOPAggregationMAXID,
+        EOperatorID.AOPAggregationSUMID,
+        EOperatorID.AOPAggregationCOUNTID,
+        EOperatorID.AOPAggregationAVGID,
+        EOperatorID.AOPAggregationSAMPLEID,
         EOperatorID.AOPAndID,
         EOperatorID.AOPBnodeID,
         EOperatorID.AOPBooleanID,
