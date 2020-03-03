@@ -28,16 +28,44 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
+        var a: Any
+        var b: Any
+        try {
+            a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        } catch (e: Throwable) {
+            a = e
+        }
+        try {
+            b = (children[1] as AOPBase).calculate(resultSet, resultRow)
+        } catch (e: Throwable) {
+            b = e
+        }
         if (a is AOPBoolean && b is AOPBoolean)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPBoolean(a.value && b.value)
             })
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPAnd only works with boolean input")
-        })
-    }
-
-    override fun cloneOP() = AOPAnd(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+        if (a is Throwable) {
+            if (b is AOPBoolean && b.value == false)
+                return resultFlow({ this }, { resultRow }, { resultSet }, {
+                    b
+                })
+            throw resultFlow({ this }, { resultRow }, { resultSet }, {
+                a
+            })
 }
+            if (b is Throwable) {
+                if (a is AOPBoolean && a.value == false)
+                    return resultFlow({ this }, { resultRow }, { resultSet }, {
+                        a
+                    })
+                throw resultFlow({ this }, { resultRow }, { resultSet }, {
+                    b
+                })
+            }
+            throw resultFlow({ this }, { resultRow }, { resultSet }, {
+                Exception("AOPAnd only works with boolean input")
+            })
+        }
+
+        override fun cloneOP() = AOPAnd(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    }

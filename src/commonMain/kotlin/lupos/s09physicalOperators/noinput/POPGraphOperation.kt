@@ -253,8 +253,9 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type}")
                 }
             } catch (e: Throwable) {
-                if (!silent)
-                    throw e
+                if (!silent) {
+                    channel.close(e)
+                }
             }
             try {
                 channel.send(resultFlowProduce({ this@POPGraphOperation }, { resultSet.createResultRow() }))

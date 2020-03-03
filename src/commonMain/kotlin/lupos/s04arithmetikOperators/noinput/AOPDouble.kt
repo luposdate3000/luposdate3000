@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPDouble(var value: Double) : AOPConstant() {
+class AOPDouble(var value: Double) : AOPConstant() ,AOPNumeric{
     override val operatorID = EOperatorID.AOPDoubleID
     override val classname = "AOPDouble"
     override val children: Array<OPBase> = arrayOf()

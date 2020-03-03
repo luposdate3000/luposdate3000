@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPDateTime : AOPConstant {
+class AOPDateTime : AOPConstant ,AOPXPathCompareable{
     override val operatorID = EOperatorID.AOPDateTimeID
     override val classname = "AOPDateTime"
     override val children: Array<OPBase> = arrayOf()

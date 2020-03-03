@@ -9,7 +9,7 @@ import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPInteger
+import lupos.s04arithmetikOperators.noinput.AOPNumeric
 import lupos.s04logicalOperators.OPBase
 
 
@@ -28,7 +28,7 @@ class AOPBuildInCallIsNUMERIC(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a is AOPDouble || a is AOPDecimal || a is AOPInteger)
+            AOPBoolean(a is AOPNumeric)
         })
     }
 

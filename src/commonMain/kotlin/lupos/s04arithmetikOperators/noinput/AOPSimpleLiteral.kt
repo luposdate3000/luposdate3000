@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPSimpleLiteral : AOPConstantString {
+class AOPSimpleLiteral : AOPConstantString ,AOPXPathCompareable{
     override val operatorID = EOperatorID.AOPSimpleLiteralID
     override val classname = "AOPSimpleLiteral"
     override val children: Array<OPBase> = arrayOf()
