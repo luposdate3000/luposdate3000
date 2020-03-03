@@ -37,14 +37,14 @@ class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVar
         return true
     }
 
- override fun toSparql(): String {
+    override fun toSparql(): String {
         var res = "{SELECT "
-        for (v in children[0].getProvidedVariableNames()){
-if(v == nameFrom.name)
-  res += nameTo.toSparql() + " "
-else
-            res += AOPVariable(v).toSparql() + " "
-}
+        for (v in children[0].getProvidedVariableNames()) {
+            if (v == nameFrom.name)
+                res += nameTo.toSparql() + " "
+            else
+                res += AOPVariable(v).toSparql() + " "
+        }
         res += "{"
         res += children[0].toSparql()
         res += "}}"

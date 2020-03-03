@@ -1,11 +1,11 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
@@ -50,23 +50,23 @@ class AOPAggregationSUM(val distinct: Boolean, childs: Array<AOPBase>) : AOPAggr
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 Exception("AOPAggregationSUM does not support distinct")
             })
-                val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-                if (a.get() == null)
-                    a.set(b)
-                else if (a.get() is AOPDouble || b is AOPDouble)
-                    a.set(AOPDouble(a.get()!!.toDouble() + b.toDouble()))
-                else if (a.get() is AOPDecimal || b is AOPDecimal)
-                    a.set(AOPDecimal(a.get()!!.toDouble() + b.toDouble()))
-                else if (a.get() is AOPInteger || b is AOPInteger)
-                    a.set(AOPInteger(a.get()!!.toInt() + b.toInt()))
-                else
-                    throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                        Exception("AOPAggregationSUM avg only defined on numeric input")
-                    })
+        val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        if (a.get() == null)
+            a.set(b)
+        else if (a.get() is AOPDouble || b is AOPDouble)
+            a.set(AOPDouble(a.get()!!.toDouble() + b.toDouble()))
+        else if (a.get() is AOPDecimal || b is AOPDecimal)
+            a.set(AOPDecimal(a.get()!!.toDouble() + b.toDouble()))
+        else if (a.get() is AOPInteger || b is AOPInteger)
+            a.set(AOPInteger(a.get()!!.toInt() + b.toInt()))
+        else
+            throw resultFlow({ this }, { resultRow }, { resultSet }, {
+                Exception("AOPAggregationSUM avg only defined on numeric input")
+            })
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             a.get()!!
         })
     }
 
-    override fun cloneOP() = AOPAggregationSUM( distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationSUM(distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

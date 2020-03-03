@@ -13,8 +13,9 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
-abstract class AOPAggregationBase:AOPBase(){
- var a = ThreadSafeMutableAny<AOPConstant?>(null)
+
+abstract class AOPAggregationBase : AOPBase() {
+    var a = ThreadSafeMutableAny<AOPConstant?>(null)
     var count = ThreadSafeMutableAny(0)
     var collectMode = ThreadSafeMutableAny(true)
 }

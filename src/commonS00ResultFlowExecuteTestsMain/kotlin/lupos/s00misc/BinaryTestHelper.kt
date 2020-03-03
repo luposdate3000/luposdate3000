@@ -228,18 +228,18 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
-EOperatorID.POPServiceIRIID->{
-return fromBinaryPOP(dictionary,buffer)
-}
-EOperatorID.POPImportFromNetworkPackageID->{
-return fromBinaryPOP(dictionary,buffer)
-}
-EOperatorID.POPImportFromXmlID->{
-return fromBinaryPOP(dictionary,buffer)
-}
-EOperatorID.POPTemporaryStoreID->{
-return fromBinaryPOP(dictionary,buffer)
-}
+            EOperatorID.POPServiceIRIID -> {
+                return fromBinaryPOP(dictionary, buffer)
+            }
+            EOperatorID.POPImportFromNetworkPackageID -> {
+                return fromBinaryPOP(dictionary, buffer)
+            }
+            EOperatorID.POPImportFromXmlID -> {
+                return fromBinaryPOP(dictionary, buffer)
+            }
+            EOperatorID.POPTemporaryStoreID -> {
+                return fromBinaryPOP(dictionary, buffer)
+            }
             EOperatorID.POPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
@@ -366,7 +366,7 @@ return fromBinaryPOP(dictionary,buffer)
                 val graph2name = graph2nameTmp.substring(1, graph2nameTmp.length - 1)
                 throw ExceptionTopLevelOperator(POPGraphOperation(dictionary, 1L, silent, graph1type, graph1name, graph2type, graph2name, action))
             }
-            EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleInsertIteratorID, EOperatorID.TripleStoreIteratorLocalFilterID , EOperatorID.TripleStoreIteratorLocalID-> {
+            EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleInsertIteratorID, EOperatorID.TripleStoreIteratorLocalFilterID, EOperatorID.TripleStoreIteratorLocalID -> {
                 val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
                 val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
                 val graph = DistributedTripleStore.getNamedGraph(graphName, true)
@@ -422,14 +422,14 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
-EOperatorID.LOPNOOPID->{
-val child = fromBinaryPOPLOP(dictionary, buffer)
-return LOPNOOP(child)
-}
-EOperatorID.LOPSubGroupID->{
-val child = fromBinaryPOPLOP(dictionary, buffer)
-return LOPSubGroup(child)
-}
+            EOperatorID.LOPNOOPID -> {
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                return LOPNOOP(child)
+            }
+            EOperatorID.LOPSubGroupID -> {
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                return LOPSubGroup(child)
+            }
             EOperatorID.LOPModifyID -> {
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 val insert = mutableListOf<LOPTriple>()
@@ -1055,7 +1055,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     }
                 }
             }
-}catch(e:ExceptionJenaBug){
+        } catch (e: ExceptionJenaBug) {
         } finally {
             jena.finalize()
         }

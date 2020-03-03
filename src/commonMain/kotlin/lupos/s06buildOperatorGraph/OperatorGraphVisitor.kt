@@ -1,9 +1,10 @@
 package lupos.s06buildOperatorGraph
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGroupMember
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -990,15 +991,15 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
-when(node.type){
-Aggregation.COUNT        ->return AOPAggregationCOUNT(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-Aggregation.MIN        ->return AOPAggregationMIN(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-Aggregation.MAX        ->return AOPAggregationMAX(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-Aggregation.SAMPLE        ->return AOPAggregationSAMPLE(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-Aggregation.AVG        ->return AOPAggregationAVG(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-Aggregation.SUM        ->return AOPAggregationSUM(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
- else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.type}")
-}
+        when (node.type) {
+            Aggregation.COUNT -> return AOPAggregationCOUNT(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.MIN -> return AOPAggregationMIN(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.MAX -> return AOPAggregationMAX(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.SAMPLE -> return AOPAggregationSAMPLE(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.AVG -> return AOPAggregationAVG(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.SUM -> return AOPAggregationSUM(node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.type}")
+        }
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
@@ -1228,7 +1229,7 @@ Aggregation.SUM        ->return AOPAggregationSUM(node.distinct, Array(childrenV
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
-throw UnsupportedOperationException("${classNameToString(this)} minus ${classNameToString(node)}")
+        throw UnsupportedOperationException("${classNameToString(this)} minus ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {

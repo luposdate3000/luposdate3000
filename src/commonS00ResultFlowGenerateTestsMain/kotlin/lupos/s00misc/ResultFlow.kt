@@ -516,7 +516,7 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
 }
 
 fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSetv: () -> ResultSet, action: () -> T): T {
-return action()
+    return action()
 }
 
 val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, ThreadSafeMutableMap<String/*query*/, String/*file*/>>()

@@ -1,11 +1,11 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
@@ -36,10 +36,10 @@ class AOPAggregationCOUNT(val distinct: Boolean, childs: Array<AOPBase>) : AOPAg
 
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(count.get())
-            })
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
+            AOPInteger(count.get())
+        })
     }
 
-    override fun cloneOP() = AOPAggregationCOUNT( distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationCOUNT(distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

@@ -34,6 +34,7 @@ import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
@@ -47,7 +48,6 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
@@ -124,37 +124,37 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
-            AOPAggregationCOUNT( node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationCOUNT(node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationSAMPLE" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
-            AOPAggregationSAMPLE( node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationSAMPLE(node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationAVG" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
-            AOPAggregationAVG( node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationAVG(node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationSUM" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
-            AOPAggregationSUM( node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationSUM(node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationMIN" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
-            AOPAggregationMIN( node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationMIN(node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationMAX" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
-            AOPAggregationMAX( node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            AOPAggregationMAX(node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPGT" -> return AOPGT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPIn" -> AOPIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
