@@ -1,3 +1,4 @@
+package lupos.s15tripleStoreDistributed
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -15,9 +16,6 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
-
-apackage lupos.s15tripleStoreDistributed
-
 
 val uuid = ThreadSafeUuid()
 
@@ -76,9 +74,9 @@ class DistributedGraph(val name: String) {
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
-        iterator.evaluate()
+val channel=        iterator.evaluate()
         CoroutinesHelper.runBlock {
-            for (v in iterator.channel) {
+            for (v in channel) {
                 val s = AOPVariable.calculate(rs.getValue(v[ks]))
                 val p = AOPVariable.calculate(rs.getValue(v[kp]))
                 val o = AOPVariable.calculate(rs.getValue(v[ko]))
@@ -136,7 +134,7 @@ object DistributedTripleStore {
     }
 
     fun getDefaultGraph(): DistributedGraph {
-        return DistributedGraph(localStore.defaultGraphName)
+        return DistributedGraph(PersistentStoreLocal.defaultGraphName)
     }
 
     fun commit(transactionID: Long) {

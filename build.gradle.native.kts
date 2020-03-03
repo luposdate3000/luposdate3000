@@ -64,6 +64,12 @@ kotlin {
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
                 implementation("com.benasher44:uuid:0.0.7")
                 implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
+                implementation ("io.ktor:ktor-client-core:1.3.1")
+                implementation ("io.ktor:ktor-client-core-native:1.3.1")
+                implementation ("io.ktor:ktor-client-cio:1.3.1")
+                implementation ("io.ktor:ktor-client-logging:1.3.1")
+                implementation ("io.ktor:ktor-client-logging-jvm:1.3.1")
+                implementation ("org.slf4j:slf4j-nop:1.7.25")
             }
         }
     }

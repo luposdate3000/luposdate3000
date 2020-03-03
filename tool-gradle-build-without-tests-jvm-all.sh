@@ -26,6 +26,11 @@ if [ "$chooseS00Execution" == "commonS00ExecutionParallelMain" ] && [ "$chooseS0
 then
 	continue
 fi
+if [ "$chooseS03" == "commonS03DictionaryNoneMain" ] && [ "$chooseS00ResultFlow" != "commonS00ResultFlowFastMain" ]
+then
+#currently tests require dictionary
+	continue
+fi
 if [ "$chooseS12" == "commonS12LocalMain" ]
 then
 if [ "$chooseS15" == "commonS15DistributedMain" ] || [ "$chooseS14" == "jvmS14KorioMain" ]
@@ -167,6 +172,13 @@ implementation "com.benasher44:uuid:0.0.7"
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:\$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:\$kotlin_version"
+
+    implementation "io.ktor:ktor-client-core:1.3.1"
+    implementation "io.ktor:ktor-client-core-native:1.3.1"
+    implementation "io.ktor:ktor-client-cio:1.3.1"
+    implementation "io.ktor:ktor-client-logging:1.3.1"
+    implementation "io.ktor:ktor-client-logging-jvm:1.3.1"
+    implementation "org.slf4j:slf4j-nop:1.7.25"
 }
 
 jar {
