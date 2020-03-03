@@ -13,3 +13,7 @@ construct not implemented
 should not drop explicit datatype string
 
 -------------------
+
+sometimes returns 1 empty row without bound variables - if it is not required for the standard
+
+-------------------
