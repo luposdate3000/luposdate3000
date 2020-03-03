@@ -84,6 +84,8 @@ class JenaRequest {
     }
 
     fun requestUpdate(query: String): XMLElement {
+        if (query.contains("UUID"))
+            throw ExceptionJenaBug("uuid will never match")
         if (query.contains("<http://www.w3.org/2001/XMLSchema#string>"))
             containsStringDatatypeQueries = true
         if (containsStringDatatypeQueries)
@@ -100,6 +102,8 @@ class JenaRequest {
     }
 
     fun requestQuery(query: String): XMLElement {
+        if (query.contains("UUID"))
+            throw ExceptionJenaBug("uuid will never match")
         if (query.contains("CONSTRUCT"))
             throw ExceptionJenaBug("queryWithConstruct")
         if (query.contains("<http://www.w3.org/2001/XMLSchema#string>"))
