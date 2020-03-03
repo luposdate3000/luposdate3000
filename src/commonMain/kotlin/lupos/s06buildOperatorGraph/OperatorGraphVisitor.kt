@@ -1205,19 +1205,21 @@ return node.visit(this)as AOPBase
             tmp!!
         }
         val iri = node.iri
+val insert :MutableList<LOPTriple> = mutableListOf<LOPTriple>()
+val delete :MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         if (iri != null) {
-            val res = LOPModify(setGraphNameForAllTriples(child, ASTIri(iri), true))
             for (e in node.insert)
-                res.insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true))
+                insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true)as LOPTriple)
             for (e in node.delete)
-                res.delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true))
+                delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true)as LOPTriple)
+            val res = LOPModify(insert,delete,setGraphNameForAllTriples(child, ASTIri(iri), true))
             return res
         } else {
-            val res = LOPModify(child)
             for (e in node.insert)
-                res.insert.add(e.visit(this))
+                insert.add(e.visit(this)as LOPTriple)
             for (e in node.delete)
-                res.delete.add(e.visit(this))
+                delete.add(e.visit(this)as LOPTriple)
+            val res = LOPModify(insert,delete,child)
             return res
         }
     }

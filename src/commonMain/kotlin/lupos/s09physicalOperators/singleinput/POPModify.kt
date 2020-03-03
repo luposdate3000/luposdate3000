@@ -17,11 +17,12 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify(override val dictionary: ResultSetDictionary, val transactionID: Long, val iri: String?, val insert: List<OPBase>, val delete: List<OPBase>, child: OPBase) : POPBase() {
+class POPModify(override val dictionary: ResultSetDictionary, val transactionID: Long,  val insert: List<LOPTriple>, val delete: List<LOPTriple>, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPModifyID
     override val classname = "POPModify"
     override val resultSet = ResultSet(dictionary)
@@ -30,8 +31,6 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
         if (other !is POPModify)
             return false
         if (dictionary !== other.dictionary)
-            return false
-        if (iri != other.iri)
             return false
         if (transactionID != other.transactionID)
             return false
@@ -48,7 +47,7 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
 
     override fun getProvidedVariableNames() = listOf<String>()
 
-    override fun cloneOP() = POPModify(dictionary, transactionID, iri, insert, delete, children[0].cloneOP())
+    override fun cloneOP() = POPModify(dictionary, transactionID,  insert, delete, children[0].cloneOP())
 
     fun evaluateRow(node: OPBase, row: ResultRow): AOPConstant {
         return (node as AOPBase).calculate(children[0].resultSet, row)
@@ -63,9 +62,7 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                     resultFlowConsume({ this@POPModify }, { children[0] }, { row })
                     for (i in insert) {
                         try {
-                            when (i) {
-                                is LOPTriple -> {
-                                    val store = if (i.graph == null)
+                                    val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
                                         DistributedTripleStore.getDefaultGraph()
                                     else {
                                         if (i.graphVar)
@@ -77,18 +74,13 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                                     for (c in i.children)
                                         data.add(evaluateRow(c, row))
                                     store.addData(transactionID, data)
-                                }
-                                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
-                            }
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
                     }
                     for (i in delete) {
                         try {
-                            when (i) {
-                                is LOPTriple -> {
-                                    val store = if (i.graph == null)
+                                    val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
                                         DistributedTripleStore.getDefaultGraph()
                                     else {
                                         if (i.graphVar)
@@ -100,9 +92,6 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                                     for (c in i.children)
                                         data.add(evaluateRow(c, row))
                                     store.deleteData(transactionID, data)
-                                }
-                                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
-                            }
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }

@@ -245,7 +245,18 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 data.add(fromBinaryLopTriple(dictionary,buffer))
                 throw ExceptionTopLevelOperator(POPModifyData(dictionary,1L,type, data))
             }
-
+ EOperatorID.POPModifyID->{
+val child = fromBinaryPOPLOP(dictionary, buffer)
+val insert=mutableListOf<LOPTriple>()
+val delete=mutableListOf<LOPTriple>()
+val insertCount = nextInt(buffer, MAX_TRIPLES)
+for(i in 0 until insertCount)
+insert.add(fromBinaryLopTriple(dictionary,buffer))
+val deleteCount = nextInt(buffer, MAX_TRIPLES)
+for(i in 0 until deleteCount)
+delete.add(fromBinaryLopTriple(dictionary,buffer))
+throw ExceptionTopLevelOperator(POPModify(dictionary,1L,insert,delete,child))
+}
             EOperatorID.POPEmptyRowID -> {
                 return POPEmptyRow(dictionary)
             }
@@ -412,6 +423,18 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
+ EOperatorID.LOPModifyID->{
+val child = fromBinaryPOPLOP(dictionary, buffer)
+val insert=mutableListOf<LOPTriple>()
+val delete=mutableListOf<LOPTriple>()
+val insertCount = nextInt(buffer, MAX_TRIPLES)
+for(i in 0 until insertCount)
+insert.add(fromBinaryLopTriple(dictionary,buffer))
+val deleteCount = nextInt(buffer, MAX_TRIPLES)
+for(i in 0 until deleteCount)
+delete.add(fromBinaryLopTriple(dictionary,buffer))
+throw ExceptionTopLevelOperator(LOPModify(insert,delete,child))
+}
             EOperatorID.LOPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()

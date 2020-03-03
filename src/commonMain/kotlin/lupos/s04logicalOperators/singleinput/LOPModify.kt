@@ -3,17 +3,14 @@ package lupos.s04logicalOperators.singleinput
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPModify(child: OPBase) : LOPBase() {
+class LOPModify(val insert :MutableList<LOPTriple> = mutableListOf<LOPTriple>(),val delete :MutableList<LOPTriple> = mutableListOf<LOPTriple>(),child: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPModifyID
     override val classname = "LOPModify"
     override val children: Array<OPBase> = arrayOf(child)
-    var iri: String? = null
-    val insert = mutableListOf<OPBase>()
-    val delete = mutableListOf<OPBase>()
 
     override fun getProvidedVariableNames() = mutableListOf<String>()
 
@@ -34,8 +31,6 @@ class LOPModify(child: OPBase) : LOPBase() {
     override fun equals(other: Any?): Boolean {
         if (other !is LOPModify)
             return false
-        if (iri != other.iri)
-            return false
         if (insert != other.insert)
             return false
         if (delete != other.delete)
@@ -47,5 +42,5 @@ class LOPModify(child: OPBase) : LOPBase() {
         return true
     }
 
-    override fun cloneOP() = LOPModify(children[0].cloneOP())
+    override fun cloneOP() = LOPModify(insert,delete,children[0].cloneOP())
 }

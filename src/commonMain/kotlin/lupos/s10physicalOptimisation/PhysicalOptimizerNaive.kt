@@ -57,7 +57,7 @@ class PhysicalOptimizerNaive(transactionID: Long, dictionary: ResultSetDictionar
         try {
             when (node) {
                 is LOPGraphOperation -> res = POPGraphOperation(dictionary, transactionID, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
-                is LOPModify -> res = POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, node.children[0])
+                is LOPModify -> res = POPModify(dictionary, transactionID,  node.insert, node.delete, node.children[0])
                 is LOPModifyData -> res = POPModifyData(dictionary, transactionID, node.type, node.data)
                 is LOPProjection -> res = POPProjection(dictionary, node.variables, node.children[0])
                 is LOPMakeBooleanResult -> res = POPMakeBooleanResult(dictionary, node.children[0])
