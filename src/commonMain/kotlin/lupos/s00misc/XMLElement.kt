@@ -113,11 +113,20 @@ class XMLElement {
             return true
         if (childs.count() != other.childs.count())
             return false
-        if (tag != "sparql" && attributes != other.attributes)
-            return false
+        if (tag != "sparql"){
+if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"]==null)
+other.attributes["datatype"]="http://www.w3.org/2001/XMLSchema#string" 
+if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"]==null)
+attributes["datatype"]="http://www.w3.org/2001/XMLSchema#string" 
+if(attributes != other.attributes)
+return false
+}
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
-        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
+        if ( attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer") {
+if(c1.toInt()!=c2.toInt())
+return false
+}else        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001)

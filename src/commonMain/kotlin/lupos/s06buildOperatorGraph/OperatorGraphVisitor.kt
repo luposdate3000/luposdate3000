@@ -1064,7 +1064,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         when (node) {
             is OPNothing -> return node
             is LOPTriple -> {
-                if (!optional || node.graph == null)
+                if (!optional || node.graph == PersistentStoreLocal.defaultGraphName)
                     return LOPTriple(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
                 else
                     return node
@@ -1205,6 +1205,7 @@ return node.visit(this)as AOPBase
             tmp!!
         }
         val iri = node.iri
+println("xxyiri"+iri)
 val insert :MutableList<LOPTriple> = mutableListOf<LOPTriple>()
 val delete :MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         if (iri != null) {

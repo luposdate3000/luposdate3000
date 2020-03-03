@@ -398,7 +398,10 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
+try{
                     jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
+}catch(e:ExceptionJenaBug){
+}
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -413,7 +416,10 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
-                    jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
+                    try{
+jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
+}catch(e:ExceptionJenaBug){
+}
                 }
                 if (services != null)
                     for (s in services) {
@@ -486,6 +492,7 @@ class SparqlTestSuite() {
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
+try{
                     val jenaResult = jena.requestQuery(toParse)
                     println("check jena")
                     if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!)) {
@@ -499,7 +506,8 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
                         return false
                     }
-
+}catch(e:ExceptionJenaBug){
+}
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()

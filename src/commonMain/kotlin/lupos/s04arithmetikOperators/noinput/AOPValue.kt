@@ -12,6 +12,16 @@ class AOPValue(childs: List<AOPConstant>) : AOPBase() {
     override val classname = "AOPValue"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }
 
+override fun toSparql():String{
+var res=""
+res+="("
+if(children.size>0)
+res+=children[0].toSparql()
+for(i in 1 until children.size)
+res+=","+children[i].toSparql()
+res+=")"
+return res
+}
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPValue)

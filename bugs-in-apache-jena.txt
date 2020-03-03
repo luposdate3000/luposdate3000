@@ -5,3 +5,11 @@ SELECT ?x WHERE {}
 should return 1 row with all variables not bound
 
 -------------------
+
+construct not implemented
+
+-------------------
+
+should not drop explicit datatype string
+
+-------------------

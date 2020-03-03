@@ -17,11 +17,15 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     var nodeBinding: XMLElement? = null
     val attributes = mutableMapOf<String, String>()
     val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
+var lasttokenbracket=false
+var thistokenbracket=false
     while (idx < json.length) {
         val token = regexToken.find(json, idx + 1)
         if (token == null)
             return res
         idx = token.range.last
+lasttokenbracket=thistokenbracket
+thistokenbracket=false
         when (token.value) {
             "\"head\"" -> {
                 if (lastParent == null) {
@@ -38,9 +42,15 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
             }
             "\"vars\"", "\"bindings\"", ",", ":" -> {
             }
-            "{", "[" -> opencounter++
+            "{", "[" -> {
+opencounter++
+thistokenbracket=true
+}
             "}", "]" -> {
                 opencounter--
+if(lasttokenbracket){
+                            nodeResults.addContent(XMLElement("result"))
+}else{
                 if (nodeBinding != null) {
                     when (attributes["type"]) {
                         "uri", "bnode" -> {
@@ -54,6 +64,8 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                             nodeBinding = node
                             if (attributes["datatype"] != null)
                                 nodeBinding.addAttribute("datatype", attributes["datatype"]!!)
+                            if (attributes["xml:lang"] != null)
+                                nodeBinding.addAttribute("xml:lang", attributes["xml:lang"]!!.toLowerCase())
                         }
                     }
                     if (attributes["value"] != null) {
@@ -61,10 +73,12 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                     }
                     attributes.clear()
                     nodeBinding = null
-                } else if (nodeResult != null)
+                } else if (nodeResult != null){
                     nodeResult = null
+		}
                 if (opencounter == lastParentCounter)
                     lastParent = null
+}
             }
             else -> {
                 var flag = false
