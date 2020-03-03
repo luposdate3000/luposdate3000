@@ -1066,18 +1066,18 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     try {
                         val expected = jena.requestUpdate(sparql)
                     } catch (e: Throwable) {
+if(e is ExceptionJenaBug)
+throw e
                         e2 = e
-                        if (output.tag != "crashed")
-                            throw e
                     }
                 } else {
                     var expected = XMLElement("crashed")
                     try {
                         expected = jena.requestQuery(sparql)
                     } catch (e: Throwable) {
+if(e is ExceptionJenaBug)
+throw e
                         e2 = e
-                        if (output.tag != "crashed")
-                            throw e
                     }
                     if (!expected.myEqualsUnclean(output)) {
                         println("expected :: $expected")
