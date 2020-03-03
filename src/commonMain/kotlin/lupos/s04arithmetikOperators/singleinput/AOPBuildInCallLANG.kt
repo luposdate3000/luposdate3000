@@ -5,7 +5,7 @@ import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
@@ -30,8 +30,12 @@ class AOPBuildInCallLANG(child: AOPBase) : AOPBase() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPSimpleLiteral(a.delimiter, a.language)
             })
+if(a is AOPConstantString)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             AOPSimpleLiteral("\"", "")
+        })
+ throw resultFlow({ this }, { resultRow }, { resultSet }, {
+Exception("Type error $classname ${a.classname}")
         })
     }
 
