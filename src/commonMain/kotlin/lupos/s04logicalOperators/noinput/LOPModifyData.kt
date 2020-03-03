@@ -15,8 +15,8 @@ class LOPModifyData(val type: EModifyType, val data: MutableList<LOPTriple> = mu
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)
-        for (t in data) 
-		res.addContent(t.toXMLElement())
+        for (t in data)
+            res.addContent(t.toXMLElement())
         return res
     }
 

@@ -112,33 +112,33 @@ class XMLElement {
         if (tag == "bnode")
             return true
 //-->> avoid bugs in JENA
-if(tag=="results"){
-if(childs.count()==0 && other.childs.count()==1&&other.childs[0].childs.count()==0&&other.childs[0].tag=="result")
-childs.add(XMLElement("result"))
-if(childs.count()==1 && other.childs.count()==0&&childs[0].childs.count()==0&&childs[0].tag=="result")
-other.childs.add(XMLElement("result"))
-}
+        if (tag == "results") {
+            if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result")
+                childs.add(XMLElement("result"))
+            if (childs.count() == 1 && other.childs.count() == 0 && childs[0].childs.count() == 0 && childs[0].tag == "result")
+                other.childs.add(XMLElement("result"))
+        }
 //<<-- avoid bugs in JENA
         if (childs.count() != other.childs.count())
             return false
-        if (tag != "sparql"){
+        if (tag != "sparql") {
 //-->> avoid bugs in JENA
-if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"]==null)
-other.attributes["datatype"]="http://www.w3.org/2001/XMLSchema#string" 
-if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"]==null)
-attributes["datatype"]="http://www.w3.org/2001/XMLSchema#string" 
+            if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"] == null)
+                other.attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
+            if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"] == null)
+                attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
 //<<-- avoid bugs in JENA
-if(attributes != other.attributes)
-return false
-}
+            if (attributes != other.attributes)
+                return false
+        }
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
 //-->> avoid bugs in JENA
-        if ( attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer") {
-if(c1.toInt()!=c2.toInt())
-return false
+        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer") {
+            if (c1.toInt() != c2.toInt())
+                return false
 //<<-- avoid bugs in JENA
-}else        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
+        } else if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001)

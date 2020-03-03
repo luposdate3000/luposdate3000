@@ -15,8 +15,8 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -30,22 +30,22 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     private var first = true
 
     override fun cloneOP() = POPModifyData(dictionary, transactionID, type, data)
-override fun toSparql():String{
-var res=""
-when(type){
-EModifyType.INSERT->res+="INSERT"
-EModifyType.DELETE->res+="DELETE"
-}
-res+=" DATA {"
-for(c in data){
-require (c.graphVar==false)
- if (c.graph == PersistentStoreLocal.defaultGraphName)
-            res+= c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
-        res+= "GRAPH <${c.graph}> {" + c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "}."
-}
-res+="}"
-return res
-}
+    override fun toSparql(): String {
+        var res = ""
+        when (type) {
+            EModifyType.INSERT -> res += "INSERT"
+            EModifyType.DELETE -> res += "DELETE"
+        }
+        res += " DATA {"
+        for (c in data) {
+            require(c.graphVar == false)
+            if (c.graph == PersistentStoreLocal.defaultGraphName)
+                res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
+            res += "GRAPH <${c.graph}> {" + c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "}."
+        }
+        res += "}"
+        return res
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPModifyData)
@@ -72,13 +72,13 @@ return res
                         val store = DistributedTripleStore.getNamedGraph(t.graph, true)
                         var l = mutableListOf<AOPConstant>()
                         for (i in 0 until 3)
-                            l.add(t.children[i]as AOPConstant)
+                            l.add(t.children[i] as AOPConstant)
                         store.addData(transactionID, l)
                     } else {
                         val store = DistributedTripleStore.getNamedGraph(t.graph, false)
                         var l = mutableListOf<AOPBase>()
-                        for (i in 0 until 3) 
-l.add(t.children[i]as AOPBase)
+                        for (i in 0 until 3)
+                            l.add(t.children[i] as AOPBase)
                         store.deleteDataVar(transactionID, l)
                     }
                 }
@@ -94,8 +94,8 @@ l.add(t.children[i]as AOPBase)
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPInsertData")
         res.addAttribute("uuid", "" + uuid)
-        for (t in data) 
-res.addContent(t.toXMLElement())
+        for (t in data)
+            res.addContent(t.toXMLElement())
         return res
     }
 }

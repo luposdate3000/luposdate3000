@@ -9,10 +9,10 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
 
-if(!json.contains("results")){
-nodeSparql.addContent(XMLElement("boolean").addContent(""+(json.contains("true") && ! json.contains("false"))))
-return res
-}
+    if (!json.contains("results")) {
+        nodeSparql.addContent(XMLElement("boolean").addContent("" + (json.contains("true") && !json.contains("false"))))
+        return res
+    }
 
     nodeSparql.addContent(nodeResults)
     var lastParent: XMLElement? = null
@@ -23,15 +23,15 @@ return res
     var nodeBinding: XMLElement? = null
     val attributes = mutableMapOf<String, String>()
     val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
-var lasttokenbracket=false
-var thistokenbracket=false
+    var lasttokenbracket = false
+    var thistokenbracket = false
     while (idx < json.length) {
         val token = regexToken.find(json, idx + 1)
         if (token == null)
             return res
         idx = token.range.last
-lasttokenbracket=thistokenbracket
-thistokenbracket=false
+        lasttokenbracket = thistokenbracket
+        thistokenbracket = false
         when (token.value) {
             "\"head\"" -> {
                 if (lastParent == null) {
@@ -49,43 +49,43 @@ thistokenbracket=false
             "\"vars\"", "\"bindings\"", ",", ":" -> {
             }
             "{", "[" -> {
-opencounter++
-thistokenbracket=true
-}
+                opencounter++
+                thistokenbracket = true
+            }
             "}", "]" -> {
                 opencounter--
-if(lasttokenbracket){
-if(lastParent != nodeHead)
-                            nodeResults.addContent(XMLElement("result"))
-}else{
-                if (nodeBinding != null) {
-                    when (attributes["type"]) {
-                        "uri", "bnode" -> {
-                            val node = XMLElement(attributes["type"]!!)
-                            nodeBinding.addContent(node)
-                            nodeBinding = node
+                if (lasttokenbracket) {
+                    if (lastParent != nodeHead)
+                        nodeResults.addContent(XMLElement("result"))
+                } else {
+                    if (nodeBinding != null) {
+                        when (attributes["type"]) {
+                            "uri", "bnode" -> {
+                                val node = XMLElement(attributes["type"]!!)
+                                nodeBinding.addContent(node)
+                                nodeBinding = node
+                            }
+                            "literal", "typed-literal" -> {
+                                val node = XMLElement("literal")
+                                nodeBinding.addContent(node)
+                                nodeBinding = node
+                                if (attributes["datatype"] != null)
+                                    nodeBinding.addAttribute("datatype", attributes["datatype"]!!)
+                                if (attributes["xml:lang"] != null)
+                                    nodeBinding.addAttribute("xml:lang", attributes["xml:lang"]!!.toLowerCase())
+                            }
                         }
-                        "literal", "typed-literal" -> {
-                            val node = XMLElement("literal")
-                            nodeBinding.addContent(node)
-                            nodeBinding = node
-                            if (attributes["datatype"] != null)
-                                nodeBinding.addAttribute("datatype", attributes["datatype"]!!)
-                            if (attributes["xml:lang"] != null)
-                                nodeBinding.addAttribute("xml:lang", attributes["xml:lang"]!!.toLowerCase())
+                        if (attributes["value"] != null) {
+                            nodeBinding.addContent(attributes["value"]!!)
                         }
+                        attributes.clear()
+                        nodeBinding = null
+                    } else if (nodeResult != null) {
+                        nodeResult = null
                     }
-                    if (attributes["value"] != null) {
-                        nodeBinding.addContent(attributes["value"]!!)
-                    }
-                    attributes.clear()
-                    nodeBinding = null
-                } else if (nodeResult != null){
-                    nodeResult = null
-		}
-                if (opencounter == lastParentCounter)
-                    lastParent = null
-}
+                    if (opencounter == lastParentCounter)
+                        lastParent = null
+                }
             }
             else -> {
                 var flag = false

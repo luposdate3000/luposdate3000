@@ -11,7 +11,7 @@ class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String, val graph
     override val classname = "LOPTriple"
     override val children = arrayOf<OPBase>(s, p, o)
 
-override fun toXMLElement()=super.toXMLElement().addAttribute("graph",graph).addAttribute("graphVar",""+graphVar)
+    override fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
 
     override fun getRequiredVariableNames() = listOf<String>()
 

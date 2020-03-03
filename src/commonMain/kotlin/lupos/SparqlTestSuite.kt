@@ -398,10 +398,10 @@ class SparqlTestSuite() {
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
-try{
-                    jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
-}catch(e:ExceptionJenaBug){
-}
+                    try {
+                        jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
+                    } catch (e: ExceptionJenaBug) {
+                    }
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -416,10 +416,10 @@ try{
                     }
                     DistributedTripleStore.commit(transactionID)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
-                    try{
-jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
-}catch(e:ExceptionJenaBug){
-}
+                    try {
+                        jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
+                    } catch (e: ExceptionJenaBug) {
+                    }
                 }
                 if (services != null)
                     for (s in services) {
@@ -492,22 +492,22 @@ jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
-try{
-                    val jenaResult = jena.requestQuery(toParse)
-                    println("check jena")
-                    if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!)) {
-                        println(jenaResult.myEqualsUnclean(xmlQueryResult))
-                        println(jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!))
-                        println(xmlQueryTarget!!.first()!!.myEqualsUnclean(xmlQueryResult))
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget!!.first()!!.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
-                        return false
+                    try {
+                        val jenaResult = jena.requestQuery(toParse)
+                        println("check jena")
+                        if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!)) {
+                            println(jenaResult.myEqualsUnclean(xmlQueryResult))
+                            println(jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!))
+                            println(xmlQueryTarget!!.first()!!.myEqualsUnclean(xmlQueryResult))
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget!!.first()!!.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
+                            return false
+                        }
+                    } catch (e: ExceptionJenaBug) {
                     }
-}catch(e:ExceptionJenaBug){
-}
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()

@@ -15,7 +15,7 @@ class AOPNot(var child: AOPBase) : AOPBase() {
     override val classname = "AOPNot"
     override val children: Array<OPBase> = arrayOf(child)
 
-override fun toSparql()="!("+children[0].toSparql()+")"
+    override fun toSparql() = "!(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPNot)

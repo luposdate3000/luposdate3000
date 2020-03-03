@@ -18,10 +18,11 @@ import kotlin.random.*
 import kotlinx.coroutines.*
 import lupos.s00misc.*
 
-class ExceptionJenaBug(message:String):Exception(message)
+
+class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
-var containsStringDatatypeQueries=false
+    var containsStringDatatypeQueries = false
     fun finalize() {
         client.close()
     }
@@ -83,10 +84,10 @@ var containsStringDatatypeQueries=false
     }
 
     fun requestUpdate(query: String): XMLElement {
-if(query.contains("<http://www.w3.org/2001/XMLSchema#string>"))
-containsStringDatatypeQueries=true
-if(containsStringDatatypeQueries)
-throw ExceptionJenaBug("queryWithStringDatatype")
+        if (query.contains("<http://www.w3.org/2001/XMLSchema#string>"))
+            containsStringDatatypeQueries = true
+        if (containsStringDatatypeQueries)
+            throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
             message = client.post<String> {
@@ -99,12 +100,12 @@ throw ExceptionJenaBug("queryWithStringDatatype")
     }
 
     fun requestQuery(query: String): XMLElement {
-if(query.contains("CONSTRUCT"))
-throw ExceptionJenaBug("queryWithConstruct")
-if(query.contains("<http://www.w3.org/2001/XMLSchema#string>"))
-containsStringDatatypeQueries=true
-if(containsStringDatatypeQueries)
-throw ExceptionJenaBug("queryWithStringDatatype")
+        if (query.contains("CONSTRUCT"))
+            throw ExceptionJenaBug("queryWithConstruct")
+        if (query.contains("<http://www.w3.org/2001/XMLSchema#string>"))
+            containsStringDatatypeQueries = true
+        if (containsStringDatatypeQueries)
+            throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
             message = client.post<String> {
@@ -113,7 +114,7 @@ throw ExceptionJenaBug("queryWithStringDatatype")
                 body = listOf("query" to query).formUrlEncode()
             }
         }
-println(message)
+        println(message)
         return XMLElement.parseFromJson(message!!)!!.first()
     }
 

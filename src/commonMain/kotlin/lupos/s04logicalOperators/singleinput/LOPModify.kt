@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPModify(val insert :MutableList<LOPTriple> = mutableListOf<LOPTriple>(),val delete :MutableList<LOPTriple> = mutableListOf<LOPTriple>(),child: OPBase) : LOPBase() {
+class LOPModify(val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), child: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPModifyID
     override val classname = "LOPModify"
     override val children: Array<OPBase> = arrayOf(child)
@@ -42,5 +42,5 @@ class LOPModify(val insert :MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
         return true
     }
 
-    override fun cloneOP() = LOPModify(insert,delete,children[0].cloneOP())
+    override fun cloneOP() = LOPModify(insert, delete, children[0].cloneOP())
 }

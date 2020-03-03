@@ -192,6 +192,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.*
 
+
 class OperatorGraphVisitor : Visitor<OPBase> {
     val queryExecutionStartTime = AOPDateTime() /*required for BuildInCall.NOW */
 
@@ -1148,14 +1149,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     fun simpleAstToStringValue(node: ASTNode): AOPBase {
-return node.visit(this)as AOPBase
+        return node.visit(this) as AOPBase
     }
 
     fun modifyDataHelper(children: Array<ASTNode>, modify: LOPModifyData) {
         for (c in children) {
             when {
                 c is ASTTriple -> {
-                    modify.data.add(LOPTriple(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]),PersistentStoreLocal.defaultGraphName,false))
+                    modify.data.add(LOPTriple(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), PersistentStoreLocal.defaultGraphName, false))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
@@ -1205,22 +1206,22 @@ return node.visit(this)as AOPBase
             tmp!!
         }
         val iri = node.iri
-println("xxyiri"+iri)
-val insert :MutableList<LOPTriple> = mutableListOf<LOPTriple>()
-val delete :MutableList<LOPTriple> = mutableListOf<LOPTriple>()
+        println("xxyiri" + iri)
+        val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
+        val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         if (iri != null) {
             for (e in node.insert)
-                insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true)as LOPTriple)
+                insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
             for (e in node.delete)
-                delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true)as LOPTriple)
-            val res = LOPModify(insert,delete,setGraphNameForAllTriples(child, ASTIri(iri), true))
+                delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
+            val res = LOPModify(insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
             return res
         } else {
             for (e in node.insert)
-                insert.add(e.visit(this)as LOPTriple)
+                insert.add(e.visit(this) as LOPTriple)
             for (e in node.delete)
-                delete.add(e.visit(this)as LOPTriple)
-            val res = LOPModify(insert,delete,child)
+                delete.add(e.visit(this) as LOPTriple)
+            val res = LOPModify(insert, delete, child)
             return res
         }
     }

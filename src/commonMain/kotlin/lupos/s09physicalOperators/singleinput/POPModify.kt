@@ -22,7 +22,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify(override val dictionary: ResultSetDictionary, val transactionID: Long,  val insert: List<LOPTriple>, val delete: List<LOPTriple>, child: OPBase) : POPBase() {
+class POPModify(override val dictionary: ResultSetDictionary, val transactionID: Long, val insert: List<LOPTriple>, val delete: List<LOPTriple>, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPModifyID
     override val classname = "POPModify"
     override val resultSet = ResultSet(dictionary)
@@ -47,7 +47,7 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
 
     override fun getProvidedVariableNames() = listOf<String>()
 
-    override fun cloneOP() = POPModify(dictionary, transactionID,  insert, delete, children[0].cloneOP())
+    override fun cloneOP() = POPModify(dictionary, transactionID, insert, delete, children[0].cloneOP())
 
     fun evaluateRow(node: OPBase, row: ResultRow): AOPConstant {
         return (node as AOPBase).calculate(children[0].resultSet, row)
@@ -62,36 +62,36 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                     resultFlowConsume({ this@POPModify }, { children[0] }, { row })
                     for (i in insert) {
                         try {
-                                    val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph()
-                                    else {
-                                        if (i.graphVar)
-                                            DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
-                                        else
-                                            DistributedTripleStore.getNamedGraph(i.graph, true)
-                                    }
-                                    val data = mutableListOf<AOPConstant>()
-                                    for (c in i.children)
-                                        data.add(evaluateRow(c, row))
-                                    store.addData(transactionID, data)
+                            val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
+                                DistributedTripleStore.getDefaultGraph()
+                            else {
+                                if (i.graphVar)
+                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                else
+                                    DistributedTripleStore.getNamedGraph(i.graph, true)
+                            }
+                            val data = mutableListOf<AOPConstant>()
+                            for (c in i.children)
+                                data.add(evaluateRow(c, row))
+                            store.addData(transactionID, data)
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
                     }
                     for (i in delete) {
                         try {
-                                    val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph()
-                                    else {
-                                        if (i.graphVar)
-                                            DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
-                                        else
-                                            DistributedTripleStore.getNamedGraph(i.graph, false)
-                                    }
-                                    val data = mutableListOf<AOPConstant>()
-                                    for (c in i.children)
-                                        data.add(evaluateRow(c, row))
-                                    store.deleteData(transactionID, data)
+                            val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
+                                DistributedTripleStore.getDefaultGraph()
+                            else {
+                                if (i.graphVar)
+                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                else
+                                    DistributedTripleStore.getNamedGraph(i.graph, false)
+                            }
+                            val data = mutableListOf<AOPConstant>()
+                            for (c in i.children)
+                                data.add(evaluateRow(c, row))
+                            store.deleteData(transactionID, data)
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }

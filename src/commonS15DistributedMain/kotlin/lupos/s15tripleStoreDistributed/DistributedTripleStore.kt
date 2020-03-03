@@ -239,7 +239,7 @@ object DistributedTripleStore {
     })
 
     fun getNamedGraph(name: String, create: Boolean = false): DistributedGraph = Trace.trace({ "DistributedTripleStore.getNamedGraph" }, {
-        if ( !(localStore.getGraphNames(true).contains(name)))
+        if (!(localStore.getGraphNames(true).contains(name)))
             createGraph(name)
         return DistributedGraph(name)
     })

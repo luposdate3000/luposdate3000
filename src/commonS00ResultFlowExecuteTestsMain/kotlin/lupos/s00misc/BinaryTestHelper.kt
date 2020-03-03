@@ -237,26 +237,26 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
- EOperatorID.POPModifyDataID -> {
+            EOperatorID.POPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
                 val count = nextInt(buffer, MAX_TRIPLES)
-                for (i in 0 until count) 
-                data.add(fromBinaryLopTriple(dictionary,buffer))
-                throw ExceptionTopLevelOperator(POPModifyData(dictionary,1L,type, data))
+                for (i in 0 until count)
+                    data.add(fromBinaryLopTriple(dictionary, buffer))
+                throw ExceptionTopLevelOperator(POPModifyData(dictionary, 1L, type, data))
             }
- EOperatorID.POPModifyID->{
-val child = fromBinaryPOPLOP(dictionary, buffer)
-val insert=mutableListOf<LOPTriple>()
-val delete=mutableListOf<LOPTriple>()
-val insertCount = nextInt(buffer, MAX_TRIPLES)
-for(i in 0 until insertCount)
-insert.add(fromBinaryLopTriple(dictionary,buffer))
-val deleteCount = nextInt(buffer, MAX_TRIPLES)
-for(i in 0 until deleteCount)
-delete.add(fromBinaryLopTriple(dictionary,buffer))
-throw ExceptionTopLevelOperator(POPModify(dictionary,1L,insert,delete,child))
-}
+            EOperatorID.POPModifyID -> {
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                val insert = mutableListOf<LOPTriple>()
+                val delete = mutableListOf<LOPTriple>()
+                val insertCount = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until insertCount)
+                    insert.add(fromBinaryLopTriple(dictionary, buffer))
+                val deleteCount = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until deleteCount)
+                    delete.add(fromBinaryLopTriple(dictionary, buffer))
+                throw ExceptionTopLevelOperator(POPModify(dictionary, 1L, insert, delete, child))
+            }
             EOperatorID.POPEmptyRowID -> {
                 return POPEmptyRow(dictionary)
             }
@@ -423,24 +423,24 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
- EOperatorID.LOPModifyID->{
-val child = fromBinaryPOPLOP(dictionary, buffer)
-val insert=mutableListOf<LOPTriple>()
-val delete=mutableListOf<LOPTriple>()
-val insertCount = nextInt(buffer, MAX_TRIPLES)
-for(i in 0 until insertCount)
-insert.add(fromBinaryLopTriple(dictionary,buffer))
-val deleteCount = nextInt(buffer, MAX_TRIPLES)
-for(i in 0 until deleteCount)
-delete.add(fromBinaryLopTriple(dictionary,buffer))
-throw ExceptionTopLevelOperator(LOPModify(insert,delete,child))
-}
+            EOperatorID.LOPModifyID -> {
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                val insert = mutableListOf<LOPTriple>()
+                val delete = mutableListOf<LOPTriple>()
+                val insertCount = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until insertCount)
+                    insert.add(fromBinaryLopTriple(dictionary, buffer))
+                val deleteCount = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until deleteCount)
+                    delete.add(fromBinaryLopTriple(dictionary, buffer))
+                throw ExceptionTopLevelOperator(LOPModify(insert, delete, child))
+            }
             EOperatorID.LOPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
                 val count = nextInt(buffer, MAX_TRIPLES)
-                for (i in 0 until count) 
-                data.add(fromBinaryLopTriple(dictionary,buffer))
+                for (i in 0 until count)
+                    data.add(fromBinaryLopTriple(dictionary, buffer))
                 throw ExceptionTopLevelOperator(LOPModifyData(type, data))
             }
             EOperatorID.LOPGraphOperationID -> {
@@ -523,7 +523,7 @@ throw ExceptionTopLevelOperator(LOPModify(insert,delete,child))
                 return LOPOffset(value, child)
             }
             EOperatorID.LOPTripleID -> {
-return fromBinaryLopTriple(dictionary,buffer)
+                return fromBinaryLopTriple(dictionary, buffer)
             }
             EOperatorID.LOPValuesID -> {
                 val variables = mutableListOf<AOPVariable>()
@@ -554,23 +554,23 @@ return fromBinaryLopTriple(dictionary,buffer)
     }
 }
 
-fun fromBinaryLopTriple(dictionary: ResultSetDictionary, buffer: DynamicByteArray):LOPTriple{
-val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
-                val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-                val graph = DistributedTripleStore.getNamedGraph(graphName, true)
-                var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
-                var p = fromBinaryAOPIriOrVar(dictionary, buffer)
-                var o = fromBinaryAOPConstOrVar(dictionary, buffer)
-                val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
-                val tripleCount = nextInt(buffer, MAX_TRIPLES)
-                for (i in 0 until tripleCount) {
-                    val st = AOPVariable.calculate(nextStringValue(buffer))
-                    val pt = AOPVariable.calculate(nextStringValue(buffer))
-                    val ot = AOPVariable.calculate(nextStringValue(buffer))
-                    graph.addData(1L, listOf(st, pt, ot))
-                }
-                DistributedTripleStore.commit(1L)
-                return LOPTriple(s, p, o, graphName, false)
+fun fromBinaryLopTriple(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LOPTriple {
+    val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+    val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
+    val graph = DistributedTripleStore.getNamedGraph(graphName, true)
+    var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+    var p = fromBinaryAOPIriOrVar(dictionary, buffer)
+    var o = fromBinaryAOPConstOrVar(dictionary, buffer)
+    val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
+    val tripleCount = nextInt(buffer, MAX_TRIPLES)
+    for (i in 0 until tripleCount) {
+        val st = AOPVariable.calculate(nextStringValue(buffer))
+        val pt = AOPVariable.calculate(nextStringValue(buffer))
+        val ot = AOPVariable.calculate(nextStringValue(buffer))
+        graph.addData(1L, listOf(st, pt, ot))
+    }
+    DistributedTripleStore.commit(1L)
+    return LOPTriple(s, p, o, graphName, false)
 }
 
 fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
