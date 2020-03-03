@@ -34,9 +34,6 @@ object QueryResultToXML {
                 nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
-            if (variableNames.size == 0)
-                queryChannel.close()
-            else
                 CoroutinesHelper.runBlock {
                     for (resultRow in queryChannel) {
                         val nodeResult = XMLElement("result")

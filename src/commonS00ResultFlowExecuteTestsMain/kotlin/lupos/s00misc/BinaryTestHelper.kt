@@ -72,7 +72,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.*
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -234,6 +234,12 @@ return fromBinaryPOP(dictionary,buffer)
 EOperatorID.POPImportFromNetworkPackageID->{
 return fromBinaryPOP(dictionary,buffer)
 }
+EOperatorID.POPImportFromXmlID->{
+return fromBinaryPOP(dictionary,buffer)
+}
+EOperatorID.POPTemporaryStoreID->{
+return fromBinaryPOP(dictionary,buffer)
+}
             EOperatorID.POPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
@@ -263,6 +269,12 @@ return fromBinaryPOP(dictionary,buffer)
                 return POPUnion(dictionary, childA, childB)
             }
             EOperatorID.POPJoinHashMapID -> {
+                val childA = fromBinaryPOPLOP(dictionary, buffer)
+                val childB = fromBinaryPOPLOP(dictionary, buffer)
+                val optional = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                return POPJoinHashMap(dictionary, childA, childB, optional)
+            }
+            EOperatorID.POPJoinNestedLoopID -> {
                 val childA = fromBinaryPOPLOP(dictionary, buffer)
                 val childB = fromBinaryPOPLOP(dictionary, buffer)
                 val optional = DynamicByteArray.intToBool(nextInt(buffer, 2))
@@ -410,6 +422,14 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
+EOperatorID.LOPNOOPID->{
+val child = fromBinaryPOPLOP(dictionary, buffer)
+return LOPNOOP(child)
+}
+EOperatorID.LOPSubGroupID->{
+val child = fromBinaryPOPLOP(dictionary, buffer)
+return LOPSubGroup(child)
+}
             EOperatorID.LOPModifyID -> {
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 val insert = mutableListOf<LOPTriple>()
@@ -844,12 +864,41 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
             EOperatorID.AOPUndefID -> {
                 return AOPUndef()
             }
-            EOperatorID.AOPAggregationID -> {
-                val type = Aggregation.values()[nextInt(buffer, Aggregation.values().size)]
+            EOperatorID.AOPAggregationCOUNTID -> {
                 val distinct = DynamicByteArray.intToBool(nextInt(buffer, 2))
                 val count = nextInt(buffer, 2)
                 val variables = Array(count) { fromBinaryAOP(dictionary, buffer) }
-                return AOPAggregation(type, distinct, variables)
+                return AOPAggregationCOUNT(distinct, variables)
+            }
+            EOperatorID.AOPAggregationSAMPLEID -> {
+                val distinct = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                val count = nextInt(buffer, 2)
+                val variables = Array(count) { fromBinaryAOP(dictionary, buffer) }
+                return AOPAggregationSAMPLE(distinct, variables)
+            }
+            EOperatorID.AOPAggregationSUMID -> {
+                val distinct = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                val count = nextInt(buffer, 2)
+                val variables = Array(count) { fromBinaryAOP(dictionary, buffer) }
+                return AOPAggregationSUM(distinct, variables)
+            }
+            EOperatorID.AOPAggregationAVGID -> {
+                val distinct = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                val count = nextInt(buffer, 2)
+                val variables = Array(count) { fromBinaryAOP(dictionary, buffer) }
+                return AOPAggregationAVG(distinct, variables)
+            }
+            EOperatorID.AOPAggregationMINID -> {
+                val distinct = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                val count = nextInt(buffer, 2)
+                val variables = Array(count) { fromBinaryAOP(dictionary, buffer) }
+                return AOPAggregationMIN(distinct, variables)
+            }
+            EOperatorID.AOPAggregationMAXID -> {
+                val distinct = DynamicByteArray.intToBool(nextInt(buffer, 2))
+                val count = nextInt(buffer, 2)
+                val variables = Array(count) { fromBinaryAOP(dictionary, buffer) }
+                return AOPAggregationMAX(distinct, variables)
             }
             EOperatorID.AOPBooleanID -> {
                 return AOPVariable.calculate(nextStringValueTyped(buffer, EOperatorID.AOPBooleanID))
@@ -1006,6 +1055,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     }
                 }
             }
+}catch(e:ExceptionJenaBug){
         } finally {
             jena.finalize()
         }

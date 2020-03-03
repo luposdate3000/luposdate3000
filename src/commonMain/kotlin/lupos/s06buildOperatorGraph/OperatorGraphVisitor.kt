@@ -164,7 +164,6 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
@@ -428,12 +427,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 tmp2 = tmp2.children[0]
             }
             when (tmp2) {
-                is LOPMinus -> {
+/*                is LOPMinus -> {
                     if (members.containsKey(EGroupMember.GMLOPMinus))
                         (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
                     else
                         members[EGroupMember.GMLOPMinus] = tmp2
-                }
+                }*/
                 is LOPFilter -> {
                     if (members.containsKey(EGroupMember.GMLOPFilter))
                         (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
@@ -510,9 +509,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     throw UnsupportedOperationException("${classNameToString(this)} EGroupMember ${classNameToString(tmp2)}")
             }
         }
-        if (members.containsKey(EGroupMember.GMLOPMinus)) {
+/*        if (members.containsKey(EGroupMember.GMLOPMinus)) {
             result = members[EGroupMember.GMLOPMinus]
         }
+*/
         if (members.containsKey(EGroupMember.GMLOPFilter)) {
             if (result == null)
                 result = members[EGroupMember.GMLOPFilter]
@@ -1001,11 +1001,6 @@ Aggregation.SUM        ->return AOPAggregationSUM(node.distinct, Array(childrenV
 }
     }
 
-    override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isNotEmpty())
-        return LOPMinus(LOPNOOP(), parseGroup(node.children))
-    }
-
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
         return LOPUnion(childrenValues[0], childrenValues[1])
@@ -1048,8 +1043,6 @@ Aggregation.SUM        ->return AOPAggregationSUM(node.distinct, Array(childrenV
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
-        if (node.variables.isEmpty())
-            return LOPNOOP()
         val variables = mutableListOf<AOPVariable>()
         val values = mutableListOf<AOPValue>()
         for (v in node.variables)
@@ -1232,6 +1225,10 @@ Aggregation.SUM        ->return AOPAggregationSUM(node.distinct, Array(childrenV
             val res = LOPModify(insert, delete, child)
             return res
         }
+    }
+
+    override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
+throw UnsupportedOperationException("${classNameToString(this)} minus ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
