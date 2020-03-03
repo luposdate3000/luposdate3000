@@ -2,8 +2,8 @@ package lupos.s00misc
 
 import lupos.*
 import lupos.s00misc.*
-import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.*
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
@@ -88,6 +88,7 @@ import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
+import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -859,8 +860,6 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
     val lOptimizer = LogicalOptimizer(1L, dictionary)
     val pOptimizer = PhysicalOptimizer(1L, dictionary)
     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
-    val jena = JenaRequest()
-    try {
         val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
         ExecuteOptimizer.enabledOptimizers.clear()
         for (o in 0 until optimizerEnabledCount) {
@@ -885,18 +884,18 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
             val sparql = node3.toSparqlQuery()
             globalSparql.add(sparql)
         }
-for(gname in DistributedTripleStore.getGraphNames(true)){
-val g=DistributedTripleStore.getNamedGraph(gname)
-val iterator=g.getIterator(1,dictionary,AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),EIndexPattern.SPO)
-val data=QueryResultToXML.toXML(iterator).first()
-var sparql="INSERT DATA{"
-if(gname!=PersistentStoreLocal.defaultGraphName)
-sparql+= "GRAPH <$gname> "
-        if (data.tag != "sparql")
-            throw Exception("can only parse sparql xml into an iterator")
-        CoroutinesHelper.run {
+        for (gname in DistributedTripleStore.getGraphNames(true)) {
+            val g = DistributedTripleStore.getNamedGraph(gname)
+            val iterator = g.getIterator(1, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO)
+            val data = QueryResultToXML.toXML(iterator).first()
+            var sparql = "INSERT DATA{"
+            if (gname != PersistentStoreLocal.defaultGraphName)
+                sparql += "GRAPH <$gname> "
+            if (data.tag != "sparql")
+                throw Exception("can only parse sparql xml into an iterator")
+            CoroutinesHelper.run {
                 for (node in data["results"]!!.childs) {
-                    val result = mutableMapOf<String,String>()
+                    val result = mutableMapOf<String, String>()
                     for (v in node.childs) {
                         val name = v.attributes["name"]
                         val child = v.childs.first()
@@ -910,12 +909,22 @@ sparql+= "GRAPH <$gname> "
                         }
                         result[name!!] = value!!
                     }
-sparql+="( "+result["s"]+" " +result["p"]+" " +result["o"]+" " +")."
+                    sparql += "( " + result["s"] + " " + result["p"] + " " + result["o"] + " " + ")."
                 }
+            }
+            sparql += "}"
+            globalSparql.add(0, sparql)
         }
-sparql+="}"
-globalSparql.add(0,sparql)
+for(i in 0 until 2){
+ExecuteOptimizer.enabledOptimizers.clear()
+if(1==1)
+backupOptimizers.forEach{k,v->
+ExecuteOptimizer.enabledOptimizers[k]=v
 }
+    val jena = JenaRequest()
+P2P.execGraphClearAll(1L)
+DistributedTripleStore.commit(1L)
+    try {
         for (sparql in globalSparql) {
             var output = XMLElement("crashed")
             var isUpdate = false
@@ -932,6 +941,7 @@ globalSparql.add(0,sparql)
                 val node4 = dOptimizer.optimizeCall(node3) as POPBase
                 output = QueryResultToXML.toXML(node4).first()
                 isUpdate = node4 is POPGraphOperation
+DistributedTripleStore.commit(1L)
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
@@ -939,20 +949,20 @@ globalSparql.add(0,sparql)
                 try {
                     val expected = jena.requestUpdate(sparql)
                 } catch (e: Throwable) {
-if(output.tag!="crashed")
-throw e
+                    if (output.tag != "crashed")
+                        throw e
                 }
             } else {
-var expected= XMLElement("crashed")
+                var expected = XMLElement("crashed")
                 try {
                     expected = jena.requestQuery(sparql)
                 } catch (e: Throwable) {
-if(output.tag!="crashed")
-throw e
+                    if (output.tag != "crashed")
+                        throw e
                 }
                 if (!expected.myEqualsUnclean(output)) {
-println("expected :: $expected")
-println("output :: $output")
+                    println("expected :: $expected")
+                    println("output :: $output")
                     throw Exception("failed $sparql")
                 }
             }
@@ -960,4 +970,5 @@ println("output :: $output")
     } finally {
         jena.finalize()
     }
+}
 }

@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s05tripleStore.*
+
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
@@ -20,6 +20,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 

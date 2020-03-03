@@ -33,7 +33,7 @@ class PersistentStoreLocal {
     val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
 
     companion object {
-    val defaultGraphName = ""
+        val defaultGraphName = ""
         private val global_transactionID = ThreadSafeUuid()
 
     }
