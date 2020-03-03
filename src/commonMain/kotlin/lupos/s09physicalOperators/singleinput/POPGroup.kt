@@ -33,6 +33,17 @@ class POPGroup : POPBase {
     var by: List<AOPVariable>
     var bindings = mutableListOf<Pair<Variable, AOPBase>>()
 
+override fun toSparql():String{
+var res=children[0].toSparql()
+res+=" GROUP BY "
+for(b in by)
+res+=b.toSparql()+" "
+for ((k,v) in bindings){
+res+="("+v.toSparql()+" AS "+AOPVariable(resultSet.getVariable(k)).toSparql()+")"
+}
+return res
+}
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPGroup)
             return false

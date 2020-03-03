@@ -252,8 +252,8 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 return POPJoinHashMap(dictionary, childA, childB, optional)
             }
             EOperatorID.POPRenameID -> {
-                val nameTo = fromBinaryAOP(dictionary, buffer) as AOPVariable
-                val nameFrom = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val nameTo = AOPVariable(nextStringVarName(buffer))
+                val nameFrom = AOPVariable(nextStringVarName(buffer))
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPRename(dictionary, nameTo, nameFrom, child)
             }
@@ -267,19 +267,19 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                 throw ExceptionTopLevelOperator(POPMakeBooleanResult(dictionary, child))
             }
             EOperatorID.POPFilterExactID -> {
-                val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val name = AOPVariable(nextStringVarName(buffer))
                 val value = nextStringValue(buffer)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPFilterExact(dictionary, name, value, child)
             }
             EOperatorID.POPBindID -> {
-                val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val name = AOPVariable(nextStringVarName(buffer))
                 val value = fromBinaryAOP(dictionary, buffer)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPBind(dictionary, name, value, child)
             }
             EOperatorID.POPSortID -> {
-                val sortBy = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val sortBy = AOPVariable(nextStringVarName(buffer))
                 val sortOrder = DynamicByteArray.intToBool(nextInt(buffer, 2))
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPSort(dictionary, sortBy, sortOrder, child)
@@ -287,6 +287,24 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             EOperatorID.POPDistinctID -> {
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPDistinct(dictionary, child)
+}
+            EOperatorID.POPGroupID -> {
+val by= mutableListOf<AOPVariable>()
+var bindings: POPBind?=null
+val byCount = nextInt(buffer, MAX_VARIABLES)
+for(i in 0 until byCount)
+	by.add(AOPVariable(nextStringVarName(buffer)))
+val bindCount=nextInt(buffer, MAX_VARIABLES)
+for(i in 0 until bindCount){
+ val name = AOPVariable(nextStringVarName(buffer))
+                val value = fromBinaryAOP(dictionary, buffer)
+if(bindings==null)
+                bindings= POPBind(dictionary, name, value, POPEmptyRow(dictionary))
+else
+                bindings= POPBind(dictionary, name, value, bindings)
+}
+                val child = fromBinaryPOPLOP(dictionary, buffer)
+                return POPGroup(dictionary, by,bindings,child)
             }
             EOperatorID.POPProjectionID -> {
                 val childCount = nextInt(buffer, MAX_VARIABLES)
@@ -294,7 +312,7 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
                     return fromBinaryPOP(dictionary, buffer)
                 val variables = mutableListOf<AOPVariable>()
                 for (i in 0 until childCount)
-                    variables.add(fromBinaryAOP(dictionary, buffer) as AOPVariable)
+                    variables.add(AOPVariable(nextStringVarName(buffer)))
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPProjection(dictionary, variables, child)
             }
@@ -410,8 +428,8 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 return LOPJoin(childA, childB, optional)
             }
             EOperatorID.LOPRenameID -> {
-                val nameTo = fromBinaryAOP(dictionary, buffer) as AOPVariable
-                val nameFrom = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val nameTo = AOPVariable(nextStringVarName(buffer))
+                val nameFrom = AOPVariable(nextStringVarName(buffer))
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPRename(nameTo, nameFrom, child)
             }
@@ -421,13 +439,13 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 return LOPFilter(filter, child)
             }
             EOperatorID.LOPBindID -> {
-                val name = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val name = AOPVariable(nextStringVarName(buffer))
                 val value = fromBinaryAOP(dictionary, buffer)
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPBind(name, value, child)
             }
             EOperatorID.LOPSortID -> {
-                val sortBy = fromBinaryAOP(dictionary, buffer) as AOPVariable
+                val sortBy = AOPVariable(nextStringVarName(buffer))
                 val sortOrder = DynamicByteArray.intToBool(nextInt(buffer, 2))
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPSort(sortOrder, sortBy, child)
@@ -440,7 +458,7 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 val childCount = nextInt(buffer, MAX_VARIABLES)
                 val variables = mutableListOf<AOPVariable>()
                 for (i in 0 until childCount)
-                    variables.add(fromBinaryAOP(dictionary, buffer) as AOPVariable)
+                    variables.add(AOPVariable(nextStringVarName(buffer)))
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return LOPProjection(variables, child)
             }
