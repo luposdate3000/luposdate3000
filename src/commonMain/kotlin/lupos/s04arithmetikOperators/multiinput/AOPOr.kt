@@ -61,9 +61,7 @@ class AOPOr(childA: AOPBase, childB: AOPBase) : AOPBase() {
                 b
             })
         }
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPAnd only works with boolean input")
-        })
+throw Exception("unreachable")
     }
 
     override fun cloneOP() = AOPOr(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

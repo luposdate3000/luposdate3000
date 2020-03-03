@@ -946,13 +946,13 @@ fun executeBinaryTests(folder: String) {
         File(folder).walk {
             if (it.endsWith(".bin")) {
                 testcases++
-                {
+if(true)                {
                     val tmp = DistributedTripleStore.getGraphNames().toList()
                     tmp.forEach {
                         DistributedTripleStore.dropGraph(it)
                     }
+                    executeBinaryTest(it, false)
                 }
-                executeBinaryTest(it, false)
             }
         }
     } catch (e: Throwable) {
@@ -1045,6 +1045,10 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                 var e2: Throwable? = null
                 var output = XMLElement("crashed")
                 var isUpdate = false
+var node1:OPBase=OPNothing()
+var node2:OPBase=OPNothing()
+var node3:OPBase=OPNothing()
+var node4:OPBase=OPNothing()
                 try {
                     println("sparql::" + sparql)
                     val lcit = LexerCharIterator(sparql)
@@ -1052,10 +1056,10 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     val ltit = LookAheadTokenIterator(tit, 3)
                     val parser = SPARQLParser(ltit)
                     val ast_node = parser.expr()
-                    val node1 = ast_node.visit(OperatorGraphVisitor())
-                    val node2 = lOptimizer.optimizeCall(node1)
-                    val node3 = pOptimizer.optimizeCall(node2)
-                    val node4 = dOptimizer.optimizeCall(node3) as POPBase
+                     node1 = ast_node.visit(OperatorGraphVisitor())
+                     node2 = lOptimizer.optimizeCall(node1)
+                     node3 = pOptimizer.optimizeCall(node2)
+                     node4 = dOptimizer.optimizeCall(node3) as POPBase
                     output = QueryResultToXML.toXML(node4).first()
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData
                     DistributedTripleStore.commit(1L)
@@ -1080,6 +1084,10 @@ throw e
                         e2 = e
                     }
                     if (!expected.myEqualsUnclean(output)) {
+println(node1)
+println(node2)
+println(node3)
+println(node4)
                         println("expected :: $expected")
                         println("output :: $output")
                         e1?.printStackTrace()

@@ -658,7 +658,7 @@ allNamesBind.add(sel.variable.name)
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPTypedLiteral(node.delimiter, node.content, node.type_iri)
+return AOPVariable.calculate(node.delimiter+node.content+node.delimiter+"^^<"+node.type_iri+">")
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {
