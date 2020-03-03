@@ -68,7 +68,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
 
     override fun toSparql(): String {
-        if (graphNameL == "")
+        if (graphNameL == PersistentStoreLocal.defaultGraphName)
             return sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "."
         return "GRAPH <$graphNameL> {" + sparam.toSparql() + " " + pparam.toSparql() + " " + oparam.toSparql() + "}."
     }

@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPModifyData(val type: EModifyType, val data: MutableList<List<Pair<String, Boolean>>> = mutableListOf<List<Pair<String, Boolean>>>()) : LOPBase() {
+class LOPModifyData(val type: EModifyType, val data: MutableList<LOPTriple> = mutableListOf<LOPTriple>()) : LOPBase() {
     override val operatorID = EOperatorID.LOPModifyDataID
     override val classname = "LOPModifyData"
     override val children: Array<OPBase> = arrayOf()
@@ -15,16 +15,8 @@ class LOPModifyData(val type: EModifyType, val data: MutableList<List<Pair<Strin
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)
-        for (t in data) {
-            res.addContent(XMLElement("RawTriple")
-                    .addAttribute("sv", t[0].first)
-                    .addAttribute("pv", t[1].first)
-                    .addAttribute("ov", t[2].first)
-                    .addAttribute("sconst", "" + t[0].second)
-                    .addAttribute("pconst", "" + t[1].second)
-                    .addAttribute("oconst", "" + t[2].second)
-                    .addAttribute("graph", t[3].first))
-        }
+        for (t in data) 
+		res.addContent(t.toXMLElement())
         return res
     }
 

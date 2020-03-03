@@ -237,6 +237,15 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
+ EOperatorID.POPModifyDataID -> {
+                val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
+                val data = mutableListOf<LOPTriple>()
+                val count = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until count) 
+                data.add(fromBinaryLopTriple(dictionary,buffer))
+                throw ExceptionTopLevelOperator(POPModifyData(dictionary,1L,type, data))
+            }
+
             EOperatorID.POPEmptyRowID -> {
                 return POPEmptyRow(dictionary)
             }
@@ -287,24 +296,24 @@ fun fromBinaryPOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): PO
             EOperatorID.POPDistinctID -> {
                 val child = fromBinaryPOPLOP(dictionary, buffer)
                 return POPDistinct(dictionary, child)
-}
+            }
             EOperatorID.POPGroupID -> {
-val by= mutableListOf<AOPVariable>()
-var bindings: POPBind?=null
-val byCount = nextInt(buffer, MAX_VARIABLES)
-for(i in 0 until byCount)
-	by.add(AOPVariable(nextStringVarName(buffer)))
-val bindCount=nextInt(buffer, MAX_VARIABLES)
-for(i in 0 until bindCount){
- val name = AOPVariable(nextStringVarName(buffer))
-                val value = fromBinaryAOP(dictionary, buffer)
-if(bindings==null)
-                bindings= POPBind(dictionary, name, value, POPEmptyRow(dictionary))
-else
-                bindings= POPBind(dictionary, name, value, bindings)
-}
+                val by = mutableListOf<AOPVariable>()
+                var bindings: POPBind? = null
+                val byCount = nextInt(buffer, MAX_VARIABLES)
+                for (i in 0 until byCount)
+                    by.add(AOPVariable(nextStringVarName(buffer)))
+                val bindCount = nextInt(buffer, MAX_VARIABLES)
+                for (i in 0 until bindCount) {
+                    val name = AOPVariable(nextStringVarName(buffer))
+                    val value = fromBinaryAOP(dictionary, buffer)
+                    if (bindings == null)
+                        bindings = POPBind(dictionary, name, value, POPEmptyRow(dictionary))
+                    else
+                        bindings = POPBind(dictionary, name, value, bindings)
+                }
                 val child = fromBinaryPOPLOP(dictionary, buffer)
-                return POPGroup(dictionary, by,bindings,child)
+                return POPGroup(dictionary, by, bindings, child)
             }
             EOperatorID.POPProjectionID -> {
                 val childCount = nextInt(buffer, MAX_VARIABLES)
@@ -403,6 +412,14 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorID.values()[id]
 
         when (operatorID) {
+            EOperatorID.LOPModifyDataID -> {
+                val type = EModifyType.values()[nextInt(buffer, EModifyType.values().size)]
+                val data = mutableListOf<LOPTriple>()
+                val count = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until count) 
+                data.add(fromBinaryLopTriple(dictionary,buffer))
+                throw ExceptionTopLevelOperator(LOPModifyData(type, data))
+            }
             EOperatorID.LOPGraphOperationID -> {
                 val action = EGraphOperationType.values()[nextInt(buffer, EGraphOperationType.values().size)]
                 val silent = DynamicByteArray.intToBool(nextInt(buffer, 2))
@@ -483,22 +500,7 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
                 return LOPOffset(value, child)
             }
             EOperatorID.LOPTripleID -> {
-                val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
-                val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-                val graph = DistributedTripleStore.getNamedGraph(graphName, true)
-                var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
-                var p = fromBinaryAOPIriOrVar(dictionary, buffer)
-                var o = fromBinaryAOPConstOrVar(dictionary, buffer)
-                val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
-                val tripleCount = nextInt(buffer, MAX_TRIPLES)
-                for (i in 0 until tripleCount) {
-                    val st = AOPVariable.calculate(nextStringValue(buffer))
-                    val pt = AOPVariable.calculate(nextStringValue(buffer))
-                    val ot = AOPVariable.calculate(nextStringValue(buffer))
-                    graph.addData(1L, listOf(st, pt, ot))
-                }
-                DistributedTripleStore.commit(1L)
-                return LOPTriple(s, p, o, graphName, false)
+return fromBinaryLopTriple(dictionary,buffer)
             }
             EOperatorID.LOPValuesID -> {
                 val variables = mutableListOf<AOPVariable>()
@@ -527,6 +529,25 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
         hadArrayIndexOutOfBoundsException = true
         return OPNothing()
     }
+}
+
+fun fromBinaryLopTriple(dictionary: ResultSetDictionary, buffer: DynamicByteArray):LOPTriple{
+val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+                val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
+                val graph = DistributedTripleStore.getNamedGraph(graphName, true)
+                var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+                var p = fromBinaryAOPIriOrVar(dictionary, buffer)
+                var o = fromBinaryAOPConstOrVar(dictionary, buffer)
+                val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
+                val tripleCount = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until tripleCount) {
+                    val st = AOPVariable.calculate(nextStringValue(buffer))
+                    val pt = AOPVariable.calculate(nextStringValue(buffer))
+                    val ot = AOPVariable.calculate(nextStringValue(buffer))
+                    graph.addData(1L, listOf(st, pt, ot))
+                }
+                DistributedTripleStore.commit(1L)
+                return LOPTriple(s, p, o, graphName, false)
 }
 
 fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AOPBase {
@@ -878,115 +899,115 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
     val lOptimizer = LogicalOptimizer(1L, dictionary)
     val pOptimizer = PhysicalOptimizer(1L, dictionary)
     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
-        val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
-        ExecuteOptimizer.enabledOptimizers.clear()
-        for (o in 0 until optimizerEnabledCount) {
-            val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
-            ExecuteOptimizer.enabledOptimizers[optimizer] = true
-        }
-        val backupOptimizers = ExecuteOptimizer.enabledOptimizers
-        ExecuteOptimizer.enabledOptimizers.clear()
-        var globalSparql = mutableListOf<String>()
-        hadArrayIndexOutOfBoundsException = false
-        while (!hadArrayIndexOutOfBoundsException) {
-            var node1: OPBase
-            try {
-                node1 = fromBinaryPOPLOP(dictionary, buffer)
-            } catch (e: ExceptionTopLevelOperator) {
-                node1 = e.data
-            }
-            val node2 = lOptimizer.optimizeCall(node1)
-            val node3 = pOptimizer.optimizeCall(node2)
-            val node4 = dOptimizer.optimizeCall(node3) as POPBase
-            val output = QueryResultToXML.toXML(node4).first()
-            val sparql = node3.toSparqlQuery()
-            globalSparql.add(sparql)
-        }
-        for (gname in DistributedTripleStore.getGraphNames(true)) {
-            val g = DistributedTripleStore.getNamedGraph(gname)
-            val iterator = g.getIterator(1, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO)
-            val data = QueryResultToXML.toXML(iterator).first()
-            var sparql = "INSERT DATA{"
-            if (gname != PersistentStoreLocal.defaultGraphName)
-                sparql += "GRAPH <$gname> "
-            if (data.tag != "sparql")
-                throw Exception("can only parse sparql xml into an iterator")
-            CoroutinesHelper.run {
-                for (node in data["results"]!!.childs) {
-                    val result = mutableMapOf<String, String>()
-                    for (v in node.childs) {
-                        val name = v.attributes["name"]
-                        val child = v.childs.first()
-                        val content = child.content
-                        val value = when {
-                            child.tag == "uri" -> "<" + content + ">"
-                            child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                            child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
-                            child.tag == "bnode" -> "_:" + content
-                            else -> "\"" + content + "\""
-                        }
-                        result[name!!] = value!!
-                    }
-                    sparql += "( " + result["s"] + " " + result["p"] + " " + result["o"] + " " + ")."
-                }
-            }
-            sparql += "}"
-            globalSparql.add(0, sparql)
-        }
-for(i in 0 until 2){
-ExecuteOptimizer.enabledOptimizers.clear()
-if(1==1)
-backupOptimizers.forEach{k,v->
-ExecuteOptimizer.enabledOptimizers[k]=v
-}
-    val jena = JenaRequest()
-P2P.execGraphClearAll(1L)
-DistributedTripleStore.commit(1L)
-    try {
-        for (sparql in globalSparql) {
-            var output = XMLElement("crashed")
-            var isUpdate = false
-            try {
-                println("sparql::" + sparql)
-                val lcit = LexerCharIterator(sparql)
-                val tit = TokenIteratorSPARQLParser(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                val parser = SPARQLParser(ltit)
-                val ast_node = parser.expr()
-                val node1 = ast_node.visit(OperatorGraphVisitor())
-                val node2 = lOptimizer.optimizeCall(node1)
-                val node3 = pOptimizer.optimizeCall(node2)
-                val node4 = dOptimizer.optimizeCall(node3) as POPBase
-                output = QueryResultToXML.toXML(node4).first()
-                isUpdate = node4 is POPGraphOperation
-DistributedTripleStore.commit(1L)
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
-            if (isUpdate) {
-                try {
-                    val expected = jena.requestUpdate(sparql)
-                } catch (e: Throwable) {
-                    if (output.tag != "crashed")
-                        throw e
-                }
-            } else {
-                var expected = XMLElement("crashed")
-                try {
-                    expected = jena.requestQuery(sparql)
-                } catch (e: Throwable) {
-                    if (output.tag != "crashed")
-                        throw e
-                }
-                if (!expected.myEqualsUnclean(output)) {
-                    println("expected :: $expected")
-                    println("output :: $output")
-                    throw Exception("failed $sparql")
-                }
-            }
-        }
-    } finally {
-        jena.finalize()
+    val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
+    ExecuteOptimizer.enabledOptimizers.clear()
+    for (o in 0 until optimizerEnabledCount) {
+        val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
+        ExecuteOptimizer.enabledOptimizers[optimizer] = true
     }
-}
+    val backupOptimizers = ExecuteOptimizer.enabledOptimizers
+    ExecuteOptimizer.enabledOptimizers.clear()
+    var globalSparql = mutableListOf<String>()
+    hadArrayIndexOutOfBoundsException = false
+    while (!hadArrayIndexOutOfBoundsException) {
+        var node1: OPBase
+        try {
+            node1 = fromBinaryPOPLOP(dictionary, buffer)
+        } catch (e: ExceptionTopLevelOperator) {
+            node1 = e.data
+        }
+        val node2 = lOptimizer.optimizeCall(node1)
+        val node3 = pOptimizer.optimizeCall(node2)
+        val node4 = dOptimizer.optimizeCall(node3) as POPBase
+        val output = QueryResultToXML.toXML(node4).first()
+        val sparql = node3.toSparqlQuery()
+        globalSparql.add(sparql)
+    }
+    for (gname in DistributedTripleStore.getGraphNames(true)) {
+        val g = DistributedTripleStore.getNamedGraph(gname)
+        val iterator = g.getIterator(1, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO)
+        val data = QueryResultToXML.toXML(iterator).first()
+        var sparql = "INSERT DATA{"
+        if (gname != PersistentStoreLocal.defaultGraphName)
+            sparql += "GRAPH <$gname> "
+        if (data.tag != "sparql")
+            throw Exception("can only parse sparql xml into an iterator")
+        CoroutinesHelper.run {
+            for (node in data["results"]!!.childs) {
+                val result = mutableMapOf<String, String>()
+                for (v in node.childs) {
+                    val name = v.attributes["name"]
+                    val child = v.childs.first()
+                    val content = child.content
+                    val value = when {
+                        child.tag == "uri" -> "<" + content + ">"
+                        child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                        child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                        child.tag == "bnode" -> "_:" + content
+                        else -> "\"" + content + "\""
+                    }
+                    result[name!!] = value!!
+                }
+                sparql += "( " + result["s"] + " " + result["p"] + " " + result["o"] + " " + ")."
+            }
+        }
+        sparql += "}"
+        globalSparql.add(0, sparql)
+    }
+    for (i in 0 until 2) {
+        ExecuteOptimizer.enabledOptimizers.clear()
+        if (1 == 1)
+            backupOptimizers.forEach { k, v ->
+                ExecuteOptimizer.enabledOptimizers[k] = v
+            }
+        val jena = JenaRequest()
+        P2P.execGraphClearAll(1L)
+        DistributedTripleStore.commit(1L)
+        try {
+            for (sparql in globalSparql) {
+                var output = XMLElement("crashed")
+                var isUpdate = false
+                try {
+                    println("sparql::" + sparql)
+                    val lcit = LexerCharIterator(sparql)
+                    val tit = TokenIteratorSPARQLParser(lcit)
+                    val ltit = LookAheadTokenIterator(tit, 3)
+                    val parser = SPARQLParser(ltit)
+                    val ast_node = parser.expr()
+                    val node1 = ast_node.visit(OperatorGraphVisitor())
+                    val node2 = lOptimizer.optimizeCall(node1)
+                    val node3 = pOptimizer.optimizeCall(node2)
+                    val node4 = dOptimizer.optimizeCall(node3) as POPBase
+                    output = QueryResultToXML.toXML(node4).first()
+                    isUpdate = node4 is POPGraphOperation || node4 is POPModifyData
+                    DistributedTripleStore.commit(1L)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+                if (isUpdate) {
+                    try {
+                        val expected = jena.requestUpdate(sparql)
+                    } catch (e: Throwable) {
+                        if (output.tag != "crashed")
+                            throw e
+                    }
+                } else {
+                    var expected = XMLElement("crashed")
+                    try {
+                        expected = jena.requestQuery(sparql)
+                    } catch (e: Throwable) {
+                        if (output.tag != "crashed")
+                            throw e
+                    }
+                    if (!expected.myEqualsUnclean(output)) {
+                        println("expected :: $expected")
+                        println("output :: $output")
+                        throw Exception("failed $sparql")
+                    }
+                }
+            }
+        } finally {
+            jena.finalize()
+        }
+    }
 }

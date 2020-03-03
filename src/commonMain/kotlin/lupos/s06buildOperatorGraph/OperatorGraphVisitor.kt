@@ -190,7 +190,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-
+import lupos.s05tripleStore.*
 
 class OperatorGraphVisitor : Visitor<OPBase> {
     val queryExecutionStartTime = AOPDateTime() /*required for BuildInCall.NOW */
@@ -678,7 +678,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 3)
-        return LOPTriple(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, null, false)
+        return LOPTriple(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
@@ -1147,29 +1147,21 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return res
     }
 
-    fun simpleAstToStringValue(node: ASTNode): Pair<String, Boolean> {
-        when (node) {
-            is ASTIri -> return Pair("<" + node.iri + ">", true)
-            is ASTInteger -> return Pair("" + node.value + "^^<http://www.w3.org/2001/XMLSchema#integer>", true)
-            is ASTDecimal -> return Pair("" + node.image + "^^<http://www.w3.org/2001/XMLSchema#decimal>", true)
-            is ASTSimpleLiteral -> return Pair(node.content, true)
-            is ASTBlankNode -> return Pair("_:" + node.name, true)
-            is ASTVar -> return Pair(node.name, false)
-            else -> throw UnsupportedOperationException("${classNameToString(this)} simpleAstToStringValue ${classNameToString(node)}")
-        }
+    fun simpleAstToStringValue(node: ASTNode): AOPBase {
+return node.visit(this)as AOPBase
     }
 
     fun modifyDataHelper(children: Array<ASTNode>, modify: LOPModifyData) {
         for (c in children) {
             when {
                 c is ASTTriple -> {
-                    modify.data.add(mutableListOf(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), Pair("", true)))
+                    modify.data.add(LOPTriple(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]),PersistentStoreLocal.defaultGraphName,false))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
                         when {
                             c2 is ASTTriple -> {
-                                modify.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), Pair((c.iriOrVar as ASTIri).iri, true)))
+                                modify.data.add(LOPTriple(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri, true))
                             }
                             else -> throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")
                         }
