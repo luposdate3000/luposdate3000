@@ -8,6 +8,12 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     val nodeHead = XMLElement("head")
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
+
+if(!json.contains("results")){
+nodeSparql.addContent(XMLElement("boolean").addContent(""+(json.contains("true") && ! json.contains("false"))))
+return res
+}
+
     nodeSparql.addContent(nodeResults)
     var lastParent: XMLElement? = null
     var lastParentCounter = 0
@@ -49,6 +55,7 @@ thistokenbracket=true
             "}", "]" -> {
                 opencounter--
 if(lasttokenbracket){
+if(lastParent != nodeHead)
                             nodeResults.addContent(XMLElement("result"))
 }else{
                 if (nodeBinding != null) {
