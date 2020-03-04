@@ -1,7 +1,28 @@
+var allChoicesString = ""
+fun presentChoice(options: List<String>): String {
+    when (options.size) {
+        0 -> throw Exception("script error")
+        1 -> return options[0]
+        else -> {
+            println("choose one of $options")
+            while (true) {
+                val input = readLine()
+                if (input != null)
+                    if (options.contains(input)) {
+                        allChoicesString += "-$input"
+                        return input
+                    }
+            }
+        }
+    }
+}
+
 val options = mapOf(
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
+        "commonS01Buffer" to listOf("commonS01BufferDiskbasedMain", "commonS01BufferMainmemoryMain"),
+        "commonS01Heap" to listOf("commonS01HeapMain"),
         "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
@@ -16,13 +37,19 @@ val conflicts = listOf(
         setOf("jvmS12DummyMain", "commonS03DictionaryNoneMain"),
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain")
 )
+val platformPrefix = mapOf(
+        "jvm" to listOf("common", "jvm"),
+        "linuxX64" to listOf("common", "linuxX64", "native"),
+        "macosX64" to listOf("common", "macosX64", "native"))
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
         "commonS00ResultFlowExecuteTestsMain",
         "commonS00ExecutionSequentialMain",
         "commonS00TraceOnMain"
 )
-val ktorVersion = "1.3.1"
+val ktorVersion = presentChoice(listOf("1.3.1"))
+val kotlinVersion = presentChoice(listOf("1.3.70"))
+val platform = presentChoice(platformPrefix.keys.toList())
 val dependencies = mapOf(
         "commonMain" to listOf(
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:KOTLIN_VERSION",
@@ -40,29 +67,17 @@ val dependencies = mapOf(
                 "org.slf4j:slf4j-nop:1.7.25"),
         "jvmS14KorioMain" to listOf(
                 "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"))
-
-fun presentChoice(options: List<String>): String {
-    when (options.size) {
-        0 -> throw Exception("script error")
-        1 -> return options[0]
-        else -> {
-            println("choose one of $options")
-            while (true) {
-                val input = readLine()
-                if (input != null)
-                    if (options.contains(input))
-                        return input
-            }
-        }
-    }
-}
-
-val kotlinVersion = presentChoice(listOf("1.3.70"))
 val sourceFolders = mutableSetOf("commonMain")
+sourceFolders.add("${platform}Main")
 for ((k, choices) in options) {
     val remainingChoices = mutableListOf<String>()
     for (choice in choices) {
-        var ok = true
+        var ok = false
+        for (prefix in platformPrefix[platform]!!)
+            if (choice.startsWith(prefix)) {
+                ok = true
+                break
+            }
         for (conflict in conflicts)
             if (conflict.contains(choice))
                 for (sourceFolder in sourceFolders)
@@ -89,6 +104,7 @@ for (sourceDependency in sourceDependencies)
     println(sourceDependency)
 println("build.gradle :: ")
 println("""
+project.buildDir="build$allChoicesString"
 buildscript {
     repositories {
         jcenter()
@@ -134,7 +150,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 dependencies {
 """)
 for (sourceDependency in sourceDependencies)
-    println("    implementation '$sourceDependency'")
+    println("    implementation \"$sourceDependency\"")
 println("""
 }
 jar {
@@ -167,16 +183,3 @@ test {
     }
 }
 """)
-
-
-
-
-
-
-
-
-
-
-
-
-

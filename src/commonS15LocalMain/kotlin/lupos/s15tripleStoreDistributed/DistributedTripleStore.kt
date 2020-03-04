@@ -18,6 +18,7 @@ import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
 
+
 val uuid = ThreadSafeUuid()
 
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
