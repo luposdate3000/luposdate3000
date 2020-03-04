@@ -237,25 +237,25 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         val result = LOPNOOP()
         var bind: LOPBind? = null
         var bindIsAggregate = false
-        if (distinct) 
+        if (distinct)
             result.getLatestChild().setChild(LOPDistinct())
         val projection = LOPProjection()
         result.getLatestChild().setChild(projection)
-val allNamesSelect=mutableSetOf<String>()
-val allNamesBind=mutableSetOf<String>()
+        val allNamesSelect = mutableSetOf<String>()
+        val allNamesBind = mutableSetOf<String>()
         if (select.size > 0) {
             for (sel in select) {
                 when (sel) {
                     is ASTVar -> {
-if(allNamesBind.contains(sel.name))
-throw Exception("projection must not contain same variable as bind and selection ${sel.name}")
-allNamesSelect.add(sel.name)
+                        if (allNamesBind.contains(sel.name))
+                            throw Exception("projection must not contain same variable as bind and selection ${sel.name}")
+                        allNamesSelect.add(sel.name)
                         projection.variables.add(AOPVariable(sel.name))
                     }
                     is ASTAs -> {
-if(allNamesSelect.contains(sel.variable.name))
-throw Exception("projection must not contain same variable as bind and selection ${sel.variable.name}")
-allNamesBind.add(sel.variable.name)
+                        if (allNamesSelect.contains(sel.variable.name))
+                            throw Exception("projection must not contain same variable as bind and selection ${sel.variable.name}")
+                        allNamesBind.add(sel.variable.name)
                         val v = AOPVariable(sel.variable.name)
                         projection.variables.add(v)
                         val tmp2 = LOPBind(v, sel.expression.visit(this) as AOPBase)
@@ -658,7 +658,7 @@ allNamesBind.add(sel.variable.name)
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<OPBase>): OPBase {
-return AOPVariable.calculate(node.delimiter+node.content+node.delimiter+"^^<"+node.type_iri+">")
+        return AOPVariable.calculate(node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">")
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {

@@ -52,20 +52,20 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 a
             })
-}
-            if (b is Throwable) {
-                if (a is AOPBoolean && a.value == false)
-                    return resultFlow({ this }, { resultRow }, { resultSet }, {
-                        a
-                    })
-                throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                    b
+        }
+        if (b is Throwable) {
+            if (a is AOPBoolean && a.value == false)
+                return resultFlow({ this }, { resultRow }, { resultSet }, {
+                    a
                 })
-            }
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                Exception("AOPAnd only works with boolean input")
+                b
             })
         }
-
-        override fun cloneOP() = AOPAnd(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
+            Exception("AOPAnd only works with boolean input")
+        })
     }
+
+    override fun cloneOP() = AOPAnd(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+}

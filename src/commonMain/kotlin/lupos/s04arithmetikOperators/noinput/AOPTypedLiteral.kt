@@ -16,11 +16,11 @@ class AOPTypedLiteral : AOPConstantString {
         this.delimiter = delimiter
         this.content = content
         this.type_iri = type_iri
-require(type_iri!="http://www.w3.org/2001/XMLSchema#boolean")
-require(type_iri!="http://www.w3.org/2001/XMLSchema#integer")
-require(type_iri!="http://www.w3.org/2001/XMLSchema#double")
-require(type_iri!="http://www.w3.org/2001/XMLSchema#decimal")
-require(type_iri!="http://www.w3.org/2001/XMLSchema#dateTime")
+        require(type_iri != "http://www.w3.org/2001/XMLSchema#boolean")
+        require(type_iri != "http://www.w3.org/2001/XMLSchema#integer")
+        require(type_iri != "http://www.w3.org/2001/XMLSchema#double")
+        require(type_iri != "http://www.w3.org/2001/XMLSchema#decimal")
+        require(type_iri != "http://www.w3.org/2001/XMLSchema#dateTime")
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)

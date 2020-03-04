@@ -59,29 +59,29 @@ kotlin {
     }
     sourceSets {
         commonMain {
-            dependencies{
+            dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
                 implementation("com.benasher44:uuid:0.0.7")
                 implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-                implementation ("io.ktor:ktor-client-core:1.3.1")
-                implementation ("io.ktor:ktor-client-core-native:1.3.1")
-                implementation ("io.ktor:ktor-client-cio:1.3.1")
-                implementation ("io.ktor:ktor-client-logging:1.3.1")
-                implementation ("io.ktor:ktor-client-logging-native:1.3.1")
-                implementation ("org.slf4j:slf4j-nop:1.7.25")
+                implementation("io.ktor:ktor-client-core:1.3.1")
+                implementation("io.ktor:ktor-client-core-native:1.3.1")
+                implementation("io.ktor:ktor-client-cio:1.3.1")
+                implementation("io.ktor:ktor-client-logging:1.3.1")
+                implementation("io.ktor:ktor-client-logging-native:1.3.1")
+                implementation("org.slf4j:slf4j-nop:1.7.25")
             }
         }
     }
-    when{
-        hostOs=="Linux"->{
-            sourceSets["linuxX64Main"].dependencies{
+    when {
+        hostOs == "Linux" -> {
+            sourceSets["linuxX64Main"].dependencies {
                 implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
             }
             sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
         }
-        hostOs=="Mac OS X"->{
-            sourceSets["macosX64Main"].dependencies{
+        hostOs == "Mac OS X" -> {
+            sourceSets["macosX64Main"].dependencies {
                 implementation("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
             }
             sourceSets["macosX64Main"].kotlin.srcDir("src/macosX64Main/kotlin")

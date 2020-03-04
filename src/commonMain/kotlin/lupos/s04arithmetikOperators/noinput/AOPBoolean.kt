@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBoolean(var value: Boolean) : AOPConstant(),AOPXPathCompareable {
+class AOPBoolean(var value: Boolean) : AOPConstant(), AOPXPathCompareable {
     override val operatorID = EOperatorID.AOPBooleanID
     override val classname = "AOPBoolean"
     override val children: Array<OPBase> = arrayOf()

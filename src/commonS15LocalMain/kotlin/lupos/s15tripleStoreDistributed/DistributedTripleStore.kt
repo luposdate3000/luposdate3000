@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -74,7 +75,7 @@ class DistributedGraph(val name: String) {
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
-val channel=        iterator.evaluate()
+        val channel = iterator.evaluate()
         CoroutinesHelper.runBlock {
             for (v in channel) {
                 val s = AOPVariable.calculate(rs.getValue(v[ks]))

@@ -29,22 +29,23 @@ class AOPGEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         }
         return true
     }
- override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-if(a is AOPNumeric && b is AOPNumeric){
-if (a is AOPDouble || b is AOPDouble)
-return AOPBoolean(a.toDouble()>=b.toDouble())
-if (a is AOPDecimal || b is AOPDecimal)
-return AOPBoolean(a.toDouble()>=b.toDouble())
-if (a is AOPInteger || b is AOPInteger)
-return AOPBoolean(a.toInt()>=b.toInt())
-}
-if(a is AOPXPathCompareable && b is AOPXPathCompareable)
-        return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a.valueToString()!! >= b.valueToString()!!)
-        })
-throw resultFlow({ this }, { resultRow }, { resultSet }, {
+        if (a is AOPNumeric && b is AOPNumeric) {
+            if (a is AOPDouble || b is AOPDouble)
+                return AOPBoolean(a.toDouble() >= b.toDouble())
+            if (a is AOPDecimal || b is AOPDecimal)
+                return AOPBoolean(a.toDouble() >= b.toDouble())
+            if (a is AOPInteger || b is AOPInteger)
+                return AOPBoolean(a.toInt() >= b.toInt())
+        }
+        if (a is AOPXPathCompareable && b is AOPXPathCompareable)
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPBoolean(a.valueToString()!! >= b.valueToString()!!)
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("Type error $classname ${a.classname} ${b.classname}")
         })
     }

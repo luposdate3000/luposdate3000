@@ -24,15 +24,15 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)as AOPBoolean
-            if (a.value)
-                return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    (children[1] as AOPBase).calculate(resultSet, resultRow)
-                })
-            else
-                return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    (children[2] as AOPBase).calculate(resultSet, resultRow)
-                })
+        val a = (children[0] as AOPBase).calculate(resultSet, resultRow) as AOPBoolean
+        if (a.value)
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                (children[1] as AOPBase).calculate(resultSet, resultRow)
+            })
+        else
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                (children[2] as AOPBase).calculate(resultSet, resultRow)
+            })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall IF only works with boolean condition")
         })

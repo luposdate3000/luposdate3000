@@ -54,14 +54,14 @@ class AOPOr(childA: AOPBase, childB: AOPBase) : AOPBase() {
         }
         if (b is Throwable) {
             if (a is AOPBoolean && a.value == true)
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                a
-            })
+                return resultFlow({ this }, { resultRow }, { resultSet }, {
+                    a
+                })
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 b
             })
         }
-throw Exception("unreachable")
+        throw Exception("unreachable")
     }
 
     override fun cloneOP() = AOPOr(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

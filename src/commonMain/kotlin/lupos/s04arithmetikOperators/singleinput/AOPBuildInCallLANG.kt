@@ -30,12 +30,12 @@ class AOPBuildInCallLANG(child: AOPBase) : AOPBase() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPSimpleLiteral(a.delimiter, a.language)
             })
-if(a is AOPConstantString|| a is AOPNumeric || a is AOPBoolean || a is AOPDateTime)
-        return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPSimpleLiteral("\"", "")
-        })
- throw resultFlow({ this }, { resultRow }, { resultSet }, {
-Exception("Type error $classname ${a.classname}")
+        if (a is AOPConstantString || a is AOPNumeric || a is AOPBoolean || a is AOPDateTime)
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPSimpleLiteral("\"", "")
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
+            Exception("Type error $classname ${a.classname}")
         })
     }
 

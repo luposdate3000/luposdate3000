@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPDecimal(var value: Double) : AOPConstant() ,AOPNumeric{
+class AOPDecimal(var value: Double) : AOPConstant(), AOPNumeric {
     override val operatorID = EOperatorID.AOPDecimalID
     override val classname = "AOPDecimal"
     override val children: Array<OPBase> = arrayOf()
