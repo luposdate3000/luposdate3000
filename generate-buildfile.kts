@@ -130,83 +130,42 @@ for (sourceDependency in sourceDependencies)
 println("build.gradle :: ")
 
 
-println("""
-project.buildDir="build$allChoicesString"
-buildscript {
+println("""buildscript {
     repositories {
         jcenter()
         google()
         mavenLocal()
         mavenCentral()
-        maven {
-            url 'http://oss.sonatype.org/content/repositories/snapshots'
-        }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        maven {
-            url "https://dl.bintray.com/kotlin/kotlin-eap"
-        }
+        maven("http://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://plugins.gradle.org/m2/")
+        maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26"
-        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
+        classpath("org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26")
+        classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
 }
-apply plugin: 'kotlin-platform-jvm'
-apply plugin: 'application'
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.3.61"
+    application
+}
 application {
-    mainClassName = 'MainKt'
+    mainClassName = "MainKt"
 }
 repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
     google()
-    maven {
-        url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2'
-    }
+    maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
+    maven("https://kotlin.bintray.com/kotlinx")
 }
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        freeCompilerArgs["-Xuse-experimental=kotlin.ExperimentalStdlibApi"]
-    }
-}
-dependencies {
-""")
+project.buildDir = file("build$allChoicesString")
+dependencies {""")
 for (sourceDependency in sourceDependencies)
-    println("    implementation \"$sourceDependency\"")
-println("""
-}
-jar {
-    manifest {
-        attributes 'Main-Class': 'lupos/TestKt'
-    }
-
-    from {
-        configurations.compile.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-}
-compileKotlin {
-    kotlinOptions.freeCompilerArgs += [
-            '-Xno-call-assertions',
-            '-Xno-receiver-assertions',
-            '-Xno-param-assertions'
-    ]
-}
-sourceSets {
-""")
+    println("    implementation(\"$sourceDependency\")")
+println("""}""")
 for (sourceFolder in sourceFolders)
-    println("    main.kotlin.srcDirs += 'src/$sourceFolder/kotlin'")
-println("""
-}
-test {
-    testLogging {
-        events "failed", "skipped", "passed"
-    }
-}
-""")
+    println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
