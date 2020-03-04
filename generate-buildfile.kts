@@ -41,7 +41,7 @@ val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
         "linuxX64" to listOf("common", "linuxX64", "native"),
         "macosX64" to listOf("common", "macosX64", "native"),
-	"mingw64" to listOf("common")
+        "mingw64" to listOf("common")
 )
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
@@ -62,35 +62,35 @@ val dependencies = mapOf(
                 "io.ktor:ktor-client-cio:$ktorVersion",
                 "io.ktor:ktor-client-logging:$ktorVersion",
                 "org.slf4j:slf4j-nop:1.7.25"
-	),
-	"jvmMain" to listOf(
+        ),
+        "jvmMain" to listOf(
                 "com.soywiz.korlibs.klock:klock:1.7.0",
                 "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
                 "io.ktor:ktor-client-logging-jvm:$ktorVersion",
                 "io.ktor:ktor-client-core-jvm:$ktorVersion"
-	),
-	"nativeMain" to listOf(
-		"org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3",
+        ),
+        "nativeMain" to listOf(
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3",
                 "io.ktor:ktor-client-core-native:$ktorVersion",
                 "io.ktor:ktor-client-logging-native:$ktorVersion"
-	),
+        ),
         "jvmS14KorioMain" to listOf(
                 "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
-	),
-	"linuxX64Main" to listOf(
-		"com.soywiz.korlibs.klock:klock-linuxx64:1.8.7"
-	),
-	"macosX64Main" to listOf(
-		"com.soywiz.korlibs.klock:klock-macosx64:1.8.9"
-	)
+        ),
+        "linuxX64Main" to listOf(
+                "com.soywiz.korlibs.klock:klock-linuxx64:1.8.7"
+        ),
+        "macosX64Main" to listOf(
+                "com.soywiz.korlibs.klock:klock-macosx64:1.8.9"
+        )
 )
-val cinterops=mapOf(
-	"nativeMain" to listOf(
-		"dirent",
-		"stdio",
-		"unistd"
-	)
+val cinterops = mapOf(
+        "nativeMain" to listOf(
+                "dirent",
+                "stdio",
+                "unistd"
+        )
 )
 val sourceFolders = mutableSetOf("commonMain")
 sourceFolders.add("${platform}Main")
