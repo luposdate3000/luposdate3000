@@ -110,7 +110,7 @@ buildCache="gradleJvm${buildName}"
 cat >tmp <<EOF
 project.buildDir="$buildDir"
 buildscript {
-    ext.kotlin_version = '1.3.41'
+    ext.kotlin_version = '1.3.70'
 
     repositories {
         mavenLocal()
