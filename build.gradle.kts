@@ -1,16 +1,16 @@
 buildscript {
     repositories {
-        mavenLocal()
         jcenter()
-        mavenCentral()
         google()
+        mavenLocal()
+        mavenCentral()
         maven("http://oss.sonatype.org/content/repositories/snapshots")
         maven("https://plugins.gradle.org/m2/")
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.3.61"))
-        classpath(kotlin("frontend-plugin", version = "0.0.26"))
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
+        classpath("org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26")
         classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
 }
@@ -18,10 +18,10 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform") version "1.3.61"
 }
 repositories {
-    mavenLocal()
     jcenter()
-    mavenCentral()
     google()
+    mavenLocal()
+    mavenCentral()
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
