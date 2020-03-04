@@ -1,3 +1,4 @@
+import java.io.File
 var allChoicesString = ""
 fun presentChoice(options: List<String>): String {
     when (options.size) {
@@ -205,7 +206,7 @@ repositories {
     maven("https://kotlin.bintray.com/kotlinx")
 }
 kotlin {
-    project.buildDir = file("buildJvm")
+    project.buildDir = file("build$allChoicesString")
     ${platform}("${platform}") {
         val main by compilations.getting""")
         for (sourceFolder in sourceFolders.sorted()) {
@@ -218,12 +219,16 @@ kotlin {
             executable()
         }
     }
-    sourceSets["${platform}Main"].dependencies {""")
+    sourceSets["commonMain"].dependencies {""")
         for (sourceDependency in sourceDependencies.sorted())
-            println("    implementation(\"$sourceDependency\")")
+            println("        implementation(\"$sourceDependency\")")
         println("""    }""")
-        for (sourceFolder in sourceFolders.sorted())
+        for (sourceFolder in sourceFolders.sorted()){
+		if(sourceFolder.startsWith("common")
+            println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+else
             println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+	}
         println("""}""")
     }
 }
