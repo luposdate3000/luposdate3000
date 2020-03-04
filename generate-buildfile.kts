@@ -1,5 +1,7 @@
 import java.io.File
+
 var allChoicesString = ""
+var choicesCount=0
 fun presentChoice(options: List<String>): String {
     when (options.size) {
         0 -> throw Exception("script error")
@@ -7,13 +9,26 @@ fun presentChoice(options: List<String>): String {
         else -> {
             println("choose one of $options")
             while (true) {
-                val input = readLine()
-                if (input != null)
+val input=if(choicesCount<args.size){
+args[choicesCount++]
+}else
+                readLine()
+                if (input != null){
                     if (options.contains(input)) {
                         allChoicesString += "-$input"
                         return input
                     }
+			try{
+		val i=input.toInt()
+		if(i<options.size){
+allChoicesString += "-${options[i]}"
+			return options[i]
+}else
+throw Exception("")
+		}catch(e:Throwable){
+		}
             }
+}
         }
     }
 }
@@ -151,8 +166,8 @@ println("result dependencies:: ")
 for (sourceDependency in sourceDependencies.sorted())
     println(sourceDependency)
 println("build.gradle :: ")
-
-println("""buildscript {
+File("build.gradle.kts").printWriter().use { out ->
+    out.println("""buildscript {
     repositories {
         jcenter()
         google()
@@ -168,9 +183,9 @@ println("""buildscript {
         classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
 }""")
-when (platform) {
-    "jvm" -> {
-        println("""plugins {
+    when (platform) {
+        "jvm" -> {
+            out.println("""plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.61"
     application
 }
@@ -187,14 +202,14 @@ repositories {
 }
 project.buildDir = file("build$allChoicesString")
 dependencies {""")
-        for (sourceDependency in sourceDependencies.sorted())
-            println("    implementation(\"$sourceDependency\")")
-        println("""}""")
-        for (sourceFolder in sourceFolders.sorted())
-            println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
-    }
-    else -> {
-        println("""plugins {
+            for (sourceDependency in sourceDependencies.sorted())
+                out.println("    implementation(\"$sourceDependency\")")
+            out.println("""}""")
+            for (sourceFolder in sourceFolders.sorted())
+                out.println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
+        }
+        else -> {
+            out.println("""plugins {
     id("org.jetbrains.kotlin.multiplatform") version "1.3.61"
 }
 repositories {
@@ -209,26 +224,27 @@ kotlin {
     project.buildDir = file("build$allChoicesString")
     ${platform}("${platform}") {
         val main by compilations.getting""")
-        for (sourceFolder in sourceFolders.sorted()) {
-            val interop = cinterops[sourceFolder]
-            if (interop != null)
-                for (i in interop.sorted())
-                    println("        val $i by main.cinterops.creating")
-        }
-        println("""        binaries {
+            for (sourceFolder in sourceFolders.sorted()) {
+                val interop = cinterops[sourceFolder]
+                if (interop != null)
+                    for (i in interop.sorted())
+                        out.println("        val $i by main.cinterops.creating")
+            }
+            out.println("""        binaries {
             executable()
         }
     }
     sourceSets["commonMain"].dependencies {""")
-        for (sourceDependency in sourceDependencies.sorted())
-            println("        implementation(\"$sourceDependency\")")
-        println("""    }""")
-        for (sourceFolder in sourceFolders.sorted()){
-		if(sourceFolder.startsWith("common")
-            println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
-else
-            println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
-	}
-        println("""}""")
+            for (sourceDependency in sourceDependencies.sorted())
+                out.println("        implementation(\"$sourceDependency\")")
+            out.println("""    }""")
+            for (sourceFolder in sourceFolders.sorted()) {
+                if (sourceFolder.startsWith("common"))
+                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+                else
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+            }
+            out.println("""}""")
+        }
     }
 }
