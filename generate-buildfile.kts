@@ -129,7 +129,8 @@ for (sourceDependency in sourceDependencies)
     println(sourceDependency)
 println("build.gradle :: ")
 
-
+when(platform){
+"jvm"->
 println("""buildscript {
     repositories {
         jcenter()
@@ -169,3 +170,7 @@ for (sourceDependency in sourceDependencies)
 println("""}""")
 for (sourceFolder in sourceFolders)
     println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
+}
+else->{
+}
+}

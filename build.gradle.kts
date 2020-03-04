@@ -1,61 +1,102 @@
+import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+
 buildscript {
     repositories {
-        jcenter()
-        google()
         mavenLocal()
+        jcenter()
         mavenCentral()
-        maven("http://oss.sonatype.org/content/repositories/snapshots")
-        maven("https://plugins.gradle.org/m2/")
-        maven("https://dl.bintray.com/kotlin/kotlin-eap")
+        google()
+        maven(
+                "http://oss.sonatype.org/content/repositories/snapshots"
+        )
+        maven(
+                "https://plugins.gradle.org/m2/"
+        )
+        maven(
+                "https://dl.bintray.com/kotlin/kotlin-eap"
+        )
     }
-
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
-        classpath("org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26")
+        classpath(kotlin("gradle-plugin", version = "1.3.61"))
+        classpath(kotlin("frontend-plugin", version = "0.0.26"))
         classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
 }
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.61"
-    application
-}
-application {
-    mainClassName = "MainKt"
+    id("org.jetbrains.kotlin.multiplatform") version "1.3.61"
 }
 repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
     google()
-    maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
-    maven("https://kotlin.bintray.com/kotlinx")
+    maven(
+            "http://dl.bintray.com/kotlin/kotlin-eap-1.2"
+    )
+    maven(
+            "https://kotlin.bintray.com/kotlinx"
+    )
 }
-project.buildDir = file("build-jvm-commonS00ResultFlowExecuteTestsMain-commonS00ExecutionParallelMain-commonS01BufferMainmemoryMain-jvmS12DummyMain-jvmS14KorioMain-commonS15DistributedMain")
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.70")
-    implementation("com.benasher44:uuid:0.0.7")
-    implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-    implementation("io.ktor:ktor-client-core:1.3.1")
-    implementation("io.ktor:ktor-client-cio:1.3.1")
-    implementation("io.ktor:ktor-client-logging:1.3.1")
-    implementation("org.slf4j:slf4j-nop:1.7.25")
-    implementation("com.soywiz.korlibs.klock:klock:1.7.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.70")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.70")
-    implementation("io.ktor:ktor-client-logging-jvm:1.3.1")
-    implementation("io.ktor:ktor-client-core-jvm:1.3.1")
-    implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
+kotlin {
+    project.buildDir = file("buildNative")
+    val hostOs = System.getProperty("os.name")
+    val hostTarget = when {
+        hostOs == "Mac OS X" -> macosX64("macosX64")
+        hostOs == "Linux" -> linuxX64("linuxX64")
+        hostOs.startsWith("Windows") -> mingwX64("mingwX64")
+        else -> throw GradleException("Host OS '$hostOs' is not supported in Kotlin/Native $project.")
+    }
+    hostTarget.apply {
+        val main by compilations.getting
+        val dirent by main.cinterops.creating
+        val stdio by main.cinterops.creating
+        val unistd by main.cinterops.creating
+        binaries {
+            executable()
+        }
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
+                implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
+                implementation("com.benasher44:uuid:0.0.7")
+                implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
+                implementation("io.ktor:ktor-client-core:1.3.1")
+                implementation("io.ktor:ktor-client-core-native:1.3.1")
+                implementation("io.ktor:ktor-client-cio:1.3.1")
+                implementation("io.ktor:ktor-client-logging:1.3.1")
+                implementation("io.ktor:ktor-client-logging-native:1.3.1")
+                implementation("org.slf4j:slf4j-nop:1.7.25")
+            }
+        }
+    }
+    when {
+        hostOs == "Linux" -> {
+            sourceSets["linuxX64Main"].dependencies {
+                implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
+            }
+            sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
+        }
+        hostOs == "Mac OS X" -> {
+            sourceSets["macosX64Main"].dependencies {
+                implementation("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
+            }
+            sourceSets["macosX64Main"].kotlin.srcDir("src/macosX64Main/kotlin")
+        }
+        else -> throw GradleException("Host OS '$hostOs' is not supported in Luposdate3000 $project.")
+    }
+    sourceSets["commonMain"].kotlin.srcDir("src/nativeMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS00TraceOffMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ResultFlowExecuteTestsMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS05HashMapMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS14NoneMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS15DistributedMain/kotlin")
 }
-sourceSets["main"].java.srcDir("src/commonMain/kotlin")
-sourceSets["main"].java.srcDir("src/jvmMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00ResultFlowExecuteTestsMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00ExecutionParallelMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00TraceOffMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS05HashMapMain/kotlin")
-sourceSets["main"].java.srcDir("src/jvmS12DummyMain/kotlin")
-sourceSets["main"].java.srcDir("src/jvmS14KorioMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS15DistributedMain/kotlin")
