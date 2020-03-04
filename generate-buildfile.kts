@@ -129,9 +129,9 @@ for (sourceDependency in sourceDependencies)
     println(sourceDependency)
 println("build.gradle :: ")
 
-when(platform){
-"jvm"->
-println("""buildscript {
+when (platform) {
+    "jvm" ->
+        println("""buildscript {
     repositories {
         jcenter()
         google()
@@ -165,10 +165,10 @@ repositories {
 }
 project.buildDir = file("build$allChoicesString")
 dependencies {""")
-for (sourceDependency in sourceDependencies)
-    println("    implementation(\"$sourceDependency\")")
-println("""}""")
-for (sourceFolder in sourceFolders)
+    for (sourceDependency in sourceDependencies)
+        println("    implementation(\"$sourceDependency\")")
+                println ("""}""")
+        for (sourceFolder in sourceFolders)
     println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
 }
 else->{
