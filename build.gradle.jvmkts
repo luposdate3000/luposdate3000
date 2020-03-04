@@ -23,10 +23,10 @@ application {
     mainClassName = "MainKt"
 }
 repositories {
-    mavenLocal()
     jcenter()
-    mavenCentral()
     google()
+    mavenLocal()
+    mavenCentral()
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }

@@ -43,6 +43,14 @@ val platformPrefix = mapOf(
         "macosX64" to listOf("common", "macosX64", "native"),
         "mingw64" to listOf("common")
 )
+val additionalSources = mapOf(
+        "linuxX64Main" to listOf(
+                "nativeMain"
+        ),
+        "macosX64Main" to listOf(
+                "nativeMain"
+        )
+)
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
         "commonS00ResultFlowExecuteTestsMain",
@@ -114,24 +122,36 @@ for ((k, choices) in options) {
     val choice = presentChoice(remainingChoices)
     sourceFolders.add(choice)
 }
+var changed = true
+while (changed) {
+    changed = false
+    for (sourceFolder in sourceFolders) {
+        val additionalSource = additionalSources[sourceFolder]
+        if (additionalSource != null)
+            for (s in additionalSource)
+                if (!sourceFolders.contains(s)) {
+                    sourceFolders.add(s)
+                    changed = true
+                }
+        if (changed)
+            break
+    }
+}
 val sourceDependencies = mutableSetOf<String>()
 for (sourceFolder in sourceFolders) {
     val dependency = dependencies[sourceFolder]
     if (dependency != null)
-        for (d in dependency)
-            sourceDependencies.add(d)
+        sourceDependencies.addAll(dependency)
 }
 println("result sourceFolders :: ")
-for (sourceFolder in sourceFolders)
+for (sourceFolder in sourceFolders.sorted())
     println(sourceFolder)
 println("result dependencies:: ")
-for (sourceDependency in sourceDependencies)
+for (sourceDependency in sourceDependencies.sorted())
     println(sourceDependency)
 println("build.gradle :: ")
 
-when (platform) {
-    "jvm" ->
-        println("""buildscript {
+println("""buildscript {
     repositories {
         jcenter()
         google()
@@ -141,14 +161,15 @@ when (platform) {
         maven("https://plugins.gradle.org/m2/")
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
-
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
         classpath("org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26")
         classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
-}
-plugins {
+}""")
+when (platform) {
+    "jvm" -> {
+        println("""plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.61"
     application
 }
@@ -156,21 +177,53 @@ application {
     mainClassName = "MainKt"
 }
 repositories {
-    mavenLocal()
     jcenter()
-    mavenCentral()
     google()
+    mavenLocal()
+    mavenCentral()
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
 project.buildDir = file("build$allChoicesString")
 dependencies {""")
-    for (sourceDependency in sourceDependencies)
-        println("    implementation(\"$sourceDependency\")")
-                println ("""}""")
-        for (sourceFolder in sourceFolders)
-    println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
+        for (sourceDependency in sourceDependencies.sorted())
+            println("    implementation(\"$sourceDependency\")")
+        println("""}""")
+        for (sourceFolder in sourceFolders.sorted())
+            println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
+    }
+    else -> {
+        println("""plugins {
+    id("org.jetbrains.kotlin.multiplatform") version "1.3.61"
 }
-else->{
+repositories {
+    jcenter()
+    google()
+    mavenLocal()
+    mavenCentral()
+    maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
+    maven("https://kotlin.bintray.com/kotlinx")
 }
+kotlin {
+    project.buildDir = file("buildJvm")
+    ${platform}("${platform}") {
+        val main by compilations.getting""")
+        for (sourceFolder in sourceFolders.sorted()) {
+            val interop = cinterops[sourceFolder]
+            if (interop != null)
+                for (i in interop.sorted())
+                    println("        val $i by main.cinterops.creating")
+        }
+        println("""        binaries {
+            executable()
+        }
+    }
+    sourceSets["${platform}Main"].dependencies {""")
+        for (sourceDependency in sourceDependencies.sorted())
+            println("    implementation(\"$sourceDependency\")")
+        println("""    }""")
+        for (sourceFolder in sourceFolders.sorted())
+            println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+        println("""}""")
+    }
 }
