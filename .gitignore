@@ -2,6 +2,7 @@
 .gradle
 .idea
 build
+build-*
 buildNative*
 buildJvm*
 gradle

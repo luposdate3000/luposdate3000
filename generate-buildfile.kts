@@ -40,7 +40,9 @@ val conflicts = listOf(
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
         "linuxX64" to listOf("common", "linuxX64", "native"),
-        "macosX64" to listOf("common", "macosX64", "native"))
+        "macosX64" to listOf("common", "macosX64", "native"),
+	"mingw64" to listOf("common")
+)
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
         "commonS00ResultFlowExecuteTestsMain",
@@ -52,21 +54,44 @@ val kotlinVersion = presentChoice(listOf("1.3.70"))
 val platform = presentChoice(platformPrefix.keys.toList())
 val dependencies = mapOf(
         "commonMain" to listOf(
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8:KOTLIN_VERSION",
-                "org.jetbrains.kotlin:kotlin-stdlib-common:KOTLIN_VERSION",
-                "org.jetbrains.kotlin:kotlin-stdlib:KOTLIN_VERSION",
+                "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
+                "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
                 "com.benasher44:uuid:0.0.7",
                 "com.soywiz.korlibs.krypto:krypto:1.9.1",
-                "com.soywiz.korlibs.klock:klock:1.7.0",
-                "org.jetbrains.kotlin:kotlin-reflect:KOTLIN_VERSION",
                 "io.ktor:ktor-client-core:$ktorVersion",
-                "io.ktor:ktor-client-core-native:$ktorVersion",
                 "io.ktor:ktor-client-cio:$ktorVersion",
                 "io.ktor:ktor-client-logging:$ktorVersion",
+                "org.slf4j:slf4j-nop:1.7.25"
+	),
+	"jvmMain" to listOf(
+                "com.soywiz.korlibs.klock:klock:1.7.0",
+                "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
                 "io.ktor:ktor-client-logging-jvm:$ktorVersion",
-                "org.slf4j:slf4j-nop:1.7.25"),
+                "io.ktor:ktor-client-core-jvm:$ktorVersion"
+	),
+	"nativeMain" to listOf(
+		"org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3",
+                "io.ktor:ktor-client-core-native:$ktorVersion",
+                "io.ktor:ktor-client-logging-native:$ktorVersion"
+	),
         "jvmS14KorioMain" to listOf(
-                "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"))
+                "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
+	),
+	"linuxX64Main" to listOf(
+		"com.soywiz.korlibs.klock:klock-linuxx64:1.8.7"
+	),
+	"macosX64Main" to listOf(
+		"com.soywiz.korlibs.klock:klock-macosx64:1.8.9"
+	)
+)
+val cinterops=mapOf(
+	"nativeMain" to listOf(
+		"dirent",
+		"stdio",
+		"unistd"
+	)
+)
 val sourceFolders = mutableSetOf("commonMain")
 sourceFolders.add("${platform}Main")
 for ((k, choices) in options) {
@@ -94,7 +119,7 @@ for (sourceFolder in sourceFolders) {
     val dependency = dependencies[sourceFolder]
     if (dependency != null)
         for (d in dependency)
-            sourceDependencies.add(d.replace("KOTLIN_VERSION", kotlinVersion))
+            sourceDependencies.add(d)
 }
 println("result sourceFolders :: ")
 for (sourceFolder in sourceFolders)
@@ -103,6 +128,8 @@ println("result dependencies:: ")
 for (sourceDependency in sourceDependencies)
     println(sourceDependency)
 println("build.gradle :: ")
+
+
 println("""
 project.buildDir="build$allChoicesString"
 buildscript {

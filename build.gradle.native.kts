@@ -38,7 +38,6 @@ repositories {
             "https://kotlin.bintray.com/kotlinx"
     )
 }
-val mingwPath = File(System.getenv("MINGW64_DIR") ?: "C:/msys64/mingw64")
 kotlin {
     project.buildDir = file("buildNative")
     val hostOs = System.getProperty("os.name")
