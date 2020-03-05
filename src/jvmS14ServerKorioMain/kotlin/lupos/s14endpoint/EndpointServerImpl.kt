@@ -84,10 +84,7 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
         request.end(responseBytes!!)
     }
 
-    override suspend fun start(bootstrap: String?) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "before P2P.start" })
-        P2P.start(bootstrap)
-        GlobalLogger.log(ELoggerType.DEBUG, { "listen:: $hostname $port" })
+    override suspend fun start() {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }

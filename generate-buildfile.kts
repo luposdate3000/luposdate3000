@@ -34,7 +34,7 @@ fun presentChoice(options: List<String>): String {
 }
 
 val options = mapOf(
-	"chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain","commonS00LaunchBinaryTestsMain","commonS00LaunchEndpointMain")
+        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
@@ -43,19 +43,20 @@ val options = mapOf(
         "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
-        "chooseS14" to listOf("jvmS14KorioMain", "commonS14NoneMain"),
+        "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
+        "chooseS14Client" to listOf("jvmS14ClientKorioMain"),
         "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
 )
 val conflicts = listOf(
         setOf("commonS00ExecutionParallelMain", "commonS00TraceOnMain"),
         setOf("commonS03DictionaryNoneMain", "commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
-        setOf("commonS12LocalMain", "jvmS14KorioMain"),
+        setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
         setOf("jvmS12DummyMain", "commonS03DictionaryNoneMain"),
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
-setOf("commonS00LaunchEndpointMain","commonS00ResultFlowExecuteTestsMain")
-setOf("commonS00LaunchGenerateTestsMain","commonS00ResultFlowExecuteTestsMain"),
-setOf("commonS00LaunchBinaryTestsMain","commonS00ResultFlowGenerateTestsMain")
+        setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
+        setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
+        setOf("commonS00LaunchBinaryTestsMain", "commonS00ResultFlowGenerateTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -70,12 +71,12 @@ val additionalSources = mapOf(
         "macosX64Main" to listOf(
                 "nativeMain"
         ),
-"commonS00LaunchGenerateTestsMain" to listOf(
-"commonS00ResultFlowGenerateTestsMain"
-),
-"commonS00LaunchBinaryTestsMain" to listOf(
-"commonS00ResultFlowExecuteTestsMain"
-)
+        "commonS00LaunchGenerateTestsMain" to listOf(
+                "commonS00ResultFlowGenerateTestsMain"
+        ),
+        "commonS00LaunchBinaryTestsMain" to listOf(
+                "commonS00ResultFlowExecuteTestsMain"
+        )
 )
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
@@ -109,7 +110,10 @@ val dependencies = mapOf(
                 "io.ktor:ktor-client-core-native:$ktorVersion",
                 "io.ktor:ktor-client-logging-native:$ktorVersion"
         ),
-        "jvmS14KorioMain" to listOf(
+        "jvmS14ServerKorioMain" to listOf(
+                "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
+        ),
+        "jvmS14ClientKorioMain" to listOf(
                 "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
         ),
         "linuxX64Main" to listOf(
@@ -147,25 +151,26 @@ for ((k, choices) in options) {
     }
     val choice = presentChoice(remainingChoices)
     sourceFolders.add(choice)
-	addAdditionalSources()
+    addAdditionalSources()
 }
-fun addAdditionalSources(){
-var changed = true
-while (changed) {
-    changed = false
-    for (sourceFolder in sourceFolders) {
-        val additionalSource = additionalSources[sourceFolder]
-        if (additionalSource != null)
-            for (s in additionalSource)
-                if (!sourceFolders.contains(s)) {
-                    sourceFolders.add(s)
-                    changed = true
-                }
-        if (changed)
-            break
+fun addAdditionalSources() {
+    var changed = true
+    while (changed) {
+        changed = false
+        for (sourceFolder in sourceFolders) {
+            val additionalSource = additionalSources[sourceFolder]
+            if (additionalSource != null)
+                for (s in additionalSource)
+                    if (!sourceFolders.contains(s)) {
+                        sourceFolders.add(s)
+                        changed = true
+                    }
+            if (changed)
+                break
+        }
     }
 }
-}
+
 val sourceDependencies = mutableSetOf<String>()
 for (sourceFolder in sourceFolders) {
     val dependency = dependencies[sourceFolder]

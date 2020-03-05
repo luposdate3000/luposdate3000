@@ -47,6 +47,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
+
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     val transactionID = DistributedTripleStore.nextTransactionID()
@@ -228,7 +229,7 @@ abstract class EndpointServer(val hostname: String = "localhost", val port: Int 
             return responseStr.encodeToByteArray()
     }
 
-    abstract suspend fun start(bootstrap: String? = null)
+    abstract suspend fun start()
 }
 
 var endpointServer: EndpointServer? = null

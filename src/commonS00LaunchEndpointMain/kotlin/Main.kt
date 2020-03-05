@@ -19,7 +19,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s12p2p.P2P
 import lupos.s12p2p.TransferHelperNetwork
-import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.*
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var i = 0
@@ -36,7 +36,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     thread(start = true) {
         launch(Dispatchers.Default) {
             endpointServer = EndpointServerImpl(hostname)
-            endpointServer!!.start(bootStrapServer)
+            P2P.start(bootStrapServer)
+            endpointServer!!.start()
         }
     }
     while (true) {
