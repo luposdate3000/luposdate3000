@@ -1,5 +1,5 @@
 #!/bin/bash
-/opt/apache-jena-fuseki-3.14.0/fuseki-server &
+/opt/apache-jena-fuseki-3.14.0/fuseki-server  > /dev/null 2>&1 &
 mount /opt/tmpdata javafuzz
 kotlinc -script generate-buildfile.kts jvm jvmS00LaunchJavaFuzzMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
 ./tool-gradle-build.sh

@@ -22,7 +22,7 @@ class FuzzInstance() : AbstractFuzzTarget() {
         val timepointNext = Instant.now()
         val elapsed = Duration.between(timepoint, timepointNext)
         timepoint = timepointNext
-        println("time between tests :: ${elapsed.toMillis()} milliseconds")
+//        println("time between tests :: ${elapsed.toMillis()} milliseconds")
         if (data.size >= 4) {
             endpointServer = EndpointServerImpl("localhost")
             P2P.start(null)
@@ -54,6 +54,6 @@ class FuzzInstance() : AbstractFuzzTarget() {
         val timepointNext2 = Instant.now()
         val elapsed2 = Duration.between(timepoint, timepointNext2)
         timepoint = timepointNext2
-        println("time for tests :: ${elapsed2.toMillis()} milliseconds")
+//        println("time for tests :: ${elapsed2.toMillis()} milliseconds")
     }
 }

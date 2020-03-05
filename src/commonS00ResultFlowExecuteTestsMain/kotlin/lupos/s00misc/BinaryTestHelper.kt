@@ -1054,7 +1054,7 @@ try{
                 var node3: OPBase = OPNothing()
                 var node4: OPBase = OPNothing()
                 try {
-                    println("sparql::" + sparql)
+                    //println("sparql::" + sparql)
                     val lcit = LexerCharIterator(sparql)
                     val tit = TokenIteratorSPARQLParser(lcit)
                     val ltit = LookAheadTokenIterator(tit, 3)

@@ -17,3 +17,4 @@ tmp
 crash-*
 jacoco.exec
 javafuzz
+nohup
