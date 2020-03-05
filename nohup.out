@@ -1,0 +1,8 @@
+[2020-03-05 20:55:38] Server     INFO  Apache Jena Fuseki 3.14.0
+[2020-03-05 20:55:39] Config     INFO  FUSEKI_HOME=/opt/apache-jena-fuseki-3.14.0
+[2020-03-05 20:55:39] Config     INFO  FUSEKI_BASE=/src/luposdate3000/run
+[2020-03-05 20:55:39] Config     INFO  Shiro file: file:///src/luposdate3000/run/shiro.ini
+[2020-03-05 20:55:39] Config     INFO  Configuration file: /src/luposdate3000/run/config.ttl
+[2020-03-05 20:55:39] Config     INFO  Load configuration: file:///src/luposdate3000/run/configuration/sp2b.ttl
+[2020-03-05 20:55:39] Config     INFO  Register: /sp2b
+[2020-03-05 20:55:39] Server     INFO  Started 2020/03/05 20:55:39 CET on port 3030

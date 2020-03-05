@@ -40,6 +40,7 @@ import lupos.SparqlTestSuite
 
 object EndpointClientImpl {
     val client = HttpClient() {
+if(GlobalLogger.enabled.ordinal>=ELoggerType.DEBUG.ordinal)
         install(Logging) {
             logger = Logger.SIMPLE
             level = LogLevel.ALL

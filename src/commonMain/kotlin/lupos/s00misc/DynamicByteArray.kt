@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 class DynamicByteArray {
     companion object {

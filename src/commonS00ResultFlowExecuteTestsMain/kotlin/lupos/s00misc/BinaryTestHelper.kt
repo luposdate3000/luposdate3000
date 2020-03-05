@@ -972,12 +972,15 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
     val lOptimizer = LogicalOptimizer(1L, dictionary)
     val pOptimizer = PhysicalOptimizer(1L, dictionary)
     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+try{
     val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
     ExecuteOptimizer.enabledOptimizers.clear()
     for (o in 0 until optimizerEnabledCount) {
         val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
         ExecuteOptimizer.enabledOptimizers[optimizer] = true
     }
+}catch(e:Throwable){
+}
     val backupOptimizers = ExecuteOptimizer.enabledOptimizers
     ExecuteOptimizer.enabledOptimizers.clear()
     var globalSparql = mutableListOf<String>()
