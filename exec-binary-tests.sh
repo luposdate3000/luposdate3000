@@ -1,11 +1,8 @@
-gradle --build-file="build.gradle.jvm.test" --project-cache-dir="gradleJvmTestGenerated" build -x test
-(
-        cd buildJvmTest/distributions
-        tar -xf luposdate3000.tar
-)
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01BufferMainmemoryMain jvmS12DummyMain commonS14ServerNoneMain jvmS14ClientKorioMain commonS15DistributedMain
+./tool-gradle-build.sh
 function execJvm
 {
-	./buildJvmTest/distributions/luposdate3000/bin/luposdate3000 > log/x 2>&1
+	./build/executable > log/x 2>&1
 }
 
 { { time execJvm ; } > log/c 2>&1 ;} &

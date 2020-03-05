@@ -13,10 +13,16 @@ then
 	(
 	        cd "${output}/distributions"
 	        tar -xf luposdate3000.tar
+		rm ../../executable
+		ln -s $(pwd)/luposdate3000/bin/luposdate3000 ../../executable
 	)
 elif [ "$(uname)" == "Darwin" ]
 then
 	gradle --project-cache-dir="$cachefile" linkReleaseExecutableMacosX64
+	rm build/executable
+	ln -s $(output)/bin/macosX64/debugExecutable/luposdate3000.kexe ../../executable
 else
 	gradle --project-cache-dir="$cachefile" linkDebugExecutableLinuxX64
+	rm build/executable
+	ln -s $(output)/bin/linux64/debugExecutable/luposdate3000.kexe ../../executable
 fi

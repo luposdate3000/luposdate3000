@@ -7,7 +7,9 @@ import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
 
-fun main(args: Array<String>) {
+fun main(args: Array<String>) = CoroutinesHelper.runBlock {
+endpointServer = EndpointServerImpl("localhost")
+P2P.start(null)
     mapOf(
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
@@ -33,7 +35,6 @@ fun main(args: Array<String>) {
         }
     }
     val input = File.readStdInAsDynamicByteArray()
-    P2P.knownClients.add(endpointServer!!.fullname)
     if (input != null) {
         executeBinaryTest(input!!)
     } else if (args.isEmpty()) {

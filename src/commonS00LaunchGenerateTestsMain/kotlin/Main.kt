@@ -4,7 +4,8 @@ import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    P2P.knownClients.add(endpointServer!!.fullname)
+endpointServer = EndpointServerImpl("localhost")
+P2P.start(null)
     SparqlTestSuite().testMain()
     printAllMicroTest()
 }
