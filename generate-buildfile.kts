@@ -37,11 +37,11 @@ fun presentChoice(options: List<String>): String {
 		all other options are used directly as source folders
 */
 val options = mapOf(
-        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain","jvmS00LaunchJavaFuzzMain"),
+        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
-        "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain","jvmS01BufferUnsafeMain"),
+        "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain", "jvmS01BufferUnsafeMain"),
         "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("commonS12DummyMain", "commonS12LocalMain"),
@@ -60,7 +60,7 @@ val conflicts = listOf(
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchBinaryTestsMain","jvmS00LaunchJavaFuzzMain", "commonS00ResultFlowGenerateTestsMain")
+        setOf("commonS00LaunchBinaryTestsMain", "jvmS00LaunchJavaFuzzMain", "commonS00ResultFlowGenerateTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -130,10 +130,10 @@ val dependencies = mapOf(
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
         ),
-	"jvmS00LaunchJavaFuzzMain" to listOf(
-		"dev.fuzzit.javafuzz:core:1.22",
-		"org.jacoco:org.jacoco.agent:0.8.5:runtime"
-	),
+        "jvmS00LaunchJavaFuzzMain" to listOf(
+                "dev.fuzzit.javafuzz:core:1.22",
+                "org.jacoco:org.jacoco.agent:0.8.5:runtime"
+        ),
         "nativeMain" to listOf(
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"
         ),
@@ -192,9 +192,9 @@ for ((k, choices) in options) {
             for (conflict in conflicts)
                 if (conflict.contains(choice))
                     for (sourceFolder in sourceFolders)
-                        if (conflict.contains(sourceFolder)){
+                        if (conflict.contains(sourceFolder)) {
                             ok = false
-			}
+                        }
             if (ok)
                 remainingChoices.add(choice)
         }

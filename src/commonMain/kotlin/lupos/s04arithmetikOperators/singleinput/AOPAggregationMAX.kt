@@ -1,11 +1,12 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04arithmetikOperators.AOPAggregationBase
+
 import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal

@@ -38,7 +38,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
     override val children: Array<OPBase> = arrayOf()
     override val resultSet = ResultSet(dictionary)
 
-override fun toSparqlQuery() =toSparql()
+    override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
         when (action) {

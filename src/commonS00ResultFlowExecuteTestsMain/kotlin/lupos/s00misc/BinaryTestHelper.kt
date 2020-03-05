@@ -1003,33 +1003,33 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
         val g = DistributedTripleStore.getNamedGraph(gname)
         val iterator = g.getIterator(1, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO)
         val data = QueryResultToXML.toXML(iterator).first()
-var hasData=false
+        var hasData = false
         var sparql = "INSERT DATA { "
         if (gname != PersistentStoreLocal.defaultGraphName)
             sparql += "GRAPH <$gname> "
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
-            for (node in data["results"]!!.childs) {
-                val result = mutableMapOf<String, String>()
-                for (v in node.childs) {
-                    val name = v.attributes["name"]
-                    val child = v.childs.first()
-                    val content = child.content
-                    val value = when {
-                        child.tag == "uri" -> "<" + content + ">"
-                        child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                        child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
-                        child.tag == "bnode" -> "_:" + content
-                        else -> "\"" + content + "\""
-                    }
-                    result[name!!] = value!!
+        for (node in data["results"]!!.childs) {
+            val result = mutableMapOf<String, String>()
+            for (v in node.childs) {
+                val name = v.attributes["name"]
+                val child = v.childs.first()
+                val content = child.content
+                val value = when {
+                    child.tag == "uri" -> "<" + content + ">"
+                    child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                    child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                    child.tag == "bnode" -> "_:" + content
+                    else -> "\"" + content + "\""
                 }
-hasData=true
-                sparql += "( " + result["s"] + " " + result["p"] + " " + result["o"] + " " + ")."
+                result[name!!] = value!!
             }
+            hasData = true
+            sparql += "( " + result["s"] + " " + result["p"] + " " + result["o"] + " " + ")."
+        }
         sparql += "}"
-if(hasData)
-        globalSparql.add(0, sparql)
+        if (hasData)
+            globalSparql.add(0, sparql)
     }
     for (i in 0 until 2) {
         ExecuteOptimizer.enabledOptimizers.clear()
