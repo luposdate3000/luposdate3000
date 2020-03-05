@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
 
-import lupos.s01io.buffer.Cache
+import lupos.s01io.buffer.*
 
 
 /**

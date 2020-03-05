@@ -247,7 +247,7 @@ repositories {
     maven("https://kotlin.bintray.com/kotlinx")
 }
 kotlin {
-    project.buildDir = file("build$allChoicesString")
+    project.buildDir = file("build/build$allChoicesString")
     ${platform}("${platform}") {
         val main by compilations.getting""")
             for (sourceFolder in sourceFolders.sorted()) {
@@ -274,3 +274,4 @@ kotlin {
         }
     }
 }
+File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))

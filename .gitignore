@@ -1,7 +1,8 @@
 .git
 .gradle
 .idea
-build
+build/build*
+build/gradle*
 tmp
 gradle*
 gradlew.bat
