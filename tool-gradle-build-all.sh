@@ -3,7 +3,7 @@ kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain comm
 ./tool-gradle-build.sh
 kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01BufferMainmemoryMain jvmS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain
 ./tool-gradle-build.sh
-kotlinc -script generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00ExecutionParallelMain commonS01BufferMainmemoryMain commonS12LocalMain commonS14ClientNoneMain
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00ExecutionParallelMain commonS01BufferMainmemoryMain commonS12LocalMain
 ./tool-gradle-build.sh
 kotlinc -script generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01BufferMainmemoryMain commonS03DictionaryNoneMain
 ./tool-gradle-build.sh

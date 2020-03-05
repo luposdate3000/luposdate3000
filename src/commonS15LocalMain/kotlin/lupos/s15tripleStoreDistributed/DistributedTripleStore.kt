@@ -16,7 +16,7 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.Endpoint
-import lupos.s14endpoint.EndpointImpl
+import lupos.s14endpoint.*
 
 
 val uuid = ThreadSafeUuid()
@@ -46,28 +46,28 @@ class DistributedGraph(val name: String) {
     }
 
     fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String {
-        return EndpointImpl.fullname
+        return endpointServer!!.fullname
     }
 
     fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> {
-        return setOf(EndpointImpl.fullname)
+        return setOf(endpointServer!!.fullname)
     }
 
     fun addData(transactionID: Long, t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_add(EndpointImpl.fullname, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
+            Endpoint.process_local_triple_add(endpointServer!!.fullname, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
         }
     }
 
     fun deleteData(transactionID: Long, t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
+            Endpoint.process_local_triple_delete(endpointServer!!.fullname, transactionID, t[0], t[1], t[2], it)
         }
     }
 
     fun deleteDataVar(transactionID: Long, t: List<AOPBase>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_delete(EndpointImpl.fullname, transactionID, t[0], t[1], t[2], it)
+            Endpoint.process_local_triple_delete(endpointServer!!.fullname, transactionID, t[0], t[1], t[2], it)
         }
     }
 

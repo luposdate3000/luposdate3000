@@ -1,4 +1,4 @@
-package lupos.s12p2p
+package lupos.s03resultRepresentation
 
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern

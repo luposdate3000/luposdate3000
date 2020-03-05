@@ -1,6 +1,3 @@
-import com.soywiz.korio.net.http.createHttpServer
-import com.soywiz.korio.net.http.Http
-import com.soywiz.korio.net.http.HttpServer
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +15,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s12p2p.P2P
-import lupos.s12p2p.TransferHelperNetwork
 import lupos.s14endpoint.*
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
