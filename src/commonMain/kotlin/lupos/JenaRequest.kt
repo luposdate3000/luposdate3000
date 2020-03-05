@@ -24,8 +24,6 @@ println("b")
 println("c")
             } catch (e: Throwable) {
 println("f")
-            } catch (e: Exception) {
-println("h")
             }
 println("g")
         }

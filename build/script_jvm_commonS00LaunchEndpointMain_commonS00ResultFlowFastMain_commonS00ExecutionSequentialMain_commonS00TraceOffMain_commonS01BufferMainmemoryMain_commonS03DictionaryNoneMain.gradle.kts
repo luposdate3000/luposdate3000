@@ -34,8 +34,6 @@ dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
     implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-    implementation("io.ktor:ktor-client-core-jvm:1.3.1")
-    implementation("io.ktor:ktor-client-logging-jvm:1.3.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.70")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.70")

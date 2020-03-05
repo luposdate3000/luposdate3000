@@ -112,8 +112,10 @@ object EndpointClientImpl {
         while (true) {
             i++
             try {
-println("url $url data $data")
-                res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data.encodeToByteArray())))
+println("$url")
+
+val a=AsyncStream(MyDynamicByteArray(data.encodeToByteArray()))
+                res = client.request(Http.Method.POST, url, Http.Headers(), a)
                 break
             } catch (e: Throwable) {
                 if (i > 100)
@@ -135,12 +137,12 @@ class MyDynamicByteArray : AsyncStreamBase {
     constructor(param: ByteArray) {
         data = DynamicByteArray(param)
 data.pos=param.size
-println("${data.pos} $data $param")
     }
 
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
-        if (position > data.pos)
+        if (position > data.pos){
             return 0
+}
         if (position + len > data.pos) {
             data.data.copyInto(buffer, offset, position.toInt(), data.pos)
             return data.pos - position.toInt()

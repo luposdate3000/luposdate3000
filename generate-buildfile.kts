@@ -32,7 +32,10 @@ fun presentChoice(options: List<String>): String {
         }
     }
 }
-
+/*
+	options ending with Target are just Symbolic helpers to manage dependencies
+		all other options are used directly as source folders
+*/
 val options = mapOf(
         "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
@@ -44,7 +47,7 @@ val options = mapOf(
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
-        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain","jvmS14ClientKtorMain"),
+        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain","jvmS14ClientKtorTarget","nativeS14ClientKtorTarget"),
         "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
 )
 val conflicts = listOf(
@@ -53,7 +56,7 @@ val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
         setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
-        setOf("commonS12LocalMain", "jvmS14ClientKtorMain"),
+        setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         setOf("jvmS12DummyMain", "commonS03DictionaryNoneMain"),
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
@@ -78,7 +81,13 @@ val additionalSources = mapOf(
         ),
         "commonS00LaunchBinaryTestsMain" to listOf(
                 "commonS00ResultFlowExecuteTestsMain"
-        )
+        ),
+	"jvmS14ClientKtorTarget" to listOf(
+"commonS14ClientKtorMain"
+),
+	"nativeS14ClientKtorTarget" to listOf(
+"commonS14ClientKtorMain"
+)
 )
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
@@ -100,13 +109,10 @@ val dependencies = mapOf(
                 "com.soywiz.korlibs.klock:klock:1.7.0",
                 "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-                "io.ktor:ktor-client-logging-jvm:$ktorVersion",
-                "io.ktor:ktor-client-core-jvm:$ktorVersion"
+"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
         ),
         "nativeMain" to listOf(
-                "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3",
-                "io.ktor:ktor-client-core-native:$ktorVersion",
-                "io.ktor:ktor-client-logging-native:$ktorVersion"
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"
         ),
         "jvmS14ServerKorioMain" to listOf(
                 "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
@@ -114,7 +120,15 @@ val dependencies = mapOf(
         "jvmS14ClientKorioMain" to listOf(
                 "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
         ),
-        "jvmS14ClientKtorMain" to listOf(
+        "jvmS14ClientKtorTarget" to listOf(
+                "io.ktor:ktor-client-logging-jvm:$ktorVersion",
+                "io.ktor:ktor-client-core-jvm:$ktorVersion"
+        ),
+        "nativeS14ClientKtorTarget" to listOf(
+                "io.ktor:ktor-client-core-native:$ktorVersion",
+                "io.ktor:ktor-client-logging-native:$ktorVersion"
+        ),
+        "commonS14ClientKtorMain" to listOf(
                 "io.ktor:ktor-client-core:$ktorVersion",
                 "io.ktor:ktor-client-cio:$ktorVersion",
                 "io.ktor:ktor-client-logging:$ktorVersion",
@@ -236,6 +250,7 @@ dependencies {""")
                 out.println("    implementation(\"$sourceDependency\")")
             out.println("""}""")
             for (sourceFolder in sourceFolders.sorted())
+if(!sourceFolder.endsWith("Target"))
                 out.println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
         }
         else -> {
@@ -268,7 +283,8 @@ kotlin {
             for (sourceDependency in sourceDependencies.sorted())
                 out.println("        implementation(\"$sourceDependency\")")
             out.println("""    }""")
-            for (sourceFolder in sourceFolders.sorted()) {
+            for (sourceFolder in sourceFolders.sorted())
+if(!sourceFolder.endsWith("Target")){
                 if (sourceFolder.startsWith("common"))
                     out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
                 else
@@ -278,4 +294,7 @@ kotlin {
         }
     }
 }
+try{
 File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
+}catch(e:FileAlreadyExistsException){
+}

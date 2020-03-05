@@ -40,8 +40,6 @@ kotlin {
         implementation("com.benasher44:uuid:0.0.7")
         implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
         implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-        implementation("io.ktor:ktor-client-core-native:1.3.1")
-        implementation("io.ktor:ktor-client-logging-native:1.3.1")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
         implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.70")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
