@@ -8,8 +8,8 @@ import lupos.s14endpoint.*
 
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-endpointServer = EndpointServerImpl("localhost")
-P2P.start(null)
+    endpointServer = EndpointServerImpl("localhost")
+    P2P.start(null)
     mapOf(
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"

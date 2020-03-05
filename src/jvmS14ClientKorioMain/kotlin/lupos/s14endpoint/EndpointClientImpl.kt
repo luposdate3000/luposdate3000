@@ -1,9 +1,10 @@
 package lupos.s14endpoint
-import com.soywiz.korio.stream.*
+
+import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
-import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.URL
+import com.soywiz.korio.stream.*
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
@@ -68,6 +69,7 @@ object EndpointClientImpl {
         }
         return res.readAllBytes()
     })
+
     suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGet" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
@@ -104,13 +106,16 @@ object EndpointClientImpl {
         return res.readAllString()
     })
 }
-class MyDynamicByteArray : AsyncStreamBase{
-val data:DynamicByteArray
-constructor(data:DynamicByteArray){
-this.data=data
-data.finish()
-}
-  override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
+
+class MyDynamicByteArray : AsyncStreamBase {
+    val data: DynamicByteArray
+
+    constructor(data: DynamicByteArray) {
+        this.data = data
+        data.finish()
+    }
+
+    override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
         if (position > data.pos)
             return 0
         if (position + len > data.pos) {

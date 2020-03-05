@@ -28,11 +28,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         }
         i++
     }
-        launch(Dispatchers.Default) {
-            endpointServer = EndpointServerImpl(hostname)
-            P2P.start(bootStrapServer)
-            endpointServer!!.start()
-        }
+    launch(Dispatchers.Default) {
+        endpointServer = EndpointServerImpl(hostname)
+        P2P.start(bootStrapServer)
+        endpointServer!!.start()
+    }
     while (true) {
         delay(1000)
     }

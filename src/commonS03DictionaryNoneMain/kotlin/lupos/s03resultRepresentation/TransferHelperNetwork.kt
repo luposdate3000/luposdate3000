@@ -14,24 +14,24 @@ import lupos.s14endpoint.Endpoint
 class TransferHelperNetwork {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
-	throw Exception("not implemented")
+            throw Exception("not implemented")
         }
     }
 
     constructor(transactionID: Long) {
-throw Exception("not implemented")
+        throw Exception("not implemented")
     }
 
     fun graphClearAll() {
-throw Exception("not implemented")
+        throw Exception("not implemented")
     }
 
     fun addTriple(graphName: String, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) {
-throw Exception("not implemented")
+        throw Exception("not implemented")
     }
 
     fun finish(): DynamicByteArray {
-	throw Exception("not implemented")
+        throw Exception("not implemented")
     }
 }
 

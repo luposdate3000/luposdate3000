@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -27,14 +28,15 @@ import lupos.SparqlTestSuite
 object EndpointClientImpl {
     fun encodeString(s: String) = s
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "P2P.retryRequest" }, {
-	return ByteArray(0)
+        return ByteArray(0)
     })
 
     suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "P2P.retryRequest" }, {
         return ByteArray(0)
     })
+
     suspend fun requestGetString(url: String): String = Trace.trace({ "P2P.retryRequest" }, {
-	return ""
+        return ""
     })
 
     suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "P2P.retryRequest" }, {
