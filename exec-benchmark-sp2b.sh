@@ -5,7 +5,7 @@ rm y
 
 benchmarkMinimumTime=1000
 
-./tool-gradle-build-without-tests-jvm.sh
+./tool-gradle-build.sh
 
 for triples in 100 1000 10000 20000 30000 40000 50000 100000 500000
 do

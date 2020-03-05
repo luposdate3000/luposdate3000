@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators
+import lupos.s00misc.ThreadSafeMutableAny
 
-import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.ResultRow

@@ -1,4 +1,4 @@
-./tool-gradle-build-without-tests-jvm.sh
+./tool-gradle-build.sh
 docker-compose down
 docker-compose build --no-cache
 docker-compose up --detach

@@ -1,10 +1,8 @@
 package lupos
-
-import kotlin.native.concurrent.*
-import kotlin.random.*
-import kotlinx.coroutines.*
-import lupos.s00misc.*
-import lupos.s14endpoint.*
+import lupos.s14endpoint.EndpointClientImpl
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.XMLElement
+import lupos.s00misc.parseFromJson
 
 
 class ExceptionJenaBug(message: String) : Exception(message)

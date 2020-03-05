@@ -37,7 +37,7 @@ fun presentChoice(options: List<String>): String {
 		all other options are used directly as source folders
 */
 val options = mapOf(
-        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain"),
+        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain","jvmS00LaunchJavaFuzzMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
@@ -60,7 +60,7 @@ val conflicts = listOf(
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchBinaryTestsMain", "commonS00ResultFlowGenerateTestsMain")
+        setOf("commonS00LaunchBinaryTestsMain","jvmS00LaunchJavaFuzzMain", "commonS00ResultFlowGenerateTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -98,6 +98,9 @@ val additionalSources = mapOf(
         "commonS00LaunchBinaryTestsMain" to listOf(
                 "commonS00ResultFlowExecuteTestsMain"
         ),
+        "jvmS00LaunchJavaFuzzMain" to listOf(
+                "commonS00ResultFlowExecuteTestsMain"
+        ),
         "jvmS14ClientKtorTarget" to listOf(
                 "commonS14ClientKtorMain"
         ),
@@ -127,6 +130,10 @@ val dependencies = mapOf(
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
         ),
+	"jvmS00LaunchJavaFuzzMain" to listOf(
+		"dev.fuzzit.javafuzz:core:1.22",
+		"org.jacoco:org.jacoco.agent:0.8.5:runtime"
+	),
         "nativeMain" to listOf(
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"
         ),

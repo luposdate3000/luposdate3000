@@ -15,7 +15,11 @@ buildscript {
     }
 }
 plugins {
-    id("org.jetbrains.kotlin.multiplatform") version "1.3.61"
+    id("org.jetbrains.kotlin.jvm") version "1.3.61"
+    application
+}
+application {
+    mainClassName = "MainKt"
 }
 repositories {
     jcenter()
@@ -25,44 +29,36 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-kotlin {
-    project.buildDir = file("build/build_linuxX64_commonS00LaunchEndpointMain_commonS00ResultFlowFastMain_commonS00ExecutionSequentialMain_commonS00TraceOffMain_commonS03DictionaryIntArrayMain_commonS12DummyMain_nativeS14ClientKtorTarget_commonS15DistributedMain")
-    linuxX64("linuxX64") {
-        val main by compilations.getting
-        val dirent by main.cinterops.creating
-        val stdio by main.cinterops.creating
-        val unistd by main.cinterops.creating
-        binaries {
-            executable()
-        }
-    }
-    sourceSets["commonMain"].dependencies {
-        implementation("com.benasher44:uuid:0.0.7")
-        implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
-        implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-        implementation("io.ktor:ktor-client-cio:1.3.1")
-        implementation("io.ktor:ktor-client-core-native:1.3.1")
-        implementation("io.ktor:ktor-client-core:1.3.1")
-        implementation("io.ktor:ktor-client-logging-native:1.3.1")
-        implementation("io.ktor:ktor-client-logging:1.3.1")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.70")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
-        implementation("org.slf4j:slf4j-nop:1.7.25")
-    }
-    sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00LaunchEndpointMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00ResultFlowFastMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS00TraceOffMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS05HashMapMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS12DummyMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS14ClientKtorMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS14ServerNoneMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS15DistributedMain/kotlin")
-    sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
-    sourceSets["linuxX64Main"].kotlin.srcDir("src/nativeMain/kotlin")
+project.buildDir = file("build/build_jvm_jvmS00LaunchJavaFuzzMain_commonS00ExecutionSequentialMain_commonS00TraceOffMain_commonS01HeapMain_commonS12DummyMain_commonS14ServerNoneMain_jvmS14ClientKtorTarget_commonS15DistributedMain")
+dependencies {
+    implementation("com.benasher44:uuid:0.0.7")
+    implementation("com.soywiz.korlibs.klock:klock:1.7.0")
+    implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
+    implementation("dev.fuzzit.javafuzz:core:1.22")
+    implementation("io.ktor:ktor-client-cio:1.3.1")
+    implementation("io.ktor:ktor-client-core-jvm:1.3.1")
+    implementation("io.ktor:ktor-client-core:1.3.1")
+    implementation("io.ktor:ktor-client-logging-jvm:1.3.1")
+    implementation("io.ktor:ktor-client-logging:1.3.1")
+    implementation("org.jacoco:org.jacoco.agent:0.8.5:runtime")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.70")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.70")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.70")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+    implementation("org.slf4j:slf4j-nop:1.7.25")
 }
+sourceSets["main"].java.srcDir("src/commonMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00ResultFlowExecuteTestsMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00TraceOffMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS05HashMapMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS12DummyMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS14ClientKtorMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS14ServerNoneMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS15DistributedMain/kotlin")
+sourceSets["main"].java.srcDir("src/jvmMain/kotlin")
+sourceSets["main"].java.srcDir("src/jvmS00LaunchJavaFuzzMain/kotlin")
