@@ -46,33 +46,35 @@ object EndpointClientImpl {
             level = LogLevel.ALL
         }
     }
-    fun encodeParam(name:String,value:Any)=listOf(name to (""+value)).formUrlEncode()
+
+    fun encodeParam(name: String, value: Any) = listOf(name to ("" + value)).formUrlEncode()
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
-throw Exception ("not implemented")
+        throw Exception("not implemented")
     })
 
     suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPostBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
-throw Exception ("not implemented")
+        throw Exception("not implemented")
     })
 
     suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGetString" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
-throw Exception ("not implemented")
+        throw Exception("not implemented")
     })
 
     suspend fun requestPostString(urlString: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPostString" }, {
-require(!urlString.startsWith("http://${endpointServer!!.fullname}"))
-throw Exception ("not implemented")
+        require(!urlString.startsWith("http://${endpointServer!!.fullname}"))
+        throw Exception("not implemented")
     })
+
     suspend fun requestPostString(urlString: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
         require(!urlString.startsWith("http://${endpointServer!!.fullname}"))
-return  client.post<String> {
-	url(Url(urlString))
-                contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
-                body = data
-            }
+        return client.post<String> {
+            url(Url(urlString))
+            contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
+            body = data
+        }
     })
 }
 

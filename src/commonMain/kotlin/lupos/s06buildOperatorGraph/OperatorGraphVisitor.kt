@@ -1215,7 +1215,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             tmp!!
         }
         val iri = node.iri
-        println("xxyiri" + iri)
         val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         if (iri != null) {

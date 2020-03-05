@@ -41,12 +41,12 @@ val options = mapOf(
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
-        "commonS01Buffer" to listOf("commonS01HeapMain","jvmS01BufferMemoryMappedMain","jvmS01BufferMemoryMappedUnsafeMain","jvmS01BufferRandomAccessMain"),
+        "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain"),
         "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
-        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain","jvmS14ClientKtorTarget","nativeS14ClientKtorTarget"),
+        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
 )
 val conflicts = listOf(
@@ -69,19 +69,19 @@ val platformPrefix = mapOf(
         "mingw64" to listOf("common")
 )
 val additionalSources = mapOf(
-"commonS01HeapMain" to listOf(
-"commonS01BufferMainmemoryMain"
+        "commonS01HeapMain" to listOf(
+                "commonS01BufferMainmemoryMain"
         ),
-"jvmS01BufferMemoryMappedMain" to listOf(
-"commonS01BufferDiskbasedMain"
+        "jvmS01BufferMemoryMappedMain" to listOf(
+                "commonS01BufferDiskbasedMain"
         ),
-"jvmS01BufferMemoryMappedUnsafeMain" to listOf(
-"commonS01BufferDiskbasedMain",
-"jvmS01BufferUnsafeHelperMain",
-"jvmS01BufferUnsafeMain"
+        "jvmS01BufferMemoryMappedUnsafeMain" to listOf(
+                "commonS01BufferDiskbasedMain",
+                "jvmS01BufferUnsafeHelperMain",
+                "jvmS01BufferUnsafeMain"
         ),
-"jvmS01BufferRandomAccessMain" to listOf(
-"commonS01BufferDiskbasedMain"
+        "jvmS01BufferRandomAccessMain" to listOf(
+                "commonS01BufferDiskbasedMain"
         ),
         "linuxX64Main" to listOf(
                 "nativeMain"
@@ -95,12 +95,12 @@ val additionalSources = mapOf(
         "commonS00LaunchBinaryTestsMain" to listOf(
                 "commonS00ResultFlowExecuteTestsMain"
         ),
-	"jvmS14ClientKtorTarget" to listOf(
-"commonS14ClientKtorMain"
-),
-	"nativeS14ClientKtorTarget" to listOf(
-"commonS14ClientKtorMain"
-)
+        "jvmS14ClientKtorTarget" to listOf(
+                "commonS14ClientKtorMain"
+        ),
+        "nativeS14ClientKtorTarget" to listOf(
+                "commonS14ClientKtorMain"
+        )
 )
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
@@ -122,7 +122,7 @@ val dependencies = mapOf(
                 "com.soywiz.korlibs.klock:klock:1.7.0",
                 "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
         ),
         "nativeMain" to listOf(
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"
@@ -263,8 +263,8 @@ dependencies {""")
                 out.println("    implementation(\"$sourceDependency\")")
             out.println("""}""")
             for (sourceFolder in sourceFolders.sorted())
-if(!sourceFolder.endsWith("Target"))
-                out.println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
+                if (!sourceFolder.endsWith("Target"))
+                    out.println("sourceSets[\"main\"].java.srcDir(\"src/$sourceFolder/kotlin\")")
         }
         else -> {
             out.println("""plugins {
@@ -297,17 +297,17 @@ kotlin {
                 out.println("        implementation(\"$sourceDependency\")")
             out.println("""    }""")
             for (sourceFolder in sourceFolders.sorted())
-if(!sourceFolder.endsWith("Target")){
-                if (sourceFolder.startsWith("common"))
-                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
-                else
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
-            }
+                if (!sourceFolder.endsWith("Target")) {
+                    if (sourceFolder.startsWith("common"))
+                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+                    else
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/$sourceFolder/kotlin\")")
+                }
             out.println("""}""")
         }
     }
 }
-try{
-File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
-}catch(e:FileAlreadyExistsException){
+try {
+    File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
+} catch (e: FileAlreadyExistsException) {
 }

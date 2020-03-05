@@ -1,9 +1,8 @@
-./tool-gradle-build-without-tests-jvm.sh
-rm src/commonTest/kotlin/lupos/*.bin
-rm src/commonTest/kotlin/lupos/*.expect
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain jvmS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget
+./tool-gradle-build.sh
 function execJvm
 {
-	./buildJvm/distributions/luposdate3000/bin/luposdate3000 > log/x 2>&1
+	./build/executable > log/x 2>&1
 }
 
 { { time execJvm ; } > log/c 2>&1 ;} &

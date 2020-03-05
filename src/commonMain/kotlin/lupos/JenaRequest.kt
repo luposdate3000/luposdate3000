@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import lupos.s00misc.*
 import lupos.s14endpoint.*
 
+
 class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
@@ -16,20 +17,13 @@ class JenaRequest {
 
     constructor() {
         var message: String? = null
-println("a")
         CoroutinesHelper.runBlock {
-println("b")
             try {
-		message=EndpointClientImpl.requestPostString("http://localhost:3030/$/datasets","dbName=sp2b&dbType=mem")
-println("c")
+                message = EndpointClientImpl.requestPostString("http://localhost:3030/$/datasets", "dbName=sp2b&dbType=mem")
             } catch (e: Throwable) {
-println("f")
             }
-println("g")
         }
-println("d")
         requestUpdate("DROP SILENT ALL")
-println("e")
     }
 
 
@@ -72,7 +66,7 @@ println("e")
             throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
-	message=EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/update",EndpointClientImpl.encodeParam("update",query))
+            message = EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/update", EndpointClientImpl.encodeParam("update", query))
         }
         return XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
     }
@@ -88,9 +82,8 @@ println("e")
             throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
-message=EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/query",EndpointClientImpl.encodeParam("query",query))
+            message = EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/query", EndpointClientImpl.encodeParam("query", query))
         }
-        println(message)
         return XMLElement.parseFromJson(message!!)!!.first()
     }
 

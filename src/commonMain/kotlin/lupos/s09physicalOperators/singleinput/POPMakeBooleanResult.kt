@@ -11,7 +11,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
@@ -55,7 +56,7 @@ class POPMakeBooleanResult(override val dictionary: ResultSetDictionary, child: 
                     break
                 }
                 var rsNew = resultSet.createResultRow()
-                rsNew[variableNew] = resultSet.createValue("\"" + (!first) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                rsNew[variableNew] = resultSet.createValue(AOPBoolean(!first).valueToString())
                 channel.send(resultFlowProduce({ this@POPMakeBooleanResult }, { rsNew }))
                 channel.close()
             } catch (e: Throwable) {

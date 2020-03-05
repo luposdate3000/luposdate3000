@@ -26,7 +26,7 @@ import lupos.SparqlTestSuite
 
 
 object EndpointClientImpl {
-    fun encodeParam(key: String,value:Any) = key+"="+value
+    fun encodeParam(key: String, value: Any) = key + "=" + value
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "P2P.retryRequestBytes" }, {
         return ByteArray(0)
     })
@@ -42,6 +42,7 @@ object EndpointClientImpl {
     suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "P2P.retryRequestString" }, {
         return ""
     })
+
     suspend fun requestPostString(url: String, data: String): String = Trace.trace({ "P2P.retryRequestString" }, {
         return ""
     })

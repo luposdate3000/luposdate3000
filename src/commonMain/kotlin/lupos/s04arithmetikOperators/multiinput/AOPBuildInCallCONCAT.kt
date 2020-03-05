@@ -39,7 +39,7 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
             })
         if (a is AOPTypedLiteral && b is AOPTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPTypedLiteral(a.delimiter, a.content + b.content, a.type_iri)
+                AOPTypedLiteral.create(a.delimiter, a.content + b.content, a.type_iri)
             })
         if (a is AOPConstantString && b is AOPConstantString)
             return resultFlow({ this }, { resultRow }, { resultSet }, {

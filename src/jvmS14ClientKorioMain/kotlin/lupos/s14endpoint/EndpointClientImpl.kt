@@ -30,10 +30,11 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
+
 @UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {
     val client = createHttpClient()
-    fun encodeParam(key:String,value: Any) = URL.encodeComponent(key)+"="+URL.encodeComponent(""+value)
+    fun encodeParam(key: String, value: Any) = URL.encodeComponent(key) + "=" + URL.encodeComponent("" + value)
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
@@ -105,16 +106,15 @@ object EndpointClientImpl {
         }
         return res.readAllString()
     })
-    suspend fun requestPostString(url: String, data:String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
+
+    suspend fun requestPostString(url: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var res: HttpClient.Response
         var i = 0
         while (true) {
             i++
             try {
-println("$url")
-
-val a=AsyncStream(MyDynamicByteArray(data.encodeToByteArray()))
+                val a = AsyncStream(MyDynamicByteArray(data.encodeToByteArray()))
                 res = client.request(Http.Method.POST, url, Http.Headers(), a)
                 break
             } catch (e: Throwable) {
@@ -134,15 +134,16 @@ class MyDynamicByteArray : AsyncStreamBase {
         this.data = data
         data.finish()
     }
+
     constructor(param: ByteArray) {
         data = DynamicByteArray(param)
-data.pos=param.size
+        data.pos = param.size
     }
 
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
-        if (position > data.pos){
+        if (position > data.pos) {
             return 0
-}
+        }
         if (position + len > data.pos) {
             data.data.copyInto(buffer, offset, position.toInt(), data.pos)
             return data.pos - position.toInt()

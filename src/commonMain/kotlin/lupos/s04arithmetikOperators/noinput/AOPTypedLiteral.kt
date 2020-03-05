@@ -4,23 +4,22 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPTypedLiteral : AOPConstantString {
+class AOPTypedLiteral(override val delimiter: String, override val content: String, val type_iri: String) : AOPConstantString() {
     override val operatorID = EOperatorID.AOPTypedLiteralID
     override val classname = "AOPTypedLiteral"
     override val children: Array<OPBase> = arrayOf()
-    override val delimiter: String
-    override val content: String
-    val type_iri: String
 
-    constructor(delimiter: String, content: String, type_iri: String) : super() {
-        this.delimiter = delimiter
-        this.content = content
-        this.type_iri = type_iri
-        require(type_iri != "http://www.w3.org/2001/XMLSchema#boolean")
-        require(type_iri != "http://www.w3.org/2001/XMLSchema#integer")
-        require(type_iri != "http://www.w3.org/2001/XMLSchema#double")
-        require(type_iri != "http://www.w3.org/2001/XMLSchema#decimal")
-        require(type_iri != "http://www.w3.org/2001/XMLSchema#dateTime")
+    companion object {
+        fun create(delimiter: String, content: String, type_iri: String): AOPConstant {
+            when (type_iri) {
+                "http://www.w3.org/2001/XMLSchema#boolean" -> return AOPBoolean(content.toBoolean())
+                "http://www.w3.org/2001/XMLSchema#integer" -> return AOPInteger(content.toInt())
+                "http://www.w3.org/2001/XMLSchema#double" -> return AOPDouble(content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#decimal" -> return AOPDecimal(content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#dateTime" -> return AOPDateTime(delimiter + content + delimiter + "^^<" + type_iri + ">")
+                else -> return AOPTypedLiteral(delimiter, content, type_iri)
+            }
+        }
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)

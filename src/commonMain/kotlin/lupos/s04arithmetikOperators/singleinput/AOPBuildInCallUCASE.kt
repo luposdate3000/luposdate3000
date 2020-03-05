@@ -33,7 +33,7 @@ class AOPBuildInCallUCASE(child: AOPBase) : AOPBase() {
             })
         if (a is AOPTypedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPTypedLiteral(a.delimiter, a.content.toUpperCase(), a.type_iri)
+                AOPTypedLiteral.create(a.delimiter, a.content.toUpperCase(), a.type_iri)
             })
         if (a is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {

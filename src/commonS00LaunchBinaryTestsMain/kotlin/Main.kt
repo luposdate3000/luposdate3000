@@ -16,8 +16,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     ).forEach { (k, v) ->
         val buffer = File("resources/$v").readAsDynamicByteArray()
         val len = buffer.getNextInt()
-        for (c in args)
-            println("arg :: " + c)
         for (i in 0 until len) {
             val tmp = buffer.getNextString()
             val w = k.createValue(tmp)

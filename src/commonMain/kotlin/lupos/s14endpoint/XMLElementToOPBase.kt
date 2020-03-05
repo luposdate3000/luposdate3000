@@ -109,7 +109,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "AOPInteger" -> AOPInteger(node.attributes["value"]!!.toInt())
         "AOPMultiplication" -> AOPMultiplication(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPSimpleLiteral" -> AOPSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!)
-        "AOPTypedLiteral" -> AOPTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!)
+        "AOPTypedLiteral" -> AOPTypedLiteral.create(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!)
         "AOPBoolean" -> AOPBoolean(node.attributes["value"]!!.toBoolean())
         "AOPBuildInCallSTRDT" -> AOPBuildInCallSTRDT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallSTRLANG" -> AOPBuildInCallSTRLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
