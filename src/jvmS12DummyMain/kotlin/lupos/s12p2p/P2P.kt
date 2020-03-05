@@ -26,8 +26,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
-import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.*
+import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
 

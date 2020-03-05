@@ -25,7 +25,7 @@ import lupos.s14endpoint.Endpoint
 
 
 @UseExperimental(ExperimentalStdlibApi::class)
-class EndpointServerImpl(hostname:String="localhost",port:Int=80):EndpointServer(hostname,port) {
+class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {
     var server: HttpServer? = null
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
@@ -36,7 +36,7 @@ class EndpointServerImpl(hostname:String="localhost",port:Int=80):EndpointServer
         GlobalLogger.log(ELoggerType.DEBUG, { request.method })
         request.replaceHeader("Connection", "close")
         var endFlag = true
-        if (request.path ==Endpoint. REQUEST_BINARY[0]) {
+        if (request.path == Endpoint.REQUEST_BINARY[0]) {
             var data: ByteArray? = null
             request.handler { it ->
                 if (data == null)
@@ -49,14 +49,14 @@ class EndpointServerImpl(hostname:String="localhost",port:Int=80):EndpointServer
             }
             while (endFlag)
                 delay(10)
-try{
-            val res = receive(request.path,data!!)
-            request.replaceHeader("Content-Type", "application/x-binary")
-            request.end(res)
-}catch(e:Throwable){
-            request.setStatus(404)
-request.end()
-}
+            try {
+                val res = receive(request.path, data!!)
+                request.replaceHeader("Content-Type", "application/x-binary")
+                request.end(res)
+            } catch (e: Throwable) {
+                request.setStatus(404)
+                request.end()
+            }
             return
         }
         request.replaceHeader("Content-Type", "text/html")
@@ -72,19 +72,19 @@ request.end()
         while (endFlag)
             delay(10)
         try {
-val singleParams=mutableMapOf<String,String>()
-params.forEach{k,v->
-singleParams[k]=v?.first()
-}
-responseBytes=receive(request.path,request.method == Http.Method.POST,data,singleParams)
+            val singleParams = mutableMapOf<String, String>()
+            params.forEach { k, v ->
+                singleParams[k] = v?.first()
+            }
+            responseBytes = receive(request.path, request.method == Http.Method.POST, data, singleParams)
         } catch (e: Throwable) {
-responseBytes=e.toString().encodeToByteArray()
+            responseBytes = e.toString().encodeToByteArray()
             request.setStatus(404)
         }
-            request.end(responseBytes!!)
+        request.end(responseBytes!!)
     }
 
-override     suspend fun start(bootstrap: String?) {
+    override suspend fun start(bootstrap: String?) {
         GlobalLogger.log(ELoggerType.DEBUG, { "before P2P.start" })
         P2P.start(bootstrap)
         GlobalLogger.log(ELoggerType.DEBUG, { "listen:: $hostname $port" })
@@ -95,7 +95,7 @@ override     suspend fun start(bootstrap: String?) {
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var i = 0
     var bootStrapServer: String? = null
-var hostname="localhost"
+    var hostname = "localhost"
     for (a in args) {
         GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
         when (i) {
@@ -106,7 +106,7 @@ var hostname="localhost"
     }
     thread(start = true) {
         launch(Dispatchers.Default) {
-	endpointServer=EndpointServerImpl(hostname)
+            endpointServer = EndpointServerImpl(hostname)
             endpointServer!!.start(bootStrapServer)
         }
     }

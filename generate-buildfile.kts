@@ -1,7 +1,7 @@
 import java.io.File
 
 var allChoicesString = ""
-var choicesCount=0
+var choicesCount = 0
 fun presentChoice(options: List<String>): String {
     when (options.size) {
         0 -> throw Exception("script error")
@@ -9,26 +9,26 @@ fun presentChoice(options: List<String>): String {
         else -> {
             println("choose one of $options")
             while (true) {
-val input=if(choicesCount<args.size){
-args[choicesCount++]
-}else
-                readLine()
-                if (input != null){
+                val input = if (choicesCount < args.size) {
+                    args[choicesCount++]
+                } else
+                    readLine()
+                if (input != null) {
                     if (options.contains(input)) {
                         allChoicesString += "-$input"
                         return input
                     }
-			try{
-		val i=input.toInt()
-		if(i<options.size){
-allChoicesString += "-${options[i]}"
-			return options[i]
-}else
-throw Exception("")
-		}catch(e:Throwable){
-		}
+                    try {
+                        val i = input.toInt()
+                        if (i < options.size) {
+                            allChoicesString += "-${options[i]}"
+                            return options[i]
+                        } else
+                            throw Exception("")
+                    } catch (e: Throwable) {
+                    }
+                }
             }
-}
         }
     }
 }
