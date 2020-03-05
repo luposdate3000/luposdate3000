@@ -10,7 +10,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s14endpoint.Endpoint
 
-
+@UseExperimental(ExperimentalStdlibApi::class)
 class TransferHelperNetwork {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
@@ -37,7 +37,7 @@ class TransferHelperNetwork {
                                 Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
                             } catch (e: Throwable) {
                                 e.printStackTrace()
-                                res += e.toString().toByteArray()
+                                res += e.toString().encodeToByteArray()
                             }
                         }
                     }

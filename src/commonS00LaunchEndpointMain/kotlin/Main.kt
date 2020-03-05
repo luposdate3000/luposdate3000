@@ -1,4 +1,3 @@
-import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,13 +28,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         }
         i++
     }
-    thread(start = true) {
         launch(Dispatchers.Default) {
             endpointServer = EndpointServerImpl(hostname)
             P2P.start(bootStrapServer)
             endpointServer!!.start()
         }
-    }
     while (true) {
         delay(1000)
     }
