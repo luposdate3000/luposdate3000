@@ -30,11 +30,11 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
-
+@UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {
     val client = createHttpClient()
-    fun encodeString(s: String) = URL.encodeComponent(s)
-    suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGet" }, {
+    fun encodeParam(key:String,value: Any) = URL.encodeComponent(key)+"="+URL.encodeComponent(""+value)
+    suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
@@ -52,7 +52,7 @@ object EndpointClientImpl {
         return res.readAllBytes()
     })
 
-    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPost" }, {
+    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPostBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
@@ -70,7 +70,7 @@ object EndpointClientImpl {
         return res.readAllBytes()
     })
 
-    suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGet" }, {
+    suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGetString" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
@@ -88,7 +88,7 @@ object EndpointClientImpl {
         return res.readAllString()
     })
 
-    suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPost" }, {
+    suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPostString" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
@@ -96,6 +96,24 @@ object EndpointClientImpl {
             i++
             try {
                 res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data)))
+                break
+            } catch (e: Throwable) {
+                if (i > 100)
+                    throw e
+                delay(10)
+            }
+        }
+        return res.readAllString()
+    })
+    suspend fun requestPostString(url: String, data:String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
+        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        var res: HttpClient.Response
+        var i = 0
+        while (true) {
+            i++
+            try {
+println("url $url data $data")
+                res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data.encodeToByteArray())))
                 break
             } catch (e: Throwable) {
                 if (i > 100)
@@ -113,6 +131,11 @@ class MyDynamicByteArray : AsyncStreamBase {
     constructor(data: DynamicByteArray) {
         this.data = data
         data.finish()
+    }
+    constructor(param: ByteArray) {
+        data = DynamicByteArray(param)
+data.pos=param.size
+println("${data.pos} $data $param")
     }
 
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {

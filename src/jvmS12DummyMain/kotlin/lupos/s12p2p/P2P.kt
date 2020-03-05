@@ -63,7 +63,7 @@ object P2P {
             if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
                     EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_COMMIT[0]}" +//
-                            "?${Endpoint.REQUEST_COMMIT[1]}=${EndpointClientImpl.encodeString("" + transactionID)}")
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_COMMIT[1],transactionID))
                 }
             }
         }
@@ -73,7 +73,7 @@ object P2P {
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
         CoroutinesHelper.runBlock {
             EndpointClientImpl.requestGetBytes("http://${(nodeName)}${Endpoint.REQUEST_XML_INPUT[0]}" +//
-                    "?Endpoint.REQUEST_XML_INPUT[1]=${EndpointClientImpl.encodeString(data.toPrettyString())}")
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_XML_INPUT[1],data.toPrettyString()))
         }
     })
 
@@ -88,7 +88,7 @@ object P2P {
         var res: POPBase = POPEmptyRow(dictionary)
         CoroutinesHelper.runBlock {
             val xml = EndpointClientImpl.requestGetString("http://${(nodeName)}${Endpoint.REQUEST_OPERATOR_QUERY[0]}" +//
-                    "?Endpoint.REQUEST_OPERATOR_QUERY[1]=${EndpointClientImpl.encodeString(pop.toXMLElement().toPrettyString())}")
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_OPERATOR_QUERY[1],pop.toXMLElement().toPrettyString()))
             res = POPImportFromXml(dictionary, XMLElement.parseFromXml(xml)!!.first())
         }
         return res
@@ -110,8 +110,8 @@ object P2P {
             if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
                     EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_GRAPH_OPERATION[0]}" +//
-                            "?${Endpoint.REQUEST_GRAPH_OPERATION[1]}=${EndpointClientImpl.encodeString(name)}" +//
-                            "&${Endpoint.REQUEST_GRAPH_OPERATION[2]}=${EndpointClientImpl.encodeString("" + type)}")
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_GRAPH_OPERATION[1],name)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_GRAPH_OPERATION[2],type))
                 }
             }
         }
@@ -148,15 +148,15 @@ object P2P {
             else
                 throw Exception("not reachable")
             val req = Endpoint.REQUEST_TRIPLE_GET[0] +//
-                    "?${Endpoint.REQUEST_TRIPLE_GET[1]}=${EndpointClientImpl.encodeString(graphName)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[2]}=${EndpointClientImpl.encodeString("" + transactionID)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[3]}=${EndpointClientImpl.encodeString(sstr)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[4]}=${EndpointClientImpl.encodeString(pstr)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[5]}=${EndpointClientImpl.encodeString(ostr)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[6]}=${EndpointClientImpl.encodeString("" + (s is AOPConstant))}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[7]}=${EndpointClientImpl.encodeString("" + (p is AOPConstant))}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[8]}=${EndpointClientImpl.encodeString("" + (o is AOPConstant))}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_GET[9]}=${EndpointClientImpl.encodeString("" + idx)}"
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[1],graphName)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[2],transactionID)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[3],sstr)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[4],pstr)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[5],ostr)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[6],s is AOPConstant)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[7],p is AOPConstant)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[8],o is AOPConstant)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[9],idx)
             CoroutinesHelper.runBlock {
                 val responseBytes = EndpointClientImpl.requestGetBytes("http://${(node)}$req")
                 res = ResultRepresenationNetwork.fromNetworkPackage(resultSet, responseBytes)
@@ -187,15 +187,15 @@ object P2P {
             else
                 o = (data[2] as AOPVariable).name
             val req = Endpoint.REQUEST_TRIPLE_DELETE[0] +//
-                    "?${Endpoint.REQUEST_TRIPLE_DELETE[1]}=${EndpointClientImpl.encodeString(graphName)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[2]}=${EndpointClientImpl.encodeString("" + transactionID)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[3]}=${EndpointClientImpl.encodeString(s)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[4]}=${EndpointClientImpl.encodeString(p)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[5]}=${EndpointClientImpl.encodeString(o)}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[6]}=${EndpointClientImpl.encodeString("" + (data[0] is AOPConstant))}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[7]}=${EndpointClientImpl.encodeString("" + (data[1] is AOPConstant))}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[8]}=${EndpointClientImpl.encodeString("" + (data[2] is AOPConstant))}" +//
-                    "&${Endpoint.REQUEST_TRIPLE_DELETE[9]}=${EndpointClientImpl.encodeString("" + idx)}"
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[1],graphName)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[2],transactionID)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[3],s)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[4],p)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[5],o)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[6],data[0] is AOPConstant)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[7],data[1] is AOPConstant)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[8],data[2] is AOPConstant)+//
+"&"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[9],idx)
             CoroutinesHelper.runBlock {
                 EndpointClientImpl.requestGetBytes("http://${(node)}$req")
             }
@@ -253,7 +253,7 @@ object P2P {
                     GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 3 $it" })
                     GlobalLogger.log(ELoggerType.DEBUG, { "req $it ${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]} $hostname" })
                     EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
-                            "?${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[1]}=${EndpointClientImpl.encodeString(hostname)}")
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_PEERS_JOIN_INTERNAL[1],hostname))
                 }
             }
             GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 4" })
@@ -270,7 +270,7 @@ object P2P {
             GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start 2 $bootstrap" })
             GlobalLogger.log(ELoggerType.DEBUG, { "req $bootstrap ${Endpoint.REQUEST_PEERS_JOIN[0]} ${endpointServer!!.fullname}" })
             var responseString = EndpointClientImpl.requestGetString("http://${(bootstrap)}${Endpoint.REQUEST_PEERS_JOIN[0]}" +//
-                    "?${Endpoint.REQUEST_PEERS_JOIN[1]}=${EndpointClientImpl.encodeString(endpointServer!!.fullname)}")
+"?"+EndpointClientImpl.encodeParam(Endpoint.REQUEST_PEERS_JOIN[1],endpointServer!!.fullname))
             XMLElement.parseFromXml(responseString)?.forEach { root ->
                 if (root.tag == "servers") {
                     root.childs.forEach { server ->

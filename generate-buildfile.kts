@@ -44,7 +44,7 @@ val options = mapOf(
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
-        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain"),
+        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain","jvmS14ClientKtorMain"),
         "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
 )
 val conflicts = listOf(
@@ -53,6 +53,7 @@ val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
         setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
+        setOf("commonS12LocalMain", "jvmS14ClientKtorMain"),
         setOf("jvmS12DummyMain", "commonS03DictionaryNoneMain"),
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
@@ -93,11 +94,7 @@ val dependencies = mapOf(
                 "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
                 "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
                 "com.benasher44:uuid:0.0.7",
-                "com.soywiz.korlibs.krypto:krypto:1.9.1",
-                "io.ktor:ktor-client-core:$ktorVersion",
-                "io.ktor:ktor-client-cio:$ktorVersion",
-                "io.ktor:ktor-client-logging:$ktorVersion",
-                "org.slf4j:slf4j-nop:1.7.25"
+                "com.soywiz.korlibs.krypto:krypto:1.9.1"
         ),
         "jvmMain" to listOf(
                 "com.soywiz.korlibs.klock:klock:1.7.0",
@@ -116,6 +113,12 @@ val dependencies = mapOf(
         ),
         "jvmS14ClientKorioMain" to listOf(
                 "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
+        ),
+        "jvmS14ClientKtorMain" to listOf(
+                "io.ktor:ktor-client-core:$ktorVersion",
+                "io.ktor:ktor-client-cio:$ktorVersion",
+                "io.ktor:ktor-client-logging:$ktorVersion",
+                "org.slf4j:slf4j-nop:1.7.25"
         ),
         "linuxX64Main" to listOf(
                 "com.soywiz.korlibs.klock:klock-linuxx64:1.8.7"

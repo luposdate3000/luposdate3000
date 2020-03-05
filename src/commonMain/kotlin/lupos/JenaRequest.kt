@@ -1,55 +1,37 @@
 package lupos
 
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.features.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.features.websocket.*
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
-import io.ktor.http.*
-import io.ktor.http.cio.websocket.*
-import io.ktor.http.content.*
-import io.ktor.utils.io.*
-import io.ktor.utils.io.charsets.*
-import io.ktor.utils.io.core.*
 import kotlin.native.concurrent.*
 import kotlin.random.*
 import kotlinx.coroutines.*
 import lupos.s00misc.*
-
+import lupos.s14endpoint.*
 
 class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
     var containsStringDatatypeQueries = false
     fun finalize() {
-        client.close()
     }
 
-    val client = HttpClient() {
-        install(Logging) {
-            logger = Logger.SIMPLE
-            level = LogLevel.ALL
-        }
-    }
 
     constructor() {
         var message: String? = null
+println("a")
         CoroutinesHelper.runBlock {
+println("b")
             try {
-                message = client.post<String> {
-                    url(URLBuilder(URLProtocol.HTTP, "localhost", 3030, encodedPath = "/$/datasets").build())
-                    contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
-                    body = "dbName=sp2b&dbType=mem"
-                }
+		message=EndpointClientImpl.requestPostString("http://localhost:3030/$/datasets","dbName=sp2b&dbType=mem")
+println("c")
             } catch (e: Throwable) {
-                if (e.message != "Client request(http://localhost:3030/$/datasets) invalid: 409 Name already registered /sp2b") {
-                    throw e
-                }
+println("f")
+            } catch (e: Exception) {
+println("h")
             }
+println("g")
         }
+println("d")
         requestUpdate("DROP SILENT ALL")
+println("e")
     }
 
 
@@ -92,11 +74,7 @@ class JenaRequest {
             throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
-            message = client.post<String> {
-                url(URLBuilder(URLProtocol.HTTP, "localhost", 3030, encodedPath = "/sp2b/update").build())
-                contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
-                body = listOf("update" to query).formUrlEncode()
-            }
+	message=EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/update",EndpointClientImpl.encodeParam("update",query))
         }
         return XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
     }
@@ -112,11 +90,7 @@ class JenaRequest {
             throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
-            message = client.post<String> {
-                url(URLBuilder(URLProtocol.HTTP, "localhost", 3030, encodedPath = "/sp2b/query").build())
-                contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
-                body = listOf("query" to query).formUrlEncode()
-            }
+message=EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/query",EndpointClientImpl.encodeParam("query",query))
         }
         println(message)
         return XMLElement.parseFromJson(message!!)!!.first()

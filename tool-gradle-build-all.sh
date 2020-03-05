@@ -1,6 +1,8 @@
 #!/bin/bash
 kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01BufferMainmemoryMain jvmS12DummyMain jvmS14ServerKorioMain jvmS14ClientKorioMain
 ./tool-gradle-build.sh
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01BufferMainmemoryMain jvmS12DummyMain jvmS14ServerKorioMain jvmS14ClientKtorMain
+./tool-gradle-build.sh
 kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01BufferMainmemoryMain jvmS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain
 ./tool-gradle-build.sh
 kotlinc -script generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00ExecutionParallelMain commonS01BufferMainmemoryMain commonS12LocalMain
