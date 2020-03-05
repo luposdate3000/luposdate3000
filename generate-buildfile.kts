@@ -15,13 +15,13 @@ fun presentChoice(options: List<String>): String {
                     readLine()
                 if (input != null) {
                     if (options.contains(input)) {
-                        allChoicesString += "-$input"
+                        allChoicesString += "_$input"
                         return input
                     }
                     try {
                         val i = input.toInt()
                         if (i < options.size) {
-                            allChoicesString += "-${options[i]}"
+                            allChoicesString += "_${options[i]}"
                             return options[i]
                         } else
                             throw Exception("")
@@ -133,25 +133,33 @@ val cinterops = mapOf(
 val sourceFolders = mutableSetOf("commonMain")
 sourceFolders.add("${platform}Main")
 for ((k, choices) in options) {
-    val remainingChoices = mutableListOf<String>()
-    for (choice in choices) {
-        var ok = false
-        for (prefix in platformPrefix[platform]!!)
-            if (choice.startsWith(prefix)) {
-                ok = true
-                break
-            }
-        for (conflict in conflicts)
-            if (conflict.contains(choice))
-                for (sourceFolder in sourceFolders)
-                    if (conflict.contains(sourceFolder))
-                        ok = false
-        if (ok)
-            remainingChoices.add(choice)
+    var alreadyChoosen = false
+    for (choice in choices)
+        if (sourceFolders.contains(choice)) {
+            alreadyChoosen = true
+            break
+        }
+    if (!alreadyChoosen) {
+        val remainingChoices = mutableListOf<String>()
+        for (choice in choices) {
+            var ok = false
+            for (prefix in platformPrefix[platform]!!)
+                if (choice.startsWith(prefix)) {
+                    ok = true
+                    break
+                }
+            for (conflict in conflicts)
+                if (conflict.contains(choice))
+                    for (sourceFolder in sourceFolders)
+                        if (conflict.contains(sourceFolder))
+                            ok = false
+            if (ok)
+                remainingChoices.add(choice)
+        }
+        val choice = presentChoice(remainingChoices)
+        sourceFolders.add(choice)
+        addAdditionalSources()
     }
-    val choice = presentChoice(remainingChoices)
-    sourceFolders.add(choice)
-    addAdditionalSources()
 }
 fun addAdditionalSources() {
     var changed = true
@@ -218,7 +226,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build$allChoicesString")
+project.buildDir = file("build/build$allChoicesString")
 dependencies {""")
             for (sourceDependency in sourceDependencies.sorted())
                 out.println("    implementation(\"$sourceDependency\")")

@@ -4,7 +4,7 @@ import lupos.s00misc.executeBinaryTest
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
+import lupos.s14endpoint.*
 
 
 fun main(args: Array<String>) {
@@ -33,7 +33,7 @@ fun main(args: Array<String>) {
         }
     }
     val input = File.readStdInAsDynamicByteArray()
-    P2P.knownClients.add(EndpointImpl.fullname)
+    P2P.knownClients.add(endpointServer!!.fullname)
     if (input != null) {
         executeBinaryTest(input!!)
     } else if (args.isEmpty()) {

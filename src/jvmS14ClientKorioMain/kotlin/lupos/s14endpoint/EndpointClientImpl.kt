@@ -30,6 +30,7 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
+
 object EndpointClientImpl {
     val client = createHttpClient()
     fun encodeString(s: String) = URL.encodeComponent(s)

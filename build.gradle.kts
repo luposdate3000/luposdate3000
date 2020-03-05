@@ -29,7 +29,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build-jvm-commonS00LaunchEndpointMain-commonS00ResultFlowFastMain-commonS00ExecutionSequentialMain-commonS00TraceOffMain-commonS01BufferMainmemoryMain-commonS03DictionaryIntArrayMain-jvmS12DummyMain-jvmS14ServerKorioMain-commonS15DistributedMain")
+project.buildDir = file("build/build_jvm_commonS00LaunchBinaryTestsMain_commonS00ExecutionParallelMain_commonS01BufferMainmemoryMain_jvmS12DummyMain_jvmS14ServerKorioMain_commonS15DistributedMain")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
@@ -47,9 +47,9 @@ dependencies {
     implementation("org.slf4j:slf4j-nop:1.7.25")
 }
 sourceSets["main"].java.srcDir("src/commonMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00LaunchEndpointMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00ResultFlowFastMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00ExecutionParallelMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00LaunchBinaryTestsMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00ResultFlowExecuteTestsMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00TraceOffMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
