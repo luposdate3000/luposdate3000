@@ -26,7 +26,7 @@ repositories {
     maven("https://kotlin.bintray.com/kotlinx")
 }
 kotlin {
-    project.buildDir = file("build/build_linuxX64_commonS00LaunchEndpointMain_commonS00ResultFlowFastMain_commonS00ExecutionSequentialMain_commonS00TraceOffMain_commonS01BufferMainmemoryMain_commonS03DictionaryIntArrayMain")
+    project.buildDir = file("build/build_linuxX64_commonS00LaunchEndpointMain_commonS00ResultFlowFastMain_commonS00ExecutionSequentialMain_commonS00TraceOffMain_commonS03DictionaryIntArrayMain")
     linuxX64("linuxX64") {
         val main by compilations.getting
         val dirent by main.cinterops.creating

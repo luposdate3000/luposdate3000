@@ -3,7 +3,6 @@ package lupos.s01io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 import java.lang.reflect.Method
-import lupos.s01io.buffer.Cache
 import lupos.s01io.buffer.CachedFile
 import sun.nio.ch.FileChannelImpl
 
@@ -77,9 +76,7 @@ class CachedFile {
     fun mapAndGetOffset(pageOffset: Long): Long {
         // this.file.setLength(this.size)
         val endOffset = pageOffset + PAGESIZE
-        GlobalLogger.log(ELoggerType.DEBUG, { "->" + this.file.length() })
         if (this.file.length() < endOffset) {
-            GlobalLogger.log(ELoggerType.DEBUG, { endOffset })
             this.file.setLength(pageOffset)
         }
         val ch = this.file.getChannel()

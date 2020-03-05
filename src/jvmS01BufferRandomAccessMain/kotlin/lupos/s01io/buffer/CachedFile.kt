@@ -3,7 +3,6 @@ package lupos.s01io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 import lupos.s01io.buffer.ByteArrayPage
-import lupos.s01io.buffer.Cache
 import lupos.s01io.buffer.CachedFile
 
 

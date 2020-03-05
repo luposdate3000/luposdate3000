@@ -41,8 +41,7 @@ val options = mapOf(
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
-        "commonS01Buffer" to listOf("commonS01BufferDiskbasedMain", "commonS01BufferMainmemoryMain"),
-        "commonS01Heap" to listOf("commonS01HeapMain"),
+        "commonS01Buffer" to listOf("commonS01HeapMain","jvmS01BufferMemoryMappedMain","jvmS01BufferMemoryMappedUnsafeMain","jvmS01BufferRandomAccessMain"),
         "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
@@ -70,6 +69,20 @@ val platformPrefix = mapOf(
         "mingw64" to listOf("common")
 )
 val additionalSources = mapOf(
+"commonS01HeapMain" to listOf(
+"commonS01BufferMainmemoryMain"
+        ),
+"jvmS01BufferMemoryMappedMain" to listOf(
+"commonS01BufferDiskbasedMain"
+        ),
+"jvmS01BufferMemoryMappedUnsafeMain" to listOf(
+"commonS01BufferDiskbasedMain",
+"jvmS01BufferUnsafeHelperMain",
+"jvmS01BufferUnsafeMain"
+        ),
+"jvmS01BufferRandomAccessMain" to listOf(
+"commonS01BufferDiskbasedMain"
+        ),
         "linuxX64Main" to listOf(
                 "nativeMain"
         ),
