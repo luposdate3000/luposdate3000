@@ -92,25 +92,3 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
     }
 }
 
-fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    var i = 0
-    var bootStrapServer: String? = null
-    var hostname = "localhost"
-    for (a in args) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
-        when (i) {
-            0 -> hostname = a
-            1 -> bootStrapServer = a
-        }
-        i++
-    }
-    thread(start = true) {
-        launch(Dispatchers.Default) {
-            endpointServer = EndpointServerImpl(hostname)
-            endpointServer!!.start(bootStrapServer)
-        }
-    }
-    while (true) {
-        delay(1000)
-    }
-}

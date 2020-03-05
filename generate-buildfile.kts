@@ -34,6 +34,7 @@ fun presentChoice(options: List<String>): String {
 }
 
 val options = mapOf(
+	"chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain","commonS00LaunchBinaryTestsMain","commonS00LaunchEndpointMain")
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
@@ -51,7 +52,10 @@ val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
         setOf("commonS12LocalMain", "jvmS14KorioMain"),
         setOf("jvmS12DummyMain", "commonS03DictionaryNoneMain"),
-        setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain")
+        setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
+setOf("commonS00LaunchEndpointMain","commonS00ResultFlowExecuteTestsMain")
+setOf("commonS00LaunchGenerateTestsMain","commonS00ResultFlowExecuteTestsMain"),
+setOf("commonS00LaunchBinaryTestsMain","commonS00ResultFlowGenerateTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -65,7 +69,13 @@ val additionalSources = mapOf(
         ),
         "macosX64Main" to listOf(
                 "nativeMain"
-        )
+        ),
+"commonS00LaunchGenerateTestsMain" to listOf(
+"commonS00ResultFlowGenerateTestsMain"
+),
+"commonS00LaunchBinaryTestsMain" to listOf(
+"commonS00ResultFlowExecuteTestsMain"
+)
 )
 val fastBuildHelper = setOf(
         "commonS00ResultFlowGenerateTestsMain",
@@ -137,7 +147,9 @@ for ((k, choices) in options) {
     }
     val choice = presentChoice(remainingChoices)
     sourceFolders.add(choice)
+	addAdditionalSources()
 }
+fun addAdditionalSources(){
 var changed = true
 while (changed) {
     changed = false
@@ -152,6 +164,7 @@ while (changed) {
         if (changed)
             break
     }
+}
 }
 val sourceDependencies = mutableSetOf<String>()
 for (sourceFolder in sourceFolders) {
