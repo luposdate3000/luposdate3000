@@ -13,7 +13,6 @@ import io.ktor.http.content.*
 import io.ktor.utils.io.*
 import io.ktor.utils.io.charsets.*
 import io.ktor.utils.io.core.*
-import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper

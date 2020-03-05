@@ -1003,12 +1003,12 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
         val g = DistributedTripleStore.getNamedGraph(gname)
         val iterator = g.getIterator(1, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO)
         val data = QueryResultToXML.toXML(iterator).first()
-        var sparql = "INSERT DATA{"
+var hasData=false
+        var sparql = "INSERT DATA { "
         if (gname != PersistentStoreLocal.defaultGraphName)
             sparql += "GRAPH <$gname> "
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
-        CoroutinesHelper.run {
             for (node in data["results"]!!.childs) {
                 val result = mutableMapOf<String, String>()
                 for (v in node.childs) {
@@ -1024,10 +1024,11 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     }
                     result[name!!] = value!!
                 }
+hasData=true
                 sparql += "( " + result["s"] + " " + result["p"] + " " + result["o"] + " " + ")."
             }
-        }
         sparql += "}"
+if(hasData)
         globalSparql.add(0, sparql)
     }
     for (i in 0 until 2) {
@@ -1060,8 +1061,8 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     node2 = lOptimizer.optimizeCall(node1)
                     node3 = pOptimizer.optimizeCall(node2)
                     node4 = dOptimizer.optimizeCall(node3) as POPBase
+                    isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
-                    isUpdate = node4 is POPGraphOperation || node4 is POPModifyData
                     DistributedTripleStore.commit(1L)
                 } catch (e: Throwable) {
                     e1 = e

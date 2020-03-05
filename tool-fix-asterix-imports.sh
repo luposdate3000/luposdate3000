@@ -5,7 +5,7 @@ changed=1
 while [[ $changed == 1 ]]
 do
 	changed=0
-	failed=$(./tool-gradle-build-without-tests-jvm-all.sh 2>&1 | grep "BUILD FAILED in ")
+	failed=$(./tool-gradle-build-all.sh 2>&1 | grep "BUILD FAILED in ")
 	if [ -z "$failed" ]
 	then
 		echo success
@@ -36,8 +36,8 @@ do
 							echo $e
 						done
 					else
-						echo "using tool-gradle-build-without-tests-jvm-all.sh"
-						for e in $(./tool-gradle-build-without-tests-jvm-all.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
+						echo "using tool-gradle-build-all.sh"
+						for e in $(./tool-gradle-build-all.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
 						do
 							echo "import ${i::-1}$e" >> tmp2
 							echo $e

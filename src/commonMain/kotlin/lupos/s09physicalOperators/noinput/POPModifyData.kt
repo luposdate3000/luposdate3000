@@ -30,6 +30,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     private var first = true
 
     override fun cloneOP() = POPModifyData(dictionary, transactionID, type, data)
+override fun toSparqlQuery() =toSparql()
     override fun toSparql(): String {
         var res = ""
         when (type) {

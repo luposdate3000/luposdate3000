@@ -26,7 +26,7 @@ repositories {
     maven("https://kotlin.bintray.com/kotlinx")
 }
 kotlin {
-    project.buildDir = file("build/build_linuxX64_commonS00LaunchEndpointMain_commonS00ResultFlowFastMain_commonS00ExecutionSequentialMain_commonS00TraceOffMain_commonS03DictionaryIntArrayMain")
+    project.buildDir = file("build/build_linuxX64_commonS00LaunchEndpointMain_commonS00ResultFlowFastMain_commonS00ExecutionSequentialMain_commonS00TraceOffMain_commonS03DictionaryIntArrayMain_commonS12DummyMain_nativeS14ClientKtorTarget_commonS15DistributedMain")
     linuxX64("linuxX64") {
         val main by compilations.getting
         val dirent by main.cinterops.creating
@@ -40,9 +40,15 @@ kotlin {
         implementation("com.benasher44:uuid:0.0.7")
         implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
         implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
+        implementation("io.ktor:ktor-client-cio:1.3.1")
+        implementation("io.ktor:ktor-client-core-native:1.3.1")
+        implementation("io.ktor:ktor-client-core:1.3.1")
+        implementation("io.ktor:ktor-client-logging-native:1.3.1")
+        implementation("io.ktor:ktor-client-logging:1.3.1")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
         implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.70")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
+        implementation("org.slf4j:slf4j-nop:1.7.25")
     }
     sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
@@ -53,10 +59,10 @@ kotlin {
     sourceSets["commonMain"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS05HashMapMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS14ClientNoneMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS12DummyMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS14ClientKtorMain/kotlin")
     sourceSets["commonMain"].kotlin.srcDir("src/commonS14ServerNoneMain/kotlin")
-    sourceSets["commonMain"].kotlin.srcDir("src/commonS15LocalMain/kotlin")
+    sourceSets["commonMain"].kotlin.srcDir("src/commonS15DistributedMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/nativeMain/kotlin")
 }

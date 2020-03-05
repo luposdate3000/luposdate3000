@@ -38,7 +38,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
     override val children: Array<OPBase> = arrayOf()
     override val resultSet = ResultSet(dictionary)
 
-
+override fun toSparqlQuery() =toSparql()
     override fun toSparql(): String {
         var res = ""
         when (action) {
@@ -57,7 +57,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
             EGraphRefType.AllGraphRef -> res += "ALL"
             EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
             EGraphRefType.NamedGraphRef -> res += "NAMED"
-            EGraphRefType.IriGraphRef -> res += "<" + graph1iri!! + ">"
+            EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph1iri!! + ">"
         }
         if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
             res += " TO "
@@ -65,7 +65,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                 EGraphRefType.AllGraphRef -> res += "ALL"
                 EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
                 EGraphRefType.NamedGraphRef -> res += "NAMED"
-                EGraphRefType.IriGraphRef -> res += "<" + graph2iri!! + ">"
+                EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph2iri!! + ">"
             }
         }
         return res

@@ -1,6 +1,5 @@
 package lupos.s12p2p
 
-import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -28,6 +27,7 @@ import lupos.SparqlTestSuite
 
 object P2P {
     val knownClients = ThreadSafeMutableList<String>()
+val knownClientsLock=CoroutinesHelper.createLock()
     val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
 
     fun getPendingModifications(transactionID: Long, nodeName: String): TransferHelperNetwork {
@@ -221,7 +221,7 @@ object P2P {
 
     fun process_peers_join_internal(hostname: String?): String = Trace.trace({ "P2P.process_peers_join_internal" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join_internal $hostname" })
-        synchronized(knownClients) {
+        CoroutinesHelper.runBlockWithLock(knownClientsLock) {
             if (hostname != null && hostname != "localhost")
                 knownClients.add(hostname)
         }
@@ -239,7 +239,7 @@ object P2P {
     suspend fun process_peers_join(hostname: String?): String = Trace.trace({ "P2P.process_peers_join" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname" })
         val knownClientsCopy = mutableListOf<String>()
-        synchronized(knownClients) {
+        CoroutinesHelper.runBlockWithLock(knownClientsLock) {
             knownClients.forEach {
                 knownClientsCopy.add(it)
             }
@@ -263,7 +263,7 @@ object P2P {
 
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start $bootstrap" })
-        synchronized(knownClients) {
+        CoroutinesHelper.runBlockWithLock(knownClientsLock) {
             knownClients.add(endpointServer!!.fullname)
         }
         if (bootstrap != null && bootstrap != "$endpointServer!!.fullname") {

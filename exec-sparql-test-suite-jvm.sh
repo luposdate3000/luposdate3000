@@ -1,4 +1,4 @@
-kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain jvmS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget
 ./tool-gradle-build.sh
 function execJvm
 {

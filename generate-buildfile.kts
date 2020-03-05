@@ -41,10 +41,10 @@ val options = mapOf(
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
-        "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain"),
+        "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain","jvmS01BufferUnsafeMain"),
         "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
-        "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
+        "chooseS12" to listOf("commonS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
         "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
@@ -56,7 +56,7 @@ val conflicts = listOf(
         setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
-        setOf("jvmS12DummyMain", "commonS03DictionaryNoneMain"),
+        setOf("commonS12DummyMain", "commonS03DictionaryNoneMain"),
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
@@ -77,8 +77,11 @@ val additionalSources = mapOf(
         ),
         "jvmS01BufferMemoryMappedUnsafeMain" to listOf(
                 "commonS01BufferDiskbasedMain",
-                "jvmS01BufferUnsafeHelperMain",
-                "jvmS01BufferUnsafeMain"
+                "jvmS01BufferUnsafeHelperMain"
+        ),
+        "jvmS01BufferUnsafeMain" to listOf(
+                "commonS01BufferMainmemoryMain",
+                "jvmS01BufferUnsafeHelperMain"
         ),
         "jvmS01BufferRandomAccessMain" to listOf(
                 "commonS01BufferDiskbasedMain"
@@ -182,8 +185,9 @@ for ((k, choices) in options) {
             for (conflict in conflicts)
                 if (conflict.contains(choice))
                     for (sourceFolder in sourceFolders)
-                        if (conflict.contains(sourceFolder))
+                        if (conflict.contains(sourceFolder)){
                             ok = false
+			}
             if (ok)
                 remainingChoices.add(choice)
         }

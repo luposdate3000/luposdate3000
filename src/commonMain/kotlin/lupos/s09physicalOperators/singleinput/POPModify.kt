@@ -44,7 +44,7 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
         }
         return true
     }
-
+override fun toSparqlQuery() =toSparql()
     override fun getProvidedVariableNames() = listOf<String>()
 
     override fun cloneOP() = POPModify(dictionary, transactionID, insert, delete, children[0].cloneOP())
