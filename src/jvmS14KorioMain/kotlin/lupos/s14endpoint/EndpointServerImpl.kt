@@ -1,0 +1,116 @@
+package lupos.s14endpoint
+
+import com.soywiz.korio.net.http.createHttpServer
+import com.soywiz.korio.net.http.Http
+import com.soywiz.korio.net.http.HttpServer
+import kotlin.concurrent.thread
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.Trace
+import lupos.s03resultRepresentation.ResultRepresenationNetwork
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s12p2p.P2P
+import lupos.s12p2p.TransferHelperNetwork
+import lupos.s14endpoint.Endpoint
+
+
+@UseExperimental(ExperimentalStdlibApi::class)
+class EndpointServerImpl(hostname:String="localhost",port:Int=80):EndpointServer(hostname,port) {
+    var server: HttpServer? = null
+
+    suspend fun myRequestHandler(request: HttpServer.Request) {
+        GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
+        val params = request.getParams
+        GlobalLogger.log(ELoggerType.DEBUG, { params })
+        GlobalLogger.log(ELoggerType.DEBUG, { request.path })
+        GlobalLogger.log(ELoggerType.DEBUG, { request.method })
+        request.replaceHeader("Connection", "close")
+        var endFlag = true
+        if (request.path ==Endpoint. REQUEST_BINARY[0]) {
+            var data: ByteArray? = null
+            request.handler { it ->
+                if (data == null)
+                    data = it
+                else
+                    data = data!! + it
+            }
+            request.endHandler {
+                endFlag = false
+            }
+            while (endFlag)
+                delay(10)
+try{
+            val res = receive(request.path,data!!)
+            request.replaceHeader("Content-Type", "application/x-binary")
+            request.end(res)
+}catch(e:Throwable){
+            request.setStatus(404)
+request.end()
+}
+            return
+        }
+        request.replaceHeader("Content-Type", "text/html")
+        var responseBytes: ByteArray? = null
+        var data = ""
+        request.handler { it ->
+            data += it.decodeToString()
+            GlobalLogger.log(ELoggerType.DEBUG, { data })
+        }
+        request.endHandler {
+            endFlag = false
+        }
+        while (endFlag)
+            delay(10)
+        try {
+val singleParams=mutableMapOf<String,String>()
+params.forEach{k,v->
+singleParams[k]=v?.first()
+}
+responseBytes=receive(request.path,request.method == Http.Method.POST,data,singleParams)
+        } catch (e: Throwable) {
+responseBytes=e.toString().encodeToByteArray()
+            request.setStatus(404)
+        }
+            request.end(responseBytes!!)
+    }
+
+override     suspend fun start(bootstrap: String?) {
+        GlobalLogger.log(ELoggerType.DEBUG, { "before P2P.start" })
+        P2P.start(bootstrap)
+        GlobalLogger.log(ELoggerType.DEBUG, { "listen:: $hostname $port" })
+        server = createHttpServer().listen(port, hostname, ::myRequestHandler)
+    }
+}
+
+fun main(args: Array<String>) = CoroutinesHelper.runBlock {
+    var i = 0
+    var bootStrapServer: String? = null
+var hostname="localhost"
+    for (a in args) {
+        GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
+        when (i) {
+            0 -> hostname = a
+            1 -> bootStrapServer = a
+        }
+        i++
+    }
+    thread(start = true) {
+        launch(Dispatchers.Default) {
+	endpointServer=EndpointServerImpl(hostname)
+            endpointServer!!.start(bootStrapServer)
+        }
+    }
+    while (true) {
+        delay(1000)
+    }
+}

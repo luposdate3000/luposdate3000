@@ -33,7 +33,6 @@ import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
-import lupos.s14endpoint.EndpointImpl
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 

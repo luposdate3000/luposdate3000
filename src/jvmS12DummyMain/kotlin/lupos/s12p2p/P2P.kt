@@ -27,7 +27,7 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.Endpoint
-import lupos.s14endpoint.EndpointImpl
+import lupos.s14endpoint.*
 import lupos.SparqlTestSuite
 
 
@@ -61,16 +61,16 @@ object P2P {
         if (pending != null) {
             for ((node, data) in pending) {
                 CoroutinesHelper.runBlock {
-                    retryRequestPost("http://${resolveNodeName(node)}${EndpointImpl.REQUEST_BINARY[0]}", data.finish())
+                    retryRequestPost("http://${resolveNodeName(node)}${Endpoint.REQUEST_BINARY[0]}", data.finish())
                 }
             }
             pendingModifications.remove(transactionID)
         }
         knownClients.forEach {
-            if (it != EndpointImpl.fullname) {
+            if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
-                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_COMMIT[0]}" +//
-                            "?${EndpointImpl.REQUEST_COMMIT[1]}=${URL.encodeComponent("" + transactionID)}")
+                    retryRequestGet("http://${resolveNodeName(it)}${Endpoint.REQUEST_COMMIT[0]}" +//
+                            "?${Endpoint.REQUEST_COMMIT[1]}=${URL.encodeComponent("" + transactionID)}")
                 }
             }
         }
@@ -79,13 +79,13 @@ object P2P {
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
         CoroutinesHelper.runBlock {
-            retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}" +//
-                    "?EndpointImpl.REQUEST_XML_INPUT[1]=${URL.encodeComponent(data.toPrettyString())}")
+            retryRequestGet("http://${resolveNodeName(nodeName)}${Endpoint.REQUEST_XML_INPUT[0]}" +//
+                    "?Endpoint.REQUEST_XML_INPUT[1]=${URL.encodeComponent(data.toPrettyString())}")
         }
     })
 
     fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
-        if (node == EndpointImpl.fullname)
+        if (node == endpointServer!!.fullname)
             Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
         else
             getPendingModifications(transactionID, node).addTriple(graphName, s, p, o, idx)
@@ -94,8 +94,8 @@ object P2P {
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
         var res: POPBase = POPEmptyRow(dictionary)
         CoroutinesHelper.runBlock {
-            val response = retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}" +//
-                    "?EndpointImpl.REQUEST_OPERATOR_QUERY[1]=${URL.encodeComponent(pop.toXMLElement().toPrettyString())}")
+            val response = retryRequestGet("http://${resolveNodeName(nodeName)}${Endpoint.REQUEST_OPERATOR_QUERY[0]}" +//
+                    "?Endpoint.REQUEST_OPERATOR_QUERY[1]=${URL.encodeComponent(pop.toXMLElement().toPrettyString())}")
             val xml = response.readAllString()
             res = POPImportFromXml(dictionary, XMLElement.parseFromXml(xml)!!.first())
         }
@@ -105,7 +105,7 @@ object P2P {
     fun execGraphClearAll(transactionID: Long) = Trace.trace({ "P2P.execGraphClearAll" }, {
         Endpoint.process_local_graph_clear_all(transactionID)
         knownClients.forEach {
-            if (it != EndpointImpl.fullname)
+            if (it != endpointServer!!.fullname)
                 getPendingModifications(transactionID, it).graphClearAll()
         }
         nodeNameRemapping.clear()
@@ -116,11 +116,11 @@ object P2P {
         Endpoint.process_local_graph_operation(name, type)
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
         knownClients.forEach {
-            if (it != EndpointImpl.fullname) {
+            if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
-                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_OPERATION[0]}" +//
-                            "?${EndpointImpl.REQUEST_GRAPH_OPERATION[1]}=${URL.encodeComponent(name)}" +//
-                            "&${EndpointImpl.REQUEST_GRAPH_OPERATION[2]}=${URL.encodeComponent("" + type)}")
+                    retryRequestGet("http://${resolveNodeName(it)}${Endpoint.REQUEST_GRAPH_OPERATION[0]}" +//
+                            "?${Endpoint.REQUEST_GRAPH_OPERATION[1]}=${URL.encodeComponent(name)}" +//
+                            "&${Endpoint.REQUEST_GRAPH_OPERATION[2]}=${URL.encodeComponent("" + type)}")
                 }
             }
         }
@@ -130,7 +130,7 @@ object P2P {
     fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
         var res: POPBase? = null
-        if (node == EndpointImpl.fullname)
+        if (node == endpointServer!!.fullname)
             res = Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, idx)
         else {
             val sstr: String
@@ -156,16 +156,16 @@ object P2P {
                 ostr = o.name
             else
                 throw Exception("not reachable")
-            val req = EndpointImpl.REQUEST_TRIPLE_GET[0] +//
-                    "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent("" + transactionID)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(sstr)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[4]}=${URL.encodeComponent(pstr)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[5]}=${URL.encodeComponent(ostr)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[6]}=${URL.encodeComponent("" + (s is AOPConstant))}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[7]}=${URL.encodeComponent("" + (p is AOPConstant))}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[8]}=${URL.encodeComponent("" + (o is AOPConstant))}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[9]}=${URL.encodeComponent("" + idx)}"
+            val req = Endpoint.REQUEST_TRIPLE_GET[0] +//
+                    "?${Endpoint.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent("" + transactionID)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(sstr)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[4]}=${URL.encodeComponent(pstr)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[5]}=${URL.encodeComponent(ostr)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[6]}=${URL.encodeComponent("" + (s is AOPConstant))}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[7]}=${URL.encodeComponent("" + (p is AOPConstant))}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[8]}=${URL.encodeComponent("" + (o is AOPConstant))}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_GET[9]}=${URL.encodeComponent("" + idx)}"
             CoroutinesHelper.runBlock {
                 val response = retryRequestGet("http://${resolveNodeName(node)}$req")
                 var responseBytes = response.readAllBytes()
@@ -178,7 +178,7 @@ object P2P {
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })
-        if (node == EndpointImpl.fullname)
+        if (node == endpointServer!!.fullname)
             Endpoint.process_local_triple_delete(graphName, transactionID, data[0], data[1], data[2], idx)
         else {
             val s: String
@@ -196,16 +196,16 @@ object P2P {
                 o = (data[2] as AOPConstant).valueToString()!!
             else
                 o = (data[2] as AOPVariable).name
-            val req = EndpointImpl.REQUEST_TRIPLE_DELETE[0] +//
-                    "?${EndpointImpl.REQUEST_TRIPLE_DELETE[1]}=${URL.encodeComponent(graphName)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[2]}=${URL.encodeComponent("" + transactionID)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[3]}=${URL.encodeComponent(s)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[4]}=${URL.encodeComponent(p)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[5]}=${URL.encodeComponent(o)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[6]}=${URL.encodeComponent("" + (data[0] is AOPConstant))}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[7]}=${URL.encodeComponent("" + (data[1] is AOPConstant))}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent("" + (data[2] is AOPConstant))}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[9]}=${URL.encodeComponent("" + idx)}"
+            val req = Endpoint.REQUEST_TRIPLE_DELETE[0] +//
+                    "?${Endpoint.REQUEST_TRIPLE_DELETE[1]}=${URL.encodeComponent(graphName)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[2]}=${URL.encodeComponent("" + transactionID)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[3]}=${URL.encodeComponent(s)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[4]}=${URL.encodeComponent(p)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[5]}=${URL.encodeComponent(o)}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[6]}=${URL.encodeComponent("" + (data[0] is AOPConstant))}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[7]}=${URL.encodeComponent("" + (data[1] is AOPConstant))}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent("" + (data[2] is AOPConstant))}" +//
+                    "&${Endpoint.REQUEST_TRIPLE_DELETE[9]}=${URL.encodeComponent("" + idx)}"
             CoroutinesHelper.runBlock {
                 retryRequestGet("http://${resolveNodeName(node)}$req")
             }
@@ -214,7 +214,7 @@ object P2P {
     })
 
     suspend fun retryRequestGet(url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
-        require(!url.startsWith("http://${EndpointImpl.fullname}"))
+        require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
         while (true) {
@@ -232,7 +232,7 @@ object P2P {
     })
 
     suspend fun retryRequestPost(url: String, data: AsyncStream): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
-        require(!url.startsWith("http://${EndpointImpl.fullname}"))
+        require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
         while (true) {
@@ -302,11 +302,11 @@ object P2P {
         if (hostname != null && hostname != "localhost") {
             GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 2" })
             knownClientsCopy.forEach {
-                if (it != EndpointImpl.fullname) {
+                if (it != endpointServer!!.fullname) {
                     GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 3 $it" })
-                    GlobalLogger.log(ELoggerType.DEBUG, { "req $it ${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]} $hostname" })
-                    retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
-                            "?${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[1]}=${URL.encodeComponent(hostname)}")
+                    GlobalLogger.log(ELoggerType.DEBUG, { "req $it ${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]} $hostname" })
+                    retryRequestGet("http://${resolveNodeName(it)}${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
+                            "?${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[1]}=${URL.encodeComponent(hostname)}")
                 }
             }
             GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 4" })
@@ -317,13 +317,13 @@ object P2P {
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start $bootstrap" })
         synchronized(knownClients) {
-            knownClients.add(EndpointImpl.fullname)
+            knownClients.add(endpointServer!!.fullname)
         }
-        if (bootstrap != null && bootstrap != "$EndpointImpl.fullname") {
+        if (bootstrap != null && bootstrap != "$endpointServer!!.fullname") {
             GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start 2 $bootstrap" })
-            GlobalLogger.log(ELoggerType.DEBUG, { "req $bootstrap ${EndpointImpl.REQUEST_PEERS_JOIN[0]} ${EndpointImpl.fullname}" })
-            var response = retryRequestGet("http://${resolveNodeName(bootstrap)}${EndpointImpl.REQUEST_PEERS_JOIN[0]}" +//
-                    "?${EndpointImpl.REQUEST_PEERS_JOIN[1]}=${URL.encodeComponent(EndpointImpl.fullname)}")
+            GlobalLogger.log(ELoggerType.DEBUG, { "req $bootstrap ${Endpoint.REQUEST_PEERS_JOIN[0]} ${endpointServer!!.fullname}" })
+            var response = retryRequestGet("http://${resolveNodeName(bootstrap)}${Endpoint.REQUEST_PEERS_JOIN[0]}" +//
+                    "?${Endpoint.REQUEST_PEERS_JOIN[1]}=${URL.encodeComponent(endpointServer!!.fullname)}")
             var responseString = response.readAllString()
             XMLElement.parseFromXml(responseString)?.forEach { root ->
                 if (root.tag == "servers") {

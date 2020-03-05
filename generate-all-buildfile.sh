@@ -9,11 +9,14 @@ for d in $(seq 0 4);do lastnamed=$lastname;echo d
 for e in $(seq 0 4);do lastnamee=$lastname;echo e
 for f in $(seq 0 4);do lastnamef=$lastname;echo f
 for g in $(seq 0 4);do lastnameg=$lastname;echo g
-echo kotlinc -script /src/luposdate3000/generate-buildfile.kts $a $b $c $d $e $f $g 0 0 0 0 0 0
-kotlinc -script /src/luposdate3000/generate-buildfile.kts $a $b $c $d $e $f $g 0 0 0 0 0 0
+for h in $(seq 0 4);do lastnameh=$lastname;echo h
+echo kotlinc -script /src/luposdate3000/generate-buildfile.kts $a $b $c $d $e $f $g $h 0 0 0 0 0 0 >> generatedBuildScripts/log
+kotlinc -script /src/luposdate3000/generate-buildfile.kts $a $b $c $d $e $f $g $h 0 0 0 0 0 0
 lastname=$(cat "build.gradle.kts" | grep buildDir | sed "s/.*file..//g"| sed 's/".*//g')
+echo $lastname >> generatedBuildScripts/log
 mv "build.gradle.kts" "generatedBuildScripts/build.gradle.${lastname}.kts"
 echo $lastname
+if [ "$lastname" == "$lastnameh" ]; then break; fi;done
 if [ "$lastname" == "$lastnameg" ]; then break; fi;done
 if [ "$lastname" == "$lastnamef" ]; then break; fi;done
 if [ "$lastname" == "$lastnamee" ]; then break; fi;done
