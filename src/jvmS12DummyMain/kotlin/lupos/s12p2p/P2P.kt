@@ -54,7 +54,7 @@ object P2P {
         if (pending != null) {
             for ((node, data) in pending) {
                 CoroutinesHelper.runBlock {
-                    EndpointClientImpl.requestPost("http://${(node)}${Endpoint.REQUEST_BINARY[0]}", data.finish())
+                    EndpointClientImpl.requestPostBytes("http://${(node)}${Endpoint.REQUEST_BINARY[0]}", data.finish())
                 }
             }
             pendingModifications.remove(transactionID)
@@ -62,7 +62,7 @@ object P2P {
         knownClients.forEach {
             if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
-                    EndpointClientImpl.requestGet("http://${(it)}${Endpoint.REQUEST_COMMIT[0]}" +//
+                    EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_COMMIT[0]}" +//
                             "?${Endpoint.REQUEST_COMMIT[1]}=${EndpointClientImpl.encodeString("" + transactionID)}")
                 }
             }
@@ -72,7 +72,7 @@ object P2P {
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
         CoroutinesHelper.runBlock {
-            EndpointClientImpl.requestGet("http://${(nodeName)}${Endpoint.REQUEST_XML_INPUT[0]}" +//
+            EndpointClientImpl.requestGetBytes("http://${(nodeName)}${Endpoint.REQUEST_XML_INPUT[0]}" +//
                     "?Endpoint.REQUEST_XML_INPUT[1]=${EndpointClientImpl.encodeString(data.toPrettyString())}")
         }
     })
@@ -87,9 +87,8 @@ object P2P {
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
         var res: POPBase = POPEmptyRow(dictionary)
         CoroutinesHelper.runBlock {
-            val response = EndpointClientImpl.requestGet("http://${(nodeName)}${Endpoint.REQUEST_OPERATOR_QUERY[0]}" +//
+            val xml = EndpointClientImpl.requestGetString("http://${(nodeName)}${Endpoint.REQUEST_OPERATOR_QUERY[0]}" +//
                     "?Endpoint.REQUEST_OPERATOR_QUERY[1]=${EndpointClientImpl.encodeString(pop.toXMLElement().toPrettyString())}")
-            val xml = response.readAllString()
             res = POPImportFromXml(dictionary, XMLElement.parseFromXml(xml)!!.first())
         }
         return res
@@ -110,7 +109,7 @@ object P2P {
         knownClients.forEach {
             if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
-                    EndpointClientImpl.requestGet("http://${(it)}${Endpoint.REQUEST_GRAPH_OPERATION[0]}" +//
+                    EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_GRAPH_OPERATION[0]}" +//
                             "?${Endpoint.REQUEST_GRAPH_OPERATION[1]}=${EndpointClientImpl.encodeString(name)}" +//
                             "&${Endpoint.REQUEST_GRAPH_OPERATION[2]}=${EndpointClientImpl.encodeString("" + type)}")
                 }
@@ -159,8 +158,7 @@ object P2P {
                     "&${Endpoint.REQUEST_TRIPLE_GET[8]}=${EndpointClientImpl.encodeString("" + (o is AOPConstant))}" +//
                     "&${Endpoint.REQUEST_TRIPLE_GET[9]}=${EndpointClientImpl.encodeString("" + idx)}"
             CoroutinesHelper.runBlock {
-                val response = EndpointClientImpl.requestGet("http://${(node)}$req")
-                var responseBytes = response.readAllBytes()
+                val responseBytes = EndpointClientImpl.requestGetBytes("http://${(node)}$req")
                 res = ResultRepresenationNetwork.fromNetworkPackage(resultSet, responseBytes)
             }
         }
@@ -199,7 +197,7 @@ object P2P {
                     "&${Endpoint.REQUEST_TRIPLE_DELETE[8]}=${EndpointClientImpl.encodeString("" + (data[2] is AOPConstant))}" +//
                     "&${Endpoint.REQUEST_TRIPLE_DELETE[9]}=${EndpointClientImpl.encodeString("" + idx)}"
             CoroutinesHelper.runBlock {
-                EndpointClientImpl.requestGet("http://${(node)}$req")
+                EndpointClientImpl.requestGetBytes("http://${(node)}$req")
             }
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete end" })
@@ -254,7 +252,7 @@ object P2P {
                 if (it != endpointServer!!.fullname) {
                     GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 3 $it" })
                     GlobalLogger.log(ELoggerType.DEBUG, { "req $it ${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]} $hostname" })
-                    EndpointClientImpl.requestGet("http://${(it)}${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
+                    EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
                             "?${Endpoint.REQUEST_PEERS_JOIN_INTERNAL[1]}=${EndpointClientImpl.encodeString(hostname)}")
                 }
             }
@@ -271,9 +269,8 @@ object P2P {
         if (bootstrap != null && bootstrap != "$endpointServer!!.fullname") {
             GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start 2 $bootstrap" })
             GlobalLogger.log(ELoggerType.DEBUG, { "req $bootstrap ${Endpoint.REQUEST_PEERS_JOIN[0]} ${endpointServer!!.fullname}" })
-            var response = EndpointClientImpl.requestGet("http://${(bootstrap)}${Endpoint.REQUEST_PEERS_JOIN[0]}" +//
+            var responseString = EndpointClientImpl.requestGetString("http://${(bootstrap)}${Endpoint.REQUEST_PEERS_JOIN[0]}" +//
                     "?${Endpoint.REQUEST_PEERS_JOIN[1]}=${EndpointClientImpl.encodeString(endpointServer!!.fullname)}")
-            var responseString = response.readAllString()
             XMLElement.parseFromXml(responseString)?.forEach { root ->
                 if (root.tag == "servers") {
                     root.childs.forEach { server ->

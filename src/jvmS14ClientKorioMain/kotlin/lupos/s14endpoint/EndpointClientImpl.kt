@@ -1,10 +1,9 @@
 package lupos.s14endpoint
-
+import com.soywiz.korio.stream.*
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
-import com.soywiz.korio.net.http.HttpClient
+import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.URL
-import com.soywiz.korio.stream.AsyncStream
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
@@ -34,7 +33,7 @@ import lupos.SparqlTestSuite
 object EndpointClientImpl {
     val client = createHttpClient()
     fun encodeString(s: String) = URL.encodeComponent(s)
-    suspend fun requestGet(url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
+    suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGet" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
@@ -49,17 +48,17 @@ object EndpointClientImpl {
                 delay(10)
             }
         }
-        return res
+        return res.readAllBytes()
     })
 
-    suspend fun requestPost(url: String, data: AsyncStream): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
+    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPost" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
         var i = 0
         var res: HttpClient.Response
         while (true) {
             i++
             try {
-                res = client.request(Http.Method.POST, url, Http.Headers(), data)
+                res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data)))
                 break
             } catch (e: Throwable) {
                 if (i > 100)
@@ -67,6 +66,62 @@ object EndpointClientImpl {
                 delay(10)
             }
         }
-        return res
+        return res.readAllBytes()
     })
+    suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGet" }, {
+        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        var i = 0
+        var res: HttpClient.Response
+        while (true) {
+            i++
+            try {
+                res = client.request(Http.Method.GET, url)
+                break
+            } catch (e: Throwable) {
+                if (i > 100)
+                    throw e
+                delay(10)
+            }
+        }
+        return res.readAllString()
+    })
+
+    suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPost" }, {
+        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        var i = 0
+        var res: HttpClient.Response
+        while (true) {
+            i++
+            try {
+                res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data)))
+                break
+            } catch (e: Throwable) {
+                if (i > 100)
+                    throw e
+                delay(10)
+            }
+        }
+        return res.readAllString()
+    })
+}
+class MyDynamicByteArray : AsyncStreamBase{
+val data:DynamicByteArray
+constructor(data:DynamicByteArray){
+this.data=data
+data.finish()
+}
+  override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
+        if (position > data.pos)
+            return 0
+        if (position + len > data.pos) {
+            data.data.copyInto(buffer, offset, position.toInt(), data.pos)
+            return data.pos - position.toInt()
+        }
+        data.data.copyInto(buffer, offset, position.toInt(), position.toInt() + len)
+        return len
+    }
+
+    override suspend fun getLength(): Long {
+        return data.pos.toLong()
+    }
 }

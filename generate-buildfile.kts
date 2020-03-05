@@ -44,7 +44,7 @@ val options = mapOf(
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("jvmS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
-        "chooseS14Client" to listOf("jvmS14ClientKorioMain"),
+        "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain"),
         "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
 )
 val conflicts = listOf(

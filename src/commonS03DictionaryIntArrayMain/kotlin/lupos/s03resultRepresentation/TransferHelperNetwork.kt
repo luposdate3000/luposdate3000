@@ -1,7 +1,5 @@
 package lupos.s12p2p
 
-import com.soywiz.korio.stream.AsyncStream
-import com.soywiz.korio.stream.AsyncStreamBase
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType
@@ -13,7 +11,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s14endpoint.Endpoint
 
 
-class TransferHelperNetwork : AsyncStreamBase {
+class TransferHelperNetwork {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
             var res = ByteArray(0)
@@ -108,25 +106,10 @@ class TransferHelperNetwork : AsyncStreamBase {
         lastCounterValue++
     }
 
-    override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
-        if (position > data.pos)
-            return 0
-        if (position + len > data.pos) {
-            data.data.copyInto(buffer, offset, position.toInt(), data.pos)
-            return data.pos - position.toInt()
-        }
-        data.data.copyInto(buffer, offset, position.toInt(), position.toInt() + len)
-        return len
-    }
-
-    override suspend fun getLength(): Long {
-        return data.pos.toLong()
-    }
-
-    fun finish(): AsyncStream {
+    fun finish(): DynamicByteArray {
         enforceHeader(ENetworkMessageType.FINISH)
         data.finish()
-        return AsyncStream(this)
+        return data
     }
 }
 
