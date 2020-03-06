@@ -61,7 +61,7 @@ class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, c
                     try {
                         val expression = children[1] as AOPBase
                         val condition = expression.calculate(resultSet, nextRow).toBoolean()
-			if(condition)
+                        if (condition)
                             channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
                     } catch (e: Throwable) {
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })

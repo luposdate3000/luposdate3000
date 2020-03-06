@@ -145,10 +145,9 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5

@@ -22,5 +22,5 @@ class AOPDecimal(@JvmField var value: Double) : AOPConstant(), AOPNumeric {
 
     override fun toDouble(): Double = value
     override fun toInt(): Int = value.toInt()
-override fun toBoolean()=value>0 || value<0
+    override fun toBoolean() = value > 0 || value < 0
 }

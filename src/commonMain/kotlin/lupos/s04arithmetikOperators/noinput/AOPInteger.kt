@@ -22,5 +22,5 @@ class AOPInteger(@JvmField var value: Int) : AOPConstant(), AOPNumeric {
 
     override fun toDouble(): Double = value.toDouble()
     override fun toInt(): Int = value
-    override fun toBoolean()=value!=0
+    override fun toBoolean() = value != 0
 }

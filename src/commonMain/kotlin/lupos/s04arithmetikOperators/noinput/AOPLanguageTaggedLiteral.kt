@@ -42,5 +42,5 @@ class AOPLanguageTaggedLiteral : AOPConstantString {
         throw Exception("cannot cast AOPLanguageTaggedLiteral to Int")
     }
 
-    override fun toBoolean()=content.length>0
+    override fun toBoolean() = content.length > 0
 }

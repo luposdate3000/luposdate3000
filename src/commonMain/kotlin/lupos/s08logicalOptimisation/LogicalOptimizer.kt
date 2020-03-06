@@ -9,6 +9,7 @@ class LogicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : O
     override val classname = "LogicalOptimizer"
     override val childrenOptimizers = arrayOf(//
             LogicalOptimizerRemovePrefix(transactionID, dictionary),//
+            LogicalOptimizerDistinctUp(transactionID, dictionary),//
             LogicalOptimizerOptional(transactionID, dictionary),//
             LogicalOptimizerRemoveNOOP(transactionID, dictionary),//
             LogicalOptimizerBindToFilter(transactionID, dictionary),//

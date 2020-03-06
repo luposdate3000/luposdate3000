@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 
+
 enum class EOperatorID {
     AOPAdditionID,
     AOPAggregationSUMID,

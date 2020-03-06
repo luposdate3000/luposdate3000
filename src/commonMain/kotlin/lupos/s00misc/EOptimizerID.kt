@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 
+
 enum class EOptimizerID(@JvmField val optional: Boolean) {
     LogicalOptimizerID(false),
     LogicalOptimizerArithmeticID(true),
@@ -16,5 +17,6 @@ enum class EOptimizerID(@JvmField val optional: Boolean) {
     PhysicalOptimizerID(false),
     PhysicalOptimizerTripleIndexID(true),
     PhysicalOptimizerNaiveID(false),
-    KeyDistributionOptimizerID(false)
+    KeyDistributionOptimizerID(false),
+    LogicalOptimizerDistinctUpID(false)
 }

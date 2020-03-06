@@ -32,12 +32,12 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
         var a: Any
         var b: Any
         try {
-            a = (children[0] as AOPBase).calculate(resultSet, resultRow) as AOPBoolean
+            a = AOPBoolean((children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             a = e
         }
         try {
-            b = (children[1] as AOPBase).calculate(resultSet, resultRow) as AOPBoolean
+            b = AOPBoolean((children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             b = e
         }
