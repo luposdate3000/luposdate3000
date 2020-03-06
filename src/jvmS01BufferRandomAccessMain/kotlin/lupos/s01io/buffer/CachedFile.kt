@@ -2,6 +2,7 @@ package lupos.s01io.buffer
 
 import java.io.File
 import java.io.RandomAccessFile
+import kotlin.jvm.JvmField
 import lupos.s01io.buffer.ByteArrayPage
 import lupos.s01io.buffer.CachedFile
 
@@ -19,9 +20,9 @@ inline fun createString(chars: CharArray): String = String(chars)
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
 
 class CachedFile {
-    @JvmField
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
-    @JvmField val file: RandomAccessFile
+    @JvmField
+    val file: RandomAccessFile
 
     constructor(filename: String) {
         val paths = filename.split("/")

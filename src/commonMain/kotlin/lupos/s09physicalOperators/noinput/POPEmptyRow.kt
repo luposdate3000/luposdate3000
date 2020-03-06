@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -18,7 +19,9 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
     override val classname = "POPEmptyRow"
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
-    @JvmField var first = true
+    @JvmField
+    var first = true
+
     override fun cloneOP() = POPEmptyRow(dictionary)
 
     override fun toSparql() = "{}"

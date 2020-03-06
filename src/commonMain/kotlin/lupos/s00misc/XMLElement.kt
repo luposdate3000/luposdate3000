@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 
@@ -61,11 +62,15 @@ class XMLElement {
         }
     }
 
-    @JvmField val attributes = mutableMapOf<String, String>()
-    @JvmField var content: String = ""
-    @JvmField val childs = mutableListOf<XMLElement>()
+    @JvmField
+    val attributes = mutableMapOf<String, String>()
+    @JvmField
+    var content: String = ""
+    @JvmField
+    val childs = mutableListOf<XMLElement>()
 
-    @JvmField val tag: String
+    @JvmField
+    val tag: String
 
     constructor(tag: String) {
         this.tag = decodeText(tag)

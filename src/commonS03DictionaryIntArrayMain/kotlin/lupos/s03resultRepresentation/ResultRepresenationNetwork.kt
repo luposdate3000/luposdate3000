@@ -1,5 +1,6 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.DynamicByteArray

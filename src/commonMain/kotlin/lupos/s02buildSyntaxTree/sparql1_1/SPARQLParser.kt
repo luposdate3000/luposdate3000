@@ -1,5 +1,6 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
@@ -155,18 +156,31 @@ class ASTUndef : ASTLeafNode() {
 
 open class ASTQueryBaseClass : ASTLeafNode() {
 
-    @JvmField var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>()
+    @JvmField
+    var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>()
+
     inline fun existsDatasets() = datasets.size > 0
-    @JvmField var where: Array<ASTNode> = arrayOf<ASTNode>()
-    @JvmField var groupBy: Array<ASTNode> = arrayOf<ASTNode>()
+    @JvmField
+    var where: Array<ASTNode> = arrayOf<ASTNode>()
+    @JvmField
+    var groupBy: Array<ASTNode> = arrayOf<ASTNode>()
+
     inline fun existsGroupBy() = groupBy.size > 0
-    @JvmField var having: Array<ASTNode> = arrayOf<ASTNode>()
+    @JvmField
+    var having: Array<ASTNode> = arrayOf<ASTNode>()
+
     inline fun existsHaving() = having.size > 0
-    @JvmField var orderBy: Array<ASTNode> = arrayOf<ASTNode>()
+    @JvmField
+    var orderBy: Array<ASTNode> = arrayOf<ASTNode>()
+
     inline fun existsOrderBy() = orderBy.size > 0
-    @JvmField var limit: Int = -1
+    @JvmField
+    var limit: Int = -1
+
     inline fun existsLimit() = limit >= 0
-    @JvmField var offset: Int = 0
+    @JvmField
+    var offset: Int = 0
+
     inline fun existsOffset() = offset > 0
     override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
@@ -205,7 +219,9 @@ open class ASTSelectQuery(@JvmField val distinct: Boolean, @JvmField val reduced
 
 class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNode>) : ASTSelectQuery(distinct, reduced, select) {
 
-    @JvmField var values: ASTValues? = null
+    @JvmField
+    var values: ASTValues? = null
+
     inline fun existsValues() = (values != null)
     override fun nodeToString() = "ASTSubSelectQuery" + innerNodeToString()
     override fun toString(indentation: String) = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString(indentation + "  "))

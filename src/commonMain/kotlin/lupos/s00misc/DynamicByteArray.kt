@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 @UseExperimental(ExperimentalStdlibApi::class)
 class DynamicByteArray {
     companion object {
@@ -11,8 +13,10 @@ class DynamicByteArray {
         }
     }
 
-    @JvmField var data: ByteArray
-    @JvmField val maxlen: Int
+    @JvmField
+    var data: ByteArray
+    @JvmField
+    val maxlen: Int
 
     constructor() {
         data = ByteArray(100)
@@ -29,7 +33,9 @@ class DynamicByteArray {
         return data
     }
 
-    @JvmField var pos = 4
+    @JvmField
+    var pos = 4
+
     fun setInt(i: Int, p: Int) {
         data.set(p, i.toByte())
         data.set(p + 1, (i ushr 8).toByte())

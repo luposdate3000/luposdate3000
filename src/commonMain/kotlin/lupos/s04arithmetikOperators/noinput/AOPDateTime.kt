@@ -1,5 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
@@ -8,14 +9,22 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
     override val operatorID = EOperatorID.AOPDateTimeID
     override val classname = "AOPDateTime"
     override val children: Array<OPBase> = arrayOf()
-    @JvmField val year: Int
-    @JvmField val month: Int
-    @JvmField val day: Int
-    @JvmField val hours: Int
-    @JvmField val minutes: Int
-    @JvmField val seconds: Int
-    @JvmField val timezoneHours: Int
-    @JvmField val timezoneMinutes: Int
+    @JvmField
+    val year: Int
+    @JvmField
+    val month: Int
+    @JvmField
+    val day: Int
+    @JvmField
+    val hours: Int
+    @JvmField
+    val minutes: Int
+    @JvmField
+    val seconds: Int
+    @JvmField
+    val timezoneHours: Int
+    @JvmField
+    val timezoneMinutes: Int
 
 
     constructor() : super() {

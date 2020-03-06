@@ -1,5 +1,6 @@
 package lupos.s12p2p
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -26,9 +27,12 @@ import lupos.SparqlTestSuite
 
 
 object P2P {
-    @JvmField val knownClients = ThreadSafeMutableList<String>()
-    @JvmField val knownClientsLock = CoroutinesHelper.createLock()
-    @JvmField val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
+    @JvmField
+    val knownClients = ThreadSafeMutableList<String>()
+    @JvmField
+    val knownClientsLock = CoroutinesHelper.createLock()
+    @JvmField
+    val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
 
     fun getPendingModifications(transactionID: Long, nodeName: String): TransferHelperNetwork {
         val transaction = pendingModifications[transactionID]

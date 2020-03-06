@@ -1,5 +1,7 @@
 package lupos.s01io.buffer
 
+import kotlin.jvm.JvmField
+
 
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 
@@ -9,7 +11,8 @@ val bufferManager: BufferManager = BufferManager()
 
 class BufferManager {
 
-    @JvmField val memoryOfFiles = hashMapOf<String, Array<Page?>>()
+    @JvmField
+    val memoryOfFiles = hashMapOf<String, Array<Page?>>()
 
     fun getPage(pageAddress: PageAddress): Page {
         return this.getPage(pageAddress.fileName, pageAddress.pageNumber)

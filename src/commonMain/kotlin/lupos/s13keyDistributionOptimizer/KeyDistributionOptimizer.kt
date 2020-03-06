@@ -1,5 +1,6 @@
 package lupos.s13keyDistributionOptimizer
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.ResultSetDictionary

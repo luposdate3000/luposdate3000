@@ -1,5 +1,6 @@
 package lupos
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.parseFromJson
 import lupos.s00misc.XMLElement
@@ -9,7 +10,9 @@ import lupos.s14endpoint.EndpointClientImpl
 class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
-    @JvmField var containsStringDatatypeQueries = false
+    @JvmField
+    var containsStringDatatypeQueries = false
+
     fun finalize() {
     }
 

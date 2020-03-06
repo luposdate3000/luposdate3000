@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -21,7 +22,8 @@ class POPTemporaryStore(override val dictionary: ResultSetDictionary, child: OPB
     override val classname = "POPTemporaryStore"
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf(child)
-    @JvmField val data = mutableListOf<ResultRow>()
+    @JvmField
+    val data = mutableListOf<ResultRow>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPTemporaryStore)

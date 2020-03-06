@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase

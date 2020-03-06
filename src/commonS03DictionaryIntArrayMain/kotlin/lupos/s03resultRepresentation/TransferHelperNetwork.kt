@@ -1,5 +1,6 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType
@@ -52,12 +53,18 @@ class TransferHelperNetwork {
         }
     }
 
-    @JvmField val dictionary = ResultSetDictionary()
-    @JvmField val data = DynamicByteArray()
-    @JvmField var lastHeader = ENetworkMessageType.NONE
-    @JvmField var lastCounterPos = 0
-    @JvmField var lastCounterValue = 0
-    @JvmField var lastDictionaryKey: Value? = null
+    @JvmField
+    val dictionary = ResultSetDictionary()
+    @JvmField
+    val data = DynamicByteArray()
+    @JvmField
+    var lastHeader = ENetworkMessageType.NONE
+    @JvmField
+    var lastCounterPos = 0
+    @JvmField
+    var lastCounterValue = 0
+    @JvmField
+    var lastDictionaryKey: Value? = null
 
     constructor(transactionID: Long) {
         data.appendLong(transactionID)

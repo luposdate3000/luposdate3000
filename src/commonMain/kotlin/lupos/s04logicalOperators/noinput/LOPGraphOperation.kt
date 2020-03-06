@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef

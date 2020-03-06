@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.experimental.and
+import kotlin.jvm.JvmField
 
 
 inline fun Byte.bit0(): Boolean = (this and 1) > 0

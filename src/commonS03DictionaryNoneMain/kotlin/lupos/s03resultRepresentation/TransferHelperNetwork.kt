@@ -1,5 +1,6 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType

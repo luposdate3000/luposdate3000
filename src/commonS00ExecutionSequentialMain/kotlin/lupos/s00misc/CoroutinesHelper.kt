@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +11,9 @@ typealias CoroutinesHelperMutex = Int
 
 object CoroutinesHelper {
 
-    @JvmField val channelType = UNLIMITED
+    @JvmField
+    val channelType = UNLIMITED
+
     inline fun run(crossinline action: suspend CoroutineScope.() -> Unit) = runBlocking {
         action()
     }

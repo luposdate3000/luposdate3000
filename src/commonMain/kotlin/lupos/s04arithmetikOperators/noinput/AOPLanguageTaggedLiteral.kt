@@ -1,5 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
@@ -10,7 +11,8 @@ class AOPLanguageTaggedLiteral : AOPConstantString {
     override val children: Array<OPBase> = arrayOf()
     override val delimiter: String
     override val content: String
-    @JvmField val language: String
+    @JvmField
+    val language: String
 
     constructor(delimiter: String, content: String, language: String) : super() {
         this.delimiter = delimiter

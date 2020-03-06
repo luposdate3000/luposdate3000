@@ -1,5 +1,6 @@
 package lupos.s02buildSyntaxTree.turtle
 
+import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
@@ -24,7 +25,9 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
     val first_iri = "<" + first + ">"
     val rest_iri = "<" + rest + ">"
     val type_iri = "<" + rdf + "type" + ">"
-    @JvmField var bnode_counter = 0
+    @JvmField
+    var bnode_counter = 0
+
     fun turtleDoc() {
         var token: Token
         var t1 = ltit.lookahead()

@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import dirent.*
+import kotlin.jvm.JvmField
 import kotlin.native.concurrent.*
 import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray

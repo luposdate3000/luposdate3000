@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import lupos.*
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.*
@@ -107,7 +108,7 @@ val testDictionaryValueTyped = mutableMapOf<EOperatorID, ResultSetDictionary>()
 var hadArrayIndexOutOfBoundsException = false
 
 fun fromBinaryListOfVariables(buffer: DynamicByteArray, count: Int): MutableList<AOPVariable> {
-     var res = mutableListOf<AOPVariable>()
+    var res = mutableListOf<AOPVariable>()
     for (i in 0 until count)
         res.add(AOPVariable(nextStringVarName(buffer, res)))
     return res
@@ -132,8 +133,8 @@ fun nextStringValue(buffer: DynamicByteArray): String {
 }
 
 fun nextStringValueTyped(buffer: DynamicByteArray, type: EOperatorID): String {
-     val idx = nextInt(buffer, testDictionaryValue.mapLTS.size())
-     val tmp = AOPVariable.calculate(testDictionaryValue.mapLTS[idx])
+    val idx = nextInt(buffer, testDictionaryValue.mapLTS.size())
+    val tmp = AOPVariable.calculate(testDictionaryValue.mapLTS[idx])
     if (tmp.operatorID == type)
         return testDictionaryValue.mapLTS[idx]!!
     return testDictionaryValueTyped[type]!!.getValue(idx % testDictionaryValueTyped[type]!!.mapLTS.size())!!
@@ -187,7 +188,7 @@ fun fromBinaryAOPIriOrBnodeOrVar(dictionary: ResultSetDictionary, buffer: Dynami
 }
 
 fun nextInt(buffer: DynamicByteArray, maxValue: Int): Int {
-     val tmp = buffer.getNextInt()
+    val tmp = buffer.getNextInt()
     return tmp % maxValue
 }
 
@@ -576,14 +577,14 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
 }
 
 fun fromBinaryLopTriple(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LOPTriple {
-     val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
-     val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-     val graph = DistributedTripleStore.getNamedGraph(graphName, true)
-     var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
-     var p = fromBinaryAOPIriOrVar(dictionary, buffer)
-     var o = fromBinaryAOPConstOrVar(dictionary, buffer)
-     val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
-     val tripleCount = nextInt(buffer, MAX_TRIPLES)
+    val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+    val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
+    val graph = DistributedTripleStore.getNamedGraph(graphName, true)
+    var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+    var p = fromBinaryAOPIriOrVar(dictionary, buffer)
+    var o = fromBinaryAOPConstOrVar(dictionary, buffer)
+    val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
+    val tripleCount = nextInt(buffer, MAX_TRIPLES)
     for (i in 0 until tripleCount) {
         val st = AOPVariable.calculate(nextStringValue(buffer))
         val pt = AOPVariable.calculate(nextStringValue(buffer))
@@ -941,7 +942,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
 }
 
 fun executeBinaryTests(folder: String) {
-     var testcases = 0
+    var testcases = 0
     try {
         File(folder).walk {
             if (it.endsWith(".bin")) {
@@ -963,27 +964,27 @@ fun executeBinaryTests(folder: String) {
 
 
 fun executeBinaryTest(filename: String, detailedLog: Boolean) {
-     val buffer = File(filename).readAsDynamicByteArray()
+    val buffer = File(filename).readAsDynamicByteArray()
     executeBinaryTest(buffer)
 }
 
 fun executeBinaryTest(buffer: DynamicByteArray) {
-     val dictionary = ResultSetDictionary()
-     val lOptimizer = LogicalOptimizer(1L, dictionary)
-     val pOptimizer = PhysicalOptimizer(1L, dictionary)
-     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
-try{
-     val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
-    ExecuteOptimizer.enabledOptimizers.clear()
-    for (o in 0 until optimizerEnabledCount) {
-        val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
-        ExecuteOptimizer.enabledOptimizers[optimizer] = true
+    val dictionary = ResultSetDictionary()
+    val lOptimizer = LogicalOptimizer(1L, dictionary)
+    val pOptimizer = PhysicalOptimizer(1L, dictionary)
+    val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+    try {
+        val optimizerEnabledCount = nextInt(buffer, EOptimizerID.values().size)
+        ExecuteOptimizer.enabledOptimizers.clear()
+        for (o in 0 until optimizerEnabledCount) {
+            val optimizer = EOptimizerID.values()[nextInt(buffer, EOptimizerID.values().size)]
+            ExecuteOptimizer.enabledOptimizers[optimizer] = true
+        }
+    } catch (e: Throwable) {
     }
-}catch(e:Throwable){
-}
-     val backupOptimizers = ExecuteOptimizer.enabledOptimizers
+    val backupOptimizers = ExecuteOptimizer.enabledOptimizers
     ExecuteOptimizer.enabledOptimizers.clear()
-     var globalSparql = mutableListOf<String>()
+    var globalSparql = mutableListOf<String>()
     hadArrayIndexOutOfBoundsException = false
     while (!hadArrayIndexOutOfBoundsException) {
         try {
@@ -1065,8 +1066,8 @@ try{
                     node2 = lOptimizer.optimizeCall(node1)
                     node3 = pOptimizer.optimizeCall(node2)
                     node4 = dOptimizer.optimizeCall(node3) as POPBase
-		    node5=node4.cloneOP()
-			require(node4.equals(node5))
+                    node5 = node4.cloneOP()
+                    require(node4.equals(node5))
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
                     DistributedTripleStore.commit(1L)

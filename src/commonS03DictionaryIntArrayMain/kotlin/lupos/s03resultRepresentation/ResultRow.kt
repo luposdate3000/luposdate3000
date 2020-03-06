@@ -1,8 +1,11 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
+
 
 class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {
-    @JvmField val values = Array(columns) { undefValue }
+    @JvmField
+    val values = Array(columns) { undefValue }
 
     operator fun set(name: Variable, value: Value) {
         values[name.toInt()] = value

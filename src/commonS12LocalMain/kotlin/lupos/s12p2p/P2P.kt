@@ -1,5 +1,6 @@
 package lupos.s12p2p
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ThreadSafeMutableList
@@ -18,7 +19,9 @@ import lupos.SparqlTestSuite
 
 
 object P2P {
-    @JvmField val knownClients = ThreadSafeMutableList<String>()
+    @JvmField
+    val knownClients = ThreadSafeMutableList<String>()
+
     fun execCommit(transactionID: Long) = Trace.trace({ "P2P.execCommit" }, {
         Endpoint.process_local_commit(transactionID)
     })

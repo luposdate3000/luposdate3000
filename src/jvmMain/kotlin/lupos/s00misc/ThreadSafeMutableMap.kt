@@ -1,9 +1,13 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 class ThreadSafeMutableMap<k, v> {
-    @JvmField val values = mutableMapOf<k, v>()
-    @JvmField val mutex = ReadWriteLock()
+    @JvmField
+    val values = mutableMapOf<k, v>()
+    @JvmField
+    val mutex = ReadWriteLock()
 
     fun clear() = mutex.withWriteLock {
         values.clear()

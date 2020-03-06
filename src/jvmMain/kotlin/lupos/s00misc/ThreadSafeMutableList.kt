@@ -1,8 +1,11 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 class ThreadSafeMutableList<T>(@JvmField val values: MutableList<T> = mutableListOf<T>()) {
-    @JvmField val mutex = ReadWriteLock()
+    @JvmField
+    val mutex = ReadWriteLock()
 
     constructor(value: T) : this(mutableListOf(value))
 

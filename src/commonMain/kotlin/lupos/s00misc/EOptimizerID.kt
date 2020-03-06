@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 enum class EOptimizerID(@JvmField val optional: Boolean) {
     LogicalOptimizerID(false),
     LogicalOptimizerArithmeticID(true),

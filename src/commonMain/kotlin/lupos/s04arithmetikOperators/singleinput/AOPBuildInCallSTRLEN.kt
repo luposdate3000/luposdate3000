@@ -1,5 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow

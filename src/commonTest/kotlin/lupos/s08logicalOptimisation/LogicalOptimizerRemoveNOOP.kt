@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing

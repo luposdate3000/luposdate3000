@@ -1,5 +1,6 @@
 package lupos.s11outputResult
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable

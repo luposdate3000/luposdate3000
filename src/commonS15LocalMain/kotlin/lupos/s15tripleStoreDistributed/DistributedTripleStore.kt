@@ -1,5 +1,6 @@
 package lupos.s15tripleStoreDistributed
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -24,7 +25,8 @@ val uuid = ThreadSafeUuid()
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
 
 class DistributedGraph(@JvmField val name: String) {
-    @JvmField val K = 8 // defined in project.pdf
+    @JvmField
+    val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
@@ -99,7 +101,9 @@ class DistributedGraph(@JvmField val name: String) {
 }
 
 object DistributedTripleStore {
-    @JvmField val localStore = PersistentStoreLocal()
+    @JvmField
+    val localStore = PersistentStoreLocal()
+
     fun nextTransactionID(): Long {
         return localStore.nextTransactionID()
     }

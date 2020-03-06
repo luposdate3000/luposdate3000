@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import com.soywiz.krypto.sha1
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow
@@ -42,7 +43,7 @@ class AOPBuildInCallSHA1(child: AOPBase) : AOPBase() {
 
 @UseExperimental(ExperimentalStdlibApi::class)
 fun ByteArray.toHexString2(): String {
-     val sb = StringBuilder()
+    val sb = StringBuilder()
     for (b in this) {
         val tmp = (b + 256) % 256
         if (tmp == 0)

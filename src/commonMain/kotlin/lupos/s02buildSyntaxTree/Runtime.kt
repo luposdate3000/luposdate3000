@@ -1,5 +1,6 @@
 package lupos.s02buildSyntaxTree
 
+import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.turtle.EOF
 
 
@@ -12,9 +13,12 @@ interface TokenIterator {
 
 class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmField val lookahead: Int) {
     val tokens: Array<Token> = Array(lookahead, { EOF(0) }) // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
-    @JvmField var index1 = 0
-    @JvmField var index2 = 0
-    @JvmField var buffered = 0 // how many tokens are currently buffered?
+    @JvmField
+    var index1 = 0
+    @JvmField
+    var index2 = 0
+    @JvmField
+    var buffered = 0 // how many tokens are currently buffered?
 
     fun nextToken(): Token {
         if (buffered > 0) {
@@ -44,8 +48,8 @@ class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmFie
 }
 
 fun getLineAndColumn(source: String, index: Int): Pair<Int, Int> {
-     var line = 0
-     var pos = 0
+    var line = 0
+    var pos = 0
     for (i in 0..index - 1) {
         val c = source[i]
         if (c == '\n') {
@@ -61,7 +65,7 @@ fun getLineAndColumn(source: String, index: Int): Pair<Int, Int> {
 }
 
 fun getErrorLine(source: String, index: Int): String {
-     var result = ""
+    var result = ""
     for (i in 0..index) {
         val c = source[i]
         if (c == '\n') {
@@ -73,7 +77,7 @@ fun getErrorLine(source: String, index: Int): String {
         }
     }
     // collect characters until end of this line...
-     var i = index + 1
+    var i = index + 1
     while (i < source.length && source[i] != '\r' && source[i] != '\n') {
         result += source[i]
         i++
@@ -164,11 +168,16 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         val MAXSIZEPUTBACK = 256
     }
 
-    @JvmField var index = 0
-    @JvmField var lineNumber = 0
-    @JvmField var columnNumber = 0
-    @JvmField var backArray: Array<Char> = Array<Char>(MAXSIZEPUTBACK) { ' ' }
-    @JvmField var backArrayIndex = 0
+    @JvmField
+    var index = 0
+    @JvmField
+    var lineNumber = 0
+    @JvmField
+    var columnNumber = 0
+    @JvmField
+    var backArray: Array<Char> = Array<Char>(MAXSIZEPUTBACK) { ' ' }
+    @JvmField
+    var backArrayIndex = 0
 
     inline fun hasNext() = (this.content.hasNext() || this.backArrayIndex > 0)
 

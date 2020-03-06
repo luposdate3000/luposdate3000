@@ -1,11 +1,13 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
 
 
 class Lock {
-    @JvmField val mutex = Mutex()
+    @JvmField
+    val mutex = Mutex()
 
     suspend inline fun <T> withLockSuspend(crossinline action: suspend () -> T): T {
         try {

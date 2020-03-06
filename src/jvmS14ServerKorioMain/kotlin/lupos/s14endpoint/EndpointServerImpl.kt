@@ -4,6 +4,7 @@ import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
 import kotlin.concurrent.thread
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,8 @@ import lupos.s14endpoint.Endpoint
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {
-    @JvmField var server: HttpServer? = null
+    @JvmField
+    var server: HttpServer? = null
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
         GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })

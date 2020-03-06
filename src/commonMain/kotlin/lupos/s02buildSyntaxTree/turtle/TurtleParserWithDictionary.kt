@@ -1,5 +1,6 @@
 package lupos.s02buildSyntaxTree.turtle
 
+import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token

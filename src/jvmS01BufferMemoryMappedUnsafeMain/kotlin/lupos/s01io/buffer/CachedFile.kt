@@ -3,6 +3,7 @@ package lupos.s01io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 import java.lang.reflect.Method
+import kotlin.jvm.JvmField
 import lupos.s01io.buffer.CachedFile
 import sun.nio.ch.FileChannelImpl
 
@@ -17,8 +18,10 @@ inline fun createString(chars: CharArray): String = String(chars)
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
 
 class CachedFile {
-    @JvmField val file: RandomAccessFile
-    @JvmField val PAGESIZE = 8 * 1024L
+    @JvmField
+    val file: RandomAccessFile
+    @JvmField
+    val PAGESIZE = 8 * 1024L
 
     constructor(filename: String) {
         val paths = filename.split("/")

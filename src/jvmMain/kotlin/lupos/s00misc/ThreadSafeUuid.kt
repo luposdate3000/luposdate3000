@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 class ThreadSafeUuid {
 

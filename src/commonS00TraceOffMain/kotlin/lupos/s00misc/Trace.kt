@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 object Trace {
     inline fun <T> trace(name: () -> String, action: () -> T): T {

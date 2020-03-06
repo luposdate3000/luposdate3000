@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -41,7 +42,8 @@ abstract class OPBase {
         private val global_uuid = ThreadSafeUuid()
     }
 
-    @JvmField val uuid: Long = global_uuid.next()
+    @JvmField
+    val uuid: Long = global_uuid.next()
 
     override fun toString(): String = toXMLElement().toPrettyString()
 

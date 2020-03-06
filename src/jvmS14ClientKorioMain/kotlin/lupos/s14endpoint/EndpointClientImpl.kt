@@ -6,6 +6,7 @@ import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.URL
 import com.soywiz.korio.stream.*
 import kotlin.concurrent.thread
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -33,7 +34,9 @@ import lupos.SparqlTestSuite
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {
-    @JvmField val client = createHttpClient()
+    @JvmField
+    val client = createHttpClient()
+
     fun encodeParam(key: String, value: Any) = URL.encodeComponent(key) + "=" + URL.encodeComponent("" + value)
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
@@ -128,7 +131,8 @@ object EndpointClientImpl {
 }
 
 class MyDynamicByteArray : AsyncStreamBase {
-    @JvmField val data: DynamicByteArray
+    @JvmField
+    val data: DynamicByteArray
 
     constructor(data: DynamicByteArray) {
         this.data = data

@@ -3,6 +3,7 @@ package lupos.s00misc
 import dirent.closedir
 import dirent.opendir
 import dirent.readdir
+import kotlin.jvm.JvmField
 import kotlin.native.concurrent.*
 import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray

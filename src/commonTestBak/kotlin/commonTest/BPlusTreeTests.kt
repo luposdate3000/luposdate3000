@@ -1,5 +1,6 @@
 package commonTest
 
+import kotlin.jvm.JvmField
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.fail

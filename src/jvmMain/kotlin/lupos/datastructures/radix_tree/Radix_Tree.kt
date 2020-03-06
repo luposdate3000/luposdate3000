@@ -1,5 +1,6 @@
 package lupos.datastructures.radix_tree
 
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min
 import lupos.s00misc.ELoggerType

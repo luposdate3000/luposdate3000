@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -29,8 +30,10 @@ class POPGroup : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    @JvmField var by: List<AOPVariable>
-    @JvmField var bindings = mutableListOf<Pair<Variable, AOPBase>>()
+    @JvmField
+    var by: List<AOPVariable>
+    @JvmField
+    var bindings = mutableListOf<Pair<Variable, AOPBase>>()
 
     override fun toSparql(): String {
         var res = children[0].toSparql()

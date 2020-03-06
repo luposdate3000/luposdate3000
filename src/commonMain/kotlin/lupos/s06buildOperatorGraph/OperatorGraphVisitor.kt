@@ -1,5 +1,6 @@
 package lupos.s06buildOperatorGraph
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
@@ -194,7 +195,8 @@ import lupos.s05tripleStore.*
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {
-    @JvmField val queryExecutionStartTime = AOPDateTime() /*required for BuildInCall.NOW */
+    @JvmField
+    val queryExecutionStartTime = AOPDateTime() /*required for BuildInCall.NOW */
 
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 

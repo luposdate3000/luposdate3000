@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
@@ -11,9 +12,13 @@ import lupos.s09physicalOperators.POPBase
 abstract class POPTripleStoreIteratorBase : POPBase() {
     override val operatorID = EOperatorID.POPTripleStoreIteratorBaseID
     override val classname = "POPTripleStoreIteratorBase"
-    @JvmField var sparam: AOPBase = AOPVariable("#s$uuid")
-    @JvmField var pparam: AOPBase = AOPVariable("#p$uuid")
-    @JvmField var oparam: AOPBase = AOPVariable("#o$uuid")
+    @JvmField
+    var sparam: AOPBase = AOPVariable("#s$uuid")
+    @JvmField
+    var pparam: AOPBase = AOPVariable("#p$uuid")
+    @JvmField
+    var oparam: AOPBase = AOPVariable("#o$uuid")
+
     abstract fun getGraphName(): String
 
     override fun equals(other: Any?): Boolean {
@@ -30,7 +35,8 @@ abstract class POPTripleStoreIteratorBase : POPBase() {
 }
 
 class PersistentStoreLocal {
-    @JvmField val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
+    @JvmField
+    val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
 
     companion object {
         val defaultGraphName = ""

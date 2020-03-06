@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID

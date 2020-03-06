@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
@@ -19,8 +20,11 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
-    @JvmField val store: TripleStoreLocal
-    @JvmField var index: EIndexPattern = EIndexPattern.SPO
+    @JvmField
+    val store: TripleStoreLocal
+    @JvmField
+    var index: EIndexPattern = EIndexPattern.SPO
+
     override fun getGraphName(): String {
         return store.name
     }

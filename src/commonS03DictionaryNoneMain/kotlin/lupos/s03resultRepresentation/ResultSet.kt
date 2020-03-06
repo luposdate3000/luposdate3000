@@ -1,12 +1,14 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
 class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
-    @JvmField val variables = mutableListOf<String>()
+    @JvmField
+    val variables = mutableListOf<String>()
 
     fun renameVariable(variableOld: String, variableNew: String): String {
         val i = variables.indexOf(variableOld)

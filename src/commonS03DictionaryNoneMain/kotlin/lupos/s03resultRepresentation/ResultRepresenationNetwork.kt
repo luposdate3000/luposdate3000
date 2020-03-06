@@ -1,5 +1,6 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import lupos.s09physicalOperators.POPBase
 
 

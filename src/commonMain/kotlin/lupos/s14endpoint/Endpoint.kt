@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
@@ -37,21 +38,37 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 object Endpoint {
-    @JvmField val REQUEST_BINARY = arrayOf("/binary")
-    @JvmField val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
-    @JvmField val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
-    @JvmField val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
-    @JvmField val REQUEST_COMMIT = arrayOf("/commit", "id")
-    @JvmField val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
-    @JvmField val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
-    @JvmField val REQUEST_GRAPH_OPERATION = arrayOf("/graph/operation", "name", "type")
-    @JvmField val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
-    @JvmField val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
-    @JvmField val REQUEST_PEERS_LIST = arrayOf("/peers/list")
-    @JvmField val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
-    @JvmField val REQUEST_PEERS_JOIN_INTERNAL = arrayOf("/peers/join_internal", "hostname")
-    @JvmField val REQUEST_PEERS_SELF_TEST = arrayOf("/peers/self_test")
-    @JvmField val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
+    @JvmField
+    val REQUEST_BINARY = arrayOf("/binary")
+    @JvmField
+    val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
+    @JvmField
+    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
+    @JvmField
+    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
+    @JvmField
+    val REQUEST_COMMIT = arrayOf("/commit", "id")
+    @JvmField
+    val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
+    @JvmField
+    val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
+    @JvmField
+    val REQUEST_GRAPH_OPERATION = arrayOf("/graph/operation", "name", "type")
+    @JvmField
+    val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
+    @JvmField
+    val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
+    @JvmField
+    val REQUEST_PEERS_LIST = arrayOf("/peers/list")
+    @JvmField
+    val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
+    @JvmField
+    val REQUEST_PEERS_JOIN_INTERNAL = arrayOf("/peers/join_internal", "hostname")
+    @JvmField
+    val REQUEST_PEERS_SELF_TEST = arrayOf("/peers/self_test")
+    @JvmField
+    val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
+
     fun process_local_triple_add(graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_add" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
         g.addData(transactionID, s, p, o, idx)

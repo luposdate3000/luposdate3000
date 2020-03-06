@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -13,9 +14,12 @@ import org.junit.jupiter.api.Test
 
 
 class LogicalOptimizerFilterDownTest {
-    @JvmField var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
-    @JvmField val astS = AOPVariable("s")
-    @JvmField val projectS = mutableListOf(AOPVariable("s"))
+    @JvmField
+    var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
+    @JvmField
+    val astS = AOPVariable("s")
+    @JvmField
+    val projectS = mutableListOf(AOPVariable("s"))
 
     constructor() {
         ExecuteOptimizer.enabledOptimizers[EOptimizerID.LogicalOptimizerFilterDownID] = true

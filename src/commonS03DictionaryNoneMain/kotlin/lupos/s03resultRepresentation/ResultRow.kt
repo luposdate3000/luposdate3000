@@ -1,11 +1,14 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
 class ResultRow() : Comparable<ResultRow> {
-    @JvmField val values = mutableMapOf<Variable, Value>()
+    @JvmField
+    val values = mutableMapOf<Variable, Value>()
+
     operator fun set(name: Variable, value: Value) {
         values[name] = value
     }

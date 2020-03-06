@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase

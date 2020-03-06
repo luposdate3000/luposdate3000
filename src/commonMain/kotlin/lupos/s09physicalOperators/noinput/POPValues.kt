@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -26,9 +27,12 @@ class POPValues : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    @JvmField val variables = mutableListOf<Variable>()
-    @JvmField val stringVars = mutableListOf<String>()
-    @JvmField val data = mutableListOf<Map<Variable, Value>>()
+    @JvmField
+    val variables = mutableListOf<Variable>()
+    @JvmField
+    val stringVars = mutableListOf<String>()
+    @JvmField
+    val data = mutableListOf<Map<Variable, Value>>()
 
     override fun toSparql(): String {
         var res = "VALUES("

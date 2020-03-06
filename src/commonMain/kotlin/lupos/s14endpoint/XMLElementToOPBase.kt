@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
@@ -71,7 +72,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVariable {
-     val n = mapping[name]
+    val n = mapping[name]
     if (n != null)
         return AOPVariable(n)
     return AOPVariable(name)

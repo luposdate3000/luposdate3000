@@ -13,6 +13,7 @@ import io.ktor.http.content.*
 import io.ktor.utils.io.*
 import io.ktor.utils.io.charsets.*
 import io.ktor.utils.io.core.*
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -39,12 +40,13 @@ import lupos.SparqlTestSuite
 
 
 object EndpointClientImpl {
-    @JvmField val client = HttpClient() {
-if(GlobalLogger.enabled.ordinal>=ELoggerType.DEBUG.ordinal)
-        install(Logging) {
-            logger = Logger.SIMPLE
-            level = LogLevel.ALL
-        }
+    @JvmField
+    val client = HttpClient() {
+        if (GlobalLogger.enabled.ordinal >= ELoggerType.DEBUG.ordinal)
+            install(Logging) {
+                logger = Logger.SIMPLE
+                level = LogLevel.ALL
+            }
     }
 
     fun encodeParam(name: String, value: Any) = listOf(name to ("" + value)).formUrlEncode()

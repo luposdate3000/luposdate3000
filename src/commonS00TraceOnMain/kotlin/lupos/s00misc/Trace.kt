@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
@@ -7,8 +8,10 @@ import kotlin.time.MonoClock
 
 @UseExperimental(kotlin.time.ExperimentalTime::class)
 object Trace {
-    @JvmField val map = ThreadSafeMutableMap<String, Pair<Long, Double>>()
-    @JvmField val stack = ThreadSafeMutableStack<Pair<String, ClockMark>>()
+    @JvmField
+    val map = ThreadSafeMutableMap<String, Pair<Long, Double>>()
+    @JvmField
+    val stack = ThreadSafeMutableStack<Pair<String, ClockMark>>()
 
     inline fun <T> trace(name: () -> String, action: () -> T): T {
         try {

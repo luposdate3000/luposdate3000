@@ -1,9 +1,13 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 class ThreadSafeMutableSet<T> {
-    @JvmField val values = mutableSetOf<T>()
-    @JvmField val mutex = ReadWriteLock()
+    @JvmField
+    val values = mutableSetOf<T>()
+    @JvmField
+    val mutex = ReadWriteLock()
 
     inline fun forEach(crossinline action: (T) -> Unit) = mutex.withReadLock {
         values.forEach(action)

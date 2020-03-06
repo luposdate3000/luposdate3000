@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -18,7 +19,8 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 
 
 class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmField val components: Int) {
-    @JvmField val values = ThreadSafeMutableList<Value>()
+    @JvmField
+    val values = ThreadSafeMutableList<Value>()
 
     inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { dictionary.getValue(key[it])!! }
 
@@ -112,18 +114,30 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
 
 
 class TripleStoreLocal {
-    @JvmField val resultSet = ResultSet(ResultSetDictionary())
-    @JvmField val s = resultSet.createVariable("s")
-    @JvmField val p = resultSet.createVariable("p")
-    @JvmField val o = resultSet.createVariable("o")
-    @JvmField val tripleStoreS = ThreadSafeMutableMap<Value, SortedSetDictionary>()
-    @JvmField val tripleStoreP = ThreadSafeMutableMap<Value, SortedSetDictionary>()
-    @JvmField val tripleStoreO = ThreadSafeMutableMap<Value, SortedSetDictionary>()
-    @JvmField val tripleStoreSP = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
-    @JvmField val tripleStoreSO = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
-    @JvmField val tripleStorePO = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
-    @JvmField val tripleStoreSPO = SortedSetDictionary(resultSet.dictionary, 3)
-    @JvmField val name: String
+    @JvmField
+    val resultSet = ResultSet(ResultSetDictionary())
+    @JvmField
+    val s = resultSet.createVariable("s")
+    @JvmField
+    val p = resultSet.createVariable("p")
+    @JvmField
+    val o = resultSet.createVariable("o")
+    @JvmField
+    val tripleStoreS = ThreadSafeMutableMap<Value, SortedSetDictionary>()
+    @JvmField
+    val tripleStoreP = ThreadSafeMutableMap<Value, SortedSetDictionary>()
+    @JvmField
+    val tripleStoreO = ThreadSafeMutableMap<Value, SortedSetDictionary>()
+    @JvmField
+    val tripleStoreSP = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
+    @JvmField
+    val tripleStoreSO = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
+    @JvmField
+    val tripleStorePO = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
+    @JvmField
+    val tripleStoreSPO = SortedSetDictionary(resultSet.dictionary, 3)
+    @JvmField
+    val name: String
 
     suspend inline fun forEach(sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
         val sv: Value?
@@ -244,7 +258,8 @@ class TripleStoreLocal {
         }
     }
 
-    @JvmField val pendingModifications = Array(EIndexPattern.values().size) { ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
+    @JvmField
+    val pendingModifications = Array(EIndexPattern.values().size) { ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
 
     fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
         var tmp = pendingModifications[idx.ordinal][transactionID]

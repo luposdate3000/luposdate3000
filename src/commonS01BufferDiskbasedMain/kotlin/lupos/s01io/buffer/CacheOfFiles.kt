@@ -1,5 +1,6 @@
 package lupos.s01io.buffer
 
+import kotlin.jvm.JvmField
 import lupos.s01io.buffer.*
 
 
@@ -14,7 +15,8 @@ object CacheOfFiles {
      */
     const val MAXOPENEDFILES = 10
 
-    @JvmField val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
+    @JvmField
+    val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
 
     /**
      * Returns the requested file from cache, or opens the file if it is not in the cache of open files

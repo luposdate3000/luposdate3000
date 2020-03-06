@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
@@ -42,7 +43,8 @@ class TripleInsertIterator : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    @JvmField var result: ResultRow
+    @JvmField
+    var result: ResultRow
 
     override fun equals(other: Any?): Boolean {
         if (other !is TripleInsertIterator)

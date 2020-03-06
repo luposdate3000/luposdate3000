@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
 
 import com.benasher44.uuid.uuid4
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow

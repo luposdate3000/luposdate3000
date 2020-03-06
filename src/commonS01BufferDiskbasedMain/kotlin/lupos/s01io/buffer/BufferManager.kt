@@ -1,5 +1,7 @@
 package lupos.s01io.buffer
 
+import kotlin.jvm.JvmField
+
 
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 
@@ -12,7 +14,8 @@ class BufferManager {
     /**
      * the max. number of opened files
      */
-    @JvmField val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
+    @JvmField
+    val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
 
     private val cache = LeastRecentlyUsed<PageAddress, Page?>(PageAddress("", -1), null, MAXPAGES)
 

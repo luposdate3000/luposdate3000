@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper

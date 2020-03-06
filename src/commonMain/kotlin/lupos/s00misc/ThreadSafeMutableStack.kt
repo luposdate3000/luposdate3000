@@ -1,8 +1,11 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 class ThreadSafeMutableStack<T> {
-    @JvmField val elements = ThreadSafeMutableList<T>()
+    @JvmField
+    val elements = ThreadSafeMutableList<T>()
 
     fun isEmpty() = elements.isEmpty()
 

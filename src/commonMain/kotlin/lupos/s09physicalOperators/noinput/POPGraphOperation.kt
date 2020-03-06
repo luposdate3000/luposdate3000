@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
@@ -48,7 +49,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
             EGraphOperationType.COPY -> res += "COPY"
             EGraphOperationType.MOVE -> res += "MOVE"
             EGraphOperationType.ADD -> res += "ADD"
-else->require(false)
+            else -> require(false)
         }
         if (silent)
             res += " SILENT "
@@ -59,7 +60,7 @@ else->require(false)
             EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
             EGraphRefType.NamedGraphRef -> res += "NAMED"
             EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph1iri!! + ">"
-else->require(false)
+            else -> require(false)
         }
         if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
             res += " TO "
@@ -68,7 +69,7 @@ else->require(false)
                 EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
                 EGraphRefType.NamedGraphRef -> res += "NAMED"
                 EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph2iri!! + ">"
-else->require(false)
+                else -> require(false)
             }
         }
         return res
@@ -131,7 +132,8 @@ else->require(false)
                             EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                             EGraphOperationType.COPY -> {
                                 when (graph2type) {
-				EGraphRefType.DefaultGraphRef->{/*noop*/}
+                                    EGraphRefType.DefaultGraphRef -> {/*noop*/
+                                    }
                                     EGraphRefType.IriGraphRef -> {
                                         try {
                                             DistributedTripleStore.clearGraph(graph2iri!!)
@@ -144,7 +146,8 @@ else->require(false)
                             }
                             EGraphOperationType.MOVE -> {
                                 when (graph2type) {
-                                    EGraphRefType.DefaultGraphRef-> {/*noop*/}
+                                    EGraphRefType.DefaultGraphRef -> {/*noop*/
+                                    }
                                     EGraphRefType.IriGraphRef -> {
                                         try {
                                             DistributedTripleStore.clearGraph(graph2iri!!)
@@ -158,7 +161,8 @@ else->require(false)
                             }
                             EGraphOperationType.ADD -> {
                                 when (graph2type) {
-				EGraphRefType.DefaultGraphRef-> {/*noop*/}
+                                    EGraphRefType.DefaultGraphRef -> {/*noop*/
+                                    }
                                     EGraphRefType.IriGraphRef -> {
                                         DistributedTripleStore.getNamedGraph(graph2iri!!, true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }

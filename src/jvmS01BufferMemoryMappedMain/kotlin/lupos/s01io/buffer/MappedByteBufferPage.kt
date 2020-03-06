@@ -4,6 +4,7 @@ import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import java.nio.MappedByteBuffer
+import kotlin.jvm.JvmField
 
 
 typealias Page = MappedByteBufferPage
@@ -11,9 +12,10 @@ typealias Page = MappedByteBufferPage
 inline fun createString(chars: CharArray): String = String(chars)
 
 class MappedByteBufferPage(@JvmField val buffer: MappedByteBuffer) {
-    @JvmField
+
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
-    @JvmField var locked = 0
+    @JvmField
+    var locked = 0
 
     constructor() : this(RandomAccessFile(File("tmp"), "rw")
             .getChannel()

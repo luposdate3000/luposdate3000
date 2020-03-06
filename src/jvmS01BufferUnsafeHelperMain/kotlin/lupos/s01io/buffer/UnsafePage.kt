@@ -1,5 +1,7 @@
 package lupos.s01io.buffer
 
+import kotlin.jvm.JvmField
+
 
 class UnsafePage {
 
@@ -26,17 +28,21 @@ class UnsafePage {
         }
     }
 
-    @JvmField // this does not generate any setters/getters avoiding a virtual method call!
-    @JvmField val basepointer: Long
+    // this does not generate any setters/getters avoiding a virtual method call!
+    @JvmField
+    val basepointer: Long
 
-    @JvmField // this does not generate any getter avoiding a virtual method call!
-    @JvmField val PAGESIZE = 8 * 1024L
+    // this does not generate any getter avoiding a virtual method call!
+    @JvmField
+    val PAGESIZE = 8 * 1024L
+
 
     @JvmField
-    @JvmField var locked = 0
+    var locked = 0
+
 
     @JvmField
-    @JvmField val cleaner: () -> Unit
+    val cleaner: () -> Unit
 
     constructor() {
         this.basepointer = allocateMemory(this.PAGESIZE)

@@ -1,10 +1,12 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
-     val x = xml.replace("\n", "").replace("\r", "")
-     val res = mutableListOf<XMLElement>()
-     var lastindex = 0
+    val x = xml.replace("\n", "").replace("\r", "")
+    val res = mutableListOf<XMLElement>()
+    var lastindex = 0
     """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach { child ->
         var value = child.value
         if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--") && child.range.start >= lastindex) {

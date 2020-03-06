@@ -1,5 +1,6 @@
 package lupos.s01io.buffer
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s01io.buffer.getString

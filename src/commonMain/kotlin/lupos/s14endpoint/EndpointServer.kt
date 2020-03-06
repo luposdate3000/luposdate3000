@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -44,9 +45,9 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
-     val triple = ID_Triple(triple_s, triple_p, triple_o)
-     val transactionID = DistributedTripleStore.nextTransactionID()
-     val dictionary = ResultSetDictionary()
+    val triple = ID_Triple(triple_s, triple_p, triple_o)
+    val transactionID = DistributedTripleStore.nextTransactionID()
+    val dictionary = ResultSetDictionary()
     CoroutinesHelper.runBlock {
         DistributedTripleStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary, triple))
     }
@@ -55,7 +56,8 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 
 @UseExperimental(ExperimentalStdlibApi::class)
 abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {
-    @JvmField val fullname = hostname + ":" + port
+    @JvmField
+    val fullname = hostname + ":" + port
 
 
     fun process_turtle_input(data: String): XMLElement = Trace.trace({ "process_turtle_input" }, {

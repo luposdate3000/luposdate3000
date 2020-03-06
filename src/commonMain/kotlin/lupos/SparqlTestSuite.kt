@@ -1,5 +1,6 @@
 package lupos
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -37,7 +38,8 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class SparqlTestSuite() {
-    @JvmField val errorBoundForDecimalsDigits = 6
+    @JvmField
+    val errorBoundForDecimalsDigits = 6
 
     fun testMain() {
         repeat(1) {
@@ -357,7 +359,8 @@ class SparqlTestSuite() {
         return success == expectedResult
     }
 
-    @JvmField var i = 0
+    @JvmField
+    var i = 0
 
     fun parseSPARQLAndEvaluate(//
             testName: String,//
@@ -609,7 +612,8 @@ class SevenIndices {
     private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
-    @JvmField val spo = mutableSetOf<ID_Triple>()
+    @JvmField
+    val spo = mutableSetOf<ID_Triple>()
 
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()

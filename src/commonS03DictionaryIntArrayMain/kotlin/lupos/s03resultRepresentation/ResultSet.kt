@@ -1,12 +1,16 @@
 package lupos.s03resultRepresentation
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 
 
 class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
-    @JvmField val variablesSTL = mutableMapOf<String, Variable>()
-    @JvmField val variablesLTS = mutableListOf<String>()
-    @JvmField val mutex = CoroutinesHelper.createLock()
+    @JvmField
+    val variablesSTL = mutableMapOf<String, Variable>()
+    @JvmField
+    val variablesLTS = mutableListOf<String>()
+    @JvmField
+    val mutex = CoroutinesHelper.createLock()
 
     fun renameVariable(variableOld: String, variableNew: String): Variable {
         var res: Variable? = null

@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
@@ -25,11 +26,17 @@ class POPSort : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    @JvmField var data: MutableList<ResultRow>? = null
-    @JvmField val variables = mutableListOf<Pair<Variable, Variable>>()
-    @JvmField var iterator: Iterator<ResultRow>? = null
-    @JvmField var sortBy: Variable
-    @JvmField val sortOrder: Boolean
+    @JvmField
+    var data: MutableList<ResultRow>? = null
+    @JvmField
+    val variables = mutableListOf<Pair<Variable, Variable>>()
+    @JvmField
+    var iterator: Iterator<ResultRow>? = null
+    @JvmField
+    var sortBy: Variable
+    @JvmField
+    val sortOrder: Boolean
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPSort)
             return false

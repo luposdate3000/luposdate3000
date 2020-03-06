@@ -1,5 +1,6 @@
 package lupos.s15tripleStoreDistributed
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
@@ -32,11 +33,17 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
-    @JvmField val nodeNameIterator: Iterator<String>
-    @JvmField var remoteIterator: Iterator<ResultRow>? = null
-    @JvmField val transactionID: Long
-    @JvmField val graphNameL: String
-    @JvmField val index: EIndexPattern
+    @JvmField
+    val nodeNameIterator: Iterator<String>
+    @JvmField
+    var remoteIterator: Iterator<ResultRow>? = null
+    @JvmField
+    val transactionID: Long
+    @JvmField
+    val graphNameL: String
+    @JvmField
+    val index: EIndexPattern
+
     override fun cloneOP() = TripleStoreIteratorGlobal(transactionID, dictionary, graphNameL, sparam, pparam, oparam, index)
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern = EIndexPattern.SPO) {
@@ -113,7 +120,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 }
 
 class DistributedGraph(@JvmField val name: String) {
-    @JvmField val K = 8 // defined in project.pdf
+    @JvmField
+    val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
@@ -215,7 +223,9 @@ class DistributedGraph(@JvmField val name: String) {
 }
 
 object DistributedTripleStore {
-    @JvmField val localStore = PersistentStoreLocal()
+    @JvmField
+    val localStore = PersistentStoreLocal()
+
     fun nextTransactionID(): Long = Trace.trace({ "DistributedTripleStore.nextTransactionID" }, {
         return localStore.nextTransactionID()
     })

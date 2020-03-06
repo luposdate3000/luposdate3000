@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.singleinput.modifiers
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing

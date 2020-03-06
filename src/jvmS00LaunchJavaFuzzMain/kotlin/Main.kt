@@ -15,9 +15,12 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     @JvmField val fuzzer = Fuzzer(FuzzInstance(), "javafuzz")
     fuzzer.start()
 }
+
 //https://github.com/fuzzitdev/javafuzz
 class FuzzInstance() : AbstractFuzzTarget() {
-    @JvmField var timepoint = Instant.now()
+    @JvmField
+    var timepoint = Instant.now()
+
     override fun fuzz(data: ByteArray) = CoroutinesHelper.runBlock {
         val timepointNext = Instant.now()
         val elapsed = Duration.between(timepoint, timepointNext)
