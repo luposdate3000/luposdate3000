@@ -60,8 +60,8 @@ class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, c
                     resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
                     try {
                         val expression = children[1] as AOPBase
-                        val condition = expression.calculate(resultSet, nextRow) as AOPBoolean
-                        if (condition.value)
+                        val condition = expression.calculate(resultSet, nextRow).toBoolean()
+			if(condition)
                             channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
                     } catch (e: Throwable) {
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })

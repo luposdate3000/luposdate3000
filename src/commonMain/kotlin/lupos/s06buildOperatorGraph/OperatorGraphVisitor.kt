@@ -145,9 +145,10 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
@@ -990,6 +991,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             BuiltInFunctions.isLITERAL -> {
                 require(childrenValues.size == 1)
                 return AOPBuildInCallIsLITERAL(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.isIRI -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallIsIri(childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isNUMERIC -> {
                 require(childrenValues.size == 1)

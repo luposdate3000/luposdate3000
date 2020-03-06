@@ -21,7 +21,5 @@ class AOPDouble(@JvmField var value: Double) : AOPConstant(), AOPNumeric {
 
     override fun toDouble(): Double = value
     override fun toInt(): Int = value.toInt()
-    override fun toBoolean(): Boolean {
-        throw Exception("cannot cast AOPDouble to Boolean")
-    }
+override fun toBoolean()=value>0 || value<0
 }

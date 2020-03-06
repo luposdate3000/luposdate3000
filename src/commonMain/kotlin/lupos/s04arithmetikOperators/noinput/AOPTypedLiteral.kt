@@ -43,8 +43,5 @@ class AOPTypedLiteral(override val delimiter: String, override val content: Stri
     override fun toInt(): Int {
         throw Exception("cannot cast AOPTypedLiteral to Int")
     }
-
-    override fun toBoolean(): Boolean {
-        throw Exception("cannot cast AOPTypedLiteral to Boolean")
-    }
+override fun toBoolean()=content.length>0
 }

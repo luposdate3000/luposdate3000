@@ -22,7 +22,5 @@ class AOPDecimal(@JvmField var value: Double) : AOPConstant(), AOPNumeric {
 
     override fun toDouble(): Double = value
     override fun toInt(): Int = value.toInt()
-    override fun toBoolean(): Boolean {
-        throw Exception("cannot cast AOPDecimal to Boolean")
-    }
+override fun toBoolean()=value>0 || value<0
 }

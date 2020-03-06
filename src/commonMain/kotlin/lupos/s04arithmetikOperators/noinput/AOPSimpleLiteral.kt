@@ -35,8 +35,5 @@ class AOPSimpleLiteral : AOPConstantString, AOPXPathCompareable {
     override fun toInt(): Int {
         throw Exception("cannot cast AOPSimpleLiteral to Int")
     }
-
-    override fun toBoolean(): Boolean {
-        throw Exception("cannot cast AOPSimpleLiteral to Boolean")
-    }
+override fun toBoolean()=content.length>0
 }

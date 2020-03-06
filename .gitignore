@@ -18,3 +18,4 @@ crash-*
 jacoco.exec
 javafuzz
 nohup.out
+.scannerwork
