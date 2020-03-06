@@ -261,7 +261,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         val v = AOPVariable(sel.variable.name)
                         projection.variables.add(v)
 			val tmp3=sel.expression.visit(this) as AOPBase
-			if(v==tmp3)
+			if(tmp3.getRequiredVariableNamesRecoursive().contains(v.name))
 				throw Exception("variable must not be recoursively defined $v")
                         val tmp2 = LOPBind(v, tmp3)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
@@ -380,7 +380,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         val v = AOPVariable(b.variable.name)
                         variables.add(v)
 val tmp=b.expression.visit(this) as AOPBase
-if(v==tmp)
+if(tmp.getRequiredVariableNamesRecoursive().contains(v.name))
 throw Exception("variable must not be recoursively defined $v")
                         val tmp2 = LOPBind(v, tmp)
                         if (child != null)
@@ -838,7 +838,7 @@ throw Exception("variable must not be recoursively defined $v")
         require(childrenValues.isEmpty())
 val a=node.variable.visit(this) as AOPVariable
 val b= node.expression.visit(this) as AOPBase
-if(a==b)
+if(b.getRequiredVariableNamesRecoursive().contains(a.name))
 throw Exception("variable must not be recousively defined $a")
 return LOPBind(a,b)
     }

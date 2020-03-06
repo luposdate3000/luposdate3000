@@ -12,7 +12,7 @@ import lupos.s14endpoint.*
 
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    @JvmField val fuzzer = Fuzzer(FuzzInstance(), "javafuzz")
+    val fuzzer = Fuzzer(FuzzInstance(), "javafuzz")
     fuzzer.start()
 }
 
