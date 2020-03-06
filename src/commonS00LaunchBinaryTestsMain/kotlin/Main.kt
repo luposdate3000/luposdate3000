@@ -14,12 +14,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
     ).forEach { (k, v) ->
-        val buffer = File("resources/$v").readAsDynamicByteArray()
-        val len = buffer.getNextInt()
-        for (i in 0 until len) {
-            val tmp = buffer.getNextString()
-            val w = k.createValue(tmp)
-            require(w == i)
+        java.io.File("resources/$v.txt").forEachLine {
+            k.createValue(it)
         }
     }
     testDictionaryValue.mapLTS.forEach {

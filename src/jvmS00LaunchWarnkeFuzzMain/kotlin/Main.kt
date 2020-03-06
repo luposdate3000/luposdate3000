@@ -21,9 +21,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
     ).forEach { (k, v) ->
-File("resources/$v.txt").forEachLine {
- k.createValue(it)
-}
+        File("resources/$v.txt").forEachLine {
+            k.createValue(it)
+        }
     }
     testDictionaryValue.mapLTS.forEach {
         try {
@@ -54,24 +54,24 @@ File("resources/$v.txt").forEachLine {
         testnumber++
         counter--
         if (counter == 0) {
-            datasize = (datasize * 1.2).toInt()+1
+            datasize = (datasize * 1.2).toInt() + 1
             counter = datasize
             println("changed datasize to $datasize for $counter tests")
         }
-	val bytebuffer=ByteBuffer.allocate(datasize)
+        val bytebuffer = ByteBuffer.allocate(datasize)
         currentSize = fileChannel.read(bytebuffer)
         val data = bytebuffer.array()
+        val input = DynamicByteArray(data)
+        input.setInt(currentSize, 0)
         try {
-            val input = DynamicByteArray(data)
             executeBinaryTest(input!!)
             val timepointNext2 = Instant.now()
             val elapsed2 = Duration.between(timepoint, timepointNext2)
             timepoint = timepointNext2
             println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
         } catch (e: Throwable) {
-            java.io.File("crash-${data.hashCode()}").outputStream().use { out ->
-                out.write(data, 0, currentSize)
-            }
+            input.setInt(currentSize, 0)
+            lupos.s00misc.File("crash-${data.hashCode()}").write(input)
         }
     }
 }
