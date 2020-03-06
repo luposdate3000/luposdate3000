@@ -52,8 +52,8 @@ class CachedEntry<T, V>(val key: T, val value: V) {
  */
 class LeastRecentlyUsed<T, V>(val dummyKey: T, val dummyValue: V, val size: Int) {
 
-    val entries = HashMap<T, CachedEntry<T, V>>(size)
-    val dummy = CachedEntry<T, V>(dummyKey, dummyValue)
+    @JvmField val entries = HashMap<T, CachedEntry<T, V>>(size)
+    @JvmField val dummy = CachedEntry<T, V>(dummyKey, dummyValue)
 
     inline fun getEntry(key: T): CachedEntry<T, V>? {
         return this.entries.get(key)

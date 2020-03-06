@@ -2,11 +2,11 @@ package lupos.s00misc
 
 
 fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
-    val res = mutableListOf<XMLElement>()
-    val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
+     val res = mutableListOf<XMLElement>()
+     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
     res.add(nodeSparql)
-    val nodeHead = XMLElement("head")
-    val nodeResults = XMLElement("results")
+     val nodeHead = XMLElement("head")
+     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
 
     if (!json.contains("results")) {
@@ -21,8 +21,8 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     var idx = 0
     var nodeResult: XMLElement? = null
     var nodeBinding: XMLElement? = null
-    val attributes = mutableMapOf<String, String>()
-    val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
+     val attributes = mutableMapOf<String, String>()
+     val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
     var lasttokenbracket = false
     var thistokenbracket = false
     while (idx < json.length) {

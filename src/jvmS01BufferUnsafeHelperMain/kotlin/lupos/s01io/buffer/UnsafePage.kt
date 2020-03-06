@@ -27,16 +27,16 @@ class UnsafePage {
     }
 
     @JvmField // this does not generate any setters/getters avoiding a virtual method call!
-    val basepointer: Long
+    @JvmField val basepointer: Long
 
     @JvmField // this does not generate any getter avoiding a virtual method call!
-    val PAGESIZE = 8 * 1024L
+    @JvmField val PAGESIZE = 8 * 1024L
 
     @JvmField
     var locked = 0
 
     @JvmField
-    val cleaner: () -> Unit
+    @JvmField val cleaner: () -> Unit
 
     constructor() {
         this.basepointer = allocateMemory(this.PAGESIZE)

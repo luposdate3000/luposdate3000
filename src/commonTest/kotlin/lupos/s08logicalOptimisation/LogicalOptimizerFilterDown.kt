@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test
 
 class LogicalOptimizerFilterDownTest {
     var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
-    val astS = AOPVariable("s")
-    val projectS = mutableListOf(AOPVariable("s"))
+    @JvmField val astS = AOPVariable("s")
+    @JvmField val projectS = mutableListOf(AOPVariable("s"))
 
     constructor() {
         ExecuteOptimizer.enabledOptimizers[EOptimizerID.LogicalOptimizerFilterDownID] = true

@@ -42,7 +42,7 @@ class AOPBuildInCallSHA256(child: AOPBase) : AOPBase() {
 
 @UseExperimental(ExperimentalStdlibApi::class)
 fun ByteArray.toHexString3(): String {
-    val sb = StringBuilder()
+     val sb = StringBuilder()
     for (b in this) {
         val tmp = (b + 256) % 256
         if (tmp == 0)

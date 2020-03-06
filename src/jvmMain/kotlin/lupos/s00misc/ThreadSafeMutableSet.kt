@@ -2,8 +2,8 @@ package lupos.s00misc
 
 
 class ThreadSafeMutableSet<T> {
-    val values = mutableSetOf<T>()
-    val mutex = ReadWriteLock()
+    @JvmField val values = mutableSetOf<T>()
+    @JvmField val mutex = ReadWriteLock()
 
     inline fun forEach(crossinline action: (T) -> Unit) = mutex.withReadLock {
         values.forEach(action)

@@ -19,7 +19,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
-    val store: TripleStoreLocal
+    @JvmField val store: TripleStoreLocal
     var index: EIndexPattern = EIndexPattern.SPO
     override fun getGraphName(): String {
         return store.name

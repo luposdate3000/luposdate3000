@@ -5,7 +5,7 @@ import kotlinx.coroutines.sync.Mutex
 
 
 class Lock {
-    val mutex = Mutex()
+    @JvmField val mutex = Mutex()
 
     suspend inline fun <T> withLockSuspend(crossinline action: suspend () -> T): T {
         try {

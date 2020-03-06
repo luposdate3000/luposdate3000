@@ -2,7 +2,7 @@ package lupos.s00misc
 
 
 class ThreadSafeMutableList<T>(val values: MutableList<T> = mutableListOf<T>()) {
-    val mutex = ReadWriteLock()
+    @JvmField val mutex = ReadWriteLock()
 
     constructor(value: T) : this(mutableListOf(value))
 

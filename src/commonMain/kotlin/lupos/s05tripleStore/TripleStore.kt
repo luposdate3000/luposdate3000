@@ -30,7 +30,7 @@ abstract class POPTripleStoreIteratorBase : POPBase() {
 }
 
 class PersistentStoreLocal {
-    val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
+    @JvmField val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
 
     companion object {
         val defaultGraphName = ""

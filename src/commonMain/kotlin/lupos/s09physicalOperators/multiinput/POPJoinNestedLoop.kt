@@ -24,8 +24,8 @@ class POPJoinNestedLoop : POPBase {
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    val optional: Boolean
-    val joinVariables = mutableListOf<String>()
+    @JvmField val optional: Boolean
+    @JvmField val joinVariables = mutableListOf<String>()
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined

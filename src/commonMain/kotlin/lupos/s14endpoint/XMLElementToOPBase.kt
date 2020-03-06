@@ -71,7 +71,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVariable {
-    val n = mapping[name]
+     val n = mapping[name]
     if (n != null)
         return AOPVariable(n)
     return AOPVariable(name)

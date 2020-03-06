@@ -52,8 +52,8 @@ class TransferHelperNetwork {
         }
     }
 
-    val dictionary = ResultSetDictionary()
-    val data = DynamicByteArray()
+    @JvmField val dictionary = ResultSetDictionary()
+    @JvmField val data = DynamicByteArray()
     var lastHeader = ENetworkMessageType.NONE
     var lastCounterPos = 0
     var lastCounterValue = 0

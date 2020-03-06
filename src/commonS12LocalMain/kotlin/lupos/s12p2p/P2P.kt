@@ -18,7 +18,7 @@ import lupos.SparqlTestSuite
 
 
 object P2P {
-    val knownClients = ThreadSafeMutableList<String>()
+    @JvmField val knownClients = ThreadSafeMutableList<String>()
     fun execCommit(transactionID: Long) = Trace.trace({ "P2P.execCommit" }, {
         Endpoint.process_local_commit(transactionID)
     })

@@ -26,9 +26,9 @@ class POPValues : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    val variables = mutableListOf<Variable>()
-    val stringVars = mutableListOf<String>()
-    val data = mutableListOf<Map<Variable, Value>>()
+    @JvmField val variables = mutableListOf<Variable>()
+    @JvmField val stringVars = mutableListOf<String>()
+    @JvmField val data = mutableListOf<Map<Variable, Value>>()
 
     override fun toSparql(): String {
         var res = "VALUES("

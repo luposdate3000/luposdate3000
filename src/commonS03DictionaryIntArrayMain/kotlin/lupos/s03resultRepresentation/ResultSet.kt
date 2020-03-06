@@ -4,9 +4,9 @@ import lupos.s00misc.CoroutinesHelper
 
 
 class ResultSet(val dictionary: ResultSetDictionary) {
-    val variablesSTL = mutableMapOf<String, Variable>()
-    val variablesLTS = mutableListOf<String>()
-    val mutex = CoroutinesHelper.createLock()
+    @JvmField val variablesSTL = mutableMapOf<String, Variable>()
+    @JvmField val variablesLTS = mutableListOf<String>()
+    @JvmField val mutex = CoroutinesHelper.createLock()
 
     fun renameVariable(variableOld: String, variableNew: String): Variable {
         var res: Variable? = null

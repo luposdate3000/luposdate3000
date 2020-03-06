@@ -9,7 +9,7 @@ val bufferManager: BufferManager = BufferManager()
 
 class BufferManager {
 
-    val memoryOfFiles = hashMapOf<String, Array<Page?>>()
+    @JvmField val memoryOfFiles = hashMapOf<String, Array<Page?>>()
 
     fun getPage(pageAddress: PageAddress): Page {
         return this.getPage(pageAddress.fileName, pageAddress.pageNumber)

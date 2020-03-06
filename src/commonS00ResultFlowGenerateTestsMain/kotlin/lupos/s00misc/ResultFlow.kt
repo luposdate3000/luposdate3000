@@ -402,7 +402,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
 
 fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: ThreadSafeMutableList<ResultRow>?, o: OPBase) {
     buffer.appendInt(EOperatorID.POPValuesID.ordinal)
-    val variables = o.getProvidedVariableNames()
+    @JvmField val variables = o.getProvidedVariableNames()
     buffer.appendInt(variables.size)
     for (v in variables) {
         buffer.appendInt(testDictionaryVarName.createValue(v))
@@ -477,13 +477,13 @@ fun createBinaryTestCase(operator: OPBase) {
 
 
 fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
-    val res = action()
-    val consumer = consumerv() as POPBase
-    val producer = producerv() as POPBase
+    @JvmField val res = action()
+    @JvmField val consumer = consumerv() as POPBase
+    @JvmField val producer = producerv() as POPBase
     popMap[consumer.uuid] = consumer
     popMap[producer.uuid] = producer
-    val key = Pair(consumer.uuid, producer.uuid)
-    val list = rowMapConsumed[key]
+    @JvmField val key = Pair(consumer.uuid, producer.uuid)
+    @JvmField val list = rowMapConsumed[key]
     if (list == null)
         rowMapConsumed[key] = ThreadSafeMutableList(res)
     else
@@ -492,10 +492,10 @@ fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: 
 }
 
 fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
-    val res = action()
-    val producer = producerv() as POPBase
+    @JvmField val res = action()
+    @JvmField val producer = producerv() as POPBase
     popMap[producer.uuid] = producer
-    val list = rowMapProduced[producer.uuid]
+    @JvmField val list = rowMapProduced[producer.uuid]
     if (list == null)
         rowMapProduced[producer.uuid] = ThreadSafeMutableList(res)
     else
@@ -602,8 +602,8 @@ fun printAllMicroTest() {
             }
         }
     }
-    val fileName = "/opt/tmpfs/GeneratedMain.kt"
-    val myfile = File(fileName)
+    @JvmField val fileName = "/opt/tmpfs/GeneratedMain.kt"
+    @JvmField val myfile = File(fileName)
     myfile.printWriter { out ->
         out.println("package lupos")
         out.println("")

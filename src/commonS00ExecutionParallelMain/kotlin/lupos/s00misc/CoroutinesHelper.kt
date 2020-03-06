@@ -11,7 +11,7 @@ import kotlinx.coroutines.sync.Mutex
 typealias CoroutinesHelperMutex = Mutex
 
 object CoroutinesHelper {
-    val channelType = 2
+    @JvmField val channelType = 2
     inline fun run(crossinline action: suspend CoroutineScope.() -> Unit) = GlobalScope.launch {
         action()
     }

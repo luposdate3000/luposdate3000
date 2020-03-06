@@ -21,7 +21,7 @@ inline fun createString(chars: CharArray): String = String(chars)
 class CachedFile {
     @JvmField
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
-    val file: RandomAccessFile
+    @JvmField val file: RandomAccessFile
 
     constructor(filename: String) {
         val paths = filename.split("/")

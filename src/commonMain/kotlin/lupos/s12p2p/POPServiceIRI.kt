@@ -21,18 +21,12 @@ class POPServiceIRI : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-@JvmField
-    val transactionID: Long
-@JvmField
-    val constraint: OPBase?
-@JvmField
-    val serverName: String
-@JvmField
-    val silent: Boolean
-@JvmField
+    @JvmField val transactionID: Long
+    @JvmField val constraint: OPBase?
+    @JvmField val serverName: String
+    @JvmField val silent: Boolean
     var first = true
-@JvmField
-    val originalConstraint: OPBase
+    @JvmField val originalConstraint: OPBase
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPServiceIRI)

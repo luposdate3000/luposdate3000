@@ -33,7 +33,7 @@ import lupos.SparqlTestSuite
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {
-    val client = createHttpClient()
+    @JvmField val client = createHttpClient()
     fun encodeParam(key: String, value: Any) = URL.encodeComponent(key) + "=" + URL.encodeComponent("" + value)
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
         require(!url.startsWith("http://${endpointServer!!.fullname}"))
@@ -128,7 +128,7 @@ object EndpointClientImpl {
 }
 
 class MyDynamicByteArray : AsyncStreamBase {
-    val data: DynamicByteArray
+    @JvmField val data: DynamicByteArray
 
     constructor(data: DynamicByteArray) {
         this.data = data

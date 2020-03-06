@@ -14,7 +14,7 @@ object CacheOfFiles {
      */
     const val MAXOPENEDFILES = 10
 
-    val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
+    @JvmField val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
 
     /**
      * Returns the requested file from cache, or opens the file if it is not in the cache of open files

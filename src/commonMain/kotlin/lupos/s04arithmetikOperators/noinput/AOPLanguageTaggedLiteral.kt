@@ -10,7 +10,7 @@ class AOPLanguageTaggedLiteral : AOPConstantString {
     override val children: Array<OPBase> = arrayOf()
     override val delimiter: String
     override val content: String
-    val language: String
+    @JvmField val language: String
 
     constructor(delimiter: String, content: String, language: String) : super() {
         this.delimiter = delimiter

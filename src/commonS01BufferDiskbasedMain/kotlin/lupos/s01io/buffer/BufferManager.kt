@@ -12,7 +12,7 @@ class BufferManager {
     /**
      * the max. number of opened files
      */
-    val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
+    @JvmField val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
 
     private val cache = LeastRecentlyUsed<PageAddress, Page?>(PageAddress("", -1), null, MAXPAGES)
 

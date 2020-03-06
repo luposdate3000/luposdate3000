@@ -37,7 +37,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class SparqlTestSuite() {
-    val errorBoundForDecimalsDigits = 6
+    @JvmField val errorBoundForDecimalsDigits = 6
 
     fun testMain() {
         repeat(1) {
@@ -609,7 +609,7 @@ class SevenIndices {
     private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
-    val spo = mutableSetOf<ID_Triple>()
+    @JvmField val spo = mutableSetOf<ID_Triple>()
 
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()

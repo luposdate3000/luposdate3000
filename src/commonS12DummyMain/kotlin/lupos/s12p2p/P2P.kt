@@ -26,9 +26,9 @@ import lupos.SparqlTestSuite
 
 
 object P2P {
-    val knownClients = ThreadSafeMutableList<String>()
-    val knownClientsLock = CoroutinesHelper.createLock()
-    val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
+    @JvmField val knownClients = ThreadSafeMutableList<String>()
+    @JvmField val knownClientsLock = CoroutinesHelper.createLock()
+    @JvmField val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
 
     fun getPendingModifications(transactionID: Long, nodeName: String): TransferHelperNetwork {
         val transaction = pendingModifications[transactionID]

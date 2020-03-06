@@ -12,7 +12,7 @@ class DynamicByteArray {
     }
 
     var data: ByteArray
-    val maxlen: Int
+    @JvmField val maxlen: Int
 
     constructor() {
         data = ByteArray(100)

@@ -61,11 +61,11 @@ class XMLElement {
         }
     }
 
-    val attributes = mutableMapOf<String, String>()
+    @JvmField val attributes = mutableMapOf<String, String>()
     var content: String = ""
-    val childs = mutableListOf<XMLElement>()
+    @JvmField val childs = mutableListOf<XMLElement>()
 
-    val tag: String
+    @JvmField val tag: String
 
     constructor(tag: String) {
         this.tag = decodeText(tag)

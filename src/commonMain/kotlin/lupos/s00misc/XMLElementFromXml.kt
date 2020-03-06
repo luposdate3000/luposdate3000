@@ -2,8 +2,8 @@ package lupos.s00misc
 
 
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
-    val x = xml.replace("\n", "").replace("\r", "")
-    val res = mutableListOf<XMLElement>()
+     val x = xml.replace("\n", "").replace("\r", "")
+     val res = mutableListOf<XMLElement>()
     var lastindex = 0
     """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach { child ->
         var value = child.value

@@ -2,15 +2,15 @@ package lupos.s00misc
 
 
 fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
-    val res = mutableListOf<XMLElement>()
-    val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
+     val res = mutableListOf<XMLElement>()
+     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
     res.add(nodeSparql)
-    val nodeHead = XMLElement("head")
-    val nodeResults = XMLElement("results")
+     val nodeHead = XMLElement("head")
+     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
     nodeSparql.addContent(nodeResults)
-    val lines = tsv.lines()
-    val variables = mutableListOf<Pair<String, Int>>()
+     val lines = tsv.lines()
+     val variables = mutableListOf<Pair<String, Int>>()
     var i = 0
     for (variableName in lines.first().split("\t")) {
         nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName.substring(1, variableName.length)))

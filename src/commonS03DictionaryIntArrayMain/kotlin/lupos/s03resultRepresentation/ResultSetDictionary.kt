@@ -6,10 +6,10 @@ import lupos.s00misc.ThreadSafeMutableMap
 
 
 class ResultSetDictionary {
-    val mapSTL = ThreadSafeMutableMap<String, Value>()
-    val mapLTS = ThreadSafeMutableList<String>()
-    val undefValue = Value.MAX_VALUE
-    val mutex = CoroutinesHelper.createLock()
+    @JvmField val mapSTL = ThreadSafeMutableMap<String, Value>()
+    @JvmField val mapLTS = ThreadSafeMutableList<String>()
+    @JvmField val undefValue = Value.MAX_VALUE
+    @JvmField val mutex = CoroutinesHelper.createLock()
     fun createValue(value: String): Value {
         var res: Value = undefValue
         CoroutinesHelper.runBlockWithLock(mutex, {

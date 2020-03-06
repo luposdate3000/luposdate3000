@@ -24,7 +24,7 @@ val uuid = ThreadSafeUuid()
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
 
 class DistributedGraph(val name: String) {
-    val K = 8 // defined in project.pdf
+    @JvmField val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
@@ -99,7 +99,7 @@ class DistributedGraph(val name: String) {
 }
 
 object DistributedTripleStore {
-    val localStore = PersistentStoreLocal()
+    @JvmField val localStore = PersistentStoreLocal()
     fun nextTransactionID(): Long {
         return localStore.nextTransactionID()
     }

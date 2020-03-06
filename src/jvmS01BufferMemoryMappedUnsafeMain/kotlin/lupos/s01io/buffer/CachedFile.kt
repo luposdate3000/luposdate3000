@@ -17,8 +17,8 @@ inline fun createString(chars: CharArray): String = String(chars)
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
 
 class CachedFile {
-    val file: RandomAccessFile
-    val PAGESIZE = 8 * 1024L
+    @JvmField val file: RandomAccessFile
+    @JvmField val PAGESIZE = 8 * 1024L
 
     constructor(filename: String) {
         val paths = filename.split("/")

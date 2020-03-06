@@ -194,7 +194,7 @@ import lupos.s05tripleStore.*
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {
-    val queryExecutionStartTime = AOPDateTime() /*required for BuildInCall.NOW */
+    @JvmField val queryExecutionStartTime = AOPDateTime() /*required for BuildInCall.NOW */
 
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 

@@ -32,11 +32,11 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
-    val nodeNameIterator: Iterator<String>
+    @JvmField val nodeNameIterator: Iterator<String>
     var remoteIterator: Iterator<ResultRow>? = null
-    val transactionID: Long
-    val graphNameL: String
-    val index: EIndexPattern
+    @JvmField val transactionID: Long
+    @JvmField val graphNameL: String
+    @JvmField val index: EIndexPattern
     override fun cloneOP() = TripleStoreIteratorGlobal(transactionID, dictionary, graphNameL, sparam, pparam, oparam, index)
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern = EIndexPattern.SPO) {
@@ -113,7 +113,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 }
 
 class DistributedGraph(val name: String) {
-    val K = 8 // defined in project.pdf
+    @JvmField val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
@@ -215,7 +215,7 @@ class DistributedGraph(val name: String) {
 }
 
 object DistributedTripleStore {
-    val localStore = PersistentStoreLocal()
+    @JvmField val localStore = PersistentStoreLocal()
     fun nextTransactionID(): Long = Trace.trace({ "DistributedTripleStore.nextTransactionID" }, {
         return localStore.nextTransactionID()
     })

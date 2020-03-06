@@ -2,7 +2,7 @@ package lupos.s03resultRepresentation
 
 
 class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {
-    val values = Array(columns) { undefValue }
+    @JvmField val values = Array(columns) { undefValue }
 
     operator fun set(name: Variable, value: Value) {
         values[name.toInt()] = value

@@ -8,14 +8,14 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
     override val operatorID = EOperatorID.AOPDateTimeID
     override val classname = "AOPDateTime"
     override val children: Array<OPBase> = arrayOf()
-    val year: Int
-    val month: Int
-    val day: Int
-    val hours: Int
-    val minutes: Int
-    val seconds: Int
-    val timezoneHours: Int
-    val timezoneMinutes: Int
+    @JvmField val year: Int
+    @JvmField val month: Int
+    @JvmField val day: Int
+    @JvmField val hours: Int
+    @JvmField val minutes: Int
+    @JvmField val seconds: Int
+    @JvmField val timezoneHours: Int
+    @JvmField val timezoneMinutes: Int
 
 
     constructor() : super() {

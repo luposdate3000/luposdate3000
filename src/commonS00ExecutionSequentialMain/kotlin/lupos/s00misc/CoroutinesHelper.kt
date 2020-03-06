@@ -10,7 +10,7 @@ typealias CoroutinesHelperMutex = Int
 
 object CoroutinesHelper {
 
-    val channelType = UNLIMITED
+    @JvmField val channelType = UNLIMITED
     inline fun run(crossinline action: suspend CoroutineScope.() -> Unit) = runBlocking {
         action()
     }

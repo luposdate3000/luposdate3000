@@ -32,7 +32,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[EOperatorID.AOPSimpleLiteralID]!!.createValue("\"" + it!! + "\"")
         }
     }
-    val input = File.readStdInAsDynamicByteArray()
+     val input = File.readStdInAsDynamicByteArray()
     if (input != null) {
         executeBinaryTest(input!!)
     } else if (args.isEmpty()) {

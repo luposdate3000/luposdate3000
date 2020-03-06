@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.Variable
 
 
 class ResultRow() : Comparable<ResultRow> {
-    val values = mutableMapOf<Variable, Value>()
+    @JvmField val values = mutableMapOf<Variable, Value>()
     operator fun set(name: Variable, value: Value) {
         values[name] = value
     }

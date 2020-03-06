@@ -41,7 +41,7 @@ abstract class OPBase {
         private val global_uuid = ThreadSafeUuid()
     }
 
-    val uuid: Long = global_uuid.next()
+    @JvmField val uuid: Long = global_uuid.next()
 
     override fun toString(): String = toXMLElement().toPrettyString()
 
