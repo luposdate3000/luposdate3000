@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicLong
 
 

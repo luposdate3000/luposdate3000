@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import kotlin.jvm.JvmField
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
 import platform.posix.pthread_mutex_init
