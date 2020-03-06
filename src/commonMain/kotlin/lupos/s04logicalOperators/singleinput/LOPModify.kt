@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPModify(val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), child: OPBase) : LOPBase() {
+class LOPModify(@JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), @JvmField val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), child: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPModifyID
     override val classname = "LOPModify"
     override val children: Array<OPBase> = arrayOf(child)

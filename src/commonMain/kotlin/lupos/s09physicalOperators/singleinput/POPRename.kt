@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPRename(override val dictionary: ResultSetDictionary, val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBase) : POPBase() {
+class POPRename(override val dictionary: ResultSetDictionary, @JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPRenameID
     override val classname = "POPRename"
     override val resultSet = ResultSet(dictionary)

@@ -1,7 +1,7 @@
 package lupos.s01io.buffer
 
 
-data class PageAddress(val fileName: String, val pageNumber: Int)
+data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 
 val PAGESIZE: Int = 8 * 1024
 

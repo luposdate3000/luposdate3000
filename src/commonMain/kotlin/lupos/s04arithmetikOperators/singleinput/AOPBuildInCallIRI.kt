@@ -11,7 +11,7 @@ import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallIRI(child: AOPBase, var prefix: String = "") : AOPBase() {
+class AOPBuildInCallIRI(child: AOPBase, @JvmField var prefix: String = "") : AOPBase() {
     override val operatorID = EOperatorID.AOPBuildInCallIRIID
     override val classname = "AOPBuildInCallIRI"
     override val children: Array<OPBase> = arrayOf(child)

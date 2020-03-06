@@ -626,9 +626,9 @@ fun printAllMicroTest() {
         out.println("import lupos.s11outputResult.*")
         out.println("import org.junit.jupiter.api.*")
         out.println("import org.junit.jupiter.api.Assertions.*")
-        out.println("open class MicroTest0(val input: OPBase, val expected: Any)\n")
-        out.println("class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
-        out.println("class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
+        out.println("open class MicroTest0(@JvmField val input: OPBase, @JvmField val expected: Any)\n")
+        out.println("class MicroTestA1(input: AOPBase, @JvmField val resultRow: ResultRow, @JvmField val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
+        out.println("class MicroTestAN(input: AOPBase, @JvmField val resultRows: List<ResultRow>, @JvmField val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected)\n")
     }
     mapOf(
             testDictionaryVarName to "DictionaryVarName",

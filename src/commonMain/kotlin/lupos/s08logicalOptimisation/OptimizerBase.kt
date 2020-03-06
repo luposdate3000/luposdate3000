@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 
 
-abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary, val optimizerID: EOptimizerID) {
+abstract class OptimizerBase(@JvmField val transactionID: Long, @JvmField val dictionary: ResultSetDictionary, @JvmField val optimizerID: EOptimizerID) {
     abstract val classname: String
 
     abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase

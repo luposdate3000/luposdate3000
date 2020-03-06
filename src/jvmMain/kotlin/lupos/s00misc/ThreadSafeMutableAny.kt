@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 
-class ThreadSafeMutableAny<T>(var value: T) {
+class ThreadSafeMutableAny<T>(@JvmField var value: T) {
     fun get(): T {
         return value
     }

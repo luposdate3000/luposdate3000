@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf(), child: OPBase = OPNothing()) : LOPBase() {
+class LOPProjection(@JvmField val variables: MutableList<AOPVariable> = mutableListOf(), child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPProjectionID
     override val classname = "LOPProjection"
     override val children: Array<OPBase> = arrayOf(child)

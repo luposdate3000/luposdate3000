@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPLimit(val limit: Int, child: OPBase = OPNothing()) : LOPBase() {
+class LOPLimit(@JvmField val limit: Int, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPLimitID
     override val classname = "LOPLimit"
     override val children: Array<OPBase> = arrayOf(child)

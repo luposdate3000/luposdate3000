@@ -8,7 +8,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPVariable(var name: String) : AOPBase() {
+class AOPVariable(@JvmField var name: String) : AOPBase() {
     override val operatorID = EOperatorID.AOPVariableID
     override val classname = "AOPVariable"
     override val children: Array<OPBase> = arrayOf()

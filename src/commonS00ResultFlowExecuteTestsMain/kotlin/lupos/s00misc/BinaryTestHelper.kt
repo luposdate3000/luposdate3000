@@ -92,7 +92,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class ExceptionTopLevelOperator(val data: OPBase) : Exception("this object needs to be toplevel")
+class ExceptionTopLevelOperator(@JvmField val data: OPBase) : Exception("this object needs to be toplevel")
 
 val MAX_SET = 10
 val MAX_VARIABLES = 10

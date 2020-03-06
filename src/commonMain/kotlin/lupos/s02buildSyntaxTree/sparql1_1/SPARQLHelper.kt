@@ -67,7 +67,7 @@ enum class Aggregation {
     COUNT, SUM, MIN, MAX, AVG, SAMPLE, GROUP_CONCAT
 }
 
-open abstract class ASTNode(val children: Array<ASTNode>) {
+open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     companion object {
         private val global_uuid = ThreadSafeUuid()
     }
@@ -115,21 +115,21 @@ open abstract class ASTNode(val children: Array<ASTNode>) {
 }
 
 open abstract class ASTUnaryOperation(child: ASTNode) : ASTNode(arrayOf<ASTNode>(child))
-open abstract class ASTUnaryOperationFixedName(child: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(child)) {
+open abstract class ASTUnaryOperationFixedName(child: ASTNode, @JvmField val name: String) : ASTNode(arrayOf<ASTNode>(child)) {
     override fun nodeToString(): String {
         return name
     }
 }
 
 open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf<ASTNode>(left, right))
-open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(left, right)) {
+open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, @JvmField val name: String) : ASTNode(arrayOf<ASTNode>(left, right)) {
     override fun nodeToString(): String {
         return name
     }
 }
 
 open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children)
-open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, val name: String) : ASTNode(children) {
+open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, @JvmField val name: String) : ASTNode(children) {
     override fun nodeToString(): String {
         return name
     }

@@ -5,7 +5,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPJoin(first: OPBase, second: OPBase, val optional: Boolean) : LOPBase() {
+class LOPJoin(first: OPBase, second: OPBase, @JvmField val optional: Boolean) : LOPBase() {
     override val operatorID = EOperatorID.LOPJoinID
     override val classname = "LOPJoin"
     override val children: Array<OPBase> = arrayOf(first, second)

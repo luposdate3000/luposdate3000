@@ -16,7 +16,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationSUM(val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
+class AOPAggregationSUM(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
     override val operatorID = EOperatorID.AOPAggregationSUMID
     override val classname = "AOPAggregationSUM"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }

@@ -4,7 +4,7 @@ class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // configuration and search methods/receiveRun: do with inline functions for avoiding calls to overridden methods
-class LSM_Tree_Helper<K : Comparable<in K>, V>(val directoryOfIndex: String? = null) {
+class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField val directoryOfIndex: String? = null) {
 
     companion object {
         private var dir_counter = 0
@@ -94,7 +94,7 @@ inline fun <K, V> put(k: K, v: V, isFirstLevelFull: () -> Boolean, putFirstLevel
     putFirstLevel(k, v)
 }
 
-inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(val mainMemoryDatastructure: HashMap<K, V> = hashMapOf<K, V>()) {
+inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val mainMemoryDatastructure: HashMap<K, V> = hashMapOf<K, V>()) {
 
     inline fun put(k: K, v: V) {
         this.mainMemoryDatastructure[k] = v
@@ -151,7 +151,7 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(val mainMemory
 
 // TODO: class implementing this interface...
 interface Searchable<K, V, R> {
-    class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(val level: Int, val createRunFromFirstLevelInput: (Pair<Int, () -> Pair<K, V>?>) -> R) {
+    class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(@JvmField val level: Int, @JvmField val createRunFromFirstLevelInput: (Pair<Int, () -> Pair<K, V>?>) -> R) {
         var MAX_RUNS = 4
         var nextLevel: Level<K, V, R>? = null
 

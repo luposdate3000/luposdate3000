@@ -10,7 +10,7 @@ package lupos.s01io.buffer
  *
  * @param <T> the type of the keys to be stored...
  */
-class CachedEntry<T, V>(val key: T, val value: V) {
+class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
 
     @JvmField var before: CachedEntry<T, V> = this
     @JvmField var after: CachedEntry<T, V> = this
@@ -50,7 +50,7 @@ class CachedEntry<T, V>(val key: T, val value: V) {
  * This replacement strategy returns the number of the least recently used
  * item if the cache is full.
  */
-class LeastRecentlyUsed<T, V>(val dummyKey: T, val dummyValue: V, val size: Int) {
+class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValue: V, @JvmField val size: Int) {
 
     @JvmField val entries = HashMap<T, CachedEntry<T, V>>(size)
     @JvmField val dummy = CachedEntry<T, V>(dummyKey, dummyValue)

@@ -17,7 +17,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 
 
-class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {
+class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmField val components: Int) {
     @JvmField val values = ThreadSafeMutableList<Value>()
 
     inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { dictionary.getValue(key[it])!! }

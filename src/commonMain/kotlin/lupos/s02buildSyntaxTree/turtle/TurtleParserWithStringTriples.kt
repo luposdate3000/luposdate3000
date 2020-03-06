@@ -7,7 +7,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 
 
-class TurtleParserWithStringTriples(val consume_triple: (String, String, String) -> Unit, val ltit: LookAheadTokenIterator) {
+class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     val prefixes = mutableMapOf<String, String>()
     // some constants used for typed literals

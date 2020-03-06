@@ -16,7 +16,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationSAMPLE(val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
+class AOPAggregationSAMPLE(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
     override val operatorID = EOperatorID.AOPAggregationSAMPLEID
     override val classname = "AOPAggregationSAMPLE"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }

@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, val graph: String, val graphVar: Boolean) : LOPBase() {
+class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase() {
     override val operatorID = EOperatorID.LOPTripleID
     override val classname = "LOPTriple"
     override val children = arrayOf<OPBase>(s, p, o)

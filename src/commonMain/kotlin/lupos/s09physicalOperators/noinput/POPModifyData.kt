@@ -22,7 +22,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: EModifyType, val data: List<LOPTriple>) : POPBase() {
+class POPModifyData(override val dictionary: ResultSetDictionary, @JvmField val transactionID: Long, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase() {
     override val operatorID = EOperatorID.POPModifyDataID
     override val classname = "POPModifyData"
     override val resultSet = ResultSet(dictionary)

@@ -16,7 +16,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationCOUNT(val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
+class AOPAggregationCOUNT(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
     override val operatorID = EOperatorID.AOPAggregationCOUNTID
     override val classname = "AOPAggregationCOUNT"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }

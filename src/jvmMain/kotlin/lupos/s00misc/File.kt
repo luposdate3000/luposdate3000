@@ -4,7 +4,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 
-class File(val filename: String) {
+class File(@JvmField val filename: String) {
     companion object {
         fun readStdInAsDynamicByteArray(): DynamicByteArray? {
             System.`in`.use { instream ->

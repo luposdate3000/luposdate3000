@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPProjection(override val dictionary: ResultSetDictionary, val variables: MutableList<AOPVariable>, child: OPBase) : POPBase() {
+class POPProjection(override val dictionary: ResultSetDictionary, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPProjectionID
     override val classname = "POPProjection"
     override val resultSet = ResultSet(dictionary)

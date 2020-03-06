@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPJoinHashMap(override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, val optional: Boolean) : POPBase() {
+class POPJoinHashMap(override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase() {
     override val operatorID = EOperatorID.POPJoinHashMapID
     override val classname = "POPJoinHashMap"
     override val resultSet = ResultSet(dictionary)

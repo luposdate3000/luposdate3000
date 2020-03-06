@@ -10,7 +10,7 @@ typealias Page = MappedByteBufferPage
 
 inline fun createString(chars: CharArray): String = String(chars)
 
-class MappedByteBufferPage(val buffer: MappedByteBuffer) {
+class MappedByteBufferPage(@JvmField val buffer: MappedByteBuffer) {
     @JvmField
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField var locked = 0

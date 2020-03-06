@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPTypedLiteral(override val delimiter: String, override val content: String, val type_iri: String) : AOPConstantString() {
+class AOPTypedLiteral(override val delimiter: String, override val content: String, @JvmField val type_iri: String) : AOPConstantString() {
     override val operatorID = EOperatorID.AOPTypedLiteralID
     override val classname = "AOPTypedLiteral"
     override val children: Array<OPBase> = arrayOf()

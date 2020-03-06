@@ -112,7 +112,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 
 }
 
-class DistributedGraph(val name: String) {
+class DistributedGraph(@JvmField val name: String) {
     @JvmField val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {

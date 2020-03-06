@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPOffset(override val dictionary: ResultSetDictionary, val offset: Int, child: OPBase) : POPBase() {
+class POPOffset(override val dictionary: ResultSetDictionary, @JvmField val offset: Int, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPOffsetID
     override val classname = "POPOffset"
     override val resultSet = ResultSet(dictionary)

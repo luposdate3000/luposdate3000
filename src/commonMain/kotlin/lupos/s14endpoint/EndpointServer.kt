@@ -54,7 +54,7 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)
-abstract class EndpointServer(val hostname: String = "localhost", val port: Int = 80) {
+abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {
     @JvmField val fullname = hostname + ":" + port
 
 

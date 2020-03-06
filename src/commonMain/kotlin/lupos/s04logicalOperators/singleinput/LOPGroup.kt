@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
+class LOPGroup(@JvmField var by: List<AOPVariable>) : LOPBase() {
     override val operatorID = EOperatorID.LOPGroupID
     override val classname = "LOPGroup"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())

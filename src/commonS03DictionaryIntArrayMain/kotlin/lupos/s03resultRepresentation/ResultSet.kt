@@ -3,7 +3,7 @@ package lupos.s03resultRepresentation
 import lupos.s00misc.CoroutinesHelper
 
 
-class ResultSet(val dictionary: ResultSetDictionary) {
+class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     @JvmField val variablesSTL = mutableMapOf<String, Variable>()
     @JvmField val variablesLTS = mutableListOf<String>()
     @JvmField val mutex = CoroutinesHelper.createLock()

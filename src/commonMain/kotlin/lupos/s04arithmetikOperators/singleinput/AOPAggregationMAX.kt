@@ -16,7 +16,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationMAX(val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
+class AOPAggregationMAX(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
     override val operatorID = EOperatorID.AOPAggregationMAXID
     override val classname = "AOPAggregationMAX"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }

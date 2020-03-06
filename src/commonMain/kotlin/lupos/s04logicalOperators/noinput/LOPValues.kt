@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase() {
+class LOPValues(@JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase() {
     override val operatorID = EOperatorID.LOPValuesID
     override val classname = "LOPValues"
     override val children: Array<OPBase> = Array(values.size) { values[it] }

@@ -10,7 +10,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPNot(var child: AOPBase) : AOPBase() {
+class AOPNot(@JvmField var child: AOPBase) : AOPBase() {
     override val operatorID = EOperatorID.AOPNotID
     override val classname = "AOPNot"
     override val children: Array<OPBase> = arrayOf(child)

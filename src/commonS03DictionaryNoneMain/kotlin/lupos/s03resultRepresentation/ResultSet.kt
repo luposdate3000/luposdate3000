@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
-class ResultSet(val dictionary: ResultSetDictionary) {
+class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     @JvmField val variables = mutableListOf<String>()
 
     fun renameVariable(variableOld: String, variableNew: String): String {

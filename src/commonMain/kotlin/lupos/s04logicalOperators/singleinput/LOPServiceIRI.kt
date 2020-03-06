@@ -5,7 +5,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPBase() {
+class LOPServiceIRI(@JvmField val name: String, @JvmField val silent: Boolean, child: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPServiceIRIID
     override val classname = "LOPServiceIRI"
     override val children: Array<OPBase> = arrayOf(child)

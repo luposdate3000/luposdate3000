@@ -8,7 +8,7 @@ import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 
 
 class EOF(index: Int) : Token("EOF", index)
-abstract class InBraces(val content: String, index: Int, val leftBrace: String, val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
+abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
     override fun toString(): String {
         return super.toString() + ": " + this.image
     }
@@ -26,21 +26,21 @@ class STRING(content: String, delimiter: String, index: Int) : InBraces(content,
 class INTEGER(image: String, index: Int) : Token(image, index)
 class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token(beforeDOT + "." + afterDOT, index)
 class DOUBLE(beforeDOT: String, dot: Boolean, afterDOT: String, exp: String, plusminus: String, expnumber: String, index: Int) : Token(beforeDOT + (if (dot) "." else "") + afterDOT + exp + plusminus + expnumber, index)
-class LANGTAG(val language: String, index: Int) : Token("@" + language, index)
+class LANGTAG(@JvmField val language: String, index: Int) : Token("@" + language, index)
 class DOUBLECIRCUMFLEX(index: Int) : Token("^^", index)
-class BNODE(val name: String, index: Int) : Token("_:" + name, index)
+class BNODE(@JvmField val name: String, index: Int) : Token("_:" + name, index)
 class ANON_BNODE(index: Int) : Token("[]", index)
 
-class PNAME_NS(val beforeColon: String, index: Int) : Token(beforeColon + ":", index)
-class PNAME_LN(val beforeColon: String, val afterColon: String, index: Int) : Token(beforeColon + ":" + afterColon, index)
+class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token(beforeColon + ":", index)
+class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token(beforeColon + ":" + afterColon, index)
 
-class POSSIBLE_KEYWORD(val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
+class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 
 class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", index, lineNumber, columnNumber) {
     constructor(index: Int, iterator: LexerCharIterator) : this(index, iterator.lineNumber, iterator.columnNumber)
 }
 
-class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
+class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
 
     fun skip() {
         loop@ while (true) {

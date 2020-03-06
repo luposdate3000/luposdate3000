@@ -10,7 +10,7 @@ interface TokenIterator {
     fun getColumnNumber(): Int
 }
 
-class LookAheadTokenIterator(val tokenIterator: TokenIterator, val lookahead: Int) {
+class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmField val lookahead: Int) {
     val tokens: Array<Token> = Array(lookahead, { EOF(0) }) // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
     @JvmField var index1 = 0
     @JvmField var index2 = 0
@@ -81,7 +81,7 @@ fun getErrorLine(source: String, index: Int): String {
     return result
 }
 
-open class ParseError(message: String, val index: Int, val lineNumber: Int, val columnNumber: Int) : Throwable(message + " in line " + lineNumber + " at column " + columnNumber) {
+open class ParseError(message: String, @JvmField val index: Int, @JvmField val lineNumber: Int, @JvmField val columnNumber: Int) : Throwable(message + " in line " + lineNumber + " at column " + columnNumber) {
     constructor(message: String, token: Token, lineNumber: Int, columnNumber: Int) : this(message, token.index, lineNumber, columnNumber)
     constructor(message: String, token: Token, tokenIterator: TokenIterator) : this(message, token.index, tokenIterator.getLineNumber(), tokenIterator.getColumnNumber())
     constructor(message: String, token: Token, tokenIterator: LookAheadTokenIterator) : this(message, token.index, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
@@ -97,7 +97,7 @@ class UnexpectedToken(token: Token, expectedTokens: Array<String>, lineNumber: I
 }
 
 /*
-class LexerCharIterator(val content:String) {
+class LexerCharIterator(@JvmField val content:String) {
     @JvmField var index = 0;
     @JvmField var lineNumber = 0
     @JvmField var columnNumber = 0
@@ -156,7 +156,7 @@ fun main(args : Array<String>){
 }
 */
 
-class LexerCharIterator(val content: CharIterator) {
+class LexerCharIterator(@JvmField val content: CharIterator) {
 
     constructor(contentString: String) : this(contentString.iterator())
 
@@ -273,13 +273,13 @@ class LexerCharIterator(val content: CharIterator) {
     }
 }
 
-abstract class Token(val image: String, val index: Int) {
+abstract class Token(@JvmField val image: String, @JvmField val index: Int) {
     override fun toString(): String {
         return super.toString() + ": " + image
     }
 }
 
-open abstract class ASTNode(val children: Array<ASTNode>) {
+open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     override fun toString(): String {
         return toString("")
     }
@@ -300,17 +300,17 @@ open abstract class ASTNode(val children: Array<ASTNode>) {
 }
 
 open abstract class ASTUnaryOperation(child: ASTNode) : ASTNode(arrayOf<ASTNode>(child))
-open abstract class ASTUnaryOperationFixedName(child: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(child)) {
+open abstract class ASTUnaryOperationFixedName(child: ASTNode, @JvmField val name: String) : ASTNode(arrayOf<ASTNode>(child)) {
     override fun nodeToString(): String = name
 }
 
 open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf<ASTNode>(left, right))
-open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(left, right)) {
+open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, @JvmField val name: String) : ASTNode(arrayOf<ASTNode>(left, right)) {
     override fun nodeToString(): String = name
 }
 
 open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children)
-open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, val name: String) : ASTNode(children) {
+open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, @JvmField val name: String) : ASTNode(children) {
     override fun nodeToString(): String = name
 }
 

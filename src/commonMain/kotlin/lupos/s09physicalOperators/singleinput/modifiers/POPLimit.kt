@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPLimit(override val dictionary: ResultSetDictionary, val limit: Int, child: OPBase) : POPBase() {
+class POPLimit(override val dictionary: ResultSetDictionary, @JvmField val limit: Int, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPLimitID
     override val classname = "POPLimit"
     override val resultSet = ResultSet(dictionary)

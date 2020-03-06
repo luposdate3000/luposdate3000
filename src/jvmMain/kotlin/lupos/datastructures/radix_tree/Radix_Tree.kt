@@ -12,7 +12,7 @@ import lupos.s01io.buffer.toStringUTF
 
 class NotFoundException : Exception()
 
-class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), var v: V? = null) {
+class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0), @JvmField var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField var v: V? = null) {
     /**
      * @return a: If a<0: key k is smaller at position -a
      *            If a>0: key k is bigger at position a
@@ -245,7 +245,7 @@ fun main() {
     }
 }
 
-class Static_Radix_Tree<V>(val filename: String) {
+class Static_Radix_Tree<V>(@JvmField val filename: String) {
     fun create(mainMemoryRadixTree: Radix_Tree_MainMemory<V>) {
         var p: Page = bufferManager.getPage(this.filename, 0)
         p.lock()

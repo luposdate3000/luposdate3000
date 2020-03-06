@@ -1,6 +1,6 @@
 package lupos.s00misc
 
-enum class EOptimizerID(val optional: Boolean) {
+enum class EOptimizerID(@JvmField val optional: Boolean) {
     LogicalOptimizerID(false),
     LogicalOptimizerArithmeticID(true),
     LogicalOptimizerFilterDownID(true),

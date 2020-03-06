@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGraphOperation(var action: EGraphOperationType = EGraphOperationType.CREATE,
+class LOPGraphOperation(@JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
                         var silent: Boolean = false,
                         var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph1iri: String? = null,

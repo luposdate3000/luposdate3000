@@ -11,7 +11,7 @@ import lupos.s01io.buffer.serializeInt
 
 
 // this class avoids virtual method calls, which speeds up processing of Big Data
-class B_Plus_Tree_Uncompressed_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
+class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -68,7 +68,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename: String, val k: Int = 100
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
 
     override fun get(key: Int): Int = this.tree[key]
@@ -79,7 +79,7 @@ inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree: B_Plus_Tree_U
 
 // this class introduces virtual method calls, but implements a generic interface
 // this class applies binary search
-inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(@JvmField val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
 
     override fun get(key: Int): Int = this.tree.binarySearch(key)
@@ -88,7 +88,7 @@ inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(val tree: 
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_VariableSize_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
+class B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -128,7 +128,7 @@ class B_Plus_Tree_VariableSize_Int_to_Int(val filename: String, val k: Int = 100
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(val tree: B_Plus_Tree_VariableSize_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val tree: B_Plus_Tree_VariableSize_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_VariableSize_Int_to_Int(filename, k, k_star))
 
     override fun get(key: Int): Int = this.tree[key]
@@ -137,7 +137,7 @@ inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(val tree: B_Plus_Tree_V
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) { // val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) { // val k:Int = 1000, @JvmField val k_star:Int = 500){
     val bplustree = B_Plus_Tree_VariableSizePointers<Int, Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -177,7 +177,7 @@ class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename: String, val k: I
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(val tree: B_Plus_Tree_VariableSizePointers_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val tree: B_Plus_Tree_VariableSizePointers_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_VariableSizePointers_Int_to_Int(filename, k, k_star))
 
     override fun get(key: Int): Int = this.tree[key]
@@ -186,7 +186,7 @@ inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(val tree: B_Plu
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
+class B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding<Int, Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -237,7 +237,7 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename: String, val k: Int
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(val tree: B_Plus_Tree_DifferenceEncoding_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val tree: B_Plus_Tree_DifferenceEncoding_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_DifferenceEncoding_Int_to_Int(filename, k, k_star))
 
     override fun get(key: Int): Int = this.tree[key]
@@ -246,7 +246,7 @@ inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(val tree: B_Plus_
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_DifferenceEncoding_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
+class B_Plus_Tree_DifferenceEncoding_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding_OnlyKeys<Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -289,7 +289,7 @@ class B_Plus_Tree_DifferenceEncoding_Int(val filename: String, val k: Int = 1000
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(val tree: B_Plus_Tree_DifferenceEncoding_Int) : I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int> {
+inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(@JvmField val tree: B_Plus_Tree_DifferenceEncoding_Int) : I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_DifferenceEncoding_Int(filename, k, k_star))
 
     override fun get(key: Int): Boolean = this.tree[key]
@@ -298,7 +298,7 @@ inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(val tree: B_Plu
     override fun generate(size: Int, iterator: Iterator<Int>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_Static_Int_to_Int(val filename: String) {
+class B_Plus_Tree_Static_Int_to_Int(@JvmField val filename: String) {
     val bplustree = B_Plus_Tree_Static<Int, Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -338,7 +338,7 @@ class B_Plus_Tree_Static_Int_to_Int(val filename: String) {
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_Static_Int_to_Int(val tree: B_Plus_Tree_Static_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_Static_Int_to_Int(@JvmField val tree: B_Plus_Tree_Static_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String) : this(B_Plus_Tree_Static_Int_to_Int(filename))
 
     override fun get(key: Int): Int = this.tree[key]
@@ -347,7 +347,7 @@ inline class Derived_B_Plus_Tree_Static_Int_to_Int(val tree: B_Plus_Tree_Static_
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename: String) {
+class B_Plus_Tree_StaticCompressed_Int_to_Int(@JvmField val filename: String) {
     val bplustree = B_Plus_Tree_Static_CompressedPointer<Int, Int>(filename)
 
     inline operator fun get(key: Int) = bplustree.search(key,
@@ -387,7 +387,7 @@ class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename: String) {
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(val tree: B_Plus_Tree_StaticCompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+inline class Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(@JvmField val tree: B_Plus_Tree_StaticCompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String) : this(B_Plus_Tree_StaticCompressed_Int_to_Int(filename))
 
     override fun get(key: Int): Int = this.tree[key]

@@ -16,7 +16,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationMIN(val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
+class AOPAggregationMIN(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
     override val operatorID = EOperatorID.AOPAggregationMINID
     override val classname = "AOPAggregationMIN"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }

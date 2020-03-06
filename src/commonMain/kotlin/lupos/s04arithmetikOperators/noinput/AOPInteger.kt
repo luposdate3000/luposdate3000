@@ -4,7 +4,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPInteger(var value: Int) : AOPConstant(), AOPNumeric {
+class AOPInteger(@JvmField var value: Int) : AOPConstant(), AOPNumeric {
     override val operatorID = EOperatorID.AOPIntegerID
     override val classname = "AOPInteger"
     override val children: Array<OPBase> = arrayOf()

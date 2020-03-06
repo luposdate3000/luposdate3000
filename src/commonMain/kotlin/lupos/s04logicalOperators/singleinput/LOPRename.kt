@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable, child: OPBase = OPNothing()) : LOPBase() {
+class LOPRename(@JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPRenameID
     override val classname = "LOPRename"
     override val children: Array<OPBase> = arrayOf(child)

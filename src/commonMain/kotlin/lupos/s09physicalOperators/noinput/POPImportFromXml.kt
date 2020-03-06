@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPImportFromXml(override val dictionary: ResultSetDictionary, val data: XMLElement) : POPBase() {
+class POPImportFromXml(override val dictionary: ResultSetDictionary, @JvmField val data: XMLElement) : POPBase() {
     override val operatorID = EOperatorID.POPImportFromXmlID
     override val classname = "POPImportFromXml"
     override val resultSet = ResultSet(dictionary)

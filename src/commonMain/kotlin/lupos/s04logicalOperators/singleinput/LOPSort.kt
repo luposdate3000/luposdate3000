@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPSort(val asc: Boolean, var by: AOPVariable, child: OPBase = OPNothing()) : LOPBase() {
+class LOPSort(@JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing()) : LOPBase() {
     override val operatorID = EOperatorID.LOPSortID
     override val classname = "LOPSort"
     override val children: Array<OPBase> = arrayOf(child)

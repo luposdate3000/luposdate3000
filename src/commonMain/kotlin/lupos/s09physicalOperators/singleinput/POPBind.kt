@@ -20,7 +20,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPBind(override val dictionary: ResultSetDictionary, val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase() {
+class POPBind(override val dictionary: ResultSetDictionary, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase() {
     override val operatorID = EOperatorID.POPBindID
     override val classname = "POPBind"
     override val resultSet = ResultSet(dictionary)

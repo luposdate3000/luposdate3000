@@ -8,11 +8,11 @@ abstract class RDFTerm {
 }
 
 abstract class RDFResource : RDFTerm()
-class IRI(val iri: String) : RDFResource() {
+class IRI(@JvmField val iri: String) : RDFResource() {
     override fun toN3String(): String = "<" + iri + ">"
 }
 
-class BlankNode(val local_name: String) : RDFResource() {
+class BlankNode(@JvmField val local_name: String) : RDFResource() {
     constructor() : this(NewNameCreator.createNewName())
 
     override fun toN3String(): String = "_:" + local_name
@@ -25,7 +25,7 @@ class BlankNode(val local_name: String) : RDFResource() {
     }
 }
 
-abstract class Literal(val content: String, val delimiter: String) : RDFTerm() {
+abstract class Literal(@JvmField val content: String, @JvmField val delimiter: String) : RDFTerm() {
     override fun toN3String(): String = delimiter + content + delimiter
 }
 
@@ -33,18 +33,18 @@ class SimpleLiteral(content: String, delimiter: String) : Literal(content, delim
     constructor(content: String) : this(content, "\"")
 }
 
-class LanguageTaggedLiteral(content: String, delimiter: String, val language: String) : Literal(content, delimiter) {
+class LanguageTaggedLiteral(content: String, delimiter: String, @JvmField val language: String) : Literal(content, delimiter) {
     constructor(content: String, language: String) : this(content, "\"", language)
 
     override fun toN3String(): String = super.toN3String() + "@" + language
 }
 
-class TypedLiteral(content: String, delimiter: String, val type: String) : Literal(content, delimiter) {
+class TypedLiteral(content: String, delimiter: String, @JvmField val type: String) : Literal(content, delimiter) {
     constructor(content: String, type: String) : this(content, "\"", type)
 
     override fun toN3String(): String = super.toN3String() + "^^<" + type + ">"
 }
 
-class Triple(val s: RDFResource, val p: IRI, val o: RDFTerm) {
+class Triple(@JvmField val s: RDFResource, @JvmField val p: IRI, @JvmField val o: RDFTerm) {
     fun toN3String(): String = s.toN3String() + " " + p.toN3String() + " " + o.toN3String() + "."
 }
