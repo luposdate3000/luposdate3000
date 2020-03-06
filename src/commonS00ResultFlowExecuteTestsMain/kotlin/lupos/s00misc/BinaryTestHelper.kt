@@ -430,7 +430,6 @@ fun fromBinaryLOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): LO
             operatorID = EOperatorIDLOP[id % EOperatorIDLOP.size]
         else
             operatorID = EOperatorID.values()[id]
-
         when (operatorID) {
             EOperatorID.LOPGroupID -> {
                 var bindings: POPBind? = null
@@ -990,6 +989,26 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
         try {
             var node1: OPBase
             try {
+if(buffer.pos<buffer.data.size-100){
+val backuppos=buffer.pos
+val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
+                val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
+                val graph = DistributedTripleStore.getNamedGraph(graphName, true)
+                val s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+                val p = fromBinaryAOPIriOrVar(dictionary, buffer)
+                val o = fromBinaryAOPConstOrVar(dictionary, buffer)
+                val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
+                val tripleCount = nextInt(buffer, MAX_TRIPLES)
+                for (i in 0 until tripleCount) {
+                    val st = AOPVariable.calculate(nextStringValue(buffer))
+                    val pt = AOPVariable.calculate(nextStringValue(buffer))
+                    val ot = AOPVariable.calculate(nextStringValue(buffer))
+                    graph.addData(1L, listOf(st, pt, ot))
+                }
+                DistributedTripleStore.commit(1L)
+if(buffer.pos>buffer.data.size-100)
+	buffer.pos=buffer.data.size-100
+}
                 node1 = fromBinaryPOPLOP(dictionary, buffer)
             } catch (e: ExceptionTopLevelOperator) {
                 node1 = e.data

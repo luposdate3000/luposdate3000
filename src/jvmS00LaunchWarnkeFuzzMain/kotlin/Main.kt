@@ -21,13 +21,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
     ).forEach { (k, v) ->
-        val buffer = lupos.s00misc.File("resources/$v").readAsDynamicByteArray()
-        val len = buffer.getNextInt()
-        for (i in 0 until len) {
-            val tmp = buffer.getNextString()
-            val w = k.createValue(tmp)
-            require(w == i)
-        }
+File("resources/$v.txt").forEachLine {
+ k.createValue(it)
+}
     }
     testDictionaryValue.mapLTS.forEach {
         try {
@@ -53,13 +49,13 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val fileChannel = fis.getChannel()
     var currentSize = 0
     var testnumber = 0
-    var counter = datasize * 100
+    var counter = datasize
     while (true) {
         testnumber++
         counter--
         if (counter == 0) {
             datasize = (datasize * 1.2).toInt()+1
-            counter = datasize * 100
+            counter = datasize
             println("changed datasize to $datasize for $counter tests")
         }
 	val bytebuffer=ByteBuffer.allocate(datasize)

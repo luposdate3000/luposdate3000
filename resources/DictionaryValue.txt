@@ -1,0 +1,410 @@
+""
+<>
+"0.0"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"0.2"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"0.2"^^<http://www.w3.org/2001/XMLSchema#double>
+"-08:00"
+"0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33"
+"0"^^<http://www.w3.org/2001/XMLSchema#integer>
+"1"
+_:1
+"100%"
+"100.0"^^<http://www.w3.org/2001/XMLSchema#double>
+"100"^^<http://www.w3.org/2001/XMLSchema#integer>
+"101"^^<http://www.w3.org/2001/XMLSchema#integer>
+"102"^^<http://www.w3.org/2001/XMLSchema#integer>
+"103"^^<http://www.w3.org/2001/XMLSchema#integer>
+"104"^^<http://www.w3.org/2001/XMLSchema#integer>
+"-1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"10"^^<http://www.w3.org/2001/XMLSchema#integer>
+"110"^^<http://www.w3.org/2001/XMLSchema#integer>
+"114"^^<http://www.w3.org/2001/XMLSchema#integer>
+"117"^^<http://www.w3.org/2001/XMLSchema#integer>
+"1.1"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"11"^^<http://www.w3.org/2001/XMLSchema#integer>
+"120"^^<http://www.w3.org/2001/XMLSchema#integer>
+"122"^^<http://www.w3.org/2001/XMLSchema#integer>
+"124"^^<http://www.w3.org/2001/XMLSchema#integer>
+"126"^^<http://www.w3.org/2001/XMLSchema#integer>
+"128"^^<http://www.w3.org/2001/XMLSchema#integer>
+"12"^^<http://www.w3.org/2001/XMLSchema#integer>
+"130"^^<http://www.w3.org/2001/XMLSchema#integer>
+"132"^^<http://www.w3.org/2001/XMLSchema#integer>
+"134"^^<http://www.w3.org/2001/XMLSchema#integer>
+"136"^^<http://www.w3.org/2001/XMLSchema#integer>
+"137"^^<http://www.w3.org/2001/XMLSchema#integer>
+"138"^^<http://www.w3.org/2001/XMLSchema#integer>
+"139"^^<http://www.w3.org/2001/XMLSchema#integer>
+"13"^^<http://www.w3.org/2001/XMLSchema#integer>
+"140"^^<http://www.w3.org/2001/XMLSchema#integer>
+"141"^^<http://www.w3.org/2001/XMLSchema#integer>
+"142"^^<http://www.w3.org/2001/XMLSchema#integer>
+"143"^^<http://www.w3.org/2001/XMLSchema#integer>
+"144"^^<http://www.w3.org/2001/XMLSchema#integer>
+"14"^^<http://www.w3.org/2001/XMLSchema#integer>
+"-1.6"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"1940"^^<http://www.w3.org/2001/XMLSchema#integer>
+"-1"^^<http://www.w3.org/2001/XMLSchema#integer>
+"1"^^<http://www.w3.org/2001/XMLSchema#integer>
+"2000.0"^^<http://www.w3.org/2001/XMLSchema#double>
+"2008-06-20T23:59:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>
+"2008"^^<http://www.w3.org/2001/XMLSchema#integer>
+"2010-06-21T11:28:01Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>
+"2010-12-21T15:38:02-08:00"^^<http://www.w3.org/2001/XMLSchema#dateTime>
+"2010"^^<http://www.w3.org/2001/XMLSchema#integer>
+"2011-02-01T01:02:03"^^<http://www.w3.org/2001/XMLSchema#dateTime>
+"2011"^^<http://www.w3.org/2001/XMLSchema#integer>
+"2020-03-02T14:14:20Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>
+"-2.0"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"2.0"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"2.2"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"23"^^<http://www.w3.org/2001/XMLSchema#integer>
+"2.5"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
+"-2"^^<http://www.w3.org/2001/XMLSchema#integer>
+"2"^^<http://www.w3.org/2001/XMLSchema#integer>
+"30000.0"^^<http://www.w3.org/2001/XMLSchema#double>
+"3.0"^^<http://www.w3.org/2001/XMLSchema#decimal>
+"3.5"^^<http://www.w3.org/2001/XMLSchema#decimal>
+_:37530"BAZ"
+_:37530"foo"
+_:37535"BAZ"
+_:37535"foo"
+_:3958339601
+_:3960539614
+_:3960839616
+"3"^^<http://www.w3.org/2001/XMLSchema#integer>
+"42"^^<http://www.w3.org/2001/XMLSchema#integer>
+_:_46967
+_:_46968
+_:_46969
+_:_47546
+_:_47547
+_:_47548
+"4"^^<http://www.w3.org/2001/XMLSchema#integer>
+"8"^^<http://www.w3.org/2001/XMLSchema#integer>
+"9"^^<http://www.w3.org/2001/XMLSchema#integer>
+"A"
+"abc"^^<http://www.w3.org/2001/XMLSchema#string>
+"acbd18db4cc2f85cedef654fccc4a4d8"
+_:Adamanta_Schlitt
+"Adamanta Schlitt"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Akina_Jang
+"Akina Jang"^^<http://www.w3.org/2001/XMLSchema#string>
+"Alan"
+"alan@example.org"
+"Alice"
+"alice@example.org"
+_:Amalia_Krajcik
+"Amalia Krajcik"^^<http://www.w3.org/2001/XMLSchema#string>
+"Anick"
+_:Ashley_Kesselring
+"Ashley Kesselring"^^<http://www.w3.org/2001/XMLSchema#string>
+"B"
+"Bagel"
+"bar"@en
+"BAZ"
+"Bnick"
+"Bob"
+"bob@example.org"
+_:c1
+_:c2
+_:Caden_Failing
+"Caden Failing"^^<http://www.w3.org/2001/XMLSchema#string>
+"carpetbag peonism metropolitanize twanged pedros nonforfeitable dissociative apostacy"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Cecil_Kochler
+"Cecil Kochler"^^<http://www.w3.org/2001/XMLSchema#string>
+"cheaters kerneling napoleons"^^<http://www.w3.org/2001/XMLSchema#string>
+"Chris"
+"chris@example.org"
+"Claire"
+"crimper tonners unfair southpaws scorify supportance jumpiest whanged"^^<http://www.w3.org/2001/XMLSchema#string>
+"d46696735b6a09ff407bfc1a9407e008840db9c9"
+"Dan"
+"dan@example.org"
+"Default Graph"
+"DEF"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Dell_Kosel
+"Dell Kosel"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Dorel_Brandt
+"Dorel Brandt"^^<http://www.w3.org/2001/XMLSchema#string>
+"dragged lobsters careering triplets hepatics colonies defalcate transplantations forfends voucherable intercepting jeered immunopathology addends surveiled wagers joysticks nonliving agric proliferating disintegrator oblongish leapfrogged overabundant legworks easeful cognize hoatzin toiled nonspecialized vrouw squads tantalums overweight readmits loopholing tattles irradiates befriends insinuators restorers rebroadcasting grousing overdrinking frow demarcators tasselling crocked wharfinger reconverting washboards overdrank recalculations dumps carousels acidly deponent venges shivas northers mutualist harebrained earthworms lunk forefended overtaking sourdoughs traditionless spoliator earthlier stenographers reallocating aslope seawaters ruminative patronly hydrozoon webbier foxiness toddy playlets mouthiest delegati renege briefless regularities planarity stubborner waterbeds disinclines antonyms anesthetize chanticleer administrants preengaging unitarians reevaluate rekeys ochroid climatotherapy crocks"^^<http://www.w3.org/2001/XMLSchema#string>
+"dually reoccupations embossers"^^<http://www.w3.org/2001/XMLSchema#string>
+"e7ada485d13b1decf628c9211bc3a97b"
+_:Edmondo_Rommelfanger
+"Edmondo Rommelfanger"^^<http://www.w3.org/2001/XMLSchema#string>
+"embossers gloves mohairs"^^<http://www.w3.org/2001/XMLSchema#string>
+"en"
+"en-US"
+"equalled bewitchment cheaters"^^<http://www.w3.org/2001/XMLSchema#string>
+"evasiveness teashop reaccepts"^^<http://www.w3.org/2001/XMLSchema#string>
+"extenuation stranders abbesses strongboxes chromas oats pulling leatheriness"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Fahroni_Anglea
+"Fahroni Anglea"^^<http://www.w3.org/2001/XMLSchema#string>
+"false"^^<http://www.w3.org/2001/XMLSchema#boolean>
+"foo"
+"foobar"
+"fringier rhythmical wastebaskets powderer immigrates inserter plights corollaries"^^<http://www.w3.org/2001/XMLSchema#string>
+"G1"
+"G2"
+"Graph 1"
+"harrower claymores shiftlessly feedstuffs lyricizing hierarchs composedly taunting"^^<http://www.w3.org/2001/XMLSchema#string>
+"heliocentricity recelebrating dually"^^<http://www.w3.org/2001/XMLSchema#string>
+"householder overeducated objurgate treaties preprocessor despising loftily yabber reprovingly blungers dwarflike effulgences coreless tuberculoses environs hulled preexamination oralogy tibetans slavishly hipless prs bluejays cuppier nonsurgical skimpiest outpoured dissociated heartier petitionee brill neologic intermuscular fobbed transcribed swifters redigesting ostinato recalculation safest signiory latchets inflecting trephines hops exec junketeers isolators reducing nethermost nonfiction retrogressions eliminates unknowns mongoloids danker raunchiness perspicuously disjoined nigglings midmonths labium peeped daydreams permuting immediately canzona interrelated cooked reformers goodwife technicolor plenishes nippy bounden occulters blubberer amenities desecrated tetrachlorides loutish polygony malines cliffhanger entailments reindexed bedstraws thoughtless elation swampland earings circumscribed paralyzingly pouchy surrejoinders chestiest measurage tonsils pasturage thurifer teazle"^^<http://www.w3.org/2001/XMLSchema#string>
+http://example.org/
+<http://example.org/a>
+<http://example.org/b>
+<http://example.org/book/book1>
+<http://example.org/book/book2>
+<http://example.org/c>
+<http://example.org/d>
+<http://example.org/d1>
+<http://example.org/d2>
+<http://example.org/n4>
+<http://example.org/n5>
+<http://example.org/name>
+<http://example.org/ns#a1>
+<http://example.org/ns#apple>
+<http://example.org/ns#b1>
+<http://example.org/ns#banana>
+<http://example.org/ns#d>
+<http://example.org/ns#favourite-fruit>
+<http://example.org/s6>
+<http://example.org/s7>
+<http://example.org/s8>
+<http://example.org/str>
+<http://example.org/sue>
+<http://example.org/test#a>
+<http://example.org/test#aa>
+<http://example.org/test#Alice>
+<http://example.org/test#b>
+<http://example.org/test#bb>
+<http://example.org/test#Bob>
+<http://example.org/test#c>
+<http://example.org/test#cc>
+<http://example.org/test#Charlie>
+<http://example.org/test#t>
+<http://example.org/test#x>
+<http://example.org/tom>
+<http://example.org/uri>
+<http://example.org/william>
+<http://example.org/x/a>
+<http://example.org/x/c>
+<http://example.org/x/d>
+<http://example.org/x/p>
+<http://example.org/x/x>
+<http://example.org/x/y>
+<http://example/p>
+<http://example/q>
+<http://example/s1>
+<http://example/s2>
+<http://example/s3>
+<http://localhost/misc/UnknownDocument>
+<http://localhost/persons/Paul_Erdoes>
+<http://localhost/publications/articles/Journal1/1940/Article1>
+<http://localhost/publications/articles/Journal1/1940/Article9>
+<http://localhost/publications/journals/Journal1/1940>
+<http://localhost/vocabulary/bench/abstract>
+<http://localhost/vocabulary/bench/Article>
+<http://localhost/vocabulary/bench/Book>
+<http://localhost/vocabulary/bench/booktitle>
+<http://localhost/vocabulary/bench/cdrom>
+<http://localhost/vocabulary/bench/Incollection>
+<http://localhost/vocabulary/bench/Inproceedings>
+<http://localhost/vocabulary/bench/Journal>
+<http://localhost/vocabulary/bench/MastersThesis>
+<http://localhost/vocabulary/bench/PhDThesis>
+<http://localhost/vocabulary/bench/Proceedings>
+<http://localhost/vocabulary/bench/Www>
+<http://purl.org/dc/elements/1.1/creator>
+<http://purl.org/dc/elements/1.1/title>
+<http://purl.org/dc/terms/issued>
+<http://purl.org/dc/terms/partOf>
+<http://purl.org/dc/terms/references>
+<http://swrc.ontoware.org/ontology#editor>
+<http://swrc.ontoware.org/ontology#isbn>
+<http://swrc.ontoware.org/ontology#journal>
+<http://swrc.ontoware.org/ontology#month>
+<http://swrc.ontoware.org/ontology#note>
+<http://swrc.ontoware.org/ontology#number>
+<http://swrc.ontoware.org/ontology#pages>
+<http://swrc.ontoware.org/ontology#volume>
+"http://www.admiralties.tld/playgoers/cheques.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.anesthetization.tld/outflanking/funnyman.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.apnea.tld/dumpers/bering.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.batting.tld/stilbestrol/villainousness.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.bering.tld/toto/teashop.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.bewigged.tld/cheques/batting.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.bewitchment.tld/riffled/kerneling.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.burlily.tld/swiveled/polers.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.cerebrum.tld/mohairs/admiralties.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.cheques.tld/waspishly/stilbestrol.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.desexes.tld/heliocentricity/excretions.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.dumpers.tld/evasiveness/toto.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.dwelling.tld/prat/islanded.html"^^<http://www.w3.org/2001/XMLSchema#string>
+<http://www.example.org/dec>
+<http://www.example.org/decimals>
+<http://www.example.org/double>
+<http://www.example.org/doubles>
+<http://www.example.orghasItem>
+<http://www.example.org/instance#a>
+<http://www.example.org/instance#b>
+<http://www.example.org/int>
+<http://www.example.org/ints>
+<http://www.example.org/mixed1>
+<http://www.example.org/mixed2>
+<http://www.example.org/o1>
+<http://www.example.org/o2>
+<http://www.example.org/o3>
+<http://www.example.orgOrder>
+<http://www.example.orgorder1>
+<http://www.example.orgorder2>
+<http://www.example.orgorder3>
+<http://www.example.orgorder4>
+<http://www.example.org/p>
+<http://www.example.org/p1>
+<http://www.example.org/p2>
+<http://www.example.org/q>
+<http://www.example.org/s>
+<http://www.example.org/schema#a>
+<http://www.example.org/schema#p>
+<http://www.example.org/schema#q>
+"http://www.excretions.tld/dually/plateauing.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.exorcises.tld/desexes/summable.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.firefanged.tld/equalled/sandwiching.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.forbearer.tld/undermentioned/outflanking.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.gantleted.tld/succories/dwelling.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.gloves.tld/admiralties/bewigged.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.gunneries.tld/pirog/desexes.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.hogfishes.tld/richer/succories.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.islanded.tld/thanklessly/swiveled.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.kerneling.tld/rifer/splinting.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.oinked.tld/maxillary/dumpers.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.outflanking.tld/commuted/lachrymation.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.plateauing.tld/embossers/cerebrum.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.polers.tld/apnea/maxillary.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.recelebrating.tld/plateauing/reoccupations.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.reoccupations.tld/cerebrum/gloves.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.rifer.tld/surmisers/satisfying.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.riffled.tld/napoleons/rifer.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.sandwiching.tld/cheaters/riffled.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.satisfying.tld/sharpers/forbearer.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.scrapped.tld/islanded/burlily.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.skeins.tld/sandwiching/bewitchment.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.splinting.tld/satisfying/undamped.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.stilbestrol.tld/miscalling/firefanged.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.succories.tld/scrapped/prat.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.summable.tld/excretions/recelebrating.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.teashop.tld/gunneries/exorcises.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.thanklessly.tld/polers/oinked.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.toto.tld/reaccepts/gunneries.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.undamped.tld/forbearer/anesthetization.html"^^<http://www.w3.org/2001/XMLSchema#string>
+"http://www.villainousness.tld/firefanged/skeins.html"^^<http://www.w3.org/2001/XMLSchema#string>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#_2>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#_3>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#_4>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>
+<http://www.w3.org/2000/01/rdf-schema#label>
+<http://www.w3.org/2000/01/rdf-schema#range>
+<http://www.w3.org/2000/01/rdf-schema#seeAlso>
+<http://www.w3.org/2000/01/rdf-schema#subClassOf>
+<http://www.w3.org/2001/XMLSchema#dateTime>
+<http://www.w3.org/2001/XMLSchema#integer>
+<http://www.w3.org/2001/XMLSchema#string>
+<http://www.w3.org/2002/07/owl#Class>
+<http://www.w3.org/2002/07/owl#DatatypeProperty>
+<http://www.w3.org/2002/07/owl#NamedIndividual>
+<http://www.w3.org/2002/07/owl#ObjectProperty>
+<http://www.w3.org/2002/07/owl#Ontology>
+<http://www.w3.org/2002/07/owl#Restriction>
+<http://xmlns.com/foaf/0.1/Document>
+<http://xmlns.com/foaf/0.1/givenName>
+<http://xmlns.com/foaf/0.1/homepage>
+<http://xmlns.com/foaf/0.1/knows>
+<http://xmlns.com/foaf/0.1/mbox>
+<http://xmlns.com/foaf/0.1/name>
+<http://xmlns.com/foaf/0.1/Person>
+"Ice Cream"
+"incorporeal piazadora hearings legation subendorsed hippocampus miscalculates whetters"^^<http://www.w3.org/2001/XMLSchema#string>
+"iri"
+"Jerry"
+"John"
+"Johnnie"
+"Journal 1 (1940)"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Juriaan_Schremp
+"Juriaan Schremp"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Korechika_Mamer
+"Korechika Mamer"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Kozue_Efthimiou
+"Kozue Efthimiou"^^<http://www.w3.org/2001/XMLSchema#string>
+"leviathans misadvised tiltyard numberable yawing prosecutrices pegboxes feeblish"^^<http://www.w3.org/2001/XMLSchema#string>
+<mailto:alan@example.org>
+<mailto:bill@example.org>
+<mailto:bob@example.org>
+<mailto:tom@example.org>
+"malting footgear abominators trilobate jigsawed kickstands prated songstresses"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Martina_Mcclary
+"Martina Mcclary"^^<http://www.w3.org/2001/XMLSchema#string>
+"maxillary bering evasiveness"^^<http://www.w3.org/2001/XMLSchema#string>
+"miscalling skeins equalled"^^<http://www.w3.org/2001/XMLSchema#string>
+"mohairs bewigged playgoers"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Mya_Swilley
+"Mya Swilley"^^<http://www.w3.org/2001/XMLSchema#string>
+"name"@en
+"napoleons splinting surmisers"^^<http://www.w3.org/2001/XMLSchema#string>
+"o"
+_:ont
+"overbites terminals giros podgy vagus kinkiest xix recollected"^^<http://www.w3.org/2001/XMLSchema#string>
+"Pasta"
+"Paul Erdoes"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Pilib_Seu
+"Pilib Seu"^^<http://www.w3.org/2001/XMLSchema#string>
+"pirog summable heliocentricity"^^<http://www.w3.org/2001/XMLSchema#string>
+"Pizza"
+"playgoers batting waspishly"^^<http://www.w3.org/2001/XMLSchema#string>
+"prat burlily thanklessly"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Prebrana_Kekiwi
+"Prebrana Kekiwi"^^<http://www.w3.org/2001/XMLSchema#string>
+"q"
+"reaccepts exorcises pirog"^^<http://www.w3.org/2001/XMLSchema#string>
+_:references1
+"retorts insoles stockman queening allergist doyenne placarders septuagenarians"^^<http://www.w3.org/2001/XMLSchema#string>
+"richer dwelling scrapped"^^<http://www.w3.org/2001/XMLSchema#string>
+"Ronnie"
+"safecracker cacaos mignonette tailored whews beholden branchless primitiveness"^^<http://www.w3.org/2001/XMLSchema#string>
+"Sandwich"
+_:Sharise_Heagy
+"Sharise Heagy"^^<http://www.w3.org/2001/XMLSchema#string>
+"sharpers anesthetization undermentioned"^^<http://www.w3.org/2001/XMLSchema#string>
+"Soft Drink"
+"SPARQL Tutorial"
+"surmisers undamped sharpers"^^<http://www.w3.org/2001/XMLSchema#string>
+"Susan"
+"swiveled oinked apnea"^^<http://www.w3.org/2001/XMLSchema#string>
+_:Tatsukichi_Gerstenberger
+"Tatsukichi Gerstenberger"^^<http://www.w3.org/2001/XMLSchema#string>
+"The Semantic Web"
+"Tom"
+_:Trina_Sjerven
+"Trina Sjerven"^^<http://www.w3.org/2001/XMLSchema#string>
+"true"^^<http://www.w3.org/2001/XMLSchema#boolean>
+"undermentioned funnyman commuted"^^<http://www.w3.org/2001/XMLSchema#string>
+"unmuzzling measles decentralizing hogfishes gantleted richer succories dwelling scrapped prat islanded burlily thanklessly swiveled polers oinked apnea maxillary dumpers bering evasiveness toto teashop reaccepts gunneries exorcises pirog desexes summable heliocentricity excretions recelebrating dually plateauing reoccupations embossers cerebrum gloves mohairs admiralties bewigged playgoers cheques batting waspishly stilbestrol villainousness miscalling firefanged skeins equalled sandwiching bewitchment cheaters riffled kerneling napoleons rifer splinting surmisers satisfying undamped sharpers forbearer anesthetization undermentioned outflanking funnyman commuted lachrymation floweret arcadian acridities unrealistic substituting surges preheats loggias reconciliating photocatalyst lenity tautological jambing sodality outcrop slipcases phenylketonuria grunts venturers valiantly unremorsefully extradites stollens ponderers conditione loathly cancels debiting parrots paraguayans resonates"^^<http://www.w3.org/2001/XMLSchema#string>
+"uri"
+"waspishly villainousness miscalling"^^<http://www.w3.org/2001/XMLSchema#string>
+"William"
+"Wine"
+"witchy horologe bigamistic furrows eloquence cobwebbier divorcing incidentally"^^<http://www.w3.org/2001/XMLSchema#string>
+_:x
+"y"
+_:y
+_:Yayang_Kuczenski
+"Yayang Kuczenski"^^<http://www.w3.org/2001/XMLSchema#string>
+"z"
+"Z"
+"食"
+"食べ物"
