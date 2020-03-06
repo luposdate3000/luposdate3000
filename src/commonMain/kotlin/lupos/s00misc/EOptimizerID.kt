@@ -5,7 +5,7 @@ import kotlin.jvm.JvmField
 
 enum class EOptimizerID(@JvmField val optional: Boolean) {
     LogicalOptimizerID(false),
-    LogicalOptimizerArithmeticID(true),
+    LogicalOptimizerArithmeticID(false),
     LogicalOptimizerFilterDownID(true),
     LogicalOptimizerFilterIntoTripleID(true),
     LogicalOptimizerFilterSplitANDID(true),

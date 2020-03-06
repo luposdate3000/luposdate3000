@@ -33,6 +33,9 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         when (a) {
+is AOPSimpleLiteral-> return  resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPIri("http://www.w3.org/2001/XMLSchema#string")
+            })
 	is AOPLanguageTaggedLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
             })

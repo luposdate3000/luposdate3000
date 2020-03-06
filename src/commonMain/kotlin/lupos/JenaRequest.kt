@@ -86,6 +86,7 @@ class JenaRequest {
         CoroutinesHelper.runBlock {
             message = EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/query", EndpointClientImpl.encodeParam("query", query))
         }
+println(message)
         return XMLElement.parseFromJson(message!!)!!.first()
     }
 

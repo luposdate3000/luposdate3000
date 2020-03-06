@@ -24,13 +24,9 @@ class LogicalOptimizerArithmetic(transactionID: Long, dictionary: ResultSetDicti
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is AOPBase && node !is AOPValue && node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
-            try {
                 val resultSet = ResultSet(ResultSetDictionary())
                 val resultRow = resultSet.createResultRow()
                 res = node.calculate(resultSet, resultRow)
-            } catch (e: Throwable) {
-                res = AOPUndef()
-            }
             onChange()
         }
         res
