@@ -10,11 +10,11 @@ import lupos.s14endpoint.EndpointClientImpl
 class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
-companion object{
-var port="3030"
-var db="sp2b"
-var dbwascreated=false
-}
+    companion object {
+        var port = "3030"
+        var db = "sp2b"
+        var dbwascreated = false
+    }
 
     @JvmField
     var containsStringDatatypeQueries = false
@@ -25,13 +25,13 @@ var dbwascreated=false
 
     constructor() {
         var message: String? = null
-if(dbwascreated)
-        CoroutinesHelper.runBlock {
-            try {
-                message = EndpointClientImpl.requestPostString("http://localhost:${port}/$/datasets", "dbName=${db}&dbType=mem")
-            } catch (e: Throwable) {
+        if (dbwascreated)
+            CoroutinesHelper.runBlock {
+                try {
+                    message = EndpointClientImpl.requestPostString("http://localhost:${port}/$/datasets", "dbName=${db}&dbType=mem")
+                } catch (e: Throwable) {
+                }
             }
-        }
         requestUpdate("DROP SILENT ALL")
     }
 

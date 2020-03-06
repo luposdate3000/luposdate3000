@@ -1,5 +1,8 @@
-import dev.fuzzit.javafuzz.core.AbstractFuzzTarget
-import dev.fuzzit.javafuzz.core.Fuzzer
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.time.Duration
 import java.time.Instant
 import lupos.*
@@ -18,7 +21,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
     ).forEach { (k, v) ->
-        val buffer = File("resources/$v").readAsDynamicByteArray()
+        val buffer = lupos.s00misc.File("resources/$v").readAsDynamicByteArray()
         val len = buffer.getNextInt()
         for (i in 0 until len) {
             val tmp = buffer.getNextString()
@@ -36,32 +39,43 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[EOperatorID.AOPSimpleLiteralID]!!.createValue("\"" + it!! + "\"")
         }
     }
+    var datasize = 16
     if (args.size > 0) {
         JenaRequest.db = args[0]
         JenaRequest.dbwascreated = true
     }
-    val fuzzer = Fuzzer(FuzzInstance(), "javafuzz/${JenaRequest.db}")
-    fuzzer.start()
-}
-
-//https://gitlab.com/akihe/radamsa
-//https://github.com/fuzzitdev/javafuzz
-class FuzzInstance() : AbstractFuzzTarget() {
-    @JvmField
+    if (args.size > 1)
+        datasize = args[1].toInt()
+    val workdir = "javafuzz/${JenaRequest.db}"
     var timepoint = Instant.now()
-
-    override fun fuzz(data: ByteArray) = CoroutinesHelper.runBlock {
-        val timepointNext = Instant.now()
-        val elapsed = Duration.between(timepoint, timepointNext)
-        timepoint = timepointNext
-//        println("time between tests :: ${elapsed.toMillis()} milliseconds")
-        if (data.size >= 4) {
+    val randomFile = File("/dev/urandom")
+    val fis = FileInputStream(randomFile)
+    val fileChannel = fis.getChannel()
+    var currentSize = 0
+    var testnumber = 0
+    var counter = datasize * 100
+    while (true) {
+        testnumber++
+        counter--
+        if (counter == 0) {
+            datasize = (datasize * 1.2).toInt()+1
+            counter = datasize * 100
+            println("changed datasize to $datasize for $counter tests")
+        }
+	val bytebuffer=ByteBuffer.allocate(datasize)
+        currentSize = fileChannel.read(bytebuffer)
+        val data = bytebuffer.array()
+        try {
             val input = DynamicByteArray(data)
             executeBinaryTest(input!!)
+            val timepointNext2 = Instant.now()
+            val elapsed2 = Duration.between(timepoint, timepointNext2)
+            timepoint = timepointNext2
+            println("test $testnumber ${elapsed2.toMillis()} milliseconds")
+        } catch (e: Throwable) {
+            java.io.File("crash-${data.hashCode()}").outputStream().use { out ->
+                out.write(data, 0, currentSize)
+            }
         }
-        val timepointNext2 = Instant.now()
-        val elapsed2 = Duration.between(timepoint, timepointNext2)
-        timepoint = timepointNext2
-//        println("time for tests :: ${elapsed2.toMillis()} milliseconds")
     }
 }

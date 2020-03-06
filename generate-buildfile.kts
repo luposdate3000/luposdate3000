@@ -37,7 +37,7 @@ fun presentChoice(options: List<String>): String {
 		all other options are used directly as source folders
 */
 val options = mapOf(
-        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain"),
+        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
@@ -60,7 +60,7 @@ val conflicts = listOf(
         setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchBinaryTestsMain", "jvmS00LaunchJavaFuzzMain", "commonS00ResultFlowGenerateTestsMain")
+        setOf("commonS00LaunchBinaryTestsMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain", "commonS00ResultFlowGenerateTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -99,6 +99,9 @@ val additionalSources = mapOf(
                 "commonS00ResultFlowExecuteTestsMain"
         ),
         "jvmS00LaunchJavaFuzzMain" to listOf(
+                "commonS00ResultFlowExecuteTestsMain"
+        ),
+        "jvmS00LaunchWarnkeFuzzMain" to listOf(
                 "commonS00ResultFlowExecuteTestsMain"
         ),
         "jvmS14ClientKtorTarget" to listOf(
