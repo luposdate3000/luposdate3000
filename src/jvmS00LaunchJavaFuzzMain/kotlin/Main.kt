@@ -12,10 +12,14 @@ import lupos.s14endpoint.*
 
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
+if(args.size>0){
+JenaRequest.db=args[0]
+JenaRequest.dbwascreated=true
+}
     val fuzzer = Fuzzer(FuzzInstance(), "javafuzz")
     fuzzer.start()
 }
-
+//https://gitlab.com/akihe/radamsa
 //https://github.com/fuzzitdev/javafuzz
 class FuzzInstance() : AbstractFuzzTarget() {
     @JvmField

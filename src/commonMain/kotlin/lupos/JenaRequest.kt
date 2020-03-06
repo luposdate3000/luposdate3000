@@ -10,6 +10,12 @@ import lupos.s14endpoint.EndpointClientImpl
 class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
+companion object{
+var port="3030"
+var db="sp2b"
+var dbwascreated=false
+}
+
     @JvmField
     var containsStringDatatypeQueries = false
 
@@ -19,9 +25,10 @@ class JenaRequest {
 
     constructor() {
         var message: String? = null
+if(dbwascreated)
         CoroutinesHelper.runBlock {
             try {
-                message = EndpointClientImpl.requestPostString("http://localhost:3030/$/datasets", "dbName=sp2b&dbType=mem")
+                message = EndpointClientImpl.requestPostString("http://localhost:${port}/$/datasets", "dbName=${db}&dbType=mem")
             } catch (e: Throwable) {
             }
         }
@@ -68,7 +75,7 @@ class JenaRequest {
             throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
-            message = EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/update", EndpointClientImpl.encodeParam("update", query))
+            message = EndpointClientImpl.requestPostString("http://localhost:${port}/${db}/update", EndpointClientImpl.encodeParam("update", query))
         }
         return XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
     }
@@ -86,9 +93,8 @@ class JenaRequest {
             throw ExceptionJenaBug("queryWithStringDatatype")
         var message: String? = null
         CoroutinesHelper.runBlock {
-            message = EndpointClientImpl.requestPostString("http://localhost:3030/sp2b/query", EndpointClientImpl.encodeParam("query", query))
+            message = EndpointClientImpl.requestPostString("http://localhost:${port}/${db}/query", EndpointClientImpl.encodeParam("query", query))
         }
-        println(message)
         return XMLElement.parseFromJson(message!!)!!.first()
     }
 
