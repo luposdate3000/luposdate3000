@@ -23,9 +23,7 @@ class AOPBuildInCallBNODE0 : AOPBase() {
 
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallBNODE0)
-            return false
-        return children[0] == other.children[0]
+	return other is AOPBuildInCallBNODE0
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {

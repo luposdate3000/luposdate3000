@@ -12,7 +12,7 @@ import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04logicalOperators.OPBase
 
@@ -33,6 +33,9 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         when (a) {
+	is AOPLanguageTaggedLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
+                AOPIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
+            })
             is AOPTypedLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri(a.type_iri)
             })
