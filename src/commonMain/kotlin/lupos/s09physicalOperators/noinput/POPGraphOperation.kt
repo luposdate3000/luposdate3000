@@ -48,6 +48,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
             EGraphOperationType.COPY -> res += "COPY"
             EGraphOperationType.MOVE -> res += "MOVE"
             EGraphOperationType.ADD -> res += "ADD"
+else->require(false)
         }
         if (silent)
             res += " SILENT "
@@ -58,6 +59,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
             EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
             EGraphRefType.NamedGraphRef -> res += "NAMED"
             EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph1iri!! + ">"
+else->require(false)
         }
         if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
             res += " TO "
@@ -66,6 +68,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                 EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
                 EGraphRefType.NamedGraphRef -> res += "NAMED"
                 EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph2iri!! + ">"
+else->require(false)
             }
         }
         return res
@@ -119,7 +122,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                     DistributedTripleStore.dropGraph(s)
                                 }
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                            else -> require(false)
                         }
                     }
                     EGraphRefType.DefaultGraphRef -> {
@@ -128,6 +131,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                             EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                             EGraphOperationType.COPY -> {
                                 when (graph2type) {
+				EGraphRefType.DefaultGraphRef->{/*noop*/}
                                     EGraphRefType.IriGraphRef -> {
                                         try {
                                             DistributedTripleStore.clearGraph(graph2iri!!)
@@ -135,11 +139,12 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         }
                                         DistributedTripleStore.getNamedGraph(graph2iri!!, true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
-                                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                    else -> require(false)
                                 }
                             }
                             EGraphOperationType.MOVE -> {
                                 when (graph2type) {
+                                    EGraphRefType.Default-> {/*noop*/}
                                     EGraphRefType.IriGraphRef -> {
                                         try {
                                             DistributedTripleStore.clearGraph(graph2iri!!)
@@ -148,18 +153,19 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         DistributedTripleStore.getNamedGraph(graph2iri!!, true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                         DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                                     }
-                                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                    else -> require(false)
                                 }
                             }
                             EGraphOperationType.ADD -> {
                                 when (graph2type) {
+				EGraphRefType.Default-> {/*noop*/}
                                     EGraphRefType.IriGraphRef -> {
                                         DistributedTripleStore.getNamedGraph(graph2iri!!, true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
-                                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                    else -> require(false)
                                 }
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                            else -> require(false)
                         }
                     }
                     EGraphRefType.IriGraphRef -> {
@@ -187,7 +193,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         DistributedTripleStore.clearGraph(PersistentStoreLocal.defaultGraphName)
                                         DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(graph1iri!!).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
-                                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                    else -> require(false)
                                 }
                             }
                             EGraphOperationType.MOVE -> {
@@ -207,7 +213,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                         DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(graph1iri!!).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                         DistributedTripleStore.dropGraph(graph1iri!!)
                                     }
-                                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                    else -> require(false)
                                 }
                             }
                             EGraphOperationType.ADD -> {
@@ -219,16 +225,15 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                     EGraphRefType.DefaultGraphRef -> {
                                         DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(graph1iri!!).getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
-                                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                    else -> require(false)
                                 }
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                            else -> require(false)
                         }
                     }
                     EGraphRefType.NamedGraphRef -> {
                         DistributedTripleStore.getGraphNames().forEach { name ->
                             when (action) {
-                                EGraphOperationType.CREATE -> DistributedTripleStore.createGraph(name)
                                 EGraphOperationType.CLEAR -> {
                                     try {
                                         DistributedTripleStore.clearGraph(name)
@@ -236,21 +241,11 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary,
                                     }
                                 }
                                 EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(name)
-                                EGraphOperationType.COPY -> {
-                                    when (graph2type) {
-                                        else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
-                                    }
-                                }
-                                EGraphOperationType.ADD -> {
-                                    when (graph2type) {
-                                        else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
-                                    }
-                                }
-                                else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type} $action")
+                                else -> require(false)
                             }
                         }
                     }
-                    else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${graph1type} ${graph2type}")
+                    else -> require(false)
                 }
             } catch (e: Throwable) {
                 if (!silent) {

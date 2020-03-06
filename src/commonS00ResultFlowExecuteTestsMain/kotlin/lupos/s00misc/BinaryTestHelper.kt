@@ -1034,9 +1034,9 @@ try{
         if (hasData)
             globalSparql.add(0, sparql)
     }
-    for (i in 0 until 2) {
+    for (i in 0 until 3) {
         ExecuteOptimizer.enabledOptimizers.clear()
-        if (1 == 1)
+        if (1 > 0)
             backupOptimizers.forEach { k, v ->
                 ExecuteOptimizer.enabledOptimizers[k] = v
             }
@@ -1064,6 +1064,8 @@ try{
                     node2 = lOptimizer.optimizeCall(node1)
                     node3 = pOptimizer.optimizeCall(node2)
                     node4 = dOptimizer.optimizeCall(node3) as POPBase
+		    node5=node4.cloneOP()
+			require(node4.equals(node5))
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
                     DistributedTripleStore.commit(1L)
