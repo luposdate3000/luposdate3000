@@ -71,7 +71,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             val timepointNext2 = Instant.now()
             val elapsed2 = Duration.between(timepoint, timepointNext2)
             timepoint = timepointNext2
-            println("test $testnumber ${elapsed2.toMillis()} milliseconds")
+            println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
         } catch (e: Throwable) {
             java.io.File("crash-${data.hashCode()}").outputStream().use { out ->
                 out.write(data, 0, currentSize)
