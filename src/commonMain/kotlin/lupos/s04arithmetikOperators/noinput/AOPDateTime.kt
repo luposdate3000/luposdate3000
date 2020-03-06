@@ -26,26 +26,26 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
     @JvmField
     val timezoneMinutes: Int
 
-override operator fun compareTo(other: AOPConstant): Int{
-require(other is AOPDateTime)
-if(year!=other.year)
-	return year.compareTo(other.year)
-if(month!=other.month)
-	return month.compareTo(other.month)
-if(day!=other.day)
-	return day.compareTo(other.day)
-if(hours!=other.hours)
-	return hours.compareTo(other.hours)
-if(minutes!=other.minutes)
-	return minutes.compareTo(other.minutes)
-if(seconds!=other.seconds)
-	return seconds.compareTo(other.seconds)
-if(timezoneHours!=other.timezoneHours)
-	return timezoneHours.compareTo(other.timezoneHours)
-if(timezoneMinutes!=other.timezoneMinutes)
-	return timezoneMinutes.compareTo(other.timezoneMinutes)
-return 0
-}
+    override operator fun compareTo(other: AOPConstant): Int {
+        require(other is AOPDateTime)
+        if (year != other.year)
+            return year.compareTo(other.year)
+        if (month != other.month)
+            return month.compareTo(other.month)
+        if (day != other.day)
+            return day.compareTo(other.day)
+        if (hours != other.hours)
+            return hours.compareTo(other.hours)
+        if (minutes != other.minutes)
+            return minutes.compareTo(other.minutes)
+        if (seconds != other.seconds)
+            return seconds.compareTo(other.seconds)
+        if (timezoneHours != other.timezoneHours)
+            return timezoneHours.compareTo(other.timezoneHours)
+        if (timezoneMinutes != other.timezoneMinutes)
+            return timezoneMinutes.compareTo(other.timezoneMinutes)
+        return 0
+    }
 
     constructor() : super() {
         val time = com.soywiz.klock.DateTime.now()

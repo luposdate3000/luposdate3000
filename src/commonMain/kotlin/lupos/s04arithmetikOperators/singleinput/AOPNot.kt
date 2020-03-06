@@ -30,9 +30,9 @@ class AOPNot(@JvmField var child: AOPBase) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPBoolean(!a.toBoolean())
-            })
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
+            AOPBoolean(!a.toBoolean())
+        })
     }
 
     override fun cloneOP() = AOPNot(children[0].cloneOP() as AOPBase)

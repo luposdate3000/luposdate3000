@@ -36,9 +36,9 @@ class AOPLEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-return resultFlow({ this }, { resultRow }, { resultSet }, {
-                 AOPBoolean(a.compareTo(b)<=0)
-})
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
+            AOPBoolean(a.compareTo(b) <= 0)
+        })
     }
 
     override fun cloneOP() = AOPLEQ(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

@@ -30,12 +30,12 @@ class AOPBoolean(@JvmField var value: Boolean) : AOPConstant(), AOPXPathComparea
 
     override fun toBoolean(): Boolean = value
 
-override operator fun compareTo(other: AOPConstant): Int{
-require(other is AOPBoolean)
-if(value==other.value)
-return 0
-if(value && ! other.value)
-return 1
-return -1
-}
+    override operator fun compareTo(other: AOPConstant): Int {
+        require(other is AOPBoolean)
+        if (value == other.value)
+            return 0
+        if (value && !other.value)
+            return 1
+        return -1
+    }
 }

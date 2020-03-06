@@ -6,8 +6,8 @@ import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
 
@@ -36,10 +36,10 @@ class AOPBuildInCallIRI(child: AOPBase, @JvmField var prefix: String = "") : AOP
         if (a is AOPIri)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 a
-            })  
-      if (a is AOPSimpleLiteral||a is AOPTypedLiteral && a.type_iri=="http://www.w3.org/2001/XMLSchema#string")
+            })
+        if (a is AOPSimpleLiteral || a is AOPTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string")
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-		val b=a as AOPConstantString
+                val b = a as AOPConstantString
                 if (prefix != "" && !prefix.endsWith("/"))
                     AOPIri(prefix + "/" + b.content)
                 else

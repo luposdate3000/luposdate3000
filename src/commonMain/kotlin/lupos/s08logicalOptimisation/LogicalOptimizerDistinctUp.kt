@@ -5,10 +5,10 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.modifiers.*
-import lupos.s04logicalOperators.multiinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
@@ -21,11 +21,11 @@ class LogicalOptimizerDistinctUp(transactionID: Long, dictionary: ResultSetDicti
                 res = node.children[0]
                 onChange()
             }
-        } else if(node !is LOPUnion){
+        } else if (node !is LOPUnion) {
             for (i in node.children.indices) {
                 val c = node.children[i]
                 if (c is LOPDistinct && c.getProvidedVariableNames().containsAll(node.getProvidedVariableNames())) {
-                    node.children[i]=c.children[0]
+                    node.children[i] = c.children[0]
                     res = LOPDistinct(node)
                     onChange()
                     break
