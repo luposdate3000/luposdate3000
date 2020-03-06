@@ -8,7 +8,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPIri
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
@@ -26,6 +26,10 @@ class AOPBuildInCallIsIri(child: AOPBase) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+if(a is AOPUndef)
+throw resultFlow({ this }, { resultRow }, { resultSet }, {
+            Exception("typeError")
+        })
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             AOPBoolean(a is AOPIri)
         })
