@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 
 
-abstract class AOPConstant : AOPBase() {
+abstract class AOPConstant : AOPBase() ,Comparable<AOPConstant>{
     override val classname = "AOPConstant"
     abstract fun valueToString(): String?
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant = this
@@ -21,4 +21,5 @@ abstract class AOPConstant : AOPBase() {
             return "UNDEF"
         return res
     }
+override operator fun compareTo(other: AOPConstant):Int=throw Exception("type error")
 }

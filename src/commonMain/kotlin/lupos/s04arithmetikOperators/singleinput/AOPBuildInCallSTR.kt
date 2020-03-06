@@ -10,7 +10,7 @@ import lupos.s04arithmetikOperators.noinput.AOPBnode
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
-import lupos.s04arithmetikOperators.noinput.AOPUndef
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
@@ -33,6 +33,10 @@ class AOPBuildInCallSTR(child: AOPBase) : AOPBase() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPSimpleLiteral(a.delimiter, a.content)
             })
+if(a is AOPIri)
+return resultFlow({ this }, { resultRow }, { resultSet }, {
+AOPSimpleLiteral("\"",a.iri)
+})
         if (a !is AOPBnode && a !is AOPUndef)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 val tmp = a.valueToString()!!
