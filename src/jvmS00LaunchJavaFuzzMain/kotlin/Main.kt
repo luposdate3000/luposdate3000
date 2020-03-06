@@ -16,7 +16,7 @@ if(args.size>0){
 JenaRequest.db=args[0]
 JenaRequest.dbwascreated=true
 }
-    val fuzzer = Fuzzer(FuzzInstance(), "javafuzz")
+    val fuzzer = Fuzzer(FuzzInstance(), "javafuzz/${JenaRequest.db}")
     fuzzer.start()
 }
 //https://gitlab.com/akihe/radamsa
