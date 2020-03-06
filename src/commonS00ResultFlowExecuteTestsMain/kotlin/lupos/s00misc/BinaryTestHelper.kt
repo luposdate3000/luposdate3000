@@ -1053,6 +1053,7 @@ try{
                 var node2: OPBase = OPNothing()
                 var node3: OPBase = OPNothing()
                 var node4: OPBase = OPNothing()
+                var node5: OPBase = OPNothing()
                 try {
                     //println("sparql::" + sparql)
                     val lcit = LexerCharIterator(sparql)
@@ -1094,6 +1095,7 @@ try{
                         println(node2)
                         println(node3)
                         println(node4)
+                        println(node5)
                         println("expected :: $expected")
                         println("output :: $output")
                         e1?.printStackTrace()

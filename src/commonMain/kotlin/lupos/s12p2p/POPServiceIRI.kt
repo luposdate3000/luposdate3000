@@ -16,15 +16,10 @@ import lupos.s12p2p.P2P
 
 
 class POPServiceIRI : POPBase {
-@JvmField
     override val operatorID = EOperatorID.POPServiceIRIID
-@JvmField
     override val classname = "POPServiceIRI"
-@JvmField
     override val resultSet: ResultSet
-@JvmField
     override val dictionary: ResultSetDictionary
-@JvmField
     override val children: Array<OPBase> = arrayOf()
 @JvmField
     val transactionID: Long

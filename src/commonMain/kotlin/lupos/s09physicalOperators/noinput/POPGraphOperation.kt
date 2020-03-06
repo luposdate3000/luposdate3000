@@ -144,7 +144,7 @@ else->require(false)
                             }
                             EGraphOperationType.MOVE -> {
                                 when (graph2type) {
-                                    EGraphRefType.Default-> {/*noop*/}
+                                    EGraphRefType.DefaultGraphRef-> {/*noop*/}
                                     EGraphRefType.IriGraphRef -> {
                                         try {
                                             DistributedTripleStore.clearGraph(graph2iri!!)
@@ -158,7 +158,7 @@ else->require(false)
                             }
                             EGraphOperationType.ADD -> {
                                 when (graph2type) {
-				EGraphRefType.Default-> {/*noop*/}
+				EGraphRefType.DefaultGraphRef-> {/*noop*/}
                                     EGraphRefType.IriGraphRef -> {
                                         DistributedTripleStore.getNamedGraph(graph2iri!!, true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), EIndexPattern.SPO))
                                     }
