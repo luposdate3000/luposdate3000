@@ -24,7 +24,7 @@ class TurtleParserWithStringTriples(val consume_triple: (String, String, String)
     val first_iri = "<" + first + ">"
     val rest_iri = "<" + rest + ">"
     val type_iri = "<" + rdf + "type" + ">"
-    var bnode_counter = 0
+    @JvmField var bnode_counter = 0
     fun turtleDoc() {
         var token: Token
         var t1 = ltit.lookahead()

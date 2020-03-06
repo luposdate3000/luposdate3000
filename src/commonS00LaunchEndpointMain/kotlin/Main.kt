@@ -17,9 +17,9 @@ import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    var i = 0
-    var bootStrapServer: String? = null
-    var hostname = "localhost"
+    @JvmField var i = 0
+    @JvmField var bootStrapServer: String? = null
+    @JvmField var hostname = "localhost"
     for (a in args) {
         GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
         when (i) {

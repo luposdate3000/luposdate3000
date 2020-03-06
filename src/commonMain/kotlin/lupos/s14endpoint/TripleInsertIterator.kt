@@ -42,7 +42,7 @@ class TripleInsertIterator : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    var result: ResultRow
+    @JvmField var result: ResultRow
 
     override fun equals(other: Any?): Boolean {
         if (other !is TripleInsertIterator)

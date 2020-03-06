@@ -11,9 +11,9 @@ import lupos.s09physicalOperators.POPBase
 abstract class POPTripleStoreIteratorBase : POPBase() {
     override val operatorID = EOperatorID.POPTripleStoreIteratorBaseID
     override val classname = "POPTripleStoreIteratorBase"
-    var sparam: AOPBase = AOPVariable("#s$uuid")
-    var pparam: AOPBase = AOPVariable("#p$uuid")
-    var oparam: AOPBase = AOPVariable("#o$uuid")
+    @JvmField var sparam: AOPBase = AOPVariable("#s$uuid")
+    @JvmField var pparam: AOPBase = AOPVariable("#p$uuid")
+    @JvmField var oparam: AOPBase = AOPVariable("#o$uuid")
     abstract fun getGraphName(): String
 
     override fun equals(other: Any?): Boolean {

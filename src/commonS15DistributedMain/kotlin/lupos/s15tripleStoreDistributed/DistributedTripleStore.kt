@@ -33,7 +33,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
     @JvmField val nodeNameIterator: Iterator<String>
-    var remoteIterator: Iterator<ResultRow>? = null
+    @JvmField var remoteIterator: Iterator<ResultRow>? = null
     @JvmField val transactionID: Long
     @JvmField val graphNameL: String
     @JvmField val index: EIndexPattern

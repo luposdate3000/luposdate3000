@@ -33,7 +33,7 @@ class UnsafePage {
     @JvmField val PAGESIZE = 8 * 1024L
 
     @JvmField
-    var locked = 0
+    @JvmField var locked = 0
 
     @JvmField
     @JvmField val cleaner: () -> Unit

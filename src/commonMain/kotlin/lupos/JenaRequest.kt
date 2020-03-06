@@ -9,7 +9,7 @@ import lupos.s14endpoint.EndpointClientImpl
 class ExceptionJenaBug(message: String) : Exception(message)
 
 class JenaRequest {
-    var containsStringDatatypeQueries = false
+    @JvmField var containsStringDatatypeQueries = false
     fun finalize() {
     }
 

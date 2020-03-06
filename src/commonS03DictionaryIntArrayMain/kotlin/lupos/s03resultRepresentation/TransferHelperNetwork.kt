@@ -54,10 +54,10 @@ class TransferHelperNetwork {
 
     @JvmField val dictionary = ResultSetDictionary()
     @JvmField val data = DynamicByteArray()
-    var lastHeader = ENetworkMessageType.NONE
-    var lastCounterPos = 0
-    var lastCounterValue = 0
-    var lastDictionaryKey: Value? = null
+    @JvmField var lastHeader = ENetworkMessageType.NONE
+    @JvmField var lastCounterPos = 0
+    @JvmField var lastCounterValue = 0
+    @JvmField var lastDictionaryKey: Value? = null
 
     constructor(transactionID: Long) {
         data.appendLong(transactionID)

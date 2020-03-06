@@ -11,7 +11,7 @@ class DynamicByteArray {
         }
     }
 
-    var data: ByteArray
+    @JvmField var data: ByteArray
     @JvmField val maxlen: Int
 
     constructor() {
@@ -29,7 +29,7 @@ class DynamicByteArray {
         return data
     }
 
-    var pos = 4
+    @JvmField var pos = 4
     fun setInt(i: Int, p: Int) {
         data.set(p, i.toByte())
         data.set(p + 1, (i ushr 8).toByte())

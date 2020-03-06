@@ -29,8 +29,8 @@ class POPGroup : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    var by: List<AOPVariable>
-    var bindings = mutableListOf<Pair<Variable, AOPBase>>()
+    @JvmField var by: List<AOPVariable>
+    @JvmField var bindings = mutableListOf<Pair<Variable, AOPBase>>()
 
     override fun toSparql(): String {
         var res = children[0].toSparql()

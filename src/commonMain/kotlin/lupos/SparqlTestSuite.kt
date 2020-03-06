@@ -357,7 +357,7 @@ class SparqlTestSuite() {
         return success == expectedResult
     }
 
-    var i = 0
+    @JvmField var i = 0
 
     fun parseSPARQLAndEvaluate(//
             testName: String,//

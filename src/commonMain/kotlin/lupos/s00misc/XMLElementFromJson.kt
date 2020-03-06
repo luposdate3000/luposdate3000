@@ -15,16 +15,16 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     }
 
     nodeSparql.addContent(nodeResults)
-    var lastParent: XMLElement? = null
-    var lastParentCounter = 0
-    var opencounter = 0
-    var idx = 0
-    var nodeResult: XMLElement? = null
-    var nodeBinding: XMLElement? = null
+     var lastParent: XMLElement? = null
+     var lastParentCounter = 0
+     var opencounter = 0
+     var idx = 0
+     var nodeResult: XMLElement? = null
+     var nodeBinding: XMLElement? = null
      val attributes = mutableMapOf<String, String>()
      val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
-    var lasttokenbracket = false
-    var thistokenbracket = false
+     var lasttokenbracket = false
+     var thistokenbracket = false
     while (idx < json.length) {
         val token = regexToken.find(json, idx + 1)
         if (token == null)

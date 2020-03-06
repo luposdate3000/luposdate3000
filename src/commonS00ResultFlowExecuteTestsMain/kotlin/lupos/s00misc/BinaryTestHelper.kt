@@ -107,7 +107,7 @@ val testDictionaryValueTyped = mutableMapOf<EOperatorID, ResultSetDictionary>()
 var hadArrayIndexOutOfBoundsException = false
 
 fun fromBinaryListOfVariables(buffer: DynamicByteArray, count: Int): MutableList<AOPVariable> {
-    var res = mutableListOf<AOPVariable>()
+     var res = mutableListOf<AOPVariable>()
     for (i in 0 until count)
         res.add(AOPVariable(nextStringVarName(buffer, res)))
     return res
@@ -579,9 +579,9 @@ fun fromBinaryLopTriple(dictionary: ResultSetDictionary, buffer: DynamicByteArra
      val graphNameTmp = (nextStringValueTyped(buffer, EOperatorID.AOPIriID))
      val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
      val graph = DistributedTripleStore.getNamedGraph(graphName, true)
-    var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
-    var p = fromBinaryAOPIriOrVar(dictionary, buffer)
-    var o = fromBinaryAOPConstOrVar(dictionary, buffer)
+     var s = fromBinaryAOPIriOrBnodeOrVar(dictionary, buffer)
+     var p = fromBinaryAOPIriOrVar(dictionary, buffer)
+     var o = fromBinaryAOPConstOrVar(dictionary, buffer)
      val idx = EIndexPattern.values()[nextInt(buffer, EIndexPattern.values().size)]
      val tripleCount = nextInt(buffer, MAX_TRIPLES)
     for (i in 0 until tripleCount) {
@@ -941,7 +941,7 @@ fun fromBinaryAOP(dictionary: ResultSetDictionary, buffer: DynamicByteArray): AO
 }
 
 fun executeBinaryTests(folder: String) {
-    var testcases = 0
+     var testcases = 0
     try {
         File(folder).walk {
             if (it.endsWith(".bin")) {
@@ -983,7 +983,7 @@ try{
 }
      val backupOptimizers = ExecuteOptimizer.enabledOptimizers
     ExecuteOptimizer.enabledOptimizers.clear()
-    var globalSparql = mutableListOf<String>()
+     var globalSparql = mutableListOf<String>()
     hadArrayIndexOutOfBoundsException = false
     while (!hadArrayIndexOutOfBoundsException) {
         try {

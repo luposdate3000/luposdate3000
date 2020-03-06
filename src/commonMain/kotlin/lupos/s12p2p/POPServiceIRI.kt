@@ -25,7 +25,7 @@ class POPServiceIRI : POPBase {
     @JvmField val constraint: OPBase?
     @JvmField val serverName: String
     @JvmField val silent: Boolean
-    var first = true
+    @JvmField var first = true
     @JvmField val originalConstraint: OPBase
 
     override fun equals(other: Any?): Boolean {

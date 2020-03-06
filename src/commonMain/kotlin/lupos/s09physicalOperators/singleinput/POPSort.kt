@@ -25,10 +25,10 @@ class POPSort : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    var data: MutableList<ResultRow>? = null
+    @JvmField var data: MutableList<ResultRow>? = null
     @JvmField val variables = mutableListOf<Pair<Variable, Variable>>()
-    var iterator: Iterator<ResultRow>? = null
-    var sortBy: Variable
+    @JvmField var iterator: Iterator<ResultRow>? = null
+    @JvmField var sortBy: Variable
     @JvmField val sortOrder: Boolean
     override fun equals(other: Any?): Boolean {
         if (other !is POPSort)

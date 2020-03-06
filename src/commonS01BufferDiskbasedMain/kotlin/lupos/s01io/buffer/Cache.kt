@@ -12,8 +12,8 @@ package lupos.s01io.buffer
  */
 class CachedEntry<T, V>(val key: T, val value: V) {
 
-    var before: CachedEntry<T, V> = this
-    var after: CachedEntry<T, V> = this
+    @JvmField var before: CachedEntry<T, V> = this
+    @JvmField var after: CachedEntry<T, V> = this
 
     /**
      * Constructs one element in the doubly linked list and inserts this

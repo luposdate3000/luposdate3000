@@ -21,7 +21,7 @@ inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
 
 inline fun String.toBytesUTF(bytes: ByteArray, offset: Int): Int {
     val size = this.length
-    var pos = size.toBytes(bytes, offset)
+     var pos = size.toBytes(bytes, offset)
     for (i in 0 until size) {
         val strChar = this[i]
         bytes[pos] = (strChar.toInt() and 0xFF00 shr 8).toByte()
@@ -34,7 +34,7 @@ inline fun String.toBytesUTF(bytes: ByteArray, offset: Int): Int {
 
 inline fun String.toBytesUTF(): ByteArray {
     val bytes = ByteArray(this.length * 2)
-    var pos = 0
+     var pos = 0
     for (i in 0 until this.length) {
         val c = this[i]
         bytes[pos] = (c.toInt() and 0xFF00 shr 8).toByte()
@@ -48,7 +48,7 @@ inline fun String.toBytesUTF(): ByteArray {
 inline fun String.toPageUTF(page: Page, address: Long): Long {
     val size = this.length
     page.putInt(address, size)
-    var pos = address + 4
+     var pos = address + 4
     for (i in 0 until size) {
         val strChar = this[i]
         page.putByte(pos, (strChar.toInt() and 0xFF00 shr 8).toByte())
@@ -62,7 +62,7 @@ inline fun String.toPageUTF(page: Page, address: Long): Long {
 inline fun Page.getString(address: Long): String { // avoid using this method and do comparisons of strings etc. directly in the pages!
     val size = this.getInt(address)
     val buffer = CharArray(size)
-    var pos = address + 4
+     var pos = address + 4
     for (i in buffer.indices) {
         buffer[i] = ((this.getByte(pos).toInt() and 0xFF shl 8) + (this.getByte(pos + 1).toInt() and 0xFF)).toChar()
         pos += 2
@@ -75,7 +75,7 @@ inline fun ByteArray.toInt(offset: Int) = (0xFF and this[offset].toInt()) or ((0
 inline fun ByteArray.toStringUTF(offset: Int): String {
     val size = this.toInt(offset)
     val buffer = CharArray(size)
-    var pos = offset + 4
+     var pos = offset + 4
     for (i in buffer.indices) {
         buffer[i] = ((this[pos].toInt() and 0xFF shl 8) + (this[pos + 1].toInt() and 0xFF)).toChar()
         pos += 2
@@ -85,7 +85,7 @@ inline fun ByteArray.toStringUTF(offset: Int): String {
 
 inline fun ByteArray.toStringUTF(): String {
     val buffer = CharArray(this.size / 2)
-    var pos = 0
+     var pos = 0
     for (i in buffer.indices) {
         buffer[i] = ((this[pos].toInt() and 0xFF shl 8) + (this[pos + 1].toInt() and 0xFF)).toChar()
         pos += 2
@@ -98,10 +98,10 @@ class ByteArrayPage {
     val PAGESIZE = 8 * 1024
     @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val byteArray = ByteArray(PAGESIZE)
-    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
-    var locked = 0
-    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
-    var modified = false
+     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
+    @JvmField var locked = 0
+     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
+    @JvmField var modified = false
 
     constructor()
 

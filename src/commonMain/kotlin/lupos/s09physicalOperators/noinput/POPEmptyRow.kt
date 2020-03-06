@@ -18,7 +18,7 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
     override val classname = "POPEmptyRow"
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
-    var first = true
+    @JvmField var first = true
     override fun cloneOP() = POPEmptyRow(dictionary)
 
     override fun toSparql() = "{}"

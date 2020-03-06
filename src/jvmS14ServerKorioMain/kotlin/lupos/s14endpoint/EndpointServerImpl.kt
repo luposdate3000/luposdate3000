@@ -25,7 +25,7 @@ import lupos.s14endpoint.Endpoint
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {
-    var server: HttpServer? = null
+    @JvmField var server: HttpServer? = null
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
         GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })

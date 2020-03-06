@@ -11,13 +11,13 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
     nodeSparql.addContent(nodeResults)
      val lines = tsv.lines()
      val variables = mutableListOf<Pair<String, Int>>()
-    var i = 0
+     var i = 0
     for (variableName in lines.first().split("\t")) {
         nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName.substring(1, variableName.length)))
         variables.add(Pair(variableName.substring(1, variableName.length), i))
         i++
     }
-    var firstLine = true
+     var firstLine = true
     for (line in lines) {
         if (firstLine) {
             firstLine = false

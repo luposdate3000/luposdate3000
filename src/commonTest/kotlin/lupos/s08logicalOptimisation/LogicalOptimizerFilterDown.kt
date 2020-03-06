@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 
 class LogicalOptimizerFilterDownTest {
-    var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
+    @JvmField var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
     @JvmField val astS = AOPVariable("s")
     @JvmField val projectS = mutableListOf(AOPVariable("s"))
 

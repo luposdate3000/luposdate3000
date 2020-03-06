@@ -7,7 +7,7 @@ import kotlinx.coroutines.sync.Mutex
 class ReadWriteLock {
     @JvmField val allowNewReads = Mutex()
     @JvmField val allowNewWrites = Mutex()
-    var readers = 0L
+    @JvmField var readers = 0L
 
     suspend inline fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
         try {

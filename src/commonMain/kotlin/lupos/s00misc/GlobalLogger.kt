@@ -2,7 +2,7 @@ package lupos.s00misc
 
 
 object GlobalLogger {
-    var enabled = ELoggerType.RELEASE
+    @JvmField var enabled = ELoggerType.RELEASE
     fun log(type: ELoggerType, action: () -> Any?) {
         if (enabled.ordinal >= type.ordinal)
             println(action())
