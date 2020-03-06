@@ -34,7 +34,6 @@ class DynamicByteArray {
     constructor(data: ByteArray, size: Int) {
         this.data = ByteArray(4) + data
         maxlen = size
-        pos = 4 + size
         setInt(size, 0)
     }
 

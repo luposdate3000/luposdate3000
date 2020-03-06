@@ -1,3 +1,10 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.time.Duration
+import java.time.Instant
 import lupos.*
 import lupos.s00misc.*
 import lupos.s00misc.executeBinaryTest
@@ -14,7 +21,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName",
             testDictionaryValue to "DictionaryValue"
     ).forEach { (k, v) ->
-        java.io.File("resources/$v.txt").forEachLine {
+        File("resources/$v.txt").forEachLine {
             k.createValue(it)
         }
     }
@@ -28,7 +35,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[EOperatorID.AOPSimpleLiteralID]!!.createValue("\"" + it!! + "\"")
         }
     }
-    val input = File.readStdInAsDynamicByteArray()
+    val input = lupos.s00misc.File.readStdInAsDynamicByteArray()
     if (input != null) {
         executeBinaryTest(input!!)
     } else if (args.isEmpty()) {

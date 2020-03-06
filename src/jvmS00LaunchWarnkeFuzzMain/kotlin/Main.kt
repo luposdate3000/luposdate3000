@@ -61,8 +61,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         val bytebuffer = ByteBuffer.allocate(datasize)
         currentSize = fileChannel.read(bytebuffer)
         val data = bytebuffer.array()
-        val input = DynamicByteArray(data)
-        input.setInt(currentSize, 0)
+        val input = DynamicByteArray(data,currentSize)
         try {
             executeBinaryTest(input!!)
             val timepointNext2 = Instant.now()
@@ -70,7 +69,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             timepoint = timepointNext2
             println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
         } catch (e: Throwable) {
-            input.setInt(currentSize, 0)
+e.printStackTrace()
+	    input.pos=currentSize
             lupos.s00misc.File("crash-${data.hashCode()}").write(input)
         }
     }
