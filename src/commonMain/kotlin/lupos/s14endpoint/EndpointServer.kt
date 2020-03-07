@@ -134,53 +134,33 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         when (path) {
             Endpoint.REQUEST_TRIPLE_ADD[0] -> {
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_ADD[2]]!!.toLong())
-                val s: AOPConstant = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[3]]!!)
-                val p: AOPConstant = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[4]]!!)
-                val o: AOPConstant = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[5]]!!)
+val param=Array(3){AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[3+it]]!!)}
                 responseStr = Endpoint.process_local_triple_add(query, params[Endpoint.REQUEST_TRIPLE_ADD[1]]!!,
-                        s, p, o,
+                        param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_ADD[6]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_TRIPLE_GET[0] -> {
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
-                val s: AOPBase
-                if (params[Endpoint.REQUEST_TRIPLE_GET[6]]!!.toBoolean())
-                    s = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
+val param=Array(3){
+if (params[Endpoint.REQUEST_TRIPLE_GET[6+it]]!!.toBoolean())
+                    AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3+it]]!!)
                 else
-                    s = AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
-                val p: AOPBase
-                if (params[Endpoint.REQUEST_TRIPLE_GET[7]]!!.toBoolean())
-                    p = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
-                else
-                    p = AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
-                val o: AOPBase
-                if (params[Endpoint.REQUEST_TRIPLE_GET[8]]!!.toBoolean())
-                    o = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
-                else
-                    o = AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
+                    AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3+it]]!!)
+}
                 responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(query, params[Endpoint.REQUEST_TRIPLE_GET[1]]!!,
-                        s, p, o,
+                        param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_GET[9]]!!)))
             }
             Endpoint.REQUEST_TRIPLE_DELETE[0] -> {
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
-                val s: AOPBase
-                if (params[Endpoint.REQUEST_TRIPLE_DELETE[6]]!!.toBoolean())
-                    s = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
+val param=Array(3){
+ if (params[Endpoint.REQUEST_TRIPLE_DELETE[6+it]]!!.toBoolean())
+                     AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3+it]]!!)
                 else
-                    s = AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
-                val p: AOPBase
-                if (params[Endpoint.REQUEST_TRIPLE_GET[7]]!!.toBoolean())
-                    p = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
-                else
-                    p = AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
-                val o: AOPBase
-                if (params[Endpoint.REQUEST_TRIPLE_GET[8]]!!.toBoolean())
-                    o = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
-                else
-                    o = AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
+                     AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3+it]]!!)
+}
                 responseStr = Endpoint.process_local_triple_delete(query, params[Endpoint.REQUEST_TRIPLE_DELETE[1]]!!,
-                        s, p, o,
+                        param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[9]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_TRACE_PRINT[0] -> responseStr = process_print_traces()

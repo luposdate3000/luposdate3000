@@ -372,26 +372,18 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is TripleStoreIteratorGlobal -> {
-            toBinary(operator.sparam, buffer, asPOP)
-            toBinary(operator.pparam, buffer, asPOP)
-            toBinary(operator.oparam, buffer, asPOP)
+for(p in operator.params)
+toBinary(p, buffer, asPOP)
             val tmp = rowMapProduced[operator.uuid]
             buffer.appendInt(operator.index.ordinal)
             if (tmp != null) {
                 buffer.appendInt(tmp.size())
                 tmp.forEach { r ->
-                    if (operator.sparam is AOPConstant)
-                        buffer.appendInt(testDictionaryValue.createValue((operator.sparam as AOPConstant).valueToString()!!))
+for(p in operator.params)
+                    if (p is AOPConstant)
+                        buffer.appendInt(testDictionaryValue.createValue((p as AOPConstant).valueToString()!!))
                     else
-                        buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.sparam as AOPVariable).name)])!!))
-                    if (operator.pparam is AOPConstant)
-                        buffer.appendInt(testDictionaryValue.createValue((operator.pparam as AOPConstant).valueToString()!!))
-                    else
-                        buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.pparam as AOPVariable).name)])!!))
-                    if (operator.oparam is AOPConstant)
-                        buffer.appendInt(testDictionaryValue.createValue((operator.oparam as AOPConstant).valueToString()!!))
-                    else
-                        buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((operator.oparam as AOPVariable).name)])!!))
+                        buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((p as AOPVariable).name)])!!))
                 }
             } else {
                 buffer.appendInt(0)

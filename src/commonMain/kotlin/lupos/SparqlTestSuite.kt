@@ -467,9 +467,7 @@ class SparqlTestSuite() {
                     val outputData = readFileOrNull(it["filename"])
                     var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
                     val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(EIndexPattern.SPO)
-                    tmp.sparam = AOPVariable(query, "s")
-                    tmp.pparam = AOPVariable(query, "p")
-                    tmp.oparam = AOPVariable(query, "o")
+tmp.params=arrayOf( AOPVariable(query, "s"),AOPVariable(query, "p"),AOPVariable(query, "o"))
                     var xmlGraphActual = QueryResultToXML.toXML(tmp)
                     if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual.first())) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })

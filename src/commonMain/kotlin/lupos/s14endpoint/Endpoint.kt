@@ -68,21 +68,21 @@ object Endpoint {
     @JvmField
     val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
 
-    fun process_local_triple_add(query: Query, graphName: String, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_add" }, {
+    fun process_local_triple_add(query: Query, graphName: String, params:Array<AOPConstant>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_add" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        g.addData(query, s, p, o, idx)
+        g.addData(query, params, idx)
         return XMLElement("success")
     })
 
-    fun process_local_triple_delete(query: Query, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_delete" }, {
+    fun process_local_triple_delete(query: Query, graphName: String, params:Array<AOPBase>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_delete" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        g.deleteDataVar(query, s, p, o, idx)
+        g.deleteDataVar(query, params, idx)
         return XMLElement("success")
     })
 
-    fun process_local_triple_get(query: Query, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "process_local_triple_get" }, {
+    fun process_local_triple_get(query: Query, graphName: String, params:Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "process_local_triple_get" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        return g.getIterator(query, ResultSet(query.dictionary), s, p, o, idx)
+        return g.getIterator(query, ResultSet(query.dictionary), params, idx)
     })
 
     fun process_local_graph_clear_all(query: Query): XMLElement = Trace.trace({ "process_local_graph_clear_all" }, {

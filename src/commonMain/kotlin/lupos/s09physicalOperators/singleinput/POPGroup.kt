@@ -124,13 +124,16 @@ class POPGroup : POPBase {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
                 val variables = mutableListOf<Pair<Variable, Variable>>()
-                for (v in by)
+                for (v in by){
+println("POPGroup by :: ${v.name}")
                     variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
+		}
                 for (rsOld in children0Channel) {
                     resultFlowConsume({ this@POPGroup }, { children[0] }, { rsOld })
                     var key = "|"
                     for (variable in variables)
                         key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
+println("POPGroup key :: $key")
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {
                         tmp = mutableListOf()
@@ -145,13 +148,14 @@ class POPGroup : POPBase {
                     for (b in bindings)
                         resultSet.setUndefValue(rsNew, b.first)
                     channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
-                }
+                }else{
                 for (k in tmpMutableMap.keys) {
                     val rsOld = tmpMutableMap[k]!!.first()
                     val rsNew = resultSet.createResultRow()
                     for (variable in variables)
                         rsNew[variable.first] = rsOld[variable.second]
                     for (b in bindings) {
+println("POPGroup bind :: ${resultSet.getVariable(b.first)} to ${b.second.toSparqlQuery()} ${tmpMutableMap[k]!!.count()}")
                         try {
                             setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
                             for (resultRow in tmpMutableMap[k]!!)
@@ -172,6 +176,7 @@ class POPGroup : POPBase {
                     }
                     channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
                 }
+}
                 channel.close()
                 children0Channel.close()
             } catch (e: Throwable) {

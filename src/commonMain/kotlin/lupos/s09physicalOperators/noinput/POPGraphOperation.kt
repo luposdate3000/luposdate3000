@@ -132,7 +132,7 @@ class POPGraphOperation(query: Query,
                                             DistributedTripleStore.clearGraph(query, graph2iri!!)
                                         } catch (e: Throwable) {
                                         }
-                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
                                     else -> require(false)
                                 }
@@ -146,7 +146,7 @@ class POPGraphOperation(query: Query,
                                             DistributedTripleStore.clearGraph(query, graph2iri!!)
                                         } catch (e: Throwable) {
                                         }
-                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                         DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
                                     }
                                     else -> require(false)
@@ -157,7 +157,7 @@ class POPGraphOperation(query: Query,
                                     EGraphRefType.DefaultGraphRef -> {/*noop*/
                                     }
                                     EGraphRefType.IriGraphRef -> {
-                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
                                     else -> require(false)
                                 }
@@ -183,12 +183,12 @@ class POPGraphOperation(query: Query,
                                                 DistributedTripleStore.clearGraph(query, graph2iri!!)
                                             } catch (e: Throwable) {
                                             }
-                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                         }
                                     }
                                     EGraphRefType.DefaultGraphRef -> {
                                         DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
                                     else -> require(false)
                                 }
@@ -201,13 +201,13 @@ class POPGraphOperation(query: Query,
                                                 DistributedTripleStore.clearGraph(query, graph2iri!!)
                                             } catch (e: Throwable) {
                                             }
-                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                             DistributedTripleStore.dropGraph(query, graph1iri!!)
                                         }
                                     }
                                     EGraphRefType.DefaultGraphRef -> {
                                         DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                         DistributedTripleStore.dropGraph(query, graph1iri!!)
                                     }
                                     else -> require(false)
@@ -217,10 +217,10 @@ class POPGraphOperation(query: Query,
                                 when (graph2type) {
                                     EGraphRefType.IriGraphRef -> {
                                         if (graph2iri!! != graph1iri!!)
-                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
                                     EGraphRefType.DefaultGraphRef -> {
-                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO))
+                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
                                     else -> require(false)
                                 }

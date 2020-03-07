@@ -29,8 +29,8 @@ object P2P {
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
     })
 
-    fun execTripleAdd(query: Query, node: String, graphName: String, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
-        Endpoint.process_local_triple_add(query, graphName, s, p, o, idx)
+    fun execTripleAdd(query: Query, node: String, graphName: String, params:Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+        Endpoint.process_local_triple_add(query, graphName, params, idx)
     })
 
     fun execOnNamedNode(query: Query, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
@@ -45,12 +45,12 @@ object P2P {
         Endpoint.process_local_graph_operation(query, name, type)
     })
 
-    fun execTripleGet(query: Query, node: String, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
-        return Endpoint.process_local_triple_get(query, graphName, s, p, o, idx)
+    fun execTripleGet(query: Query, node: String, graphName: String, params:Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+        return Endpoint.process_local_triple_get(query, graphName, params, idx)
     })
 
-    fun execTripleDelete(query: Query, node: String, graphName: String, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
-        Endpoint.process_local_triple_delete(query, graphName, data[0], data[1], data[2], idx)
+    fun execTripleDelete(query: Query, node: String, graphName: String, data: Array<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
+        Endpoint.process_local_triple_delete(query, graphName, data, idx)
     })
 
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {

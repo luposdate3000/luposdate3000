@@ -10,6 +10,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -29,30 +30,33 @@ open class TripleStoreIteratorLocal(query: Query,
 
     override fun getGraphName() = store.name
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
+    override fun toXMLElement() = super.
+toXMLElement().
+addAttribute("uuid", "" + uuid).
+addAttribute("name", getGraphName()).
+addContent(XMLElement("sparam").addContent(params[0].toXMLElement())).
+addContent(XMLElement("pparam").addContent(params[1].toXMLElement())).
+addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
 
     override fun cloneOP() = TripleStoreIteratorLocal(query, resultSet, store, index)
 
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
-        tmp.addAll(sparam.getRequiredVariableNames())
-        tmp.addAll(pparam.getRequiredVariableNames())
-        tmp.addAll(oparam.getRequiredVariableNames())
+for(p in params)
+tmp.addAll(p.getRequiredVariableNames())
         return tmp.distinct()
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocal.evaluate" }, {
-        val sNew = resultSet.createVariable((sparam as AOPVariable).name)
-        val pNew = resultSet.createVariable((pparam as AOPVariable).name)
-        val oNew = resultSet.createVariable((oparam as AOPVariable).name)
+val newVariables=Array(3){resultSet.createVariable((params[it] as AOPVariable).name)}
+val variables=arrayOf<AOPBase>(AOPVariable(query, "s"),AOPVariable(query, "p"),AOPVariable(query, "o"))
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                store.forEach(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), { sv, pv, ov ->
+                store.forEach(variables, { it ->
                     val result = resultSet.createResultRow()
-                    result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
-                    result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))
-                    result[oNew] = resultSet.createValue(store.resultSet.getValue(ov))
+for(i in 0 until 3)
+result[newVariables[i]!!]=resultSet.createValue(store.resultSet.getValue(it[i]))
                     channel.send(result)
                 }, index)
                 channel.close()

@@ -53,7 +53,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                     idx = EIndexPattern.SP
                 }
             }
-            res = store.getIterator(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, idx)
+            res = store.getIterator(Array<AOPBase>(3){node.children[it]as AOPBase}, idx)
         }
         res
     })

@@ -19,32 +19,18 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
     override fun cloneOP() = TripleStoreIteratorLocalFilter(query, resultSet, store, index)
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
-        val sNew: Variable?
-        val pNew: Variable?
-        val oNew: Variable?
-        if (sparam is AOPVariable)
-            sNew = resultSet.createVariable((sparam as AOPVariable).name)
-        else
-            sNew = null
-        if (pparam is AOPVariable)
-            pNew = resultSet.createVariable((pparam as AOPVariable).name)
-        else
-            pNew = null
-        if (oparam is AOPVariable)
-            oNew = resultSet.createVariable((oparam as AOPVariable).name)
-        else
-            oNew = null
+val newVariables=arrayOfNulls<Variable?>(3)
+for(i in 0 until 3)
+if(params[i] is AOPVariable)
+newVariables[i]= resultSet.createVariable((params[i] as AOPVariable).name)
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                store.forEach(sparam, pparam, oparam, { sv, pv, ov ->
+                store.forEach(params, { it->
                     val result = resultSet.createResultRow()
-                    if (sNew != null)
-                        result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
-                    if (pNew != null)
-                        result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))
-                    if (oNew != null)
-                        result[oNew] = resultSet.createValue(store.resultSet.getValue(ov))
+	for(i in 0 until 3)
+		if(newVariables[i]!=null)
+			result[newVariables[i]!!]=resultSet.createValue(store.resultSet.getValue(it[i]))
                     channel.send(result)
                 }, index)
                 channel.close()

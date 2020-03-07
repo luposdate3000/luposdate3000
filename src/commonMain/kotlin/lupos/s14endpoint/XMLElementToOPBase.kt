@@ -236,13 +236,13 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
-            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(s, p, o, EIndexPattern.SPO)
+            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), EIndexPattern.SPO)
         }
         "TripleStoreIteratorGlobalFilter" -> {
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
-            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(s, p, o, EIndexPattern.SPO)
+            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), EIndexPattern.SPO)
         }
         "TripleStoreIteratorGlobal" -> {
             val res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(EIndexPattern.SPO)

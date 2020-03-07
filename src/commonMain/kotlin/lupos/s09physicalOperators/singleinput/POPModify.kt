@@ -64,10 +64,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, true)
                             }
-                            val data = mutableListOf<AOPConstant>()
-                            for (c in i.children)
-                                data.add(evaluateRow(c, row))
-                            store.addData(data)
+                            store.addData(Array(3){evaluateRow(i.children[it], row)})
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
@@ -82,10 +79,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, false)
                             }
-                            val data = mutableListOf<AOPConstant>()
-                            for (c in i.children)
-                                data.add(evaluateRow(c, row))
-                            store.deleteData(data)
+                            store.deleteData(Array(3){evaluateRow(i.children[it], row)})
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
