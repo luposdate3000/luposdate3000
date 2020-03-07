@@ -11,18 +11,15 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPImportFromXml(query:Query, @JvmField val data: XMLElement) : POPBase(query, EOperatorID.POPImportFromXmlID,"POPImportFromXml",ResultSet(dictionary),arrayOf()) {
+class POPImportFromXml(query:Query, @JvmField val data: XMLElement) : POPBase(query, EOperatorID.POPImportFromXmlID,"POPImportFromXml",ResultSet(query.dictionary),arrayOf()) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPImportFromXml)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (!data.equals(other.data))
             return false
@@ -33,7 +30,7 @@ class POPImportFromXml(query:Query, @JvmField val data: XMLElement) : POPBase(qu
         return true
     }
 
-    override fun cloneOP() = POPImportFromXml(dictionary, data)
+    override fun cloneOP() = POPImportFromXml(query, data)
 
     override fun toXMLElement() = super.toXMLElement().addContent(data)
 

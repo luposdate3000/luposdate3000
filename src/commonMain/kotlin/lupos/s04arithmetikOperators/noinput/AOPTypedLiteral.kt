@@ -9,14 +9,14 @@ import lupos.s04logicalOperators.OPBase
 class AOPTypedLiteral(query:Query, delimiter: String,  content: String, @JvmField val type_iri: String) : AOPConstantString(query,EOperatorID.AOPTypedLiteralID,"AOPTypedLiteral",delimiter,content) {
 
     companion object {
-        fun create(delimiter: String, content: String, type_iri: String): AOPConstant {
+        fun create(query:Query,delimiter: String, content: String, type_iri: String): AOPConstant {
             when (type_iri) {
-                "http://www.w3.org/2001/XMLSchema#boolean" -> return AOPBoolean(content.toBoolean())
-                "http://www.w3.org/2001/XMLSchema#integer" -> return AOPInteger(content.toInt())
-                "http://www.w3.org/2001/XMLSchema#double" -> return AOPDouble(content.toDouble())
-                "http://www.w3.org/2001/XMLSchema#decimal" -> return AOPDecimal(content.toDouble())
-                "http://www.w3.org/2001/XMLSchema#dateTime" -> return AOPDateTime(delimiter + content + delimiter + "^^<" + type_iri + ">")
-                else -> return AOPTypedLiteral(delimiter, content, type_iri)
+                "http://www.w3.org/2001/XMLSchema#boolean" -> return AOPBoolean(query,content.toBoolean())
+                "http://www.w3.org/2001/XMLSchema#integer" -> return AOPInteger(query,content.toInt())
+                "http://www.w3.org/2001/XMLSchema#double" -> return AOPDouble(query,content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#decimal" -> return AOPDecimal(query,content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#dateTime" -> return AOPDateTime(query,delimiter + content + delimiter + "^^<" + type_iri + ">")
+                else -> return AOPTypedLiteral(query,delimiter, content, type_iri)
             }
         }
     }

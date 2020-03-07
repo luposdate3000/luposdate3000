@@ -31,7 +31,7 @@ class AOPBuildInCallSTRLANG(query:Query,child: AOPBase, childB: AOPBase) : AOPBa
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPLanguageTaggedLiteral(a.delimiter, a.content, b.content)
+                AOPLanguageTaggedLiteral(query,a.delimiter, a.content, b.content)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STRLANG only works with simple string input")

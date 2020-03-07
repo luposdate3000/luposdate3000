@@ -29,20 +29,20 @@ class AOPBuildInCallSTRLEN(query:Query,child: AOPBase) : AOPBase(query, EOperato
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.content.length)
+                AOPInteger(query,a.content.length)
             })
         if (a is AOPTypedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.content.length)
+                AOPInteger(query,a.content.length)
             })
         if (a is AOPLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.content.length)
+                AOPInteger(query,a.content.length)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STRLEN only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRLEN(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSTRLEN(query,children[0].cloneOP() as AOPBase)
 }

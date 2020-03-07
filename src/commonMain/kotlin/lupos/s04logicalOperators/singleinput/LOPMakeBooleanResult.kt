@@ -24,5 +24,5 @@ class LOPMakeBooleanResult(query:Query,child: OPBase) : LOPBase(query,EOperatorI
         return true
     }
 
-    override fun cloneOP() = LOPMakeBooleanResult(children[0].cloneOP())
+    override fun cloneOP() = LOPMakeBooleanResult(query,children[0].cloneOP())
 }

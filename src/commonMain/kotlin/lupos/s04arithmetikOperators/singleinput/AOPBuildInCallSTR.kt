@@ -29,21 +29,21 @@ class AOPBuildInCallSTR(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(a.delimiter, a.content)
+                AOPSimpleLiteral(query,a.delimiter, a.content)
             })
         if (a is AOPIri)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral("\"", a.iri)
+                AOPSimpleLiteral(query,"\"", a.iri)
             })
         if (a !is AOPBnode && a !is AOPUndef)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 val tmp = a.valueToString()!!
-                AOPSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.lastIndexOf(tmp.get(0))))
+                AOPSimpleLiteral(query,"" + tmp.get(0), tmp.substring(1, tmp.lastIndexOf(tmp.get(0))))
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STR only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSTR(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSTR(query,children[0].cloneOP() as AOPBase)
 }

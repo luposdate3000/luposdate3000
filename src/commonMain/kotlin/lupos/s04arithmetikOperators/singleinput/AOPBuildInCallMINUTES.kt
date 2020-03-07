@@ -27,12 +27,12 @@ class AOPBuildInCallMINUTES(query:Query,child: AOPBase) : AOPBase(query,EOperato
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.minutes)
+                AOPInteger(query,a.minutes)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall MINUTES only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallMINUTES(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallMINUTES(query,children[0].cloneOP() as AOPBase)
 }

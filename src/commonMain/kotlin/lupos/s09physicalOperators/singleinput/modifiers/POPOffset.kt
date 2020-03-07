@@ -12,18 +12,15 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPOffset(query:Query, @JvmField val offset: Int, child: OPBase) : POPBase(query,EOperatorID.POPOffsetID,"POPOffset",ResultSet(dictionary),arrayOf(child)) {
+class POPOffset(query:Query, @JvmField val offset: Int, child: OPBase) : POPBase(query,EOperatorID.POPOffsetID,"POPOffset",ResultSet(query.dictionary),arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (offset != other.offset)
             return false
@@ -41,7 +38,7 @@ class POPOffset(query:Query, @JvmField val offset: Int, child: OPBase) : POPBase
         return "{SELECT * {" + sparql + "} OFFSET " + offset + "}"
     }
 
-    override fun cloneOP() = POPOffset(dictionary, offset, children[0].cloneOP())
+    override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPOffset.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()

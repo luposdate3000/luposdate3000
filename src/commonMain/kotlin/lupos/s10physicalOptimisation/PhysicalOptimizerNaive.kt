@@ -5,7 +5,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -50,7 +49,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class PhysicalOptimizerNaive(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerNaiveID) {
+class PhysicalOptimizerNaive(query:Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerNaiveID) {
     override val classname = "PhysicalOptimizerNaive"
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
@@ -58,46 +57,46 @@ class PhysicalOptimizerNaive(transactionID: Long, dictionary: ResultSetDictionar
         var change = true
         try {
             when (node) {
-                is LOPGraphOperation -> res = POPGraphOperation(dictionary, transactionID, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
-                is LOPModify -> res = POPModify(dictionary, transactionID, node.insert, node.delete, node.children[0])
-                is LOPModifyData -> res = POPModifyData(dictionary, transactionID, node.type, node.data)
-                is LOPProjection -> res = POPProjection(dictionary, node.variables, node.children[0])
-                is LOPMakeBooleanResult -> res = POPMakeBooleanResult(dictionary, node.children[0])
-                is LOPRename -> res = POPRename(dictionary, node.nameTo, node.nameFrom, node.children[0])
-                is LOPValues -> res = POPValues(dictionary, node)
-                is LOPLimit -> res = POPLimit(dictionary, node.limit, node.children[0])
-                is LOPDistinct -> res = POPDistinct(dictionary, node.children[0])
-                is LOPOffset -> res = POPOffset(dictionary, node.offset, node.children[0])
+                is LOPGraphOperation -> res = POPGraphOperation(query, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
+                is LOPModify -> res = POPModify(query, node.insert, node.delete, node.children[0])
+                is LOPModifyData -> res = POPModifyData(query, node.type, node.data)
+                is LOPProjection -> res = POPProjection(query, node.variables, node.children[0])
+                is LOPMakeBooleanResult -> res = POPMakeBooleanResult(query, node.children[0])
+                is LOPRename -> res = POPRename(query, node.nameTo, node.nameFrom, node.children[0])
+                is LOPValues -> res = POPValues(query, node)
+                is LOPLimit -> res = POPLimit(query, node.limit, node.children[0])
+                is LOPDistinct -> res = POPDistinct(query, node.children[0])
+                is LOPOffset -> res = POPOffset(query, node.offset, node.children[0])
                 is LOPGroup -> {
                     if (node.children[1] is POPBind)
-                        res = POPGroup(dictionary, node.by, node.children[1] as POPBind, node.children[0])
+                        res = POPGroup(query, node.by, node.children[1] as POPBind, node.children[0])
                     else
-                        res = POPGroup(dictionary, node.by, null, node.children[0])
+                        res = POPGroup(query, node.by, null, node.children[0])
                 }
-                is LOPUnion -> res = POPUnion(dictionary, node.children[0], node.children[1])
-                is LOPSort -> res = POPSort(dictionary, node.by, node.asc, node.children[0])
+                is LOPUnion -> res = POPUnion(query, node.children[0], node.children[1])
+                is LOPSort -> res = POPSort(query, node.by, node.asc, node.children[0])
                 is LOPSubGroup -> res = node.children[0]
-                is LOPFilter -> res = POPFilter(dictionary, node.children[1] as AOPBase, node.children[0])
+                is LOPFilter -> res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
                 is LOPBind -> {
                     val variable = node.name
                     val child = node.children[0]
                     when (node.children[1]) {
                         is AOPVariable ->
                             if (child.getProvidedVariableNames().contains(variable.name))
-                                res = POPRename(dictionary, variable, node.children[1] as AOPVariable, child)
+                                res = POPRename(query,variable, node.children[1] as AOPVariable, child)
                             else
-                                res = POPBind(dictionary, variable, AOPUndef(), child)
-                        else -> res = POPBind(dictionary, variable, node.children[1] as AOPBase, child)
+                                res = POPBind(query,variable, AOPUndef(query), child)
+                        else -> res = POPBind(query,variable, node.children[1] as AOPBase, child)
                     }
                 }
-                is LOPJoin -> res = POPJoinHashMap(dictionary, node.children[0], node.children[1], node.optional)
+                is LOPJoin -> res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
                 is LOPTriple -> {
                     if (node.graph == null)
-                        res = DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getDefaultGraph(query).getIterator( node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
                     else
-                        res = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getNamedGraph(query,node.graph).getIterator( node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
                 }
-                is OPNothing -> res = POPEmptyRow(dictionary)
+                is OPNothing -> res = POPEmptyRow(query)
                 else -> {
                     change = false
                 }

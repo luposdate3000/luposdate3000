@@ -29,9 +29,9 @@ class AOPBuildInCallIsIri(query:Query,child: AOPBase) : AOPBase(query, EOperator
                 Exception("typeError")
             })
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a is AOPIri)
+            AOPBoolean(query,a is AOPIri)
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallIsIri(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallIsIri(query,children[0].cloneOP() as AOPBase)
 }

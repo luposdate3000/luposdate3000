@@ -37,7 +37,7 @@ class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Arr
         if (!collectMode.get()) {
             if (a.get() == null)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPUndef()
+                    AOPUndef(query)
                 })
             else
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -50,17 +50,17 @@ class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Arr
             })
         val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a.get() == null && b is AOPDouble)
-            a.set(AOPDouble(b.toDouble() / (0.0 + count.get())))
+            a.set(AOPDouble(query,b.toDouble() / (0.0 + count.get())))
         else if (a.get() == null && b is AOPDecimal)
-            a.set(AOPDecimal(b.toDouble() / (0.0 + count.get())))
+            a.set(AOPDecimal(query,b.toDouble() / (0.0 + count.get())))
         else if (a.get() == null && b is AOPInteger)
-            a.set(AOPDecimal(b.toDouble() / (0.0 + count.get())))
+            a.set(AOPDecimal(query,b.toDouble() / (0.0 + count.get())))
         else if (a.get() is AOPDouble || b is AOPDouble)
-            a.set(AOPDouble(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+            a.set(AOPDouble(query,a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
         else if (a.get() is AOPDecimal || b is AOPDecimal)
-            a.set(AOPDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+            a.set(AOPDecimal(query,a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
         else if (a.get() is AOPInteger || b is AOPInteger)
-            a.set(AOPDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+            a.set(AOPDecimal(query,a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
         else
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 Exception("AOPAggregationAVG avg only defined on numberic input")
@@ -70,5 +70,5 @@ class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Arr
         })
     }
 
-    override fun cloneOP() = AOPAggregationAVG(distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationAVG(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

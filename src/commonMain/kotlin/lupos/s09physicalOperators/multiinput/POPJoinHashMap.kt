@@ -13,13 +13,12 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPJoinHashMap(query:Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query,EOperatorID.POPJoinHashMapID,"POPJoinHashMap",ResultSet(dictionary),arrayOf(childA, childB)) {
+class POPJoinHashMap(query:Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query,EOperatorID.POPJoinHashMapID,"POPJoinHashMap",ResultSet(query.dictionary),arrayOf(childA, childB)) {
 
     override fun toSparql(): String {
         if (optional)
@@ -29,8 +28,6 @@ class POPJoinHashMap(query:Query, childA: OPBase, childB: OPBase, @JvmField val 
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinHashMap)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (optional != other.optional)
             return false
@@ -160,5 +157,5 @@ class POPJoinHashMap(query:Query, childA: OPBase, childB: OPBase, @JvmField val 
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinHashMap(dictionary, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() = POPJoinHashMap(query, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

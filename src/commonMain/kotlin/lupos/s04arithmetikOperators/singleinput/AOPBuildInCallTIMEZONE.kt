@@ -27,12 +27,12 @@ class AOPBuildInCallTIMEZONE(query:Query,child: AOPBase) : AOPBase(query, EOpera
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral("\"", a.getTimeZone())
+                AOPSimpleLiteral(query,"\"", a.getTimeZone())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall TIMEZONE only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallTIMEZONE(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallTIMEZONE(query,children[0].cloneOP() as AOPBase)
 }

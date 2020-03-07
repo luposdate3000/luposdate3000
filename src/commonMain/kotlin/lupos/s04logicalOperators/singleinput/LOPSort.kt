@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPSort(query:Query,@JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPSortID,"LOPSort", arrayOf(child)) {
+class LOPSort(query:Query,@JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPSortID,"LOPSort", arrayOf(child)) {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
@@ -37,5 +37,5 @@ class LOPSort(query:Query,@JvmField val asc: Boolean, @JvmField var by: AOPVaria
         return true
     }
 
-    override fun cloneOP() = LOPSort(asc, by, children[0].cloneOP())
+    override fun cloneOP() = LOPSort(query,asc, by, children[0].cloneOP())
 }

@@ -14,7 +14,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
@@ -37,15 +36,13 @@ class POPGroup : POPBase {
         for (b in by)
             res += b.toSparql() + " "
         for ((k, v) in bindings) {
-            res += "(" + v.toSparql() + " AS " + AOPVariable(resultSet.getVariable(k)).toSparql() + ")"
+            res += "(" + v.toSparql() + " AS " + AOPVariable(query,resultSet.getVariable(k)).toSparql() + ")"
         }
         return res
     }
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPGroup)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (!by.equals(other.by))
             return false
@@ -60,17 +57,16 @@ class POPGroup : POPBase {
 
     override fun cloneOP(): POPGroup {
         if (bindings.size > 0) {
-            var tmpBindings = POPBind(dictionary, AOPVariable(resultSet.getVariable(bindings[0].first)), bindings[0].second, OPNothing())
+            var tmpBindings = POPBind(query, AOPVariable(query,resultSet.getVariable(bindings[0].first)), bindings[0].second, OPNothing(query))
             for (bp in 1 until bindings.size)
-                tmpBindings = POPBind(dictionary, AOPVariable(resultSet.getVariable(bindings[0].first)), bindings[0].second, tmpBindings)
-            return POPGroup(dictionary, by, tmpBindings, children[0].cloneOP())
+                tmpBindings = POPBind(query, AOPVariable(query,resultSet.getVariable(bindings[0].first)), bindings[0].second, tmpBindings)
+            return POPGroup(query, by, tmpBindings, children[0].cloneOP())
         } else
-            return POPGroup(dictionary, by, null, children[0].cloneOP())
+            return POPGroup(query, by, null, children[0].cloneOP())
     }
 
-    constructor(query:Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query,EOperatorID.POPGroupID,"POPGroup",ResultSet(dictionary),arrayOf(child)) {
+    constructor(query:Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query,EOperatorID.POPGroupID,"POPGroup",ResultSet(query.dictionary),arrayOf(child)) {
         this.by = by
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
             this.bindings.add(Pair(resultSet.createVariable(tmpBind.name.name), tmpBind.children[1] as AOPBase))

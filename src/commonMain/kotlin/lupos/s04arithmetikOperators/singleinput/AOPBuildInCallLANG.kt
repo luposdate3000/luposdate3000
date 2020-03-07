@@ -27,16 +27,16 @@ class AOPBuildInCallLANG(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(a.delimiter, a.language)
+                AOPSimpleLiteral(query,a.delimiter, a.language)
             })
         if (a is AOPConstantString || a is AOPNumeric || a is AOPBoolean || a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral("\"", "")
+                AOPSimpleLiteral(query,"\"", "")
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("Type error $classname ${a.classname}")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallLANG(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallLANG(query,children[0].cloneOP() as AOPBase)
 }

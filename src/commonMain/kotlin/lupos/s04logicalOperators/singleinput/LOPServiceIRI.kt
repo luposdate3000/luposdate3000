@@ -25,5 +25,5 @@ class LOPServiceIRI(query:Query,@JvmField val name: String, @JvmField val silent
         return true
     }
 
-    override fun cloneOP() = LOPServiceIRI(name, silent, children[0].cloneOP())
+    override fun cloneOP() = LOPServiceIRI(query,name, silent, children[0].cloneOP())
 }

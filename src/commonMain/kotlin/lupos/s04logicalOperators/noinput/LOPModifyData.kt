@@ -25,5 +25,5 @@ class LOPModifyData(query:Query,@JvmField val type: EModifyType, @JvmField val d
         return data == other.data
     }
 
-    override fun cloneOP() = LOPModifyData(type, data)
+    override fun cloneOP() = LOPModifyData(query,type, data)
 }

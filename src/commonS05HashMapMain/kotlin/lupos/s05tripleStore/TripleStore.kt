@@ -262,11 +262,11 @@ class TripleStoreLocal {
     @JvmField
     val pendingModifications = Array(EIndexPattern.values().size) { ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
 
-    fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
-        var tmp = pendingModifications[idx.ordinal][transactionID]
+    fun modifyData(query:Query, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
+        var tmp = pendingModifications[idx.ordinal][query.transactionID]
         if (tmp == null) {
             tmp = ThreadSafeMutableSet()
-            pendingModifications[idx.ordinal][transactionID] = tmp
+            pendingModifications[idx.ordinal][query.transactionID] = tmp
         }
         val r = resultSet.createResultRow()
         r[s] = vals
@@ -289,10 +289,10 @@ class TripleStoreLocal {
         tripleStoreSPO.clear()
     })
 
-    fun commit2(transactionID: Long) = Trace.trace({ "TripleStoreLocal.commit2" }, {
+    fun commit2(query:Query) = Trace.trace({ "TripleStoreLocal.commit2" }, {
         CoroutinesHelper.runBlock {
             EIndexPattern.values().forEach {
-                val tmp = pendingModifications[it.ordinal][transactionID]
+                val tmp = pendingModifications[it.ordinal][query.transactionID]
                 if (tmp != null) {
                     tmp.forEach { m ->
                         when (m.first) {
@@ -396,20 +396,20 @@ class TripleStoreLocal {
                             }
                         }
                     }
-                    pendingModifications[it.ordinal].remove(transactionID)
+                    pendingModifications[it.ordinal].remove(query.transactionID)
                 }
             }
         }
     })
 
-    fun addData(transactionID: Long, ss: AOPConstant, ps: AOPConstant, os: AOPConstant, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
+    fun addData(query:Query, ss: AOPConstant, ps: AOPConstant, os: AOPConstant, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         val vals = resultSet.createValue(ss.valueToString())
         val valp = resultSet.createValue(ps.valueToString())
         val valo = resultSet.createValue(os.valueToString())
-        modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
+        modifyData(query, vals, valp, valo, EModifyType.INSERT, idx)
     })
 
-    fun deleteDataVar(transactionID: Long, sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
+    fun deleteDataVar(query:Query, sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         CoroutinesHelper.runBlock {
             var tmp = 0
             if (sparam is AOPConstant)
@@ -423,24 +423,23 @@ class TripleStoreLocal {
                     val vals: Value = resultSet.createValue((sparam as AOPConstant).valueToString())
                     val valp: Value = resultSet.createValue((pparam as AOPConstant).valueToString())
                     val valo: Value = resultSet.createValue((oparam as AOPConstant).valueToString())
-                    modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
+                    modifyData(query, vals, valp, valo, EModifyType.DELETE, idx)
                 }
                 else -> {
                     forEach(sparam, pparam, oparam, { svv, pvv, ovv ->
-                        modifyData(transactionID, svv, pvv, ovv, EModifyType.DELETE, idx)
+                        modifyData(query, svv, pvv, ovv, EModifyType.DELETE, idx)
                     }, idx)
                 }
             }
         }
     })
 
-    fun getIterator(transactionID: Long, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
-        return TripleStoreIteratorLocal(resultSet, this, index)
+    fun getIterator(query:Query, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
+        return TripleStoreIteratorLocal(query,resultSet, this, index)
     })
 
-    fun getIterator(transactionID: Long, resultSet: ResultSet, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
-        GlobalLogger.log(ELoggerType.DEBUG, { "local get iterator :: $s $p $o " })
-        val res = TripleStoreIteratorLocalFilter(resultSet, this, index)
+    fun getIterator(query:Query, resultSet: ResultSet, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
+        val res = TripleStoreIteratorLocalFilter(query,resultSet, this, index)
         res.sparam = s
         res.pparam = p
         res.oparam = o

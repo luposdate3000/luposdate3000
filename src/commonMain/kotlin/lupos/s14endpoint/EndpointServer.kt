@@ -48,11 +48,11 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     val transactionID = DistributedTripleStore.nextTransactionID()
-    val dictionary = ResultSetDictionary()
+val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
     CoroutinesHelper.runBlock {
-        DistributedTripleStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary, triple))
+        DistributedTripleStore.getDefaultGraph(query).addData( TripleInsertIterator(query, triple))
     }
-    DistributedTripleStore.commit(transactionID)
+    DistributedTripleStore.commit(query)
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)
@@ -70,18 +70,16 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     })
 
     fun process_xml_input(data: String): XMLElement = Trace.trace({ "process_xml_input" }, {
-        val transactionID = DistributedTripleStore.nextTransactionID()
-        val dictionary = ResultSetDictionary()
+val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
         CoroutinesHelper.runBlock {
-            DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
+            DistributedTripleStore.getDefaultGraph(query).addData( POPImportFromXml(query,XMLElement.parseFromXml(data)!!.first()))
         }
-        DistributedTripleStore.commit(transactionID)
+        DistributedTripleStore.commit(query)
         return XMLElement("done")
     })
 
     fun process_sparql_query(query: String): XMLElement = Trace.trace({ "process_sparql_query" }, {
-        val transactionID = DistributedTripleStore.nextTransactionID()
-        val dictionary = ResultSetDictionary()
+val q=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
         GlobalLogger.log(ELoggerType.DEBUG, { query })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
@@ -92,29 +90,28 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         val ast_node = parser.expr()
         GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
-        val lop_node = ast_node.visit(OperatorGraphVisitor())
+        val lop_node = ast_node.visit(OperatorGraphVisitor(q))
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
-        val lop_node2 = LogicalOptimizer(transactionID, dictionary).optimizeCall(lop_node)
+        val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
-        val pop_optimizer = PhysicalOptimizer(transactionID, dictionary)
+        val pop_optimizer = PhysicalOptimizer(q)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
-        val pop_distributed_node = KeyDistributionOptimizer(transactionID, dictionary).optimizeCall(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node) as POPBase
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
-        DistributedTripleStore.commit(transactionID)
+        DistributedTripleStore.commit(q)
         return QueryResultToXML.toXML(pop_distributed_node).first()
     })
 
     fun process_operatorgraph_query(query: String): XMLElement = Trace.trace({ "process_operatorgraph_query" }, {
-        val transactionID = DistributedTripleStore.nextTransactionID()
-        val dictionary = ResultSetDictionary()
-        val pop_node = XMLElement.convertToOPBase(dictionary, transactionID, XMLElement.parseFromXml(query)!!.first()) as POPBase
+val q=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
+        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!.first()) as POPBase
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         val res = QueryResultToXML.toXML(pop_node).first()
-        DistributedTripleStore.commit(transactionID)
+        DistributedTripleStore.commit(q)
         return res
     })
 
@@ -137,64 +134,69 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         var responseBytes: ByteArray? = null
         when (path) {
             Endpoint.REQUEST_TRIPLE_ADD[0] -> {
-                val s: AOPConstant = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_ADD[3]]!!)
-                val p: AOPConstant = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_ADD[4]]!!)
-                val o: AOPConstant = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_ADD[5]]!!)
-                responseStr = Endpoint.process_local_triple_add(params[Endpoint.REQUEST_TRIPLE_ADD[1]]!!,
-                        params[Endpoint.REQUEST_TRIPLE_ADD[2]]!!.toLong(),
+val query=Query(ResultSetDictionary(),params[Endpoint.REQUEST_TRIPLE_ADD[2]]!!.toLong())
+                val s: AOPConstant = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_ADD[3]]!!)
+                val p: AOPConstant = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_ADD[4]]!!)
+                val o: AOPConstant = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_ADD[5]]!!)
+                responseStr = Endpoint.process_local_triple_add(query,params[Endpoint.REQUEST_TRIPLE_ADD[1]]!!,
                         s, p, o,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_ADD[6]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_TRIPLE_GET[0] -> {
+val query=Query(ResultSetDictionary(),params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
                 val s: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_GET[6]]!!.toBoolean())
-                    s = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
+                    s = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
                 else
-                    s = AOPVariable(params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
+                    s = AOPVariable(query,params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
                 val p: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_GET[7]]!!.toBoolean())
-                    p = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
+                    p = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
                 else
-                    p = AOPVariable(params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
+                    p = AOPVariable(query,params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
                 val o: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_GET[8]]!!.toBoolean())
-                    o = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
+                    o = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
                 else
-                    o = AOPVariable(params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
-                responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(params[Endpoint.REQUEST_TRIPLE_GET[1]]!!,
-                        ResultSet(ResultSetDictionary()),
-                        params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong(),
+                    o = AOPVariable(query,params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
+                responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(query,params[Endpoint.REQUEST_TRIPLE_GET[1]]!!,
                         s, p, o,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_GET[9]]!!)))
             }
             Endpoint.REQUEST_TRIPLE_DELETE[0] -> {
+val query=Query(ResultSetDictionary(),params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
                 val s: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_DELETE[6]]!!.toBoolean())
-                    s = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
+                    s = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
                 else
-                    s = AOPVariable(params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
+                    s = AOPVariable(query,params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
                 val p: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_GET[7]]!!.toBoolean())
-                    p = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
+                    p = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
                 else
-                    p = AOPVariable(params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
+                    p = AOPVariable(query,params[Endpoint.REQUEST_TRIPLE_GET[4]]!!)
                 val o: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_GET[8]]!!.toBoolean())
-                    o = AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
+                    o = AOPVariable.calculate(query,params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
                 else
-                    o = AOPVariable(params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
-                responseStr = Endpoint.process_local_triple_delete(params[Endpoint.REQUEST_TRIPLE_DELETE[1]]!!,
-                        params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong(),
+                    o = AOPVariable(query,params[Endpoint.REQUEST_TRIPLE_GET[5]]!!)
+                responseStr = Endpoint.process_local_triple_delete(query,params[Endpoint.REQUEST_TRIPLE_DELETE[1]]!!,
                         s, p, o,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[9]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_TRACE_PRINT[0] -> responseStr = process_print_traces()
             Endpoint.REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()
             Endpoint.REQUEST_PEERS_SELF_TEST[0] -> responseStr = P2P.process_peers_self_test()
-            Endpoint.REQUEST_COMMIT[0] -> responseStr = Endpoint.process_local_commit(params[Endpoint.REQUEST_COMMIT[1]]!!.toLong()).toPrettyString()
+            Endpoint.REQUEST_COMMIT[0] ->{
+val query=Query(ResultSetDictionary(),params[Endpoint.REQUEST_COMMIT[1]]!!.toLong())
+ responseStr = Endpoint.process_local_commit(query).toPrettyString()
+}
             Endpoint.REQUEST_PEERS_JOIN[0] -> responseStr = P2P.process_peers_join(params[Endpoint.REQUEST_PEERS_JOIN[1]]!!)
             Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0] -> responseStr = P2P.process_peers_join_internal(params[Endpoint.REQUEST_PEERS_JOIN_INTERNAL[1]]!!)
-            Endpoint.REQUEST_GRAPH_OPERATION[0] -> responseStr = Endpoint.process_local_graph_operation(params[Endpoint.REQUEST_GRAPH_OPERATION[1]]!!, EGraphOperationType.valueOf(params[Endpoint.REQUEST_GRAPH_OPERATION[2]]!!)).toPrettyString()
+            Endpoint.REQUEST_GRAPH_OPERATION[0] -> {
+val query=Query(ResultSetDictionary(),params[Endpoint.REQUEST_GRAPH_OPERATION[2]]!!.toLong())
+responseStr = Endpoint.process_local_graph_operation(query,params[Endpoint.REQUEST_GRAPH_OPERATION[1]]!!, EGraphOperationType.valueOf(params[Endpoint.REQUEST_GRAPH_OPERATION[3]]!!)).toPrettyString()
+}
             Endpoint.REQUEST_OPERATOR_QUERY[0] -> {
                 if (isPost)
                     responseStr = process_operatorgraph_query(data).toPrettyString()

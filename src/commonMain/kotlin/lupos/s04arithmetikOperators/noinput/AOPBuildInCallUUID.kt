@@ -23,7 +23,7 @@ class AOPBuildInCallUUID (query:Query): AOPBase(query, EOperatorID.AOPBuildInCal
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPIri("urn:uuid:" + uuid4())
+            AOPIri(query,"urn:uuid:" + uuid4())
         })
     }
 

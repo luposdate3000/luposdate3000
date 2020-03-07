@@ -30,18 +30,18 @@ class AOPAnd(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOper
         var a: Any
         var b: Any
         try {
-            a = AOPBoolean((children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
+            a = AOPBoolean(query,(children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             a = e
         }
         try {
-            b = AOPBoolean((children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
+            b = AOPBoolean(query,(children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             b = e
         }
         if (a is AOPBoolean && b is AOPBoolean)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPBoolean(a.value && b.value)
+                AOPBoolean(query,a.value && b.value)
             })
         if (a is Throwable) {
             if (b is AOPBoolean && b.value == false)

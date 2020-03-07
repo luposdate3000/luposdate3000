@@ -11,21 +11,18 @@ import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPUnion(query:Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID,"POPUnion",ResultSet(dictionary),arrayOf(childA, childB)) {
+class POPUnion(query:Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID,"POPUnion",ResultSet(query.dictionary),arrayOf(childA, childB)) {
 
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPUnion)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
@@ -77,5 +74,5 @@ class POPUnion(query:Query, childA: OPBase, childB: OPBase) : POPBase(query, EOp
         return channel
     })
 
-    override fun cloneOP() = POPUnion(dictionary, children[0].cloneOP(), children[1].cloneOP())
+    override fun cloneOP() = POPUnion(query, children[0].cloneOP(), children[1].cloneOP())
 }

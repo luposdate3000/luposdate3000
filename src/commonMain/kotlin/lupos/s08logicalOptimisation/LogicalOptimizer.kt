@@ -3,19 +3,18 @@ import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 
-class LogicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerCompoundBase(transactionID, dictionary, EOptimizerID.LogicalOptimizerID) {
+class LogicalOptimizer(query:Query) : OptimizerCompoundBase(query, EOptimizerID.LogicalOptimizerID) {
     override val classname = "LogicalOptimizer"
     override val childrenOptimizers = arrayOf(//
-            LogicalOptimizerRemovePrefix(transactionID, dictionary),//
-            LogicalOptimizerDistinctUp(transactionID, dictionary),//
-            LogicalOptimizerOptional(transactionID, dictionary),//
-            LogicalOptimizerRemoveNOOP(transactionID, dictionary),//
-            LogicalOptimizerBindToFilter(transactionID, dictionary),//
-            LogicalOptimizerFilterSplitAND(transactionID, dictionary),//
-            LogicalOptimizerArithmetic(transactionID, dictionary),//
-            LogicalOptimizerFilterDown(transactionID, dictionary),//
-            LogicalOptimizerFilterIntoTriple(transactionID, dictionary))
+            LogicalOptimizerRemovePrefix(query),//
+            LogicalOptimizerDistinctUp(query),//
+            LogicalOptimizerOptional(query),//
+            LogicalOptimizerRemoveNOOP(query),//
+            LogicalOptimizerBindToFilter(query),//
+            LogicalOptimizerFilterSplitAND(query),//
+            LogicalOptimizerArithmetic(query),//
+            LogicalOptimizerFilterDown(query),//
+            LogicalOptimizerFilterIntoTriple(query))
 }

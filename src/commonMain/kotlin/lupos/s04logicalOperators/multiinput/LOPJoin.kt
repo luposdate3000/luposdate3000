@@ -23,5 +23,5 @@ class LOPJoin(query:Query,first: OPBase, second: OPBase, @JvmField val optional:
         return true
     }
 
-    override fun cloneOP() = LOPJoin(children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() = LOPJoin(query,children[0].cloneOP(), children[1].cloneOP(), optional)
 }

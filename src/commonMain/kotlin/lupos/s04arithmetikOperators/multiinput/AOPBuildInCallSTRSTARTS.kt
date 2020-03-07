@@ -29,7 +29,7 @@ class AOPBuildInCallSTRSTARTS(query:Query,child: AOPBase, childB: AOPBase) : AOP
         if (a is AOPConstantString) {
             if (b is AOPSimpleLiteral)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPBoolean(a.content.startsWith(b.content))
+                    AOPBoolean(query,a.content.startsWith(b.content))
                 })
             else
                 throw resultFlow({ this }, { resultRow }, { resultSet }, {

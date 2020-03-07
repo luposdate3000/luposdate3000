@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOffset(query:Query,@JvmField val offset: Int, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPOffsetID,"LOPOffset",arrayOf(child)) {
+class LOPOffset(query:Query,@JvmField val offset: Int, child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPOffsetID,"LOPOffset",arrayOf(child)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 
@@ -24,5 +24,5 @@ class LOPOffset(query:Query,@JvmField val offset: Int, child: OPBase = OPNothing
         return true
     }
 
-    override fun cloneOP() = LOPOffset(offset, children[0].cloneOP())
+    override fun cloneOP() = LOPOffset(query,offset, children[0].cloneOP())
 }

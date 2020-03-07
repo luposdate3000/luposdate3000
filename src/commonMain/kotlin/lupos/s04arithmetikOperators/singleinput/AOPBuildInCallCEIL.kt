@@ -29,11 +29,11 @@ class AOPBuildInCallCEIL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(ceil(a.toDouble()))
+                AOPDouble(query,ceil(a.toDouble()))
             })
         if (a is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(ceil(a.toDouble()))
+                AOPDecimal(query,ceil(a.toDouble()))
             })
         if (a is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -44,5 +44,5 @@ class AOPBuildInCallCEIL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallCEIL(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallCEIL(query,children[0].cloneOP() as AOPBase)
 }

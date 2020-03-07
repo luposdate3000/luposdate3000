@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPLimit(query:Query,@JvmField val limit: Int, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPLimitID,"LOPLimit",arrayOf(child)) {
+class LOPLimit(query:Query,@JvmField val limit: Int, child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPLimitID,"LOPLimit",arrayOf(child)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 
@@ -24,5 +24,5 @@ class LOPLimit(query:Query,@JvmField val limit: Int, child: OPBase = OPNothing()
         return true
     }
 
-    override fun cloneOP() = LOPLimit(limit, children[0].cloneOP())
+    override fun cloneOP() = LOPLimit(query,limit, children[0].cloneOP())
 }

@@ -26,9 +26,9 @@ class AOPBuildInCallBOUND(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a !is AOPUndef)
+            AOPBoolean(query,a !is AOPUndef)
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallBOUND(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallBOUND(query,children[0].cloneOP() as AOPBase)
 }

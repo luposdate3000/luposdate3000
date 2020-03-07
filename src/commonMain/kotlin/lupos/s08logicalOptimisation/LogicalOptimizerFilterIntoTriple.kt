@@ -4,7 +4,6 @@ import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -14,7 +13,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
 
-class LogicalOptimizerFilterIntoTriple(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.LogicalOptimizerFilterIntoTripleID) {
+class LogicalOptimizerFilterIntoTriple(query:Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterIntoTripleID) {
     override val classname = "LogicalOptimizerFilterIntoTriple"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
@@ -32,7 +31,7 @@ class LogicalOptimizerFilterIntoTriple(transactionID: Long, dictionary: ResultSe
                                 if (tmp.name == compareVar.name) {
                                     onChange()
                                     loptriple.children[i] = compareVal
-                                    res = LOPBind(compareVar, compareVal, loptriple)
+                                    res = LOPBind(query,compareVar, compareVal, loptriple)
                                 }
                             }
                         }

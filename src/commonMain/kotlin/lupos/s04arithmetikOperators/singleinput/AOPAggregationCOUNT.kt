@@ -37,9 +37,9 @@ class AOPAggregationCOUNT(query:Query,@JvmField val distinct: Boolean, childs: A
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPInteger(count.get())
+            AOPInteger(query,count.get())
         })
     }
 
-    override fun cloneOP() = AOPAggregationCOUNT(distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationCOUNT(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

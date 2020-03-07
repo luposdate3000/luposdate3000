@@ -31,7 +31,7 @@ class AOPEQ(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFi
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a.compareTo(b) == 0)
+            AOPBoolean(query,a.compareTo(b) == 0)
         })
     }
 

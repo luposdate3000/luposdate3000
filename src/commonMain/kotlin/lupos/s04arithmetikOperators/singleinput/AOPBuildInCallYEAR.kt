@@ -27,12 +27,12 @@ class AOPBuildInCallYEAR(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.year)
+                AOPInteger(query,a.year)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall YEAR only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallYEAR(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallYEAR(query,children[0].cloneOP() as AOPBase)
 }

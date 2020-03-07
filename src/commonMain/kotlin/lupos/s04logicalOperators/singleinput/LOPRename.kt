@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPRename(query:Query,@JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPRenameID,"LOPRename",arrayOf(child)) {
+class LOPRename(query:Query,@JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPRenameID,"LOPRename",arrayOf(child)) {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         val localProvide = children[0].getProvidedVariableNames()
@@ -50,5 +50,5 @@ class LOPRename(query:Query,@JvmField val nameTo: AOPVariable, @JvmField val nam
         return true
     }
 
-    override fun cloneOP() = LOPRename(nameTo, nameFrom, children[0].cloneOP())
+    override fun cloneOP() = LOPRename(query,nameTo, nameFrom, children[0].cloneOP())
 }

@@ -39,14 +39,14 @@ class AOPBuildInCallURI(query:Query,child: AOPBase, @JvmField var prefix: String
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 val b = a as AOPConstantString
                 if (prefix != "" && !prefix.endsWith("/"))
-                    AOPIri(prefix + "/" + b.content)
+                    AOPIri(query,prefix + "/" + b.content)
                 else
-                    AOPIri(prefix + b.content)
+                    AOPIri(query,prefix + b.content)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall URI only works with simple string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallURI(children[0].cloneOP() as AOPBase, prefix)
+    override fun cloneOP() = AOPBuildInCallURI(query,children[0].cloneOP() as AOPBase, prefix)
 }

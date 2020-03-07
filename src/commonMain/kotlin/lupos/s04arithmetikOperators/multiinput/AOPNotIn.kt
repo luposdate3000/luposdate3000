@@ -31,12 +31,12 @@ class AOPNotIn(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOp
         if (b is AOPSet) {
             for (c in b.children) {
                 if ((c as AOPBase).calculate(resultSet, resultRow) == a)
-                    return AOPBoolean(false)
+                    return AOPBoolean(query,false)
             }
-            return AOPBoolean(true)
+            return AOPBoolean(query,true)
         } else
-            return AOPBoolean(false)
+            return AOPBoolean(query,false)
     }
 
-    override fun cloneOP() = AOPNotIn(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPNotIn(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

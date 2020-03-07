@@ -40,5 +40,5 @@ class LOPValues(query:Query,@JvmField val variables: List<AOPVariable>, values: 
         return true
     }
 
-    override fun cloneOP() = LOPValues(variables, List(children.size) { children[it].cloneOP() as AOPValue })
+    override fun cloneOP() = LOPValues(query,variables, List(children.size) { children[it].cloneOP() as AOPValue })
 }

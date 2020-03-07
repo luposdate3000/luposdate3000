@@ -12,7 +12,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -33,9 +32,8 @@ class POPSort : POPBase {
     @JvmField
     val sortOrder: Boolean
 
-    constructor(query:Query, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super(query,EOperatorID.POPSortID,"POPSort",ResultSet(dictionary),arrayOf(child)) {
+    constructor(query:Query, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super(query,EOperatorID.POPSortID,"POPSort",ResultSet(query.dictionary),arrayOf(child)) {
         this.sortOrder = sortOrder
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         for (name in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         this.sortBy = resultSet.createVariable(sortBy.name)
@@ -43,8 +41,6 @@ class POPSort : POPBase {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPSort)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (sortBy != other.sortBy)
             return false
@@ -82,14 +78,14 @@ class POPSort : POPBase {
         else
             res += "DESC("
         for (v in variables)
-            res += AOPVariable(v).toSparql() + " "
+            res += AOPVariable(query,v).toSparql() + " "
         res += ")"
         res += "}"
         return res
     }
 
 
-    override fun cloneOP() = POPSort(dictionary, AOPVariable(resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
+    override fun cloneOP() = POPSort(query, AOPVariable(query,resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPSort.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)

@@ -12,14 +12,13 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPLimit(query:Query, @JvmField val limit: Int, child: OPBase) : POPBase(query,EOperatorID.POPLimitID,"POPLimit", ResultSet(dictionary),arrayOf(child)) {
+class POPLimit(query:Query, @JvmField val limit: Int, child: OPBase) : POPBase(query,EOperatorID.POPLimitID,"POPLimit", ResultSet(query.dictionary),arrayOf(child)) {
 
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
@@ -31,8 +30,6 @@ class POPLimit(query:Query, @JvmField val limit: Int, child: OPBase) : POPBase(q
     override fun equals(other: Any?): Boolean {
         if (other !is POPLimit)
             return false
-        if (dictionary !== other.dictionary)
-            return false
         if (limit != other.limit)
             return false
         for (i in children.indices) {
@@ -42,7 +39,7 @@ class POPLimit(query:Query, @JvmField val limit: Int, child: OPBase) : POPBase(q
         return true
     }
 
-    override fun cloneOP() = POPLimit(dictionary, limit, children[0].cloneOP())
+    override fun cloneOP() = POPLimit(query, limit, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPLimit.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()

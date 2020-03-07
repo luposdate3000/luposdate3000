@@ -12,7 +12,6 @@ import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -24,13 +23,9 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify(query:Query, @JvmField val transactionID: Long, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query,EOperatorID.POPModifyID,"POPModify", ResultSet(dictionary),arrayOf(child)) {
+class POPModify(query:Query, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query,EOperatorID.POPModifyID,"POPModify", ResultSet(query.dictionary),arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPModify)
-            return false
-        if (dictionary !== other.dictionary)
-            return false
-        if (transactionID != other.transactionID)
             return false
         if (!insert.equals(other.insert))
             return false
@@ -46,7 +41,7 @@ class POPModify(query:Query, @JvmField val transactionID: Long, @JvmField val in
     override fun toSparqlQuery() = toSparql()
     override fun getProvidedVariableNames() = listOf<String>()
 
-    override fun cloneOP() = POPModify(dictionary, transactionID, insert, delete, children[0].cloneOP())
+    override fun cloneOP() = POPModify(query, insert, delete, children[0].cloneOP())
 
     fun evaluateRow(node: OPBase, row: ResultRow): AOPConstant {
         return (node as AOPBase).calculate(children[0].resultSet, row)
@@ -62,17 +57,17 @@ class POPModify(query:Query, @JvmField val transactionID: Long, @JvmField val in
                     for (i in insert) {
                         try {
                             val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
-                                DistributedTripleStore.getDefaultGraph()
+                                DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                    DistributedTripleStore.getNamedGraph(query,children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
                                 else
-                                    DistributedTripleStore.getNamedGraph(i.graph, true)
+                                    DistributedTripleStore.getNamedGraph(query,i.graph, true)
                             }
                             val data = mutableListOf<AOPConstant>()
                             for (c in i.children)
                                 data.add(evaluateRow(c, row))
-                            store.addData(transactionID, data)
+                            store.addData( data)
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
@@ -80,17 +75,17 @@ class POPModify(query:Query, @JvmField val transactionID: Long, @JvmField val in
                     for (i in delete) {
                         try {
                             val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
-                                DistributedTripleStore.getDefaultGraph()
+                                DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                    DistributedTripleStore.getNamedGraph(query,children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
                                 else
-                                    DistributedTripleStore.getNamedGraph(i.graph, false)
+                                    DistributedTripleStore.getNamedGraph(query,i.graph, false)
                             }
                             val data = mutableListOf<AOPConstant>()
                             for (c in i.children)
                                 data.add(evaluateRow(c, row))
-                            store.deleteData(transactionID, data)
+                            store.deleteData( data)
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }

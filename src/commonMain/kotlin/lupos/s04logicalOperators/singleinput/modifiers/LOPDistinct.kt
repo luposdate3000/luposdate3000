@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPDistinct(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPDistinctID,"LOPDistinct",arrayOf(child)) {
+class LOPDistinct(query:Query,child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPDistinctID,"LOPDistinct",arrayOf(child)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPDistinct)
@@ -20,5 +20,5 @@ class LOPDistinct(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOper
         return true
     }
 
-    override fun cloneOP() = LOPDistinct(children[0].cloneOP())
+    override fun cloneOP() = LOPDistinct(query,children[0].cloneOP())
 }

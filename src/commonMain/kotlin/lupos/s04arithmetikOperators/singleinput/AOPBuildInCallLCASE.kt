@@ -27,20 +27,20 @@ class AOPBuildInCallLCASE(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPLanguageTaggedLiteral(a.delimiter, a.content.toLowerCase(), a.language)
+                AOPLanguageTaggedLiteral(query,a.delimiter, a.content.toLowerCase(), a.language)
             })
         if (a is AOPTypedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPTypedLiteral.create(a.delimiter, a.content.toLowerCase(), a.type_iri)
+                AOPTypedLiteral.create(query,a.delimiter, a.content.toLowerCase(), a.type_iri)
             })
         if (a is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(a.delimiter, a.content.toLowerCase())
+                AOPSimpleLiteral(query,a.delimiter, a.content.toLowerCase())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall LCASE only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallLCASE(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallLCASE(query,children[0].cloneOP() as AOPBase)
 }

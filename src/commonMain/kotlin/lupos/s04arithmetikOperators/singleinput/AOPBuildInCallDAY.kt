@@ -27,12 +27,12 @@ class AOPBuildInCallDAY(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.day)
+                AOPInteger(query,a.day)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall DAY only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallDAY(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallDAY(query,children[0].cloneOP() as AOPBase)
 }

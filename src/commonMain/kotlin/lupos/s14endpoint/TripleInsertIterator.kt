@@ -23,7 +23,6 @@ import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -39,18 +38,11 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class TripleInsertIterator : POPBase {
-    override val operatorID = EOperatorID.TripleInsertIteratorID
-    override val classname = "TripleInsertIterator"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf()
     @JvmField
     var result: ResultRow
 
     override fun equals(other: Any?): Boolean {
         if (other !is TripleInsertIterator)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (result != other.result)
             return false
@@ -75,9 +67,7 @@ class TripleInsertIterator : POPBase {
 
     override fun cloneOP() = throw Exception("not implemented")
 
-    constructor(dictionary: ResultSetDictionary, triple: ID_Triple) {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
+    constructor(query:Query, triple: ID_Triple) :super(query,EOperatorID.TripleInsertIteratorID,"TripleInsertIterator",ResultSet(query.dictionary), arrayOf()){
         result = resultSet.createResultRow()
         result[resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
         result[resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))

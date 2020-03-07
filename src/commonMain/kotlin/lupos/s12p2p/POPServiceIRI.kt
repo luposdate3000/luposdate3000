@@ -10,21 +10,13 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
 
-class POPServiceIRI : POPBase {
-    override val operatorID = EOperatorID.POPServiceIRIID
-    override val classname = "POPServiceIRI"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf()
-    @JvmField
-    val transactionID: Long
+class POPServiceIRI : POPBase{
     @JvmField
     val constraint: OPBase?
     @JvmField
@@ -39,13 +31,9 @@ class POPServiceIRI : POPBase {
     override fun equals(other: Any?): Boolean {
         if (other !is POPServiceIRI)
             return false
-        if (dictionary !== other.dictionary)
-            return false
         if (silent != other.silent)
             return false
         if (serverName != other.serverName)
-            return false
-        if (transactionID != other.transactionID)
             return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
@@ -54,21 +42,18 @@ class POPServiceIRI : POPBase {
         return true
     }
 
-    override fun cloneOP() = POPServiceIRI(dictionary, transactionID, serverName, silent, originalConstraint)
+    override fun cloneOP() = POPServiceIRI(query, serverName, silent, originalConstraint)
 
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
-        this.dictionary = dictionary
-        this.transactionID = transactionID
+    constructor(query:Query, serverName: String, silent: Boolean, constraint: OPBase) : super(query,EOperatorID.POPServiceIRIID,"POPServiceIRI",ResultSet(query.dictionary),arrayOf()) {
         this.serverName = serverName
         originalConstraint = constraint
         this.constraint = try {
-            P2P.execOnNamedNode(dictionary, transactionID, serverName, constraint)
+            P2P.execOnNamedNode(query, serverName, constraint)
         } catch (e: Throwable) {
             null
         }
         this.silent = silent
         //todo ... handle the case if the target node is not part of this p2p network
-        resultSet = ResultSet(dictionary)
     }
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()

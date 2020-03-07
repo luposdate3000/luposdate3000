@@ -10,14 +10,14 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGroup(query:Query,@JvmField var by: List<AOPVariable>) : LOPBase(query,EOperatorID.LOPGroupID,"LOPGroup",arrayOf(OPNothing(), OPNothing())) {
+class LOPGroup(query:Query,@JvmField var by: List<AOPVariable>) : LOPBase(query,EOperatorID.LOPGroupID,"LOPGroup",arrayOf(OPNothing(query), OPNothing(query))) {
     override fun childrenToVerifyCount() = 1
 
-    constructor(by: List<AOPVariable>, child: OPBase) : this(by) {
+    constructor(query:Query,by: List<AOPVariable>, child: OPBase) : this(query,by) {
         children[0] = child
     }
 
-    constructor(by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
+    constructor(query:Query,by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(query,by) {
         if (bindings != null)
             children[1] = bindings
         children[0] = child
@@ -73,5 +73,5 @@ class LOPGroup(query:Query,@JvmField var by: List<AOPVariable>) : LOPBase(query,
         return true
     }
 
-    override fun cloneOP() = LOPGroup(by, children[1].cloneOP(), children[0].cloneOP())
+    override fun cloneOP() = LOPGroup(query,by, children[1].cloneOP(), children[0].cloneOP())
 }

@@ -94,7 +94,7 @@ abstract class OPBase (val query:Query,val operatorID: EOperatorID,val classname
                 }
             }
             if (!found) {
-                children[0] = LOPBind(AOPVariable(req), AOPUndef(), children[0])
+                children[0] = LOPBind(query,AOPVariable(query,req), AOPUndef(query), children[0])
             }
         }
     }

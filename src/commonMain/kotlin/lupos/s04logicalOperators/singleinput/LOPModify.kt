@@ -44,5 +44,5 @@ class LOPModify(query:Query,
         return true
     }
 
-    override fun cloneOP() = LOPModify(insert, delete, children[0].cloneOP())
+    override fun cloneOP() = LOPModify(query,insert, delete, children[0].cloneOP())
 }

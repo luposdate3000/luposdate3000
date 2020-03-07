@@ -19,5 +19,5 @@ class LOPUnion(query:Query,first: OPBase, second: OPBase) : LOPBase(query,EOpera
         return true
     }
 
-    override fun cloneOP() = LOPUnion(children[0].cloneOP(), children[1].cloneOP())
+    override fun cloneOP() = LOPUnion(query,children[0].cloneOP(), children[1].cloneOP())
 }

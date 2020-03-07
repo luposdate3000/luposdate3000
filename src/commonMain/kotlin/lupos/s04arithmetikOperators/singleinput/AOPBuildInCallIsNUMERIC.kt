@@ -31,9 +31,9 @@ class AOPBuildInCallIsNUMERIC(query:Query,child: AOPBase) : AOPBase(query,EOpera
                 Exception("typeError")
             })
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a is AOPNumeric)
+            AOPBoolean(query,a is AOPNumeric)
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallIsNUMERIC(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallIsNUMERIC(query,children[0].cloneOP() as AOPBase)
 }

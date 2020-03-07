@@ -12,7 +12,6 @@ import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPUndef
@@ -22,12 +21,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPBind(query:Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query,EOperatorID.POPBindID,"POPBind",ResultSet(dictionary), arrayOf(child, value)) {
+class POPBind(query:Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query,EOperatorID.POPBindID,"POPBind",ResultSet(query.dictionary), arrayOf(child, value)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPBind)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (name != other.name)
             return false
@@ -43,14 +40,14 @@ class POPBind(query:Query, @JvmField val name: AOPVariable, value: AOPBase, chil
             return children[0].toSparql()
         var res = "{SELECT "
         for (v in children[0].getProvidedVariableNames())
-            res += AOPVariable(v).toSparql() + " "
+            res += AOPVariable(query,v).toSparql() + " "
         res += "(" + children[1].toSparql() + " as " + name.toSparql() + "){"
         res += children[0].toSparql()
         res += "}}"
         return res
     }
 
-    override fun cloneOP() = POPBind(dictionary, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP() = POPBind(query, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
 
 
     override fun childrenToVerifyCount(): Int = 1

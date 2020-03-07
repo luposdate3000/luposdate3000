@@ -356,7 +356,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is POPSort -> {
-            toBinary(AOPVariable(operator.resultSet.getVariable(operator.sortBy)), buffer, asPOP)
+            toBinary(AOPVariable(query,operator.resultSet.getVariable(operator.sortBy)), buffer, asPOP)
             buffer.appendInt(DynamicByteArray.boolToInt(operator.sortOrder))
             toBinary(operator.children[0], buffer, asPOP)
         }
@@ -402,7 +402,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
 }
 
 
-fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: ThreadSafeMutableList<ResultRow>?, o: OPBase) {
+fun testCaseBinaryFromResultRowsAsPOPValues(query,buffer: DynamicByteArray, rows: ThreadSafeMutableList<ResultRow>?, o: OPBase) {
     buffer.appendInt(EOperatorID.POPValuesID.ordinal)
     val variables = o.getProvidedVariableNames()
     buffer.appendInt(variables.size)
@@ -435,7 +435,7 @@ fun createBinaryTestCase(operator: OPBase) {
             val filename = "/opt/tmpfs/testcase-${testcasenumber++}.bin"
             File(filename).write(buffer)
             val buffer2 = DynamicByteArray()
-            testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
+            testCaseBinaryFromResultRowsAsPOPValues(query,buffer2, rowMapProduced[operator.uuid], operator)
             File(filename + ".expect").write(buffer2)
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -448,7 +448,7 @@ fun createBinaryTestCase(operator: OPBase) {
             val filename = "/opt/tmpfs/testcase-${testcasenumber++}.bin"
             File(filename).write(buffer)
             val buffer2 = DynamicByteArray()
-            testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
+            testCaseBinaryFromResultRowsAsPOPValues(query,buffer2, rowMapProduced[operator.uuid], operator)
             File(filename + ".expect").write(buffer2)
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -468,7 +468,7 @@ fun createBinaryTestCase(operator: OPBase) {
                 val filename = "/opt/tmpfs/testcase-${testcasenumber++}.bin"
                 File(filename).write(buffer)
                 val buffer2 = DynamicByteArray()
-                testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
+                testCaseBinaryFromResultRowsAsPOPValues(query,buffer2, rowMapProduced[operator.uuid], operator)
                 File(filename + ".expect").write(buffer2)
             } catch (e: Throwable) {
                 e.printStackTrace()
@@ -566,7 +566,7 @@ import lupos.s04logicalOperators.Query
                         out.println("${prefix}$k /* $v */ ,")
                 }
                 out.println("${prefix}            {")
-                out.println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
+                out.println("${prefix}                MicroTest0(AOPUndef(query,), AOPUndef(query,))")
                 out.println("${prefix}            }()")
                 out.println("${prefix}    ).mapIndexed { index, data ->")
                 out.println("${prefix}        DynamicTest.dynamicTest(\"\$index\") {")

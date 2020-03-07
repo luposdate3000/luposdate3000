@@ -29,11 +29,11 @@ class AOPBuildInCallFLOOR(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(floor(a.toDouble()))
+                AOPDouble(query,floor(a.toDouble()))
             })
         if (a is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(floor(a.toDouble()))
+                AOPDecimal(query,floor(a.toDouble()))
             })
         if (a is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -44,5 +44,5 @@ class AOPBuildInCallFLOOR(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallFLOOR(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallFLOOR(query,children[0].cloneOP() as AOPBase)
 }

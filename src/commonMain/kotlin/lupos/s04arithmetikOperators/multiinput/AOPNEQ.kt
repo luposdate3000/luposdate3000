@@ -31,9 +31,9 @@ class AOPNEQ(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationF
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a.compareTo(b) != 0)
+            AOPBoolean(query,a.compareTo(b) != 0)
         })
     }
 
-    override fun cloneOP() = AOPNEQ(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPNEQ(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

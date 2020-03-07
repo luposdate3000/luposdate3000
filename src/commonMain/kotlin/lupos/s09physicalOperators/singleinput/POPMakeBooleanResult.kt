@@ -11,7 +11,6 @@ import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.*
@@ -19,11 +18,9 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPMakeBooleanResult(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPMakeBooleanResultID,"POPMakeBooleanResult",ResultSet(dictionary),arrayOf(child)) {
+class POPMakeBooleanResult(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPMakeBooleanResultID,"POPMakeBooleanResult",ResultSet(query.dictionary),arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPMakeBooleanResult)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
@@ -34,7 +31,7 @@ class POPMakeBooleanResult(query:Query, child: OPBase) : POPBase(query,EOperator
 
     override fun toSparqlQuery() = "ASK{" + children[0].toSparql() + "}"
 
-    override fun cloneOP() = POPMakeBooleanResult(dictionary, children[0].cloneOP())
+    override fun cloneOP() = POPMakeBooleanResult(query, children[0].cloneOP())
 
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
 
@@ -54,7 +51,7 @@ class POPMakeBooleanResult(query:Query, child: OPBase) : POPBase(query,EOperator
                     break
                 }
                 var rsNew = resultSet.createResultRow()
-                rsNew[variableNew] = resultSet.createValue(AOPBoolean(!first).valueToString())
+                rsNew[variableNew] = resultSet.createValue(AOPBoolean(query,!first).valueToString())
                 channel.send(resultFlowProduce({ this@POPMakeBooleanResult }, { rsNew }))
                 channel.close()
             } catch (e: Throwable) {

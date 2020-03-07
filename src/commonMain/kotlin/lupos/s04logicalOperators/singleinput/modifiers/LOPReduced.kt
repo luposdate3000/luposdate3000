@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPReduced(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPReducedID,"LOPReduced",arrayOf(child)) {
+class LOPReduced(query:Query,child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPReducedID,"LOPReduced",arrayOf(child)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPReduced)
@@ -20,5 +20,5 @@ class LOPReduced(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOpera
         return true
     }
 
-    override fun cloneOP() = LOPReduced(children[0].cloneOP())
+    override fun cloneOP() = LOPReduced(query,children[0].cloneOP())
 }

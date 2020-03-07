@@ -12,7 +12,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -34,8 +33,6 @@ class POPJoinNestedLoop : POPBase {
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinNestedLoop)
             return false
-        if (dictionary !== other.dictionary)
-            return false
         if (optional != other.optional)
             return false
         for (i in children.indices) {
@@ -45,12 +42,10 @@ class POPJoinNestedLoop : POPBase {
         return true
     }
 
-    constructor(query:Query,dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super(query,EOperatorID.POPJoinNestedLoopID,"POPJoinNestedLoop",ResultSet(dictionary),arrayOf(OPNothing(), OPNothing())) {
+    constructor(query:Query, childA: OPBase, childB: OPBase, optional: Boolean) : super(query,EOperatorID.POPJoinNestedLoopID,"POPJoinNestedLoop",ResultSet(query.dictionary),arrayOf(OPNothing(query), OPNothing(query))) {
         this.children[0] = childA
-        this.children[1] = POPTemporaryStore(dictionary, childB)
+        this.children[1] = POPTemporaryStore(query, childB)
         this.optional = optional
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        require(children[1].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variablesAt = children[0].getProvidedVariableNames()
         val variablesBt = children[1].getProvidedVariableNames()
         val variablesA = MutableList(variablesAt.size) { variablesAt[it] }
@@ -121,5 +116,5 @@ class POPJoinNestedLoop : POPBase {
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinNestedLoop(dictionary, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() = POPJoinNestedLoop(query, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

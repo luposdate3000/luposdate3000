@@ -39,7 +39,7 @@ class AOPAggregationMIN(query:Query,@JvmField val distinct: Boolean, childs: Arr
         if (!collectMode.get()) {
             if (a.get() == null)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPUndef()
+                    AOPUndef(query)
                 })
             else
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -71,5 +71,5 @@ class AOPAggregationMIN(query:Query,@JvmField val distinct: Boolean, childs: Arr
         })
     }
 
-    override fun cloneOP() = AOPAggregationMIN(distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationMIN(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

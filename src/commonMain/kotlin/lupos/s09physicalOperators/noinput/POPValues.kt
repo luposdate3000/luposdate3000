@@ -11,7 +11,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -33,13 +32,13 @@ class POPValues : POPBase {
     override fun toSparql(): String {
         var res = "VALUES("
         for (v in stringVars)
-            res += AOPVariable(v).toSparql() + " "
+            res += AOPVariable(query,v).toSparql() + " "
         res += ") {"
         for (m in data) {
             res += "("
             for (v in variables) {
                 val s = m[v]
-                if (s == null || s == dictionary.undefValue)
+                if (s == null || s == query.dictionary.undefValue)
                     res += "UNDEF "
                 else
                     res += resultSet.getValue(s) + " "
@@ -52,8 +51,6 @@ class POPValues : POPBase {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPValues)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (data.size != other.data.size)
             return false
@@ -70,14 +67,14 @@ class POPValues : POPBase {
         return true
     }
 
-    override fun cloneOP() = POPValues(dictionary, variables.map { resultSet.getVariable(it) }, data.map {
+    override fun cloneOP() = POPValues(query, variables.map { resultSet.getVariable(it) }, data.map {
         val res = mutableMapOf<String, String?>()
         for ((k, v) in (it as Map<Variable, Value>))
             res[resultSet.getVariable(k as Variable) as String] = resultSet.getValue(v as Value) as String?
         res
     })
 
-    constructor(query:Query,dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String?>>) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(dictionary),arrayOf()) {
+    constructor(query:Query, v: List<String>, d: List<Map<String, String?>>) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(query.dictionary),arrayOf()) {
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -94,7 +91,7 @@ class POPValues : POPBase {
         }
     }
 
-    constructor(query:Query,dictionary: ResultSetDictionary, values: LOPValues) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(dictionary),arrayOf()) {
+    constructor(query:Query, values: LOPValues) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(query.dictionary),arrayOf()) {
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))

@@ -12,7 +12,6 @@ import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -33,8 +32,6 @@ class POPFilter(query:Query, filter: AOPBase, child: OPBase) : POPBase(query,EOp
     override fun equals(other: Any?): Boolean {
         if (other !is POPFilter)
             return false
-        if (dictionary !== other.dictionary)
-            return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
                 return false
@@ -42,7 +39,7 @@ class POPFilter(query:Query, filter: AOPBase, child: OPBase) : POPBase(query,EOp
         return true
     }
 
-    override fun cloneOP() = POPFilter(dictionary, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP() = POPFilter(query, children[1].cloneOP() as AOPBase, children[0].cloneOP())
 
     override fun getProvidedVariableNames() = children[0].getProvidedVariableNames()
 

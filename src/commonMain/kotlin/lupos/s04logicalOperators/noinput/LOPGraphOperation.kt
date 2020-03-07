@@ -36,5 +36,5 @@ class LOPGraphOperation(query:Query,
         return true
     }
 
-    override fun cloneOP() = LOPGraphOperation(action, silent, graph1type, graph1iri, graph2type, graph2iri)
+    override fun cloneOP() = LOPGraphOperation(query,action, silent, graph1type, graph1iri, graph2type, graph2iri)
 }

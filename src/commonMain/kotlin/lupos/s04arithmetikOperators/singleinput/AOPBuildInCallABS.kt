@@ -29,20 +29,20 @@ class AOPBuildInCallABS(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(abs(a.value))
+                AOPDouble(query,abs(a.value))
             })
         if (a is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(abs(a.value))
+                AOPDecimal(query,abs(a.value))
             })
         if (a is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(abs(a.value))
+                AOPInteger(query,abs(a.value))
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall ABS only works with numeric input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallABS(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallABS(query,children[0].cloneOP() as AOPBase)
 }

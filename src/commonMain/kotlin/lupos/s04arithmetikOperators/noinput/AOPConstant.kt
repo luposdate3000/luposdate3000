@@ -8,7 +8,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 
 
-abstract class AOPConstant( query:Query,operatorID: EOperatorID, classname: String) : AOPBase(query,operatorID,classname,arrayOf()), Comparable<AOPConstant> {
+abstract class AOPConstant(query:Query,operatorID: EOperatorID, classname: String) : AOPBase(query,operatorID,classname,arrayOf()), Comparable<AOPConstant> {
     abstract fun valueToString(): String?
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant = this
     abstract fun toDouble(): Double

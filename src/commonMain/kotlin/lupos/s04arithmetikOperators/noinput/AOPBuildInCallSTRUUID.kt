@@ -22,7 +22,7 @@ class AOPBuildInCallSTRUUID (query:Query): AOPBase(query,EOperatorID.AOPBuildInC
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPSimpleLiteral("\"", "" + uuid4())
+            AOPSimpleLiteral(query,"\"", "" + uuid4())
         })
     }
 

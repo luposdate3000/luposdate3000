@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOptional(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPOptionalID,"LOPOptional",arrayOf(child)) {
+class LOPOptional(query:Query,child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPOptionalID,"LOPOptional",arrayOf(child)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPOptional)
@@ -20,5 +20,5 @@ class LOPOptional(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOper
         return true
     }
 
-    override fun cloneOP() = LOPOptional(children[0].cloneOP())
+    override fun cloneOP() = LOPOptional(query,children[0].cloneOP())
 }

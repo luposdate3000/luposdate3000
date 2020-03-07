@@ -26,7 +26,7 @@ class AOPBuildInCallBNODE0(query:Query) : AOPBase(query,EOperatorID.AOPBuildInCa
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBnode("" + uuid + localbnode.next())
+            AOPBnode(query,"" + uuid + localbnode.next())
         })
     }
 

@@ -11,7 +11,6 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -19,11 +18,9 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPProjection(query:Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID,"POPProjection",ResultSet(dictionary), arrayOf(child)) {
+class POPProjection(query:Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID,"POPProjection",ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPProjection)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         if (!variables.equals(other.variables))
             return false
@@ -44,7 +41,7 @@ class POPProjection(query:Query, @JvmField val variables: MutableList<AOPVariabl
         return res
     }
 
-    override fun cloneOP() = POPProjection(dictionary, variables, children[0].cloneOP())
+    override fun cloneOP() = POPProjection(query, variables, children[0].cloneOP())
 
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()

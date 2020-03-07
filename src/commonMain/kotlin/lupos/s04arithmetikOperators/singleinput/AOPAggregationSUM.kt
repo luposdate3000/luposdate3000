@@ -39,7 +39,7 @@ class AOPAggregationSUM(query:Query,@JvmField val distinct: Boolean, childs: Arr
         if (!collectMode.get()) {
             if (a.get() == null)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPUndef()
+                    AOPUndef(query)
                 })
             else
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -54,11 +54,11 @@ class AOPAggregationSUM(query:Query,@JvmField val distinct: Boolean, childs: Arr
         if (a.get() == null)
             a.set(b)
         else if (a.get() is AOPDouble || b is AOPDouble)
-            a.set(AOPDouble(a.get()!!.toDouble() + b.toDouble()))
+            a.set(AOPDouble(query,a.get()!!.toDouble() + b.toDouble()))
         else if (a.get() is AOPDecimal || b is AOPDecimal)
-            a.set(AOPDecimal(a.get()!!.toDouble() + b.toDouble()))
+            a.set(AOPDecimal(query,a.get()!!.toDouble() + b.toDouble()))
         else if (a.get() is AOPInteger || b is AOPInteger)
-            a.set(AOPInteger(a.get()!!.toInt() + b.toInt()))
+            a.set(AOPInteger(query,a.get()!!.toInt() + b.toInt()))
         else
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 Exception("AOPAggregationSUM avg only defined on numeric input")
@@ -68,5 +68,5 @@ class AOPAggregationSUM(query:Query,@JvmField val distinct: Boolean, childs: Arr
         })
     }
 
-    override fun cloneOP() = AOPAggregationSUM(distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationSUM(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

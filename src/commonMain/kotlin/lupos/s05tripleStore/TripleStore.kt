@@ -5,20 +5,24 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
+import lupos.s03resultRepresentation.*
+import lupos.s04logicalOperators.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s09physicalOperators.POPBase
 
 
-abstract class POPTripleStoreIteratorBase : POPBase() {
-    override val operatorID = EOperatorID.POPTripleStoreIteratorBaseID
-    override val classname = "POPTripleStoreIteratorBase"
+abstract class POPTripleStoreIteratorBase (query:Query,
+operatorID: EOperatorID,
+ classname: String,
+  resultSet: ResultSet,
+ children: Array<OPBase>): POPBase(query,operatorID,classname,resultSet,children) {
     @JvmField
-    var sparam: AOPBase = AOPVariable("#s$uuid")
+    var sparam: AOPBase = AOPVariable(query,"#s$uuid")
     @JvmField
-    var pparam: AOPBase = AOPVariable("#p$uuid")
+    var pparam: AOPBase = AOPVariable(query,"#p$uuid")
     @JvmField
-    var oparam: AOPBase = AOPVariable("#o$uuid")
+    var oparam: AOPBase = AOPVariable(query,"#o$uuid")
 
     abstract fun getGraphName(): String
 
@@ -35,9 +39,13 @@ abstract class POPTripleStoreIteratorBase : POPBase() {
     }
 }
 
-class PersistentStoreLocal {
+class PersistentStoreLocal{
     @JvmField
-    val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
+    val stores = ThreadSafeMutableMap<String,TripleStoreLocal>()
+
+constructor(){
+stores[defaultGraphName]=TripleStoreLocal(defaultGraphName)
+}
 
     companion object {
         val defaultGraphName = ""
@@ -58,13 +66,7 @@ class PersistentStoreLocal {
         return res
     }
 
-    constructor() {
-        if (stores[defaultGraphName] == null) {
-            stores[defaultGraphName] = TripleStoreLocal(defaultGraphName)
-        }
-    }
-
-    fun createGraph(name: String): TripleStoreLocal {
+    fun createGraph(query:Query,name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null)
             throw Exception("PersistentStore.createGraph :: graph[$name] already exist")
@@ -73,31 +75,31 @@ class PersistentStoreLocal {
         return tmp2
     }
 
-    fun dropGraph(name: String) {
+    fun dropGraph(query:Query,name: String) {
         require(name != defaultGraphName)
         if (stores[name] == null)
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         stores.remove(name)
     }
 
-    fun clearGraph(name: String) {
-        getNamedGraph(name).clear()
+    fun clearGraph(query:Query,name: String) {
+        getNamedGraph(query,name).clear()
     }
 
-    fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {
+    fun getNamedGraph(query:Query,name: String, create: Boolean = false): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null || !create)
             return tmp!!
-        return createGraph(name)
+        return createGraph(query,name)
     }
 
-    fun getDefaultGraph(): TripleStoreLocal {
-        return getNamedGraph(defaultGraphName, true)
+    fun getDefaultGraph(query:Query): TripleStoreLocal {
+        return getNamedGraph(query,defaultGraphName, true)
     }
 
-    fun commit(transactionID: Long) {
+    fun commit(query:Query) {
         stores.forEachValue { v ->
-            v.commit2(transactionID)
+            v.commit2(query)
         }
     }
 }

@@ -18,26 +18,26 @@ class TransferHelperNetwork {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
             var res = ByteArray(0)
-            val dictionary = ResultSetDictionary()
             val data = DynamicByteArray(d)
             val transactionID = data.getNextLong()
+val query=Query(ResultSetDictionary(),transactionID)
             var header = ENetworkMessageType.values()[data.getNextInt()]
             while (header != ENetworkMessageType.FINISH) {
                 val count = data.getNextInt()
                 when (header) {
                     ENetworkMessageType.DICTIONARY_ENTRY -> {
                         for (i in 0 until count)
-                            dictionary.createValue(data.getNextString())
+ query.                           dictionary.createValue(data.getNextString())
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
-                            val graphName = dictionary.getValue(data.getNextInt())!!
-                            val s = AOPVariable.calculate(dictionary.getValue(data.getNextInt()))
-                            val p = AOPVariable.calculate(dictionary.getValue(data.getNextInt()))
-                            val o = AOPVariable.calculate(dictionary.getValue(data.getNextInt()))
+                            val graphName = query.dictionary.getValue(data.getNextInt())!!
+                            val s = AOPVariable.calculate(query,query.dictionary.getValue(data.getNextInt()))
+                            val p = AOPVariable.calculate(query,query.dictionary.getValue(data.getNextInt()))
+                            val o = AOPVariable.calculate(query,query.dictionary.getValue(data.getNextInt()))
                             val idx = EIndexPattern.values()[data.getNextInt()]
                             try {
-                                Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
+                                Endpoint.process_local_triple_add(query,graphName, s, p, o, idx)
                             } catch (e: Throwable) {
                                 e.printStackTrace()
                                 res += e.toString().encodeToByteArray()
@@ -45,7 +45,7 @@ class TransferHelperNetwork {
                         }
                     }
                     ENetworkMessageType.GRAPH_CLEAR_ALL -> {
-                        Endpoint.process_local_graph_clear_all(transactionID)
+                        Endpoint.process_local_graph_clear_all(query)
                     }
                 }
                 header = ENetworkMessageType.values()[data.getNextInt()]
@@ -54,8 +54,6 @@ class TransferHelperNetwork {
         }
     }
 
-    @JvmField
-    val dictionary = ResultSetDictionary()
     @JvmField
     val data = DynamicByteArray()
     @JvmField
@@ -66,9 +64,10 @@ class TransferHelperNetwork {
     var lastCounterValue = 0
     @JvmField
     var lastDictionaryKey: Value? = null
-
-    constructor(transactionID: Long) {
-        data.appendLong(transactionID)
+val query:Query
+    constructor( query:Query) {
+this.query=query
+        data.appendLong(query.transactionID)
     }
 
     fun enforceHeader(h: ENetworkMessageType) {
@@ -86,9 +85,9 @@ class TransferHelperNetwork {
     fun createDictionaryValue(s: String?): Value {
         val tmp: Value
         if (s != null)
-            tmp = dictionary.createValue(s)
+            tmp = query.dictionary.createValue(s)
         else
-            return dictionary.undefValue
+            return query.dictionary.undefValue
         if (lastDictionaryKey == null || tmp > lastDictionaryKey!!) {
             enforceHeader(ENetworkMessageType.DICTIONARY_ENTRY)
             data.appendString(s)

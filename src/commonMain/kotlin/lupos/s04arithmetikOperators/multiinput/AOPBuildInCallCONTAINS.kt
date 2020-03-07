@@ -30,7 +30,7 @@ class AOPBuildInCallCONTAINS(query:Query,child: AOPBase, childB: AOPBase) : AOPB
             val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPBoolean(a.content.contains(b.content))
+                    AOPBoolean(query,a.content.contains(b.content))
                 })
             else
                 throw resultFlow({ this }, { resultRow }, { resultSet }, {

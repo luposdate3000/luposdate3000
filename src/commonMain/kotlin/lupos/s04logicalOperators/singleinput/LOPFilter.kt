@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPFilter(query:Query,filter: AOPBase, child: OPBase = OPNothing()) : LOPBase(query, EOperatorID.LOPFilterID,"LOPFilter",arrayOf(child, filter)) {
+class LOPFilter(query:Query,filter: AOPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPFilterID,"LOPFilter",arrayOf(child, filter)) {
     override fun childrenToVerifyCount() = 1
 
     override fun getProvidedVariableNames(): List<String> {
@@ -30,5 +30,5 @@ class LOPFilter(query:Query,filter: AOPBase, child: OPBase = OPNothing()) : LOPB
         return true
     }
 
-    override fun cloneOP() = LOPFilter(children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP() = LOPFilter(query,children[1].cloneOP() as AOPBase, children[0].cloneOP())
 }

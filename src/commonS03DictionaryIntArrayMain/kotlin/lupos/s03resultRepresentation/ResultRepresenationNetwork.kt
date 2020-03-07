@@ -3,7 +3,7 @@ import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
-import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.*
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
@@ -84,38 +84,18 @@ object ResultRepresenationNetwork {
         return res.finish()
     }
 
-    fun fromNetworkPackage(resultSet: ResultSet, data: ByteArray): POPBase {
+    fun fromNetworkPackage(query:Query,data: ByteArray): POPBase {
         val d = DynamicByteArray(data)
-        return POPImportFromNetworkPackage(resultSet, d)
+        return POPImportFromNetworkPackage(query, d)
     }
 
     class POPImportFromNetworkPackage : POPBase {
-        override val classname = "POPImportFromNetworkPackage"
-        override val dictionary: ResultSetDictionary
-        override val children: Array<OPBase> = arrayOf()
-        override val resultSet: ResultSet
         val variableMap = mutableListOf<Value>()
         var rowsUntilNextDictionary = 0
         val data: DynamicByteArray
         val variables = mutableListOf<Variable>()
 
-        override fun equals(other: Any?): Boolean {
-            if (other !is POPImportFromNetworkPackage)
-                return false
-            if (dictionary !== other.dictionary)
-                return false
-            for (i in children.indices) {
-                if (!children[i].equals(other.children[i]))
-                    return false
-            }
-            return true
-        }
-
-        override fun cloneOP() = throw Exception("not implemented")
-
-        constructor(resultSet: ResultSet, data: DynamicByteArray) {
-            this.dictionary = resultSet.dictionary
-            this.resultSet = resultSet
+        constructor(query:Query, data: DynamicByteArray) :super(query,EOperatorID.POPImportFromNetworkPackageID,"POPImportFromNetworkPackage",ResultSet(query.dictionary),arrayOf()){
             this.data = data
             val variablesCount = data.getNextInt()
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read variablecount $variablesCount" })
@@ -125,6 +105,19 @@ object ResultRepresenationNetwork {
                 variables.add(resultSet.createVariable(name))
             }
         }
+
+
+        override fun equals(other: Any?): Boolean {
+            if (other !is POPImportFromNetworkPackage)
+                return false
+            for (i in children.indices) {
+                if (!children[i].equals(other.children[i]))
+                    return false
+            }
+            return true
+        }
+
+        override fun cloneOP() = throw Exception("not implemented")
 
         override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
 
@@ -141,7 +134,7 @@ object ResultRepresenationNetwork {
                             for (i in 0 until dictEntryCount) {
                                 val s = data.getNextString()
                                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
-                                variableMap.add(dictionary.createValue(s))
+                                variableMap.add(query.dictionary.createValue(s))
                             }
                             rowsUntilNextDictionary = data.getNextInt()
                             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })
@@ -154,7 +147,7 @@ object ResultRepresenationNetwork {
                                 l
                             else
                                 variableMap[l]
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${dictionary.getValue(i)}" })
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${query.dictionary.getValue(i)}" })
                             row[v] = i
                         }
                         channel.send(row)

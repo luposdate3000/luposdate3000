@@ -27,12 +27,12 @@ class AOPBuildInCallSECONDS(query:Query,child: AOPBase) : AOPBase(query,EOperato
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(0.0 + a.seconds)
+                AOPDecimal(query,0.0 + a.seconds)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall SECONDS only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSECONDS(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSECONDS(query,children[0].cloneOP() as AOPBase)
 }

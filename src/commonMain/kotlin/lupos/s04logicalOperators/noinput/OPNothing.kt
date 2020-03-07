@@ -7,10 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class OPNothing : LOPBase() {
-    override val operatorID = EOperatorID.OPNothingID
-    override val classname = "OPNothing"
-    override val children: Array<OPBase> = arrayOf()
+class OPNothing (query:Query): LOPBase(query,EOperatorID.OPNothingID,"OPNothing",arrayOf()) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is OPNothing)

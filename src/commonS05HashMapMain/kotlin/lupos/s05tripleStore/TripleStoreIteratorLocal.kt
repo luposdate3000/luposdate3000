@@ -10,37 +10,27 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 
+open class TripleStoreIteratorLocal (query:Query,
+resultSet: ResultSet,
+val store: TripleStoreLocal,
+ var index: EIndexPattern = EIndexPattern.SPO,
+operatorID: EOperatorID=EOperatorID.TripleStoreIteratorLocalID,
+ classname: String="TripleStoreIteratorLocal"
+):
+ POPTripleStoreIteratorBase (query,
+operatorID,
+classname,
+resultSet,
+arrayOf()){
 
-open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
-    override val operatorID = EOperatorID.TripleStoreIteratorLocalID
-    override val classname = "TripleStoreIteratorLocal"
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf()
-    override val resultSet: ResultSet
-    @JvmField
-    val store: TripleStoreLocal
-    @JvmField
-    var index: EIndexPattern = EIndexPattern.SPO
-
-    override fun getGraphName(): String {
-        return store.name
-    }
+    override fun getGraphName()=store.name
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
 
-    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern = EIndexPattern.SPO) {
-        this.dictionary = resultSet.dictionary
-        this.resultSet = resultSet
-        this.store = store
-        this.index = index
-    }
-
-    override fun cloneOP() = TripleStoreIteratorLocal(resultSet, store, index)
-
+    override fun cloneOP() = TripleStoreIteratorLocal(query,resultSet, store, index)
 
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
@@ -57,7 +47,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                store.forEach(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), { sv, pv, ov ->
+                store.forEach(AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o"), { sv, pv, ov ->
                     val result = resultSet.createResultRow()
                     result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
                     result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))

@@ -9,7 +9,6 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
@@ -23,35 +22,35 @@ object P2P {
     @JvmField
     val knownClients = ThreadSafeMutableList<String>()
 
-    fun execCommit(transactionID: Long) = Trace.trace({ "P2P.execCommit" }, {
-        Endpoint.process_local_commit(transactionID)
+    fun execCommit(query:Query) = Trace.trace({ "P2P.execCommit" }, {
+        Endpoint.process_local_commit(query)
     })
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
     })
 
-    fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
-        Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
+    fun execTripleAdd(query:Query,node: String, graphName: String,  s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+        Endpoint.process_local_triple_add(query,graphName,  s, p, o, idx)
     })
 
-    fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
-        return POPEmptyRow(dictionary)
+    fun execOnNamedNode(query:Query, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
+        return POPEmptyRow(query,dictionary)
     })
 
-    fun execGraphClearAll(transactionID: Long) = Trace.trace({ "P2P.execGraphClearAll" }, {
-        Endpoint.process_local_graph_clear_all(transactionID)
+    fun execGraphClearAll(query:Query) = Trace.trace({ "P2P.execGraphClearAll" }, {
+        Endpoint.process_local_graph_clear_all(query)
     })
 
-    fun execGraphOperation(name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {
-        Endpoint.process_local_graph_operation(name, type)
+    fun execGraphOperation(query:Query,name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {
+        Endpoint.process_local_graph_operation(query,name, type)
     })
 
-    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
-        return Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, idx)
+    fun execTripleGet(query:Query,node: String, graphName: String,  s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+        return Endpoint.process_local_triple_get(query,graphName,  s, p, o, idx)
     })
 
-    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
-        Endpoint.process_local_triple_delete(graphName, transactionID, data[0], data[1], data[2], idx)
+    fun execTripleDelete(query:Query,node: String, graphName: String,  data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
+        Endpoint.process_local_triple_delete(query,graphName,  data[0], data[1], data[2], idx)
     })
 
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {

@@ -37,7 +37,7 @@ class AOPDivision(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOpera
                     Exception("AOPDivision by zero")
                 })
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(a.toDouble() / b.toDouble())
+                AOPDouble(query,a.toDouble() / b.toDouble())
             })
         }
         if (a is AOPDecimal || b is AOPDecimal) {
@@ -46,7 +46,7 @@ class AOPDivision(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOpera
                     Exception("AOPDivision by zero")
                 })
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(a.toDouble() / b.toDouble())
+                AOPDecimal(query,a.toDouble() / b.toDouble())
             })
         }
         if (a is AOPInteger || b is AOPInteger) {
@@ -55,7 +55,7 @@ class AOPDivision(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOpera
                     Exception("AOPDivision by zero")
                 })
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(a.toInt() / b.toInt())
+                AOPInteger(query,a.toInt() / b.toInt())
             })
         }
         throw resultFlow({ this }, { resultRow }, { resultSet }, {

@@ -19,23 +19,23 @@ class AOPVariable(query:Query,@JvmField var name: String) : AOPBase(query,EOpera
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
 
     companion object {
-        fun calculate(tmp: String?): AOPConstant {
+        fun calculate(query:Query,tmp: String?): AOPConstant {
             if (tmp == null || tmp.length == 0)
-                return AOPUndef()
+                return AOPUndef(query)
             when {
-                tmp.startsWith("_:") -> return AOPBnode(tmp.substring(2, tmp.length))
-                tmp.startsWith("<") && tmp.endsWith(">") -> return AOPIri(tmp.substring(1, tmp.length - 1))
+                tmp.startsWith("_:") -> return AOPBnode(query,tmp.substring(2, tmp.length))
+                tmp.startsWith("<") && tmp.endsWith(">") -> return AOPIri(query,tmp.substring(1, tmp.length - 1))
                 !tmp.endsWith("" + tmp.get(0)) -> {
                     val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
                     val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
                     if (tmp.endsWith(">") && typeIdx > 0)
-                        return AOPTypedLiteral.create("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
+                        return AOPTypedLiteral.create(query,"" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
                     else if (langIdx > 0)
-                        return AOPLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
+                        return AOPLanguageTaggedLiteral(query,"" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     else
                         throw Exception("AOPVariable cannot identify type #${tmp}#")
                 }
-                else -> return AOPSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
+                else -> return AOPSimpleLiteral(query,"" + tmp.get(0), tmp.substring(1, tmp.length - 1))
             }
         }
     }
@@ -57,17 +57,17 @@ class AOPVariable(query:Query,@JvmField var name: String) : AOPBase(query,EOpera
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         if (!resultSet.hasVariable(name))
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPUndef()
+                AOPUndef(query)
             })
         val variable = resultSet.createVariable(name)
         if (resultSet.isUndefValue(resultRow, variable))
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPUndef()
+                AOPUndef(query)
             })
         val tmp = resultSet.getValue(resultRow[variable])!!
         try {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                calculate(tmp)
+                calculate(query,tmp)
             })
         } catch (e: Throwable) {
             throw resultFlow({ this }, { resultRow }, { resultSet }, {

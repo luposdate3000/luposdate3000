@@ -29,14 +29,14 @@ class AOPBuildInCallMD5(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(a.delimiter, a.content.encodeToByteArray().md5().toHexString1())
+                AOPSimpleLiteral(query,a.delimiter, a.content.encodeToByteArray().md5().toHexString1())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall MD5 only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallMD5(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallMD5(query,children[0].cloneOP() as AOPBase)
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)

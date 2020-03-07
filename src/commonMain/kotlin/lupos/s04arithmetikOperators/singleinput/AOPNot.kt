@@ -29,9 +29,9 @@ class AOPNot(query:Query,@JvmField var child: AOPBase) : AOPBase(query,EOperator
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(!a.toBoolean())
+            AOPBoolean(query,!a.toBoolean())
         })
     }
 
-    override fun cloneOP() = AOPNot(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPNot(query,children[0].cloneOP() as AOPBase)
 }

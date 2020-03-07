@@ -6,7 +6,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBnode(query:Query,@JvmField var value: String) : AOPConstant(query,EOperatorID.AOPBnodeID,"AOPBnode",arrayOf()) {
+class AOPBnode(query:Query,@JvmField var value: String) : AOPConstant(query,EOperatorID.AOPBnodeID,"AOPBnode") {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 

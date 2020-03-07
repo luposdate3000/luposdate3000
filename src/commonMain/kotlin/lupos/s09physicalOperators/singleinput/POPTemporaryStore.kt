@@ -11,21 +11,18 @@ import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPTemporaryStore(query:Query, child: OPBase) : POPBase(query, EOperatorID.POPTemporaryStoreID,"POPTemporaryStore",ResultSet(dictionary),arrayOf(child)) {
+class POPTemporaryStore(query:Query, child: OPBase) : POPBase(query, EOperatorID.POPTemporaryStoreID,"POPTemporaryStore",ResultSet(query.dictionary),arrayOf(child)) {
     @JvmField
     val data = mutableListOf<ResultRow>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPTemporaryStore)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
@@ -34,7 +31,7 @@ class POPTemporaryStore(query:Query, child: OPBase) : POPBase(query, EOperatorID
         return true
     }
 
-    override fun cloneOP() = POPTemporaryStore(dictionary, children[0].cloneOP())
+    override fun cloneOP() = POPTemporaryStore(query, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPTemporaryStore.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()

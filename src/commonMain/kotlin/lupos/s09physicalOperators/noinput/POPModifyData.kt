@@ -12,7 +12,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -24,10 +23,10 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModifyData(query:Query, @JvmField val transactionID: Long, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query,EOperatorID.POPModifyDataID,"POPModifyData",ResultSet(dictionary),arrayOf()) {
+class POPModifyData(query:Query, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query,EOperatorID.POPModifyDataID,"POPModifyData",ResultSet(query.dictionary),arrayOf()) {
      var first = true
 
-    override fun cloneOP() = POPModifyData(dictionary, transactionID, type, data)
+    override fun cloneOP() = POPModifyData(query,type, data)
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
@@ -49,8 +48,6 @@ class POPModifyData(query:Query, @JvmField val transactionID: Long, @JvmField va
     override fun equals(other: Any?): Boolean {
         if (other !is POPModifyData)
             return false
-        if (dictionary !== other.dictionary)
-            return false
         if (type != other.type)
             return false
         if (data != other.data)
@@ -68,17 +65,17 @@ class POPModifyData(query:Query, @JvmField val transactionID: Long, @JvmField va
             try {
                 for (t in data) {
                     if (type == EModifyType.INSERT) {
-                        val store = DistributedTripleStore.getNamedGraph(t.graph, true)
+                        val store = DistributedTripleStore.getNamedGraph(query,t.graph, true)
                         var l = mutableListOf<AOPConstant>()
                         for (i in 0 until 3)
                             l.add(t.children[i] as AOPConstant)
-                        store.addData(transactionID, l)
+                        store.addData( l)
                     } else {
-                        val store = DistributedTripleStore.getNamedGraph(t.graph, false)
+                        val store = DistributedTripleStore.getNamedGraph(query,t.graph, false)
                         var l = mutableListOf<AOPBase>()
                         for (i in 0 until 3)
                             l.add(t.children[i] as AOPBase)
-                        store.deleteDataVar(transactionID, l)
+                        store.deleteDataVar( l)
                     }
                 }
                 channel.send(resultFlowProduce({ this@POPModifyData }, { resultSet.createResultRow() }))

@@ -31,11 +31,11 @@ class AOPIn(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOpera
         if (b is AOPSet) {
             for (c in b.children) {
                 if ((c as AOPBase).calculate(resultSet, resultRow) == a)
-                    return AOPBoolean(true)
+                    return AOPBoolean(query,true)
             }
-            return AOPBoolean(false)
+            return AOPBoolean(query,false)
         } else
-            return AOPBoolean(false)
+            return AOPBoolean(query,false)
     }
 
     override fun cloneOP() = AOPIn(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

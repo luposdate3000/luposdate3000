@@ -27,12 +27,12 @@ class AOPBuildInCallTZ(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.A
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral("\"", a.getTZ())
+                AOPSimpleLiteral(query,"\"", a.getTZ())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall TZ only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallTZ(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallTZ(query,children[0].cloneOP() as AOPBase)
 }

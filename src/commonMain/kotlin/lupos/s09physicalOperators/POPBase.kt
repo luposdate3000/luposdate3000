@@ -3,11 +3,10 @@ import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
+import lupos.s03resultRepresentation.*
 
-
-abstract class POPBase( query:Query, 
+abstract class POPBase(query:Query, 
 operatorID: EOperatorID,
  classname: String,
   resultSet: ResultSet,

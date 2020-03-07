@@ -36,5 +36,5 @@ class LOPTriple(query:Query,s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val gr
         return true
     }
 
-    override fun cloneOP() = LOPTriple(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
+    override fun cloneOP() = LOPTriple(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
 }

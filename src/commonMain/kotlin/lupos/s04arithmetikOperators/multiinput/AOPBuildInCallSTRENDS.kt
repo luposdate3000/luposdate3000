@@ -29,7 +29,7 @@ class AOPBuildInCallSTRENDS(query:Query,child: AOPBase, childB: AOPBase) : AOPBa
         if (a is AOPConstantString) {
             if (b is AOPSimpleLiteral)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPBoolean(a.content.endsWith(b.content))
+                    AOPBoolean(query,a.content.endsWith(b.content))
                 })
             else
                 throw resultFlow({ this }, { resultRow }, { resultSet }, {

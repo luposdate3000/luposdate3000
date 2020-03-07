@@ -11,18 +11,15 @@ import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPDistinct(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPDistinctID,"POPDistinct",ResultSet(dictionary), arrayOf(child)) {
+class POPDistinct(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPDistinctID,"POPDistinct",ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPDistinct)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
@@ -38,7 +35,7 @@ class POPDistinct(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPDis
         return "{SELECT DISTINCT * {" + sparql + "}}"
     }
 
-    override fun cloneOP() = POPDistinct(dictionary, children[0].cloneOP())
+    override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPDistinct.evaluate" }, {
         var data: MutableList<ResultRow>? = null
         val variables = mutableListOf<Pair<Variable, Variable>>()

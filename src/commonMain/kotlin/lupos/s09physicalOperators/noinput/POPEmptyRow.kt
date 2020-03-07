@@ -10,23 +10,20 @@ import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPEmptyRow(query:Query) : POPBase(query,EOperatorID.POPEmptyRowID,"POPEmptyRow",ResultSet(dictionary),arrayOf()) {
+class POPEmptyRow(query:Query) : POPBase(query,EOperatorID.POPEmptyRowID,"POPEmptyRow",ResultSet(query.dictionary),arrayOf()) {
     @JvmField
     var first = true
 
-    override fun cloneOP() = POPEmptyRow(dictionary)
+    override fun cloneOP() = POPEmptyRow(query)
 
     override fun toSparql() = "{}"
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPEmptyRow)
-            return false
-        if (dictionary !== other.dictionary)
             return false
         for (i in children.indices) {
             if (!children[i].equals(other.children[i]))

@@ -14,11 +14,9 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 
 
-class TripleStoreIteratorLocalFilter(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(resultSet, store, index) {
-    override val operatorID = EOperatorID.TripleStoreIteratorLocalFilterID
-    override val classname = "TripleStoreIteratorLocalFilter"
+class TripleStoreIteratorLocalFilter(query:Query,resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(query,resultSet, store, index,EOperatorID.TripleStoreIteratorLocalFilterID,"TripleStoreIteratorLocalFilter") {
 
-    override fun cloneOP() = TripleStoreIteratorLocalFilter(resultSet, store, index)
+    override fun cloneOP() = TripleStoreIteratorLocalFilter(query,resultSet, store, index)
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
         val sNew: Variable?

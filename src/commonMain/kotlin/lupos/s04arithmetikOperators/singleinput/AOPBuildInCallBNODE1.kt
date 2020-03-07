@@ -25,9 +25,9 @@ class AOPBuildInCallBNODE1(query:Query,child: AOPBase) : AOPBase(query,EOperator
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBnode("" + uuid + a.valueToString())
+            AOPBnode(query,"" + uuid + a.valueToString())
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallBNODE1(children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallBNODE1(query,children[0].cloneOP() as AOPBase)
 }

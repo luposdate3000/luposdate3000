@@ -6,7 +6,6 @@ import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType
 import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -20,7 +19,7 @@ class TransferHelperNetwork {
         }
     }
 
-    constructor(transactionID: Long) {
+    constructor(query:Query) {
         throw Exception("not implemented")
     }
 
