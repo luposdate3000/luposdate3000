@@ -81,9 +81,8 @@ class POPServiceIRI : POPBase {
                     val constraintChannel = constraint.evaluate()
                     for (value in constraintChannel) {
                         val res = resultSet.createResultRow()
-                        for (n in variables) {
-                            res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
-                        }
+                        for (n in variables)
+                            resultSet.setValue(res, n.first, constraint.resultSet.getValue(value, n.second))
                         channel.send(res)
                     }
                 }

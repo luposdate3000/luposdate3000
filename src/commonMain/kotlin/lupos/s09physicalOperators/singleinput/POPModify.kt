@@ -60,11 +60,11 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                 DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueString(row, i.graph)!!, true)
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, true)
                             }
-                            store.addData(Array(3){evaluateRow(i.children[it], row)})
+                            store.addData(Array(3) { evaluateRow(i.children[it], row) })
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
@@ -75,11 +75,11 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                 DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueString(row, i.graph)!!, true)
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, false)
                             }
-                            store.deleteData(Array(3){evaluateRow(i.children[it], row)})
+                            store.deleteData(Array(3) { evaluateRow(i.children[it], row) })
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }

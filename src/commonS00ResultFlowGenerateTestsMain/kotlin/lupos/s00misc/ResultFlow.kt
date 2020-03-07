@@ -318,7 +318,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
                     if (tmp == null)
                         buffer.appendInt(DynamicByteArray.boolToInt(true))
                     else {
-                        val v = operator.resultSet.getValue(tmp)
+                        val v = operator.resultSet.getValueString(tmp)
                         buffer.appendInt(DynamicByteArray.boolToInt(v == null))
                         if (v != null)
                             buffer.appendInt(testDictionaryValue.createValue(v))
@@ -372,18 +372,18 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is TripleStoreIteratorGlobal -> {
-for(p in operator.params)
-toBinary(p, buffer, asPOP)
+            for (p in operator.params)
+                toBinary(p, buffer, asPOP)
             val tmp = rowMapProduced[operator.uuid]
             buffer.appendInt(operator.index.ordinal)
             if (tmp != null) {
                 buffer.appendInt(tmp.size())
                 tmp.forEach { r ->
-for(p in operator.params)
-                    if (p is AOPConstant)
-                        buffer.appendInt(testDictionaryValue.createValue((p as AOPConstant).valueToString()!!))
-                    else
-                        buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValue(r[operator.resultSet.createVariable((p as AOPVariable).name)])!!))
+                    for (p in operator.params)
+                        if (p is AOPConstant)
+                            buffer.appendInt(testDictionaryValue.createValue((p as AOPConstant).valueToString()!!))
+                        else
+                            buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValueString(r, (p as AOPVariable).name)!!))
                 }
             } else {
                 buffer.appendInt(0)
@@ -405,7 +405,7 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Thre
         buffer.appendInt(rows.size())
         rows.forEach { row ->
             for (k in variables) {
-                val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])
+                val v = o.resultSet.getValueString(row, k)
                 buffer.appendInt(DynamicByteArray.boolToInt(v == null))
                 if (v != null)
                     buffer.appendInt(testDictionaryValue.createValue(v))

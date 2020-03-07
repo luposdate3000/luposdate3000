@@ -1,6 +1,7 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s04logicalOperators.Query
 
 
@@ -8,11 +9,12 @@ class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {
     @JvmField
     val values = Array(columns) { undefValue }
 
-    operator fun set(name: Variable, value: Value) {
-        values[name.toInt()] = value
+    companion object {
+        private val global_uuid = ThreadSafeUuid()
     }
 
-    operator fun get(name: Variable) = values[name.toInt()]
+    @JvmField
+    val uuid: Long = global_uuid.next()
 
     override fun toString() = values.toString()
 

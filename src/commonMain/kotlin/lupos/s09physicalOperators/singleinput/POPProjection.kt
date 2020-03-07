@@ -62,7 +62,7 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
                     resultFlowConsume({ this@POPProjection }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
-                        rsNew[variablesNew[i]] = rsOld[variablesOld[i]]
+                        resultSet.copy(rsNew, variablesNew[i], rsOld, variablesOld[i], children[0].resultSet)
                     channel.send(resultFlowProduce({ this@POPProjection }, { rsNew }))
                 }
                 channel.close()

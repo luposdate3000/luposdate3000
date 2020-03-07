@@ -64,7 +64,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPUndef(query)
             })
-        val tmp = resultSet.getValue(resultRow[variable])!!
+        val tmp = resultSet.getValueString(resultRow, variable)!!
         try {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 calculate(query, tmp)

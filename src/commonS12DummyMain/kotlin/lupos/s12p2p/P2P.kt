@@ -79,7 +79,7 @@ object P2P {
         }
     })
 
-    fun execTripleAdd(query: Query, node: String, graphName: String, params:Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(query: Query, node: String, graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         if (node == endpointServer!!.fullname)
             Endpoint.process_local_triple_add(query, graphName, params, idx)
         else
@@ -121,19 +121,19 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
-    fun execTripleGet(query: Query, node: String, graphName: String, params:Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         var res: POPBase? = null
         if (node == endpointServer!!.fullname)
             res = Endpoint.process_local_triple_get(query, graphName, params, idx)
         else {
-val sarr=Array(3){
-if(params[it] is AOPConstant)
-	(params[it] as AOPConstant).valueToString()!!
- else if (params[it]  is AOPVariable)
-                 (params[it] as AOPVariable).name
-            else
-                throw Exception("not reachable")
-}
+            val sarr = Array(3) {
+                if (params[it] is AOPConstant)
+                    (params[it] as AOPConstant).valueToString()!!
+                else if (params[it] is AOPVariable)
+                    (params[it] as AOPVariable).name
+                else
+                    throw Exception("not reachable")
+            }
             val req = Endpoint.REQUEST_TRIPLE_GET[0] +//
                     "?" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[1], graphName) +//
                     "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[2], query.transactionID) +//

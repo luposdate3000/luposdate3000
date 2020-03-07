@@ -66,10 +66,10 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
                 for (t in data) {
                     if (type == EModifyType.INSERT) {
                         val store = DistributedTripleStore.getNamedGraph(query, t.graph, true)
-                        store.addData(Array(3){t.children[it] as AOPConstant})
+                        store.addData(Array(3) { t.children[it] as AOPConstant })
                     } else {
                         val store = DistributedTripleStore.getNamedGraph(query, t.graph, false)
-                        store.deleteDataVar(Array(3){t.children[it] as AOPBase})
+                        store.deleteDataVar(Array(3) { t.children[it] as AOPBase })
                     }
                 }
                 channel.send(resultFlowProduce({ this@POPModifyData }, { resultSet.createResultRow() }))

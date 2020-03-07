@@ -58,7 +58,7 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                         for (p in variablesOldMissing[idx])
                             resultSet.setUndefValue(rsNew, p)
                         for (p in variablesOld[idx])
-                            rsNew[p.second] = rsOld[p.first]
+                            resultSet.copy(rsNew, p.second, rsOld, p.first, children[idx].resultSet)
                         channel.send(resultFlowProduce({ this@POPUnion }, { rsNew }))
                     }
                 }

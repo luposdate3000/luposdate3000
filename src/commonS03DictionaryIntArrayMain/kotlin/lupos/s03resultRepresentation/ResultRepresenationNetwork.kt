@@ -37,8 +37,8 @@ object ResultRepresenationNetwork {
             for (resultRow in queryChannel) {
                 var newDictionaryMax = latestDictionaryMax
                 for (v in variables)
-                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || resultRow[v] > newDictionaryMax))
-                        newDictionaryMax = resultRow[v]
+                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || query.resultSet.getValue(resultRow, v) > newDictionaryMax))
+                        newDictionaryMax = query.resultSet.getValue(resultRow, v)
                 if (newDictionaryMax == null || newDictionaryMax != latestDictionaryMax) {
                     if (!firstDict) {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount a $currentRowCounter" })
@@ -51,15 +51,15 @@ object ResultRepresenationNetwork {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax + 1}" })
                         res.appendInt(newDictionaryMax + 1)
                         for (v in 0 until newDictionaryMax + 1) {
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
-                            res.appendString(query.resultSet.getValue(v)!!)
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueString(v)!!}" })
+                            res.appendString(query.resultSet.getValueString(v)!!)
                         }
                     } else {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax - latestDictionaryMax!!}" })
                         res.appendInt(newDictionaryMax - latestDictionaryMax!!)
                         for (v in latestDictionaryMax!! + 1 until newDictionaryMax + 1) {
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
-                            res.appendString(query.resultSet.getValue(v)!!)
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueString(v)!!}" })
+                            res.appendString(query.resultSet.getValueString(v)!!)
                         }
                     }
                     currentRowCounter = 0
@@ -69,8 +69,8 @@ object ResultRepresenationNetwork {
                     latestDictionaryMax = newDictionaryMax
                 }
                 for (v in variables) {
-                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow[v!!])}" })
-                    res.appendInt(resultRow[v!!])
+                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow, v!!)}" })
+                    res.appendInt(query.resultSet.getValue(resultRow, v!!))
                 }
                 currentRowCounter++
             }
@@ -148,7 +148,7 @@ object ResultRepresenationNetwork {
                             else
                                 variableMap[l]
                             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${query.dictionary.getValue(i)}" })
-                            row[v] = i
+                            resultSet.setValue(row, v, i)
                         }
                         channel.send(row)
                     }

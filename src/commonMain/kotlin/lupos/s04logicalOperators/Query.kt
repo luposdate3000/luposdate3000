@@ -4,6 +4,7 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
+
 class Query(val dictionary: ResultSetDictionary = ResultSetDictionary(), val transactionID: Long = global_transactionID.next()) {
     var commited = false
 

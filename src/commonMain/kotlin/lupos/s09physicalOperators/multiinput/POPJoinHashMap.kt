@@ -75,7 +75,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             keys.add("")
                             var exactkey = ""
                             for (k in variablesJ[idx]) {
-                                val v = children[idx].resultSet.getValue(rowA[k.first])
+                                val v = children[idx].resultSet.getValueString(rowA, k.first)
                                 val kk = if (children[idx].resultSet.isUndefValue(rowA, k.first))
                                     "-"
                                 else
@@ -109,14 +109,14 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     for (rowB in rowsB) {
                                         val row = resultSet.createResultRow()
                                         for (p in variables[idx])
-                                            row[p.second] = rowA[p.first]
+                                            resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
                                         for (p in variables[1 - idx])
-                                            row[p.second] = rowB[p.first]
+                                            resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
                                         for (p in variablesJ[idx])
-                                            row[p.second] = rowA[p.first]
+                                            resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
                                         for (p in variablesJ[1 - idx]) {
                                             if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
-                                                row[p.second] = rowB[p.first]
+                                                resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
                                         }
                                         channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
                                     }
@@ -136,9 +136,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 for (p in variables[1])
                                     resultSet.setUndefValue(row, p.second)
                                 for (p in variables[0])
-                                    row[p.second] = rowA[p.first]
+                                    resultSet.copy(row, p.second, rowA, p.first, children[0].resultSet)
                                 for (p in variablesJ[0])
-                                    row[p.second] = rowA[p.first]
+                                    resultSet.copy(row, p.second, rowA, p.first, children[0].resultSet)
                                 channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
                             }
                         }

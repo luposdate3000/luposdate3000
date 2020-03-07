@@ -69,9 +69,9 @@ class TripleInsertIterator : POPBase {
 
     constructor(query: Query, triple: ID_Triple) : super(query, EOperatorID.TripleInsertIteratorID, "TripleInsertIterator", ResultSet(query.dictionary), arrayOf()) {
         result = resultSet.createResultRow()
-        result[resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
-        result[resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
-        result[resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
+        resultSet.setValue(result, "s", cleanString(Dictionary[triple.s]!!.toN3String()))
+        resultSet.setValue(result, "p", cleanString(Dictionary[triple.p]!!.toN3String()))
+        resultSet.setValue(result, "o", cleanString(Dictionary[triple.o]!!.toN3String()))
     }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleInsertIterator.evaluate" }, {

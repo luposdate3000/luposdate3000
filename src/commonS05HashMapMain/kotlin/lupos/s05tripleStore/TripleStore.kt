@@ -141,21 +141,21 @@ class TripleStoreLocal {
     val name: String
 
     suspend inline fun forEach(params: Array<AOPBase>, crossinline action: suspend (Array<Value>) -> Unit, idx: EIndexPattern) {
-val values=arrayOfNulls<Value?>(3)
-for(i in 0 until 3)
-	if(params[i]is AOPConstant)
-		values[i]= resultSet.createValue((params[i]as AOPConstant).valueToString())
+        val values = arrayOfNulls<Value?>(3)
+        for (i in 0 until 3)
+            if (params[i] is AOPConstant)
+                values[i] = resultSet.createValue((params[i] as AOPConstant).valueToString())
         when (idx) {
             EIndexPattern.S -> {
                 if (values[0] != null) {
                     tripleStoreS[values[0]!!]?.forEachSuspend {
-                        if ((values[1]== null || values[1]== it[0]) && (values[2]== null || values[2]== it[1]))
+                        if ((values[1] == null || values[1] == it[0]) && (values[2] == null || values[2] == it[1]))
                             action(arrayOf(values[0]!!, it[0], it[1]))
                     }
                 } else {
                     tripleStoreS.forEachKeySuspend { key ->
                         tripleStoreS[key]!!.forEachSuspend {
-                            if ((values[1]== null || values[1]== it[0]) && (values[2]== null || values[2]== it[1]))
+                            if ((values[1] == null || values[1] == it[0]) && (values[2] == null || values[2] == it[1]))
                                 action(arrayOf(key, it[0], it[1]))
                         }
                     }
@@ -164,13 +164,13 @@ for(i in 0 until 3)
             EIndexPattern.P -> {
                 if (values[1] != null) {
                     tripleStoreP[values[1]!!]?.forEachSuspend {
-                        if ((values[0]== null || values[0]== it[0]) && (values[2]== null || values[2]== it[1]))
+                        if ((values[0] == null || values[0] == it[0]) && (values[2] == null || values[2] == it[1]))
                             action(arrayOf(it[0], values[1]!!, it[1]))
                     }
                 } else {
                     tripleStoreP.forEachKeySuspend { key ->
                         tripleStoreP[key]!!.forEachSuspend {
-                            if ((values[0]== null || values[0]== it[0]) && (values[2]== null || values[2]== it[1]))
+                            if ((values[0] == null || values[0] == it[0]) && (values[2] == null || values[2] == it[1]))
                                 action(arrayOf(it[0], key, it[1]))
                         }
                     }
@@ -179,13 +179,13 @@ for(i in 0 until 3)
             EIndexPattern.O -> {
                 if (values[2] != null) {
                     tripleStoreO[values[2]!!]?.forEachSuspend {
-                        if ((values[0]== null || values[0]== it[0]) && (values[1]== null || values[1]== it[1]))
+                        if ((values[0] == null || values[0] == it[0]) && (values[1] == null || values[1] == it[1]))
                             action(arrayOf(it[0], it[1], values[2]!!))
                     }
                 } else {
                     tripleStoreO.forEachKeySuspend { key ->
                         tripleStoreO[key]!!.forEachSuspend {
-                            if ((values[0]== null || values[0]== it[0]) && (values[1]== null || values[1]== it[1]))
+                            if ((values[0] == null || values[0] == it[0]) && (values[1] == null || values[1] == it[1]))
                                 action(arrayOf(it[0], it[1], key))
                         }
                     }
@@ -194,14 +194,14 @@ for(i in 0 until 3)
             EIndexPattern.SP -> {
                 if (values[0] != null && values[1] != null) {
                     tripleStoreSP[Pair(values[0]!!, values[1]!!)]?.forEachSuspend {
-                        if (values[2]== null || values[2]== it[0])
+                        if (values[2] == null || values[2] == it[0])
                             action(arrayOf(values[0]!!, values[1]!!, it[0]))
                     }
                 } else {
                     tripleStoreSP.forEachKeySuspend { key ->
-                        if ((values[0]== null || values[0]== key.first) && (values[1]== null || values[1]== key.second))
+                        if ((values[0] == null || values[0] == key.first) && (values[1] == null || values[1] == key.second))
                             tripleStoreSP[key]!!.forEachSuspend {
-                                if (values[2]== null || values[2]== it[0])
+                                if (values[2] == null || values[2] == it[0])
                                     action(arrayOf(key.first, key.second, it[0]))
                             }
                     }
@@ -210,14 +210,14 @@ for(i in 0 until 3)
             EIndexPattern.SO -> {
                 if (values[0] != null && values[2] != null) {
                     tripleStoreSO[Pair(values[0]!!, values[2]!!)]?.forEachSuspend {
-                        if (values[1]== null || values[1]== it[0])
+                        if (values[1] == null || values[1] == it[0])
                             action(arrayOf(values[0]!!, it[0], values[2]!!))
                     }
                 } else {
                     tripleStoreSO.forEachKeySuspend { key ->
-                        if ((values[0]== null || values[0]== key.first) && (values[2]== null || values[2]== key.second))
+                        if ((values[0] == null || values[0] == key.first) && (values[2] == null || values[2] == key.second))
                             tripleStoreSO[key]!!.forEachSuspend {
-                                if (values[1]== null || values[1]== it[0])
+                                if (values[1] == null || values[1] == it[0])
                                     action(arrayOf(key.first, it[0], key.second))
                             }
                     }
@@ -226,14 +226,14 @@ for(i in 0 until 3)
             EIndexPattern.PO -> {
                 if (values[1] != null && values[2] != null) {
                     tripleStorePO[Pair(values[1]!!, values[2]!!)]?.forEachSuspend {
-                        if (values[0]== null || values[0]== it[0])
+                        if (values[0] == null || values[0] == it[0])
                             action(arrayOf(it[0], values[1]!!, values[2]!!))
                     }
                 } else {
                     tripleStorePO.forEachKeySuspend { key ->
-                        if ((values[1]== null || values[1]== key.first) && (values[2]== null || values[2]== key.second))
+                        if ((values[1] == null || values[1] == key.first) && (values[2] == null || values[2] == key.second))
                             tripleStorePO[key]!!.forEachSuspend {
-                                if (values[0]== null || values[0]== it[0])
+                                if (values[0] == null || values[0] == it[0])
                                     action(arrayOf(it[0], key.first, key.second))
                             }
                     }
@@ -241,7 +241,7 @@ for(i in 0 until 3)
             }
             EIndexPattern.SPO -> {
                 tripleStoreSPO.forEachSuspend {
-                    if ((values[0]== null || values[0]== it[0]) && (values[1]== null || values[1]== it[1]) && (values[2]== null || values[2]== it[2]))
+                    if ((values[0] == null || values[0] == it[0]) && (values[1] == null || values[1] == it[1]) && (values[2] == null || values[2] == it[2]))
                         action(arrayOf(it[0], it[1], it[2]))
                 }
             }
@@ -251,16 +251,16 @@ for(i in 0 until 3)
     @JvmField
     val pendingModifications = Array(EIndexPattern.values().size) { ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
 
-    fun modifyData(query: Query, values :Array<Value>, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
+    fun modifyData(query: Query, values: Array<Value>, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
         var tmp = pendingModifications[idx.ordinal][query.transactionID]
         if (tmp == null) {
             tmp = ThreadSafeMutableSet()
             pendingModifications[idx.ordinal][query.transactionID] = tmp
         }
         val r = resultSet.createResultRow()
-        r[s] = values[0]!!
-        r[p] = values[1]!!
-        r[o] = values[2]!!
+        resultSet.setValue(r, s, values[0]!!)
+        resultSet.setValue(r, p, values[1]!!)
+        resultSet.setValue(r, o, values[2]!!)
         tmp.add(Pair(action, r))
     })
 
@@ -288,98 +288,98 @@ for(i in 0 until 3)
                             EModifyType.INSERT -> {
                                 when (it) {
                                     EIndexPattern.S -> {
-                                        var values = tripleStoreS[m.second[s]]
+                                        var values = tripleStoreS[resultSet.getValue(m.second, s)]
                                         if (values == null) {
                                             values = SortedSetDictionary(resultSet.dictionary, 2)
-                                            tripleStoreS[m.second[s]] = values
+                                            tripleStoreS[resultSet.getValue(m.second, s)] = values
                                         }
-                                        values.add(m.second[p], m.second[o])
+                                        values.add(resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))
                                     }
                                     EIndexPattern.P -> {
-                                        var values = tripleStoreP[m.second[p]]
+                                        var values = tripleStoreP[resultSet.getValue(m.second, p)]
                                         if (values == null) {
                                             values = SortedSetDictionary(resultSet.dictionary, 2)
-                                            tripleStoreP[m.second[p]] = values
+                                            tripleStoreP[resultSet.getValue(m.second, p)] = values
                                         }
-                                        values.add(m.second[s], m.second[o])
+                                        values.add(resultSet.getValue(m.second, s), resultSet.getValue(m.second, o))
                                     }
                                     EIndexPattern.O -> {
-                                        var values = tripleStoreO[m.second[o]]
+                                        var values = tripleStoreO[resultSet.getValue(m.second, o)]
                                         if (values == null) {
                                             values = SortedSetDictionary(resultSet.dictionary, 2)
-                                            tripleStoreO[m.second[o]] = values
+                                            tripleStoreO[resultSet.getValue(m.second, o)] = values
                                         }
-                                        values.add(m.second[s], m.second[p])
+                                        values.add(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p))
                                     }
                                     EIndexPattern.SP -> {
-                                        var values = tripleStoreSP[Pair(m.second[s], m.second[p])]
+                                        var values = tripleStoreSP[Pair(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p))]
                                         if (values == null) {
                                             values = SortedSetDictionary(resultSet.dictionary, 1)
-                                            tripleStoreSP[Pair(m.second[s], m.second[p])] = values
+                                            tripleStoreSP[Pair(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p))] = values
                                         }
-                                        values.add(m.second[o])
+                                        values.add(resultSet.getValue(m.second, o))
                                     }
                                     EIndexPattern.SO -> {
-                                        var values = tripleStoreSO[Pair(m.second[s], m.second[o])]
+                                        var values = tripleStoreSO[Pair(resultSet.getValue(m.second, s), resultSet.getValue(m.second, o))]
                                         if (values == null) {
                                             values = SortedSetDictionary(resultSet.dictionary, 1)
-                                            tripleStoreSO[Pair(m.second[s], m.second[o])] = values
+                                            tripleStoreSO[Pair(resultSet.getValue(m.second, s), resultSet.getValue(m.second, o))] = values
                                         }
-                                        values.add(m.second[p])
+                                        values.add(resultSet.getValue(m.second, p))
                                     }
                                     EIndexPattern.PO -> {
-                                        var values = tripleStorePO[Pair(m.second[p], m.second[o])]
+                                        var values = tripleStorePO[Pair(resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))]
                                         if (values == null) {
                                             values = SortedSetDictionary(resultSet.dictionary, 1)
-                                            tripleStorePO[Pair(m.second[p], m.second[o])] = values
+                                            tripleStorePO[Pair(resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))] = values
                                         }
-                                        values.add(m.second[s])
+                                        values.add(resultSet.getValue(m.second, s))
                                     }
                                     EIndexPattern.SPO -> {
-                                        tripleStoreSPO.add(m.second[s], m.second[p], m.second[o])
+                                        tripleStoreSPO.add(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))
                                     }
                                 }
                             }
                             EModifyType.DELETE -> {
                                 when (it) {
                                     EIndexPattern.S -> {
-                                        val values = tripleStoreS[m.second[s]]
+                                        val values = tripleStoreS[resultSet.getValue(m.second, s)]
                                         if (values != null) {
-                                            values.remove(m.second[p], m.second[o])
+                                            values.remove(resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))
                                         }
                                     }
                                     EIndexPattern.P -> {
-                                        val values = tripleStoreP[m.second[p]]
+                                        val values = tripleStoreP[resultSet.getValue(m.second, p)]
                                         if (values != null) {
-                                            values.remove(m.second[s], m.second[o])
+                                            values.remove(resultSet.getValue(m.second, s), resultSet.getValue(m.second, o))
                                         }
                                     }
                                     EIndexPattern.O -> {
-                                        val values = tripleStoreO[m.second[o]]
+                                        val values = tripleStoreO[resultSet.getValue(m.second, o)]
                                         if (values != null) {
-                                            values.remove(m.second[s], m.second[p])
+                                            values.remove(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p))
                                         }
                                     }
                                     EIndexPattern.SP -> {
-                                        val values = tripleStoreSP[Pair(m.second[s], m.second[p])]
+                                        val values = tripleStoreSP[Pair(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p))]
                                         if (values != null) {
-                                            values.remove(m.second[o])
+                                            values.remove(resultSet.getValue(m.second, o))
                                         }
                                     }
                                     EIndexPattern.SO -> {
-                                        val values = tripleStoreSO[Pair(m.second[s], m.second[o])]
+                                        val values = tripleStoreSO[Pair(resultSet.getValue(m.second, s), resultSet.getValue(m.second, o))]
                                         if (values != null) {
-                                            values.remove(m.second[p])
+                                            values.remove(resultSet.getValue(m.second, p))
                                         }
                                     }
                                     EIndexPattern.PO -> {
-                                        val values = tripleStorePO[Pair(m.second[p], m.second[o])]
+                                        val values = tripleStorePO[Pair(resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))]
                                         if (values != null) {
-                                            values.remove(m.second[s])
+                                            values.remove(resultSet.getValue(m.second, s))
                                         }
                                     }
                                     EIndexPattern.SPO -> {
-                                        tripleStoreSPO.remove(m.second[s], m.second[p], m.second[o])
+                                        tripleStoreSPO.remove(resultSet.getValue(m.second, s), resultSet.getValue(m.second, p), resultSet.getValue(m.second, o))
                                     }
                                 }
                             }
@@ -391,20 +391,20 @@ for(i in 0 until 3)
         }
     })
 
-    fun addData(query: Query, params:Array< AOPConstant>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
-val values=Array(3){resultSet.createValue(params[it].valueToString())}
+    fun addData(query: Query, params: Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
+        val values = Array(3) { resultSet.createValue(params[it].valueToString()) }
         modifyData(query, values, EModifyType.INSERT, idx)
     })
 
     fun deleteDataVar(query: Query, params: Array<AOPBase>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         CoroutinesHelper.runBlock {
             var tmp = 0
-for( i in 0 until 3)
-if(params[i]is AOPConstant)
-tmp++
+            for (i in 0 until 3)
+                if (params[i] is AOPConstant)
+                    tmp++
             when (tmp) {
                 3 -> {
-val values=Array(3){resultSet.createValue((params[it] as AOPConstant).valueToString())}
+                    val values = Array(3) { resultSet.createValue((params[it] as AOPConstant).valueToString()) }
                     modifyData(query, values, EModifyType.DELETE, idx)
                 }
                 else -> {
@@ -420,7 +420,7 @@ val values=Array(3){resultSet.createValue((params[it] as AOPConstant).valueToStr
         return TripleStoreIteratorLocal(query, resultSet, this, index)
     })
 
-    fun getIterator(query: Query, resultSet: ResultSet, params:Array< AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
+    fun getIterator(query: Query, resultSet: ResultSet, params: Array<AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
         val res = TripleStoreIteratorLocalFilter(query, resultSet, this, index)
         res.params = params
         return res

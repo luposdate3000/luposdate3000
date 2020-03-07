@@ -21,6 +21,11 @@ import lupos.s04logicalOperators.Query
 class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationSUMID, "AOPAggregationSUM", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override fun toSparql(): String {
+        if (distinct)
+            return "SUM(DISTINCT " + children[0].toSparql() + ")"
+        return "SUM(" + children[0].toSparql() + ")"
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAggregationSUM)
@@ -61,7 +66,7 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
             a.set(AOPInteger(query, a.get()!!.toInt() + b.toInt()))
         else
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                Exception("AOPAggregationSUM avg only defined on numeric input")
+                Exception("AOPAggregationSUM SUM only defined on numeric input")
             })
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             a.get()!!

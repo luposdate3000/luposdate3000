@@ -82,13 +82,10 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                     resultFlowConsume({ this@POPBind }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesOld.indices)
-                        rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                        resultSet.copy(rsNew, variablesNew[i]!!, rsOld, variablesOld[i]!!, children[0].resultSet)
                     try {
                         val value = (children[1] as AOPBase).calculate(children[0].resultSet, rsOld).valueToString()
-                        if (value == null)
-                            resultSet.setUndefValue(rsNew, variableBound)
-                        else
-                            rsNew[variableBound] = resultSet.createValue(value)
+                        resultSet.setValue(rsNew, variableBound, value)
                     } catch (e: Throwable) {
                         resultSet.setUndefValue(rsNew, variableBound)
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })

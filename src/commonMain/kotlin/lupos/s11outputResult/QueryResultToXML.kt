@@ -21,7 +21,7 @@ object QueryResultToXML {
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             CoroutinesHelper.runBlock {
                 for (resultRow in queryChannel) {
-                    val value = query.resultSet.getValue(resultRow[query.resultSet.createVariable("?boolean")])!!
+                    val value = query.resultSet.getValueString(resultRow, "?boolean")!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     require(value.endsWith("\"^^<" + datatype + ">"))
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
@@ -42,7 +42,7 @@ object QueryResultToXML {
                     nodeResults.addContent(nodeResult)
                     for (variable in variables) {
                         if (!query.resultSet.isUndefValue(resultRow, variable.second)) {
-                            val value = query.resultSet.getValue(resultRow[variable.second])!!
+                            val value = query.resultSet.getValueString(resultRow, variable.second)!!
                             val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                             if (value.length > 1) {
                                 if (value.startsWith("\"") && !value.endsWith("\"")) {

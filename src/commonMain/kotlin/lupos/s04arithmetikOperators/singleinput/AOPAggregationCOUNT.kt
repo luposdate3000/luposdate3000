@@ -21,6 +21,15 @@ import lupos.s04logicalOperators.Query
 class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override fun toSparql(): String {
+        var res = "COUNT("
+        if (distinct)
+            res += "DISTINCT "
+        if (children.size > 0)
+            res += children[0].toSparql()
+        res += ")"
+        return res
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAggregationCOUNT)

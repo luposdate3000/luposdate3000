@@ -98,9 +98,9 @@ class POPSort : POPBase {
                     val rsNew = resultSet.createResultRow()
                     var key = ""
                     for (variable in variables) {
-                        rsNew[variable.first] = rsOld[variable.second]
+                        resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
                         if (variable.first == sortBy) {
-                            val tmp = children[0].resultSet.getValue(rsOld[variable.second])
+                            val tmp = children[0].resultSet.getValueString(rsOld, variable.second)
                             if (tmp == null)
                                 key = ""
                             else

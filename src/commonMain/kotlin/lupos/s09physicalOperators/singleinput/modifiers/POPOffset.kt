@@ -54,7 +54,7 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
                     if (count >= offset) {
                         var rsNew = resultSet.createResultRow()
                         for (v in variables)
-                            rsNew[v.first] = rsOld[v.second]
+                            resultSet.copy(rsNew, v.first, rsOld, v.second, children[0].resultSet)
                         channel.send(resultFlowProduce({ this@POPOffset }, { rsNew }))
                     }
                     count++

@@ -21,6 +21,11 @@ import lupos.s04logicalOperators.Query
 class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationMINID, "AOPAggregationMIN", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override fun toSparql(): String {
+        if (distinct)
+            return "MIN(DISTINCT " + children[0].toSparql() + ")"
+        return "MIN(" + children[0].toSparql() + ")"
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAggregationMIN)

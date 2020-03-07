@@ -63,7 +63,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun deleteData(t: Array<AOPConstant>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, Array<AOPBase>(3){t[it]}, it)
+            Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, Array<AOPBase>(3) { t[it] }, it)
         }
     }
 
@@ -75,11 +75,11 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun addData(iterator: OPBase) {
         val rs = iterator.resultSet
-val variables=arrayOf(rs.createVariable("s"),rs.createVariable("p"), rs.createVariable("o"))
+        val variables = arrayOf(rs.createVariable("s"), rs.createVariable("p"), rs.createVariable("o"))
         val channel = iterator.evaluate()
         CoroutinesHelper.runBlock {
-            for (v in channel) 
-                addData(Array(3){AOPVariable.calculate(query, rs.getValue(v[variables[it]]))})
+            for (v in channel)
+                addData(Array(3) { AOPVariable.calculate(query, rs.getValue(v[variables[it]])) })
         }
     }
 
@@ -87,7 +87,7 @@ val variables=arrayOf(rs.createVariable("s"),rs.createVariable("p"), rs.createVa
         return DistributedTripleStore.localStore.getNamedGraph(query, name).getIterator(query, ResultSet(query.dictionary), index)
     }
 
-    fun getIterator(params:Array<AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase {
+    fun getIterator(params: Array<AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase {
         val res = DistributedTripleStore.localStore.getNamedGraph(query, name).getIterator(query, ResultSet(query.dictionary), params, index)
         return res
     }

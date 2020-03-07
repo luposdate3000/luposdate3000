@@ -29,7 +29,7 @@ object P2P {
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
     })
 
-    fun execTripleAdd(query: Query, node: String, graphName: String, params:Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(query: Query, node: String, graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         Endpoint.process_local_triple_add(query, graphName, params, idx)
     })
 
@@ -45,7 +45,7 @@ object P2P {
         Endpoint.process_local_graph_operation(query, name, type)
     })
 
-    fun execTripleGet(query: Query, node: String, graphName: String, params:Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         return Endpoint.process_local_triple_get(query, graphName, params, idx)
     })
 

@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.Query
 
 object GlobalLogger {
     @JvmField
-    var enabled = ELoggerType.TEST_RESULT
+    var enabled = ELoggerType.TEST_DETAIL
 
     fun log(type: ELoggerType, action: () -> Any?) {
         if (enabled.ordinal >= type.ordinal)

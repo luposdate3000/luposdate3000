@@ -46,7 +46,7 @@ class POPTemporaryStore(query: Query, child: OPBase) : POPBase(query, EOperatorI
                     resultFlowConsume({ this@POPTemporaryStore }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (variable in variables)
-                        rsNew[variable.first] = rsOld[variable.second]
+                        resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
                     data.add(rsNew)
                     channel.send(resultFlowProduce({ this@POPTemporaryStore }, { rsNew }))
                 }

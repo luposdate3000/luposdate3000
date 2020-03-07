@@ -56,7 +56,7 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
                     if (count >= limit)
                         break
                     for (v in variables)
-                        rsNew[v.first] = rsOld[v.second]
+                        resultSet.copy(rsNew, v.first, rsOld, v.second, children[0].resultSet)
                     count++
                     channel.send(resultFlowProduce({ this@POPLimit }, { rsNew }))
                 }

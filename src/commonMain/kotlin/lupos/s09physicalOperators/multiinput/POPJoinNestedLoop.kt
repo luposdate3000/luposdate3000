@@ -75,26 +75,22 @@ class POPJoinNestedLoop : POPBase {
                         resultFlowConsume({ this@POPJoinNestedLoop }, { children[1] }, { resultRowB })
                         var joinVariableOk = true
                         var rsNew = resultSet.createResultRow()
-                        for (p in variablesOldA) {
-                            // TODO reuse resultSet
-                            rsNew[p.second] = resultRowA!![p.first]
-                        }
-                        for (p in variablesOldB) {
-                            // TODO reuse resultSet
-                            rsNew[p.second] = resultRowB[p.first]
-                        }
+                        for (p in variablesOldA)
+                            resultSet.copy(rsNew, p.second, resultRowA, p.first, children[0].resultSet)
+                        for (p in variablesOldB)
+                            resultSet.copy(rsNew, p.second, resultRowB, p.first, children[1].resultSet)
                         for (p in variablesOldJ) {
                             // TODO reuse resultSet
-                            val a = children[0].resultSet.getValue(resultRowA!![p.first.first])
-                            val b = children[1].resultSet.getValue(resultRowB[p.first.second])
+                            val a = children[0].resultSet.getValue(resultRowA!!, p.first.first)
+                            val b = children[1].resultSet.getValue(resultRowB, p.first.second)
                             if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
                                 joinVariableOk = false
                                 break
                             }
                             if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
-                                rsNew[p.second] = resultSet.createValue(b)
+                                resultSet.setValue(rsNew, p.second, b)
                             else
-                                rsNew[p.second] = resultSet.createValue(a)
+                                resultSet.setValue(rsNew, p.second, a)
                         }
                         if (!joinVariableOk)
                             continue

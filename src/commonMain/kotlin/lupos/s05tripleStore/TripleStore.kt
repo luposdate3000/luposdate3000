@@ -18,7 +18,7 @@ abstract class POPTripleStoreIteratorBase(query: Query,
                                           resultSet: ResultSet,
                                           children: Array<OPBase>) : POPBase(query, operatorID, classname, resultSet, children) {
     @JvmField
-    var params=arrayOf<AOPBase>( AOPVariable(query, "#s$uuid"),AOPVariable(query, "#p$uuid"),AOPVariable(query, "#o$uuid"))
+    var params = arrayOf<AOPBase>(AOPVariable(query, "#s$uuid"), AOPVariable(query, "#p$uuid"), AOPVariable(query, "#o$uuid"))
 
     abstract fun getGraphName(): String
 

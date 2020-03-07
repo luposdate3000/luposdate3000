@@ -19,18 +19,18 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
     override fun cloneOP() = TripleStoreIteratorLocalFilter(query, resultSet, store, index)
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
-val newVariables=arrayOfNulls<Variable?>(3)
-for(i in 0 until 3)
-if(params[i] is AOPVariable)
-newVariables[i]= resultSet.createVariable((params[i] as AOPVariable).name)
+        val newVariables = arrayOfNulls<Variable?>(3)
+        for (i in 0 until 3)
+            if (params[i] is AOPVariable)
+                newVariables[i] = resultSet.createVariable((params[i] as AOPVariable).name)
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                store.forEach(params, { it->
+                store.forEach(params, { it ->
                     val result = resultSet.createResultRow()
-	for(i in 0 until 3)
-		if(newVariables[i]!=null)
-			result[newVariables[i]!!]=resultSet.createValue(store.resultSet.getValue(it[i]))
+                    for (i in 0 until 3)
+                        if (newVariables[i] != null)
+                            resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueString(it[i]))
                     channel.send(result)
                 }, index)
                 channel.close()

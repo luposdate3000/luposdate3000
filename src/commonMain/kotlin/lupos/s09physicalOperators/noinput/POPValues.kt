@@ -41,7 +41,7 @@ class POPValues : POPBase {
                 if (s == null || s == query.dictionary.undefValue)
                     res += "UNDEF "
                 else
-                    res += resultSet.getValue(s) + " "
+                    res += resultSet.getValueString(s) + " "
             }
             res += ")"
         }
@@ -70,7 +70,7 @@ class POPValues : POPBase {
     override fun cloneOP() = POPValues(query, variables.map { resultSet.getVariable(it) }, data.map {
         val res = mutableMapOf<String, String?>()
         for ((k, v) in (it as Map<Variable, Value>))
-            res[resultSet.getVariable(k as Variable) as String] = resultSet.getValue(v as Value) as String?
+            res[resultSet.getVariable(k as Variable) as String] = resultSet.getValueString(v as Value) as String?
         res
     })
 
@@ -120,7 +120,7 @@ class POPValues : POPBase {
                 for (rsOld in data) {
                     var rsNew = resultSet.createResultRow()
                     for ((variable, value) in rsOld)
-                        rsNew[variable] = value
+                        resultSet.setValue(rsNew, variable, value)
                     channel.send(resultFlowProduce({ this@POPValues }, { rsNew }))
                 }
                 channel.close()
@@ -143,7 +143,7 @@ class POPValues : POPBase {
             val b = XMLElement("binding")
             bindings.addContent(b)
             for ((k, v) in d) {
-                val value = resultSet.getValue(v)
+                val value = resultSet.getValueString(v)
                 if (value != null)
                     b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)).addAttribute("content", value))
             }

@@ -32,7 +32,7 @@ class TransferHelperNetwork {
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
                             val graphName = query.dictionary.getValue(data.getNextInt())!!
-val params=Array(3){AOPVariable.calculate(query, query.dictionary.getValue(data.getNextInt()))}
+                            val params = Array(3) { AOPVariable.calculate(query, query.dictionary.getValue(data.getNextInt())) }
                             val idx = EIndexPattern.values()[data.getNextInt()]
                             try {
                                 Endpoint.process_local_triple_add(query, graphName, params, idx)
@@ -99,13 +99,13 @@ val params=Array(3){AOPVariable.calculate(query, query.dictionary.getValue(data.
         enforceHeader(ENetworkMessageType.GRAPH_CLEAR_ALL)
     }
 
-    fun addTriple(graphName: String, params:Array<AOPConstant>, idx: EIndexPattern) {
+    fun addTriple(graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) {
         val gv = createDictionaryValue(graphName)
-val params=Array(3){createDictionaryValue(params[it].valueToString())}
+        val params = Array(3) { createDictionaryValue(params[it].valueToString()) }
         enforceHeader(ENetworkMessageType.TRIPLE_ADD)
         data.appendInt(gv)
-for(p in params)
-data.appendInt(p)
+        for (p in params)
+            data.appendInt(p)
         data.appendInt(idx.ordinal)
         lastCounterValue++
     }

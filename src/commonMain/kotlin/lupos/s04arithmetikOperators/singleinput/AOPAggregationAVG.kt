@@ -20,6 +20,11 @@ import lupos.s04logicalOperators.Query
 class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override fun toSparql(): String {
+        if (distinct)
+            return "AVG(DISTINCT " + children[0].toSparql() + ")"
+        return "AVG(" + children[0].toSparql() + ")"
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAggregationAVG)

@@ -27,7 +27,7 @@ class TransferHelperNetwork {
         throw Exception("not implemented")
     }
 
-    fun addTriple(graphName: String, params:Array<AOPConstant>, idx: EIndexPattern) {
+    fun addTriple(graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) {
         throw Exception("not implemented")
     }
 

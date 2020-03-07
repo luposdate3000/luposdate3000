@@ -94,7 +94,7 @@ class POPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val n
                     resultFlowConsume({ this@POPRename }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
-                        rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                        resultSet.copy(rsNew, variablesNew[i]!!, rsOld, variablesOld[i]!!, children[0].resultSet)
                     channel.send(resultFlowProduce({ this@POPRename }, { rsNew }))
                 }
                 channel.close()

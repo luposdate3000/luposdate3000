@@ -69,7 +69,7 @@ class POPImportFromXml(query: Query, @JvmField val data: XMLElement) : POPBase(q
                             child.tag == "bnode" -> "_:" + content
                             else -> "\"" + content + "\""
                         }
-                        result[variables[name]!!] = resultSet.createValue(value)
+                        resultSet.setValue(result, variables[name]!!, value)
                     }
                     channel.send(resultFlowProduce({ this@POPImportFromXml }, { result }))
                 }
