@@ -18,8 +18,9 @@ do
 	do
 		dd if=/dev/urandom of=javafuzz/db${db}/input$i bs=$size count=1 > /dev/null 2>&1
 	done
-	curl -X POST --data-urlencode "dbName=db${db}" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets > /dev/null 2>&1
 	(
+		curl -X POST --data-urlencode "dbName=db${db}" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets
+		curl -X GET  -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets
 		while true
 		do
 			if [ "$db" == 1 ]

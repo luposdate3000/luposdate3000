@@ -59,11 +59,17 @@ class POPValues : POPBase {
             return false
         if (dictionary !== other.dictionary)
             return false
-        if (!data.equals(other.data))
+        if (data.size != other.data.size)
             return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+        for (i in data.indices) {
+            val m1 = data[i]
+            val m2 = other.data[i]
+            if (m1.keys.size != m2.keys.size)
                 return false
+            for (k in m1.keys) {
+                if (m1[k] != m2[k])
+                    return false
+            }
         }
         return true
     }
@@ -87,7 +93,7 @@ class POPValues : POPBase {
             data.add(entry)
             for ((k, v) in it) {
                 if (v == null)
-                    resultSet.dictionary.undefValue
+                    entry[resultSet.createVariable(k)] = resultSet.dictionary.undefValue
                 else
                     entry[resultSet.createVariable(k)] = resultSet.createValue(v)
             }

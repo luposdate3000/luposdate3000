@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.ConnectException
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.time.Duration
@@ -61,16 +62,22 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         val bytebuffer = ByteBuffer.allocate(datasize)
         currentSize = fileChannel.read(bytebuffer)
         val data = bytebuffer.array()
-        val input = DynamicByteArray(data,currentSize)
+        val input = DynamicByteArray(data, currentSize)
         try {
-            executeBinaryTest(input!!)
-            val timepointNext2 = Instant.now()
-            val elapsed2 = Duration.between(timepoint, timepointNext2)
-            timepoint = timepointNext2
-            println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+            while (true)
+                try {
+                    executeBinaryTest(input!!)
+                    val timepointNext2 = Instant.now()
+                    val elapsed2 = Duration.between(timepoint, timepointNext2)
+                    timepoint = timepointNext2
+                    println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+                    break
+                } catch (e: ConnectException) {
+                    e.printStackTrace()
+                }
         } catch (e: Throwable) {
-e.printStackTrace()
-	    input.pos=currentSize
+            e.printStackTrace()
+            input.pos = currentSize
             lupos.s00misc.File("crash-${data.hashCode()}").write(input)
         }
     }
