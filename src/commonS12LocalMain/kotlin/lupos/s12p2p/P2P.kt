@@ -34,7 +34,7 @@ object P2P {
     })
 
     fun execOnNamedNode(query:Query, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
-        return POPEmptyRow(query,dictionary)
+        return POPEmptyRow(query)
     })
 
     fun execGraphClearAll(query:Query) = Trace.trace({ "P2P.execGraphClearAll" }, {

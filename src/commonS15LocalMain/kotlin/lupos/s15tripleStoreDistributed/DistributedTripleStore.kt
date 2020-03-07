@@ -81,20 +81,20 @@ class DistributedGraph(val query:Query,@JvmField val name: String) {
         val channel = iterator.evaluate()
         CoroutinesHelper.runBlock {
             for (v in channel) {
-                val s = AOPVariable.calculate(rs.getValue(v[ks]))
-                val p = AOPVariable.calculate(rs.getValue(v[kp]))
-                val o = AOPVariable.calculate(rs.getValue(v[ko]))
+                val s = AOPVariable.calculate(query,rs.getValue(v[ks]))
+                val p = AOPVariable.calculate(query,rs.getValue(v[kp]))
+                val o = AOPVariable.calculate(query,rs.getValue(v[ko]))
                 addData( listOf(s, p, o))
             }
         }
     }
 
     fun getIterator(  index: EIndexPattern): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(query,name).getIterator( index)
+        return DistributedTripleStore.localStore.getNamedGraph(query,name).getIterator(query,ResultSet(query.dictionary) ,index)
     }
 
     fun getIterator(  s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = DistributedTripleStore.localStore.getNamedGraph(query,name).getIterator( s, p, o, index)
+        val res = DistributedTripleStore.localStore.getNamedGraph(query,name).getIterator( query,ResultSet(query.dictionary),s, p, o, index)
         return res
     }
 
