@@ -26,7 +26,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             k.createValue(it)
         }
     }
-    val query = Query(ResultSetDictionary(), 1L)
+    val query = Query()
     testDictionaryValue.mapLTS.forEach {
         try {
             val tmp = AOPVariable.calculate(query, it)

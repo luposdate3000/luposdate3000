@@ -213,10 +213,6 @@ object DistributedTripleStore {
     @JvmField
     val localStore = PersistentStoreLocal()
 
-    fun nextTransactionID(): Long = Trace.trace({ "DistributedTripleStore.nextTransactionID" }, {
-        return localStore.nextTransactionID()
-    })
-
     fun getGraphNames(includeDefault: Boolean = false): List<String> = Trace.trace({ "DistributedTripleStore.getGraphNames" }, {
         return localStore.getGraphNames(includeDefault)
     })

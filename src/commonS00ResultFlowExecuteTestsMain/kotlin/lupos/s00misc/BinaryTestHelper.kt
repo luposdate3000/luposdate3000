@@ -410,7 +410,7 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                     val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
                     graph.addData(listOf(st, pt, ot))
                 }
-                DistributedTripleStore.commit(query)
+query.commit()
                 return DistributedTripleStore.getNamedGraph(query, graphName).getIterator(s, p, o, idx)
             }
             EOperatorID.POPValuesID -> {
@@ -633,7 +633,7 @@ fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
         val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
         graph.addData(listOf(st, pt, ot))
     }
-    DistributedTripleStore.commit(query)
+query.commit()
     return LOPTriple(query, s, p, o, graphName, false)
 }
 
@@ -993,11 +993,11 @@ fun executeBinaryTests(folder: String) {
                 testcases++
                 if (true) {
                     val tmp = DistributedTripleStore.getGraphNames().toList()
-                    val query = Query(ResultSetDictionary(), 1L)
+                    val query = Query()
                     tmp.forEach {
                         DistributedTripleStore.dropGraph(query, it)
                     }
-                    DistributedTripleStore.commit(query)
+query.commit()
                     executeBinaryTest(it, false)
                 }
             }
@@ -1015,7 +1015,7 @@ fun executeBinaryTest(filename: String, detailedLog: Boolean) {
 }
 
 fun executeBinaryTest(buffer: DynamicByteArray) {
-    val query = Query(ResultSetDictionary(), 1L)
+    val query = Query()
     var node1: OPBase = OPNothing(query)
     var node2: OPBase = OPNothing(query)
     var node3: OPBase = OPNothing(query)
@@ -1060,7 +1060,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                         }
                     } catch (e: Throwable) {
                     }
-                    DistributedTripleStore.commit(query)
+query.commit()
                     if (buffer.pos > buffer.data.size / 2)
                         buffer.pos = buffer.data.size / 2
                 }
@@ -1120,7 +1120,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
             }
         val jena = JenaRequest()
         P2P.execGraphClearAll(query)
-        DistributedTripleStore.commit(query)
+query.commit()
         try {
             for (sparql in globalSparql) {
                 var e1: Throwable? = null
@@ -1147,7 +1147,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     require(node4.equals(node5))
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
-                    DistributedTripleStore.commit(query)
+query.commit()
                 } catch (e: Throwable) {
                     e1 = e
                 }

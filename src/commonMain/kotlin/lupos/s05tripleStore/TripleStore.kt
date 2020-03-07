@@ -49,12 +49,6 @@ class PersistentStoreLocal {
 
     companion object {
         val defaultGraphName = ""
-        private val global_transactionID = ThreadSafeUuid()
-
-    }
-
-    fun nextTransactionID(): Long {
-        return global_transactionID.next()
     }
 
     fun getGraphNames(includeDefault: Boolean = false): List<String> {

@@ -104,10 +104,6 @@ object DistributedTripleStore {
     @JvmField
     val localStore = PersistentStoreLocal()
 
-    fun nextTransactionID(): Long {
-        return localStore.nextTransactionID()
-    }
-
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         return localStore.getGraphNames(includeDefault)
     }

@@ -27,7 +27,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             require(w == i)
         }
     }
-    val query = Query(ResultSetDictionary(), 1L)
+    val query = Query()
     testDictionaryValue.mapLTS.forEach {
         try {
             val tmp = AOPVariable.calculate(query, it)
@@ -38,6 +38,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[EOperatorID.AOPSimpleLiteralID]!!.createValue("\"" + it!! + "\"")
         }
     }
+query.commit()
     if (args.size > 0) {
         JenaRequest.db = args[0]
         JenaRequest.dbwascreated = true

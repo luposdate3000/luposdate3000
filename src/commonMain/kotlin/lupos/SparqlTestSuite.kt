@@ -376,9 +376,9 @@ class SparqlTestSuite() {
         val jena = JenaRequest()
         try {
             try {
-                val query3 = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                val query3 = Query()
                 DistributedTripleStore.clearGraph(query3, PersistentStoreLocal.defaultGraphName)
-                DistributedTripleStore.commit(query3)
+query3.commit()
                 val toParse = readFileOrNull(queryFile)!!
                 if (toParse.contains("service", true)) {
                     updateAllMicroTest(testName, queryFile, false)
@@ -387,20 +387,20 @@ class SparqlTestSuite() {
                 }
                 val inputData = readFileOrNull(inputDataFileName)
                 val resultData = readFileOrNull(resultDataFileName)
-                val query2 = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                val query2 = Query()
                 P2P.execGraphClearAll(query2)
-                DistributedTripleStore.commit(query2)
+query2.commit()
                 if (inputData != null && inputDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-                    val query = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                    val query = Query()
                     CoroutinesHelper.runBlock {
                         val tmp = POPImportFromXml(query, xmlQueryInput!!.first())
                         DistributedTripleStore.getDefaultGraph(query).addData(tmp)
                     }
-                    DistributedTripleStore.commit(query)
+query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
                     try {
                         jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
@@ -413,11 +413,11 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
-                    val query = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                    val query = Query()
                     CoroutinesHelper.runBlock {
                         DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPImportFromXml(query, xmlQueryInput!!.first()))
                     }
-                    DistributedTripleStore.commit(query)
+query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
                     try {
                         jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
@@ -431,7 +431,7 @@ class SparqlTestSuite() {
                         val fc = readFileOrNull(fn)!!
                         P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
                     }
-                val query = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                val query = Query()
                 var res: Boolean
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { toParse })
@@ -460,7 +460,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
                     xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
-                    DistributedTripleStore.commit(query)
+query.commit()
                 }
                 var verifiedOutput = false
                 outputDataGraph.forEach {
@@ -513,12 +513,12 @@ class SparqlTestSuite() {
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
-                        val query2 = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                        val query2 = Query()
                         val popNodeRecovered = XMLElement.convertToOPBase(query2, xmlPOP) as POPBase
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
                         val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
-                        DistributedTripleStore.commit(query2)
+query2.commit()
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString() })
                         if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                             if (expectedResult) {

@@ -20,7 +20,7 @@ class TransferHelperNetwork {
             var res = ByteArray(0)
             val data = DynamicByteArray(d)
             val transactionID = data.getNextLong()
-            val query = Query(ResultSetDictionary(), transactionID)
+            val query = Query(transactionID= transactionID)
             var header = ENetworkMessageType.values()[data.getNextInt()]
             while (header != ENetworkMessageType.FINISH) {
                 val count = data.getNextInt()
