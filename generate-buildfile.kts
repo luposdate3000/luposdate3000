@@ -92,9 +92,6 @@ val additionalSources = mapOf(
         "macosX64Main" to listOf(
                 "nativeMain"
         ),
-        "commonS00LaunchGenerateTestsMain" to listOf(
-                "commonS00ResultFlowGenerateTestsMain"
-        ),
         "commonS00LaunchBinaryTestsMain" to listOf(
                 "commonS00ResultFlowExecuteTestsMain"
         ),
@@ -237,6 +234,8 @@ println("result dependencies:: ")
 for (sourceDependency in sourceDependencies.sorted())
     println(sourceDependency)
 println("build.gradle :: ")
+allChoicesString=allChoicesString.replace("Main","").replace("common","")
+
 File("build.gradle.kts").printWriter().use { out ->
     out.println("""buildscript {
     repositories {

@@ -78,10 +78,10 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorGlobal.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+                val varnames = getProvidedVariableNames()
+                val varout = Array(varnames.size) { resultSet.createVariable(varnames[it]) }
         CoroutinesHelper.run {
             try {
-                val varnames = getRequiredVariableNames()
-                val varout = Array(varnames.size) { resultSet.createVariable(varnames[it]) }
                 for (nodeName in nodeNameIterator) {
                     var remoteNode: OPBase? = null
                     var remoteNodeChannel: Channel<ResultRow>? = null

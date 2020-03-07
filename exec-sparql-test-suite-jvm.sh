@@ -1,4 +1,4 @@
-kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchGenerateTestsMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
 ./tool-gradle-build.sh
 function execJvm
 {
@@ -15,4 +15,4 @@ diff c c2
 echo "diff a c"
 diff a c
 
-mv /opt/tmpfs/Dictionary resources/Dictionary
+cd ..
