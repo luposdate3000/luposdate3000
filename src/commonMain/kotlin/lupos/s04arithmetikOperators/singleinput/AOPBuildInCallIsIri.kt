@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,10 +13,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallIsIri(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallIsIriID
-    override val classname = "AOPBuildInCallIsIri"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallIsIri(query:Query,child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIsIriID,"AOPBuildInCallIsIri", arrayOf(child)) {
 
     override fun toSparql() = "isIRI(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {

@@ -1,24 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPLanguageTaggedLiteral : AOPConstantString {
-    override val operatorID = EOperatorID.AOPLanguageTaggedLiteralID
-    override val classname = "AOPLanguageTaggedLiteral"
-    override val children: Array<OPBase> = arrayOf()
-    override val delimiter: String
-    override val content: String
-    @JvmField
-    val language: String
-
-    constructor(delimiter: String, content: String, language: String) : super() {
-        this.delimiter = delimiter
-        this.content = content
-        this.language = language.toLowerCase()
-    }
+class AOPLanguageTaggedLiteral (query:Query,delimiter: String, content: String,val language: String): AOPConstantString(query,EOperatorID.AOPLanguageTaggedLiteralID,"AOPLanguageTaggedLiteral",delimiter,content) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
 

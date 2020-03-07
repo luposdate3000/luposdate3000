@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -10,10 +11,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPNotIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPNotInID
-    override val classname = "AOPNotIn"
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class AOPNotIn(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPNotInID,"AOPNotIn", arrayOf(childA, childB)) {
 
     override fun toSparql() = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
 

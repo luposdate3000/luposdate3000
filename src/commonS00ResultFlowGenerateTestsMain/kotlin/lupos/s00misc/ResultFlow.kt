@@ -1,4 +1,5 @@
 package lupos.s00misc
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -517,6 +518,7 @@ fun printAllMicroTest() {
             val myfile = File(fileName)
             myfile.printWriter { out ->
                 out.println("package lupos")
+import lupos.s04logicalOperators.Query
                 out.println("")
                 out.println("import lupos.s10physicalOptimisation.PhysicalOptimizer")
                 out.println("import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer")
@@ -607,6 +609,7 @@ fun printAllMicroTest() {
     val myfile = File(fileName)
     myfile.printWriter { out ->
         out.println("package lupos")
+import lupos.s04logicalOperators.Query
         out.println("")
         out.println("import lupos.s10physicalOptimisation.PhysicalOptimizer")
         out.println("import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer")

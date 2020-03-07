@@ -1,4 +1,5 @@
 package lupos.s00misc
+import lupos.s04logicalOperators.Query
 
 import dirent.*
 import kotlin.jvm.JvmField

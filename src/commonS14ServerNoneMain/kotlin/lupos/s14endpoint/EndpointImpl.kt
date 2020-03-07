@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 

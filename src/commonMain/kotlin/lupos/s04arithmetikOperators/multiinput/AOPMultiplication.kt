@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -13,10 +14,7 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val operatorID = EOperatorID.AOPMultiplicationID
-    override val classname = "AOPMultiplication"
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class AOPMultiplication(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query,EOperatorID.AOPMultiplicationID, "AOPMultiplication",arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " * " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
@@ -49,5 +47,5 @@ class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFi
         })
     }
 
-    override fun cloneOP() = AOPMultiplication(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPMultiplication(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -22,11 +23,6 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPValues : POPBase {
-    override val operatorID = EOperatorID.POPValuesID
-    override val classname = "POPValues"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf()
     @JvmField
     val variables = mutableListOf<Variable>()
     @JvmField
@@ -81,9 +77,7 @@ class POPValues : POPBase {
         res
     })
 
-    constructor(dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String?>>) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
+    constructor(query:Query,dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String?>>) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(dictionary),arrayOf()) {
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -100,9 +94,7 @@ class POPValues : POPBase {
         }
     }
 
-    constructor(dictionary: ResultSetDictionary, values: LOPValues) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
+    constructor(query:Query,dictionary: ResultSetDictionary, values: LOPValues) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(dictionary),arrayOf()) {
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))

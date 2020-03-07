@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.ceil
@@ -14,10 +15,7 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallCEILID
-    override val classname = "AOPBuildInCallCEIL"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallCEIL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallCEILID,"AOPBuildInCallCEIL",arrayOf(child)) {
 
     override fun toSparql() = "CEIL(" + children[0].toSparql() + ")"
 

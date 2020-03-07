@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -13,10 +14,7 @@ import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallSTRSTARTS(child: AOPBase, childB: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallSTRSTARTSID
-    override val classname = "AOPBuildInCallSTRSTARTS"
-    override val children: Array<OPBase> = arrayOf(child, childB)
+class AOPBuildInCallSTRSTARTS(query:Query,child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRSTARTSID,"AOPBuildInCallSTRSTARTS", arrayOf(child, childB)) {
     override fun toSparql() = "STRSTARTS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
@@ -43,5 +41,5 @@ class AOPBuildInCallSTRSTARTS(child: AOPBase, childB: AOPBase) : AOPBase() {
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRSTARTS(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSTRSTARTS(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

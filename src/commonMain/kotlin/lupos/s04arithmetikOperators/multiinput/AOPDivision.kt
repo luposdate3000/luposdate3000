@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -13,10 +14,7 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val operatorID = EOperatorID.AOPDivisionID
-    override val classname = "AOPDivision"
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class AOPDivision(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query,EOperatorID.AOPDivisionID, "AOPDivision",arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " / " + children[1].toSparql() + ")"
 
@@ -65,5 +63,5 @@ class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
         })
     }
 
-    override fun cloneOP() = AOPDivision(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPDivision(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

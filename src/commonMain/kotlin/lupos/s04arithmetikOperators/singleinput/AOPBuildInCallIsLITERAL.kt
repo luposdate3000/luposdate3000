@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,10 +13,7 @@ import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallIsLITERAL(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallIsLITERALID
-    override val classname = "AOPBuildInCallIsLITERAL"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallIsLITERAL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallIsLITERALID,"AOPBuildInCallIsLITERAL", arrayOf(child)) {
 
     override fun toSparql() = "isLiteral(" + children[0].toSparql() + ")"
 

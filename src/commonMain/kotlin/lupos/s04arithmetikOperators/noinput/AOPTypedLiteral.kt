@@ -1,14 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPTypedLiteral(override val delimiter: String, override val content: String, @JvmField val type_iri: String) : AOPConstantString() {
-    override val operatorID = EOperatorID.AOPTypedLiteralID
-    override val classname = "AOPTypedLiteral"
-    override val children: Array<OPBase> = arrayOf()
+class AOPTypedLiteral(query:Query, delimiter: String,  content: String, @JvmField val type_iri: String) : AOPConstantString(query,EOperatorID.AOPTypedLiteralID,"AOPTypedLiteral",delimiter,content) {
 
     companion object {
         fun create(delimiter: String, content: String, type_iri: String): AOPConstant {

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -7,10 +8,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPTriple(s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase() {
-    override val operatorID = EOperatorID.LOPTripleID
-    override val classname = "LOPTriple"
-    override val children = arrayOf<OPBase>(s, p, o)
+class LOPTriple(query:Query,s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query,EOperatorID.LOPTripleID,"LOPTriple",arrayOf<OPBase>(s, p, o)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
 

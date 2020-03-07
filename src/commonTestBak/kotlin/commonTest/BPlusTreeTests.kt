@@ -1,4 +1,5 @@
 package commonTest
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.test.assertEquals

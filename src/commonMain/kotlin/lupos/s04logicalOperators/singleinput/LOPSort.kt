@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,10 +10,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPSort(@JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPSortID
-    override val classname = "LOPSort"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPSort(query:Query,@JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPSortID,"LOPSort", arrayOf(child)) {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")

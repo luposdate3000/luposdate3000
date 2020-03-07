@@ -1,4 +1,5 @@
 package lupos.s01io.buffer
+import lupos.s04logicalOperators.Query
 
 import java.io.File
 import java.io.RandomAccessFile

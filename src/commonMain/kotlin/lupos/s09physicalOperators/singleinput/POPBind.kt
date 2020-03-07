@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -21,11 +22,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPBind(override val dictionary: ResultSetDictionary, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPBindID
-    override val classname = "POPBind"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(child, value)
+class POPBind(query:Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query,EOperatorID.POPBindID,"POPBind",ResultSet(dictionary), arrayOf(child, value)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPBind)

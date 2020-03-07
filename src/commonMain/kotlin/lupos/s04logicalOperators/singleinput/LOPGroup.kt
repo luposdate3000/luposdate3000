@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,10 +10,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGroup(@JvmField var by: List<AOPVariable>) : LOPBase() {
-    override val operatorID = EOperatorID.LOPGroupID
-    override val classname = "LOPGroup"
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+class LOPGroup(query:Query,@JvmField var by: List<AOPVariable>) : LOPBase(query,EOperatorID.LOPGroupID,"LOPGroup",arrayOf(OPNothing(), OPNothing())) {
     override fun childrenToVerifyCount() = 1
 
     constructor(by: List<AOPVariable>, child: OPBase) : this(by) {

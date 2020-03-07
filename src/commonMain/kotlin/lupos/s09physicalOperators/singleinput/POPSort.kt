@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -21,11 +22,6 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPSort : POPBase {
-    override val operatorID = EOperatorID.POPSortID
-    override val classname = "POPSort"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
     @JvmField
     var data: MutableList<ResultRow>? = null
     @JvmField
@@ -36,6 +32,14 @@ class POPSort : POPBase {
     var sortBy: Variable
     @JvmField
     val sortOrder: Boolean
+
+    constructor(query:Query, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super(query,EOperatorID.POPSortID,"POPSort",ResultSet(dictionary),arrayOf(child)) {
+        this.sortOrder = sortOrder
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        for (name in children[0].getProvidedVariableNames())
+            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
+        this.sortBy = resultSet.createVariable(sortBy.name)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPSort)
@@ -86,17 +90,6 @@ class POPSort : POPBase {
 
 
     override fun cloneOP() = POPSort(dictionary, AOPVariable(resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
-
-    constructor(dictionary: ResultSetDictionary, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
-        this.sortOrder = sortOrder
-        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (name in children[0].getProvidedVariableNames())
-            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
-        this.sortBy = resultSet.createVariable(sortBy.name)
-    }
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPSort.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)

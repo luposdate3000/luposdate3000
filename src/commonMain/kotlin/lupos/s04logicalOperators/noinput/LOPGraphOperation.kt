@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -8,16 +9,14 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGraphOperation(@JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
+class LOPGraphOperation(query:Query,
+			@JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
                         var silent: Boolean = false,
                         var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph1iri: String? = null,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null
-) : LOPBase() {
-    override val operatorID = EOperatorID.LOPGraphOperationID
-    override val classname = "LOPGraphOperation"
-    override val children: Array<OPBase> = arrayOf()
+) : LOPBase(query,EOperatorID.LOPGraphOperationID,"LOPGraphOperation",arrayOf()) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation)

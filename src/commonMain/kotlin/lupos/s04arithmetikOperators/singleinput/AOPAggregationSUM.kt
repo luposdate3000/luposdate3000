@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -17,10 +18,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationSUM(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
-    override val operatorID = EOperatorID.AOPAggregationSUMID
-    override val classname = "AOPAggregationSUM"
-    override val children: Array<OPBase> = Array(childs.size) { childs[it] }
+class AOPAggregationSUM(query:Query,@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query,EOperatorID.AOPAggregationSUMID, "AOPAggregationSUM",Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
 

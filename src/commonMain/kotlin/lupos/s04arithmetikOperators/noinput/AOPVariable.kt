@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,10 +10,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPVariable(@JvmField var name: String) : AOPBase() {
-    override val operatorID = EOperatorID.AOPVariableID
-    override val classname = "AOPVariable"
-    override val children: Array<OPBase> = arrayOf()
+class AOPVariable(query:Query,@JvmField var name: String) : AOPBase(query,EOperatorID.AOPVariableID,"AOPVariable",arrayOf()) {
 
     override fun toSparql(): String {
         return "?$name".replace("#", "LuposVariable")

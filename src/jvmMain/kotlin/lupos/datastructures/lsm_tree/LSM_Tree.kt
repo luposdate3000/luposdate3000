@@ -1,4 +1,5 @@
 package lupos.datastructures.lsm_tree
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 

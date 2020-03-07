@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID

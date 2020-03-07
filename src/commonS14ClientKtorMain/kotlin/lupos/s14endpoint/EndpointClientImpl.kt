@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+import lupos.s04logicalOperators.Query
 
 import io.ktor.client.*
 import io.ktor.client.engine.*

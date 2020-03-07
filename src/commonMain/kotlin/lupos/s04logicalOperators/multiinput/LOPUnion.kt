@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -6,11 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPUnion(first: OPBase, second: OPBase) : LOPBase() {
-    override val operatorID = EOperatorID.LOPUnionID
-    override val classname = "LOPUnion"
-
-    override val children: Array<OPBase> = arrayOf(first, second)
+class LOPUnion(query:Query,first: OPBase, second: OPBase) : LOPBase(query,EOperatorID.LOPUnionID,"LOPUnion", arrayOf(first, second)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPUnion)

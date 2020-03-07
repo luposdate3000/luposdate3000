@@ -1,14 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPUndef : AOPConstant() {
-    override val operatorID = EOperatorID.AOPUndefID
-    override val classname = "AOPUndef"
-    override val children: Array<OPBase> = arrayOf()
+class AOPUndef(query:Query) : AOPConstant(query,EOperatorID.AOPUndefID,"AOPUndef") {
 
 
     override fun valueToString(): String? = null

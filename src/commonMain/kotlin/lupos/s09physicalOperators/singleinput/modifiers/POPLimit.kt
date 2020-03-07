@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -18,11 +19,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPLimit(override val dictionary: ResultSetDictionary, @JvmField val limit: Int, child: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPLimitID
-    override val classname = "POPLimit"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(child)
+class POPLimit(query:Query, @JvmField val limit: Int, child: OPBase) : POPBase(query,EOperatorID.POPLimitID,"POPLimit", ResultSet(dictionary),arrayOf(child)) {
 
     override fun toSparql(): String {
         val sparql = children[0].toSparql()

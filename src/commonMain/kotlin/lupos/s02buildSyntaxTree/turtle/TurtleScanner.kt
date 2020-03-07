@@ -1,4 +1,5 @@
 package lupos.s02buildSyntaxTree.turtle
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LexerCharIterator

@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,10 +13,7 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallMONTH(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallMONTHID
-    override val classname = "AOPBuildInCallMONTH"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallMONTH(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallMONTHID,"AOPBuildInCallMONTH", arrayOf(child)) {
 
     override fun toSparql() = "MONTH(" + children[0].toSparql() + ")"
 

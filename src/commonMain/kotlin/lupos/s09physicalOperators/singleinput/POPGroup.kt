@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -25,11 +26,6 @@ import lupos.s09physicalOperators.singleinput.POPBind
 
 
 class POPGroup : POPBase {
-    override val operatorID = EOperatorID.POPGroupID
-    override val classname = "POPGroup"
-    override val resultSet: ResultSet
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
     @JvmField
     var by: List<AOPVariable>
     @JvmField
@@ -72,10 +68,7 @@ class POPGroup : POPBase {
             return POPGroup(dictionary, by, null, children[0].cloneOP())
     }
 
-    constructor(dictionary: ResultSetDictionary, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        children[0] = child
+    constructor(query:Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query,EOperatorID.POPGroupID,"POPGroup",ResultSet(dictionary),arrayOf(child)) {
         this.by = by
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var tmpBind: OPBase? = bindings

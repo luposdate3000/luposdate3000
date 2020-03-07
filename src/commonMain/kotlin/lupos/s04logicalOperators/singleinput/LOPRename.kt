@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -8,10 +9,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPRename(@JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPRenameID
-    override val classname = "LOPRename"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPRename(query:Query,@JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPRenameID,"LOPRename",arrayOf(child)) {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         val localProvide = children[0].getProvidedVariableNames()

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -26,18 +27,14 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPGraphOperation(override val dictionary: ResultSetDictionary,
+class POPGraphOperation(query:Query,
                         val transactionID: Long,
                         val silent: Boolean,
                         var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph1iri: String? = null,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null,
-                        val action: EGraphOperationType) : POPBase() {
-    override val operatorID = EOperatorID.POPGraphOperationID
-    override val classname = "POPGraphOperation"
-    override val children: Array<OPBase> = arrayOf()
-    override val resultSet = ResultSet(dictionary)
+                        val action: EGraphOperationType) : POPBase(query,EOperatorID.POPGraphOperationID,"POPGraphOperation",ResultSet(dictionary), arrayOf()) {
 
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {

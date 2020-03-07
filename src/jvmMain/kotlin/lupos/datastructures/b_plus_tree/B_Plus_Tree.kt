@@ -1,4 +1,5 @@
 package lupos.datastructures.b_plus_tree
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.ceil

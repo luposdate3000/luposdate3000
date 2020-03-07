@@ -1,4 +1,5 @@
 package lupos.s12p2p
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay

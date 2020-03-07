@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -17,11 +18,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPRename(override val dictionary: ResultSetDictionary, @JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPRenameID
-    override val classname = "POPRename"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(child)
+class POPRename(query:Query, @JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase) : POPBase(query,EOperatorID.POPRenameID,"POPRename", ResultSet(dictionary),arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPRename)
             return false

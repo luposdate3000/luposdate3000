@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -7,10 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOptional(child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPOptionalID
-    override val classname = "LOPOptional"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPOptional(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPOptionalID,"LOPOptional",arrayOf(child)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPOptional)

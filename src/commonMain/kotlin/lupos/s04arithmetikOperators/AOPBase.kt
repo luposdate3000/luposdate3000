@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,11 +10,11 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
 
 
-abstract class AOPBase : OPBase() {
-    override val operatorID = EOperatorID.AOPBaseID
-    override val classname = "AOPBase"
-
-    override val resultSet = ResultSet(ResultSetDictionary())
+abstract class AOPBase(query:Query,
+operatorID: EOperatorID,
+classname: String,
+ children: Array<OPBase>) :
+ OPBase(query,operatorID,classname,ResultSet(ResultSetDictionary()),children) {
     override fun evaluate() = throw Exception("not implemented $classname.evaluate")
     abstract fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant
 }

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -6,10 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPJoin(first: OPBase, second: OPBase, @JvmField val optional: Boolean) : LOPBase() {
-    override val operatorID = EOperatorID.LOPJoinID
-    override val classname = "LOPJoin"
-    override val children: Array<OPBase> = arrayOf(first, second)
+class LOPJoin(query:Query,first: OPBase, second: OPBase, @JvmField val optional: Boolean) : LOPBase(query,EOperatorID.LOPJoinID,"LOPJoin",arrayOf(first, second)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
 

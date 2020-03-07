@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput.modifiers
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -7,10 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPDistinct(child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPDistinctID
-    override val classname = "LOPDistinct"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPDistinct(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPDistinctID,"LOPDistinct",arrayOf(child)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPDistinct)

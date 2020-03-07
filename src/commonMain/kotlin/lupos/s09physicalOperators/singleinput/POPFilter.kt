@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -19,11 +20,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPFilter(override val dictionary: ResultSetDictionary, filter: AOPBase, child: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPFilterID
-    override val classname = "POPFilter"
-    override val resultSet = child.resultSet
-    override val children = arrayOf(child, filter)
+class POPFilter(query:Query, filter: AOPBase, child: OPBase) : POPBase(query,EOperatorID.POPFilterID,"POPFilter", child.resultSet,arrayOf(child, filter)) {
     override fun childrenToVerifyCount() = 1
 
     override fun toSparql(): String {

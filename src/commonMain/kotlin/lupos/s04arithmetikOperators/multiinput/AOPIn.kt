@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -10,10 +11,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPInID
-    override val classname = "AOPIn"
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class AOPIn(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPInID,"AOPIn",arrayOf(childA, childB)) {
 
     override fun toSparql() = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"
 
@@ -40,5 +38,5 @@ class AOPIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
             return AOPBoolean(false)
     }
 
-    override fun cloneOP() = AOPIn(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPIn(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

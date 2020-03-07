@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput.modifiers
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -7,10 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPPrefix(@JvmField val name: String, @JvmField val iri: String, child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPPrefixID
-    override val classname = "LOPPrefix"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPPrefix(query:Query,@JvmField val name: String, @JvmField val iri: String, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPPrefixID,"LOPPrefix", arrayOf(child)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
 

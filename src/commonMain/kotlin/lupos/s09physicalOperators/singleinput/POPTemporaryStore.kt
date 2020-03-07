@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -17,11 +18,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPTemporaryStore(override val dictionary: ResultSetDictionary, child: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPTemporaryStoreID
-    override val classname = "POPTemporaryStore"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(child)
+class POPTemporaryStore(query:Query, child: OPBase) : POPBase(query, EOperatorID.POPTemporaryStoreID,"POPTemporaryStore",ResultSet(dictionary),arrayOf(child)) {
     @JvmField
     val data = mutableListOf<ResultRow>()
 

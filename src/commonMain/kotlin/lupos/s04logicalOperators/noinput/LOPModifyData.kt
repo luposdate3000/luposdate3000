@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EModifyType
@@ -8,10 +9,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPModifyData(@JvmField val type: EModifyType, @JvmField val data: MutableList<LOPTriple> = mutableListOf<LOPTriple>()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPModifyDataID
-    override val classname = "LOPModifyData"
-    override val children: Array<OPBase> = arrayOf()
+class LOPModifyData(query:Query,@JvmField val type: EModifyType, @JvmField val data: MutableList<LOPTriple> = mutableListOf<LOPTriple>()) : LOPBase(query,EOperatorID.LOPModifyDataID,"LOPModifyData",arrayOf()) {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")

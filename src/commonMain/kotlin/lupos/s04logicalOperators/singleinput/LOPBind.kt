@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,10 +10,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPBind(@JvmField val name: AOPVariable, expression: AOPBase, child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPBindID
-    override val classname = "LOPBind"
-    override val children: Array<OPBase> = arrayOf(child, expression)
+class LOPBind(query:Query,@JvmField val name: AOPVariable, expression: AOPBase, child: OPBase = OPNothing()) : LOPBase(query, EOperatorID.LOPBindID,"LOPBind",arrayOf(child, expression)) {
 
     override fun childrenToVerifyCount(): Int = 1
 

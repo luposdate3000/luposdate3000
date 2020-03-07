@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import com.soywiz.krypto.sha1
 import kotlin.jvm.JvmField
@@ -14,10 +15,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 @UseExperimental(ExperimentalStdlibApi::class)
-class AOPBuildInCallSHA1(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallSHA1ID
-    override val classname = "AOPBuildInCallSHA1"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallSHA1(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallSHA1ID,"AOPBuildInCallSHA1", arrayOf(child)) {
 
     override fun toSparql() = "SHA1(" + children[0].toSparql() + ")"
 

@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.roundToInt
@@ -14,10 +15,7 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallROUNDID
-    override val classname = "AOPBuildInCallROUND"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallROUND(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallROUNDID,"AOPBuildInCallROUND", arrayOf(child)) {
 
     override fun toSparql() = "ROUND(" + children[0].toSparql() + ")"
 

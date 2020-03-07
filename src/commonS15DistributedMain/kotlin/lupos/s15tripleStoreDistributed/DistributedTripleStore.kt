@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel

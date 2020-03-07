@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,10 +13,7 @@ import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallURI(child: AOPBase, @JvmField var prefix: String = "") : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallURIID
-    override val classname = "AOPBuildInCallURI"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallURI(query:Query,child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID,"AOPBuildInCallURI",arrayOf(child)) {
 
     override fun toSparql() = "URI(" + children[0].toSparql() + ")"
     override fun applyPrefix(prefix: String, iri: String) {

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -14,11 +15,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
-    override val operatorID = EOperatorID.POPEmptyRowID
-    override val classname = "POPEmptyRow"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf()
+class POPEmptyRow(query:Query) : POPBase(query,EOperatorID.POPEmptyRowID,"POPEmptyRow",ResultSet(dictionary),arrayOf()) {
     @JvmField
     var first = true
 

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput.modifiers
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -7,10 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPOffset(@JvmField val offset: Int, child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPOffsetID
-    override val classname = "LOPOffset"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPOffset(query:Query,@JvmField val offset: Int, child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPOffsetID,"LOPOffset",arrayOf(child)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 

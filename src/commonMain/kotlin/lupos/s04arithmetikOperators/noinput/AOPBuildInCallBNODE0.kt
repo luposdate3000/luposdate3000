@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -10,10 +11,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallBNODE0 : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallBNODE0ID
-    override val classname = "AOPBuildInCallBNODE0"
-    override val children: Array<OPBase> = arrayOf()
+class AOPBuildInCallBNODE0(query:Query) : AOPBase(query,EOperatorID.AOPBuildInCallBNODE0ID,"AOPBuildInCallBNODE0",arrayOf()) {
 
     override fun toSparql() = "BNODE()"
 

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -23,11 +24,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify(override val dictionary: ResultSetDictionary, @JvmField val transactionID: Long, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPModifyID
-    override val classname = "POPModify"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(child)
+class POPModify(query:Query, @JvmField val transactionID: Long, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query,EOperatorID.POPModifyID,"POPModify", ResultSet(dictionary),arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPModify)
             return false

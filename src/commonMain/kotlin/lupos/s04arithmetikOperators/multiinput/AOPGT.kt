@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -16,10 +17,7 @@ import lupos.s04arithmetikOperators.noinput.AOPXPathCompareable
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val operatorID = EOperatorID.AOPGTID
-    override val classname = "AOPGT"
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class AOPGT(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query,EOperatorID.AOPGTID,"AOPGT",arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " > " + children[1].toSparql() + ")"
 
@@ -41,5 +39,5 @@ class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         })
     }
 
-    override fun cloneOP() = AOPGT(children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPGT(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput.modifiers
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -7,10 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPReduced(child: OPBase = OPNothing()) : LOPBase() {
-    override val operatorID = EOperatorID.LOPReducedID
-    override val classname = "LOPReduced"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPReduced(query:Query,child: OPBase = OPNothing()) : LOPBase(query,EOperatorID.LOPReducedID,"LOPReduced",arrayOf(child)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPReduced)

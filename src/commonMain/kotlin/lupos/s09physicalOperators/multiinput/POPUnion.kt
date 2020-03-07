@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -17,11 +18,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPUnion(override val dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase) : POPBase() {
-    override val operatorID = EOperatorID.POPUnionID
-    override val classname = "POPUnion"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class POPUnion(query:Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID,"POPUnion",ResultSet(dictionary),arrayOf(childA, childB)) {
 
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
 

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -8,10 +9,10 @@ import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPModify(@JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), @JvmField val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(), child: OPBase) : LOPBase() {
-    override val operatorID = EOperatorID.LOPModifyID
-    override val classname = "LOPModify"
-    override val children: Array<OPBase> = arrayOf(child)
+class LOPModify(query:Query,
+@JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
+ @JvmField val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
+ child: OPBase) : LOPBase(query, EOperatorID.LOPModifyID,"LOPModify",arrayOf(child)) {
 
     override fun getProvidedVariableNames() = mutableListOf<String>()
 

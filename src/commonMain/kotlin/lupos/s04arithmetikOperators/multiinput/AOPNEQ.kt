@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,10 +13,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPNEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val operatorID = EOperatorID.AOPNEQID
-    override val classname = "AOPNEQ"
-    override val children: Array<OPBase> = arrayOf(childA, childB)
+class AOPNEQ(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query,EOperatorID.AOPNEQID,"AOPNEQ", arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " != " + children[1].toSparql() + ")"
 

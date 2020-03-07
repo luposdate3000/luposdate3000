@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -16,10 +17,7 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPAggregationAVG(@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase() {
-    override val operatorID = EOperatorID.AOPAggregationAVGID
-    override val classname = "AOPAggregationAVG"
-    override val children: Array<OPBase> = Array(childs.size) { childs[it] }
+class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID,"AOPAggregationAVG",Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
 

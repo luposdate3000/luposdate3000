@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -20,20 +21,15 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBase {
-    override val operatorID = EOperatorID.POPJoinNestedLoopID
-    override val classname = "POPJoinNestedLoop"
-    override val dictionary: ResultSetDictionary
-    override val resultSet: ResultSet
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     @JvmField
     val optional: Boolean
     @JvmField
     val joinVariables = mutableListOf<String>()
-    private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
-    private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
-    private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
-    private var resultRowA: ResultRow? = null
-    private var hadMatchForA = false
+     val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
+     val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
+     val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
+     var resultRowA: ResultRow? = null
+     var hadMatchForA = false
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinNestedLoop)
@@ -49,9 +45,7 @@ class POPJoinNestedLoop : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
+    constructor(query:Query,dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super(query,EOperatorID.POPJoinNestedLoopID,"POPJoinNestedLoop",ResultSet(dictionary),arrayOf(OPNothing(), OPNothing())) {
         this.children[0] = childA
         this.children[1] = POPTemporaryStore(dictionary, childB)
         this.optional = optional

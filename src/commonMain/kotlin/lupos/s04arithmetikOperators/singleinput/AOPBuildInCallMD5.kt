@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s04logicalOperators.Query
 
 import com.soywiz.krypto.md5
 import kotlin.jvm.JvmField
@@ -14,10 +15,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 @UseExperimental(ExperimentalStdlibApi::class)
-class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
-    override val operatorID = EOperatorID.AOPBuildInCallMD5ID
-    override val classname = "AOPBuildInCallMD5"
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallMD5(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallMD5ID,"AOPBuildInCallMD5",arrayOf(child)) {
 
     override fun toSparql() = "MD5(" + children[0].toSparql() + ")"
 

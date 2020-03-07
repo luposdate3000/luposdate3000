@@ -1,14 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBnode(@JvmField var value: String) : AOPConstant() {
-    override val operatorID = EOperatorID.AOPBnodeID
-    override val classname = "AOPBnode"
-    override val children: Array<OPBase> = arrayOf()
+class AOPBnode(query:Query,@JvmField var value: String) : AOPConstant(query,EOperatorID.AOPBnodeID,"AOPBnode",arrayOf()) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 

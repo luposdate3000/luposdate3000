@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,10 +10,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPValues(@JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase() {
-    override val operatorID = EOperatorID.LOPValuesID
-    override val classname = "LOPValues"
-    override val children: Array<OPBase> = Array(values.size) { values[it] }
+class LOPValues(query:Query,@JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query,EOperatorID.LOPValuesID,"LOPValues",Array(values.size) { values[it] }) {
 
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()

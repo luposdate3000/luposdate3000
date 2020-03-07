@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -16,11 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPImportFromXml(override val dictionary: ResultSetDictionary, @JvmField val data: XMLElement) : POPBase() {
-    override val operatorID = EOperatorID.POPImportFromXmlID
-    override val classname = "POPImportFromXml"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf()
+class POPImportFromXml(query:Query, @JvmField val data: XMLElement) : POPBase(query, EOperatorID.POPImportFromXmlID,"POPImportFromXml",ResultSet(dictionary),arrayOf()) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPImportFromXml)

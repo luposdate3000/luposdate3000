@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -23,12 +24,8 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModifyData(override val dictionary: ResultSetDictionary, @JvmField val transactionID: Long, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase() {
-    override val operatorID = EOperatorID.POPModifyDataID
-    override val classname = "POPModifyData"
-    override val resultSet = ResultSet(dictionary)
-    override val children: Array<OPBase> = arrayOf()
-    private var first = true
+class POPModifyData(query:Query, @JvmField val transactionID: Long, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query,EOperatorID.POPModifyDataID,"POPModifyData",ResultSet(dictionary),arrayOf()) {
+     var first = true
 
     override fun cloneOP() = POPModifyData(dictionary, transactionID, type, data)
     override fun toSparqlQuery() = toSparql()

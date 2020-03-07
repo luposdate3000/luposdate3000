@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators
+import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -15,11 +16,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 
-abstract class OPBase {
-    abstract val operatorID: EOperatorID
-    abstract val classname: String
-    abstract val resultSet: ResultSet
-    abstract val children: Array<OPBase>
+abstract class OPBase (val query:Query,val operatorID: EOperatorID,val classname: String, val resultSet: ResultSet,val children: Array<OPBase>){
 
     abstract fun evaluate(): Channel<ResultRow>
     abstract fun cloneOP(): OPBase
