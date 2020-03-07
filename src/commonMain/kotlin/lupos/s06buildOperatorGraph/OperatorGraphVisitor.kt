@@ -226,10 +226,12 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
+val res=LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
         if (node.existsValues()) {
+return LOPJoin(query,node.values!!.visit(this)!!,res!!,false)
             throw UnsupportedOperationException("${classNameToString(this)} Values ${classNameToString(node)}")
         }
-        return LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
+        return res
     }
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
