@@ -51,7 +51,7 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     CoroutinesHelper.runBlock {
         DistributedTripleStore.getDefaultGraph(query).addData(TripleInsertIterator(query, triple))
     }
-query.commit()
+    query.commit()
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)
@@ -73,7 +73,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         CoroutinesHelper.runBlock {
             DistributedTripleStore.getDefaultGraph(query).addData(POPImportFromXml(query, XMLElement.parseFromXml(data)!!.first()))
         }
-query.commit()
+        query.commit()
         return XMLElement("done")
     })
 
@@ -101,7 +101,7 @@ query.commit()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node) as POPBase
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
-q.commit()
+        q.commit()
         return QueryResultToXML.toXML(pop_distributed_node).first()
     })
 
@@ -110,7 +110,7 @@ q.commit()
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!.first()) as POPBase
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         val res = QueryResultToXML.toXML(pop_node).first()
-q.commit()
+        q.commit()
         return res
     })
 
@@ -133,7 +133,7 @@ q.commit()
         var responseBytes: ByteArray? = null
         when (path) {
             Endpoint.REQUEST_TRIPLE_ADD[0] -> {
-                val query = Query(transactionID= params[Endpoint.REQUEST_TRIPLE_ADD[2]]!!.toLong())
+                val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_ADD[2]]!!.toLong())
                 val s: AOPConstant = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[3]]!!)
                 val p: AOPConstant = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[4]]!!)
                 val o: AOPConstant = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[5]]!!)
@@ -142,7 +142,7 @@ q.commit()
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_ADD[6]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_TRIPLE_GET[0] -> {
-                val query = Query(transactionID= params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
+                val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
                 val s: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_GET[6]]!!.toBoolean())
                     s = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
@@ -163,7 +163,7 @@ q.commit()
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_GET[9]]!!)))
             }
             Endpoint.REQUEST_TRIPLE_DELETE[0] -> {
-                val query = Query(transactionID= params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
+                val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
                 val s: AOPBase
                 if (params[Endpoint.REQUEST_TRIPLE_DELETE[6]]!!.toBoolean())
                     s = AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3]]!!)
@@ -187,13 +187,13 @@ q.commit()
             Endpoint.REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()
             Endpoint.REQUEST_PEERS_SELF_TEST[0] -> responseStr = P2P.process_peers_self_test()
             Endpoint.REQUEST_COMMIT[0] -> {
-                val query = Query(transactionID= params[Endpoint.REQUEST_COMMIT[1]]!!.toLong())
+                val query = Query(transactionID = params[Endpoint.REQUEST_COMMIT[1]]!!.toLong())
                 responseStr = Endpoint.process_local_commit(query).toPrettyString()
             }
             Endpoint.REQUEST_PEERS_JOIN[0] -> responseStr = P2P.process_peers_join(params[Endpoint.REQUEST_PEERS_JOIN[1]]!!)
             Endpoint.REQUEST_PEERS_JOIN_INTERNAL[0] -> responseStr = P2P.process_peers_join_internal(params[Endpoint.REQUEST_PEERS_JOIN_INTERNAL[1]]!!)
             Endpoint.REQUEST_GRAPH_OPERATION[0] -> {
-                val query = Query(transactionID= params[Endpoint.REQUEST_GRAPH_OPERATION[2]]!!.toLong())
+                val query = Query(transactionID = params[Endpoint.REQUEST_GRAPH_OPERATION[2]]!!.toLong())
                 responseStr = Endpoint.process_local_graph_operation(query, params[Endpoint.REQUEST_GRAPH_OPERATION[1]]!!, EGraphOperationType.valueOf(params[Endpoint.REQUEST_GRAPH_OPERATION[3]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_OPERATOR_QUERY[0] -> {

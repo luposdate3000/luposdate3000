@@ -378,7 +378,7 @@ class SparqlTestSuite() {
             try {
                 val query3 = Query()
                 DistributedTripleStore.clearGraph(query3, PersistentStoreLocal.defaultGraphName)
-query3.commit()
+                query3.commit()
                 val toParse = readFileOrNull(queryFile)!!
                 if (toParse.contains("service", true)) {
                     updateAllMicroTest(testName, queryFile, false)
@@ -389,7 +389,7 @@ query3.commit()
                 val resultData = readFileOrNull(resultDataFileName)
                 val query2 = Query()
                 P2P.execGraphClearAll(query2)
-query2.commit()
+                query2.commit()
                 if (inputData != null && inputDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
@@ -400,7 +400,7 @@ query2.commit()
                         val tmp = POPImportFromXml(query, xmlQueryInput!!.first())
                         DistributedTripleStore.getDefaultGraph(query).addData(tmp)
                     }
-query.commit()
+                    query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
                     try {
                         jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
@@ -417,7 +417,7 @@ query.commit()
                     CoroutinesHelper.runBlock {
                         DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPImportFromXml(query, xmlQueryInput!!.first()))
                     }
-query.commit()
+                    query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
                     try {
                         jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
@@ -460,7 +460,7 @@ query.commit()
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
                     xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
-query.commit()
+                    query.commit()
                 }
                 var verifiedOutput = false
                 outputDataGraph.forEach {
@@ -518,7 +518,7 @@ query.commit()
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
                         val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
-query2.commit()
+                        query2.commit()
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString() })
                         if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                             if (expectedResult) {

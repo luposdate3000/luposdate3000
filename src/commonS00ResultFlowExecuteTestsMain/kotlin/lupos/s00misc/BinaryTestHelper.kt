@@ -410,7 +410,7 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                     val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
                     graph.addData(listOf(st, pt, ot))
                 }
-query.commit()
+                query.commit()
                 return DistributedTripleStore.getNamedGraph(query, graphName).getIterator(s, p, o, idx)
             }
             EOperatorID.POPValuesID -> {
@@ -633,7 +633,7 @@ fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
         val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
         graph.addData(listOf(st, pt, ot))
     }
-query.commit()
+    query.commit()
     return LOPTriple(query, s, p, o, graphName, false)
 }
 
@@ -997,7 +997,7 @@ fun executeBinaryTests(folder: String) {
                     tmp.forEach {
                         DistributedTripleStore.dropGraph(query, it)
                     }
-query.commit()
+                    query.commit()
                     executeBinaryTest(it, false)
                 }
             }
@@ -1060,7 +1060,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                         }
                     } catch (e: Throwable) {
                     }
-query.commit()
+                    query.commit()
                     if (buffer.pos > buffer.data.size / 2)
                         buffer.pos = buffer.data.size / 2
                 }
@@ -1120,7 +1120,7 @@ query.commit()
             }
         val jena = JenaRequest()
         P2P.execGraphClearAll(query)
-query.commit()
+        query.commit()
         try {
             for (sparql in globalSparql) {
                 var e1: Throwable? = null
@@ -1147,7 +1147,7 @@ query.commit()
                     require(node4.equals(node5))
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
-query.commit()
+                    query.commit()
                 } catch (e: Throwable) {
                     e1 = e
                 }
