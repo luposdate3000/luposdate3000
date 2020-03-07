@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -15,9 +14,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID,"AOPAggregationAVG",Array(childs.size) { childs[it] }) {
+class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
 
@@ -50,17 +50,17 @@ class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Arr
             })
         val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a.get() == null && b is AOPDouble)
-            a.set(AOPDouble(query,b.toDouble() / (0.0 + count.get())))
+            a.set(AOPDouble(query, b.toDouble() / (0.0 + count.get())))
         else if (a.get() == null && b is AOPDecimal)
-            a.set(AOPDecimal(query,b.toDouble() / (0.0 + count.get())))
+            a.set(AOPDecimal(query, b.toDouble() / (0.0 + count.get())))
         else if (a.get() == null && b is AOPInteger)
-            a.set(AOPDecimal(query,b.toDouble() / (0.0 + count.get())))
+            a.set(AOPDecimal(query, b.toDouble() / (0.0 + count.get())))
         else if (a.get() is AOPDouble || b is AOPDouble)
-            a.set(AOPDouble(query,a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+            a.set(AOPDouble(query, a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
         else if (a.get() is AOPDecimal || b is AOPDecimal)
-            a.set(AOPDecimal(query,a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+            a.set(AOPDecimal(query, a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
         else if (a.get() is AOPInteger || b is AOPInteger)
-            a.set(AOPDecimal(query,a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+            a.set(AOPDecimal(query, a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
         else
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 Exception("AOPAggregationAVG avg only defined on numberic input")
@@ -70,5 +70,5 @@ class AOPAggregationAVG(query:Query,@JvmField val distinct: Boolean, childs: Arr
         })
     }
 
-    override fun cloneOP() = AOPAggregationAVG(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationAVG(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

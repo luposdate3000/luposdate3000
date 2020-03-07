@@ -1,9 +1,9 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
 class AOPDateTime : AOPConstant, AOPXPathCompareable {
@@ -45,7 +45,7 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
         return 0
     }
 
-    constructor(query:Query) : super(query,EOperatorID.AOPDateTimeID,"AOPDateTime") {
+    constructor(query: Query) : super(query, EOperatorID.AOPDateTimeID, "AOPDateTime") {
         val time = com.soywiz.klock.DateTime.now()
         year = time.yearInt
         month = time.month1
@@ -57,7 +57,7 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
         timezoneMinutes = 0
     }
 
-    constructor(query:Query,str: String) : super(query,EOperatorID.AOPDateTimeID,"AOPDateTime") {
+    constructor(query: Query, str: String) : super(query, EOperatorID.AOPDateTimeID, "AOPDateTime") {
         if (str.length >= 10) {
             year = str.substring(1, 5).toInt()
             month = str.substring(6, 8).toInt()

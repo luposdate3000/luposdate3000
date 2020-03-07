@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -11,9 +10,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallTZ(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallTZID,"AOPBuildInCallTZ",arrayOf(child)) {
+class AOPBuildInCallTZ(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallTZID, "AOPBuildInCallTZ", arrayOf(child)) {
 
     override fun toSparql() = "TZ(" + children[0].toSparql() + ")"
 
@@ -27,12 +27,12 @@ class AOPBuildInCallTZ(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.A
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query,"\"", a.getTZ())
+                AOPSimpleLiteral(query, "\"", a.getTZ())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall TZ only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallTZ(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallTZ(query, children[0].cloneOP() as AOPBase)
 }

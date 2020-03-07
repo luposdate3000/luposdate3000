@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -16,9 +15,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallDATATYPE(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallDATATYPEID,"AOPBuildInCallDATATYPE",arrayOf(child)) {
+class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallDATATYPEID, "AOPBuildInCallDATATYPE", arrayOf(child)) {
 
     override fun toSparql() = "DATATYPE(" + children[0].toSparql() + ")"
 
@@ -32,28 +32,28 @@ class AOPBuildInCallDATATYPE(query:Query,child: AOPBase) : AOPBase(query,EOperat
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         when (a) {
             is AOPSimpleLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/2001/XMLSchema#string")
+                AOPIri(query, "http://www.w3.org/2001/XMLSchema#string")
             })
             is AOPLanguageTaggedLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
+                AOPIri(query, "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
             })
             is AOPTypedLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,a.type_iri)
+                AOPIri(query, a.type_iri)
             })
             is AOPBoolean -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/2001/XMLSchema#boolean")
+                AOPIri(query, "http://www.w3.org/2001/XMLSchema#boolean")
             })
             is AOPDateTime -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/2001/XMLSchema#dateTime")
+                AOPIri(query, "http://www.w3.org/2001/XMLSchema#dateTime")
             })
             is AOPDecimal -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/2001/XMLSchema#decimal")
+                AOPIri(query, "http://www.w3.org/2001/XMLSchema#decimal")
             })
             is AOPDouble -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/2001/XMLSchema#double")
+                AOPIri(query, "http://www.w3.org/2001/XMLSchema#double")
             })
             is AOPInteger -> return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPIri(query,"http://www.w3.org/2001/XMLSchema#integer")
+                AOPIri(query, "http://www.w3.org/2001/XMLSchema#integer")
             })
         }
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -61,5 +61,5 @@ class AOPBuildInCallDATATYPE(query:Query,child: AOPBase) : AOPBase(query,EOperat
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallDATATYPE(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallDATATYPE(query, children[0].cloneOP() as AOPBase)
 }

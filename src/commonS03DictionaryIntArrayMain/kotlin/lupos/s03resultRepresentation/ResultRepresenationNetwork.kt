@@ -1,5 +1,4 @@
 package lupos.s03resultRepresentation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -10,6 +9,7 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
@@ -84,7 +84,7 @@ object ResultRepresenationNetwork {
         return res.finish()
     }
 
-    fun fromNetworkPackage(query:Query,data: ByteArray): POPBase {
+    fun fromNetworkPackage(query: Query, data: ByteArray): POPBase {
         val d = DynamicByteArray(data)
         return POPImportFromNetworkPackage(query, d)
     }
@@ -95,7 +95,7 @@ object ResultRepresenationNetwork {
         val data: DynamicByteArray
         val variables = mutableListOf<Variable>()
 
-        constructor(query:Query, data: DynamicByteArray) :super(query,EOperatorID.POPImportFromNetworkPackageID,"POPImportFromNetworkPackage",ResultSet(query.dictionary),arrayOf()){
+        constructor(query: Query, data: DynamicByteArray) : super(query, EOperatorID.POPImportFromNetworkPackageID, "POPImportFromNetworkPackage", ResultSet(query.dictionary), arrayOf()) {
             this.data = data
             val variablesCount = data.getNextInt()
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read variablecount $variablesCount" })

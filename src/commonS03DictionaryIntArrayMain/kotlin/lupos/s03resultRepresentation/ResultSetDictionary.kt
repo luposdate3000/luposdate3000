@@ -1,10 +1,10 @@
 package lupos.s03resultRepresentation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
+import lupos.s04logicalOperators.Query
 
 
 class ResultSetDictionary {

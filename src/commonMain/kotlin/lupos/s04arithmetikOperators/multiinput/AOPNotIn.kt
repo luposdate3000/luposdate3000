@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -9,9 +8,10 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPNotIn(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPNotInID,"AOPNotIn", arrayOf(childA, childB)) {
+class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
 
     override fun toSparql() = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
 
@@ -31,12 +31,12 @@ class AOPNotIn(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOp
         if (b is AOPSet) {
             for (c in b.children) {
                 if ((c as AOPBase).calculate(resultSet, resultRow) == a)
-                    return AOPBoolean(query,false)
+                    return AOPBoolean(query, false)
             }
-            return AOPBoolean(query,true)
+            return AOPBoolean(query, true)
         } else
-            return AOPBoolean(query,false)
+            return AOPBoolean(query, false)
     }
 
-    override fun cloneOP() = AOPNotIn(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPNotIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -11,9 +10,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallTIMEZONE(query:Query,child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallTIMEZONEID,"AOPBuildInCallTIMEZONE",arrayOf(child)) {
+class AOPBuildInCallTIMEZONE(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallTIMEZONEID, "AOPBuildInCallTIMEZONE", arrayOf(child)) {
 
     override fun toSparql() = "TIMEZONE(" + children[0].toSparql() + ")"
 
@@ -27,12 +27,12 @@ class AOPBuildInCallTIMEZONE(query:Query,child: AOPBase) : AOPBase(query, EOpera
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query,"\"", a.getTimeZone())
+                AOPSimpleLiteral(query, "\"", a.getTimeZone())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall TIMEZONE only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallTIMEZONE(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallTIMEZONE(query, children[0].cloneOP() as AOPBase)
 }

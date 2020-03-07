@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
@@ -9,10 +8,11 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
-class LogicalOptimizerArithmetic(query:Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
+class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"
     fun hasAggregation(node: OPBase): Boolean {
         for (n in node.children)

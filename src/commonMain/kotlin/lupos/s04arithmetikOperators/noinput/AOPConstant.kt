@@ -1,14 +1,14 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.Query
 
 
-abstract class AOPConstant(query:Query,operatorID: EOperatorID, classname: String) : AOPBase(query,operatorID,classname,arrayOf()), Comparable<AOPConstant> {
+abstract class AOPConstant(query: Query, operatorID: EOperatorID, classname: String) : AOPBase(query, operatorID, classname, arrayOf()), Comparable<AOPConstant> {
     abstract fun valueToString(): String?
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant = this
     abstract fun toDouble(): Double

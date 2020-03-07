@@ -1,8 +1,8 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
+import lupos.s04logicalOperators.Query
 
 
 class ThreadSafeMutableMap<k, v>() {

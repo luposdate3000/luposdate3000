@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import com.soywiz.krypto.sha1
 import kotlin.jvm.JvmField
@@ -12,10 +11,11 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
 @UseExperimental(ExperimentalStdlibApi::class)
-class AOPBuildInCallSHA1(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallSHA1ID,"AOPBuildInCallSHA1", arrayOf(child)) {
+class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child)) {
 
     override fun toSparql() = "SHA1(" + children[0].toSparql() + ")"
 
@@ -29,14 +29,14 @@ class AOPBuildInCallSHA1(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query,a.delimiter, a.content.encodeToByteArray().sha1().toHexString2())
+                AOPSimpleLiteral(query, a.delimiter, a.content.encodeToByteArray().sha1().toHexString2())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall SHA1 only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSHA1(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSHA1(query, children[0].cloneOP() as AOPBase)
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)

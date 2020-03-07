@@ -1,5 +1,4 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -66,6 +65,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -356,7 +356,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[0], buffer, asPOP)
         }
         is POPSort -> {
-            toBinary(AOPVariable(operator.query,operator.resultSet.getVariable(operator.sortBy)), buffer, asPOP)
+            toBinary(AOPVariable(operator.query, operator.resultSet.getVariable(operator.sortBy)), buffer, asPOP)
             buffer.appendInt(DynamicByteArray.boolToInt(operator.sortOrder))
             toBinary(operator.children[0], buffer, asPOP)
         }

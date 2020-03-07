@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -13,9 +12,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPNumeric
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallIsNUMERIC(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallIsNUMERICID,"AOPBuildInCallIsNUMERIC",arrayOf(child)) {
+class AOPBuildInCallIsNUMERIC(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIsNUMERICID, "AOPBuildInCallIsNUMERIC", arrayOf(child)) {
     override fun toSparql() = "isNumeric(" + children[0].toSparql() + ")"
 
     override fun equals(other: Any?): Boolean {
@@ -31,9 +31,9 @@ class AOPBuildInCallIsNUMERIC(query:Query,child: AOPBase) : AOPBase(query,EOpera
                 Exception("typeError")
             })
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(query,a is AOPNumeric)
+            AOPBoolean(query, a is AOPNumeric)
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallIsNUMERIC(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallIsNUMERIC(query, children[0].cloneOP() as AOPBase)
 }

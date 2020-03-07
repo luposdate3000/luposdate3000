@@ -1,5 +1,4 @@
 package lupos.datastructures.radix_tree
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -10,6 +9,7 @@ import lupos.s01io.buffer.bufferManager
 import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.toBytesUTF
 import lupos.s01io.buffer.toStringUTF
+import lupos.s04logicalOperators.Query
 
 
 class NotFoundException : Exception()

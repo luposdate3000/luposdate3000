@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -18,10 +17,11 @@ import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPBind(query:Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query,EOperatorID.POPBindID,"POPBind",ResultSet(query.dictionary), arrayOf(child, value)) {
+class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPBindID, "POPBind", ResultSet(query.dictionary), arrayOf(child, value)) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPBind)
@@ -40,7 +40,7 @@ class POPBind(query:Query, @JvmField val name: AOPVariable, value: AOPBase, chil
             return children[0].toSparql()
         var res = "{SELECT "
         for (v in children[0].getProvidedVariableNames())
-            res += AOPVariable(query,v).toSparql() + " "
+            res += AOPVariable(query, v).toSparql() + " "
         res += "(" + children[1].toSparql() + " as " + name.toSparql() + "){"
         res += children[0].toSparql()
         res += "}}"

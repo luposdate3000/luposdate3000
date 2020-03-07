@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -14,12 +13,13 @@ import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-abstract class AOPAggregationBase(query:Query,
-operatorID: EOperatorID,
-classname: String,
- children: Array<OPBase>) : AOPBase(query,operatorID,classname,children) {
+abstract class AOPAggregationBase(query: Query,
+                                  operatorID: EOperatorID,
+                                  classname: String,
+                                  children: Array<OPBase>) : AOPBase(query, operatorID, classname, children) {
     @JvmField
     var a = ThreadSafeMutableAny<AOPConstant?>(null)
     @JvmField

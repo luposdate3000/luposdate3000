@@ -1,10 +1,10 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
+import lupos.s04logicalOperators.Query
 
 
 @UseExperimental(kotlin.time.ExperimentalTime::class)

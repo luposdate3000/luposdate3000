@@ -1,7 +1,7 @@
 package lupos.s01io.buffer
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.Query
 
 
 typealias Page = ByteArrayPage

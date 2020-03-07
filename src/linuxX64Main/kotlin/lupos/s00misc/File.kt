@@ -1,5 +1,4 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import dirent.closedir
 import dirent.opendir
@@ -9,6 +8,7 @@ import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
+import lupos.s04logicalOperators.Query
 import platform.posix.FILE
 import stdio.fclose
 import stdio.fgets

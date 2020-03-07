@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
@@ -17,6 +16,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04logicalOperators.Query
 
 
 class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmField val components: Int) {
@@ -262,7 +262,7 @@ class TripleStoreLocal {
     @JvmField
     val pendingModifications = Array(EIndexPattern.values().size) { ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
 
-    fun modifyData(query:Query, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
+    fun modifyData(query: Query, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
         var tmp = pendingModifications[idx.ordinal][query.transactionID]
         if (tmp == null) {
             tmp = ThreadSafeMutableSet()
@@ -289,7 +289,7 @@ class TripleStoreLocal {
         tripleStoreSPO.clear()
     })
 
-    fun commit2(query:Query) = Trace.trace({ "TripleStoreLocal.commit2" }, {
+    fun commit2(query: Query) = Trace.trace({ "TripleStoreLocal.commit2" }, {
         CoroutinesHelper.runBlock {
             EIndexPattern.values().forEach {
                 val tmp = pendingModifications[it.ordinal][query.transactionID]
@@ -402,14 +402,14 @@ class TripleStoreLocal {
         }
     })
 
-    fun addData(query:Query, ss: AOPConstant, ps: AOPConstant, os: AOPConstant, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
+    fun addData(query: Query, ss: AOPConstant, ps: AOPConstant, os: AOPConstant, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         val vals = resultSet.createValue(ss.valueToString())
         val valp = resultSet.createValue(ps.valueToString())
         val valo = resultSet.createValue(os.valueToString())
         modifyData(query, vals, valp, valo, EModifyType.INSERT, idx)
     })
 
-    fun deleteDataVar(query:Query, sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
+    fun deleteDataVar(query: Query, sparam: AOPBase, pparam: AOPBase, oparam: AOPBase, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         CoroutinesHelper.runBlock {
             var tmp = 0
             if (sparam is AOPConstant)
@@ -434,12 +434,12 @@ class TripleStoreLocal {
         }
     })
 
-    fun getIterator(query:Query, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
-        return TripleStoreIteratorLocal(query,resultSet, this, index)
+    fun getIterator(query: Query, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
+        return TripleStoreIteratorLocal(query, resultSet, this, index)
     })
 
-    fun getIterator(query:Query, resultSet: ResultSet, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
-        val res = TripleStoreIteratorLocalFilter(query,resultSet, this, index)
+    fun getIterator(query: Query, resultSet: ResultSet, s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
+        val res = TripleStoreIteratorLocalFilter(query, resultSet, this, index)
         res.sparam = s
         res.pparam = p
         res.oparam = o

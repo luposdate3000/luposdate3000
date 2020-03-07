@@ -1,5 +1,4 @@
 package lupos.s06buildOperatorGraph
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -174,6 +173,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
@@ -195,7 +195,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.*
 
 
-class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
+class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
     val queryExecutionStartTime = AOPDateTime(query) /*required for BuildInCall.NOW */
 
@@ -222,14 +222,14 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
-        return LOPMakeBooleanResult(query,visitSelectBase(node, arrayOf(), false, false))
+        return LOPMakeBooleanResult(query, visitSelectBase(node, arrayOf(), false, false))
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         if (node.existsValues()) {
             throw UnsupportedOperationException("${classNameToString(this)} Values ${classNameToString(node)}")
         }
-        return LOPSubGroup(query,visit(node as ASTSelectQuery, childrenValues))
+        return LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
     }
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
@@ -253,18 +253,18 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                         if (allNamesBind.contains(sel.name))
                             throw Exception("projection must not contain same variable as bind and selection ${sel.name}")
                         allNamesSelect.add(sel.name)
-                        projection.variables.add(AOPVariable(query,sel.name))
+                        projection.variables.add(AOPVariable(query, sel.name))
                     }
                     is ASTAs -> {
                         if (allNamesSelect.contains(sel.variable.name))
                             throw Exception("projection must not contain same variable as bind and selection ${sel.variable.name}")
                         allNamesBind.add(sel.variable.name)
-                        val v = AOPVariable(query,sel.variable.name)
+                        val v = AOPVariable(query, sel.variable.name)
                         projection.variables.add(v)
                         val tmp3 = sel.expression.visit(this) as AOPBase
                         if (tmp3.getRequiredVariableNamesRecoursive().contains(v.name))
                             throw Exception("variable must not be recoursively defined $v")
-                        val tmp2 = LOPBind(query,v, tmp3)
+                        val tmp2 = LOPBind(query, v, tmp3)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
                         if (bind != null)
                             bind = mergeLOPBind(bind, tmp2)
@@ -282,10 +282,10 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         if (select.size == 0) {
             for (s in childNode.getProvidedVariableNames()) {
                 if (!s.startsWith("#"))
-                    projection.variables.add(AOPVariable(query,s))
+                    projection.variables.add(AOPVariable(query, s))
             }
         }
-        return LOPSubGroup(query,result)
+        return LOPSubGroup(query, result)
     }
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
@@ -316,38 +316,38 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 val p = template.children[1] as AOPBase
                 val o = template.children[2] as AOPBase
                 if (s is AOPVariable)
-                    tmp = LOPRename(query,AOPVariable(query,"s"), AOPVariable(query,s.name), tmp)
+                    tmp = LOPRename(query, AOPVariable(query, "s"), AOPVariable(query, s.name), tmp)
                 else
-                    tmp = LOPBind(query,AOPVariable(query,"s"), s, tmp)
+                    tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
                 if (p is AOPVariable)
-                    tmp = LOPRename(query,AOPVariable(query,"p"), AOPVariable(query,p.name), tmp)
+                    tmp = LOPRename(query, AOPVariable(query, "p"), AOPVariable(query, p.name), tmp)
                 else
-                    tmp = LOPBind(query,AOPVariable(query,"p"), p, tmp)
+                    tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
                 if (o is AOPVariable)
-                    tmp = LOPRename(query,AOPVariable(query,"o"), AOPVariable(query,o.name), tmp)
+                    tmp = LOPRename(query, AOPVariable(query, "o"), AOPVariable(query, o.name), tmp)
                 else
-                    tmp = LOPBind(query,AOPVariable(query,"o"), o, tmp)
+                    tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
             } else
                 throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
-            tmp = LOPProjection(query,mutableListOf(AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o")), tmp)
+            tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)
             if (result == null)
                 result = tmp
             else
-                result = LOPUnion(query,result, tmp)
+                result = LOPUnion(query, result, tmp)
         }
         if (result == null)
             return LOPNOOP(query)
-        return LOPDistinct(query,result)
+        return LOPDistinct(query, result)
     }
 
     fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean): OPBase {
         var bind = bindp
         val result = LOPNOOP(query)
         if (node.existsLimit()) {
-            result.getLatestChild().setChild(LOPLimit(query,node.limit))
+            result.getLatestChild().setChild(LOPLimit(query, node.limit))
         }
         if (node.existsOffset()) {
-            result.getLatestChild().setChild(LOPOffset(query,node.offset))
+            result.getLatestChild().setChild(LOPOffset(query, node.offset))
         }
         if (reduced) {
             result.getLatestChild().setChild(LOPReduced(query))
@@ -361,13 +361,13 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (node.existsHaving()) {
                 for (h in node.having) {
                     val expression = h.visit(this) as AOPBase
-                    val tmpVar = AOPVariable(query,"#f${expression.uuid}")
-                    val tmpBind = LOPBind(query,tmpVar, expression)
+                    val tmpVar = AOPVariable(query, "#f${expression.uuid}")
+                    val tmpBind = LOPBind(query, tmpVar, expression)
                     if (bind != null)
                         bind = mergeLOPBind(bind, tmpBind)
                     else
                         bind = tmpBind
-                    result.getLatestChild().setChild(LOPFilter(query,AOPVariable(query,tmpVar.name)))
+                    result.getLatestChild().setChild(LOPFilter(query, AOPVariable(query, tmpVar.name)))
                 }
             }
             val variables = mutableListOf<AOPVariable>()
@@ -378,12 +378,12 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                         variables.add(b.visit(this) as AOPVariable)
                     }
                     is ASTAs -> {
-                        val v = AOPVariable(query,b.variable.name)
+                        val v = AOPVariable(query, b.variable.name)
                         variables.add(v)
                         val tmp = b.expression.visit(this) as AOPBase
                         if (tmp.getRequiredVariableNamesRecoursive().contains(v.name))
                             throw Exception("variable must not be recoursively defined $v")
-                        val tmp2 = LOPBind(query,v, tmp)
+                        val tmp2 = LOPBind(query, v, tmp)
                         if (child != null)
                             child = mergeLOPBind(child, tmp2)
                         else
@@ -395,25 +395,25 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 }
             }
             if (child == null)
-                result.getLatestChild().setChild(LOPGroup(query,variables, bind, LOPNOOP(query)))
+                result.getLatestChild().setChild(LOPGroup(query, variables, bind, LOPNOOP(query)))
             else
-                result.getLatestChild().setChild(LOPGroup(query,variables, bind, child))
+                result.getLatestChild().setChild(LOPGroup(query, variables, bind, child))
         } else {
             if (node.existsHaving()) {
                 for (h in node.having) {
                     val expression = h.visit(this) as AOPBase
-                    val tmpVar = AOPVariable(query,"#f${expression.uuid}")
-                    val tmpBind = LOPBind(query,tmpVar, expression)
+                    val tmpVar = AOPVariable(query, "#f${expression.uuid}")
+                    val tmpBind = LOPBind(query, tmpVar, expression)
                     if (bind != null)
                         bind = mergeLOPBind(bind, tmpBind)
                     else
                         bind = tmpBind
-                    result.getLatestChild().setChild(LOPFilter(query,AOPVariable(query,tmpVar.name)))
+                    result.getLatestChild().setChild(LOPFilter(query, AOPVariable(query, tmpVar.name)))
                 }
-                result.getLatestChild().setChild(LOPGroup(query,mutableListOf(), bind, LOPNOOP(query)))
+                result.getLatestChild().setChild(LOPGroup(query, mutableListOf(), bind, LOPNOOP(query)))
             } else {
                 if (bindIsAggregate) {
-                    result.getLatestChild().setChild(LOPGroup(query,mutableListOf(), bind, LOPNOOP(query)))
+                    result.getLatestChild().setChild(LOPGroup(query, mutableListOf(), bind, LOPNOOP(query)))
                 } else {
                     if (bind != null) {
                         result.getLatestChild().setChild(bind)
@@ -458,7 +458,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 }
                 is LOPProjection -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource))
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     else
                         members[EGroupMember.GMLOPDataSource] = tmp2
                 }
@@ -467,49 +467,49 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 }
                 is LOPTriple -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPUnion -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPValues -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPOptional -> {
                     if (members.containsKey(EGroupMember.GMLOPOptional)) {
-                        members[EGroupMember.GMLOPOptional] = LOPJoin(query,members[EGroupMember.GMLOPOptional]!!, tmp2.children[0], true)
+                        members[EGroupMember.GMLOPOptional] = LOPJoin(query, members[EGroupMember.GMLOPOptional]!!, tmp2.children[0], true)
                     } else {
                         members[EGroupMember.GMLOPOptional] = tmp2.children[0]
                     }
                 }
                 is LOPJoin -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
                     } else {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPSubGroup -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPServiceIRI -> {
                     if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query,members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
                     } else {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
@@ -542,9 +542,9 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         }
         if (members.containsKey(EGroupMember.GMLOPOptional)) {
             if (firstJoin == null)
-                firstJoin = LOPOptional(query,members[EGroupMember.GMLOPOptional]!!)
+                firstJoin = LOPOptional(query, members[EGroupMember.GMLOPOptional]!!)
             else
-                firstJoin = LOPJoin(query,firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
+                firstJoin = LOPJoin(query, firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
         }
         if (firstJoin == null) {
             var bb: LOPBind? = null
@@ -592,7 +592,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 if (leftOk)
                     a.children[0] = insertLOPBind(a.children[0], b)
                 else
-                    return LOPJoin(query,a.children[0], insertLOPBind(a.children[1], b), a.optional)
+                    return LOPJoin(query, a.children[0], insertLOPBind(a.children[1], b), a.optional)
                 return a
             }
         }
@@ -618,13 +618,13 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 if (values == null) {
                     values = q
                 } else {
-                    values = LOPJoin(query,values, q, false)
+                    values = LOPJoin(query, values, q, false)
                 }
             } else {
                 if (lastQuery == null) {
                     lastQuery = q
                 } else {
-                    opbase = LOPJoin(query,opbase, joinValuesAndQuery(values, lastQuery), false)
+                    opbase = LOPJoin(query, opbase, joinValuesAndQuery(values, lastQuery), false)
                     values = null
                     lastQuery = q
                 }
@@ -634,7 +634,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (lastQuery != null)
                 opbase = joinValuesAndQuery(values, lastQuery)
         } else {
-            opbase = LOPJoin(query,opbase, joinValuesAndQuery(values, lastQuery!!), false)
+            opbase = LOPJoin(query, opbase, joinValuesAndQuery(values, lastQuery!!), false)
         }
         if (prefix != null) {
             prefix.getLatestChild().setChild(opbase)
@@ -647,14 +647,14 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         if (values == null)
             return opbase
         if (opbase !is LOPProjection)
-            return LOPJoin(query,values, opbase, false)
+            return LOPJoin(query, values, opbase, false)
         var latestProjection = opbase
         var realQuery = opbase
         while (realQuery is LOPProjection) {
             latestProjection = realQuery
             realQuery = realQuery.children[0]
         }
-        (latestProjection as LOPProjection).setChild(LOPJoin(query,values, realQuery, false))
+        (latestProjection as LOPProjection).setChild(LOPJoin(query, values, realQuery, false))
         return opbase
     }
 
@@ -663,31 +663,31 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSimpleLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPSimpleLiteral(query,node.delimiter, node.content)
+        return AOPSimpleLiteral(query, node.delimiter, node.content)
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPVariable.calculate(query,node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">")
+        return AOPVariable.calculate(query, node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">")
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPLanguageTaggedLiteral(query,node.delimiter, node.content, node.language)
+        return AOPLanguageTaggedLiteral(query, node.delimiter, node.content, node.language)
     }
 
     override fun visit(node: ASTBooleanLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPBoolean(query,node.value)
+        return AOPBoolean(query, node.value)
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {
-        return AOPInteger(query,node.value)
+        return AOPInteger(query, node.value)
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<OPBase>): OPBase {
-        return AOPDouble(query,node.toDouble())
+        return AOPDouble(query, node.toDouble())
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<OPBase>): OPBase {
-        return AOPDecimal(query,node.toDouble())
+        return AOPDecimal(query, node.toDouble())
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
@@ -696,16 +696,16 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 3)
-        return LOPTriple(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
+        return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
-        return LOPOptional(query,parseGroup(node.children))
+        return LOPOptional(query, parseGroup(node.children))
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {
         val tmp = List(childrenValues.size) { childrenValues[it] as AOPBase }
-        return AOPSet(query,tmp)
+        return AOPSet(query, tmp)
     }
 
     override fun visit(node: ASTOr, childrenValues: List<OPBase>): OPBase {
@@ -715,7 +715,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res == null)
                 res = v as AOPBase
             else
-                res = AOPOr(query,v as AOPBase, res)
+                res = AOPOr(query, v as AOPBase, res)
         }
         return res!!
     }
@@ -727,49 +727,49 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res == null)
                 res = v as AOPBase
             else
-                res = AOPAnd(query,v as AOPBase, res)
+                res = AOPAnd(query, v as AOPBase, res)
         }
         return res!!
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPEQ(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPNEQ(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPNEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPLEQ(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPLEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPGEQ(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPGEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPLT(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPLT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPGT(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPGT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPIn(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return AOPNotIn(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+        return AOPNotIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<OPBase>): OPBase {
@@ -779,7 +779,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res == null)
                 res = v as AOPBase
             else
-                res = AOPAddition(query,v as AOPBase, res)
+                res = AOPAddition(query, v as AOPBase, res)
         }
         return res!!
     }
@@ -791,7 +791,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res == null)
                 res = v as AOPBase
             else
-                res = AOPSubtraction(query,v as AOPBase, res)
+                res = AOPSubtraction(query, v as AOPBase, res)
         }
         return res!!
     }
@@ -803,7 +803,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res == null)
                 res = v as AOPBase
             else
-                res = AOPMultiplication(query,v as AOPBase, res)
+                res = AOPMultiplication(query, v as AOPBase, res)
         }
         return res!!
     }
@@ -815,24 +815,24 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res == null)
                 res = v as AOPBase
             else
-                res = AOPDivision(query,v as AOPBase, res)
+                res = AOPDivision(query, v as AOPBase, res)
         }
         return res!!
     }
 
     override fun visit(node: ASTNot, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-        return AOPNot(query,childrenValues[0] as AOPBase)
+        return AOPNot(query, childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPPrefix(query,"", node.iri)
+        return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPPrefix(query,node.name, node.iri)
+        return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
@@ -841,127 +841,127 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name))
             throw Exception("variable must not be recousively defined $a")
-        return LOPBind(query,a, b)
+        return LOPBind(query, a, b)
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return AOPVariable(query,"#" + node.name)
+        return AOPVariable(query, "#" + node.name)
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
         when (node.function) {
             BuiltInFunctions.STR -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallSTR(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANG -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallLANG(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANGMATCHES -> {
                 require(childrenValues.size == 2)
-                return AOPBuildInCallLANGMATCHES(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+                return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.DATATYPE -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallDATATYPE(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BOUND -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallBOUND(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IRI -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallIRI(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.URI -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallURI(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallURI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BNODE -> {
                 if (childrenValues.size == 1)
-                    return AOPBuildInCallBNODE1(query,childrenValues[0] as AOPBase)
+                    return AOPBuildInCallBNODE1(query, childrenValues[0] as AOPBase)
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctions.ABS -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallABS(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CEIL -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallCEIL(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.FLOOR -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallFLOOR(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.ROUND -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallROUND(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONCAT -> {
                 require(childrenValues.size > 0)
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size)
-                    res = AOPBuildInCallCONCAT(query,res, childrenValues[i] as AOPBase)
+                    res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
                 return res
             }
             BuiltInFunctions.STRLEN -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallSTRLEN(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.UCASE -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallUCASE(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LCASE -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallLCASE(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONTAINS -> {
                 require(childrenValues.size == 2)
-                return AOPBuildInCallCONTAINS(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+                return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRSTARTS -> {
                 require(childrenValues.size == 2)
-                return AOPBuildInCallSTRSTARTS(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+                return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRENDS -> {
                 require(childrenValues.size == 2)
-                return AOPBuildInCallSTRENDS(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+                return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.YEAR -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallYEAR(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MONTH -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallMONTH(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.DAY -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallDAY(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.HOURS -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallHOURS(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MINUTES -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallMINUTES(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SECONDS -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallSECONDS(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TIMEZONE -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallTIMEZONE(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TZ -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallTZ(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NOW -> {
                 require(childrenValues.size == 0)
@@ -976,39 +976,39 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             }
             BuiltInFunctions.MD5 -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallMD5(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA1 -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallSHA1(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA256 -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallSHA256(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IF -> {
                 require(childrenValues.size == 3)
-                return AOPBuildInCallIF(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
+                return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
             BuiltInFunctions.STRLANG -> {
                 require(childrenValues.size == 2)
-                return AOPBuildInCallSTRLANG(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+                return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRDT -> {
                 require(childrenValues.size == 2)
-                return AOPBuildInCallSTRDT(query,childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+                return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.isLITERAL -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallIsLITERAL(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isIRI -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallIsIri(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isNUMERIC -> {
                 require(childrenValues.size == 1)
-                return AOPBuildInCallIsNUMERIC(query,childrenValues[0] as AOPBase)
+                return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
         }
@@ -1016,53 +1016,53 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
         when (node.type) {
-            Aggregation.COUNT -> return AOPAggregationCOUNT(query,node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.MIN -> return AOPAggregationMIN(query,node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.MAX -> return AOPAggregationMAX(query,node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.SAMPLE -> return AOPAggregationSAMPLE(query,node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.AVG -> return AOPAggregationAVG(query,node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.SUM -> return AOPAggregationSUM(query,node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.COUNT -> return AOPAggregationCOUNT(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.MIN -> return AOPAggregationMIN(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.MAX -> return AOPAggregationMAX(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.SAMPLE -> return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.AVG -> return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            Aggregation.SUM -> return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.type}")
         }
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 2)
-        return LOPUnion(query,childrenValues[0], childrenValues[1])
+        return LOPUnion(query, childrenValues[0], childrenValues[1])
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-        return LOPFilter(query,childrenValues.first() as AOPBase)
+        return LOPFilter(query, childrenValues.first() as AOPBase)
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
         val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable)
-            return LOPSort(query,node.asc, tmp)
-        val v = AOPVariable(query,"#f${tmp.uuid}")
-        return LOPSort(query,node.asc, v, LOPBind(query,v, tmp))
+            return LOPSort(query, node.asc, tmp)
+        val v = AOPVariable(query, "#f${tmp.uuid}")
+        return LOPSort(query, node.asc, v, LOPBind(query, v, tmp))
     }
 
     override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return AOPVariable(query,node.name)
+        return AOPVariable(query, node.name)
     }
 
     override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return AOPIri(query,node.iri)
+        return AOPIri(query, node.iri)
     }
 
     override fun visit(node: ASTGroup, childrenValues: List<OPBase>): OPBase {
-        return LOPSubGroup(query,parseGroup(node.children))
+        return LOPSubGroup(query, parseGroup(node.children))
     }
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
         when {
-            node.iriOrVar is ASTIri -> return LOPServiceIRI(query,node.iriOrVar.iri, node.silent, parseGroup(node.children))
-            node.iriOrVar is ASTVar -> return LOPServiceVAR(query,node.iriOrVar.name, node.silent, parseGroup(node.children))
+            node.iriOrVar is ASTIri -> return LOPServiceIRI(query, node.iriOrVar.iri, node.silent, parseGroup(node.children))
+            node.iriOrVar is ASTVar -> return LOPServiceVAR(query, node.iriOrVar.name, node.silent, parseGroup(node.children))
             else -> throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
         }
     }
@@ -1074,12 +1074,12 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             variables.add(v.visit(this) as AOPVariable)
         for (v in node.children)
             values.add(v.visit(this) as AOPValue)
-        return LOPValues(query,variables, values)
+        return LOPValues(query, variables, values)
     }
 
     override fun visit(node: ASTValue, childrenValues: List<OPBase>): OPBase {
         val tmp = List(childrenValues.size) { childrenValues[it] as AOPConstant }
-        return AOPValue(query,tmp)
+        return AOPValue(query, tmp)
     }
 
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
@@ -1092,12 +1092,12 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             is OPNothing -> return node
             is LOPTriple -> {
                 if (!optional || node.graph == PersistentStoreLocal.defaultGraphName)
-                    return LOPTriple(query,node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
+                    return LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
                 else
                     return node
             }
             is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name, optional)
-            is LOPJoin -> return LOPJoin(query,setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
+            is LOPJoin -> return LOPJoin(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
             else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} $optional")
         }
         return node
@@ -1110,7 +1110,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
             if (res is OPNothing)
                 res = tmp
             else
-                res = LOPJoin(query,res, tmp, false)
+                res = LOPJoin(query, res, tmp, false)
         }
         return res
     }
@@ -1133,7 +1133,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         require(childrenValues.isEmpty())
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        val res = LOPGraphOperation(query,EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
+        val res = LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
         return res
     }
 
@@ -1141,7 +1141,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         require(childrenValues.isEmpty())
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        val res = LOPGraphOperation(query,EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
+        val res = LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
         return res
     }
 
@@ -1149,28 +1149,28 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         require(childrenValues.isEmpty())
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        val res = LOPGraphOperation(query,EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
+        val res = LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
         return res
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val g1 = graphRefToEnum(node.graphref)
-        val res = LOPGraphOperation(query,EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
+        val res = LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val g1 = graphRefToEnum(node.graphref)
-        val res = LOPGraphOperation(query,EGraphOperationType.DROP, node.silent, g1.first, g1.second)
+        val res = LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val g1 = graphRefToEnum(node.graphref)
-        val res = LOPGraphOperation(query,EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
+        val res = LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
         return res
     }
 
@@ -1182,13 +1182,13 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
         for (c in children) {
             when {
                 c is ASTTriple -> {
-                    modify.data.add(LOPTriple(query,simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), PersistentStoreLocal.defaultGraphName, false))
+                    modify.data.add(LOPTriple(query, simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), PersistentStoreLocal.defaultGraphName, false))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
                         when {
                             c2 is ASTTriple -> {
-                                modify.data.add(LOPTriple(query,simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri, true))
+                                modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri, true))
                             }
                             else -> throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")
                         }
@@ -1200,19 +1200,19 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(query,EModifyType.DELETE)
+        val res = LOPModifyData(query, EModifyType.DELETE)
         modifyDataHelper(node.children, res)
         return res
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(query,EModifyType.DELETE)
+        val res = LOPModifyData(query, EModifyType.DELETE)
         modifyDataHelper(node.children, res)
         return res
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(query,EModifyType.INSERT)
+        val res = LOPModifyData(query, EModifyType.INSERT)
         modifyDataHelper(node.children, res)
         return res
     }
@@ -1227,7 +1227,7 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 if (tmp == null)
                     tmp = tmp2
                 else
-                    tmp = LOPUnion(query,tmp, tmp2)
+                    tmp = LOPUnion(query, tmp, tmp2)
             }
             tmp!!
         }
@@ -1239,14 +1239,14 @@ class OperatorGraphVisitor(val query:Query) : Visitor<OPBase> {
                 insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
             for (e in node.delete)
                 delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
-            val res = LOPModify(query,insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
+            val res = LOPModify(query, insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
             return res
         } else {
             for (e in node.insert)
                 insert.add(e.visit(this) as LOPTriple)
             for (e in node.delete)
                 delete.add(e.visit(this) as LOPTriple)
-            val res = LOPModify(query,insert, delete, child)
+            val res = LOPModify(query, insert, delete, child)
             return res
         }
     }

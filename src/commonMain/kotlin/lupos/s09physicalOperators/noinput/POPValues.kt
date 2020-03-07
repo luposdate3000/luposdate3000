@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -18,6 +17,7 @@ import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
@@ -32,7 +32,7 @@ class POPValues : POPBase {
     override fun toSparql(): String {
         var res = "VALUES("
         for (v in stringVars)
-            res += AOPVariable(query,v).toSparql() + " "
+            res += AOPVariable(query, v).toSparql() + " "
         res += ") {"
         for (m in data) {
             res += "("
@@ -74,7 +74,7 @@ class POPValues : POPBase {
         res
     })
 
-    constructor(query:Query, v: List<String>, d: List<Map<String, String?>>) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(query.dictionary),arrayOf()) {
+    constructor(query: Query, v: List<String>, d: List<Map<String, String?>>) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -91,7 +91,7 @@ class POPValues : POPBase {
         }
     }
 
-    constructor(query:Query, values: LOPValues) : super(query,EOperatorID.POPValuesID,"POPValues",ResultSet(query.dictionary),arrayOf()) {
+    constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))

@@ -40,6 +40,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:1.3.1")
     implementation("io.ktor:ktor-client-logging-jvm:1.3.1")
     implementation("io.ktor:ktor-client-logging:1.3.1")
+    implementation("org.jacoco:org.jacoco.agent:0.8.5:runtime")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.70")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.70")

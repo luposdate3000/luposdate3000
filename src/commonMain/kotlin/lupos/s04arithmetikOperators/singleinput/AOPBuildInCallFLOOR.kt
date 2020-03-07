@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.floor
@@ -13,9 +12,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallFLOOR(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallFLOORID,"AOPBuildInCallFLOOR",arrayOf(child)) {
+class AOPBuildInCallFLOOR(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallFLOORID, "AOPBuildInCallFLOOR", arrayOf(child)) {
 
     override fun toSparql() = "FLOOR(" + children[0].toSparql() + ")"
 
@@ -29,11 +29,11 @@ class AOPBuildInCallFLOOR(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(query,floor(a.toDouble()))
+                AOPDouble(query, floor(a.toDouble()))
             })
         if (a is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(query,floor(a.toDouble()))
+                AOPDecimal(query, floor(a.toDouble()))
             })
         if (a is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -44,5 +44,5 @@ class AOPBuildInCallFLOOR(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallFLOOR(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallFLOOR(query, children[0].cloneOP() as AOPBase)
 }

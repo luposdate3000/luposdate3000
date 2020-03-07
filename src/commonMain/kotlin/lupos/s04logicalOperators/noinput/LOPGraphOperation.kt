@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -7,16 +6,17 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class LOPGraphOperation(query:Query,
-			@JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
+class LOPGraphOperation(query: Query,
+                        @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
                         var silent: Boolean = false,
                         var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph1iri: String? = null,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null
-) : LOPBase(query,EOperatorID.LOPGraphOperationID,"LOPGraphOperation",arrayOf()) {
+) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf()) {
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation)
@@ -36,5 +36,5 @@ class LOPGraphOperation(query:Query,
         return true
     }
 
-    override fun cloneOP() = LOPGraphOperation(query,action, silent, graph1type, graph1iri, graph2type, graph2iri)
+    override fun cloneOP() = LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)
 }

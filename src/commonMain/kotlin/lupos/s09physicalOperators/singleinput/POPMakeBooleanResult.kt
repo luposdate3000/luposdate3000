@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -15,10 +14,11 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPMakeBooleanResult(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPMakeBooleanResultID,"POPMakeBooleanResult",ResultSet(query.dictionary),arrayOf(child)) {
+class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPMakeBooleanResult)
             return false
@@ -51,7 +51,7 @@ class POPMakeBooleanResult(query:Query, child: OPBase) : POPBase(query,EOperator
                     break
                 }
                 var rsNew = resultSet.createResultRow()
-                rsNew[variableNew] = resultSet.createValue(AOPBoolean(query,!first).valueToString())
+                rsNew[variableNew] = resultSet.createValue(AOPBoolean(query, !first).valueToString())
                 channel.send(resultFlowProduce({ this@POPMakeBooleanResult }, { rsNew }))
                 channel.close()
             } catch (e: Throwable) {

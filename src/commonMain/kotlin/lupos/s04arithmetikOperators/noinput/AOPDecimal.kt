@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPDecimal(query:Query,@JvmField var value: Double) : AOPConstant(query,EOperatorID.AOPDecimalID,"AOPDecimal"), AOPNumeric {
+class AOPDecimal(query: Query, @JvmField var value: Double) : AOPConstant(query, EOperatorID.AOPDecimalID, "AOPDecimal"), AOPNumeric {
 
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)

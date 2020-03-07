@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -14,10 +13,11 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPRename(query:Query, @JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase) : POPBase(query,EOperatorID.POPRenameID,"POPRename", ResultSet(query.dictionary),arrayOf(child)) {
+class POPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase) : POPBase(query, EOperatorID.POPRenameID, "POPRename", ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPRename)
             return false
@@ -38,7 +38,7 @@ class POPRename(query:Query, @JvmField val nameTo: AOPVariable, @JvmField val na
             if (v == nameFrom.name)
                 res += nameTo.toSparql() + " "
             else
-                res += AOPVariable(query,v).toSparql() + " "
+                res += AOPVariable(query, v).toSparql() + " "
         }
         res += "{"
         res += children[0].toSparql()

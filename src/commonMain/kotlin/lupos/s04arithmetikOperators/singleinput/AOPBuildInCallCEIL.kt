@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.ceil
@@ -13,9 +12,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallCEIL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallCEILID,"AOPBuildInCallCEIL",arrayOf(child)) {
+class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
 
     override fun toSparql() = "CEIL(" + children[0].toSparql() + ")"
 
@@ -29,11 +29,11 @@ class AOPBuildInCallCEIL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(query,ceil(a.toDouble()))
+                AOPDouble(query, ceil(a.toDouble()))
             })
         if (a is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(query,ceil(a.toDouble()))
+                AOPDecimal(query, ceil(a.toDouble()))
             })
         if (a is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -44,5 +44,5 @@ class AOPBuildInCallCEIL(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallCEIL(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
 }

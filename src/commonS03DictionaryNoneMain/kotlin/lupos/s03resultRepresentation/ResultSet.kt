@@ -1,10 +1,10 @@
 package lupos.s03resultRepresentation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.Query
 
 
 class ResultSet(@JvmField val dictionary: ResultSetDictionary) {

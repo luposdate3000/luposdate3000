@@ -1,10 +1,10 @@
 package lupos.s01io.buffer
-import lupos.s04logicalOperators.Query
 
 import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.Query
 
 
 // problems unmap:

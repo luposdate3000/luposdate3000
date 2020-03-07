@@ -1,12 +1,12 @@
 package lupos.s08logicalOptimisation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-abstract class OptimizerCompoundBase(query:Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
+abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<OptimizerBase>
 

@@ -1,5 +1,4 @@
 package lupos.s12p2p
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
@@ -18,6 +17,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
@@ -34,7 +34,7 @@ object P2P {
     @JvmField
     val pendingModifications = ThreadSafeMutableMap<Long, MutableMap<String, TransferHelperNetwork>>()
 
-    fun getPendingModifications(query:Query, nodeName: String): TransferHelperNetwork {
+    fun getPendingModifications(query: Query, nodeName: String): TransferHelperNetwork {
         val transaction = pendingModifications[query.transactionID]
         if (transaction == null) {
             val tmp = mutableMapOf<String, TransferHelperNetwork>()
@@ -51,7 +51,7 @@ object P2P {
         return res
     }
 
-    fun execCommit(query:Query) = Trace.trace({ "P2P.execCommit" }, {
+    fun execCommit(query: Query) = Trace.trace({ "P2P.execCommit" }, {
         Endpoint.process_local_commit(query)
         val pending = pendingModifications[query.transactionID]
         if (pending != null) {
@@ -79,14 +79,14 @@ object P2P {
         }
     })
 
-    fun execTripleAdd(query:Query,node: String, graphName: String,  s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(query: Query, node: String, graphName: String, s: AOPConstant, p: AOPConstant, o: AOPConstant, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         if (node == endpointServer!!.fullname)
-            Endpoint.process_local_triple_add(query,graphName,  s, p, o, idx)
+            Endpoint.process_local_triple_add(query, graphName, s, p, o, idx)
         else
             getPendingModifications(query, node).addTriple(graphName, s, p, o, idx)
     })
 
-    fun execOnNamedNode(query:Query, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
+    fun execOnNamedNode(query: Query, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
         var res: POPBase = POPEmptyRow(query)
         CoroutinesHelper.runBlock {
             val xml = EndpointClientImpl.requestGetString("http://${(nodeName)}${Endpoint.REQUEST_OPERATOR_QUERY[0]}" +//
@@ -96,7 +96,7 @@ object P2P {
         return res
     })
 
-    fun execGraphClearAll(query:Query) = Trace.trace({ "P2P.execGraphClearAll" }, {
+    fun execGraphClearAll(query: Query) = Trace.trace({ "P2P.execGraphClearAll" }, {
         Endpoint.process_local_graph_clear_all(query)
         knownClients.forEach {
             if (it != endpointServer!!.fullname)
@@ -104,16 +104,16 @@ object P2P {
         }
     })
 
-    fun execGraphOperation(query:Query,name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {
+    fun execGraphOperation(query: Query, name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P a" })
-        Endpoint.process_local_graph_operation(query,name, type)
+        Endpoint.process_local_graph_operation(query, name, type)
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
         knownClients.forEach {
             if (it != endpointServer!!.fullname) {
                 CoroutinesHelper.runBlock {
                     EndpointClientImpl.requestGetBytes("http://${(it)}${Endpoint.REQUEST_GRAPH_OPERATION[0]}" +//
                             "?" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_GRAPH_OPERATION[1], name) +//
-	                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_GRAPH_OPERATION[2], query.transactionID) +//
+                            "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_GRAPH_OPERATION[2], query.transactionID) +//
                             "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_GRAPH_OPERATION[3], type))
                 }
             }
@@ -121,10 +121,10 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
-    fun execTripleGet(query:Query,node: String, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(query: Query, node: String, graphName: String, s: AOPBase, p: AOPBase, o: AOPBase, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         var res: POPBase? = null
         if (node == endpointServer!!.fullname)
-            res = Endpoint.process_local_triple_get(query,graphName,  s, p, o, idx)
+            res = Endpoint.process_local_triple_get(query, graphName, s, p, o, idx)
         else {
             val sstr: String
             if (s is AOPConstant)
@@ -168,10 +168,10 @@ object P2P {
         return res!!
     })
 
-    fun execTripleDelete(query:Query,node: String, graphName: String, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
+    fun execTripleDelete(query: Query, node: String, graphName: String, data: List<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })
         if (node == endpointServer!!.fullname)
-            Endpoint.process_local_triple_delete(query,graphName, data[0], data[1], data[2], idx)
+            Endpoint.process_local_triple_delete(query, graphName, data[0], data[1], data[2], idx)
         else {
             val s: String
             if (data[0] is AOPConstant)

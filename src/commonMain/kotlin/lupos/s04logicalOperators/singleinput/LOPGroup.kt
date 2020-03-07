@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -8,16 +7,17 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class LOPGroup(query:Query,@JvmField var by: List<AOPVariable>) : LOPBase(query,EOperatorID.LOPGroupID,"LOPGroup",arrayOf(OPNothing(query), OPNothing(query))) {
+class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPNothing(query), OPNothing(query))) {
     override fun childrenToVerifyCount() = 1
 
-    constructor(query:Query,by: List<AOPVariable>, child: OPBase) : this(query,by) {
+    constructor(query: Query, by: List<AOPVariable>, child: OPBase) : this(query, by) {
         children[0] = child
     }
 
-    constructor(query:Query,by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(query,by) {
+    constructor(query: Query, by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(query, by) {
         if (bindings != null)
             children[1] = bindings
         children[0] = child
@@ -73,5 +73,5 @@ class LOPGroup(query:Query,@JvmField var by: List<AOPVariable>) : LOPBase(query,
         return true
     }
 
-    override fun cloneOP() = LOPGroup(query,by, children[1].cloneOP(), children[0].cloneOP())
+    override fun cloneOP() = LOPGroup(query, by, children[1].cloneOP(), children[0].cloneOP())
 }

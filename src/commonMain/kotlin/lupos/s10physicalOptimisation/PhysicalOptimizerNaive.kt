@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
@@ -16,6 +15,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
@@ -49,7 +49,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class PhysicalOptimizerNaive(query:Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerNaiveID) {
+class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerNaiveID) {
     override val classname = "PhysicalOptimizerNaive"
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
@@ -83,18 +83,18 @@ class PhysicalOptimizerNaive(query:Query) : OptimizerBase(query, EOptimizerID.Ph
                     when (node.children[1]) {
                         is AOPVariable ->
                             if (child.getProvidedVariableNames().contains(variable.name))
-                                res = POPRename(query,variable, node.children[1] as AOPVariable, child)
+                                res = POPRename(query, variable, node.children[1] as AOPVariable, child)
                             else
-                                res = POPBind(query,variable, AOPUndef(query), child)
-                        else -> res = POPBind(query,variable, node.children[1] as AOPBase, child)
+                                res = POPBind(query, variable, AOPUndef(query), child)
+                        else -> res = POPBind(query, variable, node.children[1] as AOPBase, child)
                     }
                 }
                 is LOPJoin -> res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
                 is LOPTriple -> {
                     if (node.graph == null)
-                        res = DistributedTripleStore.getDefaultGraph(query).getIterator( node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getDefaultGraph(query).getIterator(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
                     else
-                        res = DistributedTripleStore.getNamedGraph(query,node.graph).getIterator( node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, EIndexPattern.SPO)
                 }
                 is OPNothing -> res = POPEmptyRow(query)
                 else -> {

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -16,9 +15,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPAggregationCOUNT(query:Query,@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationCOUNTID,"AOPAggregationCOUNT",Array(childs.size) { childs[it] }) {
+class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
 
@@ -37,9 +37,9 @@ class AOPAggregationCOUNT(query:Query,@JvmField val distinct: Boolean, childs: A
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPInteger(query,count.get())
+            AOPInteger(query, count.get())
         })
     }
 
-    override fun cloneOP() = AOPAggregationCOUNT(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

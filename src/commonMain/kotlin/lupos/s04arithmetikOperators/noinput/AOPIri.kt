@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPIri(query:Query,@JvmField var iri: String) : AOPConstant(query,EOperatorID.AOPIriID,"AOPIri") {
+class AOPIri(query: Query, @JvmField var iri: String) : AOPConstant(query, EOperatorID.AOPIriID, "AOPIri") {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + iri)
 

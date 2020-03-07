@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBoolean(query:Query,@JvmField var value: Boolean) : AOPConstant(query,EOperatorID.AOPBooleanID,"AOPBoolean"), AOPXPathCompareable {
+class AOPBoolean(query: Query, @JvmField var value: Boolean) : AOPConstant(query, EOperatorID.AOPBooleanID, "AOPBoolean"), AOPXPathCompareable {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -13,9 +12,10 @@ import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallSTRLEN(query:Query,child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRLENID,"AOPBuildInCallSTRLEN", arrayOf(child)) {
+class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRLENID, "AOPBuildInCallSTRLEN", arrayOf(child)) {
 
     override fun toSparql() = "STRLEN(" + children[0].toSparql() + ")"
 
@@ -29,20 +29,20 @@ class AOPBuildInCallSTRLEN(query:Query,child: AOPBase) : AOPBase(query, EOperato
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query,a.content.length)
+                AOPInteger(query, a.content.length)
             })
         if (a is AOPTypedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query,a.content.length)
+                AOPInteger(query, a.content.length)
             })
         if (a is AOPLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query,a.content.length)
+                AOPInteger(query, a.content.length)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STRLEN only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRLEN(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSTRLEN(query, children[0].cloneOP() as AOPBase)
 }

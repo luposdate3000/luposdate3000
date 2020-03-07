@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -11,9 +10,10 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallLANG(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallLANGID,"AOPBuildInCallLANG",arrayOf(child)) {
+class AOPBuildInCallLANG(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLANGID, "AOPBuildInCallLANG", arrayOf(child)) {
 
     override fun toSparql() = "LANG(" + children[0].toSparql() + ")"
 
@@ -27,16 +27,16 @@ class AOPBuildInCallLANG(query:Query,child: AOPBase) : AOPBase(query,EOperatorID
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query,a.delimiter, a.language)
+                AOPSimpleLiteral(query, a.delimiter, a.language)
             })
         if (a is AOPConstantString || a is AOPNumeric || a is AOPBoolean || a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query,"\"", "")
+                AOPSimpleLiteral(query, "\"", "")
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("Type error $classname ${a.classname}")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallLANG(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallLANG(query, children[0].cloneOP() as AOPBase)
 }

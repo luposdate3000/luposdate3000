@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -15,9 +14,10 @@ import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPNumeric
 import lupos.s04arithmetikOperators.noinput.AOPXPathCompareable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPLEQ(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query,EOperatorID.AOPLEQID,"AOPLEQ", arrayOf(childA, childB)) {
+class AOPLEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPLEQID, "AOPLEQ", arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " <= " + children[1].toSparql() + ")"
 
@@ -35,9 +35,9 @@ class AOPLEQ(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationF
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(query,a.compareTo(b) <= 0)
+            AOPBoolean(query, a.compareTo(b) <= 0)
         })
     }
 
-    override fun cloneOP() = AOPLEQ(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPLEQ(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

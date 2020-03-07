@@ -1,5 +1,4 @@
 package lupos
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -25,6 +24,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -376,9 +376,9 @@ class SparqlTestSuite() {
         val jena = JenaRequest()
         try {
             try {
-val query3=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
-                DistributedTripleStore.clearGraph(query3,PersistentStoreLocal.defaultGraphName)
-DistributedTripleStore.commit(query3)
+                val query3 = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
+                DistributedTripleStore.clearGraph(query3, PersistentStoreLocal.defaultGraphName)
+                DistributedTripleStore.commit(query3)
                 val toParse = readFileOrNull(queryFile)!!
                 if (toParse.contains("service", true)) {
                     updateAllMicroTest(testName, queryFile, false)
@@ -387,7 +387,7 @@ DistributedTripleStore.commit(query3)
                 }
                 val inputData = readFileOrNull(inputDataFileName)
                 val resultData = readFileOrNull(resultDataFileName)
-val query2=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
+                val query2 = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
                 P2P.execGraphClearAll(query2)
                 DistributedTripleStore.commit(query2)
                 if (inputData != null && inputDataFileName != null) {
@@ -395,10 +395,10 @@ val query2=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID(
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
+                    val query = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
                     CoroutinesHelper.runBlock {
                         val tmp = POPImportFromXml(query, xmlQueryInput!!.first())
-                        DistributedTripleStore.getDefaultGraph(query).addData( tmp)
+                        DistributedTripleStore.getDefaultGraph(query).addData(tmp)
                     }
                     DistributedTripleStore.commit(query)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
@@ -413,9 +413,9 @@ val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
-val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
+                    val query = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
                     CoroutinesHelper.runBlock {
-                        DistributedTripleStore.getNamedGraph(query,it["name"]!!, true).addData( POPImportFromXml(query, xmlQueryInput!!.first()))
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPImportFromXml(query, xmlQueryInput!!.first()))
                     }
                     DistributedTripleStore.commit(query)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
@@ -431,7 +431,7 @@ val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID()
                         val fc = readFileOrNull(fn)!!
                         P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
                     }
-val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
+                val query = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
                 var res: Boolean
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { toParse })
@@ -466,10 +466,10 @@ val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID()
                 outputDataGraph.forEach {
                     val outputData = readFileOrNull(it["filename"])
                     var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
-                    val tmp = DistributedTripleStore.getNamedGraph(query,it["name"]!!).getIterator(EIndexPattern.SPO)
-                    tmp.sparam = AOPVariable(query,"s")
-                    tmp.pparam = AOPVariable(query,"p")
-                    tmp.oparam = AOPVariable(query,"o")
+                    val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(EIndexPattern.SPO)
+                    tmp.sparam = AOPVariable(query, "s")
+                    tmp.pparam = AOPVariable(query, "p")
+                    tmp.oparam = AOPVariable(query, "o")
                     var xmlGraphActual = QueryResultToXML.toXML(tmp)
                     if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual.first())) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
@@ -513,7 +513,7 @@ val query=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID()
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
-val query2=Query(ResultSetDictionary(),DistributedTripleStore.nextTransactionID())
+                        val query2 = Query(ResultSetDictionary(), DistributedTripleStore.nextTransactionID())
                         val popNodeRecovered = XMLElement.convertToOPBase(query2, xmlPOP) as POPBase
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })

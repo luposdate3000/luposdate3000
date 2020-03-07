@@ -1,5 +1,4 @@
 package lupos.datastructures.b_plus_tree
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.ceil
@@ -16,6 +15,7 @@ import lupos.s01io.buffer.serializeCompressedInt
 import lupos.s01io.buffer.serializedSizeOfCompressedInt
 import lupos.s01io.buffer.serializedSizeOfInt
 import lupos.s01io.buffer.serializeInt
+import lupos.s04logicalOperators.Query
 
 
 interface I_B_Plus_Tree<K : Any, V> {

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -11,9 +10,10 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallURI(query:Query,child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID,"AOPBuildInCallURI",arrayOf(child)) {
+class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
 
     override fun toSparql() = "URI(" + children[0].toSparql() + ")"
     override fun applyPrefix(prefix: String, iri: String) {
@@ -39,14 +39,14 @@ class AOPBuildInCallURI(query:Query,child: AOPBase, @JvmField var prefix: String
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 val b = a as AOPConstantString
                 if (prefix != "" && !prefix.endsWith("/"))
-                    AOPIri(query,prefix + "/" + b.content)
+                    AOPIri(query, prefix + "/" + b.content)
                 else
-                    AOPIri(query,prefix + b.content)
+                    AOPIri(query, prefix + b.content)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall URI only works with simple string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallURI(query,children[0].cloneOP() as AOPBase, prefix)
+    override fun cloneOP() = AOPBuildInCallURI(query, children[0].cloneOP() as AOPBase, prefix)
 }

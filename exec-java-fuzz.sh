@@ -25,9 +25,9 @@ do
 		do
 			if [ "$db" == 1 ]
 			then
-				java -javaagent:dependencies/jacocoagent.jar=destfile=jacoco.exec -cp "$(pwd)/${output1}/distributions/luposdate3000/lib/*" MainKt "db${db}"
+				java -javaagent:dependencies/jacocoagent.jar=destfile=jacoco.${db}.exec -cp "$(pwd)/${output1}/distributions/luposdate3000/lib/*" MainKt "db${db}"
 			else
-				java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size
+				java -javaagent:dependencies/jacocoagent.jar=destfile=jacoco.${db}.exec -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size
 			fi
 		done
 	)  >> log/db$db 2>&1 &

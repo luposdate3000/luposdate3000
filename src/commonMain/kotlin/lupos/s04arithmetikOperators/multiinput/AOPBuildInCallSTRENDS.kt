@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,9 +11,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallSTRENDS(query:Query,child: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallSTRENDSID,"AOPBuildInCallSTRENDS",arrayOf(child, childB)) {
+class AOPBuildInCallSTRENDS(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRENDSID, "AOPBuildInCallSTRENDS", arrayOf(child, childB)) {
 
     override fun toSparql() = "STRENDS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
@@ -29,7 +29,7 @@ class AOPBuildInCallSTRENDS(query:Query,child: AOPBase, childB: AOPBase) : AOPBa
         if (a is AOPConstantString) {
             if (b is AOPSimpleLiteral)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPBoolean(query,a.content.endsWith(b.content))
+                    AOPBoolean(query, a.content.endsWith(b.content))
                 })
             else
                 throw resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -41,5 +41,5 @@ class AOPBuildInCallSTRENDS(query:Query,child: AOPBase, childB: AOPBase) : AOPBa
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRENDS(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSTRENDS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

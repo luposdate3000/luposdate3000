@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -16,9 +15,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPAggregationMAX(query:Query,@JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query,EOperatorID.AOPAggregationMAXID, "AOPAggregationMAX",Array(childs.size) { childs[it] }) {
+class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationMAXID, "AOPAggregationMAX", Array(childs.size) { childs[it] }) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
 
@@ -71,5 +71,5 @@ class AOPAggregationMAX(query:Query,@JvmField val distinct: Boolean, childs: Arr
         })
     }
 
-    override fun cloneOP() = AOPAggregationMAX(query,distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() = AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

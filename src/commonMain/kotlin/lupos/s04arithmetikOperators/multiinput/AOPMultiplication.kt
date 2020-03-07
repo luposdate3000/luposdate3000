@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,9 +11,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPMultiplication(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query,EOperatorID.AOPMultiplicationID, "AOPMultiplication",arrayOf(childA, childB)) {
+class AOPMultiplication(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPMultiplicationID, "AOPMultiplication", arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " * " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
@@ -32,20 +32,20 @@ class AOPMultiplication(query:Query,childA: AOPBase, childB: AOPBase) : AOPBinar
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble || b is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(query,a.toDouble() * b.toDouble())
+                AOPDouble(query, a.toDouble() * b.toDouble())
             })
         if (a is AOPDecimal || b is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(query,a.toDouble() * b.toDouble())
+                AOPDecimal(query, a.toDouble() * b.toDouble())
             })
         if (a is AOPInteger || b is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query,a.toInt() * b.toInt())
+                AOPInteger(query, a.toInt() * b.toInt())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPMultiplication only works with numeric input")
         })
     }
 
-    override fun cloneOP() = AOPMultiplication(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPMultiplication(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

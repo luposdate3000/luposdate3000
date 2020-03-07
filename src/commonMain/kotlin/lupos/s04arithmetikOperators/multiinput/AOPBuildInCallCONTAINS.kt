@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,9 +11,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallCONTAINS(query:Query,child: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallCONTAINSID,"AOPBuildInCallCONTAINS",arrayOf(child, childB)) {
+class AOPBuildInCallCONTAINS(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCONTAINSID, "AOPBuildInCallCONTAINS", arrayOf(child, childB)) {
 
     override fun toSparql() = "CONTAINS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
 
@@ -30,7 +30,7 @@ class AOPBuildInCallCONTAINS(query:Query,child: AOPBase, childB: AOPBase) : AOPB
             val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPBoolean(query,a.content.contains(b.content))
+                    AOPBoolean(query, a.content.contains(b.content))
                 })
             else
                 throw resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -42,5 +42,5 @@ class AOPBuildInCallCONTAINS(query:Query,child: AOPBase, childB: AOPBase) : AOPB
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallCONTAINS(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallCONTAINS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

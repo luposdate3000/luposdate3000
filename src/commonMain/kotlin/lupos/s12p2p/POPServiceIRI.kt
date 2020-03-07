@@ -1,5 +1,4 @@
 package lupos.s12p2p
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -12,11 +11,12 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
 
-class POPServiceIRI : POPBase{
+class POPServiceIRI : POPBase {
     @JvmField
     val constraint: OPBase?
     @JvmField
@@ -44,7 +44,7 @@ class POPServiceIRI : POPBase{
 
     override fun cloneOP() = POPServiceIRI(query, serverName, silent, originalConstraint)
 
-    constructor(query:Query, serverName: String, silent: Boolean, constraint: OPBase) : super(query,EOperatorID.POPServiceIRIID,"POPServiceIRI",ResultSet(query.dictionary),arrayOf()) {
+    constructor(query: Query, serverName: String, silent: Boolean, constraint: OPBase) : super(query, EOperatorID.POPServiceIRIID, "POPServiceIRI", ResultSet(query.dictionary), arrayOf()) {
         this.serverName = serverName
         originalConstraint = constraint
         this.constraint = try {

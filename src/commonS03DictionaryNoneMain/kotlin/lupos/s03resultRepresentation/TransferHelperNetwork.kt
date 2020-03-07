@@ -1,5 +1,4 @@
 package lupos.s03resultRepresentation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.DynamicByteArray
@@ -9,6 +8,7 @@ import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.Endpoint
 
 
@@ -19,7 +19,7 @@ class TransferHelperNetwork {
         }
     }
 
-    constructor(query:Query) {
+    constructor(query: Query) {
         throw Exception("not implemented")
     }
 

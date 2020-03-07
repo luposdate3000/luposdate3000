@@ -26,10 +26,10 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             k.createValue(it)
         }
     }
-val query=Query(ResultSetDictionary(),1L)
+    val query = Query(ResultSetDictionary(), 1L)
     testDictionaryValue.mapLTS.forEach {
         try {
-            val tmp = AOPVariable.calculate(query,it)
+            val tmp = AOPVariable.calculate(query, it)
             if (testDictionaryValueTyped[tmp.operatorID] == null)
                 testDictionaryValueTyped[tmp.operatorID] = ResultSetDictionary()
             testDictionaryValueTyped[tmp.operatorID]!!.createValue(it!!)

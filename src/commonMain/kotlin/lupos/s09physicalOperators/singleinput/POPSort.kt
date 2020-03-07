@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -17,6 +16,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
@@ -32,7 +32,7 @@ class POPSort : POPBase {
     @JvmField
     val sortOrder: Boolean
 
-    constructor(query:Query, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super(query,EOperatorID.POPSortID,"POPSort",ResultSet(query.dictionary),arrayOf(child)) {
+    constructor(query: Query, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super(query, EOperatorID.POPSortID, "POPSort", ResultSet(query.dictionary), arrayOf(child)) {
         this.sortOrder = sortOrder
         for (name in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
@@ -78,14 +78,14 @@ class POPSort : POPBase {
         else
             res += "DESC("
         for (v in variables)
-            res += AOPVariable(query,v).toSparql() + " "
+            res += AOPVariable(query, v).toSparql() + " "
         res += ")"
         res += "}"
         return res
     }
 
 
-    override fun cloneOP() = POPSort(query, AOPVariable(query,resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
+    override fun cloneOP() = POPSort(query, AOPVariable(query, resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPSort.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)

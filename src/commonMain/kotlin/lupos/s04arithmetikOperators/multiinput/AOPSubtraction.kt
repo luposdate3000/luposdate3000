@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,9 +11,10 @@ import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPSubtraction(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPSubtractionID,"AOPSubtraction",arrayOf(childA, childB)) {
+class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPSubtractionID, "AOPSubtraction", arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " - " + children[1].toSparql() + ")"
 
@@ -33,20 +33,20 @@ class AOPSubtraction(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(que
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble || b is AOPDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(query,a.toDouble() - b.toDouble())
+                AOPDouble(query, a.toDouble() - b.toDouble())
             })
         if (a is AOPDecimal || b is AOPDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(query,a.toDouble() - b.toDouble())
+                AOPDecimal(query, a.toDouble() - b.toDouble())
             })
         if (a is AOPInteger || b is AOPInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query,a.toInt() - b.toInt())
+                AOPInteger(query, a.toInt() - b.toInt())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPSubtraction only works with numeric input")
         })
     }
 
-    override fun cloneOP() = AOPSubtraction(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPSubtraction(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

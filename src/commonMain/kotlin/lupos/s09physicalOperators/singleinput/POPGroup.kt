@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -20,6 +19,7 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
 
@@ -36,7 +36,7 @@ class POPGroup : POPBase {
         for (b in by)
             res += b.toSparql() + " "
         for ((k, v) in bindings) {
-            res += "(" + v.toSparql() + " AS " + AOPVariable(query,resultSet.getVariable(k)).toSparql() + ")"
+            res += "(" + v.toSparql() + " AS " + AOPVariable(query, resultSet.getVariable(k)).toSparql() + ")"
         }
         return res
     }
@@ -57,15 +57,15 @@ class POPGroup : POPBase {
 
     override fun cloneOP(): POPGroup {
         if (bindings.size > 0) {
-            var tmpBindings = POPBind(query, AOPVariable(query,resultSet.getVariable(bindings[0].first)), bindings[0].second, OPNothing(query))
+            var tmpBindings = POPBind(query, AOPVariable(query, resultSet.getVariable(bindings[0].first)), bindings[0].second, OPNothing(query))
             for (bp in 1 until bindings.size)
-                tmpBindings = POPBind(query, AOPVariable(query,resultSet.getVariable(bindings[0].first)), bindings[0].second, tmpBindings)
+                tmpBindings = POPBind(query, AOPVariable(query, resultSet.getVariable(bindings[0].first)), bindings[0].second, tmpBindings)
             return POPGroup(query, by, tmpBindings, children[0].cloneOP())
         } else
             return POPGroup(query, by, null, children[0].cloneOP())
     }
 
-    constructor(query:Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query,EOperatorID.POPGroupID,"POPGroup",ResultSet(query.dictionary),arrayOf(child)) {
+    constructor(query: Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, EOperatorID.POPGroupID, "POPGroup", ResultSet(query.dictionary), arrayOf(child)) {
         this.by = by
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {

@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -18,12 +17,13 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModify(query:Query, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query,EOperatorID.POPModifyID,"POPModify", ResultSet(query.dictionary),arrayOf(child)) {
+class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPModify)
             return false
@@ -60,14 +60,14 @@ class POPModify(query:Query, @JvmField val insert: List<LOPTriple>, @JvmField va
                                 DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query,children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
                                 else
-                                    DistributedTripleStore.getNamedGraph(query,i.graph, true)
+                                    DistributedTripleStore.getNamedGraph(query, i.graph, true)
                             }
                             val data = mutableListOf<AOPConstant>()
                             for (c in i.children)
                                 data.add(evaluateRow(c, row))
-                            store.addData( data)
+                            store.addData(data)
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
@@ -78,14 +78,14 @@ class POPModify(query:Query, @JvmField val insert: List<LOPTriple>, @JvmField va
                                 DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query,children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
                                 else
-                                    DistributedTripleStore.getNamedGraph(query,i.graph, false)
+                                    DistributedTripleStore.getNamedGraph(query, i.graph, false)
                             }
                             val data = mutableListOf<AOPConstant>()
                             for (c in i.children)
                                 data.add(evaluateRow(c, row))
-                            store.deleteData( data)
+                            store.deleteData(data)
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }

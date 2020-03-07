@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
@@ -10,11 +9,12 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
 
-class LogicalOptimizerFilterSplitOR(query:Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterSplitORID) {
+class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterSplitORID) {
     override val classname = "LogicalOptimizerFilterSplitOR"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
@@ -24,7 +24,7 @@ class LogicalOptimizerFilterSplitOR(query:Query) : OptimizerBase(query, EOptimiz
             if (aopcompare is AOPOr && aopcompare.children[0] is AOPEQ && aopcompare.children[1] is AOPEQ) {
                 onChange()
                 require(false)/*TODO check this*/
-                res = LOPUnion(query,LOPFilter(query,aopcompare.children[0] as AOPBase, child.cloneOP()), LOPFilter(query,aopcompare.children[1] as AOPBase, child.cloneOP()))
+                res = LOPUnion(query, LOPFilter(query, aopcompare.children[0] as AOPBase, child.cloneOP()), LOPFilter(query, aopcompare.children[1] as AOPBase, child.cloneOP()))
             }
         }
         res

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,9 +11,10 @@ import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallLCASE(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallLCASEID,"AOPBuildInCallLCASE",arrayOf(child)) {
+class AOPBuildInCallLCASE(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLCASEID, "AOPBuildInCallLCASE", arrayOf(child)) {
 
     override fun toSparql() = "LCASE(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
@@ -27,20 +27,20 @@ class AOPBuildInCallLCASE(query:Query,child: AOPBase) : AOPBase(query,EOperatorI
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPLanguageTaggedLiteral(query,a.delimiter, a.content.toLowerCase(), a.language)
+                AOPLanguageTaggedLiteral(query, a.delimiter, a.content.toLowerCase(), a.language)
             })
         if (a is AOPTypedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPTypedLiteral.create(query,a.delimiter, a.content.toLowerCase(), a.type_iri)
+                AOPTypedLiteral.create(query, a.delimiter, a.content.toLowerCase(), a.type_iri)
             })
         if (a is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query,a.delimiter, a.content.toLowerCase())
+                AOPSimpleLiteral(query, a.delimiter, a.content.toLowerCase())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall LCASE only works with string input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallLCASE(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallLCASE(query, children[0].cloneOP() as AOPBase)
 }

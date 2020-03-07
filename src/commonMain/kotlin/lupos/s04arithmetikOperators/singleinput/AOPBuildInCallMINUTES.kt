@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -11,9 +10,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPInteger
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallMINUTES(query:Query,child: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallMINUTESID,"AOPBuildInCallMINUTES", arrayOf(child)) {
+class AOPBuildInCallMINUTES(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallMINUTESID, "AOPBuildInCallMINUTES", arrayOf(child)) {
 
     override fun toSparql() = "MINUTES(" + children[0].toSparql() + ")"
 
@@ -27,12 +27,12 @@ class AOPBuildInCallMINUTES(query:Query,child: AOPBase) : AOPBase(query,EOperato
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query,a.minutes)
+                AOPInteger(query, a.minutes)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall MINUTES only works with dateTime input")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallMINUTES(query,children[0].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallMINUTES(query, children[0].cloneOP() as AOPBase)
 }

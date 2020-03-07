@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -14,10 +13,11 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPDistinct(query:Query, child: OPBase) : POPBase(query,EOperatorID.POPDistinctID,"POPDistinct",ResultSet(query.dictionary), arrayOf(child)) {
+class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPDistinctID, "POPDistinct", ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPDistinct)
             return false

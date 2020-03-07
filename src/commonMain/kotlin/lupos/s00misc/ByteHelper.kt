@@ -1,8 +1,8 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.experimental.and
 import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.Query
 
 
 inline fun Byte.bit0(): Boolean = (this and 1) > 0

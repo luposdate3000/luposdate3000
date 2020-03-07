@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -14,10 +13,11 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPTemporaryStore(query:Query, child: OPBase) : POPBase(query, EOperatorID.POPTemporaryStoreID,"POPTemporaryStore",ResultSet(query.dictionary),arrayOf(child)) {
+class POPTemporaryStore(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPTemporaryStoreID, "POPTemporaryStore", ResultSet(query.dictionary), arrayOf(child)) {
     @JvmField
     val data = mutableListOf<ResultRow>()
 

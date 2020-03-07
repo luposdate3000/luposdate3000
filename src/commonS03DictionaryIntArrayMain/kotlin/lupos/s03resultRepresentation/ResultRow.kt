@@ -1,7 +1,7 @@
 package lupos.s03resultRepresentation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.Query
 
 
 class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {

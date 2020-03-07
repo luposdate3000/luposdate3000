@@ -1,14 +1,14 @@
 package lupos.s04logicalOperators.singleinput.modifiers
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class LOPLimit(query:Query,@JvmField val limit: Int, child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPLimitID,"LOPLimit",arrayOf(child)) {
+class LOPLimit(query: Query, @JvmField val limit: Int, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPLimitID, "LOPLimit", arrayOf(child)) {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 
@@ -24,5 +24,5 @@ class LOPLimit(query:Query,@JvmField val limit: Int, child: OPBase = OPNothing(q
         return true
     }
 
-    override fun cloneOP() = LOPLimit(query,limit, children[0].cloneOP())
+    override fun cloneOP() = LOPLimit(query, limit, children[0].cloneOP())
 }

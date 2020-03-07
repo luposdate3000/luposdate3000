@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -8,9 +7,10 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class LOPSort(query:Query,@JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing(query)) : LOPBase(query,EOperatorID.LOPSortID,"LOPSort", arrayOf(child)) {
+class LOPSort(query: Query, @JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPSortID, "LOPSort", arrayOf(child)) {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
@@ -37,5 +37,5 @@ class LOPSort(query:Query,@JvmField val asc: Boolean, @JvmField var by: AOPVaria
         return true
     }
 
-    override fun cloneOP() = LOPSort(query,asc, by, children[0].cloneOP())
+    override fun cloneOP() = LOPSort(query, asc, by, children[0].cloneOP())
 }

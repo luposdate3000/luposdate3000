@@ -1,5 +1,4 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import dirent.*
 import kotlin.jvm.JvmField
@@ -8,6 +7,7 @@ import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
+import lupos.s04logicalOperators.Query
 import stdio.*
 
 

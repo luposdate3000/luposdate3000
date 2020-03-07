@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -12,11 +11,12 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.Query
 
 
-class TripleStoreIteratorLocalFilter(query:Query,resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(query,resultSet, store, index,EOperatorID.TripleStoreIteratorLocalFilterID,"TripleStoreIteratorLocalFilter") {
+class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(query, resultSet, store, index, EOperatorID.TripleStoreIteratorLocalFilterID, "TripleStoreIteratorLocalFilter") {
 
-    override fun cloneOP() = TripleStoreIteratorLocalFilter(query,resultSet, store, index)
+    override fun cloneOP() = TripleStoreIteratorLocalFilter(query, resultSet, store, index)
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
         val sNew: Variable?

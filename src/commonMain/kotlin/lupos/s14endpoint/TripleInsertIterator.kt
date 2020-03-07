@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -27,6 +26,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -67,7 +67,7 @@ class TripleInsertIterator : POPBase {
 
     override fun cloneOP() = throw Exception("not implemented")
 
-    constructor(query:Query, triple: ID_Triple) :super(query,EOperatorID.TripleInsertIteratorID,"TripleInsertIterator",ResultSet(query.dictionary), arrayOf()){
+    constructor(query: Query, triple: ID_Triple) : super(query, EOperatorID.TripleInsertIteratorID, "TripleInsertIterator", ResultSet(query.dictionary), arrayOf()) {
         result = resultSet.createResultRow()
         result[resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
         result[resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))

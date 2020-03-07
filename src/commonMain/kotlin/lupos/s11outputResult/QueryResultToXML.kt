@@ -1,10 +1,10 @@
 package lupos.s11outputResult
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 

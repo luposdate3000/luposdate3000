@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import com.benasher44.uuid.uuid4
 import kotlin.jvm.JvmField
@@ -9,9 +8,10 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallUUID (query:Query): AOPBase(query, EOperatorID.AOPBuildInCallUUIDID,"AOPBuildInCallUUID",arrayOf()) {
+class AOPBuildInCallUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
 
     override fun toSparql() = "UUID()"
 
@@ -23,7 +23,7 @@ class AOPBuildInCallUUID (query:Query): AOPBase(query, EOperatorID.AOPBuildInCal
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPIri(query,"urn:uuid:" + uuid4())
+            AOPIri(query, "urn:uuid:" + uuid4())
         })
     }
 

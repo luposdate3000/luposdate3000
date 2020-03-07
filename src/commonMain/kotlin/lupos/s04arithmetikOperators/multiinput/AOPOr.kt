@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -10,9 +9,10 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPOr(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPOrID, "AOPOr",arrayOf(childA, childB)) {
+class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPOrID, "AOPOr", arrayOf(childA, childB)) {
 
     override fun toSparql() = "(" + children[0].toSparql() + " || " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
@@ -29,18 +29,18 @@ class AOPOr(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOpera
         var a: Any
         var b: Any
         try {
-            a = AOPBoolean(query,(children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
+            a = AOPBoolean(query, (children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             a = e
         }
         try {
-            b = AOPBoolean(query,(children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
+            b = AOPBoolean(query, (children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             b = e
         }
         if (a is AOPBoolean && b is AOPBoolean)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPBoolean(query,a.value || b.value)
+                AOPBoolean(query, a.value || b.value)
             })
         if (a is Throwable) {
             if (b is AOPBoolean && b.value == true)
@@ -63,5 +63,5 @@ class AOPOr(query:Query,childA: AOPBase, childB: AOPBase) : AOPBase(query,EOpera
         throw Exception("unreachable")
     }
 
-    override fun cloneOP() = AOPOr(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPOr(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

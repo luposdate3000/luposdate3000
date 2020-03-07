@@ -11,6 +11,7 @@ import lupos.s00misc.*
 import lupos.s00misc.executeBinaryTest
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.*
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
@@ -26,9 +27,10 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             k.createValue(it)
         }
     }
+    val query = Query(ResultSetDictionary(), 1L)
     testDictionaryValue.mapLTS.forEach {
         try {
-            val tmp = AOPVariable.calculate(it)
+            val tmp = AOPVariable.calculate(query, it)
             if (testDictionaryValueTyped[tmp.operatorID] == null)
                 testDictionaryValueTyped[tmp.operatorID] = ResultSetDictionary()
             testDictionaryValueTyped[tmp.operatorID]!!.createValue(it!!)

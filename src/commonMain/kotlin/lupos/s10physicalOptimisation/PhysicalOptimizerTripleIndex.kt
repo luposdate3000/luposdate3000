@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
@@ -9,12 +8,13 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s15tripleStoreDistributed.DistributedGraph
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class PhysicalOptimizerTripleIndex(query:Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
+class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
@@ -25,7 +25,7 @@ class PhysicalOptimizerTripleIndex(query:Query) : OptimizerBase(query, EOptimize
             if (node.graph == null)
                 store = DistributedTripleStore.getDefaultGraph(query)
             else
-                store = DistributedTripleStore.getNamedGraph(query,node.graph)
+                store = DistributedTripleStore.getNamedGraph(query, node.graph)
             val idx: EIndexPattern
             var count = 0
             for (n in node.children)
@@ -53,7 +53,7 @@ class PhysicalOptimizerTripleIndex(query:Query) : OptimizerBase(query, EOptimize
                     idx = EIndexPattern.SP
                 }
             }
-            res = store.getIterator( node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, idx)
+            res = store.getIterator(node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, idx)
         }
         res
     })

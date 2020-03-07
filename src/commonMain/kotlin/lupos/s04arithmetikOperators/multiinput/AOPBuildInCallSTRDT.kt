@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -12,9 +11,10 @@ import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPBuildInCallSTRDT(query:Query,child: AOPBase, childB: AOPBase) : AOPBase(query,EOperatorID.AOPBuildInCallSTRDTID,"AOPBuildInCallSTRDT",arrayOf(child, childB)) {
+class AOPBuildInCallSTRDT(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRDTID, "AOPBuildInCallSTRDT", arrayOf(child, childB)) {
 
     override fun toSparql() = "STRDT(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
@@ -32,12 +32,12 @@ class AOPBuildInCallSTRDT(query:Query,child: AOPBase, childB: AOPBase) : AOPBase
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral && b is AOPIri)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPTypedLiteral.create(query,a.delimiter, a.content, b.iri)
+                AOPTypedLiteral.create(query, a.delimiter, a.content, b.iri)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
         })
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRDT(query,children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() = AOPBuildInCallSTRDT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

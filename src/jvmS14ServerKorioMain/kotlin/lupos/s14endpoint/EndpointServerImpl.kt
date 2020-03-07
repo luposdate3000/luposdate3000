@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-import lupos.s04logicalOperators.Query
 
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -20,6 +19,7 @@ import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.Query
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
 

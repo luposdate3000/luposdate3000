@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -15,10 +14,11 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPJoinHashMap(query:Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query,EOperatorID.POPJoinHashMapID,"POPJoinHashMap",ResultSet(query.dictionary),arrayOf(childA, childB)) {
+class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", ResultSet(query.dictionary), arrayOf(childA, childB)) {
 
     override fun toSparql(): String {
         if (optional)

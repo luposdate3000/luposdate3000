@@ -1,8 +1,8 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 
 

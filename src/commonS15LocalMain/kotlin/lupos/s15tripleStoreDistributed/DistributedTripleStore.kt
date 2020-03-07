@@ -1,5 +1,4 @@
 package lupos.s15tripleStoreDistributed
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
@@ -13,6 +12,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
@@ -24,7 +24,7 @@ val uuid = ThreadSafeUuid()
 
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
 
-class DistributedGraph(val query:Query,@JvmField val name: String) {
+class DistributedGraph(val query: Query, @JvmField val name: String) {
     @JvmField
     val K = 8 // defined in project.pdf
 
@@ -55,25 +55,25 @@ class DistributedGraph(val query:Query,@JvmField val name: String) {
         return setOf(endpointServer!!.fullname)
     }
 
-    fun addData( t: List<AOPConstant>) {
+    fun addData(t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_add(query,endpointServer!!.fullname, t[0]!!, t[1]!!, t[2]!!, it)
+            Endpoint.process_local_triple_add(query, endpointServer!!.fullname, t[0]!!, t[1]!!, t[2]!!, it)
         }
     }
 
-    fun deleteData( t: List<AOPConstant>) {
+    fun deleteData(t: List<AOPConstant>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_delete(query,endpointServer!!.fullname,  t[0], t[1], t[2], it)
+            Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, t[0], t[1], t[2], it)
         }
     }
 
-    fun deleteDataVar( t: List<AOPBase>) {
+    fun deleteDataVar(t: List<AOPBase>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_delete(query,endpointServer!!.fullname,  t[0], t[1], t[2], it)
+            Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, t[0], t[1], t[2], it)
         }
     }
 
-    fun addData( iterator: OPBase) {
+    fun addData(iterator: OPBase) {
         val rs = iterator.resultSet
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
@@ -81,20 +81,20 @@ class DistributedGraph(val query:Query,@JvmField val name: String) {
         val channel = iterator.evaluate()
         CoroutinesHelper.runBlock {
             for (v in channel) {
-                val s = AOPVariable.calculate(query,rs.getValue(v[ks]))
-                val p = AOPVariable.calculate(query,rs.getValue(v[kp]))
-                val o = AOPVariable.calculate(query,rs.getValue(v[ko]))
-                addData( listOf(s, p, o))
+                val s = AOPVariable.calculate(query, rs.getValue(v[ks]))
+                val p = AOPVariable.calculate(query, rs.getValue(v[kp]))
+                val o = AOPVariable.calculate(query, rs.getValue(v[ko]))
+                addData(listOf(s, p, o))
             }
         }
     }
 
-    fun getIterator(  index: EIndexPattern): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(query,name).getIterator(query,ResultSet(query.dictionary) ,index)
+    fun getIterator(index: EIndexPattern): POPTripleStoreIteratorBase {
+        return DistributedTripleStore.localStore.getNamedGraph(query, name).getIterator(query, ResultSet(query.dictionary), index)
     }
 
-    fun getIterator(  s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = DistributedTripleStore.localStore.getNamedGraph(query,name).getIterator( query,ResultSet(query.dictionary),s, p, o, index)
+    fun getIterator(s: AOPBase, p: AOPBase, o: AOPBase, index: EIndexPattern): POPTripleStoreIteratorBase {
+        val res = DistributedTripleStore.localStore.getNamedGraph(query, name).getIterator(query, ResultSet(query.dictionary), s, p, o, index)
         return res
     }
 
@@ -112,38 +112,38 @@ object DistributedTripleStore {
         return localStore.getGraphNames(includeDefault)
     }
 
-    fun createGraph(query:Query,name: String): DistributedGraph {
+    fun createGraph(query: Query, name: String): DistributedGraph {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.createGraph $name 1" })
-        Endpoint.process_local_graph_operation(query,name, EGraphOperationType.CREATE)
+        Endpoint.process_local_graph_operation(query, name, EGraphOperationType.CREATE)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.createGraph $name 2" })
-        return DistributedGraph(query,name)
+        return DistributedGraph(query, name)
     }
 
-    fun dropGraph(query:Query,name: String) {
+    fun dropGraph(query: Query, name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.dropGraph $name 1" })
-        Endpoint.process_local_graph_operation(query,name, EGraphOperationType.DROP)
+        Endpoint.process_local_graph_operation(query, name, EGraphOperationType.DROP)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.dropGraph $name 2" })
     }
 
-    fun clearGraph(query:Query,name: String) {
+    fun clearGraph(query: Query, name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name 1" })
-        Endpoint.process_local_graph_operation(query,name, EGraphOperationType.CLEAR)
+        Endpoint.process_local_graph_operation(query, name, EGraphOperationType.CLEAR)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name 2" })
     }
 
-    fun getNamedGraph(query:Query,name: String, create: Boolean = false): DistributedGraph {
+    fun getNamedGraph(query: Query, name: String, create: Boolean = false): DistributedGraph {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.getNamedGraph $name 1" })
         if (create && !(localStore.getGraphNames(true).contains(name)))
-            createGraph(query,name)
+            createGraph(query, name)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.getNamedGraph $name 2" })
-        return DistributedGraph(query,name)
+        return DistributedGraph(query, name)
     }
 
-    fun getDefaultGraph(query:Query): DistributedGraph {
-        return DistributedGraph(query,PersistentStoreLocal.defaultGraphName)
+    fun getDefaultGraph(query: Query): DistributedGraph {
+        return DistributedGraph(query, PersistentStoreLocal.defaultGraphName)
     }
 
-    fun commit(query:Query) {
+    fun commit(query: Query) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.commit 1" })
         Endpoint.process_local_commit(query)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.commit 2" })

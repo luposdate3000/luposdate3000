@@ -1,7 +1,7 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.Query
 
 
 class ThreadSafeMutableSet<T> {

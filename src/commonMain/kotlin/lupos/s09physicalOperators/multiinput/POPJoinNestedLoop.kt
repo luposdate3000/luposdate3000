@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -15,6 +14,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
@@ -24,11 +24,11 @@ class POPJoinNestedLoop : POPBase {
     val optional: Boolean
     @JvmField
     val joinVariables = mutableListOf<String>()
-     val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
-     val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
-     val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
-     var resultRowA: ResultRow? = null
-     var hadMatchForA = false
+    val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
+    val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
+    val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
+    var resultRowA: ResultRow? = null
+    var hadMatchForA = false
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinNestedLoop)
@@ -42,7 +42,7 @@ class POPJoinNestedLoop : POPBase {
         return true
     }
 
-    constructor(query:Query, childA: OPBase, childB: OPBase, optional: Boolean) : super(query,EOperatorID.POPJoinNestedLoopID,"POPJoinNestedLoop",ResultSet(query.dictionary),arrayOf(OPNothing(query), OPNothing(query))) {
+    constructor(query: Query, childA: OPBase, childB: OPBase, optional: Boolean) : super(query, EOperatorID.POPJoinNestedLoopID, "POPJoinNestedLoop", ResultSet(query.dictionary), arrayOf(OPNothing(query), OPNothing(query))) {
         this.children[0] = childA
         this.children[1] = POPTemporaryStore(query, childB)
         this.optional = optional

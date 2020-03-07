@@ -1,10 +1,10 @@
 package lupos
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.parseFromJson
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.EndpointClientImpl
 
 

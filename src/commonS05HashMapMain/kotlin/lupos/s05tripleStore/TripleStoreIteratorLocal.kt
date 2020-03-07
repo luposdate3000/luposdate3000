@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -12,25 +11,27 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
-open class TripleStoreIteratorLocal (query:Query,
-resultSet: ResultSet,
-val store: TripleStoreLocal,
- var index: EIndexPattern = EIndexPattern.SPO,
-operatorID: EOperatorID=EOperatorID.TripleStoreIteratorLocalID,
- classname: String="TripleStoreIteratorLocal"
-):
- POPTripleStoreIteratorBase (query,
-operatorID,
-classname,
-resultSet,
-arrayOf()){
 
-    override fun getGraphName()=store.name
+open class TripleStoreIteratorLocal(query: Query,
+                                    resultSet: ResultSet,
+                                    val store: TripleStoreLocal,
+                                    var index: EIndexPattern = EIndexPattern.SPO,
+                                    operatorID: EOperatorID = EOperatorID.TripleStoreIteratorLocalID,
+                                    classname: String = "TripleStoreIteratorLocal"
+) :
+        POPTripleStoreIteratorBase(query,
+                operatorID,
+                classname,
+                resultSet,
+                arrayOf()) {
+
+    override fun getGraphName() = store.name
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(sparam.toXMLElement())).addContent(XMLElement("pparam").addContent(pparam.toXMLElement())).addContent(XMLElement("oparam").addContent(oparam.toXMLElement()))
 
-    override fun cloneOP() = TripleStoreIteratorLocal(query,resultSet, store, index)
+    override fun cloneOP() = TripleStoreIteratorLocal(query, resultSet, store, index)
 
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
@@ -47,7 +48,7 @@ arrayOf()){
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                store.forEach(AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o"), { sv, pv, ov ->
+                store.forEach(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), { sv, pv, ov ->
                     val result = resultSet.createResultRow()
                     result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
                     result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))

@@ -1,8 +1,8 @@
 package lupos.s00misc
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import kotlin.math.abs
+import lupos.s04logicalOperators.Query
 
 
 class XMLElement {

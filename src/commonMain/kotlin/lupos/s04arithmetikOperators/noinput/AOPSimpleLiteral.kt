@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 
 
-class AOPSimpleLiteral (query:Query,delimiter: String, content: String): AOPConstantString(query,EOperatorID.AOPSimpleLiteralID,"AOPSimpleLiteral",delimiter,content), AOPXPathCompareable {
+class AOPSimpleLiteral(query: Query, delimiter: String, content: String) : AOPConstantString(query, EOperatorID.AOPSimpleLiteralID, "AOPSimpleLiteral", delimiter, content), AOPXPathCompareable {
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("delimiter", delimiter).addAttribute("content", content)
 

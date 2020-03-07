@@ -1,5 +1,4 @@
 package lupos.s03resultRepresentation
-import lupos.s04logicalOperators.Query
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.DynamicByteArray
@@ -10,6 +9,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.Endpoint
 
 
@@ -20,24 +20,24 @@ class TransferHelperNetwork {
             var res = ByteArray(0)
             val data = DynamicByteArray(d)
             val transactionID = data.getNextLong()
-val query=Query(ResultSetDictionary(),transactionID)
+            val query = Query(ResultSetDictionary(), transactionID)
             var header = ENetworkMessageType.values()[data.getNextInt()]
             while (header != ENetworkMessageType.FINISH) {
                 val count = data.getNextInt()
                 when (header) {
                     ENetworkMessageType.DICTIONARY_ENTRY -> {
                         for (i in 0 until count)
- query.                           dictionary.createValue(data.getNextString())
+                            query.dictionary.createValue(data.getNextString())
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
                             val graphName = query.dictionary.getValue(data.getNextInt())!!
-                            val s = AOPVariable.calculate(query,query.dictionary.getValue(data.getNextInt()))
-                            val p = AOPVariable.calculate(query,query.dictionary.getValue(data.getNextInt()))
-                            val o = AOPVariable.calculate(query,query.dictionary.getValue(data.getNextInt()))
+                            val s = AOPVariable.calculate(query, query.dictionary.getValue(data.getNextInt()))
+                            val p = AOPVariable.calculate(query, query.dictionary.getValue(data.getNextInt()))
+                            val o = AOPVariable.calculate(query, query.dictionary.getValue(data.getNextInt()))
                             val idx = EIndexPattern.values()[data.getNextInt()]
                             try {
-                                Endpoint.process_local_triple_add(query,graphName, s, p, o, idx)
+                                Endpoint.process_local_triple_add(query, graphName, s, p, o, idx)
                             } catch (e: Throwable) {
                                 e.printStackTrace()
                                 res += e.toString().encodeToByteArray()
@@ -64,9 +64,10 @@ val query=Query(ResultSetDictionary(),transactionID)
     var lastCounterValue = 0
     @JvmField
     var lastDictionaryKey: Value? = null
-val query:Query
-    constructor( query:Query) {
-this.query=query
+    val query: Query
+
+    constructor(query: Query) {
+        this.query = query
         data.appendLong(query.transactionID)
     }
 
