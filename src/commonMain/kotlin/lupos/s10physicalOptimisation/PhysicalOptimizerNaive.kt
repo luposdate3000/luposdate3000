@@ -91,10 +91,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
                 is LOPJoin -> res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
                 is LOPTriple -> {
-                    if (node.graph == null)
-                        res = DistributedTripleStore.getDefaultGraph(query).getIterator(Array(3){node.children[0] as AOPBase}, EIndexPattern.SPO)
-                    else
-                        res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3){node.children[0] as AOPBase}, EIndexPattern.SPO)
+                        res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3){node.children[it] as AOPBase}, EIndexPattern.SPO)
                 }
                 is OPNothing -> res = POPEmptyRow(query)
                 else -> {
