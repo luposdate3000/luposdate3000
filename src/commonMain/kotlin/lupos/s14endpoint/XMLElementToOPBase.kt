@@ -87,6 +87,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPDateTime" -> AOPDateTime(query, node.attributes["value"]!!)
         "AOPNot" -> AOPNot(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPAddition" -> AOPAddition(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPGEQ" -> AOPGEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPSet" -> {
             val children = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
@@ -95,6 +96,11 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "AOPBuildInCallCONTAINS" -> AOPBuildInCallCONTAINS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallDAY" -> AOPBuildInCallDAY(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallFLOOR" -> AOPBuildInCallFLOOR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallCEIL" -> AOPBuildInCallCEIL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallABS" -> AOPBuildInCallABS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallIsIri" -> AOPBuildInCallIsIri(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallROUND" -> AOPBuildInCallROUND(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallBOUND" -> AOPBuildInCallBOUND(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallHOURS" -> AOPBuildInCallHOURS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallIF" -> AOPBuildInCallIF(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase)
@@ -219,14 +225,14 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPDistinct" -> POPDistinct(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         "POPValues" -> {
             val vars = mutableListOf<String>()
-            val vals = mutableListOf<MutableMap<String, String>>()
+            val vals = mutableListOf<MutableMap<String, String?>>()
             node["variables"]!!.childs.forEach {
                 vars.add(it.attributes["name"]!!)
             }
             node["bindings"]!!.childs.forEach {
-                val exp = mutableMapOf<String, String>()
+                val exp = mutableMapOf<String, String?>()
                 it.childs.forEach {
-                    exp[it.attributes["name"]!!] = it.attributes["content"]!!
+                    exp[it.attributes["name"]!!] = it.attributes["content"]
                 }
                 vals.add(exp)
             }

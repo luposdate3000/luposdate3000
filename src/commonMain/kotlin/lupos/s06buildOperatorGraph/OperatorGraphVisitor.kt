@@ -1033,7 +1033,10 @@ val res=LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-        return LOPFilter(query, childrenValues.first() as AOPBase)
+val child=childrenValues.first() as AOPBase
+if(containsAggregate(node.children.first()))
+throw Exception("Aggregate not allowed here")
+        return LOPFilter(query, child)
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
