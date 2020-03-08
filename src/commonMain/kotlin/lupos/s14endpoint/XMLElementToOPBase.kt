@@ -17,7 +17,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGT
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.multiinput.AOPIn
 import lupos.s04arithmetikOperators.multiinput.AOPLT
 import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
@@ -29,7 +29,7 @@ import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPDateTime
 import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
@@ -38,7 +38,6 @@ import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
@@ -109,18 +108,26 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPEQ" -> AOPEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPUndef" -> AOPUndef(query)
         "AOPVariable" -> AOPVariable(query, node.attributes["name"]!!)
+        "AOPBuildInCallIRI" -> AOPBuildInCallIRI(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase,node.attributes["prefix"]!!)
         "AOPBuildInCallDATATYPE" -> AOPBuildInCallDATATYPE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallTIMEZONE" -> AOPBuildInCallTIMEZONE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallUCASE" -> AOPBuildInCallUCASE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallLCASE" -> AOPBuildInCallLCASE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPBuildInCallLANG" -> AOPBuildInCallLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPDivision" -> AOPDivision(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPInteger" -> AOPInteger(query, node.attributes["value"]!!.toInt())
+        "AOPDecimal" -> AOPDecimal(query, node.attributes["value"]!!.toDouble())
+        "AOPDouble" -> AOPDouble(query, node.attributes["value"]!!.toDouble())
         "AOPMultiplication" -> AOPMultiplication(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPSimpleLiteral" -> AOPSimpleLiteral(query, node.attributes["delimiter"]!!, node.attributes["content"]!!)
         "AOPTypedLiteral" -> AOPTypedLiteral.create(query, node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!)
+        "AOPLanguageTaggedLiteral" -> AOPLanguageTaggedLiteral(query, node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!)
         "AOPBoolean" -> AOPBoolean(query, node.attributes["value"]!!.toBoolean())
         "AOPBuildInCallSTRDT" -> AOPBuildInCallSTRDT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallSTRLANG" -> AOPBuildInCallSTRLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallBNODE0" -> AOPBuildInCallBNODE0(query)
         "AOPBuildInCallSTR" -> AOPBuildInCallSTR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallIsLITERAL" -> AOPBuildInCallIsLITERAL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPIri" -> AOPIri(query, node.attributes["value"]!!)
         "AOPBuildInCallSTRENDS" -> AOPBuildInCallSTRENDS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallSTRSTARTS" -> AOPBuildInCallSTRSTARTS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
@@ -185,6 +192,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             }
             return POPProjection(query, variables, child)
         }
+        "LOPMakeBooleanResult" -> LOPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         "POPMakeBooleanResult" -> POPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)

@@ -1,4 +1,5 @@
 #!/bin/bash
+#for i in $(ps -aux | grep "java " | sed "s/root *//g" | sed "s/ .*//g"); do kill $i;done
 kotlinc -script generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
 ./tool-gradle-build.sh
 mkdir donefolder

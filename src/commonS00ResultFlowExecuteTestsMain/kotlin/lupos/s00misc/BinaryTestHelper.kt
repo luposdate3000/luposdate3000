@@ -144,12 +144,9 @@ fun nextStringValueTyped(query: Query, buffer: DynamicByteArray, type: EOperator
 
 fun fromBinaryAOPConstOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
     try {
-        var id = buffer.getNextInt()
-        if (id < 0)
-            id = -id
-        if (id % 2 == 0)
-            return AOPVariable(query, testDictionaryVarName.getValue(id % testDictionaryVarName.mapLTS.size())!!)
-        return AOPVariable.calculate(query, testDictionaryValue.getValue(id % testDictionaryValue.mapLTS.size())!!)
+        if (nextInt(query,buffer,2) == 0)
+            return AOPVariable(query, testDictionaryVarName.getValue(nextInt(query,buffer, testDictionaryVarName.mapLTS.size()))!!)
+        return AOPVariable.calculate(query, testDictionaryValue.getValue(nextInt(query,buffer, testDictionaryValue.mapLTS.size()))!!)
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
         return AOPUndef(query)
@@ -158,16 +155,10 @@ fun fromBinaryAOPConstOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
 
 fun fromBinaryAOPIriOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
     try {
-        var id = buffer.getNextInt()
-        if (id < 0)
-            id = -id
-        var id2 = buffer.getNextInt()
-        if (id2 < 0)
-            id2 = -id2
-        if (id % 2 == 0)
-            return AOPVariable(query, testDictionaryVarName.getValue(id2 % testDictionaryVarName.mapLTS.size())!!)
+        if (nextInt(query,buffer,2) == 0)
+            return AOPVariable(query, testDictionaryVarName.getValue(nextInt(query,buffer, testDictionaryVarName.mapLTS.size()))!!)
         val resultSet = testDictionaryValueTyped[EOperatorID.AOPIriID]!!
-        return AOPVariable.calculate(query, resultSet.mapLTS[id2 % resultSet.mapLTS.size()])
+        return AOPVariable.calculate(query, resultSet.mapLTS[nextInt(query,buffer, resultSet.mapLTS.size())])
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
         val resultSet = testDictionaryValueTyped[EOperatorID.AOPIriID]!!
@@ -177,17 +168,12 @@ fun fromBinaryAOPIriOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
 
 fun fromBinaryAOPIriOrBnodeOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
     try {
-        var id = buffer.getNextInt()
-        if (id < 0)
-            id = -id
-        var id2 = buffer.getNextInt()
-        if (id2 < 0)
-            id2 = -id2
+        var id = nextInt(query,buffer,3)
         when (id % 3) {
-            0 -> return AOPVariable(query, testDictionaryVarName.getValue(id2 % testDictionaryVarName.mapLTS.size())!!)
+            0 -> return AOPVariable(query, testDictionaryVarName.getValue(nextInt(query,buffer, testDictionaryVarName.mapLTS.size()))!!)
             1 -> {
                 val resultSet = testDictionaryValueTyped[EOperatorID.AOPIriID]!!
-                return AOPVariable.calculate(query, resultSet.mapLTS[id2 % resultSet.mapLTS.size()])
+                return AOPVariable.calculate(query, resultSet.mapLTS[nextInt(query,buffer, resultSet.mapLTS.size())])
             }
             else -> {
                 return AOPBuildInCallBNODE0(query)
@@ -199,27 +185,20 @@ fun fromBinaryAOPIriOrBnodeOrVar(query: Query, buffer: DynamicByteArray): AOPBas
     }
 }
 
-fun nextInt(query: Query, buffer: DynamicByteArray, maxValue: Int): Int {
-    val tmp = buffer.getNextInt()
+fun nextInt(query: Query, buffer: DynamicByteArray, maxValue: Int=Int.MAX_VALUE,increment:Boolean=true): Int {
+    val tmp = if(increment)
+	buffer.getNextInt()
+	else
+	buffer.getInt(buffer.pos)
     if (tmp < 0)
         return (-tmp) % maxValue
     return tmp % maxValue
 }
 
-fun nextInt(query: Query, buffer: DynamicByteArray): Int {
-    return buffer.getNextInt()
-}
-
 fun fromBinary(query: Query, buffer: DynamicByteArray): OPBase {
     try {
-        var id = buffer.getInt(buffer.pos)
-        if (id < 0)
-            id = -id
-        val operatorID: EOperatorID
-        if (id > EOperatorID.values().size)
-            operatorID = EOperatorID.values()[id % EOperatorID.values().size]
-        else
-            operatorID = EOperatorID.values()[id]
+        var id = nextInt(query,buffer,EOperatorID.values().size,false)
+          val  operatorID = EOperatorID.values()[id]
         if (operatorID == EOperatorID.OPNothingID)
             return OPNothing(query)
         if (EOperatorIDLOP.contains(operatorID))
@@ -237,10 +216,8 @@ fun fromBinary(query: Query, buffer: DynamicByteArray): OPBase {
 fun fromBinaryPOPLOP(query: Query, buffer: DynamicByteArray): OPBase {
     try {
         val poploplist = EOperatorIDPOP + EOperatorIDLOP
-        var id = buffer.getInt(buffer.pos)
-        if (id < 0)
-            id = -id
-        val operatorID = poploplist[id % poploplist.size]
+        var id = nextInt(query,buffer,poploplist.size)
+        val operatorID = poploplist[id]
         if (operatorID == EOperatorID.OPNothingID)
             return OPNothing(query)
         if (EOperatorIDLOP.contains(operatorID))
@@ -611,7 +588,7 @@ fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
         }
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
-        return OPNothing(query)
+        return LOPTriple(query, AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o"), DistributedTripleStore.getGraphNames(true).last(),false)
     }
 }
 

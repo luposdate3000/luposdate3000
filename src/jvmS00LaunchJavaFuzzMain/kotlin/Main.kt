@@ -16,15 +16,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)
     mapOf(
-            testDictionaryVarName to "DictionaryVarName",
-            testDictionaryValue to "DictionaryValue"
+            testDictionaryVarName to "DictionaryVarName.txt",
+            testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
-        val buffer = File("resources/$v").readAsDynamicByteArray()
-        val len = buffer.getNextInt()
-        for (i in 0 until len) {
-            val tmp = buffer.getNextString()
-            val w = k.createValue(tmp)
-            require(w == i)
+java.io.	File("resources/$v").forEachLine {
+            k.createValue(it)
         }
     }
     val query = Query()

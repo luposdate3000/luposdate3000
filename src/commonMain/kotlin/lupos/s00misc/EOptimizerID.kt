@@ -6,6 +6,7 @@ import lupos.s04logicalOperators.Query
 
 enum class EOptimizerID(@JvmField val optional: Boolean) {
     LogicalOptimizerID(false),
+    LogicalOptimizerVariableRenameID(false),
     LogicalOptimizerArithmeticID(false),
     LogicalOptimizerFilterDownID(true),
     LogicalOptimizerFilterIntoTripleID(true),

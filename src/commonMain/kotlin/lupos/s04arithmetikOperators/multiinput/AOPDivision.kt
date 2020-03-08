@@ -55,7 +55,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                     Exception("AOPDivision by zero")
                 })
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query, a.toInt() / b.toInt())
+                AOPDecimal(query, a.toDouble() / b.toDouble())
             })
         }
         throw resultFlow({ this }, { resultRow }, { resultSet }, {

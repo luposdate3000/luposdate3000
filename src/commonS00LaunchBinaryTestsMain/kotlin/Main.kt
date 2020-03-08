@@ -19,10 +19,10 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)
     mapOf(
-            testDictionaryVarName to "DictionaryVarName",
-            testDictionaryValue to "DictionaryValue"
+            testDictionaryVarName to "DictionaryVarName.txt",
+            testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
-        File("resources/$v.txt").forEachLine {
+        File("resources/$v").forEachLine {
             k.createValue(it)
         }
     }
