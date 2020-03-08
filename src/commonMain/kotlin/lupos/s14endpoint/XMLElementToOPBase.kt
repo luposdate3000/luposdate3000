@@ -49,7 +49,11 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -80,6 +84,7 @@ fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: S
 
 fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
+"LOPSubGroup"-> return LOPSubGroup(query,convertToOPBase(query, node["children"]!!.childs[0], mapping))
         "AOPDateTime" -> AOPDateTime(query, node.attributes["value"]!!)
         "AOPNot" -> AOPNot(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPAddition" -> AOPAddition(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)

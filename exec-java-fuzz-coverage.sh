@@ -10,9 +10,10 @@ classes2="build/build_jvm_jvmS00LaunchWarnkeFuzzMain_commonS00ExecutionSequentia
 
 #exit
 
+java -jar dependencies/jacococli.jar report jacoco.2.exec --classfiles "build/build_jvm_jvmS00LaunchWarnkeFuzz_S00ExecutionSequential_S00TraceOff_S01Heap_S12Dummy_S14ServerNone_jvmS14ClientKtorTarget_S15Distributed/classes/kotlin/main/" $(find src -maxdepth 2 |grep kotlin | sed "s/^/--sourcefiles /g") --html html
 
 docker start sonarqube
-java -jar dependencies/jacococli.jar report $(find -name "jacoco.*exec") --classfiles "${classes2}/classes/kotlin/main/" --sourcefiles src/ --xml coverage.xml
+java -jar dependencies/jacococli.jar report $(find -name "jacoco.*exec") --classfiles "${classes2}/classes/kotlin/main/" --sourcefiles $(find src -maxdepth 2 |grep kotlin | sed "s/^/--sourcefiles /g") --xml coverage.xml
 sonar-scanner
 
 #view localhost:9000

@@ -91,7 +91,8 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s14endpoint.*
+import lupos.s15tripleStoreDistributed.*
 
 
 class ExceptionTopLevelOperator(@JvmField val data: OPBase) : Exception("this object needs to be toplevel")
@@ -404,14 +405,10 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                 val o = fromBinaryAOPConstOrVar(query, buffer)
                 val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
                 val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
-                for (i in 0 until tripleCount) {
-                    val st = AOPVariable.calculate(query, nextStringValue(query, buffer))
-                    val pt = AOPVariable.calculate(query, nextStringValue(query, buffer))
-                    val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
-                    graph.addData(listOf(st, pt, ot))
-                }
+                for (i in 0 until tripleCount) 
+                    graph.addData(Array(3){AOPVariable.calculate(query, nextStringValue(query, buffer))})
                 query.commit()
-                return DistributedTripleStore.getNamedGraph(query, graphName).getIterator(s, p, o, idx)
+                return DistributedTripleStore.getNamedGraph(query, graphName).getIterator(arrayOf(s, p, o), idx)
             }
             EOperatorID.POPValuesID -> {
                 val variables = mutableListOf<String>()
@@ -627,12 +624,8 @@ fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
     var o = fromBinaryAOPConstOrVar(query, buffer)
     val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
     val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
-    for (i in 0 until tripleCount) {
-        val st = AOPVariable.calculate(query, nextStringValue(query, buffer))
-        val pt = AOPVariable.calculate(query, nextStringValue(query, buffer))
-        val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
-        graph.addData(listOf(st, pt, ot))
-    }
+    for (i in 0 until tripleCount) 
+        graph.addData(Array(3){AOPVariable.calculate(query, nextStringValue(query, buffer))})
     query.commit()
     return LOPTriple(query, s, p, o, graphName, false)
 }
@@ -1052,12 +1045,8 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                         val o = fromBinaryAOPConstOrVar(query, buffer)
                         val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
                         val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
-                        for (i in 0 until tripleCount) {
-                            val st = AOPVariable.calculate(query, nextStringValue(query, buffer))
-                            val pt = AOPVariable.calculate(query, nextStringValue(query, buffer))
-                            val ot = AOPVariable.calculate(query, nextStringValue(query, buffer))
-                            graph.addData(listOf(st, pt, ot))
-                        }
+                        for (i in 0 until tripleCount) 
+                            graph.addData(Array(3){AOPVariable.calculate(query, nextStringValue(query, buffer))})
                     } catch (e: Throwable) {
                     }
                     query.commit()
@@ -1082,7 +1071,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
     }
     for (gname in DistributedTripleStore.getGraphNames(true)) {
         val g = DistributedTripleStore.getNamedGraph(query, gname)
-        val iterator = g.getIterator(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), EIndexPattern.SPO)
+        val iterator = g.getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
         val data = QueryResultToXML.toXML(iterator).first()
         var hasData = false
         var sparql = "INSERT DATA { "
@@ -1145,6 +1134,11 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     node4 = dOptimizer.optimizeCall(node3) as POPBase
                     node5 = node4.cloneOP()
                     require(node4.equals(node5))
+                    node5 = node1.cloneOP()
+                    require(node1.equals(node5))
+		val node1xml=node1.toXMLElement()
+node5=XMLElement.convertToOPBase(query,node1xml)
+require(node1.equals(node5))
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
                     query.commit()

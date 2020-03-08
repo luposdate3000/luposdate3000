@@ -15,7 +15,6 @@ class File(@JvmField val filename: String) {
                     return null
                 return DynamicByteArray(data)
             }
-            return null
         }
     }
 

@@ -32,9 +32,6 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 (children[2] as AOPBase).calculate(resultSet, resultRow)
             })
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPBuiltInCall IF only works with boolean condition")
-        })
     }
 
     override fun cloneOP() = AOPBuildInCallIF(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase)

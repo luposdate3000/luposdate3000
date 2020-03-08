@@ -51,26 +51,9 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
                     a.get()!!
                 })
         }
-        if (distinct)
-            throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                Exception("AOPAggregationMIN does not support distinct")
-            })
         val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        var flag = false
-        if (a.get() == null)
-            flag = true
-        else if (a.get() is AOPDouble || b is AOPDouble)
-            flag = a.get()!!.toDouble() < b.toDouble()
-        else if (a.get() is AOPDecimal || b is AOPDecimal)
-            flag = a.get()!!.toDouble() < b.toDouble()
-        else if (a.get() is AOPInteger || b is AOPInteger)
-            flag = a.get()!!.toInt() < b.toInt()
-        else
-            throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                Exception("AOPAggregationMAX MAX only defined on numeric input")
-            })
-        if (flag)
-            a.set(b)
+if(a.get()==null||(a.get()!!as AOPConstant).compareTo(b) < 0)
+a.set(b)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             a.get()!!
         })
