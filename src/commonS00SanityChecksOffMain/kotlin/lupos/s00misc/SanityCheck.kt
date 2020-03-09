@@ -1,8 +1,7 @@
 package lupos.s00misc
 
 object SanityCheck{
-inline fun helper(action:()->Unit){}
-inline fun<T> helperInit(action:()->T):T?=null
+inline fun <T>helper(action:()->Unit):T?{return null}
 inline fun check(value:()->Boolean){}
 inline fun checkFalse(value:()->Boolean){}
 inline fun<T> checkEQ(a:()->T,b:()->T){}
