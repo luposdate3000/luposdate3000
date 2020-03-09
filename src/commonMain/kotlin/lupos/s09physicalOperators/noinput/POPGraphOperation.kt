@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -10,6 +9,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowProduce
+import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef

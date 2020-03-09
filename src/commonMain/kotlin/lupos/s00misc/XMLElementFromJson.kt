@@ -1,7 +1,7 @@
 package lupos.s00misc
 
-import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.Query
 
 
@@ -113,7 +113,7 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                         val token3 = regexToken.find(json, idx + 1)
                         if (token3 == null)
                             return res
-SanityCheck.checkEQ({token3.value},{":"})
+                        SanityCheck.checkEQ({ token3.value }, { ":" })
                         idx = token3.range.last
                         val token2 = regexToken.find(json, idx + 1)
                         if (token2 == null)
@@ -132,7 +132,7 @@ SanityCheck.checkEQ({token3.value},{":"})
                     val token3 = regexToken.find(json, idx + 1)
                     if (token3 == null)
                         return res
-SanityCheck.checkEQ({token3.value},{":"})
+                    SanityCheck.checkEQ({ token3.value }, { ":" })
                     idx = token3.range.last
                     val token2 = regexToken.find(json, idx + 1)
                     if (token2 == null)

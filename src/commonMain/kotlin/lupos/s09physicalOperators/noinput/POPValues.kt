@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowProduce
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -98,7 +98,7 @@ class POPValues : POPBase {
             variables.add(resultSet.createVariable(name.name))
         }
         for (v in values.children) {
-SanityCheck.check({v is AOPValue})
+            SanityCheck.check({ v is AOPValue })
             val it = v.children.iterator()
             val entry = mutableMapOf<Variable, Value>()
             data.add(entry)

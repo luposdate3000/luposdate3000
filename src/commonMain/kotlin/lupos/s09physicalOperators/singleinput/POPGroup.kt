@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -9,6 +8,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -88,7 +88,7 @@ class POPGroup : POPBase {
     }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
-SanityCheck.check({additionalProvided.isEmpty()})
+        SanityCheck.check({ additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by)

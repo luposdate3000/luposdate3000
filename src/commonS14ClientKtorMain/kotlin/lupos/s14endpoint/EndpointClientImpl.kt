@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-import lupos.s00misc.SanityCheck
 
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -22,6 +21,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
@@ -52,27 +52,27 @@ object EndpointClientImpl {
 
     fun encodeParam(name: String, value: Any) = listOf(name to ("" + value)).formUrlEncode()
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
-SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})        
+        SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
     })
 
     suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPostBytes" }, {
-        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
+        SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
     })
 
     suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGetString" }, {
-        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
+        SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
     })
 
     suspend fun requestPostString(urlString: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPostString" }, {
- SanityCheck.check({!urlString.startsWith("http://${endpointServer!!.fullname}")})
+        SanityCheck.check({ !urlString.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
     })
 
     suspend fun requestPostString(urlString: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
- SanityCheck.check({!urlString.startsWith("http://${endpointServer!!.fullname}")})
+        SanityCheck.check({ !urlString.startsWith("http://${endpointServer!!.fullname}") })
         return client.post<String> {
             url(Url(urlString))
             contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))

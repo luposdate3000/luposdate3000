@@ -1,8 +1,8 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -26,7 +26,7 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
     val timezoneMinutes: Int
 
     override operator fun compareTo(other: AOPConstant): Int {
-SanityCheck.check({other is AOPDateTime})
+        SanityCheck.check({ other is AOPDateTime })
         if (year != (other as AOPDateTime).year)
             return year.compareTo((other as AOPDateTime).year)
         if (month != (other as AOPDateTime).month)

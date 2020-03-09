@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -7,6 +6,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -66,7 +66,7 @@ class POPSort : POPBase {
         var child: OPBase = this
         for (i in 0 until variables.size)
             child = child.children[0]
-SanityCheck.check({child !is POPSort})
+        SanityCheck.check({ child !is POPSort })
         val sparql = child.toSparql()
         var res = ""
         if (sparql.startsWith("{SELECT "))

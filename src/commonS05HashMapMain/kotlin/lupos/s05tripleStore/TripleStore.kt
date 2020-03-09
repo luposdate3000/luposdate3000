@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
@@ -7,6 +6,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
@@ -63,13 +63,13 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
                 else
                     modifyInternal(key, value, type, values.size() / components - 1, nextStep)
             } else {
-                SanityCheck.check({step<=1})
+                SanityCheck.check({ step <= 1 })
                 if (type == EModifyType.INSERT)
                     for (i in 0 until components)
                         values.add(realIdx + components + i, key[i])
             }
         } else {
-            SanityCheck.check({step <= 1})
+            SanityCheck.check({ step <= 1 })
             if (type == EModifyType.INSERT)
                 for (i in 0 until components)
                     values.add(realIdx + i, key[i])
@@ -81,8 +81,8 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
     }
 
     fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
-        SanityCheck.checkEQ({key.size },{ components})
-        SanityCheck.checkEQ({value.size},{ components})
+        SanityCheck.checkEQ({ key.size }, { components })
+        SanityCheck.checkEQ({ value.size }, { components })
         if (values.size() == 0) {
             if (type == EModifyType.INSERT)
                 for (i in 0 until components)

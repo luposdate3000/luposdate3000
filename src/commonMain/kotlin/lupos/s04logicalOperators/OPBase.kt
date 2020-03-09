@@ -1,11 +1,11 @@
 package lupos.s04logicalOperators
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -30,7 +30,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun childrenToVerifyCount(): Int = children.size
 
     open fun updateChildren(i: Int, child: OPBase) {
-SanityCheck.check({i<children.size})
+        SanityCheck.check({ i < children.size })
         children[i] = child
     }
 
@@ -114,7 +114,7 @@ SanityCheck.check({i<children.size})
     }
 
     fun setChild(child: OPBase): OPBase {
-SanityCheck.check({children.isNotEmpty()})
+        SanityCheck.check({ children.isNotEmpty() })
         this.children[0] = child
         return child
     }

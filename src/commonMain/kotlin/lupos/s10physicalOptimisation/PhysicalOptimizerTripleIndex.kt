@@ -1,10 +1,10 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
+import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -40,17 +40,17 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 else if (node.children[1] is AOPConstant)
                     idx = EIndexPattern.P
                 else {
-SanityCheck.check({node.children[2] is AOPConstant})
+                    SanityCheck.check({ node.children[2] is AOPConstant })
                     idx = EIndexPattern.O
                 }
             } else {
-SanityCheck.checkEQ({count},{2})
+                SanityCheck.checkEQ({ count }, { 2 })
                 if (node.children[0] !is AOPConstant)
                     idx = EIndexPattern.PO
                 else if (node.children[1] !is AOPConstant)
                     idx = EIndexPattern.SO
                 else {
-SanityCheck.check({node.children[2] !is AOPConstant})
+                    SanityCheck.check({ node.children[2] !is AOPConstant })
                     idx = EIndexPattern.SP
                 }
             }

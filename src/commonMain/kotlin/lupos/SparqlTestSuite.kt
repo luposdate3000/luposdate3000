@@ -1,5 +1,4 @@
 package lupos
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -8,6 +7,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.printAllMicroTest
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.updateAllMicroTest
 import lupos.s00misc.XMLElement
@@ -177,7 +177,7 @@ class SparqlTestSuite() {
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[it.second] is IRI -> {
-SanityCheck.checkNULL({resultFile})
+                            SanityCheck.checkNULL({ resultFile })
                             resultFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
@@ -224,11 +224,11 @@ SanityCheck.checkNULL({resultFile})
                                 val iri = (Dictionary[it.first] as IRI).iri
                                 when (iri) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-SanityCheck.checkNULL({inputDataFile})
+                                        SanityCheck.checkNULL({ inputDataFile })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-SanityCheck.checkNULL({queryFile})
+                                        SanityCheck.checkNULL({ queryFile })
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -261,11 +261,11 @@ SanityCheck.checkNULL({queryFile})
                                             services.add(service)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-SanityCheck.checkNULL({queryFile})
+                                        SanityCheck.checkNULL({ queryFile })
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.checkNULL({inputDataFile})
+                                        SanityCheck.checkNULL({ inputDataFile })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
@@ -292,7 +292,7 @@ SanityCheck.checkNULL({queryFile})
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.checkNULL({testType})
+                    SanityCheck.checkNULL({ testType })
                     testType = (Dictionary[it.second] as IRI).iri
                     when ((Dictionary[it.second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -321,7 +321,7 @@ SanityCheck.checkNULL({queryFile})
                     features.add((Dictionary[it.second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.checkNULL({comment})
+                    SanityCheck.checkNULL({ comment })
                     comment = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -337,7 +337,7 @@ SanityCheck.checkNULL({queryFile})
                     GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri })
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.checkNULL({description})
+                    SanityCheck.checkNULL({ description })
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])

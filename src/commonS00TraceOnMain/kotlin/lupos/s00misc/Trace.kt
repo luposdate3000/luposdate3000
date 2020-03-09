@@ -38,15 +38,15 @@ object Trace {
 
     fun stop(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "trace-stop $name" })
-        SanityCheck.check({!stack.isEmpty()})
+        SanityCheck.check({ !stack.isEmpty() })
         var key = ""
         stack.elements.forEach {
             key += it.first + "-"
         }
         key = key.substring(0, key.length - 1)
         val tmp = stack.pop()
-        SanityCheck.checkNNULL({tmp })
-        SanityCheck.checkEQ({name }, {tmp!!.first})
+        SanityCheck.checkNNULL({ tmp })
+        SanityCheck.checkEQ({ name }, { tmp!!.first })
         val timediff = tmp!!.second.elapsedNow().toDouble(DurationUnit.SECONDS)
         val old = map[key]
         if (old == null)
