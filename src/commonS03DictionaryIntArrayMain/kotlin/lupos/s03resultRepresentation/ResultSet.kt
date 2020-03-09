@@ -14,7 +14,7 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     @JvmField
     val mutex = CoroutinesHelper.createLock()
 
-    fun renameVariable(variableOld: String, variableNew: String): Variable {
+    inline fun renameVariable(variableOld: String, variableNew: String): Variable {
         var res: Variable? = null
         CoroutinesHelper.runBlockWithLock(mutex, {
             val l = variablesSTL[variableOld]!!
@@ -26,7 +26,7 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return res!!
     }
 
-    fun createVariable(variable: String): Variable {
+    inline fun createVariable(variable: String): Variable {
         var res: Variable? = null
         CoroutinesHelper.runBlockWithLock(mutex, {
             val o = variablesSTL[variable]
@@ -42,68 +42,68 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return res!!
     }
 
-    fun getVariable(variable: Variable) = variablesLTS[variable.toInt()]
+    inline fun getVariable(variable: Variable) = variablesLTS[variable.toInt()]
 
-    fun hasVariable(name: String) = variablesLTS.contains(name)
+    inline fun hasVariable(name: String) = variablesLTS.contains(name)
 
-    fun getVariableNames() = variablesLTS
+    inline fun getVariableNames() = variablesLTS
 
-    fun createValue(value: String?): Value {
+    inline fun createValue(value: String?): Value {
         if (value == null)
             return dictionary.undefValue
         return dictionary.createValue(value)
     }
 
-    val createdRows :MutableSet<Long>= SanityCheck.helper{mutableSetOf<Long>()}
-    fun createResultRow(): ResultRow {
+    val createdRows  = SanityCheck.helper<MutableSet<Long> >{mutableSetOf<Long>()}
+    inline fun createResultRow(): ResultRow {
         val res = ResultRow(variablesLTS.size, dictionary.undefValue)
 SanityCheck.helper{createdRows!!.add(res.uuid)}
         return res
     }
 
-    fun getValueString(value: Value) = dictionary.getValue(value)
+    inline fun getValueString(value: Value) = dictionary.getValue(value)
 
-    fun isUndefValue(r: ResultRow, v: Variable): Boolean {
+    inline fun isUndefValue(r: ResultRow, v: Variable): Boolean {
 SanityCheck.check({createdRows!!.contains(r.uuid)})
         return r.values[v.toInt()] == dictionary.undefValue
     }
 
-    fun setUndefValue(r: ResultRow, v: Variable) {
+    inline fun setUndefValue(r: ResultRow, v: Variable) {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[v.toInt()] = dictionary.undefValue
     }
 
-    fun setValue(r: ResultRow, k: Variable, v: Value) {
+    inline fun setValue(r: ResultRow, k: Variable, v: Value) {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[k.toInt()] = v
     }
 
-    fun setValue(r: ResultRow, k: String, v: String) {
+    inline fun setValue(r: ResultRow, k: String, v: String) {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[createVariable(k).toInt()] = createValue(v)
     }
 
-    fun setValue(r: ResultRow, k: Variable, v: String?) {
+    inline fun setValue(r: ResultRow, k: Variable, v: String?) {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[k.toInt()] = createValue(v)
     }
 
-    fun getValue(r: ResultRow, k: Variable): Value {
+    inline fun getValue(r: ResultRow, k: Variable): Value {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         return r.values[k.toInt()]
     }
 
-    fun getValueString(r: ResultRow, k: Variable): String? {
+    inline fun getValueString(r: ResultRow, k: Variable): String? {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         return getValueString(r.values[k.toInt()])
     }
 
-    fun getValueString(r: ResultRow, k: String): String? {
+    inline fun getValueString(r: ResultRow, k: String): String? {
         SanityCheck.check({createdRows!!.contains(r.uuid)})
         return getValueString(r.values[createVariable(k).toInt()])
     }
 
-    fun copy(to: ResultRow, kTo: Variable, from: ResultRow, kFrom: Variable, fromR: ResultSet) {
+    inline fun copy(to: ResultRow, kTo: Variable, from: ResultRow, kFrom: Variable, fromR: ResultSet) {
 SanityCheck.check({createdRows!!.contains(to.uuid)})
 SanityCheck.check({fromR.createdRows!!.contains(from.uuid)})
 SanityCheck.check({this.dictionary === fromR.dictionary})
