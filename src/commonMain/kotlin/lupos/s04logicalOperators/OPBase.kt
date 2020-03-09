@@ -25,8 +25,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         for (c in children)
             c.applyPrefix(prefix, iri)
     }
-open fun renameVariable(from:String,to:String){
-}
     open fun childrenToVerifyCount(): Int = children.size
 
     open fun updateChildren(i: Int, child: OPBase) {

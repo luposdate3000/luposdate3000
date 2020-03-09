@@ -8,8 +8,6 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 class Query(val dictionary: ResultSetDictionary = ResultSetDictionary(), val transactionID: Long = global_transactionID.next()) {
     var commited = false
 
-val variableNameMapping=mutableMapOf<String,String>()
-
     companion object {
         private val global_transactionID = ThreadSafeUuid()
 
