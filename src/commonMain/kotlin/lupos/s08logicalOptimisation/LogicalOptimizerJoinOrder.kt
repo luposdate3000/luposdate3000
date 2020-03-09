@@ -13,7 +13,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class Plan : Comparable<Plan> {
     val child: OPBase?
-    val childs: Pair<Plan, Plan>?
+    val childs: Pair<Int, Int>?
     val variables: Set<String>
     val cost: Int
 
@@ -25,20 +25,20 @@ class Plan : Comparable<Plan> {
         cost = -variables.size
     }
 
-    constructor(childA: Plan, childB: Plan) {
+    constructor(plans: Array<Plan?>, childA: Int, childB: Int) {
         child = null
         childs = Pair(childA, childB)
-        variables = childA.variables + childB.variables
-        cost = -(childB.variables.intersect(childA.variables)).size
+        variables = plans[childA]!!.variables + plans[childB]!!.variables
+        cost = -(plans[childA]!!.variables.intersect(plans[childB]!!.variables)).size
     }
 
     override operator fun compareTo(other: Plan) = cost.compareTo(other.cost)
 
-    fun toOPBase(): OPBase {
+    fun toOPBase(plans: Array<Plan?>): OPBase {
         if (child != null)
             return child
-        val cA = childs!!.first.toOPBase()
-        val cB = childs!!.second.toOPBase()
+        val cA = plans[childs!!.first]!!.toOPBase(plans)
+        val cB = plans[childs!!.second]!!.toOPBase(plans)
         return LOPJoin(cA.query, cA, cB, false)
     }
 }
@@ -60,11 +60,12 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         for (i in 1 until max)
             if (i and max == 0) {
                 val key = i + max
-                val newPlan = Plan(plans[i]!!, plans[max]!!)
-                if ((plans[key] == null) || (newPlan < plans[key]!!)) {
+                val newPlan = Plan(plans, i, max)
+                if (plans[key] == null) {
                     plans[key] = newPlan
                     optimize(plans, i)
-                }
+                } else if (newPlan < plans[key]!!)
+                    plans[key] = newPlan
             }
     }
 
@@ -81,7 +82,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                     key *= 2
                 }
                 val bestPlan = plans[plans.size - 1]!!
-                val result = bestPlan.toOPBase()
+                val result = bestPlan.toOPBase(plans)
                 if (result != res) {
                     res = result
                     onChange()
