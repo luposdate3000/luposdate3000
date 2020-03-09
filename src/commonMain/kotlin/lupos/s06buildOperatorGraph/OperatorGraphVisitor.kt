@@ -226,9 +226,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
-val res=LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
-        if (node.existsValues()) 
-		return LOPJoin(query,node.values!!.visit(this)!!,res!!,false)
+        val res = LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
+        if (node.existsValues())
+            return LOPJoin(query, node.values!!.visit(this)!!, res!!, false)
         return res
     }
 
@@ -1033,9 +1033,9 @@ val res=LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-val child=childrenValues.first() as AOPBase
-if(containsAggregate(node.children.first()))
-throw Exception("Aggregate not allowed here")
+        val child = childrenValues.first() as AOPBase
+        if (containsAggregate(node.children.first()))
+            throw Exception("Aggregate not allowed here")
         return LOPFilter(query, child)
     }
 

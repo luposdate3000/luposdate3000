@@ -19,7 +19,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
-java.io.	File("resources/$v").forEachLine {
+        java.io.File("resources/$v").forEachLine {
             k.createValue(it)
         }
     }

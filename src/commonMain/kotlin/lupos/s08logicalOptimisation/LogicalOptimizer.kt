@@ -16,5 +16,6 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             LogicalOptimizerFilterSplitAND(query),//
             LogicalOptimizerArithmetic(query),//
             LogicalOptimizerFilterDown(query),//
+            LogicalOptimizerJoinOrder(query),//
             LogicalOptimizerFilterIntoTriple(query))
 }

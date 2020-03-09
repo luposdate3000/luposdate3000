@@ -52,8 +52,8 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
                 })
         }
         val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-if(a.get()==null||(a.get()!!as AOPConstant).compareTo(b) > 0)
-a.set(b)
+        if (a.get() == null || (a.get()!! as AOPConstant).compareTo(b) > 0)
+            a.set(b)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
             a.get()!!
         })

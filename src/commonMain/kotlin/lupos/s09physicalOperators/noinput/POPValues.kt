@@ -146,7 +146,7 @@ class POPValues : POPBase {
                 val value = resultSet.getValueString(v)
                 if (value != null)
                     b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)).addAttribute("content", value))
-		else
+                else
                     b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)))
             }
         }
