@@ -1,4 +1,5 @@
 package lupos
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -176,7 +177,7 @@ class SparqlTestSuite() {
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[it.second] is IRI -> {
-                            require(resultFile == null)
+SanityCheck.checkNULL({resultFile})
                             resultFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
@@ -223,11 +224,11 @@ class SparqlTestSuite() {
                                 val iri = (Dictionary[it.first] as IRI).iri
                                 when (iri) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        require(inputDataFile == null)
+SanityCheck.checkNULL({inputDataFile})
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        require(queryFile == null)
+SanityCheck.checkNULL({queryFile})
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -260,11 +261,11 @@ class SparqlTestSuite() {
                                             services.add(service)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        require(queryFile == null)
+SanityCheck.checkNULL({queryFile})
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        require(inputDataFile == null)
+                                        SanityCheck.checkNULL({inputDataFile})
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
@@ -291,7 +292,7 @@ class SparqlTestSuite() {
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    require(testType == null)
+                    SanityCheck.checkNULL({testType})
                     testType = (Dictionary[it.second] as IRI).iri
                     when ((Dictionary[it.second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -320,7 +321,7 @@ class SparqlTestSuite() {
                     features.add((Dictionary[it.second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    require(comment == null)
+                    SanityCheck.checkNULL({comment})
                     comment = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -336,7 +337,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri })
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    require(description == null)
+                    SanityCheck.checkNULL({description})
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])

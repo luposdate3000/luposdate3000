@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -28,10 +29,10 @@ class AOPBoolean(query: Query, @JvmField var value: Boolean) : AOPConstant(query
     override fun toBoolean(): Boolean = value
 
     override operator fun compareTo(other: AOPConstant): Int {
-        require(other is AOPBoolean)
-        if (value == other.value)
+SanityCheck.check({other is AOPBoolean})
+        if (value == (other as AOPBoolean).value)
             return 0
-        if (value && !other.value)
+        if (value && !(other as AOPBoolean).value)
             return 1
         return -1
     }

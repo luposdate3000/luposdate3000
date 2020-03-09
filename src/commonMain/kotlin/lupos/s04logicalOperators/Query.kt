@@ -14,12 +14,10 @@ class Query(val dictionary: ResultSetDictionary = ResultSetDictionary(), val tra
     }
 
     fun commit() {
-//TODO require(!commited)
         DistributedTripleStore.commit(this)
         commited = true
     }
 
     protected fun finalize() {
-//TODO require(commited)
     }
 }

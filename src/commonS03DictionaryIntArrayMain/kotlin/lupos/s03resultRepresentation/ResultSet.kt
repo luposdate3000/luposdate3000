@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
@@ -53,59 +54,59 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return dictionary.createValue(value)
     }
 
-    val createdRows = mutableSetOf<Long>()
+    val createdRows :MutableSet<Long>= SanityCheck.helper{mutableSetOf<Long>()}
     fun createResultRow(): ResultRow {
         val res = ResultRow(variablesLTS.size, dictionary.undefValue)
-        createdRows.add(res.uuid)
+SanityCheck.helper{createdRows!!.add(res.uuid)}
         return res
     }
 
     fun getValueString(value: Value) = dictionary.getValue(value)
 
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
-        require(createdRows.contains(r.uuid))
+SanityCheck.check({createdRows!!.contains(r.uuid)})
         return r.values[v.toInt()] == dictionary.undefValue
     }
 
     fun setUndefValue(r: ResultRow, v: Variable) {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[v.toInt()] = dictionary.undefValue
     }
 
     fun setValue(r: ResultRow, k: Variable, v: Value) {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[k.toInt()] = v
     }
 
     fun setValue(r: ResultRow, k: String, v: String) {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[createVariable(k).toInt()] = createValue(v)
     }
 
     fun setValue(r: ResultRow, k: Variable, v: String?) {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         r.values[k.toInt()] = createValue(v)
     }
 
     fun getValue(r: ResultRow, k: Variable): Value {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         return r.values[k.toInt()]
     }
 
     fun getValueString(r: ResultRow, k: Variable): String? {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         return getValueString(r.values[k.toInt()])
     }
 
     fun getValueString(r: ResultRow, k: String): String? {
-        require(createdRows.contains(r.uuid))
+        SanityCheck.check({createdRows!!.contains(r.uuid)})
         return getValueString(r.values[createVariable(k).toInt()])
     }
 
     fun copy(to: ResultRow, kTo: Variable, from: ResultRow, kFrom: Variable, fromR: ResultSet) {
-        require(createdRows.contains(to.uuid))
-        require(fromR.createdRows.contains(from.uuid))
-        require(this.dictionary === fromR.dictionary)
+SanityCheck.check({createdRows!!.contains(to.uuid)})
+SanityCheck.check({fromR.createdRows!!.contains(from.uuid)})
+SanityCheck.check({this.dictionary === fromR.dictionary})
         setValue(to, kTo, fromR.getValue(from, kFrom))
     }
 }

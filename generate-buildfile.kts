@@ -38,6 +38,7 @@ fun presentChoice(options: List<String>): String {
 */
 val options = mapOf(
         "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain"),
+	"chooseS00Sanity" to listOf("commonS00SanityChecksOnMain","commonS00SanityChecksOffMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),

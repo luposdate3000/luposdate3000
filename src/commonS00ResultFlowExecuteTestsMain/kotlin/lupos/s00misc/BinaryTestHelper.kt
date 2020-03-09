@@ -1110,12 +1110,12 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                     node3 = pOptimizer.optimizeCall(node2)
                     node4 = dOptimizer.optimizeCall(node3) as POPBase
                     node5 = node4.cloneOP()
-                    require(node4.equals(node5))
+SanityCheck.checkEQ(node4,node5)
                     node5 = node1.cloneOP()
-                    require(node1.equals(node5))
+SanityCheck.checkEQ(node1,node5)
                     val node1xml = node1.toXMLElement()
                     node5 = XMLElement.convertToOPBase(query, node1xml)
-                    require(node1.equals(node5))
+SanityCheck.checkEQ(node1,node5)
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
                     output = QueryResultToXML.toXML(node4).first()
                     query.commit()

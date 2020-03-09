@@ -39,7 +39,7 @@ object EndpointClientImpl {
 
     fun encodeParam(key: String, value: Any) = URL.encodeComponent(key) + "=" + URL.encodeComponent("" + value)
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
-        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
         var i = 0
         var res: HttpClient.Response
         while (true) {
@@ -57,7 +57,7 @@ object EndpointClientImpl {
     })
 
     suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPostBytes" }, {
-        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
         var i = 0
         var res: HttpClient.Response
         while (true) {
@@ -75,7 +75,7 @@ object EndpointClientImpl {
     })
 
     suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGetString" }, {
-        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
         var i = 0
         var res: HttpClient.Response
         while (true) {
@@ -93,7 +93,7 @@ object EndpointClientImpl {
     })
 
     suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPostString" }, {
-        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
         var i = 0
         var res: HttpClient.Response
         while (true) {
@@ -111,7 +111,7 @@ object EndpointClientImpl {
     })
 
     suspend fun requestPostString(url: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
-        require(!url.startsWith("http://${endpointServer!!.fullname}"))
+        SanityCheck.check({!url.startsWith("http://${endpointServer!!.fullname}")})
         var res: HttpClient.Response
         var i = 0
         while (true) {

@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -66,7 +67,7 @@ class PersistentStoreLocal {
     }
 
     fun dropGraph(query: Query, name: String) {
-        require(name != defaultGraphName)
+SanityCheck.checkNEQ({name},{defaultGraphName})
         if (stores[name] == null)
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         stores.remove(name)

@@ -1,4 +1,5 @@
 package lupos.s06buildOperatorGraph
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -695,7 +696,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 3)
+SanityCheck.checkEQ({childrenValues.size},{3})
         return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
     }
 
@@ -709,7 +710,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTOr, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size > 1)
+        SanityCheck.check({childrenValues.size>1})
         var res: AOPBase? = null
         for (v in childrenValues) {
             if (res == null)
@@ -721,7 +722,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAnd, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size > 1)
+        SanityCheck.check({childrenValues.size>1})
         var res: AOPBase? = null
         for (v in childrenValues) {
             if (res == null)
@@ -733,47 +734,47 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPNEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPLEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPGEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPLT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPGT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return AOPNotIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size > 1)
+        SanityCheck.check({childrenValues.size>1})
         var res: AOPBase? = null
         for (v in childrenValues) {
             if (res == null)
@@ -785,7 +786,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSubtraction, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size > 1)
+        SanityCheck.check({childrenValues.size>1})
         var res: AOPBase? = null
         for (v in childrenValues) {
             if (res == null)
@@ -797,7 +798,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTMultiplication, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size > 1)
+        SanityCheck.check({childrenValues.size>1})
         var res: AOPBase? = null
         for (v in childrenValues) {
             if (res == null)
@@ -809,7 +810,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDivision, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size > 1)
+        SanityCheck.check({childrenValues.size>1})
         var res: AOPBase? = null
         for (v in childrenValues) {
             if (res == null)
@@ -821,22 +822,22 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTNot, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 1)
+        SanityCheck.checkEQ({childrenValues.size},{1})
         return AOPNot(query, childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name))
@@ -845,38 +846,38 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         return AOPVariable(query, "#" + node.name)
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
         when (node.function) {
             BuiltInFunctions.STR -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANG -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANGMATCHES -> {
-                require(childrenValues.size == 2)
+                SanityCheck.checkEQ({childrenValues.size},{2})
                 return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.DATATYPE -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BOUND -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IRI -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.URI -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BNODE -> {
@@ -885,129 +886,130 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctions.ABS -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CEIL -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.FLOOR -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.ROUND -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONCAT -> {
-                require(childrenValues.size > 0)
+                SanityCheck.check({childrenValues.size>0})
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size)
                     res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
                 return res
             }
             BuiltInFunctions.STRLEN -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.UCASE -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LCASE -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONTAINS -> {
-                require(childrenValues.size == 2)
+                SanityCheck.checkEQ({childrenValues.size},{2})
                 return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRSTARTS -> {
-                require(childrenValues.size == 2)
+                SanityCheck.checkEQ({childrenValues.size},{2})
                 return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRENDS -> {
-                require(childrenValues.size == 2)
+                SanityCheck.checkEQ({childrenValues.size},{2})
                 return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.YEAR -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MONTH -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.DAY -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.HOURS -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MINUTES -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SECONDS -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TIMEZONE -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TZ -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NOW -> {
-                require(childrenValues.size == 0)
+                SanityCheck.checkEQ({childrenValues.size},{0})
                 return queryExecutionStartTime
             }
             BuiltInFunctions.UUID -> {
-                require(childrenValues.size == 0)
+                SanityCheck.checkEQ({childrenValues.size},{0})
                 return AOPBuildInCallUUID(query)
             }
             BuiltInFunctions.STRUUID -> {
+                SanityCheck.checkEQ({childrenValues.size},{0})
                 return AOPBuildInCallSTRUUID(query)
             }
             BuiltInFunctions.MD5 -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA1 -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA256 -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IF -> {
-                require(childrenValues.size == 3)
+                SanityCheck.checkEQ({childrenValues.size},{3})
                 return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
             BuiltInFunctions.STRLANG -> {
-                require(childrenValues.size == 2)
+                SanityCheck.checkEQ({childrenValues.size},{2})
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRDT -> {
-                require(childrenValues.size == 2)
+                SanityCheck.checkEQ({childrenValues.size},{2})
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.isLITERAL -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isIRI -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isNUMERIC -> {
-                require(childrenValues.size == 1)
+                SanityCheck.checkEQ({childrenValues.size},{1})
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
@@ -1022,17 +1024,17 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             Aggregation.SAMPLE -> return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             Aggregation.AVG -> return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             Aggregation.SUM -> return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.type}")
+            else -> SanityCheck.checkUnreachable()
         }
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
+        SanityCheck.checkEQ({childrenValues.size},{2})
         return LOPUnion(query, childrenValues[0], childrenValues[1])
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 1)
+        SanityCheck.checkEQ({childrenValues.size},{1})
         val child = childrenValues.first() as AOPBase
         if (containsAggregate(node.children.first()))
             throw Exception("Aggregate not allowed here")
@@ -1040,7 +1042,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 1)
+        SanityCheck.checkEQ({childrenValues.size},{1})
         val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable)
             return LOPSort(query, node.asc, tmp)
@@ -1049,12 +1051,12 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         return AOPVariable(query, node.name)
     }
 
     override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         return AOPIri(query, node.iri)
     }
 
@@ -1133,7 +1135,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         val res = LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
@@ -1141,7 +1143,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         val res = LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
@@ -1149,7 +1151,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         val res = LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
@@ -1157,21 +1159,21 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val g1 = graphRefToEnum(node.graphref)
         val res = LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val g1 = graphRefToEnum(node.graphref)
         val res = LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
+        SanityCheck.checkEQ({childrenValues.size},{0})
         val g1 = graphRefToEnum(node.graphref)
         val res = LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
         return res

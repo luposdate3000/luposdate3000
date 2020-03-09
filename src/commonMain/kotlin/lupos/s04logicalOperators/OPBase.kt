@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -29,7 +30,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun childrenToVerifyCount(): Int = children.size
 
     open fun updateChildren(i: Int, child: OPBase) {
-        require(i < children.size)
+SanityCheck.check({i<children.size})
         children[i] = child
     }
 
@@ -113,7 +114,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     fun setChild(child: OPBase): OPBase {
-        require(children.isNotEmpty())
+SanityCheck.check({children.isNotEmpty()})
         this.children[0] = child
         return child
     }

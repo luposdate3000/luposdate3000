@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
@@ -25,23 +26,23 @@ class AOPDateTime : AOPConstant, AOPXPathCompareable {
     val timezoneMinutes: Int
 
     override operator fun compareTo(other: AOPConstant): Int {
-        require(other is AOPDateTime)
-        if (year != other.year)
-            return year.compareTo(other.year)
-        if (month != other.month)
-            return month.compareTo(other.month)
-        if (day != other.day)
-            return day.compareTo(other.day)
-        if (hours != other.hours)
-            return hours.compareTo(other.hours)
-        if (minutes != other.minutes)
-            return minutes.compareTo(other.minutes)
-        if (seconds != other.seconds)
-            return seconds.compareTo(other.seconds)
-        if (timezoneHours != other.timezoneHours)
-            return timezoneHours.compareTo(other.timezoneHours)
-        if (timezoneMinutes != other.timezoneMinutes)
-            return timezoneMinutes.compareTo(other.timezoneMinutes)
+SanityCheck.check({other is AOPDateTime})
+        if (year != (other as AOPDateTime).year)
+            return year.compareTo((other as AOPDateTime).year)
+        if (month != (other as AOPDateTime).month)
+            return month.compareTo((other as AOPDateTime).month)
+        if (day != (other as AOPDateTime).day)
+            return day.compareTo((other as AOPDateTime).day)
+        if (hours != (other as AOPDateTime).hours)
+            return hours.compareTo((other as AOPDateTime).hours)
+        if (minutes != (other as AOPDateTime).minutes)
+            return minutes.compareTo((other as AOPDateTime).minutes)
+        if (seconds != (other as AOPDateTime).seconds)
+            return seconds.compareTo((other as AOPDateTime).seconds)
+        if (timezoneHours != (other as AOPDateTime).timezoneHours)
+            return timezoneHours.compareTo((other as AOPDateTime).timezoneHours)
+        if (timezoneMinutes != (other as AOPDateTime).timezoneMinutes)
+            return timezoneMinutes.compareTo((other as AOPDateTime).timezoneMinutes)
         return 0
     }
 

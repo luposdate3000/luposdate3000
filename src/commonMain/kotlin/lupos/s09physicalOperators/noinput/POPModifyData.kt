@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -36,7 +37,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         }
         res += " DATA {"
         for (c in data) {
-            require(c.graphVar == false)
+SanityCheck.checkFalse({c.graphVar})
             if (c.graph == PersistentStoreLocal.defaultGraphName)
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             res += "GRAPH <${c.graph}> {" + c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "}."

@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
@@ -23,7 +24,7 @@ object QueryResultToXML {
                 for (resultRow in queryChannel) {
                     val value = query.resultSet.getValueString(resultRow, "?boolean")!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
-                    require(value.endsWith("\"^^<" + datatype + ">"))
+                    SanityCheck.check({value.endsWith("\"^^<" + datatype + ">")})
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
                     queryChannel.close()
                 }

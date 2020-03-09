@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -97,7 +98,7 @@ class POPValues : POPBase {
             variables.add(resultSet.createVariable(name.name))
         }
         for (v in values.children) {
-            require(v is AOPValue)
+SanityCheck.check({v is AOPValue})
             val it = v.children.iterator()
             val entry = mutableMapOf<Variable, Value>()
             data.add(entry)

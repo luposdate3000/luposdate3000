@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
@@ -62,13 +63,13 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
                 else
                     modifyInternal(key, value, type, values.size() / components - 1, nextStep)
             } else {
-                require(step <= 1)
+                SanityCheck.check({step<=1})
                 if (type == EModifyType.INSERT)
                     for (i in 0 until components)
                         values.add(realIdx + components + i, key[i])
             }
         } else {
-            require(step <= 1)
+            SanityCheck.check({step <= 1})
             if (type == EModifyType.INSERT)
                 for (i in 0 until components)
                     values.add(realIdx + i, key[i])
@@ -80,8 +81,8 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
     }
 
     fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
-        require(key.size == components)
-        require(value.size == components)
+        SanityCheck.checkEQ({key.size },{ components})
+        SanityCheck.checkEQ({value.size},{ components})
         if (values.size() == 0) {
             if (type == EModifyType.INSERT)
                 for (i in 0 until components)

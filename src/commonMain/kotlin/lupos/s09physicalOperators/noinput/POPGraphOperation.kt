@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -44,7 +45,7 @@ class POPGraphOperation(query: Query,
             EGraphOperationType.COPY -> res += "COPY"
             EGraphOperationType.MOVE -> res += "MOVE"
             EGraphOperationType.ADD -> res += "ADD"
-            else -> require(false)
+            else -> SanityCheck.checkUnreachable()
         }
         if (silent)
             res += " SILENT "
@@ -55,7 +56,7 @@ class POPGraphOperation(query: Query,
             EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
             EGraphRefType.NamedGraphRef -> res += "NAMED"
             EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph1iri!! + ">"
-            else -> require(false)
+            else -> SanityCheck.checkUnreachable()
         }
         if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
             res += " TO "
@@ -64,7 +65,7 @@ class POPGraphOperation(query: Query,
                 EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
                 EGraphRefType.NamedGraphRef -> res += "NAMED"
                 EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph2iri!! + ">"
-                else -> require(false)
+                else -> SanityCheck.checkUnreachable()
             }
         }
         return res
@@ -116,7 +117,7 @@ class POPGraphOperation(query: Query,
                                     DistributedTripleStore.dropGraph(query, s)
                                 }
                             }
-                            else -> require(false)
+                            else -> SanityCheck.checkUnreachable()
                         }
                     }
                     EGraphRefType.DefaultGraphRef -> {
@@ -134,7 +135,7 @@ class POPGraphOperation(query: Query,
                                         }
                                         DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
-                                    else -> require(false)
+                                    else -> SanityCheck.checkUnreachable()
                                 }
                             }
                             EGraphOperationType.MOVE -> {
@@ -149,7 +150,7 @@ class POPGraphOperation(query: Query,
                                         DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                         DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
                                     }
-                                    else -> require(false)
+                                    else -> SanityCheck.checkUnreachable()
                                 }
                             }
                             EGraphOperationType.ADD -> {
@@ -159,10 +160,10 @@ class POPGraphOperation(query: Query,
                                     EGraphRefType.IriGraphRef -> {
                                         DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
-                                    else -> require(false)
+                                    else -> SanityCheck.checkUnreachable()
                                 }
                             }
-                            else -> require(false)
+                            else -> SanityCheck.checkUnreachable()
                         }
                     }
                     EGraphRefType.IriGraphRef -> {
@@ -190,7 +191,7 @@ class POPGraphOperation(query: Query,
                                         DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
                                         DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
-                                    else -> require(false)
+                                    else -> SanityCheck.checkUnreachable()
                                 }
                             }
                             EGraphOperationType.MOVE -> {
@@ -210,7 +211,7 @@ class POPGraphOperation(query: Query,
                                         DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                         DistributedTripleStore.dropGraph(query, graph1iri!!)
                                     }
-                                    else -> require(false)
+                                    else -> SanityCheck.checkUnreachable()
                                 }
                             }
                             EGraphOperationType.ADD -> {
@@ -222,10 +223,10 @@ class POPGraphOperation(query: Query,
                                     EGraphRefType.DefaultGraphRef -> {
                                         DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
                                     }
-                                    else -> require(false)
+                                    else -> SanityCheck.checkUnreachable()
                                 }
                             }
-                            else -> require(false)
+                            else -> SanityCheck.checkUnreachable()
                         }
                     }
                     EGraphRefType.NamedGraphRef -> {
@@ -238,11 +239,11 @@ class POPGraphOperation(query: Query,
                                     }
                                 }
                                 EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(query, name)
-                                else -> require(false)
+                                else -> SanityCheck.checkUnreachable()
                             }
                         }
                     }
-                    else -> require(false)
+                    else -> SanityCheck.checkUnreachable()
                 }
             } catch (e: Throwable) {
                 if (!silent) {

@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
@@ -23,7 +24,7 @@ class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimi
             val aopcompare = node.children[1]
             if (aopcompare is AOPOr && aopcompare.children[0] is AOPEQ && aopcompare.children[1] is AOPEQ) {
                 onChange()
-                require(false)/*TODO check this*/
+SanityCheck.checkUnreachable()/*TODO check this - never called so far*/
                 res = LOPUnion(query, LOPFilter(query, aopcompare.children[0] as AOPBase, child.cloneOP()), LOPFilter(query, aopcompare.children[1] as AOPBase, child.cloneOP()))
             }
         }
