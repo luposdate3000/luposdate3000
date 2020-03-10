@@ -63,7 +63,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun deleteData(t: Array<ValueDefinition>) {
         EIndexPattern.values().forEach {
-            Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, Array<AOPBase>(3) { t[it] }, it)
+            Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, Array<AOPBase>(3) {AOPConstant(query, t[it] )}, it)
         }
     }
 
@@ -79,7 +79,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         val channel = iterator.evaluate()
         CoroutinesHelper.runBlock {
             for (v in channel)
-                addData(Array(3) { AOPVariable.calculate(query, rs.getValueString(v, variables[it])) })
+                addData(Array(3) { rs.getValueObject(v, variables[it]) })
         }
     }
 

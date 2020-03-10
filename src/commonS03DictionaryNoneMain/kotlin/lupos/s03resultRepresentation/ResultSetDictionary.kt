@@ -6,8 +6,8 @@ import lupos.s04logicalOperators.Query
 
 class ResultSetDictionary() {
     @JvmField
-    val undefValue: Value = null
+    val undefValue: Value = ValueUndef()
 
-    fun createValue(value: String): Value = value
-    fun getValue(value: Value): String? = value
+    fun createValue(value: ValueDefinition): Value = value
+    fun getValue(value: Value): ValueDefinition = value
 }

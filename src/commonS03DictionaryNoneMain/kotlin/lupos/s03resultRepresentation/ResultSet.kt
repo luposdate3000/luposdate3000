@@ -5,6 +5,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
 
@@ -36,46 +37,49 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return variables.contains(name)
     }
 
-    fun createValue(value: String?): Value {
-        if (value == null)
-            return null
-        return value
+fun createValue(value: Any?): Value {
+        return when (value) {
+            null -> dictionary.undefValue
+            is ValueDefinition -> dictionary.createValue(value)
+            is String -> dictionary.createValue(AOPVariable.calculate(value))
+            else -> dictionary.createValue(AOPVariable.calculate(value.toString()))
+        }
     }
 
     val createdRows = SanityCheck.helper<MutableSet<Long>> { mutableSetOf<Long>() }
+
     fun createResultRow(): ResultRow {
         val res = ResultRow()
-        SanityCheck.helper { createdRows!!.add(res.uuid) }
+        SanityCheck.helper<Unit> { createdRows!!.add(res.uuid) }
         return res
     }
 
-    fun getValueString(value: Value) = value
+    fun getValueObject(value: Value) = dictionary.getValue(value)
 
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        return r.values[v] == null
+        return r.values[v] == dictionary.undefValue
     }
 
     fun setUndefValue(r: ResultRow, v: Variable) {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        r.values[v] = null
+        r.values[v] = dictionary.undefValue
     }
 
-
-    fun setValue(r: ResultRow, k: Variable, v: String?) {
+    fun setValue(r: ResultRow, k: Variable, v: Any?) {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         r.values[k] = createValue(v)
     }
 
     fun getValue(r: ResultRow, k: Variable): Value {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        return r.values[k]
+        return r.values[k]!!
+    }
+ fun getValueObject(r: ResultRow, k: Variable): ValueDefinition {
+        SanityCheck.check({ createdRows!!.contains(r.uuid) })
+        return getValueObject(r.values[k]!!)!!
     }
 
-    fun getValueString(r: ResultRow, k: String): String? {
-        SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        return getValueString(r.values[createVariable(k)])
-    }
 
     fun copy(to: ResultRow, kTo: Variable, from: ResultRow, kFrom: Variable, fromR: ResultSet) {
         SanityCheck.check({ createdRows!!.contains(to.uuid) })

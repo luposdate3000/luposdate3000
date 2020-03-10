@@ -39,7 +39,7 @@ fun presentChoice(options: List<String>): String {
 val options = mapOf(
         "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain"),
         "chooseS00Sanity" to listOf("commonS00SanityChecksOnMain", "commonS00SanityChecksOffMain"),
-        "chooseS00ResultFlow" to listOf("commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
+        "chooseS00ResultFlow" to listOf( "commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
         "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain", "jvmS01BufferUnsafeMain"),
@@ -52,16 +52,14 @@ val options = mapOf(
 )
 val conflicts = listOf(
         setOf("commonS00ExecutionParallelMain", "commonS00TraceOnMain"),
-        setOf("commonS03DictionaryNoneMain", "commonS00ResultFlowGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
+        setOf("commonS03DictionaryNoneMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
         setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         setOf("commonS12DummyMain", "commonS03DictionaryNoneMain"),
-        setOf("commonS00ResultFlowGenerateTestsMain", "commonS15LocalMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchBinaryTestsMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain", "commonS00ResultFlowGenerateTestsMain")
+        setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -108,12 +106,6 @@ val additionalSources = mapOf(
         "nativeS14ClientKtorTarget" to listOf(
                 "commonS14ClientKtorMain"
         )
-)
-val fastBuildHelper = setOf(
-        "commonS00ResultFlowGenerateTestsMain",
-        "commonS00ResultFlowExecuteTestsMain",
-        "commonS00ExecutionSequentialMain",
-        "commonS00TraceOnMain"
 )
 val ktorVersion = presentChoice(listOf("1.3.1"))
 val kotlinVersion = presentChoice(listOf("1.3.70"))
