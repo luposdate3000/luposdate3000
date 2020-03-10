@@ -23,11 +23,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
         var res = node
         if (node is LOPTriple) {
             onChange()
-            val store: DistributedGraph
-            if (node.graph == null)
-                store = DistributedTripleStore.getDefaultGraph(query)
-            else
-                store = DistributedTripleStore.getNamedGraph(query, node.graph)
+            val store = DistributedTripleStore.getNamedGraph(query, node.graph)
             val idx: EIndexPattern
             var count = 0
             for (n in node.children)

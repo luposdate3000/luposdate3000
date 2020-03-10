@@ -43,7 +43,7 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
                 cmp = tmp.compareTo(value[i])
             } catch (e: Throwable) {
                 try {
-                    cmp = tmp.valueToString()!!.compareTo(value[i].valueToString()!!)
+                    cmp = -tmp.valueToString()!!.compareTo(value[i].valueToString()!!)
                 } catch (e: Throwable) {
                     cmp = 0
                 }

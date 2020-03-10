@@ -2,6 +2,7 @@ package lupos.s14endpoint
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -9,7 +10,6 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -100,6 +100,7 @@ object Endpoint {
             EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(query, name)
             EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(query, name)
             EGraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(query, name)
+            else -> SanityCheck.checkUnreachable()
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "process_local_graph_operation bb" })
         return XMLElement("success")

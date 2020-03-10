@@ -106,6 +106,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPBuildInCallYEAR" -> AOPBuildInCallYEAR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPEQ" -> AOPEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "ValueUndef" -> AOPConstant(query, ValueUndef())
+        "ValueBnode" -> AOPConstant(query, ValueBnode(node.attributes["value"]!!))
         "AOPVariable" -> AOPVariable(query, node.attributes["name"]!!)
         "AOPBuildInCallIRI" -> AOPBuildInCallIRI(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, node.attributes["prefix"]!!)
         "AOPBuildInCallDATATYPE" -> AOPBuildInCallDATATYPE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
@@ -144,7 +145,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
-        "AOPConstant" -> convertToOPBase(query, node["children"]!!.childs.first()!!, mapping)
+        "AOPConstant" -> convertToOPBase(query, node["value"]!!.childs.first()!!, mapping)
         "AOPAggregationAVG" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)
