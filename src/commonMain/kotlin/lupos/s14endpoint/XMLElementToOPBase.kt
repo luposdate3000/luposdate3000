@@ -140,6 +140,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPBuildInCallCONCAT" -> AOPBuildInCallCONCAT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPAggregationCOUNT" -> {
             val childs = mutableListOf<AOPBase>()
+if(node["children"]!=null)
             for (c in node["children"]!!.childs)
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })

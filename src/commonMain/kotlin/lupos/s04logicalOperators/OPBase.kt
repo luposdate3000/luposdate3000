@@ -74,6 +74,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
+if(children.size>0)
         res.addContent(childrenToXML())
         return res
     }

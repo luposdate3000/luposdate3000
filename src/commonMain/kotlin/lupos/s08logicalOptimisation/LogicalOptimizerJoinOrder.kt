@@ -84,7 +84,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 val bestPlan = plans[plans.size - 1]!!
                 val result = bestPlan.toOPBase(plans)
                 if (result != res) {
-                    println("joinorder-optimize:: from $res to $result")
                     res = result
                     onChange()
                 }

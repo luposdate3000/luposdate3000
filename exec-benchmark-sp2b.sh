@@ -33,9 +33,8 @@ csvglobal=$p/all.csv
 benchmarkJena(){
 csvfile=$p/fuseki-server-${triples}.csv
 echo "query,repititions,time,query per second" > "$csvfile"
-pkill java
-sleep 3
 /opt/apache-jena-fuseki-3.14.0/fuseki-server &
+pid=$!
 sleep 3
 curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets > /dev/null 2>&1
 curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/sp2b/data > /dev/null 2>&1
@@ -63,18 +62,16 @@ curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/
 	done
 	echo $l >> "$csvglobal"
 )
-pkill java
-sleep 3
+kill $pid
 }
 
 benchmarkLuposdate3000(){
 csvfile=$p/luposdate3000-${triples}.csv
 echo "query,repititions,time,query per second" > "$csvfile"
-pkill java
+./build/executable 127.0.0.1 &
+pid=$!
 sleep 3
-./buildJvm/distributions/luposdate3000/bin/luposdate3000-p2p 8080 127.0.0.1 &
-sleep 3
-curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input --header "Content-Type:text/plain"
+curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle --header "Content-Type:text/plain"
 (
 	l="luposdate3000,${triples}"
 	cd resources/sp2b
@@ -84,7 +81,7 @@ curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input 
 		n=1
 		while true
 		do
-			curl -X POST --data-binary "@$f" http://localhost:8080/sparql/query > /dev/null 2>&1
+			curl -X POST --data-binary "@$f" http://localhost:80/sparql/query > /dev/null 2>&1
 			b=$(($(date +%s%N)/1000000))
 			c=$((b - a))
 			if((c > benchmarkMinimumTime))
@@ -99,9 +96,11 @@ curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input 
 	done
 	echo $l >> "$csvglobal"
 )
-curl -X GET http://localhost:8080/trace/print --header "Content-Type:text/plain"> x-${triples}.log
+kill $pid
 }
 
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionParallelMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15DistributedMain
+./tool-gradle-build.sh
 #benchmarkJena > /dev/null 2>&1
-benchmarkLuposdate3000 > /dev/null 2>&1
+benchmarkLuposdate3000
 done
