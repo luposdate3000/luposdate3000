@@ -52,7 +52,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                     var key = ""
                     for (variable in variables) {
                         resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
-                        key += "-" + children[0].resultSet.getValueString(rsOld, variable.second)
+                        key += "-" + children[0].resultSet.getValue(rsOld, variable.second)
                     }
                     tmpMutableMap[key] = rsNew
                 }

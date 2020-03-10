@@ -13,9 +13,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -40,7 +38,7 @@ open class POPValues : POPBase {
                 if (s == query.dictionary.undefValue)
                     res += "UNDEF "
                 else
-                    res += resultSet.getValueString(s) + " "
+                    res += resultSet.getValueObject(s).valueToString() + " "
             }
             res += ")"
         }
@@ -65,7 +63,7 @@ open class POPValues : POPBase {
     override fun cloneOP() = POPValues(query, variables.map { resultSet.getVariable(it) }, data.map {
         val res = mutableListOf<String?>()
         for (v in variables.indices)
-            res.add(resultSet.getValueString(it, variables[v]))
+            res.add(resultSet.getValueObject(it, variables[v]).valueToString())
         res
     }.toMutableList())
 
@@ -89,7 +87,7 @@ open class POPValues : POPBase {
             val it = v.children.iterator()
             val entry = resultSet.createResultRow()
             for (v2 in variables)
-                resultSet.setValue(entry, v2, (it.next() as AOPConstant).valueToString())
+                resultSet.setValue(entry, v2, (it.next() as AOPConstant).value.valueToString())
             data.add(entry)
         }
     }
@@ -124,7 +122,7 @@ open class POPValues : POPBase {
             val b = XMLElement("binding")
             bindings.addContent(b)
             for (v in variables) {
-                val value = resultSet.getValueString(d, v)
+                val value = resultSet.getValueObject(d, v).valueToString()
                 if (value != null)
                     b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(v)).addAttribute("content", value))
                 else

@@ -7,7 +7,7 @@ import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase

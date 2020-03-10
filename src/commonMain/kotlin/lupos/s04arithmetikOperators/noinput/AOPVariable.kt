@@ -3,7 +3,7 @@ package lupos.s04arithmetikOperators.noinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
@@ -19,23 +19,23 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
 
     companion object {
-        fun calculate(query: Query, tmp: String?): AOPConstant {
+        fun calculate(tmp: String?): ValueDefinition {
             if (tmp == null || tmp.length == 0)
-                return AOPUndef(query)
+                return ValueUndef()
             when {
-                tmp.startsWith("_:") -> return AOPBnode(query, tmp.substring(2, tmp.length))
-                tmp.startsWith("<") && tmp.endsWith(">") -> return AOPIri(query, tmp.substring(1, tmp.length - 1))
+                tmp.startsWith("_:") -> return ValueBnode(tmp.substring(2, tmp.length))
+                tmp.startsWith("<") && tmp.endsWith(">") -> return ValueIri(tmp.substring(1, tmp.length - 1))
                 !tmp.endsWith("" + tmp.get(0)) -> {
                     val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
                     val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
                     if (tmp.endsWith(">") && typeIdx > 0)
-                        return AOPTypedLiteral.create(query, "" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
+                        return ValueTypedLiteral.create("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
                     else if (langIdx > 0)
-                        return AOPLanguageTaggedLiteral(query, "" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
+                        return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     else
                         throw Exception("AOPVariable cannot identify type #${tmp}#")
                 }
-                else -> return AOPSimpleLiteral(query, "" + tmp.get(0), tmp.substring(1, tmp.length - 1))
+                else -> return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
             }
         }
     }
@@ -54,26 +54,14 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         return true
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         if (!resultSet.hasVariable(name))
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPUndef(query)
+                ValueUndef()
             })
-        val variable = resultSet.createVariable(name)
-        if (resultSet.isUndefValue(resultRow, variable))
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPUndef(query)
-            })
-        val tmp = resultSet.getValueString(resultRow, variable)!!
-        try {
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                calculate(query, tmp)
-            })
-        } catch (e: Throwable) {
-            throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                e
-            })
-        }
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
+            resultSet.getValueObject(resultRow, name)!!
+        })
     }
 
     override fun cloneOP() = this

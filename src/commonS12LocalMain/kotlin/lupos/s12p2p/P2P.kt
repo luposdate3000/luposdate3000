@@ -7,9 +7,10 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -29,7 +30,7 @@ object P2P {
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
     })
 
-    fun execTripleAdd(query: Query, node: String, graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(query: Query, node: String, graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         Endpoint.process_local_triple_add(query, graphName, params, idx)
     })
 

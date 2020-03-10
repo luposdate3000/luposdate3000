@@ -10,7 +10,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -50,7 +50,7 @@ open class TripleStoreIteratorLocal(query: Query,
                 store.forEach(variables, { it ->
                     val result = resultSet.createResultRow()
                     for (i in 0 until 3)
-                        resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueString(it[i]))
+                        resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
                     channel.send(result)
                 }, index)
                 channel.close()

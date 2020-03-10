@@ -11,8 +11,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 
@@ -74,8 +73,8 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
-if(children.size>0)
-        res.addContent(childrenToXML())
+        if (children.size > 0)
+            res.addContent(childrenToXML())
         return res
     }
 
@@ -96,7 +95,7 @@ if(children.size>0)
                 }
             }
             if (!found) {
-                children[0] = LOPBind(query, AOPVariable(query, req), AOPUndef(query), children[0])
+                children[0] = LOPBind(query, AOPVariable(query, req), AOPConstant(query, ValueUndef()), children[0])
             }
         }
     }

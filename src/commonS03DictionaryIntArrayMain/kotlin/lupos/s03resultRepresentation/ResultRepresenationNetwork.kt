@@ -8,6 +8,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -51,15 +52,15 @@ object ResultRepresenationNetwork {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax + 1}" })
                         res.appendInt(newDictionaryMax + 1)
                         for (v in 0 until newDictionaryMax + 1) {
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueString(v)!!}" })
-                            res.appendString(query.resultSet.getValueString(v)!!)
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueObject(v)!!.valueToString()!!}" })
+                            res.appendString(query.resultSet.getValueObject(v)!!.valueToString()!!)
                         }
                     } else {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax - latestDictionaryMax!!}" })
                         res.appendInt(newDictionaryMax - latestDictionaryMax!!)
                         for (v in latestDictionaryMax!! + 1 until newDictionaryMax + 1) {
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueString(v)!!}" })
-                            res.appendString(query.resultSet.getValueString(v)!!)
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueObject(v)!!.valueToString()!!}" })
+                            res.appendString(query.resultSet.getValueObject(v)!!.valueToString()!!)
                         }
                     }
                     currentRowCounter = 0
@@ -134,7 +135,7 @@ object ResultRepresenationNetwork {
                             for (i in 0 until dictEntryCount) {
                                 val s = data.getNextString()
                                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
-                                variableMap.add(query.dictionary.createValue(s))
+                                variableMap.add(query.dictionary.createValue(AOPVariable.calculate(s)))
                             }
                             rowsUntilNextDictionary = data.getNextInt()
                             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })

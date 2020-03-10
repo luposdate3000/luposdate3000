@@ -51,7 +51,7 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
                     break
                 }
                 var rsNew = resultSet.createResultRow()
-                resultSet.setValue(rsNew, variableNew, AOPBoolean(query, !first).valueToString())
+                resultSet.setValue(rsNew, variableNew, ValueBoolean(!first).valueToString())
                 channel.send(resultFlowProduce({ this@POPMakeBooleanResult }, { rsNew }))
                 channel.close()
             } catch (e: Throwable) {

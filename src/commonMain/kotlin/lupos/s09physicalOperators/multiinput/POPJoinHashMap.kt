@@ -75,11 +75,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             keys.add("")
                             var exactkey = ""
                             for (k in variablesJ[idx]) {
-                                val v = children[idx].resultSet.getValueString(rowA, k.first)
-                                val kk = if (children[idx].resultSet.isUndefValue(rowA, k.first))
-                                    "-"
-                                else
-                                    v + "-"
+                                val v = children[idx].resultSet.getValue(rowA, k.first)
+                                val kk = "" + v + "-"
                                 exactkey += kk
                                 val newkeys = mutableSetOf<String>()
                                 for (x in keys) {

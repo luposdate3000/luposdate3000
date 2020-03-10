@@ -2,10 +2,11 @@ package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -33,7 +34,7 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
         return true
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         TODO("not implemented")
     }
 

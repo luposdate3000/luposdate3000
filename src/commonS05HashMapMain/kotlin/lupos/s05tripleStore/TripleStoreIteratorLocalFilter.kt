@@ -10,7 +10,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
 
@@ -30,7 +30,7 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
                     val result = resultSet.createResultRow()
                     for (i in 0 until 3)
                         if (newVariables[i] != null)
-                            resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueString(it[i]))
+                            resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
                     channel.send(result)
                 }, index)
                 channel.close()

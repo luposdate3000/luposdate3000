@@ -3,11 +3,11 @@ package lupos.s04arithmetikOperators.multiinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -26,25 +26,25 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
         return true
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         var a: Any
         var b: Any
         try {
-            a = AOPBoolean(query, (children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
+            a = ValueBoolean((children[0] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             a = e
         }
         try {
-            b = AOPBoolean(query, (children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
+            b = ValueBoolean((children[1] as AOPBase).calculate(resultSet, resultRow).toBoolean())
         } catch (e: Throwable) {
             b = e
         }
-        if (a is AOPBoolean && b is AOPBoolean)
+        if (a is ValueBoolean && b is ValueBoolean)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPBoolean(query, a.value && b.value)
+                ValueBoolean(a.value && b.value)
             })
         if (a is Throwable) {
-            if (b is AOPBoolean && b.value == false)
+            if (b is ValueBoolean && b.value == false)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
                     b
                 })
@@ -53,7 +53,7 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
             })
         }
         if (b is Throwable) {
-            if (a is AOPBoolean && a.value == false)
+            if (a is ValueBoolean && a.value == false)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
                     a
                 })

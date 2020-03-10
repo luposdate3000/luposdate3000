@@ -14,7 +14,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -100,13 +100,8 @@ class POPSort : POPBase {
                     var key = ""
                     for (variable in variables) {
                         resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
-                        if (variable.first == sortBy) {
-                            val tmp = children[0].resultSet.getValueString(rsOld, variable.second)
-                            if (tmp == null)
-                                key = ""
-                            else
-                                key = tmp
-                        }
+                        if (variable.first == sortBy)
+                            key = "" + children[0].resultSet.getValue(rsOld, variable.second)
                     }
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {

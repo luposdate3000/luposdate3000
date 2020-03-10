@@ -14,8 +14,7 @@ import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.*
@@ -79,7 +78,7 @@ object P2P {
         }
     })
 
-    fun execTripleAdd(query: Query, node: String, graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
+    fun execTripleAdd(query: Query, node: String, graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
         if (node == endpointServer!!.fullname)
             Endpoint.process_local_triple_add(query, graphName, params, idx)
         else
@@ -128,7 +127,7 @@ object P2P {
         else {
             val sarr = Array(3) {
                 if (params[it] is AOPConstant)
-                    (params[it] as AOPConstant).valueToString()!!
+                    (params[it] as AOPConstant).value.valueToString()!!
                 else if (params[it] is AOPVariable)
                     (params[it] as AOPVariable).name
                 else
@@ -160,17 +159,17 @@ object P2P {
         else {
             val s: String
             if (data[0] is AOPConstant)
-                s = (data[0] as AOPConstant).valueToString()!!
+                s = (data[0] as AOPConstant).value.valueToString()!!
             else
                 s = (data[0] as AOPVariable).name
             val p: String
             if (data[1] is AOPConstant)
-                p = (data[1] as AOPConstant).valueToString()!!
+                p = (data[1] as AOPConstant).value.valueToString()!!
             else
                 p = (data[1] as AOPVariable).name
             val o: String
             if (data[2] is AOPConstant)
-                o = (data[2] as AOPConstant).valueToString()!!
+                o = (data[2] as AOPConstant).value.valueToString()!!
             else
                 o = (data[2] as AOPVariable).name
             val req = Endpoint.REQUEST_TRIPLE_DELETE[0] +//

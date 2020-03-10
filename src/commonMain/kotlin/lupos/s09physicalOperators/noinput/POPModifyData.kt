@@ -14,8 +14,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -67,7 +66,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
                 for (t in data) {
                     if (type == EModifyType.INSERT) {
                         val store = DistributedTripleStore.getNamedGraph(query, t.graph, true)
-                        store.addData(Array(3) { t.children[it] as AOPConstant })
+                        store.addData(Array(3) { (t.children[it] as AOPConstant).value })
                     } else {
                         val store = DistributedTripleStore.getNamedGraph(query, t.graph, false)
                         store.deleteDataVar(Array(3) { t.children[it] as AOPBase })

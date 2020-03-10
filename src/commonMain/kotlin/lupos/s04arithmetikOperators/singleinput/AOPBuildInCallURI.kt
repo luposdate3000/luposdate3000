@@ -3,12 +3,11 @@ package lupos.s04arithmetikOperators.singleinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -29,19 +28,19 @@ class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPIri)
+        if (a is ValueIri)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 a
             })
-        if (a is AOPSimpleLiteral || a is AOPTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string")
+        if (a is ValueSimpleLiteral || a is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string")
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                val b = a as AOPConstantString
+                val b = a as ValueStringBase
                 if (prefix != "" && !prefix.endsWith("/"))
-                    AOPIri(query, prefix + "/" + b.content)
+                    ValueIri(prefix + "/" + b.content)
                 else
-                    AOPIri(query, prefix + b.content)
+                    ValueIri(prefix + b.content)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall URI only works with simple string input")

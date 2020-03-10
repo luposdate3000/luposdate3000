@@ -16,8 +16,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
@@ -133,7 +132,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         }
     })
 
-    fun calculateNodeForDataFull(params: Array<AOPConstant>, index: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
+    fun calculateNodeForDataFull(params: Array<ValueDefinition>, index: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
         val params = Array(3) { myHashCode("" + params[it].valueToString(), K) }
         return P2P.getKnownClientsCopy()[myHashCode(params[0], params[1], params[2], P2P.knownClients.size(), index)]
     })
@@ -142,7 +141,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         val res = mutableSetOf<String>()
         val arr = Array<IntRange>(3) {
             if (params[it] is AOPConstant) {
-                val h = myHashCode("" + (params[it] as AOPConstant).valueToString(), K)
+                val h = myHashCode("" + (params[it] as AOPConstant).value.valueToString(), K)
                 IntRange(h, h)
             } else
                 IntRange(0, K)
@@ -158,17 +157,17 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         return res
     })
 
-    fun addData(t: Array<AOPConstant>) = Trace.trace({ "DistributedGraph.addData a" }, {
+    fun addData(t: Array<ValueDefinition>) = Trace.trace({ "DistributedGraph.addData a" }, {
         EIndexPattern.values().forEach {
             val node = calculateNodeForDataFull(t, it)
             P2P.execTripleAdd(query, node, name, t, it)
         }
     })
 
-    fun deleteData(t: Array<AOPConstant>) = Trace.trace({ "DistributedGraph.deleteData" }, {
+    fun deleteData(t: Array<ValueDefinition>) = Trace.trace({ "DistributedGraph.deleteData" }, {
         EIndexPattern.values().forEach {
-            for (node in calculateNodeForDataMaybe(Array<AOPBase>(3) { t[it] }, it)) {
-                P2P.execTripleDelete(query, node, name, Array<AOPBase>(3) { t[it] }, it)
+            for (node in calculateNodeForDataMaybe(Array<AOPBase>(3) { AOPConstant(query, t[it]) }, it)) {
+                P2P.execTripleDelete(query, node, name, Array<AOPBase>(3) { AOPConstant(query, t[it]) }, it)
             }
         }
     })
@@ -184,7 +183,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         val vars = arrayOf(iterator.resultSet.createVariable("s"), iterator.resultSet.createVariable("p"), iterator.resultSet.createVariable("o"))
         val channel = iterator.evaluate()
         for (v in channel) {
-            val params = Array(3) { AOPVariable.calculate(query, iterator.resultSet.getValueString(v, vars[it])) }
+            val params = Array(3) { iterator.resultSet.getValueObject(v, vars[it]) }
             addData(params)
         }
     })

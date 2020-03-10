@@ -11,12 +11,13 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s00misc.Trace
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
 
@@ -24,9 +25,9 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
     @JvmField
     val values = ThreadSafeMutableList<Value>()
 
-    inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { dictionary.getValue(key[it])!! }
+    inline fun valuesToStrings(key: Array<Value>): Array<ValueDefinition> = Array(components) { dictionary.getValue(key[it])!! }
 
-    fun modifyInternal(key: Array<Value>, value: Array<String>, type: EModifyType, idx: Int, step: Int) {
+    fun modifyInternal(key: Array<Value>, value: Array<ValueDefinition>, type: EModifyType, idx: Int, step: Int) {
         val realIdx = idx * components
         val nextStep: Int
         if (step == 1)
@@ -38,14 +39,17 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
         var cmp = 0
         for (i in 0 until components) {
             val tmp = dictionary.getValue(values[realIdx + i]!!)!!
-            if (tmp < value[i]) {
-                cmp = +1
-                break
+            try {
+                cmp = tmp.compareTo(value[i])
+            } catch (e: Throwable) {
+                try {
+                    cmp = tmp.valueToString()!!.compareTo(value[i].valueToString()!!)
+                } catch (e: Throwable) {
+                    cmp = 0
+                }
             }
-            if (tmp > value[i]) {
-                cmp = -1
+            if (cmp != 0)
                 break
-            }
         }
         if (cmp == 0) {
             if (type == EModifyType.DELETE)
@@ -80,7 +84,7 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
         values.clear()
     }
 
-    fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
+    fun modifyInternalFirst(key: Array<Value>, value: Array<ValueDefinition>, type: EModifyType) {
         SanityCheck.checkEQ({ key.size }, { components })
         SanityCheck.checkEQ({ value.size }, { components })
         if (values.size() == 0) {
@@ -145,7 +149,7 @@ class TripleStoreLocal {
         val values = arrayOfNulls<Value?>(3)
         for (i in 0 until 3)
             if (params[i] is AOPConstant)
-                values[i] = resultSet.createValue((params[i] as AOPConstant).valueToString())
+                values[i] = resultSet.createValue((params[i] as AOPConstant).value.valueToString())
         when (idx) {
             EIndexPattern.S -> {
                 if (values[0] != null) {
@@ -392,7 +396,7 @@ class TripleStoreLocal {
         }
     })
 
-    fun addData(query: Query, params: Array<AOPConstant>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
+    fun addData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         val values = Array(3) { resultSet.createValue(params[it].valueToString()) }
         modifyData(query, values, EModifyType.INSERT, idx)
     })
@@ -405,7 +409,7 @@ class TripleStoreLocal {
                     tmp++
             when (tmp) {
                 3 -> {
-                    val values = Array(3) { resultSet.createValue((params[it] as AOPConstant).valueToString()) }
+                    val values = Array(3) { resultSet.createValue((params[it] as AOPConstant).value.valueToString()) }
                     modifyData(query, values, EModifyType.DELETE, idx)
                 }
                 else -> {

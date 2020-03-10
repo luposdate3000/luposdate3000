@@ -4,9 +4,9 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
@@ -85,7 +85,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                             if (child.getProvidedVariableNames().contains(variable.name))
                                 res = POPRename(query, variable, node.children[1] as AOPVariable, child)
                             else
-                                res = POPBind(query, variable, AOPUndef(query), child)
+                                res = POPBind(query, variable, AOPConstant(query, ValueUndef()), child)
                         else -> res = POPBind(query, variable, node.children[1] as AOPBase, child)
                     }
                 }

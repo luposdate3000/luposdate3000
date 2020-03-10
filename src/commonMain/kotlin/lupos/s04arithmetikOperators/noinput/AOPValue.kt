@@ -2,8 +2,8 @@ package lupos.s04arithmetikOperators.noinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -32,7 +32,7 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
         return true
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         TODO("not implemented")
     }
 

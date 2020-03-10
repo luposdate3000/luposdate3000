@@ -7,10 +7,10 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeUuid
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
@@ -55,13 +55,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         return setOf(endpointServer!!.fullname)
     }
 
-    fun addData(t: Array<AOPConstant>) {
+    fun addData(t: Array<ValueDefinition>) {
         EIndexPattern.values().forEach {
             Endpoint.process_local_triple_add(query, endpointServer!!.fullname, t, it)
         }
     }
 
-    fun deleteData(t: Array<AOPConstant>) {
+    fun deleteData(t: Array<ValueDefinition>) {
         EIndexPattern.values().forEach {
             Endpoint.process_local_triple_delete(query, endpointServer!!.fullname, Array<AOPBase>(3) { t[it] }, it)
         }

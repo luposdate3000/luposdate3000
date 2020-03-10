@@ -3,13 +3,11 @@ package lupos.s04arithmetikOperators.multiinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPConstantString
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -24,13 +22,13 @@ class AOPBuildInCallCONTAINS(query: Query, child: AOPBase, childB: AOPBase) : AO
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPConstantString) {
+        if (a is ValueStringBase) {
             val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-            if (b is AOPSimpleLiteral)
+            if (b is ValueSimpleLiteral)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPBoolean(query, a.content.contains(b.content))
+                    ValueBoolean(a.content.contains(b.content))
                 })
             else
                 throw resultFlow({ this }, { resultRow }, { resultSet }, {

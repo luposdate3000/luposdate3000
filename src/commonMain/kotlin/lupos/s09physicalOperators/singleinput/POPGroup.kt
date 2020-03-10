@@ -17,7 +17,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -114,7 +114,7 @@ class POPGroup : POPBase {
             node.count.set(count)
             node.collectMode.set(mode)
             if (mode)
-                node.a.set(null)
+                node.a.set(ValueUndef())
         }
     }
 

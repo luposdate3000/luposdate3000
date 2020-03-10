@@ -4,12 +4,11 @@ import com.soywiz.krypto.md5
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPConstantString
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -25,11 +24,11 @@ class AOPBuildInCallMD5(query: Query, child: AOPBase) : AOPBase(query, EOperator
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPConstantString)
+        if (a is ValueStringBase)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query, a.delimiter, a.content.encodeToByteArray().md5().toHexString1())
+                ValueSimpleLiteral(a.delimiter, a.content.encodeToByteArray().md5().toHexString1())
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall MD5 only works with string input")

@@ -3,12 +3,11 @@ package lupos.s04arithmetikOperators.singleinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -23,18 +22,18 @@ class AOPBuildInCallLANG(query: Query, child: AOPBase) : AOPBase(query, EOperato
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPLanguageTaggedLiteral)
+        if (a is ValueLanguageTaggedLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query, a.delimiter, a.language)
+                ValueSimpleLiteral(a.delimiter, a.language)
             })
-        if (a is AOPConstantString || a is AOPNumeric || a is AOPBoolean || a is AOPDateTime)
+        if (a is ValueStringBase || a is ValueNumeric || a is ValueBoolean || a is ValueDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPSimpleLiteral(query, "\"", "")
+                ValueSimpleLiteral("\"", "")
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("Type error $classname ${a.classname}")
+            Exception("Type error $classname")
         })
     }
 

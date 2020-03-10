@@ -13,8 +13,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -36,7 +35,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
     }
 
     override fun toSparql(): String {
-        if (children[1] is AOPUndef)
+        if (children[1] is AOPConstant && (children[1] as AOPConstant).value is ValueUndef)
             return children[0].toSparql()
         var res = "{SELECT "
         for (v in children[0].getProvidedVariableNames())

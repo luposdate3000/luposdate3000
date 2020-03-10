@@ -26,19 +26,6 @@ import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPDateTime
-import lupos.s04arithmetikOperators.noinput.AOPDecimal
-import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
-import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
-import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -137,13 +124,13 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
             toBinary(operator.children[0], buffer, asPOP)
             toBinary(operator.children[1], buffer, asPOP)
         }
-        is AOPSimpleLiteral -> {
+        is ValueSimpleLiteral -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
-        is AOPLanguageTaggedLiteral -> {
+        is ValueLanguageTaggedLiteral -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
-        is AOPTypedLiteral -> {
+        is ValueTypedLiteral -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
         is AOPLT -> {
@@ -287,18 +274,18 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
         is AOPBuildInCallYEAR -> {
             toBinary(operator.children[0], buffer, asPOP)
         }
-        is AOPDateTime -> {
+        is ValueDateTime -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
-        is AOPInteger -> {
+        is ValueInteger -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
-        is AOPIri -> {
+        is ValueIri -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
-        is AOPUndef -> {
+        is ValueUndef -> {
         }
-        is AOPBoolean -> {
+        is ValueBoolean -> {
             buffer.appendInt(testDictionaryValue.createValue(operator.valueToString()))
         }
         is AOPDivision -> {
@@ -381,7 +368,7 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
                 tmp.forEach { r ->
                     for (p in operator.params)
                         if (p is AOPConstant)
-                            buffer.appendInt(testDictionaryValue.createValue((p as AOPConstant).valueToString()!!))
+                            buffer.appendInt(testDictionaryValue.createValue((p as AOPConstant).value.valueToString()!!))
                         else
                             buffer.appendInt(testDictionaryValue.createValue(operator.resultSet.getValueString(r, (p as AOPVariable).name)!!))
                 }
@@ -557,7 +544,7 @@ fun printAllMicroTest() {
                         out.println("${prefix}$k /* $v */ ,")
                 }
                 out.println("${prefix}            {")
-                out.println("${prefix}                MicroTest0(AOPUndef(query,), AOPUndef(query,))")
+                out.println("${prefix}                MicroTest0(ValueUndef(), ValueUndef())")
                 out.println("${prefix}            }()")
                 out.println("${prefix}    ).mapIndexed { index, data ->")
                 out.println("${prefix}        DynamicTest.dynamicTest(\"\$index\") {")
@@ -582,7 +569,7 @@ fun printAllMicroTest() {
                 out.println("${prefix}                        if (data is MicroTestA1)")
                 out.println("${prefix}                            println(data.resultRow)")
                 out.println("${prefix}                        println(output.valueToString())")
-                out.println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
+                out.println("${prefix}                        println((data.expected as AOPConstant).value.valueToString())")
                 out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(data.expected.equals(output))")
                 out.println("${prefix}                }")

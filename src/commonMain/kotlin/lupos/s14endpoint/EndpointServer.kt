@@ -29,8 +29,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -76,27 +75,39 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
         GlobalLogger.log(ELoggerType.DEBUG, { query })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val ast_node = parser.expr()
-        GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
-        val lop_node = ast_node.visit(OperatorGraphVisitor(q))
-        GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
-        val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
-        GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
-        val pop_optimizer = PhysicalOptimizer(q)
-        val pop_node = pop_optimizer.optimizeCall(lop_node2)
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
-        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node) as POPBase
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
-        q.commit()
-        return QueryResultToXML.toXML(pop_distributed_node).first()
+        Trace.trace({ "process_abstract_syntax_tree" }, {
+            val lcit = LexerCharIterator(query)
+            val tit = TokenIteratorSPARQLParser(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            val parser = SPARQLParser(ltit)
+            val ast_node = parser.expr()
+            GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
+            GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
+            Trace.trace({ "process_logical_operator_graph" }, {
+                val lop_node = ast_node.visit(OperatorGraphVisitor(q))
+                GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
+                GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
+                Trace.trace({ "process_logical_operator_graph_optimisation" }, {
+                    val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
+                    GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
+                    GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
+                    Trace.trace({ "process_physical_operator_graph" }, {
+                        val pop_optimizer = PhysicalOptimizer(q)
+                        val pop_node = pop_optimizer.optimizeCall(lop_node2)
+                        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
+                        GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
+                        Trace.trace({ "process_distributed_operator_graph" }, {
+                            val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node) as POPBase
+                            GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
+                            q.commit()
+                            Trace.trace({ "process_query" }, {
+                                return QueryResultToXML.toXML(pop_distributed_node).first()
+                            })
+                        })
+                    })
+                })
+            })
+        })
     })
 
     fun process_operatorgraph_query(query: String): XMLElement = Trace.trace({ "process_operatorgraph_query" }, {
@@ -126,7 +137,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
                 val param = Array(3) {
                     if (params[Endpoint.REQUEST_TRIPLE_GET[6 + it]]!!.toBoolean())
-                        AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
+                        AOPConstant(query, AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
                     else
                         AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
                 }
@@ -138,7 +149,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
                 val param = Array(3) {
                     if (params[Endpoint.REQUEST_TRIPLE_DELETE[6 + it]]!!.toBoolean())
-                        AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
+                        AOPConstant(query, AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
                     else
                         AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
                 }
@@ -146,6 +157,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[9]]!!)).toPrettyString()
             }
+            Endpoint.REQUEST_STACKTRACE[0] -> Trace.print()
             Endpoint.REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()
             Endpoint.REQUEST_PEERS_SELF_TEST[0] -> responseStr = P2P.process_peers_self_test()
             Endpoint.REQUEST_COMMIT[0] -> {

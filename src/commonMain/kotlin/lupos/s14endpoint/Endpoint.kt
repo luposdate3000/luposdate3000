@@ -23,7 +23,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -62,9 +62,11 @@ object Endpoint {
     @JvmField
     val REQUEST_PEERS_SELF_TEST = arrayOf("/peers/self_test")
     @JvmField
+    val REQUEST_STACKTRACE = arrayOf("/stacktrace")
+    @JvmField
     val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
 
-    fun process_local_triple_add(query: Query, graphName: String, params: Array<AOPConstant>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_add" }, {
+    fun process_local_triple_add(query: Query, graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_add" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
         g.addData(query, params, idx)
         return XMLElement("success")

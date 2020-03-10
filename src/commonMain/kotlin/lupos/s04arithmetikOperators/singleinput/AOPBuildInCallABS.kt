@@ -4,13 +4,11 @@ import kotlin.jvm.JvmField
 import kotlin.math.abs
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPDecimal
-import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPInteger
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -25,19 +23,19 @@ class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperator
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPDouble)
+        if (a is ValueDouble)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDouble(query, abs(a.value))
+                ValueDouble(abs(a.value))
             })
-        if (a is AOPDecimal)
+        if (a is ValueDecimal)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPDecimal(query, abs(a.value))
+                ValueDecimal(abs(a.value))
             })
-        if (a is AOPInteger)
+        if (a is ValueInteger)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query, abs(a.value))
+                ValueInteger(abs(a.value))
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall ABS only works with numeric input")

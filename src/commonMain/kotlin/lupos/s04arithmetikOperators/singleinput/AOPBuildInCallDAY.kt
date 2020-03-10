@@ -3,12 +3,11 @@ package lupos.s04arithmetikOperators.singleinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPDateTime
-import lupos.s04arithmetikOperators.noinput.AOPInteger
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -23,11 +22,11 @@ class AOPBuildInCallDAY(query: Query, child: AOPBase) : AOPBase(query, EOperator
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPDateTime)
+        if (a is ValueDateTime)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-                AOPInteger(query, a.day)
+                ValueInteger(a.day)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall DAY only works with dateTime input")

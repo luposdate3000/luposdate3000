@@ -3,6 +3,8 @@ package lupos.s03resultRepresentation
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
 
@@ -48,20 +50,25 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
 
     fun getVariableNames() = variablesLTS
 
-    fun createValue(value: String?): Value {
-        if (value == null)
-            return dictionary.undefValue
-        return dictionary.createValue(value)
+    fun createValue(value: Any?): Value {
+        return when (value) {
+            null -> dictionary.undefValue
+            is ValueDefinition -> dictionary.createValue(value)
+            is String -> dictionary.createValue(AOPVariable.calculate(value))
+            is Value -> value
+            else -> dictionary.createValue(AOPVariable.calculate(value.toString()))
+        }
     }
 
     val createdRows = SanityCheck.helper<MutableSet<Long>> { mutableSetOf<Long>() }
+
     fun createResultRow(): ResultRow {
         val res = ResultRow(variablesLTS.size, dictionary.undefValue)
         SanityCheck.helper<Unit> { createdRows!!.add(res.uuid) }
         return res
     }
 
-    fun getValueString(value: Value) = dictionary.getValue(value)
+    fun getValueObject(value: Value) = dictionary.getValue(value)
 
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
@@ -73,19 +80,19 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         r.values[v.toInt()] = dictionary.undefValue
     }
 
-    fun setValue(r: ResultRow, k: Variable, v: Value) {
-        SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        r.values[k.toInt()] = v
-    }
-
-    fun setValue(r: ResultRow, k: String, v: String) {
+    fun setValue(r: ResultRow, k: String, v: Any?) {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         r.values[createVariable(k).toInt()] = createValue(v)
     }
 
-    fun setValue(r: ResultRow, k: Variable, v: String?) {
+    fun setValue(r: ResultRow, k: Variable, v: Any?) {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         r.values[k.toInt()] = createValue(v)
+    }
+
+    fun getValue(r: ResultRow, k: String): Value {
+        SanityCheck.check({ createdRows!!.contains(r.uuid) })
+        return r.values[createVariable(k).toInt()]
     }
 
     fun getValue(r: ResultRow, k: Variable): Value {
@@ -93,14 +100,14 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return r.values[k.toInt()]
     }
 
-    fun getValueString(r: ResultRow, k: Variable): String? {
+    fun getValueObject(r: ResultRow, k: Variable): ValueDefinition {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        return getValueString(r.values[k.toInt()])
+        return getValueObject(r.values[k.toInt()])
     }
 
-    fun getValueString(r: ResultRow, k: String): String? {
+    fun getValueObject(r: ResultRow, k: String): ValueDefinition {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
-        return getValueString(r.values[createVariable(k).toInt()])
+        return getValueObject(r.values[createVariable(k).toInt()])
     }
 
     fun copy(to: ResultRow, kTo: Variable, from: ResultRow, kFrom: Variable, fromR: ResultSet) {

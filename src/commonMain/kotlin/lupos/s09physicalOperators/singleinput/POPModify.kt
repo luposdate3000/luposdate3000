@@ -13,7 +13,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -43,7 +43,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
 
     override fun cloneOP() = POPModify(query, insert, delete, children[0].cloneOP())
 
-    fun evaluateRow(node: OPBase, row: ResultRow): AOPConstant {
+    fun evaluateRow(node: OPBase, row: ResultRow): ValueDefinition {
         return (node as AOPBase).calculate(children[0].resultSet, row)
     }
 
@@ -60,7 +60,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                 DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueString(row, i.graph)!!, true)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(row, i.graph)!!.valueToString()!!, true)
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, true)
                             }
@@ -75,7 +75,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                 DistributedTripleStore.getDefaultGraph(query)
                             else {
                                 if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueString(row, i.graph)!!, true)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(row, i.graph)!!.valueToString()!!, true)
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, false)
                             }

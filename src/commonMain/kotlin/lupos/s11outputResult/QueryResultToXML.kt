@@ -4,7 +4,9 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -22,7 +24,7 @@ object QueryResultToXML {
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             CoroutinesHelper.runBlock {
                 for (resultRow in queryChannel) {
-                    val value = query.resultSet.getValueString(resultRow, "?boolean")!!
+                    val value = query.resultSet.getValueObject(resultRow, "?boolean")!!.valueToString()!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     SanityCheck.check({ value.endsWith("\"^^<" + datatype + ">") })
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
@@ -43,7 +45,7 @@ object QueryResultToXML {
                     nodeResults.addContent(nodeResult)
                     for (variable in variables) {
                         if (!query.resultSet.isUndefValue(resultRow, variable.second)) {
-                            val value = query.resultSet.getValueString(resultRow, variable.second)!!
+                            val value = query.resultSet.getValueObject(resultRow, variable.second)!!.valueToString()!!
                             val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                             if (value.length > 1) {
                                 if (value.startsWith("\"") && !value.endsWith("\"")) {

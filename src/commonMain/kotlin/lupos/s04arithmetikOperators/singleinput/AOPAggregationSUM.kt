@@ -4,16 +4,13 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPDecimal
-import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPUndef
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -40,11 +37,11 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
     }
 
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
         if (!collectMode.get()) {
-            if (a.get() == null)
+            if (a.get() is ValueUndef)
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    AOPUndef(query)
+                    ValueUndef()
                 })
             else
                 return resultFlow({ this }, { resultRow }, { resultSet }, {
@@ -56,14 +53,14 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
                 Exception("AOPAggregationSUM does not support distinct")
             })
         val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a.get() == null)
+        if (a.get() is ValueUndef)
             a.set(b)
-        else if (a.get() is AOPDouble || b is AOPDouble)
-            a.set(AOPDouble(query, a.get()!!.toDouble() + b.toDouble()))
-        else if (a.get() is AOPDecimal || b is AOPDecimal)
-            a.set(AOPDecimal(query, a.get()!!.toDouble() + b.toDouble()))
-        else if (a.get() is AOPInteger || b is AOPInteger)
-            a.set(AOPInteger(query, a.get()!!.toInt() + b.toInt()))
+        else if (a.get() is ValueDouble || b is ValueDouble)
+            a.set(ValueDouble(a.get()!!.toDouble() + b.toDouble()))
+        else if (a.get() is ValueDecimal || b is ValueDecimal)
+            a.set(ValueDecimal(a.get()!!.toDouble() + b.toDouble()))
+        else if (a.get() is ValueInteger || b is ValueInteger)
+            a.set(ValueInteger(a.get()!!.toInt() + b.toInt()))
         else
             throw resultFlow({ this }, { resultRow }, { resultSet }, {
                 Exception("AOPAggregationSUM SUM only defined on numeric input")

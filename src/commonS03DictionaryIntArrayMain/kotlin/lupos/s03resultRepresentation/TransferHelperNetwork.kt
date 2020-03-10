@@ -5,10 +5,10 @@ import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType
 import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.Endpoint
 
@@ -27,12 +27,12 @@ class TransferHelperNetwork {
                 when (header) {
                     ENetworkMessageType.DICTIONARY_ENTRY -> {
                         for (i in 0 until count)
-                            query.dictionary.createValue(data.getNextString())
+                            query.dictionary.createValue(AOPVariable.calculate(data.getNextString()))
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
-                            val graphName = query.dictionary.getValue(data.getNextInt())!!
-                            val params = Array(3) { AOPVariable.calculate(query, query.dictionary.getValue(data.getNextInt())) }
+                            val graphName = query.dictionary.getValue(data.getNextInt())!!.valueToString()!!
+                            val params = Array(3) { query.dictionary.getValue(data.getNextInt()) }
                             val idx = EIndexPattern.values()[data.getNextInt()]
                             try {
                                 Endpoint.process_local_triple_add(query, graphName, params, idx)
@@ -84,7 +84,7 @@ class TransferHelperNetwork {
     fun createDictionaryValue(s: String?): Value {
         val tmp: Value
         if (s != null)
-            tmp = query.dictionary.createValue(s)
+            tmp = query.dictionary.createValue(AOPVariable.calculate(s))
         else
             return query.dictionary.undefValue
         if (lastDictionaryKey == null || tmp > lastDictionaryKey!!) {
@@ -99,7 +99,7 @@ class TransferHelperNetwork {
         enforceHeader(ENetworkMessageType.GRAPH_CLEAR_ALL)
     }
 
-    fun addTriple(graphName: String, params: Array<AOPConstant>, idx: EIndexPattern) {
+    fun addTriple(graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern) {
         val gv = createDictionaryValue(graphName)
         val params = Array(3) { createDictionaryValue(params[it].valueToString()) }
         enforceHeader(ENetworkMessageType.TRIPLE_ADD)

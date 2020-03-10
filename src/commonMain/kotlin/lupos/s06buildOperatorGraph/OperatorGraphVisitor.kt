@@ -97,6 +97,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
@@ -121,22 +122,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
-import lupos.s04arithmetikOperators.noinput.AOPBoolean
-import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
-import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
-import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPDateTime
-import lupos.s04arithmetikOperators.noinput.AOPDecimal
-import lupos.s04arithmetikOperators.noinput.AOPDouble
-import lupos.s04arithmetikOperators.noinput.AOPInteger
-import lupos.s04arithmetikOperators.noinput.AOPIri
-import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
-import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPUndef
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -198,7 +184,7 @@ import lupos.s05tripleStore.*
 
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
-    val queryExecutionStartTime = AOPDateTime(query) /*required for BuildInCall.NOW */
+    val queryExecutionStartTime = ValueDateTime() /*required for BuildInCall.NOW */
 
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
 
@@ -660,35 +646,35 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTUndef, childrenValues: List<OPBase>): OPBase {
-        return AOPUndef(query)
+        return AOPConstant(query, ValueUndef())
     }
 
     override fun visit(node: ASTSimpleLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPSimpleLiteral(query, node.delimiter, node.content)
+        return AOPConstant(query, ValueSimpleLiteral(node.delimiter, node.content))
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPVariable.calculate(query, node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">")
+        return AOPConstant(query, AOPVariable.calculate(node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">"))
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPLanguageTaggedLiteral(query, node.delimiter, node.content, node.language)
+        return AOPConstant(query, ValueLanguageTaggedLiteral(node.delimiter, node.content, node.language))
     }
 
     override fun visit(node: ASTBooleanLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPBoolean(query, node.value)
+        return AOPConstant(query, ValueBoolean(node.value))
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {
-        return AOPInteger(query, node.value)
+        return AOPConstant(query, ValueInteger(node.value))
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<OPBase>): OPBase {
-        return AOPDouble(query, node.toDouble())
+        return AOPConstant(query, ValueDouble(node.toDouble()))
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<OPBase>): OPBase {
-        return AOPDecimal(query, node.toDouble())
+        return AOPConstant(query, ValueDecimal(node.toDouble()))
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
@@ -966,7 +952,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
             BuiltInFunctions.NOW -> {
                 SanityCheck.checkEQ({ childrenValues.size }, { 0 })
-                return queryExecutionStartTime
+                return AOPConstant(query, queryExecutionStartTime)
             }
             BuiltInFunctions.UUID -> {
                 SanityCheck.checkEQ({ childrenValues.size }, { 0 })
@@ -1057,7 +1043,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
         SanityCheck.checkEQ({ childrenValues.size }, { 0 })
-        return AOPIri(query, node.iri)
+        return AOPConstant(query, ValueIri(node.iri))
     }
 
     override fun visit(node: ASTGroup, childrenValues: List<OPBase>): OPBase {
