@@ -116,7 +116,6 @@ enum class EOperatorID {
     POPGraphOperationID,
     POPGroupID,
     POPImportFromNetworkPackageID,
-    POPImportFromXmlID,
     POPJoinHashMapID,
     POPJoinNestedLoopID,
     POPLimitID,
@@ -132,7 +131,6 @@ enum class EOperatorID {
     POPTripleStoreIteratorBaseID,
     POPUnionID,
     POPValuesID,
-    TripleInsertIteratorID,
     TripleStoreIteratorGlobalID,
     TripleStoreIteratorLocalFilterID,
     TripleStoreIteratorLocalID
@@ -172,7 +170,6 @@ val EOperatorIDPOP = arrayOf(
         EOperatorID.POPGraphOperationID,
         EOperatorID.POPGroupID,
         EOperatorID.POPImportFromNetworkPackageID,
-        EOperatorID.POPImportFromXmlID,
         EOperatorID.POPJoinHashMapID,
         EOperatorID.POPJoinNestedLoopID,
         EOperatorID.POPLimitID,
@@ -187,7 +184,6 @@ val EOperatorIDPOP = arrayOf(
         EOperatorID.POPTemporaryStoreID,
         EOperatorID.POPUnionID,
         EOperatorID.POPValuesID,
-        EOperatorID.TripleInsertIteratorID,
         EOperatorID.TripleStoreIteratorGlobalID,
         EOperatorID.TripleStoreIteratorLocalFilterID,
         EOperatorID.TripleStoreIteratorLocalID)

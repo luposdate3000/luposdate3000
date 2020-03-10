@@ -248,9 +248,6 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
             EOperatorID.POPImportFromNetworkPackageID -> {
                 return fromBinaryPOP(query, buffer)
             }
-            EOperatorID.POPImportFromXmlID -> {
-                return fromBinaryPOP(query, buffer)
-            }
             EOperatorID.POPTemporaryStoreID -> {
                 return fromBinaryPOP(query, buffer)
             }
@@ -373,7 +370,7 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                 val graph2name = graph2nameTmp.substring(1, graph2nameTmp.length - 1)
                 throw ExceptionTopLevelOperator(POPGraphOperation(query, silent, graph1type, graph1name, graph2type, graph2name, action))
             }
-            EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleInsertIteratorID, EOperatorID.TripleStoreIteratorLocalFilterID, EOperatorID.TripleStoreIteratorLocalID -> {
+            EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleStoreIteratorLocalFilterID, EOperatorID.TripleStoreIteratorLocalID -> {
                 val graphNameTmp = (nextStringValueTyped(query, buffer, EOperatorID.AOPIriID))
                 val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
                 val graph = DistributedTripleStore.getNamedGraph(query, graphName, true)

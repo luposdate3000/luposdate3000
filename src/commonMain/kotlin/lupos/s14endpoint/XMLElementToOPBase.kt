@@ -225,16 +225,16 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPDistinct" -> POPDistinct(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         "POPValues" -> {
             val vars = mutableListOf<String>()
-            val vals = mutableListOf<MutableMap<String, String?>>()
+            val vals = mutableListOf<List<String?>>()
             node["variables"]!!.childs.forEach {
                 vars.add(it.attributes["name"]!!)
             }
             node["bindings"]!!.childs.forEach {
-                val exp = mutableMapOf<String, String?>()
+                val exp = arrayOfNulls<String?>(vars.size)
                 it.childs.forEach {
-                    exp[it.attributes["name"]!!] = it.attributes["content"]
+                    exp[vars.indexOf(it.attributes["name"]!!)] = it.attributes["content"]
                 }
-                vals.add(exp)
+                vals.add(exp.toList())
             }
             return POPValues(query, vars, vals)
         }

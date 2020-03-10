@@ -29,7 +29,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.noinput.POPImportFromXml
+import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
@@ -398,7 +398,7 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        val tmp = POPImportFromXml(query, xmlQueryInput!!.first())
+                        val tmp = POPValuesImportXML(query, xmlQueryInput!!.first())
                         DistributedTripleStore.getDefaultGraph(query).addData(tmp)
                     }
                     query.commit()
@@ -416,7 +416,7 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPImportFromXml(query, xmlQueryInput!!.first()))
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPValuesImportXML(query, xmlQueryInput!!.first()))
                     }
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })

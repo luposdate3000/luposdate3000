@@ -22,24 +22,22 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 
-class POPValues : POPBase {
+open class POPValues : POPBase {
     @JvmField
     val variables = mutableListOf<Variable>()
     @JvmField
-    val stringVars = mutableListOf<String>()
-    @JvmField
-    val data = mutableListOf<Map<Variable, Value>>()
+    val data = mutableListOf<ResultRow>()
 
     override fun toSparql(): String {
         var res = "VALUES("
-        for (v in stringVars)
-            res += AOPVariable(query, v).toSparql() + " "
+        for (v in variables)
+            res += AOPVariable(query, resultSet.getVariable(v)).toSparql() + " "
         res += ") {"
         for (m in data) {
             res += "("
             for (v in variables) {
-                val s = m[v]
-                if (s == null || s == query.dictionary.undefValue)
+                val s = resultSet.getValue(m, v)
+                if (s == query.dictionary.undefValue)
                     res += "UNDEF "
                 else
                     res += resultSet.getValueString(s) + " "
@@ -58,72 +56,54 @@ class POPValues : POPBase {
         for (i in data.indices) {
             val m1 = data[i]
             val m2 = other.data[i]
-            if (m1.keys.size != m2.keys.size)
+            if (m1 != m2)
                 return false
-            for (k in m1.keys) {
-                if (m1[k] != m2[k])
-                    return false
-            }
         }
         return true
     }
 
     override fun cloneOP() = POPValues(query, variables.map { resultSet.getVariable(it) }, data.map {
-        val res = mutableMapOf<String, String?>()
-        for ((k, v) in (it as Map<Variable, Value>))
-            res[resultSet.getVariable(k as Variable) as String] = resultSet.getValueString(v as Value) as String?
+        val res = mutableListOf<String?>()
+        for (v in variables.indices)
+            res.add(resultSet.getValueString(it, variables[v]))
         res
-    })
+    }.toMutableList())
 
-    constructor(query: Query, v: List<String>, d: List<Map<String, String?>>) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
+    constructor(query: Query, v: List<String>, d: MutableList<List<String?>>) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
         v.forEach {
-            stringVars.add(it)
             variables.add(resultSet.createVariable(it))
         }
         d.forEach {
-            val entry = mutableMapOf<Variable, Value>()
+            val entry = resultSet.createResultRow()
+            for (v1 in it.indices)
+                resultSet.setValue(entry, variables[v1], it[v1])
             data.add(entry)
-            for ((k, v) in it) {
-                if (v == null)
-                    entry[resultSet.createVariable(k)] = resultSet.dictionary.undefValue
-                else
-                    entry[resultSet.createVariable(k)] = resultSet.createValue(v)
-            }
         }
     }
 
     constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
-        for (name in values.variables) {
-            stringVars.add(name.name)
+        for (name in values.variables)
             variables.add(resultSet.createVariable(name.name))
-        }
         for (v in values.children) {
             SanityCheck.check({ v is AOPValue })
             val it = v.children.iterator()
-            val entry = mutableMapOf<Variable, Value>()
+            val entry = resultSet.createResultRow()
+            for (v2 in variables)
+                resultSet.setValue(entry, v2, (it.next() as AOPConstant).valueToString())
             data.add(entry)
-            for (v2 in variables) {
-                entry[v2] = resultSet.createValue((it.next() as AOPConstant).valueToString())
-            }
         }
     }
 
-    override fun getProvidedVariableNames() = stringVars.distinct()
+    override fun getProvidedVariableNames() = variables.map { resultSet.getVariable(it) }.distinct()
 
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf()
-    }
+    override fun getRequiredVariableNames() = mutableListOf<String>()
 
     override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPValues.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in data) {
-                    var rsNew = resultSet.createResultRow()
-                    for ((variable, value) in rsOld)
-                        resultSet.setValue(rsNew, variable, value)
+                for (rsNew in data)
                     channel.send(resultFlowProduce({ this@POPValues }, { rsNew }))
-                }
                 channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
@@ -143,12 +123,12 @@ class POPValues : POPBase {
         for (d in data) {
             val b = XMLElement("binding")
             bindings.addContent(b)
-            for ((k, v) in d) {
-                val value = resultSet.getValueString(v)
+            for (v in variables) {
+                val value = resultSet.getValueString(d, v)
                 if (value != null)
-                    b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)).addAttribute("content", value))
+                    b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(v)).addAttribute("content", value))
                 else
-                    b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)))
+                    b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(v)))
             }
         }
         return res

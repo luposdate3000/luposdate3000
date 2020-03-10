@@ -32,8 +32,8 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint

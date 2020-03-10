@@ -18,8 +18,8 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
@@ -91,7 +91,7 @@ object P2P {
         CoroutinesHelper.runBlock {
             val xml = EndpointClientImpl.requestGetString("http://${(nodeName)}${Endpoint.REQUEST_OPERATOR_QUERY[0]}" +//
                     "?" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_OPERATOR_QUERY[1], pop.toXMLElement().toPrettyString()))
-            res = POPImportFromXml(query, XMLElement.parseFromXml(xml)!!.first())
+            res = POPValuesImportXML(query, XMLElement.parseFromXml(xml)!!.first())
         }
         return res
     })

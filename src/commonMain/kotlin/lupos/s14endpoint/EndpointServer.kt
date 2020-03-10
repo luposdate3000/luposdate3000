@@ -35,7 +35,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.noinput.POPImportFromXml
+import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
@@ -45,15 +45,6 @@ import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
-    val triple = ID_Triple(triple_s, triple_p, triple_o)
-    val query = Query()
-    CoroutinesHelper.runBlock {
-        DistributedTripleStore.getDefaultGraph(query).addData(TripleInsertIterator(query, triple))
-    }
-    query.commit()
-}
-
 @UseExperimental(ExperimentalStdlibApi::class)
 abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {
     @JvmField
@@ -61,20 +52,23 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
 
 
     fun process_turtle_input(data: String): XMLElement = Trace.trace({ "process_turtle_input" }, {
-        val lcit = LexerCharIterator(data)
-        val tit = TurtleScanner(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        TurtleParserWithDictionary(::consume_triple, ltit).turtleDoc()
-        return XMLElement("done")
+        val query = Query()
+        val import = POPValuesImportTurtle(query, data)
+        CoroutinesHelper.runBlock {
+            DistributedTripleStore.getDefaultGraph(query).addData(import)
+        }
+        query.commit()
+        return XMLElement("success")
     })
 
     fun process_xml_input(data: String): XMLElement = Trace.trace({ "process_xml_input" }, {
         val query = Query()
+        val import = POPValuesImportXML(query, XMLElement.parseFromXml(data)!!.first())
         CoroutinesHelper.runBlock {
-            DistributedTripleStore.getDefaultGraph(query).addData(POPImportFromXml(query, XMLElement.parseFromXml(data)!!.first()))
+            val node2 = DistributedTripleStore.getDefaultGraph(query).addData(import)
         }
         query.commit()
-        return XMLElement("done")
+        return XMLElement("success")
     })
 
     fun process_sparql_query(query: String): XMLElement = Trace.trace({ "process_sparql_query" }, {
@@ -115,10 +109,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     })
 
 
-    suspend fun process_print_traces(): String {
-        return Trace.toString()
-    }
-
     suspend fun receive(path: String, data: ByteArray): ByteArray {
         when (path) {
             Endpoint.REQUEST_BINARY[0] -> {
@@ -132,13 +122,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         var responseStr = ""
         var responseBytes: ByteArray? = null
         when (path) {
-            Endpoint.REQUEST_TRIPLE_ADD[0] -> {
-                val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_ADD[2]]!!.toLong())
-                val param = Array(3) { AOPVariable.calculate(query, params[Endpoint.REQUEST_TRIPLE_ADD[3 + it]]!!) }
-                responseStr = Endpoint.process_local_triple_add(query, params[Endpoint.REQUEST_TRIPLE_ADD[1]]!!,
-                        param,
-                        EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_ADD[6]]!!)).toPrettyString()
-            }
             Endpoint.REQUEST_TRIPLE_GET[0] -> {
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
                 val param = Array(3) {
@@ -163,7 +146,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[9]]!!)).toPrettyString()
             }
-            Endpoint.REQUEST_TRACE_PRINT[0] -> responseStr = process_print_traces()
             Endpoint.REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()
             Endpoint.REQUEST_PEERS_SELF_TEST[0] -> responseStr = P2P.process_peers_self_test()
             Endpoint.REQUEST_COMMIT[0] -> {

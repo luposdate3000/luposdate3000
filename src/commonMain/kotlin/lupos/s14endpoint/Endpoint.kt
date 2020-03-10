@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.noinput.POPImportFromXml
+import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
@@ -40,15 +40,11 @@ object Endpoint {
     @JvmField
     val REQUEST_BINARY = arrayOf("/binary")
     @JvmField
-    val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
-    @JvmField
     val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     @JvmField
     val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     @JvmField
     val REQUEST_COMMIT = arrayOf("/commit", "id")
-    @JvmField
-    val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     @JvmField
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
     @JvmField
