@@ -22,14 +22,17 @@ class Plan : Comparable<Plan> {
         childs = null
         this.variables = mutableSetOf<String>()
         variables.addAll(child.getProvidedVariableNames())
-        cost = -variables.size
+        cost = variables.size
     }
+
+inline fun sqr(i:Int)=i*i
 
     constructor(plans: Array<Plan?>, childA: Int, childB: Int) {
         child = null
         childs = Pair(childA, childB)
         variables = plans[childA]!!.variables + plans[childB]!!.variables
-        cost = -(plans[childA]!!.variables.intersect(plans[childB]!!.variables)).size
+//        cost = variables.size-(plans[childA]!!.variables.intersect(plans[childB]!!.variables)).size
+	cost=sqr(plans[childA]!!.variables.size)+sqr(plans[childB]!!.variables.size)
     }
 
     override operator fun compareTo(other: Plan) = cost.compareTo(other.cost)

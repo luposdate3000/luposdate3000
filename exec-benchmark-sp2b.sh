@@ -78,8 +78,8 @@ curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 (
 	l="luposdate3000,${triples}"
 	cd resources/sp2b
-#	for f in *.sparql
-	for f in q12b.sparql
+	for f in *.sparql
+#	for f in q12b.sparql
 	do
 		a=$(($(date +%s%N)/1000000))
 		n=1

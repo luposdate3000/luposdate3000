@@ -78,3 +78,14 @@ luposdate3000,1000,1.89
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
 luposdate3000,10000,.03
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+luposdate3000,100,35.32
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+luposdate3000,1000,20.85
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+luposdate3000,100,29.79,30.93,33.30,43.86,47.66,34.07,31.94,34.48,29.91,32.70,27.55,32.51,41.17,24.29,26.87,36.27,24.70
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+luposdate3000,1000,39.60,25.49,39.76,25.44,30.79,33.66,31.80,34.79,35.82,32.60,1.02,29.38,24.97,27.54,23.25,30.53,26.97
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
