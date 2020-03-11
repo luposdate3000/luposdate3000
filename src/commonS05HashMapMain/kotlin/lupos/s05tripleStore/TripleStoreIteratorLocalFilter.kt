@@ -12,6 +12,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(query, resultSet, store, index, EOperatorID.TripleStoreIteratorLocalFilterID, "TripleStoreIteratorLocalFilter") {
@@ -38,14 +39,14 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
                 channel.close(e)
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 }

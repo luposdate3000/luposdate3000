@@ -3,6 +3,7 @@ package lupos.s03resultRepresentation
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {

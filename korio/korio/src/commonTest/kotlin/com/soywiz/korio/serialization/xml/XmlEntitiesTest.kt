@@ -1,4 +1,5 @@
 package com.soywiz.korio.serialization.xml
+import lupos.s04logicalOperators.ResultIterator
 
 import kotlin.test.*
 

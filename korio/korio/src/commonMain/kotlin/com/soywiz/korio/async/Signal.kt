@@ -1,6 +1,7 @@
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
 
 package com.soywiz.korio.async
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.kds.iterators.*
 import com.soywiz.klock.*

@@ -6,6 +6,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o)) {

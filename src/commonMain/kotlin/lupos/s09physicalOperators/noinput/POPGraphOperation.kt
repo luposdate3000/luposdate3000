@@ -22,6 +22,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -257,14 +258,10 @@ class POPGraphOperation(query: Query,
                 channel.close(e)
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            channel.receive()
+        }, close = {
+            channel.close()
+        })
     })
 }

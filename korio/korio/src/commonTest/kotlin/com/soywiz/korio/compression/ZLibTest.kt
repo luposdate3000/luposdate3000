@@ -1,4 +1,5 @@
 package com.soywiz.korio.compression
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.compression.deflate.*
 import com.soywiz.korio.compression.lzma.*

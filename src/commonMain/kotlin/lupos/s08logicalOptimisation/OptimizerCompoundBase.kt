@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
@@ -15,23 +16,23 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
     override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
         node.syntaxVerifyAllVariableExists(listOf(), true)
         var tmp = node
-var d=true
-while(d){
-d=false
-        for (o in childrenOptimizers) {
-            var c = true
-            while (c) {
-                c = false
-                tmp = o.optimizeInternal(tmp, null, {
-if(o.optimizerID.repeatOnChange){
-                    c = true
-			d=true
-                    onChange()
-}
-                })
+        var d = true
+        while (d) {
+            d = false
+            for (o in childrenOptimizers) {
+                var c = true
+                while (c) {
+                    c = false
+                    tmp = o.optimizeInternal(tmp, null, {
+                        if (o.optimizerID.repeatOnChange) {
+                            c = true
+                            d = true
+                            onChange()
+                        }
+                    })
+                }
             }
         }
-}
         tmp.syntaxVerifyAllVariableExists(listOf(), false)
         return tmp
     }

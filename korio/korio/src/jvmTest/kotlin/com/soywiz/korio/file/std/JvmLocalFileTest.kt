@@ -1,4 +1,5 @@
 package com.soywiz.korio.file.std
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.async.suspendTest
 import com.soywiz.korio.file.baseName

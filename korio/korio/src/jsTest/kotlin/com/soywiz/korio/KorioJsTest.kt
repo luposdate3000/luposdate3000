@@ -1,4 +1,5 @@
 package com.soywiz.korio
+import lupos.s04logicalOperators.ResultIterator
 
 class KorioJsTest {
 	/*

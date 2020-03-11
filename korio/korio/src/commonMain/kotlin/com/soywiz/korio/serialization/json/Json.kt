@@ -1,4 +1,5 @@
 package com.soywiz.korio.serialization.json
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.util.*

@@ -8,6 +8,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorID.LOPValuesID, "LOPValues", Array(values.size) { values[it] }) {

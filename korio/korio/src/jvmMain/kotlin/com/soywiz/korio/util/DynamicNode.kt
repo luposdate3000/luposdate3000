@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 @Suppress("UNCHECKED_CAST")
 class DynamicNode(private val wrapped: Any?, private val key: String? = null) {

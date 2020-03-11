@@ -18,6 +18,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -93,15 +94,15 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                 children0Channel.close(e)
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 
 

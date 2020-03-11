@@ -14,6 +14,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
@@ -65,15 +66,15 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                 children0Channel.close(e)
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 
 }

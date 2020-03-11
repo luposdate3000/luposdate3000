@@ -19,6 +19,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s12p2p.P2P
@@ -104,15 +105,15 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 channel.close(e)
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 
 }

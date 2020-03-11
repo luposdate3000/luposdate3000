@@ -1,4 +1,5 @@
 package com.soywiz.korio.dynamic
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.util.*
 import java.lang.reflect.*

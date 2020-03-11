@@ -1,4 +1,5 @@
 package com.soywiz.korio.lang
+import lupos.s04logicalOperators.ResultIterator
 
 expect open class IOException(msg: String) : Exception
 expect open class EOFException(msg: String) : IOException

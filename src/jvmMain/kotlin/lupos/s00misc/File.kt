@@ -4,6 +4,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class File(@JvmField val filename: String) {

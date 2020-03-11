@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val nameFrom: AOPVariable, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPRenameID, "LOPRename", arrayOf(child)) {

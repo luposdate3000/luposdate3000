@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 fun Char.isWhitespaceFast(): Boolean = this == ' ' || this == '\t' || this == '\r' || this == '\n'
 fun Char.isDigit(): Boolean = this in '0'..'9'

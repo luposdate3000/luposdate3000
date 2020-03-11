@@ -1,4 +1,5 @@
 package com.soywiz.korio.serialization.binary
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.stream.*
 import kotlin.test.*

@@ -1,4 +1,5 @@
 package com.soywiz.korio.dynamic.mapper
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.kds.*
 import com.soywiz.korio.dynamic.*

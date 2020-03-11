@@ -1,4 +1,5 @@
 package com.soywiz.korio.compression.util
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.kmem.*
 

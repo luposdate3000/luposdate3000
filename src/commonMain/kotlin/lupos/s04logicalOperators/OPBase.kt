@@ -13,6 +13,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 

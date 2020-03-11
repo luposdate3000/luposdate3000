@@ -10,6 +10,7 @@ import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.toBytesUTF
 import lupos.s01io.buffer.toStringUTF
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class NotFoundException : Exception()

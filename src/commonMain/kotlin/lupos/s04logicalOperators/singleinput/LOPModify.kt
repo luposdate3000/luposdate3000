@@ -7,6 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPModify(query: Query,

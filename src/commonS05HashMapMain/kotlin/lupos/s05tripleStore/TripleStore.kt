@@ -19,6 +19,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmField val components: Int) {

@@ -1,5 +1,8 @@
 package lupos.s00misc
 
+import lupos.s04logicalOperators.ResultIterator
+
+
 object SanityCheck {
     inline fun <T> helper(action: () -> Unit): T? {
         return null

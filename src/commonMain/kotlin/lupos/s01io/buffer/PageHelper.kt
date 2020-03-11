@@ -5,6 +5,7 @@ import lupos.s00misc.bit0
 import lupos.s00misc.bit1
 import lupos.s00misc.bit2
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2

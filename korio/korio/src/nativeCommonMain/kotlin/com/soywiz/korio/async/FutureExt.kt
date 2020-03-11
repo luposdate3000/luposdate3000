@@ -1,4 +1,5 @@
 package com.soywiz.korio.async
+import lupos.s04logicalOperators.ResultIterator
 
 suspend fun <T> kotlin.native.concurrent.Future<T>.await(): T {
 	var n = 0

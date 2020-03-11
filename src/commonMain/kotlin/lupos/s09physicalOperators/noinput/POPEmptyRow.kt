@@ -11,46 +11,20 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
 class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POPEmptyRow", ResultSet(query.dictionary), arrayOf()) {
-    @JvmField
-    var first = true
-
     override fun cloneOP() = POPEmptyRow(query)
-
     override fun toSparql() = "{}"
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPEmptyRow)
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
+    override fun equals(other: Any?) = other is POPEmptyRow
+    override fun evaluate(): ResultIterator {
+        val res = ResultIterator()
+        res.next = {
+            res.close()
+            resultFlowProduce({ this@POPEmptyRow }, { resultSet.createResultRow() })
         }
-        return true
+        return res
     }
-
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPEmptyRow.evaluate" }, {
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                channel.send(resultFlowProduce({ this@POPEmptyRow }, { resultSet.createResultRow() }))
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-            }
-        }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
-    })
-
 }

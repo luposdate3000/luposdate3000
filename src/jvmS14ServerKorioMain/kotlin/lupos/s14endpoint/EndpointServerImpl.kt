@@ -19,6 +19,7 @@ import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
 

@@ -1,4 +1,5 @@
 package com.soywiz.korio.lang
+import lupos.s04logicalOperators.ResultIterator
 
 actual typealias IOException = java.io.IOException
 actual typealias EOFException = java.io.EOFException

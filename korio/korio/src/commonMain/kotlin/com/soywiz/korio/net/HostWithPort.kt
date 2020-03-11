@@ -1,4 +1,5 @@
 package com.soywiz.korio.net
+import lupos.s04logicalOperators.ResultIterator
 
 data class HostWithPort(val host: String, val port: Int) {
 	companion object {

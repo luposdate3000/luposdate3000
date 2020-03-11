@@ -7,6 +7,7 @@ import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class ResultSetDictionary {

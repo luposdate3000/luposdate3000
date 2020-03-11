@@ -1,4 +1,5 @@
 package com.soywiz.korio
+import lupos.s04logicalOperators.ResultIterator
 
 import android.content.*
 import com.soywiz.korio.async.*

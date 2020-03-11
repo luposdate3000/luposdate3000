@@ -8,6 +8,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 abstract class AOPBase(query: Query,

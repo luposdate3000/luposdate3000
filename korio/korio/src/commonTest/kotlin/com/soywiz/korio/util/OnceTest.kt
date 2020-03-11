@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.klock.*
 import com.soywiz.korio.async.*

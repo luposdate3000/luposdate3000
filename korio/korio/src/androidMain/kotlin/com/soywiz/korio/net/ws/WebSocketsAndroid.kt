@@ -1,4 +1,5 @@
 package com.soywiz.korio.net.ws
+import lupos.s04logicalOperators.ResultIterator
 
 actual suspend fun WebSocketClient(
 	url: String,

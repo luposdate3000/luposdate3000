@@ -5,6 +5,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPServiceIRI(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, child: OPBase) : LOPBase(query, EOperatorID.LOPServiceIRIID, "LOPServiceIRI", arrayOf(child)) {

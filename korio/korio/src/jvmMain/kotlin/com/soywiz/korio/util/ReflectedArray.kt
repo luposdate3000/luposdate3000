@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 class ReflectedArray(val array: Any) {
 	fun getType(): Class<*> = array::class.java.componentType

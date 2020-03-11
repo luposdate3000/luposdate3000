@@ -11,6 +11,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPAdditionID, "AOPAddition", arrayOf(childA, childB)) {

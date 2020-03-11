@@ -1,4 +1,5 @@
 package com.soywiz.korio.file
+import lupos.s04logicalOperators.ResultIterator
 
 import java.io.*
 

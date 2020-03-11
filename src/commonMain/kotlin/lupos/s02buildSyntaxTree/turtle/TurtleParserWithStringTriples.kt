@@ -7,6 +7,7 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {

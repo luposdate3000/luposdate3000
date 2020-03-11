@@ -15,6 +15,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
@@ -69,9 +70,9 @@ class POPJoinNestedLoop : POPBase {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (resultRowA in channels[0]) {
+                channels[0].forEach { resultRowA ->
                     resultFlowConsume({ this@POPJoinNestedLoop }, { children[0] }, { resultRowA })
-                    for (resultRowB in channels[1]) {
+                    channels[1].forEach { resultRowB ->
                         resultFlowConsume({ this@POPJoinNestedLoop }, { children[1] }, { resultRowB })
                         var joinVariableOk = true
                         var rsNew = resultSet.createResultRow()
@@ -103,20 +104,20 @@ class POPJoinNestedLoop : POPBase {
                 for (c in channels)
                     c.close()
             } catch (e: Throwable) {
-                channel.close(e)
+                channel.close()
                 for (c in channels)
-                    c.close(e)
+                    c.close()
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

@@ -8,6 +8,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 

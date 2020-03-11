@@ -13,6 +13,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 open class TripleStoreIteratorLocal(query: Query,
@@ -58,14 +59,14 @@ open class TripleStoreIteratorLocal(query: Query,
                 channel.close(e)
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 }

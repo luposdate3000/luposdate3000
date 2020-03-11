@@ -9,6 +9,7 @@ import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import platform.posix.FILE
 import stdio.fclose
 import stdio.fgets

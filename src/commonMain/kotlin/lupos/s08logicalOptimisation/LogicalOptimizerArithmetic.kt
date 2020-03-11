@@ -9,6 +9,7 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s08logicalOptimisation.OptimizerBase
 
 

@@ -15,6 +15,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
@@ -69,7 +70,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             try {
                 for (idx in 0 until 2) {
                     try {
-                        for (rowA in channels[idx]) {
+                        channels[idx].forEach { rowA ->
                             resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
                             var keys = mutableSetOf<String>()
                             keys.add("")
@@ -145,20 +146,20 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 for (c in channels)
                     c.close()
             } catch (e: Throwable) {
-                channel.close(e)
+                channel.close()
                 for (c in channels)
-                    c.close(e)
+                    c.close()
             }
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return ResultIterator(next = {
+            try {
+                channel.next()
+            } catch (e: Throwable) {
+                null
+            }
+        }, close = {
+            channel.close()
+        })
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

@@ -1,4 +1,5 @@
 package com.soywiz.korio.stream
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.kmem.*
 import com.soywiz.korio.concurrent.*

@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 val IntRange.length: Int get() = (this.endInclusive - this.start) + 1
 val LongRange.length: Long get() = (this.endInclusive - this.start) + 1

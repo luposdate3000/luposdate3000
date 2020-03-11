@@ -2,6 +2,7 @@ package lupos.s14endpoint
 
 import kotlin.jvm.JvmField
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {

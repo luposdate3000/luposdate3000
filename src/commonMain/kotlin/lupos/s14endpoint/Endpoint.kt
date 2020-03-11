@@ -26,6 +26,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*

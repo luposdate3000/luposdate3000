@@ -1,4 +1,5 @@
 package com.soywiz.korio.dynamic.mapper
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.dynamic.serialization.*
 import com.soywiz.korio.serialization.json.*

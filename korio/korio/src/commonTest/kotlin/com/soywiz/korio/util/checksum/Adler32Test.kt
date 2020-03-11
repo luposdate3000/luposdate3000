@@ -1,4 +1,5 @@
 package com.soywiz.korio.util.checksum
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*

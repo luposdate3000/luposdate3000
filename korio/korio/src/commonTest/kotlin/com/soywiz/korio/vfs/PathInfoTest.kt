@@ -1,4 +1,5 @@
 package com.soywiz.korio.vfs
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.file.*
 import kotlin.test.*

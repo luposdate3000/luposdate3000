@@ -7,6 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPServiceVAR(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, constraint: OPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPServiceVARID, "LOPServiceVAR", arrayOf(child, constraint)) {

@@ -5,6 +5,7 @@ import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 @UseExperimental(kotlin.time.ExperimentalTime::class)

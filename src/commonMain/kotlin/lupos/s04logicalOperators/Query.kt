@@ -2,6 +2,7 @@ package lupos.s04logicalOperators
 
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 

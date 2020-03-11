@@ -1,4 +1,5 @@
 package com.soywiz.korio.util.checksum
+import lupos.s04logicalOperators.ResultIterator
 
 object Adler32 : SimpleChecksum {
 	private const val BASE = 65521

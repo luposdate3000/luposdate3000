@@ -1,6 +1,7 @@
 @file:Suppress("PrivatePropertyName", "NAME_SHADOWING", "PropertyName")
 
 package com.soywiz.korio.compression.lzma
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.experimental.*
 import com.soywiz.korio.stream.*

@@ -44,6 +44,7 @@ import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap

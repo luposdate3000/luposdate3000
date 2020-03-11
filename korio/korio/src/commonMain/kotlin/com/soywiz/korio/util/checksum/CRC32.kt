@@ -1,4 +1,5 @@
 package com.soywiz.korio.util.checksum
+import lupos.s04logicalOperators.ResultIterator
 
 object CRC32 : SimpleChecksum {
 	override val initialValue = 0

@@ -10,6 +10,7 @@ import lupos.s01io.buffer.serializedSizeOfCompressedInt
 import lupos.s01io.buffer.serializedSizeOfInt
 import lupos.s01io.buffer.serializeInt
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 // this class avoids virtual method calls, which speeds up processing of Big Data

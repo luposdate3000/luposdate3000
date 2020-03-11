@@ -1,4 +1,5 @@
 package com.soywiz.korio.android
+import lupos.s04logicalOperators.ResultIterator
 
 /*
 import android.app.Activity

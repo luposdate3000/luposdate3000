@@ -1,4 +1,5 @@
 package com.soywiz.korio.concurrent
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.concurrent.atomic.*
 import kotlin.test.*

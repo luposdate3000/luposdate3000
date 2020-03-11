@@ -1,4 +1,5 @@
 package com.soywiz.korio.file.std
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.kds.*
 import com.soywiz.kmem.*

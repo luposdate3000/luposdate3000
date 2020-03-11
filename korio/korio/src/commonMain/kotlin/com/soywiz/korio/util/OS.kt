@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 internal expect val rawPlatformName: String
 internal expect val rawOsName: String

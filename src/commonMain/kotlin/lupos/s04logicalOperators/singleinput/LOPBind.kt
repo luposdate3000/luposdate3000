@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPBind(query: Query, @JvmField val name: AOPVariable, expression: AOPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPBindID, "LOPBind", arrayOf(child, expression)) {

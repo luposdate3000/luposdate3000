@@ -1,4 +1,5 @@
 package com.soywiz.korio.concurrent.atomic
+import lupos.s04logicalOperators.ResultIterator
 
 internal class AtomicLazyImpl<out T>(initializer: () -> T) : Lazy<T> {
 	private object UNINITIALIZED

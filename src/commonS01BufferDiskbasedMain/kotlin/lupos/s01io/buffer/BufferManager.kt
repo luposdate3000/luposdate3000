@@ -2,6 +2,7 @@ package lupos.s01io.buffer
 
 import kotlin.jvm.JvmField
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)

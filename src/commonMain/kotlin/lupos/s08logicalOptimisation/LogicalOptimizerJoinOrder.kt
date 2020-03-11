@@ -7,6 +7,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
 
@@ -25,14 +26,14 @@ class Plan : Comparable<Plan> {
         cost = variables.size
     }
 
-inline fun sqr(i:Int)=i*i
+    inline fun sqr(i: Int) = i * i
 
     constructor(plans: Array<Plan?>, childA: Int, childB: Int) {
         child = null
         childs = Pair(childA, childB)
         variables = plans[childA]!!.variables + plans[childB]!!.variables
 //        cost = variables.size-(plans[childA]!!.variables.intersect(plans[childB]!!.variables)).size
-	cost=sqr(plans[childA]!!.variables.size)+sqr(plans[childB]!!.variables.size)
+        cost = sqr(plans[childA]!!.variables.size) + sqr(plans[childB]!!.variables.size)
     }
 
     override operator fun compareTo(other: Plan) = cost.compareTo(other.cost)

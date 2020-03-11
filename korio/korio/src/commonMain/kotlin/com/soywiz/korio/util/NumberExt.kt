@@ -1,6 +1,7 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.lang.*
 import kotlin.math.*

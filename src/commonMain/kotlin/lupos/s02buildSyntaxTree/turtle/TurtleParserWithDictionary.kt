@@ -6,6 +6,7 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {

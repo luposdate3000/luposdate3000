@@ -1,4 +1,5 @@
 package com.soywiz.korio.util
+import lupos.s04logicalOperators.ResultIterator
 
 class CachedInt(val initial: Int) {
 	var current = initial

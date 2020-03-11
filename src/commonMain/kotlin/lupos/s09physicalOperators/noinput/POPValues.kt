@@ -17,6 +17,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
@@ -97,25 +98,16 @@ open class POPValues : POPBase {
     override fun getRequiredVariableNames() = mutableListOf<String>()
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPValues.evaluate" }, {
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                for (rsNew in data)
-                    channel.send(resultFlowProduce({ this@POPValues }, { rsNew }))
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
+        val iterator = data.iterator()
+        val res = ResultIterator()
+        res.next = {
+            if (!iterator.hasNext()) {
+                res.close()
+                res._next()
             }
+            resultFlowProduce({ this@POPValues }, { iterator.next() })
         }
-return ResultIterator(next={
-try{
-channel.next()
-}catch(e:Throwable){
-null
-}
-},close={
-channel.close()
-})
+        return res
     })
 
     override fun toXMLElement(): XMLElement {

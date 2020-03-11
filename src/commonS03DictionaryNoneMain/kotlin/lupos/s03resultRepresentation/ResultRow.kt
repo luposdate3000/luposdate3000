@@ -5,6 +5,7 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class ResultRow() : Comparable<ResultRow> {

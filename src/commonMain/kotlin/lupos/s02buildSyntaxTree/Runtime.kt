@@ -3,6 +3,7 @@ package lupos.s02buildSyntaxTree
 import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.turtle.EOF
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 interface TokenIterator {

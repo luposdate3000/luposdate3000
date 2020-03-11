@@ -1,4 +1,5 @@
 package com.soywiz.korio.lang
+import lupos.s04logicalOperators.ResultIterator
 
 actual abstract class NativeThreadLocal<T> {
 	actual abstract fun initialValue(): T

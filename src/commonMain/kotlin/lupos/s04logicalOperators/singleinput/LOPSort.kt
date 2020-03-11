@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.ResultIterator
 
 
 class LOPSort(query: Query, @JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPSortID, "LOPSort", arrayOf(child)) {
