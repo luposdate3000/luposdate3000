@@ -15,17 +15,23 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
     override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
         node.syntaxVerifyAllVariableExists(listOf(), true)
         var tmp = node
+var d=true
+while(d){
+d=false
         for (o in childrenOptimizers) {
             var c = true
             while (c) {
                 c = false
                 tmp = o.optimizeInternal(tmp, null, {
+if(o.optimizerID.repeatOnChange){
                     c = true
+			d=true
                     onChange()
+}
                 })
-                c = false
             }
         }
+}
         tmp.syntaxVerifyAllVariableExists(listOf(), false)
         return tmp
     }

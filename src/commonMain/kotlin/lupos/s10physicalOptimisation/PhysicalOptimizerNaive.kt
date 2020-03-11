@@ -24,7 +24,6 @@ import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPSort
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
@@ -75,7 +74,6 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
                 is LOPUnion -> res = POPUnion(query, node.children[0], node.children[1])
                 is LOPSort -> res = POPSort(query, node.by, node.asc, node.children[0])
-                is LOPSubGroup -> res = node.children[0]
                 is LOPFilter -> res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
                 is LOPBind -> {
                     val variable = node.name
