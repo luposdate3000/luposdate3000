@@ -12,8 +12,9 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toDouble(): Double
     abstract fun toInt(): Int
     abstract fun toBoolean(): Boolean
-companion object{
-fun create(tmp: String?): ValueDefinition {
+
+    companion object {
+        fun create(tmp: String?): ValueDefinition {
             if (tmp == null || tmp.length == 0)
                 return ValueUndef()
             when {
@@ -32,7 +33,8 @@ fun create(tmp: String?): ValueDefinition {
                 else -> return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
             }
         }
-}
+    }
+
     fun toSparql(): String {
         val res = valueToString()
         if (res == null)

@@ -87,6 +87,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
+
 enum class ValueEnum {
     ValueBnode,
     ValueBoolean,
