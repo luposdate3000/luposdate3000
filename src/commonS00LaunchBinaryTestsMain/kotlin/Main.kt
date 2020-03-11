@@ -24,13 +24,13 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
         File("resources/$v").forEachLine {
-            k.add(AOPVariable.calculate(it).valueToString())
+            k.add(ValueDefinition.create(it).valueToString())
         }
     }
     val query = Query()
     testDictionaryValue.forEach {
         try {
-            val tmp = AOPVariable.calculate(it)
+            val tmp = ValueDefinition.create(it)
             if (testDictionaryValueTyped[ValueToID(tmp)] == null)
                 testDictionaryValueTyped[ValueToID(tmp)] = ThreadSafeMutableList<String?>()
             testDictionaryValueTyped[ValueToID(tmp)]!!.add(it!!)

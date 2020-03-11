@@ -159,7 +159,7 @@ fun nextStringValue(query: Query, buffer: DynamicByteArray): String {
 
 fun nextStringValueTyped(query: Query, buffer: DynamicByteArray, type: ValueEnum): String {
     val idx = nextInt(query, buffer, testDictionaryValue.size())
-    val tmp = AOPVariable.calculate(testDictionaryValue[idx])
+    val tmp = ValueDefinition.create(testDictionaryValue[idx])
     if (ValueToID(tmp) == type)
         return testDictionaryValue[idx]!!
     return testDictionaryValueTyped[type]!![idx % testDictionaryValueTyped[type]!!.size()]!!
@@ -169,7 +169,7 @@ fun fromBinaryAOPConstOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
     try {
         if (nextInt(query, buffer, 2) == 0)
             return AOPVariable(query, testDictionaryVarName[nextInt(query, buffer, testDictionaryVarName.size())]!!)
-        return AOPConstant(query, AOPVariable.calculate(testDictionaryValue[nextInt(query, buffer, testDictionaryValue.size())]!!))
+        return AOPConstant(query, ValueDefinition.create(testDictionaryValue[nextInt(query, buffer, testDictionaryValue.size())]!!))
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
         return AOPConstant(query, ValueUndef())
@@ -181,11 +181,11 @@ fun fromBinaryValueIriOrVar(query: Query, buffer: DynamicByteArray): AOPBase {
         if (nextInt(query, buffer, 2) == 0)
             return AOPVariable(query, testDictionaryVarName[nextInt(query, buffer, testDictionaryVarName.size())]!!)
         val resultSet = testDictionaryValueTyped[ValueEnum.ValueIri]!!
-        return AOPConstant(query, AOPVariable.calculate(resultSet[nextInt(query, buffer, resultSet.size())]))
+        return AOPConstant(query, ValueDefinition.create(resultSet[nextInt(query, buffer, resultSet.size())]))
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
         val resultSet = testDictionaryValueTyped[ValueEnum.ValueIri]!!
-        return AOPConstant(query, AOPVariable.calculate(resultSet[0]))
+        return AOPConstant(query, ValueDefinition.create(resultSet[0]))
     }
 }
 
@@ -196,7 +196,7 @@ fun fromBinaryValueIriOrBnodeOrVar(query: Query, buffer: DynamicByteArray): AOPB
             0 -> return AOPVariable(query, testDictionaryVarName[nextInt(query, buffer, testDictionaryVarName.size())]!!)
             1 -> {
                 val resultSet = testDictionaryValueTyped[ValueEnum.ValueIri]!!
-                return AOPConstant(query, AOPVariable.calculate(resultSet[nextInt(query, buffer, resultSet.size())]))
+                return AOPConstant(query, ValueDefinition.create(resultSet[nextInt(query, buffer, resultSet.size())]))
             }
             else -> {
                 return AOPBuildInCallBNODE0(query)
@@ -403,7 +403,7 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                 val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
                 val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
                 for (i in 0 until tripleCount)
-                    graph.addData(Array(3) { AOPVariable.calculate(nextStringValue(query, buffer)) })
+                    graph.addData(Array(3) { ValueDefinition.create(nextStringValue(query, buffer)) })
                 query.commit()
                 return DistributedTripleStore.getNamedGraph(query, graphName).getIterator(arrayOf(s, p, o), idx)
             }
@@ -596,7 +596,7 @@ fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
                         val isNull = DynamicByteArray.intToBool(nextInt(query, buffer, 2))
                         if (!isNull) {
                             val value = nextStringValue(query, buffer)
-                            list.add(AOPConstant(query, AOPVariable.calculate(value)))
+                            list.add(AOPConstant(query, ValueDefinition.create(value)))
                         } else
                             list.add(AOPConstant(query, ValueUndef()))
                     }
@@ -622,7 +622,7 @@ fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
     val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
     val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
     for (i in 0 until tripleCount)
-        graph.addData(Array(3) { AOPVariable.calculate(nextStringValue(query, buffer)) })
+        graph.addData(Array(3) { ValueDefinition.create(nextStringValue(query, buffer)) })
     query.commit()
     return LOPTriple(query, s, p, o, graphName, false)
 }
@@ -673,7 +673,7 @@ fun fromBinaryAOP(query: Query, buffer: DynamicByteArray): AOPBase {
                 val childCount = nextInt(query, buffer, MAX_SET)
                 val list = mutableListOf<AOPConstant>()
                 for (i in 0 until childCount) {
-                    list.add(AOPConstant(query, AOPVariable.calculate(nextStringValue(query, buffer))))
+                    list.add(AOPConstant(query, ValueDefinition.create(nextStringValue(query, buffer))))
                 }
                 return AOPValue(query, list)
             }
@@ -894,7 +894,7 @@ fun fromBinaryAOP(query: Query, buffer: DynamicByteArray): AOPBase {
                 return AOPBuildInCallYEAR(query, childA)
             }
             EOperatorID.AOPConstantID -> {
-                return AOPConstant(query, AOPVariable.calculate(nextStringValue(query, buffer)))
+                return AOPConstant(query, ValueDefinition.create(nextStringValue(query, buffer)))
             }
             EOperatorID.AOPAggregationCOUNTID -> {
                 val distinct = DynamicByteArray.intToBool(nextInt(query, buffer, 2))
@@ -1013,7 +1013,7 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                         val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
                         val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
                         for (i in 0 until tripleCount)
-                            graph.addData(Array(3) { AOPVariable.calculate(nextStringValue(query, buffer)) })
+                            graph.addData(Array(3) { ValueDefinition.create(nextStringValue(query, buffer)) })
                     } catch (e: Throwable) {
                     }
                     query.commit()

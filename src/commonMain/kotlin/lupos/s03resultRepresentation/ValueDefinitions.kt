@@ -12,6 +12,27 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toDouble(): Double
     abstract fun toInt(): Int
     abstract fun toBoolean(): Boolean
+companion object{
+fun create(tmp: String?): ValueDefinition {
+            if (tmp == null || tmp.length == 0)
+                return ValueUndef()
+            when {
+                tmp.startsWith("_:") -> return ValueBnode(tmp.substring(2, tmp.length))
+                tmp.startsWith("<") && tmp.endsWith(">") -> return ValueIri(tmp.substring(1, tmp.length - 1))
+                !tmp.endsWith("" + tmp.get(0)) -> {
+                    val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
+                    val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
+                    if (tmp.endsWith(">") && typeIdx > 0)
+                        return ValueTypedLiteral.create("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
+                    else if (langIdx > 0)
+                        return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
+                    else
+                        throw Exception("AOPVariable cannot identify type #${tmp}#")
+                }
+                else -> return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
+            }
+        }
+}
     fun toSparql(): String {
         val res = valueToString()
         if (res == null)
@@ -276,7 +297,6 @@ class ValueDateTime : ValueDefinition {
         return ""
     }
 
-
     override fun valueToString(): String {
         if (timezoneHours == -1 && timezoneMinutes == -1)
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
@@ -292,5 +312,4 @@ class ValueDateTime : ValueDefinition {
     override fun toDouble(): Double = throw Exception("cannot cast ValueDateTime to Double")
     override fun toInt(): Int = throw Exception("cannot cast ValueDateTime to Integer")
     override fun toBoolean(): Boolean = throw Exception("cannot cast ValueDateTime to Boolean")
-
 }

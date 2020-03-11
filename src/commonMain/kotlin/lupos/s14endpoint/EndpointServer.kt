@@ -137,7 +137,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_GET[2]]!!.toLong())
                 val param = Array(3) {
                     if (params[Endpoint.REQUEST_TRIPLE_GET[6 + it]]!!.toBoolean())
-                        AOPConstant(query, AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
+                        AOPConstant(query, ValueDefinition.create(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
                     else
                         AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
                 }
@@ -149,7 +149,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
                 val param = Array(3) {
                     if (params[Endpoint.REQUEST_TRIPLE_DELETE[6 + it]]!!.toBoolean())
-                        AOPConstant(query, AOPVariable.calculate(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
+                        AOPConstant(query, ValueDefinition.create(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
                     else
                         AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
                 }

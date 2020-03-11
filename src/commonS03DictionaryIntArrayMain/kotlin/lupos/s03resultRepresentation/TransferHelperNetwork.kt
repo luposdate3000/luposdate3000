@@ -27,7 +27,7 @@ class TransferHelperNetwork {
                 when (header) {
                     ENetworkMessageType.DICTIONARY_ENTRY -> {
                         for (i in 0 until count)
-                            query.dictionary.createValue(AOPVariable.calculate(data.getNextString()))
+                            query.dictionary.createValue(ValueDefinition.create(data.getNextString()))
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
@@ -84,7 +84,7 @@ class TransferHelperNetwork {
     fun createDictionaryValue(s: String?): Value {
         val tmp: Value
         if (s != null)
-            tmp = query.dictionary.createValue(AOPVariable.calculate(s))
+            tmp = query.dictionary.createValue(ValueDefinition.create(s))
         else
             return query.dictionary.undefValue
         if (lastDictionaryKey == null || tmp > lastDictionaryKey!!) {
