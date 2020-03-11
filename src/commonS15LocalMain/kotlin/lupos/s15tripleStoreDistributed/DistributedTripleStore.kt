@@ -79,8 +79,9 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         val variables = arrayOf(rs.createVariable("s"), rs.createVariable("p"), rs.createVariable("o"))
         val channel = iterator.evaluate()
         CoroutinesHelper.runBlock {
-            for (v in channel)
-                addData(Array(3) { rs.getValueObject(v, variables[it]) })
+            channel.forEach { oldRow ->
+                addData(Array(3) { rs.getValueObject(oldRow, variables[it]) })
+            }
         }
     }
 

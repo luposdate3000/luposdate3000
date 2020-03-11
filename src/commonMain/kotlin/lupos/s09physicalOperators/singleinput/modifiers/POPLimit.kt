@@ -31,37 +31,20 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP() = POPLimit(query, limit, children[0].cloneOP())
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPLimit.evaluate" }, {
-        val variables = mutableListOf<Pair<Variable, Variable>>()
-        for (v in children[0].getProvidedVariableNames())
-            variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
-        val children0Channel = children[0].evaluate()
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                var count = 0
-                children0Channel.forEach { rowOld ->
-                    resultFlowConsume({ this@POPLimit }, { children[0] }, { rowOld })
-                    var rsNew = resultSet.createResultRow()
-                    if (count >= limit)
-                        children0Channel.close()
-                    for (v in variables)
-                        resultSet.copy(rsNew, v.first, rowOld, v.second, children[0].resultSet)
-                    count++
-                    channel.send(resultFlowProduce({ this@POPLimit }, { rsNew }))
-                }
-                channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                channel.close()
-                children0Channel.close()
+        val res = ResultIteratorImpl()
+        res.next = {
+            if (res.count > limit) {
+                res.close()
             }
+            res.count++
+            res.next()
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+        return res
     })
+
+    class ResultIteratorImpl() : ResultIterator() {
+        var count = 0
+    }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 }

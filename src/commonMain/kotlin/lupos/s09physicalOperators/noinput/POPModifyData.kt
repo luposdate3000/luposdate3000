@@ -25,8 +25,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, EOperatorID.POPModifyDataID, "POPModifyData", ResultSet(query.dictionary), arrayOf()) {
-    var first = true
-
+    override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
     override fun cloneOP() = POPModifyData(query, type, data)
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
@@ -46,19 +45,6 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPModifyData)
-            return false
-        if (type != other.type)
-            return false
-        if (data != other.data)
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
-    }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
         val res = ResultIterator()
