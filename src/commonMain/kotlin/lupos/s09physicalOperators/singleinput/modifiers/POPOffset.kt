@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
-class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", ResultSet(query.dictionary), arrayOf(child)) {
+class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", child.resultSet, arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset)
             return false
@@ -42,40 +42,20 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
     override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {
-        val variables = mutableListOf<Pair<Variable, Variable>>()
-        for (v in children[0].getProvidedVariableNames())
-            variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
-        val children0Channel = children[0].evaluate()
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                var count = 0
-                for (rsOld in children0Channel) {
-                    resultFlowConsume({ this@POPOffset }, { children[0] }, { rsOld })
-                    if (count >= offset) {
-                        var rsNew = resultSet.createResultRow()
-                        for (v in variables)
-                            resultSet.copy(rsNew, v.first, rsOld, v.second, children[0].resultSet)
-                        channel.send(resultFlowProduce({ this@POPOffset }, { rsNew }))
-                    }
-                    count++
-                }
-                channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-                children0Channel.close(e)
-            }
-        }
-        return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
-        }, close = {
-            channel.close()
-        })
+	val res=ResultIterator()
+	res.next={
+		val childIterator=children[0].evaluate()
+		try{
+			for(count in 0 until offset)
+				childIterator.next()
+			res.next=childIterator.next
+			res.close=childIterator.close
+		}catch(e:Throwable){
+			res.close()
+		}
+		res.next.invoke()
+	}
+	return res
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)

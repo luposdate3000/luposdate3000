@@ -61,29 +61,20 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                for (t in data) {
-                    if (type == EModifyType.INSERT) {
-                        val store = DistributedTripleStore.getNamedGraph(query, t.graph, true)
-                        store.addData(Array(3) { (t.children[it] as AOPConstant).value })
-                    } else {
-                        val store = DistributedTripleStore.getNamedGraph(query, t.graph, false)
-                        store.deleteDataVar(Array(3) { t.children[it] as AOPBase })
-                    }
-                }
-                channel.send(resultFlowProduce({ this@POPModifyData }, { resultSet.createResultRow() }))
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
+val res=ResultIterator()
+res.next={
+try {
+                for (t in data)
+                    if (type == EModifyType.INSERT) 
+                        DistributedTripleStore.getNamedGraph(query, t.graph, true).addData(Array(3) { (t.children[it] as AOPConstant).value })
+                     else 
+                         DistributedTripleStore.getNamedGraph(query, t.graph, false).deleteDataVar(Array(3) { t.children[it] as AOPBase })
+            }finally {
+               res.close()
             }
-        }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+		resultSet.createResultRow()
+}
+return res
     })
 
     override fun toXMLElement(): XMLElement {

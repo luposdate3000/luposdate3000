@@ -54,9 +54,9 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                 if (expression is AOPConstant) {
                     try {
                         if (expression.value.toBoolean())
-                            for (nextRow in children0Channel) {
-                                resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
-                                channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
+                             children0Channel.forEach {oldRow->
+                                resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
+                                channel.send(resultFlowProduce({ this@POPFilter }, { oldRow }))
                             }
                     } catch (e: Throwable) {
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
@@ -75,11 +75,11 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                             constID = resultSet.createValue((childB as AOPConstant).value)
                             variableID = resultSet.createVariable((childA as AOPVariable).name)
                         }
-                        for (nextRow in children0Channel) {
-                            resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
+                        children0Channel.forEach {oldRow->
+                            resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                             try {
-                                if (constID == resultSet.getValue(nextRow, variableID))
-                                    channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
+                                if (constID == resultSet.getValue(oldRow, variableID))
+                                    channel.send(resultFlowProduce({ this@POPFilter }, { oldRow }))
                             } catch (e: Throwable) {
                                 GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                                 GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
@@ -88,11 +88,11 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                     } else {
                         val variableIDA = resultSet.createVariable((childA as AOPVariable).name)
                         val variableIDB = resultSet.createVariable((childB as AOPVariable).name)
-                        for (nextRow in children0Channel) {
-                            resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
+                        children0Channel.forEach {oldRow->
+                            resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                             try {
-                                if (resultSet.getValue(nextRow, variableIDA) != resultSet.getValue(nextRow, variableIDB))
-                                    channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
+                                if (resultSet.getValue(oldRow, variableIDA) != resultSet.getValue(oldRow, variableIDB))
+                                    channel.send(resultFlowProduce({ this@POPFilter }, { oldRow }))
                             } catch (e: Throwable) {
                                 GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                                 GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
@@ -100,11 +100,11 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                         }
                     }
                 } else {
-                    for (nextRow in children0Channel) {
-                        resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
+                    children0Channel.forEach {oldRow->
+                        resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                         try {
-                            if (expression.calculate(resultSet, nextRow).toBoolean())
-                                channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
+                            if (expression.calculate(resultSet, oldRow).toBoolean())
+                                channel.send(resultFlowProduce({ this@POPFilter }, { oldRow }))
                         } catch (e: Throwable) {
                             GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
@@ -114,16 +114,12 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                 channel.close()
                 children0Channel.close()
             } catch (e: Throwable) {
-                channel.close(e)
-                children0Channel.close(e)
+                channel.close()
+                children0Channel.close()
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

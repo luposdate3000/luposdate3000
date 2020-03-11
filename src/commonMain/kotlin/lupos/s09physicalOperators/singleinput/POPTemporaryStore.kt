@@ -43,11 +43,11 @@ class POPTemporaryStore(query: Query, child: OPBase) : POPBase(query, EOperatorI
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children0Channel) {
-                    resultFlowConsume({ this@POPTemporaryStore }, { children[0] }, { rsOld })
+                children0Channel.forEach{oldRow->
+                    resultFlowConsume({ this@POPTemporaryStore }, { children[0] }, { oldRow })
                     var rsNew = resultSet.createResultRow()
                     for (variable in variables)
-                        resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
+                        resultSet.copy(rsNew, variable.first, oldRow, variable.second, children[0].resultSet)
                     data.add(rsNew)
                     channel.send(resultFlowProduce({ this@POPTemporaryStore }, { rsNew }))
                 }
@@ -56,26 +56,18 @@ class POPTemporaryStore(query: Query, child: OPBase) : POPBase(query, EOperatorI
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })
     })
 
-    suspend fun reset() = Trace.trace<Channel<ResultRow>>({ "POPTemporaryStore.reset" }, {
+    suspend fun reset() = Trace.trace<ResultIterator>({ "POPTemporaryStore.reset" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         for (c in data)
             channel.send(resultFlowProduce({ this@POPTemporaryStore }, { c }))
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

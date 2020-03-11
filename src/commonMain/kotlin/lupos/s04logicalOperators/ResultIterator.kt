@@ -18,7 +18,7 @@ open class ResultIterator() {
     }
 
 suspend    fun _next(): ResultRow = throw Exception("no more Elements")
-    inline suspend fun forEach(crossinline action: (ResultRow) -> Unit) {
+    inline suspend fun forEach(crossinline action: suspend(ResultRow) -> Unit) {
         try {
             while (true) {
                 action(next.invoke())

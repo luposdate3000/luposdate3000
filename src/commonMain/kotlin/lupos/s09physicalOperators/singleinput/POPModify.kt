@@ -53,34 +53,26 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (row in children0Channel) {
-                    resultFlowConsume({ this@POPModify }, { children[0] }, { row })
+                 children0Channel.forEach {rowOld->
+                    resultFlowConsume({ this@POPModify }, { children[0] }, { rowOld })
                     for (i in insert) {
                         try {
-                            val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
-                                DistributedTripleStore.getDefaultGraph(query)
-                            else {
-                                if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(row, i.graph)!!.valueToString()!!, true)
+                            val store=    if (i.graphVar)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(rowOld, i.graph)!!.valueToString()!!, true)
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, true)
-                            }
-                            store.addData(Array(3) { evaluateRow(i.children[it], row) })
+                            store.addData(Array(3) { evaluateRow(i.children[it], rowOld) })
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
                     }
                     for (i in delete) {
                         try {
-                            val store = if (i.graph == PersistentStoreLocal.defaultGraphName)
-                                DistributedTripleStore.getDefaultGraph(query)
-                            else {
-                                if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(row, i.graph)!!.valueToString()!!, true)
+                      val store=          if (i.graphVar)
+                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(rowOld, i.graph)!!.valueToString()!!, true)
                                 else
                                     DistributedTripleStore.getNamedGraph(query, i.graph, false)
-                            }
-                            store.deleteData(Array(3) { evaluateRow(i.children[it], row) })
+                            store.deleteData(Array(3) { evaluateRow(i.children[it], rowOld) })
                         } catch (e: Throwable) {
 //ignore unbound variables
                         }
@@ -90,16 +82,12 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                 channel.close()
                 children0Channel.close()
             } catch (e: Throwable) {
-                channel.close(e)
-                children0Channel.close(e)
+                channel.close()
+                children0Channel.close()
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

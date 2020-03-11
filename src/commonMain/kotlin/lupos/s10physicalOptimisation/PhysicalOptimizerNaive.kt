@@ -24,7 +24,7 @@ import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
-import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
@@ -57,6 +57,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
         var change = true
         try {
             when (node) {
+		is LOPSubGroup -> res=node.children[0]
                 is LOPGraphOperation -> res = POPGraphOperation(query, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
                 is LOPModify -> res = POPModify(query, node.insert, node.delete, node.children[0])
                 is LOPModifyData -> res = POPModifyData(query, node.type, node.data)

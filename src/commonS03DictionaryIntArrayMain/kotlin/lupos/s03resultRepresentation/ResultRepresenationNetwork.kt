@@ -36,7 +36,7 @@ object ResultRepresenationNetwork {
         var currentRowCounter = 0
         CoroutinesHelper.runBlock {
             var firstDict = true
-            for (resultRow in queryChannel) {
+             queryChannel.forEach{resultRow->
                 var newDictionaryMax = latestDictionaryMax
                 for (v in variables)
                     if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || query.resultSet.getValue(resultRow, v) > newDictionaryMax))
@@ -160,11 +160,7 @@ object ResultRepresenationNetwork {
                 }
             }
             return ResultIterator(next = {
-                try {
-                    channel.next()
-                } catch (e: Throwable) {
-                    null
-                }
+                    channel.receive()
             }, close = {
                 channel.close()
             })

@@ -67,12 +67,7 @@ class POPServiceIRI : POPBase {
             try {
                 if (constraint == null) {
                     if (silent) {
-                        val variables = mutableListOf<Variable>()
-                        for (n in getProvidedVariableNames())
-                            variables.add(resultSet.createVariable(n))
                         val res = resultSet.createResultRow()
-                        for (n in variables)
-                            resultSet.setUndefValue(res, n)
                         channel.send(res)
                     }
                 } else {
@@ -80,10 +75,10 @@ class POPServiceIRI : POPBase {
                     for (n in getProvidedVariableNames())
                         variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
                     val constraintChannel = constraint.evaluate()
-                    for (value in constraintChannel) {
+                     constraintChannel.forEach {oldRow->
                         val res = resultSet.createResultRow()
                         for (n in variables)
-                            resultSet.setValue(res, n.first, constraint.resultSet.getValue(value, n.second))
+                            resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
                         channel.send(res)
                     }
                 }
@@ -93,11 +88,7 @@ class POPServiceIRI : POPBase {
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

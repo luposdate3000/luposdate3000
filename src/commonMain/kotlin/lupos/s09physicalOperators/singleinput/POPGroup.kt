@@ -128,18 +128,18 @@ class POPGroup : POPBase {
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                for (rsOld in children0Channel) {
-                    resultFlowConsume({ this@POPGroup }, { children[0] }, { rsOld })
+                children0Channel.forEach{oldRow->
+                    resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRow })
                     var key = "|"
                     for (variable in variables)
-                        key = key + children[0].resultSet.getValue(rsOld, variable.second) + "|"
+                        key = key + children[0].resultSet.getValue(oldRow, variable.second) + "|"
                     println("xxx $key")
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {
                         tmp = mutableListOf()
                         tmpMutableMap[key] = tmp
                     }
-                    tmp.add(rsOld)
+                    tmp.add(oldRow)
                 }
                 if (tmpMutableMap.keys.size == 0) {
                     val rsNew = resultSet.createResultRow()
@@ -150,10 +150,10 @@ class POPGroup : POPBase {
                     channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
                 } else {
                     for (k in tmpMutableMap.keys) {
-                        val rsOld = tmpMutableMap[k]!!.first()
+                        val oldRow = tmpMutableMap[k]!!.first()
                         val rsNew = resultSet.createResultRow()
                         for (variable in variables)
-                            resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
+                            resultSet.copy(rsNew, variable.first, oldRow, variable.second, children[0].resultSet)
                         for (b in bindings) {
                             try {
                                 setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
@@ -177,16 +177,12 @@ class POPGroup : POPBase {
                 children0Channel.close()
             } catch (e: Throwable) {
                 e.printStackTrace()
-                channel.close(e)
-                children0Channel.close(e)
+                channel.close()
+                children0Channel.close()
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

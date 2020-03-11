@@ -59,26 +59,22 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children0Channel) {
-                    resultFlowConsume({ this@POPProjection }, { children[0] }, { rsOld })
+                children0Channel.forEach{oldRow->
+                    resultFlowConsume({ this@POPProjection }, { children[0] }, { oldRow })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
-                        resultSet.copy(rsNew, variablesNew[i], rsOld, variablesOld[i], children[0].resultSet)
+                        resultSet.copy(rsNew, variablesNew[i], oldRow, variablesOld[i], children[0].resultSet)
                     channel.send(resultFlowProduce({ this@POPProjection }, { rsNew }))
                 }
                 channel.close()
                 children0Channel.close()
             } catch (e: Throwable) {
-                channel.close(e)
-                children0Channel.close(e)
+                channel.close()
+                children0Channel.close()
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

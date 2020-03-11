@@ -78,13 +78,13 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                for (rsOld in children0Channel) {
-                    resultFlowConsume({ this@POPBind }, { children[0] }, { rsOld })
+                children0Channel.forEach {rowOld->
+                    resultFlowConsume({ this@POPBind }, { children[0] }, { rowOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesOld.indices)
-                        resultSet.copy(rsNew, variablesNew[i]!!, rsOld, variablesOld[i]!!, children[0].resultSet)
+                        resultSet.copy(rsNew, variablesNew[i]!!, rowOld, variablesOld[i]!!, children[0].resultSet)
                     try {
-                        val value = (children[1] as AOPBase).calculate(children[0].resultSet, rsOld).valueToString()
+                        val value = (children[1] as AOPBase).calculate(children[0].resultSet, rowOld).valueToString()
                         resultSet.setValue(rsNew, variableBound, value)
                     } catch (e: Throwable) {
                         resultSet.setUndefValue(rsNew, variableBound)
@@ -97,15 +97,11 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                 children0Channel.close()
             } catch (e: Throwable) {
                 channel.close(e)
-                children0Channel.close(e)
+                children0Channel.close()
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

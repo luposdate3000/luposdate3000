@@ -84,20 +84,21 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             try {
                 for (nodeName in nodeNameIterator) {
                     var remoteNode: OPBase? = null
-                    var remoteNodeChannel: Channel<ResultRow>? = null
+                    var remoteNodeChannel: ResultIterator? = null
                     try {
                         remoteNode = P2P.execTripleGet(query, nodeName, graphNameL, params, index)
                         remoteNodeChannel = remoteNode.evaluate()
                         val varin = Array(varnames.size) { remoteNode.resultSet.createVariable(varnames[it]) }
-                        for (c in remoteNodeChannel) {
+                         remoteNodeChannel.forEach{c->
                             val row = resultSet.createResultRow()
                             for (i in varnames.indices)
                                 resultSet.copy(row, varout[i], c, varin[i], remoteNode.resultSet)
                             channel.send(resultFlowProduce({ this@TripleStoreIteratorGlobal }, { row }))
                         }
                     } catch (e: Throwable) {
-                        remoteNodeChannel?.close(e)
-                        channel.close(e)
+			if(remoteNodeChannel!=null)
+                        remoteNodeChannel.close()
+                        channel.close()
                     }
                 }
                 channel.close()
@@ -106,11 +107,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })
@@ -191,8 +188,8 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     suspend fun addData(iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
         val vars = arrayOf(iterator.resultSet.createVariable("s"), iterator.resultSet.createVariable("p"), iterator.resultSet.createVariable("o"))
         val channel = iterator.evaluate()
-        for (v in channel) {
-            val params = Array(3) { iterator.resultSet.getValueObject(v, vars[it]) }
+        channel.forEach {oldRow->
+            val params = Array(3) { iterator.resultSet.getValueObject(oldRow, vars[it]) }
             addData(params)
         }
     })

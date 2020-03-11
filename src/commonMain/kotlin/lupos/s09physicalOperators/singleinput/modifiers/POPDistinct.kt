@@ -47,13 +47,13 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                for (rsOld in children0Channel) {
-                    resultFlowConsume({ this@POPDistinct }, { children[0] }, { rsOld })
+                children0Channel.forEach{oldRow->
+                    resultFlowConsume({ this@POPDistinct }, { children[0] }, { oldRow })
                     val rsNew = resultSet.createResultRow()
                     var key = ""
                     for (variable in variables) {
-                        resultSet.copy(rsNew, variable.first, rsOld, variable.second, children[0].resultSet)
-                        key += "-" + children[0].resultSet.getValue(rsOld, variable.second)
+                        resultSet.copy(rsNew, variable.first, oldRow, variable.second, children[0].resultSet)
+                        key += "-" + children[0].resultSet.getValue(oldRow, variable.second)
                     }
                     tmpMutableMap[key] = rsNew
                 }
@@ -62,16 +62,12 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                 channel.close()
                 children0Channel.close()
             } catch (e: Throwable) {
-                channel.close(e)
-                children0Channel.close(e)
+                channel.close()
+                children0Channel.close()
             }
         }
         return ResultIterator(next = {
-            try {
-                channel.next()
-            } catch (e: Throwable) {
-                null
-            }
+                channel.receive()
         }, close = {
             channel.close()
         })

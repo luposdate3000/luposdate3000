@@ -14,7 +14,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
     override val classname = "LogicalOptimizerRemoveNOOP"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
-        if (node is LOPNOOP || node is LOPSubGroup) {
+        if (node is LOPNOOP) {
             onChange()
             res = node.children[0]
         }
