@@ -24,7 +24,7 @@ object QueryResultToXML {
         val variables = mutableListOf<Pair<String, Variable>>()
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             CoroutinesHelper.runBlock {
-                queryChannel.forEach{oldRow->
+                queryChannel.forEach { oldRow ->
                     val value = query.resultSet.getValueObject(oldRow, "?boolean")!!.valueToString()!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     SanityCheck.check({ value.endsWith("\"^^<" + datatype + ">") })
@@ -41,7 +41,7 @@ object QueryResultToXML {
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
             CoroutinesHelper.runBlock {
-                queryChannel.forEach {oldRow->
+                queryChannel.forEach { oldRow ->
                     val nodeResult = XMLElement("result")
                     nodeResults.addContent(nodeResult)
                     for (variable in variables) {

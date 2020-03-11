@@ -64,7 +64,7 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

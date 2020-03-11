@@ -40,7 +40,7 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

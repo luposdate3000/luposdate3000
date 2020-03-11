@@ -47,7 +47,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                children0Channel.forEach{oldRow->
+                children0Channel.forEach { oldRow ->
                     resultFlowConsume({ this@POPDistinct }, { children[0] }, { oldRow })
                     val rsNew = resultSet.createResultRow()
                     var key = ""
@@ -67,7 +67,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

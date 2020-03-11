@@ -91,7 +91,7 @@ class POPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val n
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                children0Channel.forEach{oldRow->
+                children0Channel.forEach { oldRow ->
                     resultFlowConsume({ this@POPRename }, { children[0] }, { oldRow })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
@@ -106,7 +106,7 @@ class POPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val n
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

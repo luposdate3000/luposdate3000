@@ -12,8 +12,8 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
@@ -28,21 +28,40 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
         return "{SELECT * {" + sparql + "} LIMIT " + limit + "}"
     }
 
-    override fun equals(other: Any?): Boolean =other is POPLimit &&limit==other.limit&&children[0]==other.children[0]
+    override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP() = POPLimit(query, limit, children[0].cloneOP())
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPLimit.evaluate" }, {
-val res=ResultIteratorImpl()
-res.next={
-if(res.count>limit){
-res.close()
-}
-res.count++
-res.next()
-}
-return res
+        val variables = mutableListOf<Pair<Variable, Variable>>()
+        for (v in children[0].getProvidedVariableNames())
+            variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
+        val children0Channel = children[0].evaluate()
+        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+        CoroutinesHelper.run {
+            try {
+                var count = 0
+                children0Channel.forEach { rowOld ->
+                    resultFlowConsume({ this@POPLimit }, { children[0] }, { rowOld })
+                    var rsNew = resultSet.createResultRow()
+                    if (count >= limit)
+                        children0Channel.close()
+                    for (v in variables)
+                        resultSet.copy(rsNew, v.first, rowOld, v.second, children[0].resultSet)
+                    count++
+                    channel.send(resultFlowProduce({ this@POPLimit }, { rsNew }))
+                }
+                channel.close()
+                children0Channel.close()
+            } catch (e: Throwable) {
+                channel.close()
+                children0Channel.close()
+            }
+        }
+        return ResultIterator(next = {
+            channel.receive()
+        }, close = {
+            channel.close()
+        })
     })
-class ResultIteratorImpl():ResultIterator(){
-var count=0
-}
+
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 }

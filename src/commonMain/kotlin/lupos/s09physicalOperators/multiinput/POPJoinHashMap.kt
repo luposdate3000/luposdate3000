@@ -152,7 +152,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

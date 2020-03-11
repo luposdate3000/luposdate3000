@@ -75,7 +75,7 @@ class POPServiceIRI : POPBase {
                     for (n in getProvidedVariableNames())
                         variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
                     val constraintChannel = constraint.evaluate()
-                     constraintChannel.forEach {oldRow->
+                    constraintChannel.forEach { oldRow ->
                         val res = resultSet.createResultRow()
                         for (n in variables)
                             resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
@@ -88,7 +88,7 @@ class POPServiceIRI : POPBase {
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

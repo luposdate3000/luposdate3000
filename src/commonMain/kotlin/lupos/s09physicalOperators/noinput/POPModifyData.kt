@@ -61,20 +61,20 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
-val res=ResultIterator()
-res.next={
-try {
+        val res = ResultIterator()
+        res.next = {
+            try {
                 for (t in data)
-                    if (type == EModifyType.INSERT) 
+                    if (type == EModifyType.INSERT)
                         DistributedTripleStore.getNamedGraph(query, t.graph, true).addData(Array(3) { (t.children[it] as AOPConstant).value })
-                     else 
-                         DistributedTripleStore.getNamedGraph(query, t.graph, false).deleteDataVar(Array(3) { t.children[it] as AOPBase })
-            }finally {
-               res.close()
+                    else
+                        DistributedTripleStore.getNamedGraph(query, t.graph, false).deleteDataVar(Array(3) { t.children[it] as AOPBase })
+            } finally {
+                res.close()
             }
-		resultSet.createResultRow()
-}
-return res
+            resultSet.createResultRow()
+        }
+        return res
     })
 
     override fun toXMLElement(): XMLElement {

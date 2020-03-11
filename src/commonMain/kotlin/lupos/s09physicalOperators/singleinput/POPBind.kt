@@ -78,7 +78,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
-                children0Channel.forEach {rowOld->
+                children0Channel.forEach { rowOld ->
                     resultFlowConsume({ this@POPBind }, { children[0] }, { rowOld })
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesOld.indices)
@@ -101,7 +101,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

@@ -54,7 +54,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                 if (expression is AOPConstant) {
                     try {
                         if (expression.value.toBoolean())
-                             children0Channel.forEach {oldRow->
+                            children0Channel.forEach { oldRow ->
                                 resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                                 channel.send(resultFlowProduce({ this@POPFilter }, { oldRow }))
                             }
@@ -75,7 +75,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                             constID = resultSet.createValue((childB as AOPConstant).value)
                             variableID = resultSet.createVariable((childA as AOPVariable).name)
                         }
-                        children0Channel.forEach {oldRow->
+                        children0Channel.forEach { oldRow ->
                             resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                             try {
                                 if (constID == resultSet.getValue(oldRow, variableID))
@@ -88,7 +88,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                     } else {
                         val variableIDA = resultSet.createVariable((childA as AOPVariable).name)
                         val variableIDB = resultSet.createVariable((childB as AOPVariable).name)
-                        children0Channel.forEach {oldRow->
+                        children0Channel.forEach { oldRow ->
                             resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                             try {
                                 if (resultSet.getValue(oldRow, variableIDA) != resultSet.getValue(oldRow, variableIDB))
@@ -100,7 +100,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                         }
                     }
                 } else {
-                    children0Channel.forEach {oldRow->
+                    children0Channel.forEach { oldRow ->
                         resultFlowConsume({ this@POPFilter }, { children[0] }, { oldRow })
                         try {
                             if (expression.calculate(resultSet, oldRow).toBoolean())
@@ -119,7 +119,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

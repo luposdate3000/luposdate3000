@@ -93,11 +93,11 @@ class POPJoinNestedLoop : POPBase {
                             else
                                 resultSet.setValue(rsNew, p.second, a)
                         }
-                        if (joinVariableOk){
-                        hadMatchForA = true
-                        channel.send(resultFlowProduce({ this@POPJoinNestedLoop }, { rsNew }))
+                        if (joinVariableOk) {
+                            hadMatchForA = true
+                            channel.send(resultFlowProduce({ this@POPJoinNestedLoop }, { rsNew }))
+                        }
                     }
-}
                     (children[1] as POPTemporaryStore).reset()
                 }
                 channel.close()
@@ -110,7 +110,7 @@ class POPJoinNestedLoop : POPBase {
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

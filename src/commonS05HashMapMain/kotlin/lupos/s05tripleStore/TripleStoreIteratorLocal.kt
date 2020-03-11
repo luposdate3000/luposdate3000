@@ -60,7 +60,7 @@ open class TripleStoreIteratorLocal(query: Query,
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

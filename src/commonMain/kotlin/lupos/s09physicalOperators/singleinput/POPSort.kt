@@ -95,7 +95,7 @@ class POPSort : POPBase {
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                children0Channel.forEach{oldRow->
+                children0Channel.forEach { oldRow ->
                     resultFlowConsume({ this@POPSort }, { children[0] }, { oldRow })
                     val rsNew = resultSet.createResultRow()
                     var key = ""
@@ -129,7 +129,7 @@ class POPSort : POPBase {
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })

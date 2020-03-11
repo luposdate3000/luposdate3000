@@ -5,20 +5,20 @@ import lupos.s04logicalOperators.ResultIterator
 
 
 open class ResultIterator() {
-    var next: suspend() -> ResultRow = ::_next
+    var next: suspend () -> ResultRow = ::_next
     var close: () -> Unit = { this@ResultIterator.next = ::_next }
 
 
-    constructor(next: suspend() -> ResultRow) : this() {
+    constructor(next: suspend () -> ResultRow) : this() {
         this.next = next
     }
 
-    constructor(next: suspend() -> ResultRow, close: () -> Unit) : this(next) {
+    constructor(next: suspend () -> ResultRow, close: () -> Unit) : this(next) {
         this.close = close
     }
 
-suspend    fun _next(): ResultRow = throw Exception("no more Elements")
-    inline suspend fun forEach(crossinline action: suspend(ResultRow) -> Unit) {
+    suspend fun _next(): ResultRow = throw Exception("no more Elements")
+    inline suspend fun forEach(crossinline action: suspend (ResultRow) -> Unit) {
         try {
             while (true) {
                 action(next.invoke())

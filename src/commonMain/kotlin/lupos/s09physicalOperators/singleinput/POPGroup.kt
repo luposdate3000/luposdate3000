@@ -128,7 +128,7 @@ class POPGroup : POPBase {
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                children0Channel.forEach{oldRow->
+                children0Channel.forEach { oldRow ->
                     resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRow })
                     var key = "|"
                     for (variable in variables)
@@ -182,7 +182,7 @@ class POPGroup : POPBase {
             }
         }
         return ResultIterator(next = {
-                channel.receive()
+            channel.receive()
         }, close = {
             channel.close()
         })
