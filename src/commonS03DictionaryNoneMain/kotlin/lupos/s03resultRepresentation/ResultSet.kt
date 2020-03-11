@@ -37,7 +37,7 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return variables.contains(name)
     }
 
-fun createValue(value: Any?): Value {
+    fun createValue(value: Any?): Value {
         return when (value) {
             null -> dictionary.undefValue
             is ValueDefinition -> dictionary.createValue(value)
@@ -75,7 +75,8 @@ fun createValue(value: Any?): Value {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         return r.values[k]!!
     }
- fun getValueObject(r: ResultRow, k: Variable): ValueDefinition {
+
+    fun getValueObject(r: ResultRow, k: Variable): ValueDefinition {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         return getValueObject(r.values[k]!!)!!
     }
