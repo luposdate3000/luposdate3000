@@ -1,10 +1,11 @@
 #!/bin/bash
 pkill java
 
-rm y
+rm log/server
 
 benchmarkMinimumTime=1000
 
+kotlinc -script generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15DistributedMain
 ./tool-gradle-build.sh
 
 for triples in 100 1000 10000 20000 30000 40000 50000 100000 500000
@@ -68,14 +69,17 @@ kill $pid
 benchmarkLuposdate3000(){
 csvfile=$p/luposdate3000-${triples}.csv
 echo "query,repititions,time,query per second" > "$csvfile"
-./build/executable 127.0.0.1 > logserver 2>&1 &
-pid=$!
+pkill java
+sleep 3
+./build/executable 127.0.0.1 >> log/server 2>&1 &
 sleep 3
 curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle --header "Content-Type:text/plain"
+curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 (
 	l="luposdate3000,${triples}"
 	cd resources/sp2b
-	for f in *.sparql
+#	for f in *.sparql
+	for f in q12b.sparql
 	do
 		a=$(($(date +%s%N)/1000000))
 		n=1
@@ -93,16 +97,13 @@ curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle -
 			fi
 			n=$((n + 1))
 		done
-		echo $f >> logserver
+		echo $f >> log/server
 		curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 	done
 	echo $l >> "$csvglobal"
 )
-kill $pid
 }
 
-kotlinc -script generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15DistributedMain
-./tool-gradle-build.sh
 #benchmarkJena > /dev/null 2>&1
 benchmarkLuposdate3000
 done
