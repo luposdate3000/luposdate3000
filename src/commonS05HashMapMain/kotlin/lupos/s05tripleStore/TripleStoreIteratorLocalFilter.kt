@@ -18,7 +18,7 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
 
     override fun cloneOP() = TripleStoreIteratorLocalFilter(query, resultSet, store, index)
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
         val newVariables = arrayOfNulls<Variable?>(3)
         for (i in 0 until 3)
             if (params[i] is AOPVariable)
@@ -38,6 +38,14 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 }

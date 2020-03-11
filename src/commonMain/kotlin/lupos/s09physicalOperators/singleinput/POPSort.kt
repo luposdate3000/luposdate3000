@@ -88,7 +88,7 @@ class POPSort : POPBase {
 
     override fun cloneOP() = POPSort(query, AOPVariable(query, resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPSort.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         val children0Channel = children[0].evaluate()
         CoroutinesHelper.run {
@@ -127,7 +127,15 @@ class POPSort : POPBase {
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement(): XMLElement {

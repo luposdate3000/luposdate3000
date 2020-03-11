@@ -58,7 +58,7 @@ class POPServiceIRI : POPBase {
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPServiceIRI.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPServiceIRI.evaluate" }, {
         for (n in getProvidedVariableNames())
             resultSet.createVariable(n)
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
@@ -91,7 +91,15 @@ class POPServiceIRI : POPBase {
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement(): XMLElement {

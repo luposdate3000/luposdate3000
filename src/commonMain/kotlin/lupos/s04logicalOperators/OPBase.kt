@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val resultSet: ResultSet, val children: Array<OPBase>) {
 
-    abstract fun evaluate(): Channel<ResultRow>
+    abstract fun evaluate(): ResultIterator
     abstract fun cloneOP(): OPBase
 
     open fun applyPrefix(prefix: String, iri: String) {

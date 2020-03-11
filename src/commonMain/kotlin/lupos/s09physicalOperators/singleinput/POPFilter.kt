@@ -44,7 +44,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
     override fun getProvidedVariableNames() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPFilter.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPFilter.evaluate" }, {
         val children0Channel = children[0].evaluate()
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
@@ -117,7 +117,15 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 }

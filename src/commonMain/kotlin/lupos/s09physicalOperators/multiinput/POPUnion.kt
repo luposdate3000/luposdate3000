@@ -31,21 +31,14 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
         return true
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPUnion.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPUnion.evaluate" }, {
         val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
-        val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
         var variablesA = children[0].getProvidedVariableNames()
         var variablesB = children[1].getProvidedVariableNames()
-        for (name in variablesA) {
+        for (name in variablesA) 
             variablesOld[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
-            if (!variablesB.contains(name))
-                variablesOldMissing[1].add(resultSet.createVariable(name))
-        }
-        for (name in variablesB) {
+        for (name in variablesB) 
             variablesOld[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
-            if (!variablesA.contains(name))
-                variablesOldMissing[0].add(resultSet.createVariable(name))
-        }
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
@@ -55,8 +48,6 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                     for (rsOld in channels[idx]) {
                         resultFlowConsume({ this@POPUnion }, { c }, { rsOld })
                         val rsNew = resultSet.createResultRow()
-                        for (p in variablesOldMissing[idx])
-                            resultSet.setUndefValue(rsNew, p)
                         for (p in variablesOld[idx])
                             resultSet.copy(rsNew, p.second, rsOld, p.first, children[idx].resultSet)
                         channel.send(resultFlowProduce({ this@POPUnion }, { rsNew }))
@@ -71,7 +62,15 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                     c.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun cloneOP() = POPUnion(query, children[0].cloneOP(), children[1].cloneOP())

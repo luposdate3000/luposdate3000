@@ -59,7 +59,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         return true
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPModifyData.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
@@ -78,7 +78,15 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement(): XMLElement {

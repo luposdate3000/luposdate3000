@@ -41,7 +41,7 @@ open class TripleStoreIteratorLocal(query: Query,
         return tmp.distinct()
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorLocal.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocal.evaluate" }, {
         val newVariables = Array(3) { resultSet.createVariable((params[it] as AOPVariable).name) }
         val variables = arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"))
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
@@ -58,6 +58,14 @@ open class TripleStoreIteratorLocal(query: Query,
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 }

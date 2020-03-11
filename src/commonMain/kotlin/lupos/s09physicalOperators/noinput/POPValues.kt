@@ -96,7 +96,7 @@ open class POPValues : POPBase {
 
     override fun getRequiredVariableNames() = mutableListOf<String>()
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPValues.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPValues.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
@@ -107,7 +107,15 @@ open class POPValues : POPBase {
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement(): XMLElement {

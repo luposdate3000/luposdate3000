@@ -32,7 +32,7 @@ class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POP
         return true
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPEmptyRow.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPEmptyRow.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
@@ -42,7 +42,15 @@ class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POP
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 }

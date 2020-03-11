@@ -51,7 +51,7 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPProjection.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPProjection.evaluate" }, {
         val variablesOld = Array(variables.size) { children[0].resultSet.createVariable(variables[it].name) }
         val variablesNew = Array(variables.size) { resultSet.createVariable(variables[it].name) }
         val children0Channel = children[0].evaluate()
@@ -72,7 +72,15 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement(): XMLElement {

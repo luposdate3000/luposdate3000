@@ -37,7 +37,7 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
 
     override fun getRequiredVariableNames() = listOf<String>()
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPMakeBooleanResult.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPMakeBooleanResult.evaluate" }, {
         val variableNew = resultSet.createVariable("?boolean")
         val children0Channel = children[0].evaluate()
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
@@ -58,7 +58,15 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 }

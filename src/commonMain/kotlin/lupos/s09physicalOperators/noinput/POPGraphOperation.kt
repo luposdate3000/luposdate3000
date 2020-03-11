@@ -99,7 +99,7 @@ class POPGraphOperation(query: Query,
         return iri.iri
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPGraphOperation.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPGraphOperation.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             try {
@@ -257,7 +257,14 @@ class POPGraphOperation(query: Query,
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
-
 }

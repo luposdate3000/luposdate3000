@@ -41,7 +41,7 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
 
     override fun cloneOP() = POPLimit(query, limit, children[0].cloneOP())
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPLimit.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPLimit.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
@@ -67,7 +67,15 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)

@@ -118,7 +118,7 @@ class POPGroup : POPBase {
         }
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPGroup.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
         val children0Channel = children[0].evaluate()
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         val variables = Array(by.size) {
@@ -180,7 +180,15 @@ class POPGroup : POPBase {
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement(): XMLElement {

@@ -64,7 +64,7 @@ class POPJoinNestedLoop : POPBase {
             variablesOldJ.add(Pair(Pair(children[0].resultSet.createVariable(name), children[1].resultSet.createVariable(name)), resultSet.createVariable(name)))
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinNestedLoop.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinNestedLoop.evaluate" }, {
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
@@ -108,7 +108,15 @@ class POPJoinNestedLoop : POPBase {
                     c.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

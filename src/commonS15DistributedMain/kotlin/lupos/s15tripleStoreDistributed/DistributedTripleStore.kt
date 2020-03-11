@@ -75,7 +75,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return tmp.distinct()
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "TripleStoreIteratorGlobal.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorGlobal.evaluate" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         val varnames = getProvidedVariableNames()
         val varout = Array(varnames.size) { resultSet.createVariable(varnames[it]) }
@@ -104,7 +104,15 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 }

@@ -36,7 +36,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
     }
 
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPDistinct.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
         var data: MutableList<ResultRow>? = null
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (name in children[0].getProvidedVariableNames())
@@ -65,7 +65,15 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 }

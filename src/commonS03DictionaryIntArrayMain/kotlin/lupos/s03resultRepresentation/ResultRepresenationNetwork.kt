@@ -122,7 +122,7 @@ object ResultRepresenationNetwork {
 
         override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
 
-        override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPImportFromNetworkPackage.evaluate" }, {
+        override fun evaluate() = Trace.trace<ResultIterator>({ "POPImportFromNetworkPackage.evaluate" }, {
             val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
             CoroutinesHelper.runBlock {
                 try {
@@ -158,7 +158,15 @@ object ResultRepresenationNetwork {
                     channel.close(e)
                 }
             }
-            return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
         })
     }
 }

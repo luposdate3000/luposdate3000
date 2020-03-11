@@ -40,7 +40,7 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
 
     override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPOffset.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
@@ -66,7 +66,15 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)

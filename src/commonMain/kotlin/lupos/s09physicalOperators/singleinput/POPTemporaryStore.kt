@@ -33,7 +33,7 @@ class POPTemporaryStore(query: Query, child: OPBase) : POPBase(query, EOperatorI
 
     override fun cloneOP() = POPTemporaryStore(query, children[0].cloneOP())
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPTemporaryStore.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPTemporaryStore.evaluate" }, {
         val variables = mutableListOf<Pair<Variable, Variable>>()
         for (name in children[0].getProvidedVariableNames()) {
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
@@ -54,14 +54,30 @@ class POPTemporaryStore(query: Query, child: OPBase) : POPBase(query, EOperatorI
                 channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     suspend fun reset() = Trace.trace<Channel<ResultRow>>({ "POPTemporaryStore.reset" }, {
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         for (c in data)
             channel.send(resultFlowProduce({ this@POPTemporaryStore }, { c }))
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 }

@@ -38,7 +38,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         return true
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPJoinHashMap.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {
         val joinVariables = mutableListOf<String>()
         val map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
         val variables: Array<MutableList<Pair<Variable, Variable>>>
@@ -150,7 +150,15 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     c.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

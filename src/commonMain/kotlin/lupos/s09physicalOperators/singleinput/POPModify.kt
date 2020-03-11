@@ -47,7 +47,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
         return (node as AOPBase).calculate(children[0].resultSet, row)
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPModify.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModify.evaluate" }, {
         val children0Channel = children[0].evaluate()
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
@@ -93,7 +93,15 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
 

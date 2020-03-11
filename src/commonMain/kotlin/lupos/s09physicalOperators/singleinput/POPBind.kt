@@ -58,7 +58,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         return children[1].getRequiredVariableNames()
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPBind.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPBind.evaluate" }, {
         val variablesOld: Array<Variable?>
         val variablesNew: Array<Variable?>
         val variableBound: Variable
@@ -99,7 +99,15 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)

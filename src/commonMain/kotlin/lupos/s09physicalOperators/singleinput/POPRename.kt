@@ -71,7 +71,7 @@ class POPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val n
         return res
     }
 
-    override fun evaluate() = Trace.trace<Channel<ResultRow>>({ "POPRename.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPRename.evaluate" }, {
         val variablesOld: Array<Variable?>
         val variablesNew: Array<Variable?>
         val variableNames = children[0].getProvidedVariableNames()
@@ -104,7 +104,15 @@ class POPRename(query: Query, @JvmField val nameTo: AOPVariable, @JvmField val n
                 children0Channel.close(e)
             }
         }
-        return channel
+return ResultIterator(next={
+try{
+channel.next()
+}catch(e:Throwable){
+null
+}
+},close={
+channel.close()
+})
     })
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)
