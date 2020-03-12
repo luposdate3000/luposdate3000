@@ -29,7 +29,8 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPMakeBooleanResult.evaluate" }, {
         val variableNew = resultSet.createVariable("?boolean")
         val res = ResultIterator()
-        res.next = {
+        res.next ={
+ Trace.traceSuspend<ResultRow>({ "POPMakeBooleanResult.next" }, {
             val child = children[0].evaluate()
             var row = resultSet.createResultRow()
             try {
@@ -41,7 +42,8 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
             child.close()
             res.close()
             resultFlowProduce({ this@POPMakeBooleanResult }, { row })
-        }
+        })
+}
         return res
     })
 

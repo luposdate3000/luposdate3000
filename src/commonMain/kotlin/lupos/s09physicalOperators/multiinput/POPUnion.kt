@@ -36,25 +36,29 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
             res._close()
         }
         res.next = {
+Trace.traceSuspend<ResultRow>({ "POPUnion.next" }, {
             var row = resultSet.createResultRow()
             try {
                 val rowOld = childA.next()
                 for (v in variablesA)
                     resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
-resultFlowProduce({ this@POPUnion }, { row })
+                resultFlowProduce({ this@POPUnion }, { row })
             } catch (e: Throwable) {
                 childA.close()
-                res.next = {
+                res.next ={
+ Trace.trace<ResultRow>({ "POPUnion.next" }, {
                     val row = resultSet.createResultRow()
                     val rowOld = childB.next()
                     for (v in variablesB)
                         resultSet.copy(row, v.second, rowOld, v.first, children[1].resultSet)
                     resultFlowProduce({ this@POPUnion }, { row })
-                }
+                })
+}
                 row = res.next.invoke()
             }
-	row
-        }
+            row
+        })
+}
         return res
     })
 }

@@ -43,13 +43,15 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
             child.close()
             res._close()
         }
-        res.next = {
+        res.next ={
+ Trace.traceSuspend<ResultRow>({ "POPProjection.next" }, {
             val rowOld = resultFlowConsume({ this@POPProjection }, { children[0] }, { child.next() })
             val row = resultSet.createResultRow()
             for (v in variablesNew)
                 resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
             resultFlowProduce({ this@POPProjection }, { row })
-        }
+        })
+}
         return res
     })
 

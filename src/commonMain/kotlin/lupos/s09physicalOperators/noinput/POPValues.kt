@@ -101,12 +101,14 @@ open class POPValues : POPBase {
         val iterator = data.iterator()
         val res = ResultIterator()
         res.next = {
+Trace.traceSuspend<ResultRow>({ "POPValues.next" }, {
             if (!iterator.hasNext()) {
                 res.close()
                 res.next()
             }
             resultFlowProduce({ this@POPValues }, { iterator.next() })
-        }
+        })
+}
         return res
     })
 

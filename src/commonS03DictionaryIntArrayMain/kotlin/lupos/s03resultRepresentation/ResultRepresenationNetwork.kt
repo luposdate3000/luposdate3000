@@ -126,38 +126,40 @@ object ResultRepresenationNetwork {
         override fun evaluate() = Trace.trace<ResultIterator>({ "POPImportFromNetworkPackage.evaluate" }, {
             val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
             CoroutinesHelper.runBlock {
-                try {
-                    while (true) {
-                        if (rowsUntilNextDictionary == 0) {
-                            val dictEntryCount = data.getNextInt()
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictlen $dictEntryCount" })
-                            if (dictEntryCount == 0)
-                                break
-                            for (i in 0 until dictEntryCount) {
-                                val s = data.getNextString()
-                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
-                                variableMap.add(query.dictionary.createValue(ValueDefinition.create(s)))
+                Trace.trace({ "POPImportFromNetworkPackage.next" }, {
+                    try {
+                        while (true) {
+                            if (rowsUntilNextDictionary == 0) {
+                                val dictEntryCount = data.getNextInt()
+                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictlen $dictEntryCount" })
+                                if (dictEntryCount == 0)
+                                    break
+                                for (i in 0 until dictEntryCount) {
+                                    val s = data.getNextString()
+                                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
+                                    variableMap.add(query.dictionary.createValue(ValueDefinition.create(s)))
+                                }
+                                rowsUntilNextDictionary = data.getNextInt()
+                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })
                             }
-                            rowsUntilNextDictionary = data.getNextInt()
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })
+                            val row = resultSet.createResultRow()
+                            rowsUntilNextDictionary--
+                            for (v in variables) {
+                                val l = data.getNextInt()
+                                val i = if (l > variableMap.size)
+                                    l
+                                else
+                                    variableMap[l]
+                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${query.dictionary.getValue(i)}" })
+                                resultSet.setValue(row, v, i)
+                            }
+                            channel.send(row)
                         }
-                        val row = resultSet.createResultRow()
-                        rowsUntilNextDictionary--
-                        for (v in variables) {
-                            val l = data.getNextInt()
-                            val i = if (l > variableMap.size)
-                                l
-                            else
-                                variableMap[l]
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${query.dictionary.getValue(i)}" })
-                            resultSet.setValue(row, v, i)
-                        }
-                        channel.send(row)
+                        channel.close()
+                    } catch (e: Throwable) {
+                        channel.close(e)
                     }
-                    channel.close()
-                } catch (e: Throwable) {
-                    channel.close(e)
-                }
+                })
             }
             return ResultIterator(next = {
                 channel.receive()

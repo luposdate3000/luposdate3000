@@ -110,55 +110,56 @@ class POPGroup : POPBase {
         val variables = Array(by.size) { Pair(resultSet.createVariable(by[it].name), children[0].resultSet.createVariable(by[it].name)) }
         val res = ResultIterator()
         CoroutinesHelper.run {
-            try {
-                val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                child.forEach { oldRow ->
-                    resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRow })
-                    var key = "|"
-                    for (variable in variables)
-                        key = key + children[0].resultSet.getValue(oldRow, variable.second) + "|"
-                    println("xxx $key")
-                    var tmp = tmpMutableMap[key]
-                    if (tmp == null) {
-                        tmp = mutableListOf()
-                        tmpMutableMap[key] = tmp
-                    }
-                    tmp.add(oldRow)
-                }
-                if (tmpMutableMap.keys.size == 0) {
-                    channel.send(resultFlowProduce({ this@POPGroup }, { resultSet.createResultRow() }))
-                } else {
-                    for (k in tmpMutableMap.keys) {
-                        val oldRow = tmpMutableMap[k]!!.first()
-                        val row = resultSet.createResultRow()
+            Trace.trace({ "POPGroup.next" }, {
+                try {
+                    val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
+                    child.forEach { oldRow ->
+                        resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRow })
+                        var key = "|"
                         for (variable in variables)
-                            resultSet.copy(row, variable.first, oldRow, variable.second, children[0].resultSet)
-                        for (b in bindings) {
-                            try {
-                                setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
-                                for (resultRow in tmpMutableMap[k]!!)
-                                    (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
-                                setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
-                                val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
-                                resultSet.setValue(row, b.first, a.valueToString())
-                            } catch (e: Throwable) {
-                                e.printStackTrace()
-                                GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
-                                GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
-                            }
+                            key = key + children[0].resultSet.getValue(oldRow, variable.second) + "|"
+                        println("xxx $key")
+                        var tmp = tmpMutableMap[key]
+                        if (tmp == null) {
+                            tmp = mutableListOf()
+                            tmpMutableMap[key] = tmp
                         }
-                        channel.send(resultFlowProduce({ this@POPGroup }, { row }))
+                        tmp.add(oldRow)
                     }
+                    if (tmpMutableMap.keys.size == 0) {
+                        channel.send(resultFlowProduce({ this@POPGroup }, { resultSet.createResultRow() }))
+                    } else {
+                        for (k in tmpMutableMap.keys) {
+                            val oldRow = tmpMutableMap[k]!!.first()
+                            val row = resultSet.createResultRow()
+                            for (variable in variables)
+                                resultSet.copy(row, variable.first, oldRow, variable.second, children[0].resultSet)
+                            for (b in bindings) {
+                                try {
+                                    setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
+                                    for (resultRow in tmpMutableMap[k]!!)
+                                        (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
+                                    setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
+                                    val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
+                                    resultSet.setValue(row, b.first, a.valueToString())
+                                } catch (e: Throwable) {
+                                    e.printStackTrace()
+                                    GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+                                    GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+                                }
+                            }
+                            channel.send(resultFlowProduce({ this@POPGroup }, { row }))
+                        }
+                    }
+                } finally {
+                    channel.close()
+                    child.close()
+                    res._close()
                 }
-            } finally {
-                channel.close()
-                child.close()
-                res._close()
-            }
+            })
         }
         res.next = {
-            val res = channel.receive()
-            res
+            channel.receive()
         }
         res.close = {
             channel.close()

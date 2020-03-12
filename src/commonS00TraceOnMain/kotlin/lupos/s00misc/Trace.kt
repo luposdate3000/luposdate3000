@@ -23,6 +23,14 @@ object Trace {
             stop(name())
         }
     }
+    inline suspend fun <T> traceSuspend(name: () -> String, action: suspend() -> T): T {
+        try {
+            start(name())
+            return action()
+        } finally {
+            stop(name())
+        }
+    }
 
     fun start(obj: Any) {
         start(classNameToString(obj))

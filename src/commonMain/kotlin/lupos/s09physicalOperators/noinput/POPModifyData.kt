@@ -48,7 +48,8 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
         val res = ResultIterator()
-        res.next = {
+        res.next ={
+ Trace.traceSuspend<ResultRow>({ "POPModifyData.next" }, {
             try {
                 for (t in data)
                     if (type == EModifyType.INSERT)
@@ -59,7 +60,8 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
                 res.close()
             }
             resultFlowProduce({ this@POPModifyData }, { resultSet.createResultRow() })
-        }
+        })
+}
         return res
     })
 

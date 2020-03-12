@@ -102,7 +102,8 @@ class POPGraphOperation(query: Query,
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGraphOperation.evaluate" }, {
         val res = ResultIterator()
-        res.next = {
+        res.next ={
+ Trace.traceSuspend<ResultRow>({ "POPGraphOperation.next" }, {
             try {
                 when (graph1type) {
                     EGraphRefType.AllGraphRef -> {
@@ -254,7 +255,8 @@ class POPGraphOperation(query: Query,
             }
             res._close()
             resultFlowProduce({ this@POPGraphOperation }, { resultSet.createResultRow() })
-        }
+        })
+}
         return res
     })
 }

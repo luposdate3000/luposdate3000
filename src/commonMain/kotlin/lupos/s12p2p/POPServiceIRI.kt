@@ -64,28 +64,30 @@ class POPServiceIRI : POPBase {
             resultSet.createVariable(n)
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
-            try {
-                if (constraint == null) {
-                    if (silent) {
-                        val res = resultSet.createResultRow()
-                        channel.send(res)
+            Trace.trace({ "POPServiceIRI.next" }, {
+                try {
+                    if (constraint == null) {
+                        if (silent) {
+                            val res = resultSet.createResultRow()
+                            channel.send(res)
+                        }
+                    } else {
+                        val variables = mutableListOf<Pair<Variable, Variable>>()
+                        for (n in getProvidedVariableNames())
+                            variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
+                        val constraintChannel = constraint.evaluate()
+                        constraintChannel.forEach { oldRow ->
+                            val res = resultSet.createResultRow()
+                            for (n in variables)
+                                resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
+                            channel.send(res)
+                        }
                     }
-                } else {
-                    val variables = mutableListOf<Pair<Variable, Variable>>()
-                    for (n in getProvidedVariableNames())
-                        variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
-                    val constraintChannel = constraint.evaluate()
-                    constraintChannel.forEach { oldRow ->
-                        val res = resultSet.createResultRow()
-                        for (n in variables)
-                            resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
-                        channel.send(res)
-                    }
+                    channel.close()
+                } catch (e: Throwable) {
+                    channel.close(e)
                 }
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-            }
+            })
         }
         return ResultIterator(next = {
             channel.receive()

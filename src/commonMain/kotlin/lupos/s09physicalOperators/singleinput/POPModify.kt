@@ -39,6 +39,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
             res._close()
         }
         res.next = {
+Trace.traceSuspend<ResultRow>({ "POPModify.next" }, {
             try {
                 child.forEach { rowOld ->
                     resultFlowConsume({ this@POPModify }, { children[0] }, { rowOld })
@@ -69,7 +70,8 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                 res.close()
             }
             resultFlowProduce({ this@POPModify }, { resultSet.createResultRow() })
-        }
+        })
+}
         return res
     })
 }

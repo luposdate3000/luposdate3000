@@ -69,45 +69,47 @@ class POPJoinNestedLoop : POPBase {
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
-            try {
-                channels[0].forEach { resultRowA ->
-                    resultFlowConsume({ this@POPJoinNestedLoop }, { children[0] }, { resultRowA })
-                    channels[1].forEach { resultRowB ->
-                        resultFlowConsume({ this@POPJoinNestedLoop }, { children[1] }, { resultRowB })
-                        var joinVariableOk = true
-                        var rsNew = resultSet.createResultRow()
-                        for (p in variablesOldA)
-                            resultSet.copy(rsNew, p.second, resultRowA, p.first, children[0].resultSet)
-                        for (p in variablesOldB)
-                            resultSet.copy(rsNew, p.second, resultRowB, p.first, children[1].resultSet)
-                        for (p in variablesOldJ) {
-                            // TODO reuse resultSet
-                            val a = children[0].resultSet.getValue(resultRowA!!, p.first.first)
-                            val b = children[1].resultSet.getValue(resultRowB, p.first.second)
-                            if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
-                                joinVariableOk = false
-                                break
+            Trace.trace({ "POPJoinNestedLoop.evaluate" }, {
+                try {
+                    channels[0].forEach { resultRowA ->
+                        resultFlowConsume({ this@POPJoinNestedLoop }, { children[0] }, { resultRowA })
+                        channels[1].forEach { resultRowB ->
+                            resultFlowConsume({ this@POPJoinNestedLoop }, { children[1] }, { resultRowB })
+                            var joinVariableOk = true
+                            var rsNew = resultSet.createResultRow()
+                            for (p in variablesOldA)
+                                resultSet.copy(rsNew, p.second, resultRowA, p.first, children[0].resultSet)
+                            for (p in variablesOldB)
+                                resultSet.copy(rsNew, p.second, resultRowB, p.first, children[1].resultSet)
+                            for (p in variablesOldJ) {
+                                // TODO reuse resultSet
+                                val a = children[0].resultSet.getValue(resultRowA!!, p.first.first)
+                                val b = children[1].resultSet.getValue(resultRowB, p.first.second)
+                                if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
+                                    joinVariableOk = false
+                                    break
+                                }
+                                if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
+                                    resultSet.setValue(rsNew, p.second, b)
+                                else
+                                    resultSet.setValue(rsNew, p.second, a)
                             }
-                            if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
-                                resultSet.setValue(rsNew, p.second, b)
-                            else
-                                resultSet.setValue(rsNew, p.second, a)
+                            if (joinVariableOk) {
+                                hadMatchForA = true
+                                channel.send(resultFlowProduce({ this@POPJoinNestedLoop }, { rsNew }))
+                            }
                         }
-                        if (joinVariableOk) {
-                            hadMatchForA = true
-                            channel.send(resultFlowProduce({ this@POPJoinNestedLoop }, { rsNew }))
-                        }
+                        (children[1] as POPTemporaryStore).reset()
                     }
-                    (children[1] as POPTemporaryStore).reset()
+                    channel.close()
+                    for (c in channels)
+                        c.close()
+                } catch (e: Throwable) {
+                    channel.close()
+                    for (c in channels)
+                        c.close()
                 }
-                channel.close()
-                for (c in channels)
-                    c.close()
-            } catch (e: Throwable) {
-                channel.close()
-                for (c in channels)
-                    c.close()
-            }
+            })
         }
         return ResultIterator(next = {
             channel.receive()

@@ -9,6 +9,9 @@ object Trace {
     inline fun <T> trace(name: () -> String, action: () -> T): T {
         return action()
     }
+    inline suspend fun <T> traceSuspend(name: () -> String, action: suspend() -> T): T {
+        return action()
+    }
 
     fun start(obj: Any) {
     }

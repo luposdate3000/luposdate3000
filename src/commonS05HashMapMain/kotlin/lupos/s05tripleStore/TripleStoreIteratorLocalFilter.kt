@@ -26,18 +26,20 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: 
                 newVariables[i] = resultSet.createVariable((params[i] as AOPVariable).name)
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
-            try {
-                store.forEach(params, { it ->
-                    val result = resultSet.createResultRow()
-                    for (i in 0 until 3)
-                        if (newVariables[i] != null)
-                            resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
-                    channel.send(result)
-                }, index)
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-            }
+            Trace.trace({ "TripleStoreIteratorLocalFilter.next" }, {
+                try {
+                    store.forEach(params, { it ->
+                        val result = resultSet.createResultRow()
+                        for (i in 0 until 3)
+                            if (newVariables[i] != null)
+                                resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
+                        channel.send(result)
+                    }, index)
+                    channel.close()
+                } catch (e: Throwable) {
+                    channel.close(e)
+                }
+            })
         }
         return ResultIterator(next = {
             channel.receive()

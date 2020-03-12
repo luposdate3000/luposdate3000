@@ -33,12 +33,14 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPLimit.evaluate" }, {
         val child = children[0].evaluate()
         val res = ResultIteratorImpl()
-        res.next = {
+        res.next ={
+ Trace.traceSuspend<ResultRow>({ "POPLimit.next" }, {
             if (res.count >= limit)
                 res.close()
             res.count++
             resultFlowProduce({ this@POPLimit }, { resultFlowConsume({ this@POPLimit }, { children[0] }, { child.next() }) })
-        }
+        })
+}
         res.close = {
             child.close()
             res._close()

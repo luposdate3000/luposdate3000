@@ -46,6 +46,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         var variableNew = resultSet.createVariable(name.name)
         val res = ResultIterator()
         res.next = {
+Trace.traceSuspend<ResultRow>({ "POPBind.next" }, {
             val row = resultSet.createResultRow()
             val rowOld = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
             for (v in variables)
@@ -55,7 +56,8 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
             } catch (e: Throwable) {
             }
             resultFlowProduce({ this@POPBind }, { row })
-        }
+        })
+}
         res.close = {
             child.close()
             res._close()

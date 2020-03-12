@@ -44,6 +44,7 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {
         val res = ResultIterator()
         res.next = {
+Trace.trace<ResultRow>({ "POPOffset.next" }, {
             val child = children[0].evaluate()
             try {
                 for (count in 0 until offset)
@@ -54,7 +55,8 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
                 res.close()
             }
             res.next.invoke()
-        }
+        })
+}
         return res
     })
 
