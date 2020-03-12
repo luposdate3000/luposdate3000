@@ -13,6 +13,7 @@ class AOPConstant(query: Query, val value: ValueDefinition) : AOPBase(query, EOp
     //    override fun toXMLElement() = super.toXMLElement().addContent(XMLElement("value").addContent(value.toXMLElement()))
     override fun toXMLElement() = value.toXMLElement()
 
+    override fun equals(other: Any?): Boolean = other is AOPConstant && toXMLElement() == other.toXMLElement()
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow) = value
     override fun cloneOP() = this
 }

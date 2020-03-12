@@ -86,6 +86,7 @@ class XMLElement {
         return null
     }
 
+    override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other)
     fun myEquals(other: XMLElement?): Boolean {
         if (other == null)
             return false

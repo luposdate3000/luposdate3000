@@ -103,7 +103,7 @@ open class POPValues : POPBase {
         res.next = {
             if (!iterator.hasNext()) {
                 res.close()
-                res._next()
+                res.next()
             }
             resultFlowProduce({ this@POPValues }, { iterator.next() })
         }

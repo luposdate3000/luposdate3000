@@ -58,7 +58,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
             } finally {
                 res.close()
             }
-            resultSet.createResultRow()
+            resultFlowProduce({ this@POPModifyData }, { resultSet.createResultRow() })
         }
         return res
     })

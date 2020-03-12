@@ -6,8 +6,7 @@ import lupos.s04logicalOperators.ResultIterator
 
 open class ResultIterator() {
     var next: suspend () -> ResultRow = ::_next
-    var close: () -> Unit = { this@ResultIterator.next = ::_next }
-
+    var close: () -> Unit = ::_close
 
     constructor(next: suspend () -> ResultRow) : this() {
         this.next = next
@@ -17,6 +16,11 @@ open class ResultIterator() {
         this.close = close
     }
 
+    fun _close() {
+        next = ::_next
+        close = ::_close
+    }
+
     suspend fun _next(): ResultRow = throw Exception("no more Elements")
     inline suspend fun forEach(crossinline action: suspend (ResultRow) -> Unit) {
         try {
@@ -24,6 +28,7 @@ open class ResultIterator() {
                 action(next.invoke())
             }
         } catch (e: Throwable) {
+            close.invoke()
         }
     }
 }

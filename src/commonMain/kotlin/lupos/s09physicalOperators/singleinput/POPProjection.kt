@@ -20,18 +20,6 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", ResultSet(query.dictionary), arrayOf(child)) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPProjection)
-            return false
-        if (!variables.equals(other.variables))
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
-    }
-
     override fun toSparql(): String {
         var res = "{SELECT "
         for (c in variables)
@@ -43,41 +31,26 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     }
 
     override fun cloneOP() = POPProjection(query, variables, children[0].cloneOP())
-
-    override fun getProvidedVariableNames(): List<String> {
-        return MutableList(variables.size) { variables[it].name }.distinct()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return MutableList(variables.size) { variables[it].name }.distinct()
-    }
+    override fun equals(other: Any?): Boolean = other is POPProjection && variables.equals(other.variables) && children[0] == other.children[0]
+    override fun getProvidedVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
+    override fun getRequiredVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPProjection.evaluate" }, {
-        val variablesOld = Array(variables.size) { children[0].resultSet.createVariable(variables[it].name) }
-        val variablesNew = Array(variables.size) { resultSet.createVariable(variables[it].name) }
-        val children0Channel = children[0].evaluate()
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                children0Channel.forEach { oldRow ->
-                    resultFlowConsume({ this@POPProjection }, { children[0] }, { oldRow })
-                    var rsNew = resultSet.createResultRow()
-                    for (i in variablesNew.indices)
-                        resultSet.copy(rsNew, variablesNew[i], oldRow, variablesOld[i], children[0].resultSet)
-                    channel.send(resultFlowProduce({ this@POPProjection }, { rsNew }))
-                }
-                channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                channel.close()
-                children0Channel.close()
-            }
+        val child = children[0].evaluate()
+        var variablesNew = variables.map { Pair(children[0].resultSet.createVariable(it.name), resultSet.createVariable(it.name)) }
+        val res = ResultIterator()
+        res.close = {
+            child.close()
+            res._close()
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+        res.next = {
+            val rowOld = resultFlowConsume({ this@POPProjection }, { children[0] }, { child.next() })
+            val row = resultSet.createResultRow()
+            for (v in variablesNew)
+                resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
+            resultFlowProduce({ this@POPProjection }, { row })
+        }
+        return res
     })
 
     override fun toXMLElement(): XMLElement {

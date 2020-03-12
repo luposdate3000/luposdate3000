@@ -37,24 +37,9 @@ class POPGroup : POPBase {
         res += " GROUP BY "
         for (b in by)
             res += b.toSparql() + " "
-        for ((k, v) in bindings) {
+        for ((k, v) in bindings)
             res += "(" + v.toSparql() + " AS " + AOPVariable(query, resultSet.getVariable(k)).toSparql() + ")"
-        }
         return res
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPGroup)
-            return false
-        if (!by.equals(other.by))
-            return false
-        if (!bindings.equals(other.bindings))
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
     }
 
     override fun cloneOP(): POPGroup {
@@ -80,6 +65,7 @@ class POPGroup : POPBase {
             resultSet.createVariable(v.name)
     }
 
+    override fun equals(other: Any?): Boolean = other is POPGroup && by.equals(other.by) && bindings.equals(other.bindings) && children[0] == other.children[0]
     override fun getProvidedVariableNames() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { resultSet.getVariable(bindings[it].first) }).distinct()
     override fun getRequiredVariableNames(): List<String> {
         var res = MutableList(by.size) { by[it].name }
@@ -100,11 +86,10 @@ class POPGroup : POPBase {
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
         if (!res) {
-            if (autocorrect) {
+            if (autocorrect)
                 syntaxVerifyAllVariableExistsAutocorrect()
-            } else {
+            else
                 throw Exception("$classname undefined Variable")
-            }
         }
     }
 
@@ -197,9 +182,8 @@ class POPGroup : POPBase {
             byxml.addContent(XMLElement("variable").addAttribute("name", b.name))
         val xmlbindings = XMLElement("bindings")
         res.addContent(xmlbindings)
-        for (b in bindings) {
+        for (b in bindings)
             xmlbindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(b.first)).addContent(b.second.toXMLElement()))
-        }
         res.addContent(childrenToXML())
         return res
     }

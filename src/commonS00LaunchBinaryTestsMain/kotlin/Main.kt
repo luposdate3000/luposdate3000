@@ -24,7 +24,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
         File("resources/$v").forEachLine {
-            k.add(ValueDefinition.create(it).valueToString())
+            k.add(it)
         }
     }
     val query = Query()

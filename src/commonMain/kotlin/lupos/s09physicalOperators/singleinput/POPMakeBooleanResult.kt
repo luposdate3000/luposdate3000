@@ -30,17 +30,17 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
         val variableNew = resultSet.createVariable("?boolean")
         val res = ResultIterator()
         res.next = {
-            val children0Channel = children[0].evaluate()
-            var rsNew = resultSet.createResultRow()
+            val child = children[0].evaluate()
+            var row = resultSet.createResultRow()
             try {
-                children0Channel.next()
-                resultSet.setValue(rsNew, variableNew, ValueBoolean(true).valueToString())
+                resultFlowConsume({ this@POPMakeBooleanResult }, { children[0] }, { child.next() })
+                resultSet.setValue(row, variableNew, ValueBoolean(true).valueToString())
             } catch (e: Throwable) {
-                resultSet.setValue(rsNew, variableNew, ValueBoolean(false).valueToString())
+                resultSet.setValue(row, variableNew, ValueBoolean(false).valueToString())
             }
-            children0Channel.close()
+            child.close()
             res.close()
-            resultFlowProduce({ this@POPMakeBooleanResult }, { rsNew })
+            resultFlowProduce({ this@POPMakeBooleanResult }, { row })
         }
         return res
     })

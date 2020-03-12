@@ -22,19 +22,6 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPBindID, "POPBind", ResultSet(query.dictionary), arrayOf(child, value)) {
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPBind)
-            return false
-        if (name != other.name)
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
-    }
-
     override fun toSparql(): String {
         if (children[1] is AOPConstant && (children[1] as AOPConstant).value is ValueUndef)
             return children[0].toSparql()
@@ -48,64 +35,31 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
     }
 
     override fun cloneOP() = POPBind(query, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
-
-
+    override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
-    override fun getProvidedVariableNames(): List<String> {
-        return (children[0].getProvidedVariableNames() + name.name).distinct()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[1].getRequiredVariableNames()
-    }
-
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPBind.evaluate" }, {
-        val variablesOld: Array<Variable?>
-        val variablesNew: Array<Variable?>
-        val variableBound: Variable
-        val variableNames = children[0].getProvidedVariableNames()
-        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
-        var i = 0
-        variableBound = resultSet.createVariable(name.name)
-        for (n in variableNames) {
-            variablesOld[i] = children[0].resultSet.createVariable(n)
-            variablesNew[i] = resultSet.createVariable(n)
-            i++
-        }
-        variablesNew[i] = variableBound
-        val children0Channel = children[0].evaluate()
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                children0Channel.forEach { rowOld ->
-                    resultFlowConsume({ this@POPBind }, { children[0] }, { rowOld })
-                    var rsNew = resultSet.createResultRow()
-                    for (i in variablesOld.indices)
-                        resultSet.copy(rsNew, variablesNew[i]!!, rowOld, variablesOld[i]!!, children[0].resultSet)
-                    try {
-                        val value = (children[1] as AOPBase).calculate(children[0].resultSet, rowOld).valueToString()
-                        resultSet.setValue(rsNew, variableBound, value)
-                    } catch (e: Throwable) {
-                        resultSet.setUndefValue(rsNew, variableBound)
-                        GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
-                        GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
-                    }
-                    channel.send(resultFlowProduce({ this@POPBind }, { rsNew }))
-                }
-                channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-                children0Channel.close()
-            }
-        }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
-    })
-
+    override fun getProvidedVariableNames(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
+    override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNames()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPBind.evaluate" }, {
+        val child = children[0].evaluate()
+        var variables = children[0].getProvidedVariableNames().map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
+        var variableNew = resultSet.createVariable(name.name)
+        val res = ResultIterator()
+        res.next = {
+            val row = resultSet.createResultRow()
+            val rowOld = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
+            for (v in variables)
+                resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
+            try {
+                resultSet.setValue(row, variableNew, (children[1] as AOPBase).calculate(children[0].resultSet, rowOld).valueToString())
+            } catch (e: Throwable) {
+            }
+            resultFlowProduce({ this@POPBind }, { row })
+        }
+        res.close = {
+            child.close()
+            res._close()
+        }
+        return res
+    })
 }
