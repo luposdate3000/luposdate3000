@@ -97,7 +97,7 @@ curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 			fi
 			n=$((n + 1))
 		done
-		echo $f >> log/server
+		echo $f >> ../../log/server
 		curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 	done
 	echo $l >> "$csvglobal"
