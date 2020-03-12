@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
-class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(query, EOperatorID.POPLimitID, "POPLimit", ResultSet(query.dictionary), arrayOf(child)) {
+class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(query, EOperatorID.POPLimitID, "POPLimit", child.resultSet, arrayOf(child)) {
 
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
@@ -34,7 +34,7 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
         val child = children[0].evaluate()
         val res = ResultIteratorImpl()
         res.next = {
-            if (res.count > limit)
+            if (res.count >= limit)
                 res.close()
             res.count++
             resultFlowProduce({ this@POPLimit }, { resultFlowConsume({ this@POPLimit }, { children[0] }, { child.next() }) })

@@ -79,7 +79,7 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         val iterator = keys.iterator()
         val res = ResultIteratorImpl(data[iterator.next()]!!.iterator())
         res.next = {
-            if (!res.iterator.hasNext())
+            if (!res.iterator.hasNext()){
                 if (iterator.hasNext()) {
                     res.iterator = data[iterator.next()]!!.iterator()
                     if (!res.iterator.hasNext()) {
@@ -90,6 +90,7 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
                     res.close()
                     res.next()
                 }
+            }
             resultFlowProduce({ this@POPSort }, { res.iterator.next() })
         }
         return res

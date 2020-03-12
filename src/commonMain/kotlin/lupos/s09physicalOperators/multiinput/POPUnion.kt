@@ -41,6 +41,7 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                 val rowOld = childA.next()
                 for (v in variablesA)
                     resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
+resultFlowProduce({ this@POPUnion }, { row })
             } catch (e: Throwable) {
                 childA.close()
                 res.next = {
@@ -52,7 +53,7 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                 }
                 row = res.next.invoke()
             }
-            resultFlowProduce({ this@POPUnion }, { row })
+	row
         }
         return res
     })

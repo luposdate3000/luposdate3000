@@ -29,7 +29,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_jvm_jvmS00LaunchWarnkeFuzz_S00SanityChecksOn_S00ExecutionSequential_S00TraceOff_S01Heap_S12Dummy_S14ServerNone_jvmS14ClientKtorTarget_S15Distributed")
+project.buildDir = file("build/build_jvm_S00LaunchGenerateTests_S00SanityChecksOn_S00ExecutionSequential_S00TraceOff_S01Heap_S03DictionaryIntArray_S12Dummy_S14ServerNone_jvmS14ClientKtorTarget_S15Distributed")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
@@ -48,7 +48,8 @@ dependencies {
 }
 sourceSets["main"].java.srcDir("src/commonMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00ResultFlowExecuteTestsMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00LaunchGenerateTestsMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00ResultFlowFastMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00SanityChecksOnMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00TraceOffMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
@@ -60,4 +61,3 @@ sourceSets["main"].java.srcDir("src/commonS14ClientKtorMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS14ServerNoneMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS15DistributedMain/kotlin")
 sourceSets["main"].java.srcDir("src/jvmMain/kotlin")
-sourceSets["main"].java.srcDir("src/jvmS00LaunchWarnkeFuzzMain/kotlin")
