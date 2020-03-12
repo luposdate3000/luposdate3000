@@ -23,7 +23,8 @@ object Trace {
             stop(name())
         }
     }
-    inline suspend fun <T> traceSuspend(name: () -> String, action: suspend() -> T): T {
+
+    inline suspend fun <T> traceSuspend(name: () -> String, action: suspend () -> T): T {
         try {
             start(name())
             return action()

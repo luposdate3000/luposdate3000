@@ -102,161 +102,161 @@ class POPGraphOperation(query: Query,
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGraphOperation.evaluate" }, {
         val res = ResultIterator()
-        res.next ={
- Trace.traceSuspend<ResultRow>({ "POPGraphOperation.next" }, {
-            try {
-                when (graph1type) {
-                    EGraphRefType.AllGraphRef -> {
-                        when (action) {
-                            EGraphOperationType.CLEAR -> {
-                                for (s in DistributedTripleStore.getGraphNames(true)) {
-                                    DistributedTripleStore.clearGraph(query, s)
-                                }
-                            }
-                            EGraphOperationType.DROP -> {
-                                DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                for (s in DistributedTripleStore.getGraphNames(false)) {
-                                    DistributedTripleStore.dropGraph(query, s)
-                                }
-                            }
-                            else -> SanityCheck.checkUnreachable()
-                        }
-                    }
-                    EGraphRefType.DefaultGraphRef -> {
-                        when (action) {
-                            EGraphOperationType.CLEAR -> DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                            EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                            EGraphOperationType.COPY -> {
-                                when (graph2type) {
-                                    EGraphRefType.DefaultGraphRef -> {/*noop*/
-                                    }
-                                    EGraphRefType.IriGraphRef -> {
-                                        try {
-                                            DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                        } catch (e: Throwable) {
-                                        }
-                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                    }
-                                    else -> SanityCheck.checkUnreachable()
-                                }
-                            }
-                            EGraphOperationType.MOVE -> {
-                                when (graph2type) {
-                                    EGraphRefType.DefaultGraphRef -> {/*noop*/
-                                    }
-                                    EGraphRefType.IriGraphRef -> {
-                                        try {
-                                            DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                        } catch (e: Throwable) {
-                                        }
-                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                        DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                    }
-                                    else -> SanityCheck.checkUnreachable()
-                                }
-                            }
-                            EGraphOperationType.ADD -> {
-                                when (graph2type) {
-                                    EGraphRefType.DefaultGraphRef -> {/*noop*/
-                                    }
-                                    EGraphRefType.IriGraphRef -> {
-                                        DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                    }
-                                    else -> SanityCheck.checkUnreachable()
-                                }
-                            }
-                            else -> SanityCheck.checkUnreachable()
-                        }
-                    }
-                    EGraphRefType.IriGraphRef -> {
-                        when (action) {
-                            EGraphOperationType.CREATE -> DistributedTripleStore.createGraph(query, graph1iri!!)
-                            EGraphOperationType.CLEAR -> {
-                                try {
-                                    DistributedTripleStore.clearGraph(query, graph1iri!!)
-                                } catch (e: Throwable) {
-                                }
-                            }
-                            EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(query, graph1iri!!)
-                            EGraphOperationType.COPY -> {
-                                when (graph2type) {
-                                    EGraphRefType.IriGraphRef -> {
-                                        if (graph2iri!! != graph1iri!!) {
-                                            try {
-                                                DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                            } catch (e: Throwable) {
-                                            }
-                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                        }
-                                    }
-                                    EGraphRefType.DefaultGraphRef -> {
-                                        DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                    }
-                                    else -> SanityCheck.checkUnreachable()
-                                }
-                            }
-                            EGraphOperationType.MOVE -> {
-                                when (graph2type) {
-                                    EGraphRefType.IriGraphRef -> {
-                                        if (graph2iri!! != graph1iri!!) {
-                                            try {
-                                                DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                            } catch (e: Throwable) {
-                                            }
-                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                            DistributedTripleStore.dropGraph(query, graph1iri!!)
-                                        }
-                                    }
-                                    EGraphRefType.DefaultGraphRef -> {
-                                        DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                        DistributedTripleStore.dropGraph(query, graph1iri!!)
-                                    }
-                                    else -> SanityCheck.checkUnreachable()
-                                }
-                            }
-                            EGraphOperationType.ADD -> {
-                                when (graph2type) {
-                                    EGraphRefType.IriGraphRef -> {
-                                        if (graph2iri!! != graph1iri!!)
-                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                    }
-                                    EGraphRefType.DefaultGraphRef -> {
-                                        DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
-                                    }
-                                    else -> SanityCheck.checkUnreachable()
-                                }
-                            }
-                            else -> SanityCheck.checkUnreachable()
-                        }
-                    }
-                    EGraphRefType.NamedGraphRef -> {
-                        DistributedTripleStore.getGraphNames().forEach { name ->
+        res.next = {
+            Trace.traceSuspend<ResultRow>({ "POPGraphOperation.next" }, {
+                try {
+                    when (graph1type) {
+                        EGraphRefType.AllGraphRef -> {
                             when (action) {
                                 EGraphOperationType.CLEAR -> {
-                                    try {
-                                        DistributedTripleStore.clearGraph(query, name)
-                                    } catch (e: Throwable) {
+                                    for (s in DistributedTripleStore.getGraphNames(true)) {
+                                        DistributedTripleStore.clearGraph(query, s)
                                     }
                                 }
-                                EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(query, name)
+                                EGraphOperationType.DROP -> {
+                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                    for (s in DistributedTripleStore.getGraphNames(false)) {
+                                        DistributedTripleStore.dropGraph(query, s)
+                                    }
+                                }
                                 else -> SanityCheck.checkUnreachable()
                             }
                         }
+                        EGraphRefType.DefaultGraphRef -> {
+                            when (action) {
+                                EGraphOperationType.CLEAR -> DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                EGraphOperationType.COPY -> {
+                                    when (graph2type) {
+                                        EGraphRefType.DefaultGraphRef -> {/*noop*/
+                                        }
+                                        EGraphRefType.IriGraphRef -> {
+                                            try {
+                                                DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                            } catch (e: Throwable) {
+                                            }
+                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                        }
+                                        else -> SanityCheck.checkUnreachable()
+                                    }
+                                }
+                                EGraphOperationType.MOVE -> {
+                                    when (graph2type) {
+                                        EGraphRefType.DefaultGraphRef -> {/*noop*/
+                                        }
+                                        EGraphRefType.IriGraphRef -> {
+                                            try {
+                                                DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                            } catch (e: Throwable) {
+                                            }
+                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                        }
+                                        else -> SanityCheck.checkUnreachable()
+                                    }
+                                }
+                                EGraphOperationType.ADD -> {
+                                    when (graph2type) {
+                                        EGraphRefType.DefaultGraphRef -> {/*noop*/
+                                        }
+                                        EGraphRefType.IriGraphRef -> {
+                                            DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                        }
+                                        else -> SanityCheck.checkUnreachable()
+                                    }
+                                }
+                                else -> SanityCheck.checkUnreachable()
+                            }
+                        }
+                        EGraphRefType.IriGraphRef -> {
+                            when (action) {
+                                EGraphOperationType.CREATE -> DistributedTripleStore.createGraph(query, graph1iri!!)
+                                EGraphOperationType.CLEAR -> {
+                                    try {
+                                        DistributedTripleStore.clearGraph(query, graph1iri!!)
+                                    } catch (e: Throwable) {
+                                    }
+                                }
+                                EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(query, graph1iri!!)
+                                EGraphOperationType.COPY -> {
+                                    when (graph2type) {
+                                        EGraphRefType.IriGraphRef -> {
+                                            if (graph2iri!! != graph1iri!!) {
+                                                try {
+                                                    DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                                } catch (e: Throwable) {
+                                                }
+                                                DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                            }
+                                        }
+                                        EGraphRefType.DefaultGraphRef -> {
+                                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                            DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                        }
+                                        else -> SanityCheck.checkUnreachable()
+                                    }
+                                }
+                                EGraphOperationType.MOVE -> {
+                                    when (graph2type) {
+                                        EGraphRefType.IriGraphRef -> {
+                                            if (graph2iri!! != graph1iri!!) {
+                                                try {
+                                                    DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                                } catch (e: Throwable) {
+                                                }
+                                                DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                                DistributedTripleStore.dropGraph(query, graph1iri!!)
+                                            }
+                                        }
+                                        EGraphRefType.DefaultGraphRef -> {
+                                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                            DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                            DistributedTripleStore.dropGraph(query, graph1iri!!)
+                                        }
+                                        else -> SanityCheck.checkUnreachable()
+                                    }
+                                }
+                                EGraphOperationType.ADD -> {
+                                    when (graph2type) {
+                                        EGraphRefType.IriGraphRef -> {
+                                            if (graph2iri!! != graph1iri!!)
+                                                DistributedTripleStore.getNamedGraph(query, graph2iri!!, true).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                        }
+                                        EGraphRefType.DefaultGraphRef -> {
+                                            DistributedTripleStore.getDefaultGraph(query).addData(DistributedTripleStore.getNamedGraph(query, graph1iri!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO))
+                                        }
+                                        else -> SanityCheck.checkUnreachable()
+                                    }
+                                }
+                                else -> SanityCheck.checkUnreachable()
+                            }
+                        }
+                        EGraphRefType.NamedGraphRef -> {
+                            DistributedTripleStore.getGraphNames().forEach { name ->
+                                when (action) {
+                                    EGraphOperationType.CLEAR -> {
+                                        try {
+                                            DistributedTripleStore.clearGraph(query, name)
+                                        } catch (e: Throwable) {
+                                        }
+                                    }
+                                    EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(query, name)
+                                    else -> SanityCheck.checkUnreachable()
+                                }
+                            }
+                        }
+                        else -> SanityCheck.checkUnreachable()
                     }
-                    else -> SanityCheck.checkUnreachable()
+                } catch (e: Throwable) {
+                    if (!silent) {
+                        res.close()
+                        throw e
+                    }
                 }
-            } catch (e: Throwable) {
-                if (!silent) {
-                    res.close()
-                    throw e
-                }
-            }
-            res._close()
-            resultFlowProduce({ this@POPGraphOperation }, { resultSet.createResultRow() })
-        })
-}
+                res._close()
+                resultFlowProduce({ this@POPGraphOperation }, { resultSet.createResultRow() })
+            })
+        }
         return res
     })
 }

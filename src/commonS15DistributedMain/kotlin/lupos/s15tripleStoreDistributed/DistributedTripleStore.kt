@@ -83,22 +83,22 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         val iterator = P2P.getKnownClientsCopy().iterator()
         val res = ResultIteratorImpl(P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate())
         res.next = {
-Trace.traceSuspend<ResultRow>({ "TripleStoreIteratorGlobal.next" }, {
-            var row: ResultRow
-            try {
-                row = res.iterator.next()
-            } catch (e: Throwable) {
-                if (iterator.hasNext()) {
-                    res.iterator = P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate()
-                } else {
-                    res.iterator.close()
-                    res.close()
+            Trace.traceSuspend<ResultRow>({ "TripleStoreIteratorGlobal.next" }, {
+                var row: ResultRow
+                try {
+                    row = res.iterator.next()
+                } catch (e: Throwable) {
+                    if (iterator.hasNext()) {
+                        res.iterator = P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate()
+                    } else {
+                        res.iterator.close()
+                        res.close()
+                    }
+                    row = res.next()
                 }
-                row = res.next()
-            }
-            resultFlowProduce({ this@TripleStoreIteratorGlobal }, { row })
-        })
-}
+                resultFlowProduce({ this@TripleStoreIteratorGlobal }, { row })
+            })
+        }
         res.close = {
             res.iterator.close()
             res._close()

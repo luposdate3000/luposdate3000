@@ -7,11 +7,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
+import lupos.s00misc.Lock
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
 
-typealias CoroutinesHelperMutex = Mutex
+typealias CoroutinesHelperMutex = Lock
 
 object CoroutinesHelper {
     @JvmField
@@ -25,14 +26,11 @@ object CoroutinesHelper {
         action()
     }
 
-    inline fun createLock() = Mutex()
+    inline fun createLock() = Lock()()
 
     inline fun runBlockWithLock(lock: CoroutinesHelperMutex, crossinline action: () -> Unit) = runBlocking {
-        try {
-            lock.lock()
+        lock.withWriteLock {
             action()
-        } finally {
-            lock.unlock()
         }
     }
 }

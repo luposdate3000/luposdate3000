@@ -224,25 +224,27 @@ class XMLElement {
         return res
     }
 
-    fun toPrettyString(indention: String = ""): String {
+    fun toPrettyString(indention: String): StringBuilder {
         val c = content.replace("^\\s*$".toRegex(), "")
-        var res = "${indention}<${encodeText(tag)}"
+        var res = StringBuilder("${indention}<${encodeText(tag)}")
         for ((k, v) in attributes)
-            res += " ${encodeText(k)}=\"${encodeText(v)}\""
+            res.append(" ${encodeText(k)}=\"${encodeText(v)}\"")
         if (c.isEmpty() && childs.isEmpty()) {
-            res += "/>\n"
+            res.append("/>\n")
         } else {
             if (c.isEmpty()) {
-                res += ">\n"
+                res.append(">\n")
                 for (c in childs)
-                    res += c.toPrettyString(indention + " ")
-                res += "${indention}</${encodeText(tag)}>\n"
+                    res.append(c.toPrettyString(indention + " "))
+                res.append("${indention}</${encodeText(tag)}>\n")
             } else {
-                res += ">${c}</${encodeText(tag)}>\n"
+                res.append(">${c}</${encodeText(tag)}>\n")
             }
         }
         return res
     }
+
+    fun toPrettyString() = Trace.trace<String>({ "XMLElement.toPrettyString" }, { toPrettyString("").toString() })
 }
 
 

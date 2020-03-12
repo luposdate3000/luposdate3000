@@ -46,18 +46,18 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         var variableNew = resultSet.createVariable(name.name)
         val res = ResultIterator()
         res.next = {
-Trace.traceSuspend<ResultRow>({ "POPBind.next" }, {
-            val row = resultSet.createResultRow()
-            val rowOld = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
-            for (v in variables)
-                resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
-            try {
-                resultSet.setValue(row, variableNew, (children[1] as AOPBase).calculate(children[0].resultSet, rowOld).valueToString())
-            } catch (e: Throwable) {
-            }
-            resultFlowProduce({ this@POPBind }, { row })
-        })
-}
+            Trace.traceSuspend<ResultRow>({ "POPBind.next" }, {
+                val row = resultSet.createResultRow()
+                val rowOld = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
+                for (v in variables)
+                    resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
+                try {
+                    resultSet.setValue(row, variableNew, (children[1] as AOPBase).calculate(children[0].resultSet, rowOld).valueToString())
+                } catch (e: Throwable) {
+                }
+                resultFlowProduce({ this@POPBind }, { row })
+            })
+        }
         res.close = {
             child.close()
             res._close()

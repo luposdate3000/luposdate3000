@@ -79,22 +79,22 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         val iterator = keys.iterator()
         val res = ResultIteratorImpl(data[iterator.next()]!!.iterator())
         res.next = {
-Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
-            if (!res.iterator.hasNext()) {
-                if (iterator.hasNext()) {
-                    res.iterator = data[iterator.next()]!!.iterator()
-                    if (!res.iterator.hasNext()) {
+            Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
+                if (!res.iterator.hasNext()) {
+                    if (iterator.hasNext()) {
+                        res.iterator = data[iterator.next()]!!.iterator()
+                        if (!res.iterator.hasNext()) {
+                            res.close()
+                            res.next()
+                        }
+                    } else {
                         res.close()
                         res.next()
                     }
-                } else {
-                    res.close()
-                    res.next()
                 }
-            }
-            resultFlowProduce({ this@POPSort }, { res.iterator.next() })
-        })
-}
+                resultFlowProduce({ this@POPSort }, { res.iterator.next() })
+            })
+        }
         return res
     })
 

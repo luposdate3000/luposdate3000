@@ -41,15 +41,15 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         val child = children[0].evaluate()
         val data = mutableSetOf<ResultRow>()
         val res = ResultIterator()
-        res.next ={
- Trace.trace<ResultRow>({ "POPDistinct.next" }, {
-            var row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-            while (data.contains(row))
-                row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-            data.add(row)
-            resultFlowProduce({ this@POPDistinct }, { row })
-        })
-}
+        res.next = {
+            Trace.trace<ResultRow>({ "POPDistinct.next" }, {
+                var row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
+                while (data.contains(row))
+                    row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
+                data.add(row)
+                resultFlowProduce({ this@POPDistinct }, { row })
+            })
+        }
         return res
     })
 

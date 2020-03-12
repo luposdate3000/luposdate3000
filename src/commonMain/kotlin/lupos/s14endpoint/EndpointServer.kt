@@ -121,16 +121,16 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     })
 
 
-    suspend fun receive(path: String, data: ByteArray): ByteArray {
+    suspend fun receive(path: String, data: ByteArray): ByteArray = Trace.traceSuspend({ "EndpointServer.receiveA" }, {
         when (path) {
             Endpoint.REQUEST_BINARY[0] -> {
                 return TransferHelperNetwork.processBinary(data!!)
             }
             else -> throw Exception("unknown for binary $path")
         }
-    }
+    })
 
-    suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): ByteArray {
+    suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): ByteArray = Trace.traceSuspend({ "EndpointServer.receiveB $path" }, {
         var responseStr = ""
         var responseBytes: ByteArray? = null
         when (path) {
@@ -197,11 +197,13 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             else -> throw Exception("unknown for text $path")
         }
-        if (responseBytes != null)
-            return responseBytes
-        else
-            return responseStr.encodeToByteArray()
-    }
+        Trace.traceSuspend({ "EndpointServer.encodeResult" }, {
+            if (responseBytes != null)
+                return responseBytes
+            else
+                return responseStr.encodeToByteArray()
+        })
+    })
 
     abstract suspend fun start()
 }
