@@ -60,7 +60,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
@@ -79,7 +78,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
@@ -316,12 +314,6 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                 val optional = DynamicByteArray.intToBool(nextInt(query, buffer, 2))
                 return POPJoinHashMap(query, childA, childB, optional)
             }
-            EOperatorID.POPRenameID -> {
-                val nameTo = AOPVariable(query, nextStringVarName(query, buffer))
-                val nameFrom = AOPVariable(query, nextStringVarName(query, buffer, mutableListOf(nameTo)))
-                val child = fromBinaryPOPLOP(query, buffer)
-                return POPRename(query, nameTo, nameFrom, child)
-            }
             EOperatorID.POPFilterID -> {
                 val filter = fromBinaryAOP(query, buffer)
                 val child = fromBinaryPOPLOP(query, buffer)
@@ -540,12 +532,6 @@ fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
                 val childB = fromBinaryPOPLOP(query, buffer)
                 val optional = DynamicByteArray.intToBool(nextInt(query, buffer, 2))
                 return LOPJoin(query, childA, childB, optional)
-            }
-            EOperatorID.LOPRenameID -> {
-                val nameTo = AOPVariable(query, nextStringVarName(query, buffer))
-                val nameFrom = AOPVariable(query, nextStringVarName(query, buffer, mutableListOf(nameTo)))
-                val child = fromBinaryPOPLOP(query, buffer)
-                return LOPRename(query, nameTo, nameFrom, child)
             }
             EOperatorID.LOPFilterID -> {
                 val filter = fromBinaryAOP(query, buffer)

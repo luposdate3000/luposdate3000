@@ -61,7 +61,6 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
@@ -182,10 +181,6 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPSort" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             POPSort(query, createAOPVariable(query, mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
-        }
-        "POPRename" -> {
-            val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
-            POPRename(query, createAOPVariable(query, mapping, node.attributes["nameTo"]!!), createAOPVariable(query, mapping, node.attributes["nameFrom"]!!), child)
         }
         "POPProjection" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)

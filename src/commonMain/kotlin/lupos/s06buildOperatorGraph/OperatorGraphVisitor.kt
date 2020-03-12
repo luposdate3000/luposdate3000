@@ -170,7 +170,6 @@ import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPOptional
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 import lupos.s04logicalOperators.singleinput.LOPServiceVAR
 import lupos.s04logicalOperators.singleinput.LOPSort
@@ -303,18 +302,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 val s = template.children[0] as AOPBase
                 val p = template.children[1] as AOPBase
                 val o = template.children[2] as AOPBase
-                if (s is AOPVariable)
-                    tmp = LOPRename(query, AOPVariable(query, "s"), AOPVariable(query, s.name), tmp)
-                else
-                    tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
-                if (p is AOPVariable)
-                    tmp = LOPRename(query, AOPVariable(query, "p"), AOPVariable(query, p.name), tmp)
-                else
-                    tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
-                if (o is AOPVariable)
-                    tmp = LOPRename(query, AOPVariable(query, "o"), AOPVariable(query, o.name), tmp)
-                else
-                    tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
+                tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
+                tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
+                tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
             } else
                 throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
             tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)

@@ -24,7 +24,6 @@ import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
@@ -44,7 +43,6 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -63,7 +61,6 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 is LOPModifyData -> res = POPModifyData(query, node.type, node.data)
                 is LOPProjection -> res = POPProjection(query, node.variables, node.children[0])
                 is LOPMakeBooleanResult -> res = POPMakeBooleanResult(query, node.children[0])
-                is LOPRename -> res = POPRename(query, node.nameTo, node.nameFrom, node.children[0])
                 is LOPValues -> res = POPValues(query, node)
                 is LOPLimit -> res = POPLimit(query, node.limit, node.children[0])
                 is LOPDistinct -> res = POPDistinct(query, node.children[0])
@@ -77,18 +74,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 is LOPUnion -> res = POPUnion(query, node.children[0], node.children[1])
                 is LOPSort -> res = POPSort(query, node.by, node.asc, node.children[0])
                 is LOPFilter -> res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
-                is LOPBind -> {
-                    val variable = node.name
-                    val child = node.children[0]
-                    when (node.children[1]) {
-                        is AOPVariable ->
-                            if (child.getProvidedVariableNames().contains(variable.name))
-                                res = POPRename(query, variable, node.children[1] as AOPVariable, child)
-                            else
-                                res = POPBind(query, variable, AOPConstant(query, ValueUndef()), child)
-                        else -> res = POPBind(query, variable, node.children[1] as AOPBase, child)
-                    }
-                }
+                is LOPBind -> res = POPBind(query, node.name, node.children[1] as AOPBase, node.children[0])
                 is LOPJoin -> res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
                 is LOPTriple -> {
                     res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)

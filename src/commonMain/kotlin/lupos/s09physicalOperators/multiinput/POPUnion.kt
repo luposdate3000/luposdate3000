@@ -45,14 +45,9 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                 childA.close()
                 res.next = {
                     val row = resultSet.createResultRow()
-                    try {
-                        val rowOld = childB.next()
-                        for (v in variablesB)
-                            resultSet.copy(row, v.second, rowOld, v.first, children[1].resultSet)
-                    } catch (e: Throwable) {
-                        childB.close()
-                        res.close()
-                    }
+                    val rowOld = childB.next()
+                    for (v in variablesB)
+                        resultSet.copy(row, v.second, rowOld, v.first, children[1].resultSet)
                     resultFlowProduce({ this@POPUnion }, { row })
                 }
                 row = res.next.invoke()
