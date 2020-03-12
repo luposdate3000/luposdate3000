@@ -1,10 +1,10 @@
 #!/bin/bash
 mount /opt/tmpdata javafuzz
-kotlinc -script generate-buildfile.kts jvm jvmS00LaunchJavaFuzzMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
+kotlinc -script generate-buildfile.kts jvm jvmS00LaunchJavaFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
 ./tool-gradle-build.sh
 buildfile="build.gradle.kts"
 output1=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")
-kotlinc -script generate-buildfile.kts jvm jvmS00LaunchWarnkeFuzzMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
+kotlinc -script generate-buildfile.kts jvm jvmS00LaunchWarnkeFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
 ./tool-gradle-build.sh
 buildfile="build.gradle.kts"
 output2=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")
