@@ -68,6 +68,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next" }, {
+var hadUndefKey=false
+val undefKey=""+query.dictionary.undefValue+"-"
                 try {
                     for (idx in 0 until 2) {
                         try {
@@ -82,16 +84,12 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     exactkey += kk
                                     val newkeys = mutableSetOf<String>()
                                     for (x in keys) {
-                                        if (kk == "-") {
-                                            newkeys.add(x + "-")
-                                            for (a in map[1 - idx].keys)
-                                                if (a.startsWith(x)) {
-                                                    newkeys.add(a.substring(0, a.indexOf("-", x.length + 1) + 1))
-                                                }
-                                        } else {
+                                        if (kk == undefKey) 
+						hadUndefKey=true
+                                         else 
                                             newkeys.add(x + kk)
-                                            newkeys.add(x + "-")
-                                        }
+					if(hadUndefKey)
+                                            newkeys.add(x + undefKey)
                                     }
                                     keys = newkeys
                                 }
