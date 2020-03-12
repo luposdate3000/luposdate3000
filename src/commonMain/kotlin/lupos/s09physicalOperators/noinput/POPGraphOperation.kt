@@ -101,8 +101,8 @@ class POPGraphOperation(query: Query,
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGraphOperation.evaluate" }, {
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
+        val res = ResultIterator()
+        res.next = {
             try {
                 when (graph1type) {
                     EGraphRefType.AllGraphRef -> {
@@ -248,20 +248,13 @@ class POPGraphOperation(query: Query,
                 }
             } catch (e: Throwable) {
                 if (!silent) {
-                    channel.close(e)
+                    res.close()
+                    throw e
                 }
             }
-            try {
-                channel.send(resultFlowProduce({ this@POPGraphOperation }, { resultSet.createResultRow() }))
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-            }
+            res._close()
+            resultFlowProduce({ this@POPGraphOperation }, { resultSet.createResultRow() })
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+        return res
     })
 }

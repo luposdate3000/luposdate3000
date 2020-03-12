@@ -22,44 +22,16 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
-class POPSort : POPBase {
-    @JvmField
-    var data: MutableList<ResultRow>? = null
-    @JvmField
-    val variables = mutableListOf<Pair<Variable, Variable>>()
-    @JvmField
-    var iterator: Iterator<ResultRow>? = null
-    @JvmField
-    var sortBy: Variable
-    @JvmField
-    val sortOrder: Boolean
+class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", child.resultSet, arrayOf(child)) {
 
-    constructor(query: Query, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super(query, EOperatorID.POPSortID, "POPSort", ResultSet(query.dictionary), arrayOf(child)) {
-        this.sortOrder = sortOrder
-        for (name in children[0].getProvidedVariableNames())
-            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
-        this.sortBy = resultSet.createVariable(sortBy.name)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPSort)
-            return false
-        if (sortBy != other.sortBy)
-            return false
-        if (sortOrder != other.sortOrder)
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
-    }
+    override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
+    override fun cloneOP() = POPSort(query, sortBy, sortOrder, children[0].cloneOP())
 
     fun getRecoursiveSortVariables(): List<String> {
         val c = children[0]
         if (c is POPSort)
-            return c.getRecoursiveSortVariables() + resultSet.getVariable(sortBy)
-        return listOf(resultSet.getVariable(sortBy))
+            return c.getRecoursiveSortVariables() + sortBy.name
+        return listOf(sortBy.name)
     }
 
     override fun toSparql(): String {
@@ -86,59 +58,47 @@ class POPSort : POPBase {
         return res
     }
 
-
-    override fun cloneOP() = POPSort(query, AOPVariable(query, resultSet.getVariable(sortBy)), sortOrder, children[0].cloneOP())
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        val children0Channel = children[0].evaluate()
-        CoroutinesHelper.run {
-            try {
-                val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                children0Channel.forEach { oldRow ->
-                    resultFlowConsume({ this@POPSort }, { children[0] }, { oldRow })
-                    val rsNew = resultSet.createResultRow()
-                    var key = ""
-                    for (variable in variables) {
-                        resultSet.copy(rsNew, variable.first, oldRow, variable.second, children[0].resultSet)
-                        if (variable.first == sortBy)
-                            key = "" + children[0].resultSet.getValue(oldRow, variable.second)
-                    }
-                    var tmp = tmpMutableMap[key]
-                    if (tmp == null) {
-                        tmp = mutableListOf()
-                        tmpMutableMap[key] = tmp
-                    }
-                    tmp.add(rsNew)
-                }
-                val allKeys = Array(tmpMutableMap.keys.size) { "" }
-                var i = 0
-                for (k in tmpMutableMap.keys) {
-                    allKeys[i] = k
-                    i++
-                }
-                allKeys.sort()
-                for (k in allKeys)
-                    for (c in tmpMutableMap[k]!!)
-                        channel.send(resultFlowProduce({ this@POPSort }, { c }))
-                channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                channel.close()
-                children0Channel.close()
+        val child = children[0].evaluate()
+        val variable = resultSet.createVariable(sortBy.name)
+        val data = mutableMapOf<Value, MutableList<ResultRow>>()
+        CoroutinesHelper.runBlock {
+            child.forEach { row ->
+                val key = resultSet.getValue(row, variable)
+                val m = data[key]
+                if (m != null)
+                    m.add(row)
+                else
+                    data[key] = mutableListOf(row)
             }
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+        if (data.keys.size == 0)
+            return ResultIterator()
+        val keys = data.keys.toTypedArray<Value>()
+        keys.sortWith(ComparatorImpl(resultSet))
+        val iterator = keys.iterator()
+        val res = ResultIteratorImpl(data[iterator.next()]!!.iterator())
+        res.next = {
+            if (!res.iterator.hasNext())
+                if (iterator.hasNext()) {
+                    res.iterator = data[iterator.next()]!!.iterator()
+                    if (!res.iterator.hasNext()) {
+                        res.close()
+                        res.next()
+                    }
+                } else {
+                    res.close()
+                    res.next()
+                }
+            resultFlowProduce({ this@POPSort }, { res.iterator.next() })
+        }
+        return res
     })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("by", resultSet.getVariable(sortBy))
+        res.addAttribute("by", sortBy.name)
         if (sortOrder)
             res.addAttribute("order", "ASC")
         else
@@ -146,4 +106,22 @@ class POPSort : POPBase {
         res.addContent(childrenToXML())
         return res
     }
+
+    class ComparatorImpl(@JvmField val resultSet: ResultSet) : Comparator<Value> {
+        override fun compare(a: Value, b: Value): Int {
+            val objA = resultSet.getValueObject(a)
+            val objB = resultSet.getValueObject(b)
+            var res = 0
+            try {
+                res = objA.compareTo(objB)
+            } catch (e: Throwable) {
+                println("sorterror")
+                println(objA)
+                println(objB)
+            }
+            return res
+        }
+    }
+
+    class ResultIteratorImpl(@JvmField var iterator: Iterator<ResultRow>) : ResultIterator()
 }

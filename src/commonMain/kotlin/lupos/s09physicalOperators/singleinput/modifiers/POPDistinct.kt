@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
-class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPDistinctID, "POPDistinct", ResultSet(query.dictionary), arrayOf(child)) {
+class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPDistinctID, "POPDistinct", child.resultSet, arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPDistinct)
             return false
@@ -38,39 +38,17 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
 
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
-        var data: MutableList<ResultRow>? = null
-        val variables = mutableListOf<Pair<Variable, Variable>>()
-        for (name in children[0].getProvidedVariableNames())
-            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
-        val children0Channel = children[0].evaluate()
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            try {
-                val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                children0Channel.forEach { oldRow ->
-                    resultFlowConsume({ this@POPDistinct }, { children[0] }, { oldRow })
-                    val rsNew = resultSet.createResultRow()
-                    var key = ""
-                    for (variable in variables) {
-                        resultSet.copy(rsNew, variable.first, oldRow, variable.second, children[0].resultSet)
-                        key += "-" + children[0].resultSet.getValue(oldRow, variable.second)
-                    }
-                    tmpMutableMap[key] = rsNew
-                }
-                for (k in tmpMutableMap.keys)
-                    channel.send(resultFlowProduce({ this@POPDistinct }, { tmpMutableMap[k]!! }))
-                channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                channel.close()
-                children0Channel.close()
-            }
+        val child = children[0].evaluate()
+        val data = mutableSetOf<ResultRow>()
+        val res = ResultIterator()
+        res.next = {
+            var row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
+            while (data.contains(row))
+                row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
+            data.add(row)
+            resultFlowProduce({ this@POPDistinct }, { row })
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+        return res
     })
 
 }

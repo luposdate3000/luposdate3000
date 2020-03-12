@@ -39,36 +39,34 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
             res._close()
         }
         res.next = {
-            CoroutinesHelper.runBlock {
-                try {
-                    child.forEach { rowOld ->
-                        resultFlowConsume({ this@POPModify }, { children[0] }, { rowOld })
-                        for (i in insert) {
-                            try {
-                                val store = if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(rowOld, i.graph)!!.valueToString()!!, true)
-                                else
-                                    DistributedTripleStore.getNamedGraph(query, i.graph, true)
-                                store.addData(Array(3) { evaluateRow(i.children[it], rowOld) })
-                            } catch (e: Throwable) {
+            try {
+                child.forEach { rowOld ->
+                    resultFlowConsume({ this@POPModify }, { children[0] }, { rowOld })
+                    for (i in insert) {
+                        try {
+                            val store = if (i.graphVar)
+                                DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(rowOld, i.graph)!!.valueToString()!!, true)
+                            else
+                                DistributedTripleStore.getNamedGraph(query, i.graph, true)
+                            store.addData(Array(3) { evaluateRow(i.children[it], rowOld) })
+                        } catch (e: Throwable) {
 //ignore unbound variables
-                            }
-                        }
-                        for (i in delete) {
-                            try {
-                                val store = if (i.graphVar)
-                                    DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(rowOld, i.graph)!!.valueToString()!!, true)
-                                else
-                                    DistributedTripleStore.getNamedGraph(query, i.graph, false)
-                                store.deleteData(Array(3) { evaluateRow(i.children[it], rowOld) })
-                            } catch (e: Throwable) {
-//ignore unbound variables
-                            }
                         }
                     }
-                } finally {
-                    res.close()
+                    for (i in delete) {
+                        try {
+                            val store = if (i.graphVar)
+                                DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(rowOld, i.graph)!!.valueToString()!!, true)
+                            else
+                                DistributedTripleStore.getNamedGraph(query, i.graph, false)
+                            store.deleteData(Array(3) { evaluateRow(i.children[it], rowOld) })
+                        } catch (e: Throwable) {
+//ignore unbound variables
+                        }
+                    }
                 }
+            } finally {
+                res.close()
             }
             resultFlowProduce({ this@POPModify }, { resultSet.createResultRow() })
         }

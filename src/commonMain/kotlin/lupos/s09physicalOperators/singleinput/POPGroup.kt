@@ -105,15 +105,14 @@ class POPGroup : POPBase {
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
-        val children0Channel = children[0].evaluate()
+        val child = children[0].evaluate()
         val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        val variables = Array(by.size) {
-            Pair(resultSet.createVariable(by[it].name), children[0].resultSet.createVariable(by[it].name))
-        }
+        val variables = Array(by.size) { Pair(resultSet.createVariable(by[it].name), children[0].resultSet.createVariable(by[it].name)) }
+        val res = ResultIterator()
         CoroutinesHelper.run {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                children0Channel.forEach { oldRow ->
+                child.forEach { oldRow ->
                     resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRow })
                     var key = "|"
                     for (variable in variables)
@@ -127,18 +126,13 @@ class POPGroup : POPBase {
                     tmp.add(oldRow)
                 }
                 if (tmpMutableMap.keys.size == 0) {
-                    val rsNew = resultSet.createResultRow()
-                    for (b in variables)
-                        resultSet.setUndefValue(rsNew, b.first)
-                    for (b in bindings)
-                        resultSet.setUndefValue(rsNew, b.first)
-                    channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
+                    channel.send(resultFlowProduce({ this@POPGroup }, { resultSet.createResultRow() }))
                 } else {
                     for (k in tmpMutableMap.keys) {
                         val oldRow = tmpMutableMap[k]!!.first()
-                        val rsNew = resultSet.createResultRow()
+                        val row = resultSet.createResultRow()
                         for (variable in variables)
-                            resultSet.copy(rsNew, variable.first, oldRow, variable.second, children[0].resultSet)
+                            resultSet.copy(row, variable.first, oldRow, variable.second, children[0].resultSet)
                         for (b in bindings) {
                             try {
                                 setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
@@ -146,31 +140,32 @@ class POPGroup : POPBase {
                                     (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
                                 setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
                                 val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
-                                val value = a.valueToString()
-                                resultSet.setValue(rsNew, b.first, value)
+                                resultSet.setValue(row, b.first, a.valueToString())
                             } catch (e: Throwable) {
                                 e.printStackTrace()
-                                resultSet.setUndefValue(rsNew, b.first)
                                 GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                                 GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                             }
                         }
-                        channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
+                        channel.send(resultFlowProduce({ this@POPGroup }, { row }))
                     }
                 }
+            } finally {
                 channel.close()
-                children0Channel.close()
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                channel.close()
-                children0Channel.close()
+                child.close()
+                res._close()
             }
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
+        res.next = {
+            val res = channel.receive()
+            res
+        }
+        res.close = {
             channel.close()
-        })
+            child.close()
+            res._close()
+        }
+        return res
     })
 
     override fun toXMLElement(): XMLElement {
