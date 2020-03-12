@@ -21,18 +21,18 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
         java.io.File("resources/$v").forEachLine {
-            k.createValue(it)
+            k.add(it)
         }
     }
     val query = Query()
-    testDictionaryValue.mapLTS.forEach {
+    testDictionaryValue.forEach {
         try {
-            val tmp = AOPVariable.calculate(query, it)
-            if (testDictionaryValueTyped[tmp.operatorID] == null)
-                testDictionaryValueTyped[tmp.operatorID] = ResultSetDictionary()
-            testDictionaryValueTyped[tmp.operatorID]!!.createValue(it!!)
+            val tmp = ValueDefinition.create( it)
+            if (testDictionaryValueTyped[ValueToID(tmp)] == null)
+                testDictionaryValueTyped[ValueToID(tmp)] = ThreadSafeMutableList()
+            testDictionaryValueTyped[ValueToID(tmp)]!!.add(it!!)
         } catch (e: Throwable) {
-            testDictionaryValueTyped[EOperatorID.ValueSimpleLiteralID]!!.createValue("\"" + it!! + "\"")
+            testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
         }
     }
     query.commit()
