@@ -47,8 +47,8 @@ object P2P {
         Endpoint.process_local_graph_operation(query, name, type)
     })
 
-    fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
-        return Endpoint.process_local_triple_get(query, graphName, params, idx)
+    fun execTripleGet(query: Query, resultSet: ResultSet node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+        return Endpoint.process_local_triple_get(query, resultSet, graphName, params, idx)
     })
 
     fun execTripleDelete(query: Query, node: String, graphName: String, data: Array<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {

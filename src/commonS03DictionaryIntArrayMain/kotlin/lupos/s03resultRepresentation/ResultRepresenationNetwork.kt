@@ -86,9 +86,9 @@ object ResultRepresenationNetwork {
         return res.finish()
     }
 
-    fun fromNetworkPackage(query: Query, data: ByteArray): POPBase {
+    fun fromNetworkPackage(query: Query, resultSet: ResultSet, data: ByteArray): POPBase {
         val d = DynamicByteArray(data)
-        return POPImportFromNetworkPackage(query, d)
+        return POPImportFromNetworkPackage(query, resultSet, d)
     }
 
     class POPImportFromNetworkPackage : POPBase {
@@ -97,7 +97,7 @@ object ResultRepresenationNetwork {
         val data: DynamicByteArray
         val variables = mutableListOf<Variable>()
 
-        constructor(query: Query, data: DynamicByteArray) : super(query, EOperatorID.POPImportFromNetworkPackageID, "POPImportFromNetworkPackage", ResultSet(query.dictionary), arrayOf()) {
+        constructor(query: Query, resultSet: ResultSet, data: DynamicByteArray) : super(query, EOperatorID.POPImportFromNetworkPackageID, "POPImportFromNetworkPackage", resultSet, arrayOf()) {
             this.data = data
             val variablesCount = data.getNextInt()
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read variablecount $variablesCount" })

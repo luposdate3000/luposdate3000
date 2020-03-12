@@ -121,10 +121,10 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
-    fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(query: Query, resultSet: ResultSet, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         var res: POPBase? = null
         if (node == endpointServer!!.fullname)
-            res = Endpoint.process_local_triple_get(query, graphName, params, idx)
+            res = Endpoint.process_local_triple_get(query, resultSet, graphName, params, idx)
         else {
             val sarr = Array(3) {
                 if (params[it] is AOPConstant)
@@ -146,7 +146,7 @@ object P2P {
                     "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_GET[9], idx)
             CoroutinesHelper.runBlock {
                 val responseBytes = EndpointClientImpl.requestGetBytes("http://${(node)}$req")
-                res = ResultRepresenationNetwork.fromNetworkPackage(query, responseBytes)
+                res = ResultRepresenationNetwork.fromNetworkPackage(query, resultSet, responseBytes)
             }
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })

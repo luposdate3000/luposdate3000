@@ -11,7 +11,7 @@ object ResultRepresenationNetwork {
         throw Exception("not implemented")
     }
 
-    fun fromNetworkPackage(query: Query, data: ByteArray): POPBase {
+    fun fromNetworkPackage(query: Query, resultSet: ResultSet, data: ByteArray): POPBase {
         throw Exception("not implemented")
     }
 }

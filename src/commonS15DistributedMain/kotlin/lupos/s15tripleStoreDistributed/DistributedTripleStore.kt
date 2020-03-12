@@ -76,43 +76,33 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return tmp.distinct()
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorGlobal.evaluate" }, {
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
-        val varnames = getProvidedVariableNames()
-        val varout = Array(varnames.size) { resultSet.createVariable(varnames[it]) }
-        CoroutinesHelper.run {
-            try {
-                for (nodeName in nodeNameIterator) {
-                    var remoteNode: OPBase? = null
-                    var remoteNodeChannel: ResultIterator? = null
-                    try {
-                        remoteNode = P2P.execTripleGet(query, nodeName, graphNameL, params, index)
-                        remoteNodeChannel = remoteNode.evaluate()
-                        val varin = Array(varnames.size) { remoteNode.resultSet.createVariable(varnames[it]) }
-                        remoteNodeChannel.forEach { c ->
-                            val row = resultSet.createResultRow()
-                            for (i in varnames.indices)
-                                resultSet.copy(row, varout[i], c, varin[i], remoteNode.resultSet)
-                            channel.send(resultFlowProduce({ this@TripleStoreIteratorGlobal }, { row }))
-                        }
-                    } catch (e: Throwable) {
-                        if (remoteNodeChannel != null)
-                            remoteNodeChannel.close()
-                        channel.close()
-                    }
-                }
-                channel.close()
-            } catch (e: Throwable) {
-                channel.close(e)
-            }
-        }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
-    })
+    class ResultIteratorImpl(var iterator: ResultIterator) : ResultIterator() {
+    }
 
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorGlobal.evaluate" }, {
+        val iterator = P2P.getKnownClientsCopy().iterator()
+        val res = ResultIteratorImpl(P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate())
+        res.next = {
+            var row: ResultRow
+            try {
+                row = res.iterator.next()
+            } catch (e: Throwable) {
+                if (iterator.hasNext()) {
+                    res.iterator = P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate()
+                } else {
+                    res.iterator.close()
+                    res.close()
+                }
+                row = res.next()
+            }
+            resultFlowProduce({ this@TripleStoreIteratorGlobal }, { row })
+        }
+        res.close = {
+            res.iterator.close()
+            res._close()
+        }
+        return res
+    })
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {

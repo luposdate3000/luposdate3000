@@ -79,9 +79,9 @@ object Endpoint {
         return XMLElement("success")
     })
 
-    fun process_local_triple_get(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "process_local_triple_get" }, {
+    fun process_local_triple_get(query: Query, resultSet: ResultSet, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "process_local_triple_get" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        return g.getIterator(query, ResultSet(query.dictionary), params, idx)
+        return g.getIterator(query, resultSet, params, idx)
     })
 
     fun process_local_graph_clear_all(query: Query): XMLElement = Trace.trace({ "process_local_graph_clear_all" }, {

@@ -142,7 +142,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     else
                         AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
                 }
-                responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(query, params[Endpoint.REQUEST_TRIPLE_GET[1]]!!,
+                responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(query, ResultSet(query.dictionary), params[Endpoint.REQUEST_TRIPLE_GET[1]]!!,
                         param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_GET[9]]!!)))
             }
