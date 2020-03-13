@@ -9,13 +9,13 @@ import java.time.Instant
 import lupos.*
 import lupos.s00misc.*
 import lupos.s00misc.executeBinaryTest
+import lupos.s01io.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.*
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
-
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
@@ -39,13 +39,23 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
         }
     }
+    var testcase = TestCase.Sparql
     var datasize = 16
     if (args.size > 0) {
         JenaRequest.db = args[0]
         JenaRequest.dbwascreated = true
+        if (args.size > 1) {
+            datasize = args[1].toInt()
+            if (args.size > 2) {
+                try {
+                    val x = args[2].toInt()
+                    testcase = TestCase.values()[x]
+                } catch (e: Throwable) {
+                    testcase = TestCase.valueOf(args[2])
+                }
+            }
+        }
     }
-    if (args.size > 1)
-        datasize = args[1].toInt()
     val workdir = "javafuzz/${JenaRequest.db}"
     var timepoint = Instant.now()
     val randomFile = File("/dev/urandom")
@@ -69,7 +79,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         try {
             while (true)
                 try {
-                    executeBinaryTest(input!!)
+                    testcase.action(input!!)
                     val timepointNext2 = Instant.now()
                     val elapsed2 = Duration.between(timepoint, timepointNext2)
                     timepoint = timepointNext2

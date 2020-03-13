@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import lupos.*
+import lupos.s01io.*
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
@@ -86,6 +87,10 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
+enum class TestCase(val action: (DynamicByteArray) -> Unit) {
+    Sparql(::executeBinaryTest),
+    SortedArray(::sortedArrayTest)
+}
 
 enum class ValueEnum {
     ValueBnode,
