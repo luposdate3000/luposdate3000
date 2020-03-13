@@ -1,13 +1,15 @@
 package lupos.s01io
 
-class MyDataPage<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T>) {
+import lupos.s00misc.ReadWriteLock
+
+class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array<T>) {
     companion object {
         val capacity = 4
     }
 
-    val data = factory(capacity)
+    val data = allocator(capacity)
     var size = 0
-    var sortuntil = 0
+    var internal_sortuntil = 0
     var prev = this
     var next = this
     override fun toString(): String {
@@ -26,13 +28,13 @@ class MyDataPage<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T
         if (size < capacity) {
             data[size] = value
             if (size == 0)
-                sortuntil = 1
+                internal_sortuntil = 1
             size++
         } else {
-            val res = MyDataPage(comparator, factory)
+            val res = MyDataPage(comparator, allocator)
             res.data[0] = value
             res.size = 1
-            res.sortuntil = 1
+            res.internal_sortuntil = 1
             res.next = next
             next = res
             res.prev = this
@@ -40,10 +42,10 @@ class MyDataPage<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T
         }
     }
 
-    fun sort(a: Array<T>, b: Array<T>): Array<T> {
+    fun internal_sort(a: Array<T>, b: Array<T>): Array<T> {
         var aIdx = 0
         var bIdx = 0
-        var res = factory(a.size + b.size)
+        var res = allocator(a.size + b.size)
         for (i in 0 until res.size) {
             if (aIdx == a.size)
                 res[i] = b[bIdx++]
@@ -57,30 +59,31 @@ class MyDataPage<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T
         return res
     }
 
-    fun sort(first: Int, last: Int): Array<T> {
+    fun internal_sort(first: Int, last: Int): Array<T> {
         if (first == last) {
-            var res = factory(1)
+            var res = allocator(1)
             res[0] = data[first]
             return res
         }
         val middle = (first + last) / 2
-        return sort(sort(first, middle), sort(middle + 1, last))
+        return internal_sort(internal_sort(first, middle), internal_sort(middle + 1, last))
     }
 
-    fun sort() {
-        if (size > 1 && sortuntil < size) {
-            val tmp = sort(0, size - 1)
+    fun internal_sort() {
+        if (size > 1 && internal_sortuntil < size) {
+            val tmp = internal_sort(0, size - 1)
             for (i in 0 until size)
                 data[i] = tmp[i]
-            sortuntil = size
+            internal_sortuntil = size
         }
     }
 }
 
-class SortedArray<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T>) {
-    var data = MyDataPage<T>(comparator, factory)
+class SortedArray<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array<T>) {
+    var data = MyDataPage<T>(comparator, allocator)
     var size = 0
-    var sortuntil = 0
+    var internal_sortuntil = 0
+    var lock = ReadWriteLock()
     override fun toString(): String {
         var res = StringBuilder("")
         var tmp = data
@@ -94,56 +97,60 @@ class SortedArray<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<
         return res.toString()
     }
 
-    fun add(value: T) {
+    fun add(value: T) = lock.withWriteLock {
         size++
         data.prev.append(value)
     }
 
     fun forEachUnordered(action: (T) -> Unit) {
         var tmp = data
-        for (i in 0 until tmp.size)
-            action(tmp.data[i])
-        while (tmp != data.prev) {
-            tmp = tmp.next
+        lock.withReadLock {
             for (i in 0 until tmp.size)
                 action(tmp.data[i])
+            while (tmp != data.prev) {
+                tmp = tmp.next
+                for (i in 0 until tmp.size)
+                    action(tmp.data[i])
+            }
         }
     }
 
     fun forEach(action: (T) -> Unit) {
         sort()
-        var tmp = data
-        for (i in 0 until tmp.size)
-            action(tmp.data[i])
-        while (tmp != data.prev) {
-            tmp = tmp.next
+        lock.withReadLock {
+            var tmp = data
             for (i in 0 until tmp.size)
                 action(tmp.data[i])
+            while (tmp != data.prev) {
+                tmp = tmp.next
+                for (i in 0 until tmp.size)
+                    action(tmp.data[i])
+            }
         }
     }
 
-    fun sort(a: MyDataPage<T>, b: MyDataPage<T>, aCount: Int, bCount: Int): MyDataPage<T> {
-        var res = MyDataPage<T>(comparator, factory)
-	var aCounter=0
-	var bCounter=0
+    fun internal_sort(a: MyDataPage<T>, b: MyDataPage<T>, aCount: Int, bCount: Int): MyDataPage<T> {
+        var res = MyDataPage<T>(comparator, allocator)
+        var aCounter = 0
+        var bCounter = 0
         var aIdx = 0
         var bIdx = 0
         var aPage = a
         var bPage = b
-if(comparator.compare(a.prev.data[a.prev.size-1],b.data[0])<=0){
-a.prev.next=b
-b.prev.next=a
-a.prev=b.prev
-b.prev=a
-return a
-}
-if(comparator.compare(b.prev.data[b.prev.size-1],a.data[0])<=0){
-a.prev.next=b
-b.prev.next=a
-b.prev=a.prev
-a.prev=b
-return b
-}
+        if (comparator.compare(a.prev.data[a.prev.size - 1], b.data[0]) <= 0) {
+            a.prev.next = b
+            b.prev.next = a
+            a.prev = b.prev
+            b.prev = a
+            return a
+        }
+        if (comparator.compare(b.prev.data[b.prev.size - 1], a.data[0]) <= 0) {
+            a.prev.next = b
+            b.prev.next = a
+            b.prev = a.prev
+            a.prev = b
+            return b
+        }
         while (aCounter < aCount && bCounter < bCount) {
             when {
                 aIdx == aPage.size -> {
@@ -190,48 +197,41 @@ return b
         return res
     }
 
-    fun sort(first: MyDataPage<T>, last: MyDataPage<T>, count: Int): MyDataPage<T> {
+    fun internal_sort(first: MyDataPage<T>, last: MyDataPage<T>, count: Int): MyDataPage<T> {
         if (count == 1)
             return first
-        if (count == 2){
-		first.next=first
-		first.prev=first
-		last.next=last
-		last.prev=last
-            return sort(first, last, 1, 1)
-	}
         val half = count / 2
         val half2 = count - half
         var middle = first
         for (i in 1 until half)
             middle = middle.next
-val middle2=middle.next
-middle.next=first
-first.prev=middle
-middle2.prev=last
-last.next=middle2
-        return sort(sort(first, middle, half), sort(middle2, last, half2), half, half2)
+        val middle2 = middle.next
+        middle.next = first
+        first.prev = middle
+        middle2.prev = last
+        last.next = middle2
+        return internal_sort(internal_sort(first, middle, half), internal_sort(middle2, last, half2), half, half2)
     }
 
-    fun sort() {
-        if (sortuntil < size) {
+    fun sort() = lock.withWriteLock {
+        if (internal_sortuntil < size) {
             var pageCount = 1
             var tmp = data
-            tmp.sort()
+            tmp.internal_sort()
             while (tmp != data.prev) {
                 tmp = tmp.next
-                tmp.sort()
+                tmp.internal_sort()
                 pageCount++
             }
             if (pageCount > 1) {
-                data = sort(data, data.prev, pageCount)
+                data = internal_sort(data, data.prev, pageCount)
                 tmp = data
                 while (tmp != data.prev) {
-                    tmp.sortuntil = tmp.size
+                    tmp.internal_sortuntil = tmp.size
                     tmp = tmp.next
                 }
             }
-            sortuntil = size
+            internal_sortuntil = size
         }
     }
 }
