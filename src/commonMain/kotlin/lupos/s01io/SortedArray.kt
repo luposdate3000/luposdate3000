@@ -1,11 +1,11 @@
 package lupos.s01io
 
-class MyDataPage<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>) {
+class MyDataPage<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T>) {
     companion object {
         val capacity = 4
     }
 
-    val data=factory(capacity)
+    val data = factory(capacity)
     var size = 0
     var sortuntil = 0
     var prev = this
@@ -29,75 +29,56 @@ class MyDataPage<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>) 
                 sortuntil = 1
             size++
         } else {
-            val res = MyDataPage( comparator,factory)
+            val res = MyDataPage(comparator, factory)
             res.data[0] = value
             res.size = 1
             res.sortuntil = 1
-	    res.next=next
+            res.next = next
             next = res
             res.prev = this
-	    res.next.prev=res
+            res.next.prev = res
         }
     }
 
     fun sort(a: Array<T>, b: Array<T>): Array<T> {
         var aIdx = 0
         var bIdx = 0
-        var res= factory(a.size + b.size)
-	for(i in 0 until res.size){
+        var res = factory(a.size + b.size)
+        for (i in 0 until res.size) {
             if (aIdx == a.size)
-                res[i]=b[bIdx++]
+                res[i] = b[bIdx++]
             else if (bIdx == b.size)
-                res[i]=a[aIdx++]
+                res[i] = a[aIdx++]
             else if (comparator.compare(a[aIdx], b[bIdx]) > 0)
-                    res[i]=b [bIdx++]
+                res[i] = b[bIdx++]
             else
-                res[i]=a[aIdx++]
+                res[i] = a[aIdx++]
         }
-var s=""
-for(i in a)
-s+="$i "
-s+="and "
-for(i in b)
-s+="$i "
-s+="to "
-for(i in res)
-s+="$i "
-//println("sorta $s")
-	return res
+        return res
     }
 
-    fun sort( first:Int,  last:Int): Array<T> {
-        if (first == last){
-            var res= factory(1)
-		res[0]=data[first]
-		return res
-	}
+    fun sort(first: Int, last: Int): Array<T> {
+        if (first == last) {
+            var res = factory(1)
+            res[0] = data[first]
+            return res
+        }
         val middle = (first + last) / 2
-	val res= sort(sort(first, middle), sort(middle + 1, last))
-var s=""
-for (i in first until last+1)
-s+="${data[i]} "
-s+="to"
-	for(i in res)
-s+=" $i"
-//println("sortb $first $last $s")
-	return res
+        return sort(sort(first, middle), sort(middle + 1, last))
     }
 
     fun sort() {
-//println("sortc")
         if (size > 1 && sortuntil < size) {
             val tmp = sort(0, size - 1)
-            for (i in 0 until size )
+            for (i in 0 until size)
                 data[i] = tmp[i]
             sortuntil = size
         }
     }
 }
 
-class SortedArray<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>) {
-    var data = MyDataPage<T>( comparator,factory)
+class SortedArray<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<T>) {
+    var data = MyDataPage<T>(comparator, factory)
     var size = 0
     var sortuntil = 0
     override fun toString(): String {
@@ -118,7 +99,7 @@ class SortedArray<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>)
         data.prev.append(value)
     }
 
-    fun forEachUnordered(action:(T)->Unit) {
+    fun forEachUnordered(action: (T) -> Unit) {
         var tmp = data
         for (i in 0 until tmp.size)
             action(tmp.data[i])
@@ -129,23 +110,20 @@ class SortedArray<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>)
         }
     }
 
-    fun forEach(action:(T)->Unit) {
+    fun forEach(action: (T) -> Unit) {
         sort()
         var tmp = data
         for (i in 0 until tmp.size)
             action(tmp.data[i])
         while (tmp != data.prev) {
             tmp = tmp.next
-//println("0 ${tmp.size}")
-            for (i in 0 until tmp.size){
-//println("$i")
+            for (i in 0 until tmp.size)
                 action(tmp.data[i])
-	}
         }
     }
 
     fun sort(a: MyDataPage<T>, b: MyDataPage<T>, aCount: Int, bCount: Int): MyDataPage<T> {
-        var res = MyDataPage<T>( comparator,factory)
+        var res = MyDataPage<T>(comparator, factory)
         var aCounter = 0
         var bCounter = 0
         var aIdx = 0
@@ -165,9 +143,9 @@ class SortedArray<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>)
                     bPage = bPage.next
                 }
                 comparator.compare(aPage.data[aIdx], bPage.data[bIdx]) > 0 ->
-                   res.prev.append(bPage.data[bIdx++])
+                    res.prev.append(bPage.data[bIdx++])
                 else ->
-                     res.prev.append(aPage.data[aIdx++])
+                    res.prev.append(aPage.data[aIdx++])
             }
         }
         if (aCounter == aCount) {
@@ -176,45 +154,25 @@ class SortedArray<T>( val comparator: Comparator<T>,val factory:(Int)->Array<T>)
             bCounter++
             bPage = bPage.next
             while (bCounter < bCount) {
-		bIdx=0
-		while (bIdx < bPage.size)
-			res.prev.append(bPage.data[bIdx++])
-		bPage = bPage.next
-		bCounter++
+                bIdx = 0
+                while (bIdx < bPage.size)
+                    res.prev.append(bPage.data[bIdx++])
+                bPage = bPage.next
+                bCounter++
             }
         } else if (bCounter == bCount) {
             while (aIdx < aPage.size)
-                 res.prev.append(aPage.data[aIdx++])
+                res.prev.append(aPage.data[aIdx++])
             aCounter++
             aPage = aPage.next
             while (aCounter < aCount) {
-		aIdx=0
-		while (aIdx < aPage.size)
-			res.prev.append(aPage.data[aIdx++])
-		aPage = aPage.next
-		aCounter++
+                aIdx = 0
+                while (aIdx < aPage.size)
+                    res.prev.append(aPage.data[aIdx++])
+                aPage = aPage.next
+                aCounter++
             }
         }
-var s=""
-var tmp=a
-for(i in 0 until aCount){
-s+=tmp
-tmp=tmp.next
-}
-s+=" and "
-tmp=b
-for(i in 0 until bCount){
-s+=tmp
-tmp=tmp.next
-}
-s+=" to "
-tmp=res
-while(tmp!=res.prev){
-s+=tmp
-tmp=tmp.next
-}
-s+=tmp
-//println("sortf $aCount $bCount $s")
         return res
     }
 
@@ -228,17 +186,19 @@ s+=tmp
         var middle = first
         for (i in 1 until half)
             middle = middle.next
-//println("sorti $count $half $half2")
-        return sort(sort(first, middle, half), sort(middle.next, last, half2), half, half2)
+val middle2=middle.next
+middle.next=first
+first.prev=middle
+middle2.prev=last
+last.next=middle2
+        return sort(sort(first, middle, half), sort(middle2, last, half2), half, half2)
     }
 
     fun sort() {
-//println("sortd")
         if (sortuntil < size) {
-//println("sorte")
             var pageCount = 1
             var tmp = data
-	    tmp.sort()
+            tmp.sort()
             while (tmp != data.prev) {
                 tmp = tmp.next
                 tmp.sort()

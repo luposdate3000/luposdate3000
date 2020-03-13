@@ -41,11 +41,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     }
     val input = lupos.s00misc.File.readStdInAsDynamicByteArray()
     if (input != null) {
-val pos=input.pos
-	for (testcase in TestCase.values()){
-input.pos=pos
-	        testcase.action(input!!)
-	}
+        val pos = input.pos
+        for (testcase in TestCase.values()) {
+            input.pos = pos
+            testcase.action(input!!)
+        }
     } else if (args.isEmpty()) {
         executeBinaryTests("/opt/tmpfs")
     } else {
