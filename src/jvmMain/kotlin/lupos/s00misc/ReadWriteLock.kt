@@ -15,7 +15,7 @@ class ReadWriteLock {
     @JvmField
     var readers = 0L
 
-    suspend inline fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
+    suspend fun readLock() {
         try {
             allowNewReads.lock()
             if (++readers == 1L)
@@ -23,25 +23,41 @@ class ReadWriteLock {
         } finally {
             allowNewReads.unlock()
         }
+    }
+
+    suspend fun readUnlock() {
+        try {
+            allowNewReads.lock()
+            if (--readers == 0L)
+                allowNewWrites.unlock()
+        } finally {
+            allowNewReads.unlock()
+        }
+    }
+
+    suspend fun writeLock() {
+        allowNewWrites.lock()
+    }
+
+    suspend fun writeUnlock() {
+        allowNewWrites.unlock()
+    }
+
+    suspend inline fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
+        readLock()
         try {
             return action()
         } finally {
-            try {
-                allowNewReads.lock()
-                if (--readers == 0L)
-                    allowNewWrites.unlock()
-            } finally {
-                allowNewReads.unlock()
-            }
+            readUnlock()
         }
     }
 
     suspend inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+        writeLock()
         try {
-            allowNewWrites.lock()
             return action()
         } finally {
-            allowNewWrites.unlock()
+            writeUnlock()
         }
     }
 

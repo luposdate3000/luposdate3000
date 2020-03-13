@@ -22,7 +22,7 @@ class ReadWriteLock {
         pthread_mutex_init(allowNewWrites, null)
     }
 
-    inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
+    suspend fun readLock() {
         try {
             pthread_mutex_lock(allowNewReads)
             readers.value = (readers.value + 1).freeze()
@@ -31,26 +31,42 @@ class ReadWriteLock {
         } finally {
             pthread_mutex_unlock(allowNewReads)
         }
+    }
+
+    suspend fun readUnlock() {
+        try {
+            pthread_mutex_lock(allowNewReads)
+            readers.value = (readers.value - 1).freeze()
+            if (readers.value == 0L)
+                pthread_mutex_unlock(allowNewWrites)
+        } finally {
+            pthread_mutex_unlock(allowNewReads)
+        }
+    }
+
+    suspend fun writeLock() {
+        pthread_mutex_lock(allowNewWrites)
+    }
+
+    suspend fun writeUnlock() {
+        pthread_mutex_unlock(allowNewWrites)
+    }
+
+    inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
+        readLock()
         try {
             return action()
         } finally {
-            try {
-                pthread_mutex_lock(allowNewReads)
-                readers.value = (readers.value - 1).freeze()
-                if (readers.value == 0L)
-                    pthread_mutex_unlock(allowNewWrites)
-            } finally {
-                pthread_mutex_unlock(allowNewReads)
-            }
+            readUnlock()
         }
     }
 
     inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+        writeLock()
         try {
-            pthread_mutex_lock(allowNewWrites)
             return action()
         } finally {
-            pthread_mutex_unlock(allowNewWrites)
+            writeUnlock()
         }
     }
 

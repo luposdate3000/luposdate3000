@@ -9,6 +9,7 @@ import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s01io.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -58,41 +59,42 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         return res
     }
 
+    class ComparatorImpl(@JvmField val resultSet: ResultSet, val variable: Variable) : Comparator<ResultRow> {
+        override fun compare(a: ResultRow, b: ResultRow): Int {
+            val objA = resultSet.getValueObject(a, variable)
+            val objB = resultSet.getValueObject(b, variable)
+            var res = 0
+            try {
+                res = objA.compareTo(objB)
+            } catch (e: Throwable) {
+                println("sorterror")
+                println(objA)
+                println(objB)
+                require(false)
+            }
+            return res
+        }
+    }
+
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
         val child = children[0].evaluate()
-        val variable = resultSet.createVariable(sortBy.name)
-        val data = mutableMapOf<Value, MutableList<ResultRow>>()
+        val data = SortedArray<ResultRow>(ComparatorImpl(resultSet, resultSet.createVariable(sortBy.name)), { size -> Array(size) { resultSet.createResultRow() } })
         CoroutinesHelper.runBlock {
             child.forEach { row ->
-                val key = resultSet.getValue(row, variable)
-                val m = data[key]
-                if (m != null)
-                    m.add(row)
-                else
-                    data[key] = mutableListOf(row)
+                data.add(row)
             }
         }
-        if (data.keys.size == 0)
+        if (data.size == 0)
             return ResultIterator()
-        val keys = data.keys.toTypedArray<Value>()
-        keys.sortWith(ComparatorImpl(resultSet))
-        val iterator = keys.iterator()
-        val res = ResultIteratorImpl(data[iterator.next()]!!.iterator())
+        val iterator = data.iterator()
+        val res = ResultIterator()
         res.next = {
             Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
-                if (!res.iterator.hasNext()) {
-                    if (iterator.hasNext()) {
-                        res.iterator = data[iterator.next()]!!.iterator()
-                        if (!res.iterator.hasNext()) {
-                            res.close()
-                            res.next()
-                        }
-                    } else {
-                        res.close()
-                        res.next()
-                    }
+                if (!iterator.hasNext()) {
+                    res.close()
+                    res.next()
                 }
-                resultFlowProduce({ this@POPSort }, { res.iterator.next() })
+                resultFlowProduce({ this@POPSort }, { iterator.next() })
             })
         }
         return res
@@ -108,22 +110,6 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
             res.addAttribute("order", "DESC")
         res.addContent(childrenToXML())
         return res
-    }
-
-    class ComparatorImpl(@JvmField val resultSet: ResultSet) : Comparator<Value> {
-        override fun compare(a: Value, b: Value): Int {
-            val objA = resultSet.getValueObject(a)
-            val objB = resultSet.getValueObject(b)
-            var res = 0
-            try {
-                res = objA.compareTo(objB)
-            } catch (e: Throwable) {
-                println("sorterror")
-                println(objA)
-                println(objB)
-            }
-            return res
-        }
     }
 
     class ResultIteratorImpl(@JvmField var iterator: Iterator<ResultRow>) : ResultIterator()

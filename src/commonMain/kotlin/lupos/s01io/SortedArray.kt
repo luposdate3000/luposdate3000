@@ -1,6 +1,7 @@
 package lupos.s01io
 
-import lupos.s00misc.ReadWriteLock
+import lupos.s00misc.*
+
 
 class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array<T>) {
     companion object {
@@ -79,6 +80,42 @@ class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array
     }
 }
 
+class MyIterator<T> : Iterator<T> {
+    val data: SortedArray<T>
+    var node: MyDataPage<T>
+    var idx = 0
+    var closed = false
+
+    constructor(data: SortedArray<T>) {
+        this.data = data
+        node = data.data
+        CoroutinesHelper.runBlock {
+            data.lock.readLock()
+        }
+    }
+
+    override fun hasNext(): Boolean {
+        if (closed)
+            return false
+        if (idx < node.size)
+            return true
+        node = node.next
+        idx = 0
+        if (node == data.data) {
+            CoroutinesHelper.runBlock {
+                data.lock.readUnlock()
+            }
+            closed = true
+            return false
+        }
+        return true
+    }
+
+    override fun next(): T {
+        return node.data[idx++]
+    }
+}
+
 class SortedArray<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array<T>) {
     var data = MyDataPage<T>(comparator, allocator)
     var size = 0
@@ -95,6 +132,10 @@ class SortedArray<T>(val comparator: Comparator<T>, val allocator: (Int) -> Arra
         res.append(tmp.toString())
         res.append(">")
         return res.toString()
+    }
+
+    fun iterator(): Iterator<T> {
+        return MyIterator(this)
     }
 
     fun add(value: T) = lock.withWriteLock {
