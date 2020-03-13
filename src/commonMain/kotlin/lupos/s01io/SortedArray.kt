@@ -3,12 +3,11 @@ package lupos.s01io
 import lupos.s00misc.*
 
 
-class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array<T>) {
+open class MySortedDataPage<T>(val comparator: Comparator<T>, val arrayAllocator: (Int) -> Array<T>,val pageAllocator:(Comparator<T>,(Int) -> Array<T>)->MySortedDataPage<T>) {
     companion object {
         val capacity = 4
     }
-
-    val data = allocator(capacity)
+    val data = arrayAllocator(capacity)
     var size = 0
     var internal_sortuntil = 0
     var prev = this
@@ -32,7 +31,7 @@ class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array
                 internal_sortuntil = 1
             size++
         } else {
-            val res = MyDataPage(comparator, allocator)
+            val res = pageAllocator(comparator, arrayAllocator)
             res.data[0] = value
             res.size = 1
             res.internal_sortuntil = 1
@@ -46,7 +45,7 @@ class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array
     fun internal_sort(a: Array<T>, b: Array<T>): Array<T> {
         var aIdx = 0
         var bIdx = 0
-        var res = allocator(a.size + b.size)
+        var res = arrayAllocator(a.size + b.size)
         for (i in 0 until res.size) {
             if (aIdx == a.size)
                 res[i] = b[bIdx++]
@@ -62,7 +61,7 @@ class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array
 
     fun internal_sort(first: Int, last: Int): Array<T> {
         if (first == last) {
-            var res = allocator(1)
+            var res = arrayAllocator(1)
             res[0] = data[first]
             return res
         }
@@ -81,12 +80,12 @@ class MyDataPage<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array
 }
 
 class MyIteratorASC<T> : Iterator<T> {
-    val data: SortedArray<T>
-    var node: MyDataPage<T>
+    val data: SortedArrayBase<T>
+    var node: MySortedDataPage<T>
     var idx = 0
     var closed = false
 
-    constructor(data: SortedArray<T>) {
+    constructor(data: SortedArrayBase<T>) {
         this.data = data
         node = data.data
         CoroutinesHelper.runBlock {
@@ -117,12 +116,12 @@ class MyIteratorASC<T> : Iterator<T> {
 }
 
 class MyIteratorDESC<T> : Iterator<T> {
-    val data: SortedArray<T>
-    var node: MyDataPage<T>
+    val data: SortedArrayBase<T>
+    var node: MySortedDataPage<T>
     var idx = 0
     var closed = false
 
-    constructor(data: SortedArray<T>) {
+    constructor(data: SortedArrayBase<T>) {
         this.data = data
         node = data.data.prev
         idx = node.size
@@ -153,8 +152,18 @@ class MyIteratorDESC<T> : Iterator<T> {
     }
 }
 
-class SortedArray<T>(val comparator: Comparator<T>, val allocator: (Int) -> Array<T>) {
-    var data = MyDataPage<T>(comparator, allocator)
+fun <T> MySortedDataPageAllocator(comparator:Comparator<T>,arrayAllocator:(Int) -> Array<T>):MySortedDataPage<T>{
+return MySortedDataPage<T>(comparator, arrayAllocator,::MySortedDataPageAllocator)
+}
+
+class SortedArray<T>( comparator: Comparator<T>,  arrayAllocator: (Int) -> Array<T>):SortedArrayBase<T>(comparator,arrayAllocator,::MySortedDataPageAllocator)
+
+open class SortedArrayBase<T>(//
+val comparator: Comparator<T>,//
+ val arrayAllocator: (Int) -> Array<T>,//
+val pageAllocator:(Comparator<T>,(Int) -> Array<T>)->MySortedDataPage<T>//
+) {
+    var data = pageAllocator(comparator, arrayAllocator)
     var size = 0
     var internal_sortuntil = 0
     var lock = ReadWriteLock()
@@ -210,8 +219,8 @@ class SortedArray<T>(val comparator: Comparator<T>, val allocator: (Int) -> Arra
         }
     }
 
-    fun internal_sort(a: MyDataPage<T>, b: MyDataPage<T>, aCount: Int, bCount: Int): MyDataPage<T> {
-        var res = MyDataPage<T>(comparator, allocator)
+    fun internal_sort(a: MySortedDataPage<T>, b: MySortedDataPage<T>, aCount: Int, bCount: Int): MySortedDataPage<T> {
+        var res = pageAllocator(comparator, arrayAllocator)
         var aCounter = 0
         var bCounter = 0
         var aIdx = 0
@@ -278,7 +287,7 @@ class SortedArray<T>(val comparator: Comparator<T>, val allocator: (Int) -> Arra
         return res
     }
 
-    fun internal_sort(first: MyDataPage<T>, last: MyDataPage<T>, count: Int): MyDataPage<T> {
+    fun internal_sort(first: MySortedDataPage<T>, last: MySortedDataPage<T>, count: Int): MySortedDataPage<T> {
         if (count == 1)
             return first
         val half = count / 2
