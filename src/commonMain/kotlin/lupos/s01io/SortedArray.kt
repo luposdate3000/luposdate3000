@@ -124,12 +124,35 @@ class SortedArray<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<
 
     fun sort(a: MyDataPage<T>, b: MyDataPage<T>, aCount: Int, bCount: Int): MyDataPage<T> {
         var res = MyDataPage<T>(comparator, factory)
-        var aCounter = 0
-        var bCounter = 0
+	var aCounter=0
+	var bCounter=0
         var aIdx = 0
         var bIdx = 0
         var aPage = a
         var bPage = b
+if(comparator.compare(a.prev.data[a.prev.size-1],b.data[0])<=0){
+println("${a.prev.data[a.prev.size-1]} vs ${b.data[0]}")
+var s=""
+var tmp=a
+for(i in 0 until aCount){
+s+="$tmp "
+tmp=tmp.next
+}
+require (tmp===a)
+s+="and "
+tmp=b
+for(i in 0 until bCount){
+s+="$tmp "
+tmp=tmp.next
+}
+require (tmp===b)
+println(s)
+a.prev.next=b
+b.prev.next=a
+a.prev=b.prev
+b.prev=a.prev
+return a
+}
         while (aCounter < aCount && bCounter < bCount) {
             when {
                 aIdx == aPage.size -> {
@@ -179,8 +202,13 @@ class SortedArray<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<
     fun sort(first: MyDataPage<T>, last: MyDataPage<T>, count: Int): MyDataPage<T> {
         if (count == 1)
             return first
-        if (count == 2)
+        if (count == 2){
+		first.next=first
+		first.prev=first
+		last.next=last
+		last.prev=last
             return sort(first, last, 1, 1)
+	}
         val half = count / 2
         val half2 = count - half
         var middle = first
