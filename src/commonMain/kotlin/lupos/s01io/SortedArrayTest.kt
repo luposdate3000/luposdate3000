@@ -27,7 +27,6 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
         }
     }
     var i = 0
-
     myArray.forEachUnordered {
         if (kotlinList[i] != it) {
             println(myArray)
@@ -45,5 +44,23 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
             require(false, { "sorted :: ${kotlinList[i]} != $it" })
         }
         i++
+    }
+    i = 0
+    for (it in myArray.iterator(true)) {
+        if (kotlinList[i] != it) {
+            println(myArray)
+            println(kotlinList)
+            require(false, { "sorted Iterator ASC :: ${kotlinList[i]} != $it" })
+        }
+        i++
+    }
+    i = kotlinList.size - 1
+    for (it in myArray.iterator(false)) {
+        if (kotlinList[i] != it) {
+            println(myArray)
+            println(kotlinList)
+            require(false, { "sorted Iterator DESC :: ${kotlinList[i]} != $it" })
+        }
+        i--
     }
 }

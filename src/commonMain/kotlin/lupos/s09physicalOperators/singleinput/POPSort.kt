@@ -67,10 +67,21 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
             try {
                 res = objA.compareTo(objB)
             } catch (e: Throwable) {
-                println("sorterror")
-                println(objA)
-                println(objB)
-                require(false)
+                if (objA is ValueUndef)
+                    return -1
+                if (objB is ValueUndef)
+                    return +1
+                if (objA is ValueBnode)
+                    return -1
+                if (objB is ValueBnode)
+                    return +1
+                if (objA is ValueIri)
+                    return -1
+                if (objB is ValueIri)
+                    return +1
+                val sA = objA.valueToString()!!
+                val sB = objB.valueToString()!!
+                return sA.compareTo(sB)
             }
             return res
         }
@@ -86,7 +97,7 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         }
         if (data.size == 0)
             return ResultIterator()
-        val iterator = data.iterator()
+        val iterator = data.iterator(sortOrder)
         val res = ResultIterator()
         res.next = {
             Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
@@ -112,5 +123,4 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         return res
     }
 
-    class ResultIteratorImpl(@JvmField var iterator: Iterator<ResultRow>) : ResultIterator()
 }
