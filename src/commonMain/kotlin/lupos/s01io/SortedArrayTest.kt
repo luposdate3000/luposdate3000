@@ -17,7 +17,7 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
     val myArray = SortedArray<Int>(MyComparatorInt(), { size -> Array<Int>(size) { 0 } })
     val kotlinList = mutableListOf<Int>()
     for (i in 0 until Int.MAX_VALUE) {
-//    for(i in 0 until 10) {
+//    for(i in 0 until 20) {
         try {
             val tmp = buffer.getNextInt()
             myArray.add(tmp)

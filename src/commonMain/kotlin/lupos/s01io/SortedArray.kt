@@ -131,27 +131,18 @@ class SortedArray<T>(val comparator: Comparator<T>, val factory: (Int) -> Array<
         var aPage = a
         var bPage = b
 if(comparator.compare(a.prev.data[a.prev.size-1],b.data[0])<=0){
-println("${a.prev.data[a.prev.size-1]} vs ${b.data[0]}")
-var s=""
-var tmp=a
-for(i in 0 until aCount){
-s+="$tmp "
-tmp=tmp.next
-}
-require (tmp===a)
-s+="and "
-tmp=b
-for(i in 0 until bCount){
-s+="$tmp "
-tmp=tmp.next
-}
-require (tmp===b)
-println(s)
 a.prev.next=b
 b.prev.next=a
 a.prev=b.prev
-b.prev=a.prev
+b.prev=a
 return a
+}
+if(comparator.compare(b.prev.data[b.prev.size-1],a.data[0])<=0){
+a.prev.next=b
+b.prev.next=a
+b.prev=a.prev
+a.prev=b
+return b
 }
         while (aCounter < aCount && bCounter < bCount) {
             when {

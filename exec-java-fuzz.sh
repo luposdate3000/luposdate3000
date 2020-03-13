@@ -1,5 +1,5 @@
 #!/bin/bash
-mount /opt/tmpdata javafuzz
+rm jacoco* log/db* nohup.out
 kotlinc -script generate-buildfile.kts jvm jvmS00LaunchJavaFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
 ./tool-gradle-build.sh
 buildfile="build.gradle.kts"
