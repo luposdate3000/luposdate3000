@@ -16,10 +16,19 @@ class SortedDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Arra
             res.data[0] = value
             res.size = 1
             res.internal_sortuntil = 1
+//println("ptr a $this $res")
             res.next = next
             next = res
             res.prev = this
             res.next.prev = res
+var tmp:SortedDataPageBase<T> =this.next
+var tmp2:SortedDataPageBase<T> =this
+require(tmp.prev==tmp2)
+while(tmp!=this){
+tmp2=tmp
+tmp=tmp.next
+require(tmp.prev==tmp2)
+}
         }
         return true
     }

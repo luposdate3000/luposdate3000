@@ -72,11 +72,8 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
     require(i == -1)
 //set verification
     val kotlinSet = kotlinList.distinct()
-    println("${kotlinList.size} vs ${kotlinSet.size}")
     i = 0
-    println(kotlinSet)
     mySortedSet.forEach {
-        println(it)
         if (kotlinSet[i] != it) {
             println(mySortedSet)
             println(kotlinSet)
@@ -84,7 +81,6 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
         }
         i++
     }
-    println("xx ${kotlinList.size} vs ${kotlinSet.size} ${mySortedSet.size} $i")
     require(i == kotlinSet.size)
     i = 0
     for (it in mySortedSet.iterator(true)) {

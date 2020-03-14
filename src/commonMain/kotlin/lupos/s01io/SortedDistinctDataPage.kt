@@ -5,15 +5,15 @@ import lupos.s00misc.*
 
 class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Array<T>, pageAllocator: (Comparator<T>, (Int) -> Array<T>) -> SortedDataPageBase<T>) : SortedDataPageBase<T>(comparator, arrayAllocator, pageAllocator) {
     override fun append(value: T): Boolean {
-        println("tryappend $this $value")
+        //println("tryappend $this $value")
         if (size == 0 || comparator.compare(data[size - 1], value) != 0) {
 
             if (size > 0 && comparator.compare(data[size - 1], value) > 0) {
-                try {
+                /*try {
                     throw Exception("")
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                }
+                }*/
             }
 
             if (size < capacity) {
@@ -21,7 +21,7 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
                 if (size == 0)
                     internal_sortuntil = 1
                 size++
-                println("tryappend true $this $value")
+                //println("tryappend true $this $value")
             } else {
                 val res = pageAllocator(comparator, arrayAllocator)
                 res.data[0] = value
@@ -31,11 +31,11 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
                 next = res
                 res.prev = this
                 res.next.prev = res
-                println("tryappend true $this $res $value")
+                //println("tryappend true $this $res $value")
             }
             return true
         }
-        println("tryappend false $this $value")
+        //println("tryappend false $this $value")
         return false
     }
 
@@ -75,7 +75,7 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
         }
         for (i in 0 until (res.size - duplicates))
             s += " ${res[i]}"
-        println("internal_sort $size ${duplicates} ${res.size - duplicates} ${res.size} $aSize $bSize :: $s")
+        //println("internal_sort $size ${duplicates} ${res.size - duplicates} ${res.size} $aSize $bSize :: $s")
         return Pair(res, res.size - duplicates)
     }
 
