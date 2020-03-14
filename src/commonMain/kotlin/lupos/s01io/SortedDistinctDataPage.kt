@@ -18,11 +18,7 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
                 res.data[0] = value
                 res.size = 1
                 res.internal_sortuntil = 1
-                res.next = next
-                next = res
-                res.prev = this
-                res.next.prev = res
-                //println("tryappend true $this $res $value")
+next.concatCompleteLoop(res)
             }
             return true
         }

@@ -52,15 +52,6 @@ abstract class SortedArrayBase<T>(//
         }
     }
 
-    fun concatCompleteLoop(a: SortedDataPageBase<T>, b: SortedDataPageBase<T>): SortedDataPageBase<T> {
-        a.prev.next = b
-        b.prev.next = a
-        val c = a.prev
-        a.prev = b.prev
-        b.prev = c
-        return a
-    }
-
     abstract fun internal_sort(a: SortedDataPageBase<T>, b: SortedDataPageBase<T>): SortedDataPageBase<T>
     fun internal_sort(first: SortedDataPageBase<T>, last: SortedDataPageBase<T>, count: Int): SortedDataPageBase<T> {
         if (count == 1)

@@ -7,6 +7,14 @@ abstract class SortedDataPageBase<T>(val comparator: Comparator<T>, val arrayAll
     companion object {
         val capacity = 4
     }
+ fun concatCompleteLoop( b: SortedDataPageBase<T>): SortedDataPageBase<T> {
+        prev.next = b
+        b.prev.next = this
+        val c = prev
+        prev = b.prev
+        b.prev = c
+        return this
+    }
 
     val data = arrayAllocator(capacity)
     var size = 0
