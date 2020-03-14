@@ -22,11 +22,11 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
 //    for(i in 0 until 20) {
         try {
             val tmp = buffer.getNextInt() % 100
+            if (tmp % 10 == 0)
+                tests(mySortedArray, kotlinList, mySortedSet)
             mySortedArray.add(tmp)
             kotlinList.add(tmp)
             mySortedSet.add(tmp)
-            if (tmp % 10 == 0)
-                tests(mySortedArray, kotlinList, mySortedSet)
         } catch (e: Throwable) {
             break
         }
@@ -37,6 +37,53 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
 fun tests(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>, mySortedSet: SortedSet<Int>) {
     testsArray(mySortedArray, kotlinList)
     testsSet(mySortedSet, kotlinList)
+}
+
+fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>) {
+    var i = 0
+    kotlinList.sort()
+    mySorted.forEach {
+        if (kotlinList[i] != it) {
+            println(mySorted)
+            println(kotlinList)
+            require(false, { "sorted :: ${kotlinList[i]} != $it" })
+        }
+        i++
+    }
+    require(i == kotlinList.size)
+    i = 0
+    for (it in mySorted.iterator(true)) {
+        if (kotlinList[i] != it) {
+            println(mySorted)
+            println(kotlinList)
+            require(false, { "sorted Iterator ASC :: ${kotlinList[i]} != $it" })
+        }
+        i++
+    }
+    require(i == kotlinList.size)
+    i = kotlinList.size - 1
+    for (it in mySorted.iterator(false)) {
+        if (kotlinList[i] != it) {
+            println(mySorted)
+            println(kotlinList)
+            require(false, { "sorted Iterator DESC :: ${kotlinList[i]} != $it" })
+        }
+        i--
+    }
+    require(i == -1)
+    for (i in 0 until kotlinList.size) {
+        val x = kotlinList.contains(kotlinList[i])
+        val y = mySorted.get(kotlinList[i])
+        println(kotlinList)
+        println(mySorted)
+        println(kotlinList[i])
+        println(x)
+        println(y)
+        require((x && y == kotlinList[i]) || (!x && y == null))
+        val x1 = kotlinList.contains(kotlinList[i] + 1)
+        val y1 = mySorted.get(kotlinList[i] + 1)
+        require((x1 && y1 == kotlinList[i] + 1) || (!x1 && y1 == null))
+    }
 }
 
 fun testsArray(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>) {
@@ -51,85 +98,10 @@ fun testsArray(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>) {
         i++
     }
     require(i == kotlinList.size)
-    kotlinList.sort()
-    i = 0
-    mySortedArray.forEach {
-        if (kotlinList[i] != it) {
-            println(mySortedArray)
-            println(kotlinList)
-            require(false, { "sorted :: ${kotlinList[i]} != $it" })
-        }
-        i++
-    }
-    require(i == kotlinList.size)
-    i = 0
-    for (it in mySortedArray.iterator(true)) {
-        if (kotlinList[i] != it) {
-            println(mySortedArray)
-            println(kotlinList)
-            require(false, { "sorted Iterator ASC :: ${kotlinList[i]} != $it" })
-        }
-        i++
-    }
-    require(i == kotlinList.size)
-    i = kotlinList.size - 1
-    for (it in mySortedArray.iterator(false)) {
-        if (kotlinList[i] != it) {
-            println(mySortedArray)
-            println(kotlinList)
-            require(false, { "sorted Iterator DESC :: ${kotlinList[i]} != $it" })
-        }
-        i--
-    }
-    require(i == -1)
-    for (i in 0 until kotlinList.size) {
-        val x = kotlinList.contains(kotlinList[i])
-        val y = mySortedArray.get(kotlinList[i])
-        require((x && y == kotlinList[i]) || (!x && y == null))
-        val x1 = kotlinList.contains(kotlinList[i] + 1)
-        val y1 = mySortedArray.get(kotlinList[i] + 1)
-        require((x1 && y1 == kotlinList[i] + 1) || (!x1 && y1 == null))
-    }
+    testsBase(mySortedArray, kotlinList)
 }
 
 fun testsSet(mySortedSet: SortedSet<Int>, kotlinList: MutableList<Int>) {
-    val kotlinSet = kotlinList.distinct()
-    var i = 0
-    mySortedSet.forEach {
-        if (kotlinSet[i] != it) {
-            println(mySortedSet)
-            println(kotlinSet)
-            require(false, { "set :: ${kotlinSet[i]} != $it" })
-        }
-        i++
-    }
-    require(i == kotlinSet.size)
-    i = 0
-    for (it in mySortedSet.iterator(true)) {
-        if (kotlinSet[i] != it) {
-            println(mySortedSet)
-            println(kotlinSet)
-            require(false, { "set Iterator ASC :: ${kotlinSet[i]} != $it" })
-        }
-        i++
-    }
-    require(i == kotlinSet.size)
-    i = kotlinSet.size - 1
-    for (it in mySortedSet.iterator(false)) {
-        if (kotlinSet[i] != it) {
-            println(mySortedSet)
-            println(kotlinSet)
-            require(false, { "set Iterator DESC :: ${kotlinSet[i]} != $it" })
-        }
-        i--
-    }
-    require(i == -1)
-    for (i in 0 until kotlinList.size) {
-        val x = kotlinList.contains(kotlinList[i])
-        val y = mySortedSet.get(kotlinList[i])
-        require((x && y == kotlinList[i]) || (!x && y == null))
-        val x1 = kotlinList.contains(kotlinList[i] + 1)
-        val y1 = mySortedSet.get(kotlinList[i] + 1)
-        require((x1 && y1 == kotlinList[i] + 1) || (!x1 && y1 == null))
-    }
+    val kotlinSet = kotlinList.distinct().toMutableList()
+    testsBase(mySortedSet, kotlinSet)
 }

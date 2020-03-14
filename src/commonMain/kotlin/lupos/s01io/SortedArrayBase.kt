@@ -40,22 +40,22 @@ abstract class SortedArrayBase<T>(//
 
     fun get(value: T): T? {
         var res: T? = null
-//TODO improve performance
-        sort()
-        lock.withReadLock {
-            var tmp = data
-            for (i in 0 until tmp.size)
-                if (comparator.compare(tmp.data[i], value) == 0) {
-                    res = tmp.data[i]
-                    break
-                }
-            loop@ while (tmp != data.prev) {
-                tmp = tmp.next
-                for (i in 0 until tmp.size)
-                    if (comparator.compare(tmp.data[i], value) == 0) {
-                        res = tmp.data[i]
-                        break@loop
+        if (size > 0) {
+            sort()
+            lock.withReadLock {
+                var tmp = data
+                loop@ while (true) {
+                    if (comparator.compare(tmp.data[tmp.size - 1], value) >= 0) {
+                        for (i in 0 until tmp.size)
+                            if (comparator.compare(tmp.data[i], value) == 0) {
+                                res = tmp.data[i]
+                                break@loop
+                            }
                     }
+                    tmp = tmp.next
+                    if (tmp == data)
+                        break
+                }
             }
         }
         return res
