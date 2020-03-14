@@ -24,9 +24,9 @@ class SortedArray<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Array<T
         var aPage = a
         var bPage = b
         if (comparator.compare(a.prev.data[a.prev.size - 1], b.data[0]) <= 0)
-            return a.concatCompleteLoop( b)
+            return a.concatCompleteLoop(b)
         if (comparator.compare(b.prev.data[b.prev.size - 1], a.data[0]) <= 0)
-            return b.concatCompleteLoop( a)
+            return b.concatCompleteLoop(a)
         while (true) {
             when {
                 aIdx == aPage.size -> {

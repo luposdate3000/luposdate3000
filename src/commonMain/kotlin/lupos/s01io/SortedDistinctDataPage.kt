@@ -18,7 +18,7 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
                 res.data[0] = value
                 res.size = 1
                 res.internal_sortuntil = 1
-next.concatCompleteLoop(res)
+                next.concatCompleteLoop(res)
             }
             return true
         }
@@ -40,11 +40,11 @@ next.concatCompleteLoop(res)
             s += " ${b[i]}"
         s += " to"
         for (i in 0 until res.size) {
-            val next=
-            if (aIdx < aSize && (bIdx == bSize || comparator.compare(a[aIdx], b[bIdx]) <= 0))
-                 a[aIdx++]
-            else
-                 b[bIdx++]
+            val next =
+                    if (aIdx < aSize && (bIdx == bSize || comparator.compare(a[aIdx], b[bIdx]) <= 0))
+                        a[aIdx++]
+                    else
+                        b[bIdx++]
             if (idx == 0 || comparator.compare(res[idx - 1], next) != 0)
                 res[idx++] = next
             else

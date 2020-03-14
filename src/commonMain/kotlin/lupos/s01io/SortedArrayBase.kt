@@ -38,6 +38,29 @@ abstract class SortedArrayBase<T>(//
         data.prev.append(value)
     }
 
+    fun get(value: T): T? {
+        var res: T? = null
+//TODO improve performance
+        sort()
+        lock.withReadLock {
+            var tmp = data
+            for (i in 0 until tmp.size)
+                if (comparator.compare(tmp.data[i], value) == 0) {
+                    res = tmp.data[i]
+                    break
+                }
+            loop@ while (tmp != data.prev) {
+                tmp = tmp.next
+                for (i in 0 until tmp.size)
+                    if (comparator.compare(tmp.data[i], value) == 0) {
+                        res = tmp.data[i]
+                        break@loop
+                    }
+            }
+        }
+        return res
+    }
+
     fun forEach(action: (T) -> Unit) {
         sort()
         lock.withReadLock {

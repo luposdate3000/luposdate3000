@@ -35,6 +35,11 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
 }
 
 fun tests(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>, mySortedSet: SortedSet<Int>) {
+    testsArray(mySortedArray, kotlinList)
+    testsSet(mySortedSet, kotlinList)
+}
+
+fun testsArray(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>) {
 //array verification
     var i = 0
     mySortedArray.forEachUnordered {
@@ -77,9 +82,19 @@ fun tests(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>, mySorte
         i--
     }
     require(i == -1)
-//set verification
+    for (i in 0 until kotlinList.size) {
+        val x = kotlinList.contains(kotlinList[i])
+        val y = mySortedArray.get(kotlinList[i])
+        require((x && y == kotlinList[i]) || (!x && y == null))
+        val x1 = kotlinList.contains(kotlinList[i] + 1)
+        val y1 = mySortedArray.get(kotlinList[i] + 1)
+        require((x1 && y1 == kotlinList[i] + 1) || (!x1 && y1 == null))
+    }
+}
+
+fun testsSet(mySortedSet: SortedSet<Int>, kotlinList: MutableList<Int>) {
     val kotlinSet = kotlinList.distinct()
-    i = 0
+    var i = 0
     mySortedSet.forEach {
         if (kotlinSet[i] != it) {
             println(mySortedSet)
@@ -109,4 +124,12 @@ fun tests(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>, mySorte
         i--
     }
     require(i == -1)
+    for (i in 0 until kotlinList.size) {
+        val x = kotlinList.contains(kotlinList[i])
+        val y = mySortedSet.get(kotlinList[i])
+        require((x && y == kotlinList[i]) || (!x && y == null))
+        val x1 = kotlinList.contains(kotlinList[i] + 1)
+        val y1 = mySortedSet.get(kotlinList[i] + 1)
+        require((x1 && y1 == kotlinList[i] + 1) || (!x1 && y1 == null))
+    }
 }

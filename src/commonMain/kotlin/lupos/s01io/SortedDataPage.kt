@@ -16,7 +16,7 @@ class SortedDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Arra
             res.data[0] = value
             res.size = 1
             res.internal_sortuntil = 1
-next.concatCompleteLoop(res)
+            next.concatCompleteLoop(res)
         }
         return true
     }
@@ -25,11 +25,11 @@ next.concatCompleteLoop(res)
         var aIdx = 0
         var bIdx = 0
         var res = arrayAllocator(a.size + b.size)
-        for (i in 0 until res.size) 
-if (aIdx < a.size && (bIdx == b.size || comparator.compare(a[aIdx], b[bIdx]) <= 0))
-               res[i] =  a[aIdx++]
+        for (i in 0 until res.size)
+            if (aIdx < a.size && (bIdx == b.size || comparator.compare(a[aIdx], b[bIdx]) <= 0))
+                res[i] = a[aIdx++]
             else
-               res[i] =  b[bIdx++]
+                res[i] = b[bIdx++]
         return res
     }
 
