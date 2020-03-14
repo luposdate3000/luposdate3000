@@ -3,7 +3,7 @@ package lupos.s01io
 import lupos.s00misc.*
 
 
-open class SortedArrayBase<T>(//
+abstract class SortedArrayBase<T>(//
         val comparator: Comparator<T>,//
         val arrayAllocator: (Int) -> Array<T>,//
         val pageAllocator: (Comparator<T>, (Int) -> Array<T>) -> SortedDataPageBase<T>//
@@ -52,143 +52,16 @@ open class SortedArrayBase<T>(//
         }
     }
 
-    fun internal_sort(a: SortedDataPageBase<T>, b: SortedDataPageBase<T>): SortedDataPageBase<T> {
-        var res = pageAllocator(comparator, arrayAllocator)
-        var aIdx = 0
-        var bIdx = 0
-        var aPage = a
-        var bPage = b
-        if (comparator.compare(a.prev.data[a.prev.size - 1], b.data[0]) <= 0) {
-//println("ptr b $a $b")
-var tmp=a.next
-var tmp2=a
-require(tmp.prev==tmp2)
-while(tmp!=a){
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
- tmp=b.next
- tmp2=b
-require(tmp.prev==tmp2)
-while(tmp!=b){
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
-            a.prev.next = b
-            b.prev.next = a
-var c=a.prev
-            a.prev = b.prev
-            b.prev = c
-
-
- tmp=a.next
- tmp2=a
-require(tmp.prev==tmp2)
-while(tmp!=a){
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
-
-            return a
-        }
-        if (comparator.compare(b.prev.data[b.prev.size - 1], a.data[0]) <= 0) {
-//println("ptr c $a $b")
-var tmp=a.next
-var tmp2=a
-require(tmp.prev==tmp2)
-while(tmp!=a){
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
- tmp=b.next
- tmp2=b
-require(tmp.prev==tmp2)
-while(tmp!=b){
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
-            a.prev.next = b
-            b.prev.next = a
-var c=b.prev
-            b.prev = a.prev
-            a.prev = c
- tmp=b.next
- tmp2=b
-require(tmp.prev==tmp2)
-while(tmp!=b){ 
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
-            return b
-        }
-        while (true) {
-            when {
-                aIdx == aPage.size -> {
-                    aIdx = 0
-                    aPage = aPage.next
-                    if (aPage == a) {
-                        while (bIdx < bPage.size) {
-                            val success = res.prev.append(bPage.data[bIdx++])
-                            if (!success)
-                                duplicates++
-                        }
-                        bPage = bPage.next
-                        bIdx = 0
-                        while (bPage != b) {
-                            while (bIdx < bPage.size) {
-                                val success = res.prev.append(bPage.data[bIdx++])
-                                if (!success)
-                                    duplicates++
-                            }
-                            bPage = bPage.next
-                            bIdx = 0
-                        }
-                        return res
-                    }
-                }
-                bIdx == bPage.size -> {
-                    bIdx = 0
-                    bPage = bPage.next
-                    if (bPage == b) {
-                        while (aIdx < aPage.size) {
-                            val success = res.prev.append(aPage.data[aIdx++])
-                            if (!success)
-                                duplicates++
-                        }
-                        aPage = aPage.next
-                        aIdx = 0
-                        while (aPage != a) {
-                            while (aIdx < aPage.size) {
-                                val success = res.prev.append(aPage.data[aIdx++])
-                                if (!success)
-                                    duplicates++
-                            }
-                            aPage = aPage.next
-                            aIdx = 0
-                        }
-                        return res
-                    }
-                }
-                comparator.compare(aPage.data[aIdx], bPage.data[bIdx]) > 0 -> {
-                    val success = res.prev.append(bPage.data[bIdx++])
-                    if (!success)
-                        duplicates++
-                }
-                else -> {
-                    val success = res.prev.append(aPage.data[aIdx++])
-                    if (!success)
-                        duplicates++
-                }
-            }
-        }
+    fun concatCompleteLoop(a: SortedDataPageBase<T>, b: SortedDataPageBase<T>): SortedDataPageBase<T> {
+        a.prev.next = b
+        b.prev.next = a
+        val c = a.prev
+        a.prev = b.prev
+        b.prev = c
+        return a
     }
 
+    abstract fun internal_sort(a: SortedDataPageBase<T>, b: SortedDataPageBase<T>): SortedDataPageBase<T>
     fun internal_sort(first: SortedDataPageBase<T>, last: SortedDataPageBase<T>, count: Int): SortedDataPageBase<T> {
         if (count == 1)
             return first
@@ -198,28 +71,10 @@ require(tmp.prev==tmp2)
         for (i in 1 until half)
             middle = middle.next
         val middle2 = middle.next
-//println("ptr d $middle $first")
         middle.next = first
         first.prev = middle
-var tmp=first.next
-var tmp2=first
-require(tmp.prev==tmp2)
-while(tmp!=first){ 
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
-//println("ptr e $middle2 $last")
         middle2.prev = last
         last.next = middle2
- tmp=last.next
- tmp2=last
-require(tmp.prev==tmp2)
-while(tmp!=last){ 
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
         return internal_sort(internal_sort(first, middle, half), internal_sort(middle2, last, half2))
     }
 

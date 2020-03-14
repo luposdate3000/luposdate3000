@@ -13,6 +13,7 @@ class MyComparatorInt : Comparator<Int> {
     }
 }
 
+
 fun sortedArrayTest(buffer: DynamicByteArray) {
     val mySortedArray = SortedArray<Int>(MyComparatorInt(), { size -> Array<Int>(size) { 0 } })
     val kotlinList = mutableListOf<Int>()
@@ -24,10 +25,16 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
             mySortedArray.add(tmp)
             kotlinList.add(tmp)
             mySortedSet.add(tmp)
+            if (tmp % 10 == 0)
+                tests(mySortedArray, kotlinList, mySortedSet)
         } catch (e: Throwable) {
             break
         }
     }
+    tests(mySortedArray, kotlinList, mySortedSet)
+}
+
+fun tests(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>, mySortedSet: SortedSet<Int>) {
 //array verification
     var i = 0
     mySortedArray.forEachUnordered {

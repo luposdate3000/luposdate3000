@@ -7,15 +7,6 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
     override fun append(value: T): Boolean {
         //println("tryappend $this $value")
         if (size == 0 || comparator.compare(data[size - 1], value) != 0) {
-
-            if (size > 0 && comparator.compare(data[size - 1], value) > 0) {
-                /*try {
-                    throw Exception("")
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }*/
-            }
-
             if (size < capacity) {
                 data[size] = value
                 if (size == 0)
@@ -53,25 +44,15 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
             s += " ${b[i]}"
         s += " to"
         for (i in 0 until res.size) {
-            if (aIdx == aSize)
-                res[idx++] = b[bIdx++]
-            else if (bIdx == bSize)
-                res[idx++] = a[aIdx++]
-            else if (comparator.compare(a[aIdx], b[bIdx]) > 0) {
-                if (idx == 0 || comparator.compare(res[idx - 1], b[bIdx]) != 0)
-                    res[idx++] = b[bIdx++]
-                else {
-                    duplicates++
-                    bIdx++
-                }
-            } else {
-                if (idx == 0 || comparator.compare(res[idx - 1], a[aIdx]) != 0)
-                    res[idx++] = a[aIdx++]
-                else {
-                    duplicates++
-                    aIdx++
-                }
-            }
+            val next=
+            if (aIdx < aSize && (bIdx == bSize || comparator.compare(a[aIdx], b[bIdx]) <= 0))
+                 a[aIdx++]
+            else
+                 b[bIdx++]
+            if (idx == 0 || comparator.compare(res[idx - 1], next) != 0)
+                res[idx++] = next
+            else
+                duplicates++
         }
         for (i in 0 until (res.size - duplicates))
             s += " ${res[i]}"

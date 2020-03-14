@@ -16,19 +16,18 @@ class SortedDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Arra
             res.data[0] = value
             res.size = 1
             res.internal_sortuntil = 1
-//println("ptr a $this $res")
             res.next = next
             next = res
             res.prev = this
             res.next.prev = res
-var tmp:SortedDataPageBase<T> =this.next
-var tmp2:SortedDataPageBase<T> =this
-require(tmp.prev==tmp2)
-while(tmp!=this){
-tmp2=tmp
-tmp=tmp.next
-require(tmp.prev==tmp2)
-}
+            var tmp: SortedDataPageBase<T> = this.next
+            var tmp2: SortedDataPageBase<T> = this
+            require(tmp.prev == tmp2)
+            while (tmp != this) {
+                tmp2 = tmp
+                tmp = tmp.next
+                require(tmp.prev == tmp2)
+            }
         }
         return true
     }
@@ -37,16 +36,11 @@ require(tmp.prev==tmp2)
         var aIdx = 0
         var bIdx = 0
         var res = arrayAllocator(a.size + b.size)
-        for (i in 0 until res.size) {
-            if (aIdx == a.size)
-                res[i] = b[bIdx++]
-            else if (bIdx == b.size)
-                res[i] = a[aIdx++]
-            else if (comparator.compare(a[aIdx], b[bIdx]) > 0)
-                res[i] = b[bIdx++]
+        for (i in 0 until res.size) 
+if (aIdx < a.size && (bIdx == b.size || comparator.compare(a[aIdx], b[bIdx]) <= 0))
+               res[i] =  a[aIdx++]
             else
-                res[i] = a[aIdx++]
-        }
+               res[i] =  b[bIdx++]
         return res
     }
 
