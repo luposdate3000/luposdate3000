@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir log
+mkdir log build
 buildfile=$1
 if [ -z "$buildfile" ]
 then
