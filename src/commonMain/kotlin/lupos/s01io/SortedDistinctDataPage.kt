@@ -10,14 +10,14 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
             if (size < capacity) {
                 data[size] = value
                 if (size == 0)
-                    internal_sortuntil = 1
+                    sortuntil = 1
                 size++
                 //println("tryappend true $this $value")
             } else {
                 val res = pageAllocator(comparator, arrayAllocator)
                 res.data[0] = value
                 res.size = 1
-                res.internal_sortuntil = 1
+                res.sortuntil = 1
                 next.concatCompleteLoop(res)
             }
             return true
@@ -69,12 +69,12 @@ class SortedDistinctDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int)
     }
 
     override fun internal_sort(): Int {
-        if (size > 1 && internal_sortuntil < size) {
+        if (size > 1 && sortuntil < size) {
             val tmp = internal_sort(0, size - 1)
             size = tmp.second
             for (i in 0 until size)
                 data[i] = tmp.first[i]
-            internal_sortuntil = size
+            sortuntil = size
         }
         return 0
     }

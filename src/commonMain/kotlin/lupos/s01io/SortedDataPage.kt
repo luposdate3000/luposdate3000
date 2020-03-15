@@ -9,13 +9,13 @@ class SortedDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Arra
         if (size < capacity) {
             data[size] = value
             if (size == 0)
-                internal_sortuntil = 1
+                sortuntil = 1
             size++
         } else {
             val res = pageAllocator(comparator, arrayAllocator)
             res.data[0] = value
             res.size = 1
-            res.internal_sortuntil = 1
+            res.sortuntil = 1
             next.concatCompleteLoop(res)
         }
         return true
@@ -45,11 +45,11 @@ class SortedDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Arra
 
     override fun internal_sort(): Int {
         val oldSize = size
-        if (size > 1 && internal_sortuntil < size) {
+        if (size > 1 && sortuntil < size) {
             val tmp = internal_sort(0, size - 1)
             for (i in 0 until size)
                 data[i] = tmp[i]
-            internal_sortuntil = size
+            sortuntil = size
         }
         return oldSize - size
     }

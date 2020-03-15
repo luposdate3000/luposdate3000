@@ -19,7 +19,7 @@ abstract class SortedDataPageBase<T>(val comparator: Comparator<T>, val arrayAll
 
     val data = arrayAllocator(capacity)
     var size = 0
-    var internal_sortuntil = 0
+    var sortuntil = 0
     var prev = this
     var next = this
     override fun toString(): String {

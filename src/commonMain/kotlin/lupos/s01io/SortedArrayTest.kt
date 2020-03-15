@@ -74,11 +74,6 @@ fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>) {
     for (i in 0 until kotlinList.size) {
         val x = kotlinList.contains(kotlinList[i])
         val y = mySorted.get(kotlinList[i])
-        println(kotlinList)
-        println(mySorted)
-        println(kotlinList[i])
-        println(x)
-        println(y)
         require((x && y == kotlinList[i]) || (!x && y == null))
         val x1 = kotlinList.contains(kotlinList[i] + 1)
         val y1 = mySorted.get(kotlinList[i] + 1)

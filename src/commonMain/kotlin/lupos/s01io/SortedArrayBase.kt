@@ -11,7 +11,7 @@ abstract class SortedArrayBase<T>(//
     var duplicates = 0
     var data = pageAllocator(comparator, arrayAllocator)
     var size = 0
-    var internal_sortuntil = 0
+    var sortuntil = 0
     var lock = ReadWriteLock()
     override fun toString(): String {
         var res = StringBuilder("")
@@ -34,21 +34,48 @@ abstract class SortedArrayBase<T>(//
     }
 
     fun add(value: T) = lock.withWriteLock {
+        internalAddWithLock(value)
+    }
+
+    fun internalAddWithLock(value: T) {
         size++
         data.prev.append(value)
     }
 
-    fun get(value: T,cmp:Comparator<T> =comparator): T? {
+    fun get(value: T, cmp: Comparator<T> = comparator): T? {
+        return findAction(value, cmp)
+    }
+
+    fun findAction(value: T, cmp: Comparator<T> = comparator, isModify: Boolean = false, onCreate: () -> T? = { null }, onUpdate: (T) -> T? = { null }, delete: Boolean = false): T? {
 //this function assumes that the provided get-comparator is compatible to the one provided at allocation time
         var res: T? = null
-        if (size > 0) {
-            sort()
-            lock.withReadLock {
+        CoroutinesHelper.runBlock {
+            if (isModify) {
+                lock.writeLock()
+                internalSortWithLock()
+            } else {
+                while (true) {
+                    sort()
+                    lock.readLock()
+                    if (sortuntil == size)
+                        break
+                    lock.readUnlock()
+                }
+            }
+            if (size > 0) {
                 var tmp = data
                 loop@ while (true) {
                     if (cmp.compare(tmp.data[tmp.size - 1], value) >= 0)
                         for (i in 0 until tmp.size)
                             if (cmp.compare(tmp.data[i], value) == 0) {
+                                if (isModify) {
+                                    if (delete) {
+                                    } else {
+                                        val x = onUpdate(tmp.data[i])
+                                        if (x != null)
+                                            tmp.data[i] = x
+                                    }
+                                }
                                 res = tmp.data[i]
                                 break@loop
                             }
@@ -57,6 +84,15 @@ abstract class SortedArrayBase<T>(//
                         break
                 }
             }
+            if (res == null && isModify) {
+                val x = onCreate()
+                if (x != null)
+                    internalAddWithLock(x)
+            }
+            if (isModify)
+                lock.writeUnlock()
+            else
+                lock.readUnlock()
         }
         return res
     }
@@ -93,8 +129,12 @@ abstract class SortedArrayBase<T>(//
     }
 
     fun sort() = lock.withWriteLock {
+        internalSortWithLock()
+    }
+
+    fun internalSortWithLock() {
         duplicates = 0
-        if (internal_sortuntil < size) {
+        if (sortuntil < size) {
             var pageCount = 1
             var tmp = data
             tmp.internal_sort()
@@ -107,12 +147,12 @@ abstract class SortedArrayBase<T>(//
                 data = internal_sort(data, data.prev, pageCount)
                 tmp = data
                 while (tmp != data.prev) {
-                    tmp.internal_sortuntil = tmp.size
+                    tmp.sortuntil = tmp.size
                     tmp = tmp.next
                 }
             }
             size -= duplicates
-            internal_sortuntil = size
+            sortuntil = size
         }
     }
 }
