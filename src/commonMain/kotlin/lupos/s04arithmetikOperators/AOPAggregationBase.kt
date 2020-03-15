@@ -24,6 +24,5 @@ abstract class AOPAggregationBase(query: Query,
     var a = ThreadSafeMutableAny<ValueDefinition>(ValueUndef())
     @JvmField
     var count = ThreadSafeMutableAny(0)
-    @JvmField
-    var collectMode = ThreadSafeMutableAny(true)
+abstract fun calculate(resultSet: ResultSet, resultRow: ResultRow)
 }

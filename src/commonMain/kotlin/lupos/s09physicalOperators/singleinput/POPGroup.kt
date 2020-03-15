@@ -95,15 +95,16 @@ class POPGroup : POPBase {
         }
     }
 
-    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
+    fun getAggregations(node: OPBase,  count: Int) :MutableList<AOPAggregationBase>{
+var res=mutableListOf<AOPAggregationBase>()
         for (n in node.children)
-            setAggregationMode(n, mode, count)
+            res.addAll(getAggregations(n,  count))
         if (node is AOPAggregationBase) {
             node.count.set(count)
-            node.collectMode.set(mode)
-            if (mode)
                 node.a.set(ValueUndef())
+res.add(node)
         }
+return res
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
@@ -139,16 +140,13 @@ class POPGroup : POPBase {
                                 resultSet.copy(row, variable.first, oldRow, variable.second, children[0].resultSet)
                             for (b in bindings) {
                                 try {
-                                    setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
-                                    var buf = ResultChunk(children[0].resultSet)
-                                    for (resultRow in tmpMutableMap[k]!!) {
-                                        if (!buf.canAppend())
-                                            (b.second as AOPBase).calculate(children[0].resultSet, buf)
-                                        buf = ResultChunk(children[0].resultSet)
-                                        buf.append(resultRow)
-                                    }
-                                    setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
-                                    val a = (b.second as AOPBase).calculate(children[0].resultSet, buf)
+val aggregations=getAggregations(b.second,tmpMutableMap[k]!!.count())
+				for(a in aggregations)
+                                    for (resultRow in tmpMutableMap[k]!!)
+					a.calculate(children[0].resultSet,resultRow)
+val tmpbuf = ResultChunk(resultSet)
+tmpbuf.size=1
+                                    val a = (b.second as AOPBase).calculate(children[0].resultSet, tmpbuf)
                                     resultSet.setValue(row, b.first, a.data[0])
                                 } catch (e: Throwable) {
                                     e.printStackTrace()

@@ -1,17 +1,15 @@
 package lupos.s04arithmetikOperators.singleinput
-
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -37,36 +35,31 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
             return false
         return true
     }
-
-    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
-        if (!collectMode.get()) {
-            val rVektor = ResultVektorRaw()
-            for (i in 0 until resultChunk.size)
-                rVektor.data[i] = a.get()!!
-            return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
-        }
-        val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
-            val b = bVektor.data[i]
-            if (a.get() is ValueUndef && b is ValueDouble)
-                a.set(ValueDouble(b.toDouble() / (0.0 + count.get())))
-            else if (a.get() is ValueUndef && b is ValueDecimal)
-                a.set(ValueDecimal(b.toDouble() / (0.0 + count.get())))
-            else if (a.get() is ValueUndef && b is ValueInteger)
-                a.set(ValueDecimal(b.toDouble() / (0.0 + count.get())))
-            else if (a.get() is ValueDouble || b is ValueDouble)
-                a.set(ValueDouble(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
-            else if (a.get() is ValueDecimal || b is ValueDecimal)
-                a.set(ValueDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
-            else if (a.get() is ValueInteger || b is ValueInteger)
-                a.set(ValueDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
-            else
-                a.set(ValueError())
-        }
-        val rVektor = ResultVektorRaw()
-        for (i in 0 until resultChunk.size)
-            rVektor.data[i] = a.get()!!
-        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
+ override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+val value=a.get()!!
+val rVektor = ResultVektorRaw()
+for (i in resultChunk.pos until resultChunk.size) 
+rVektor.data[i] =value
+ return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
+    }
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow) {
+val child=children[0]as AOPVariable
+val variable=resultSet.createVariable(child.name)
+val b=resultSet.getValueObject(resultRow,variable)
+        if (a.get() is ValueUndef && b is ValueDouble)
+            a.set(ValueDouble(b.toDouble() / (0.0 + count.get())))
+        else if (a.get() is ValueUndef && b is ValueDecimal)
+            a.set(ValueDecimal(b.toDouble() / (0.0 + count.get())))
+        else if (a.get() is ValueUndef && b is ValueInteger)
+            a.set(ValueDecimal(b.toDouble() / (0.0 + count.get())))
+        else if (a.get() is ValueDouble || b is ValueDouble)
+            a.set(ValueDouble(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+        else if (a.get() is ValueDecimal || b is ValueDecimal)
+            a.set(ValueDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+        else if (a.get() is ValueInteger || b is ValueInteger)
+            a.set(ValueDecimal(a.get()!!.toDouble() + (b.toDouble() / (0.0 + count.get()))))
+        else
+a.set(ValueError())
     }
 
     override fun cloneOP() = AOPAggregationAVG(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
