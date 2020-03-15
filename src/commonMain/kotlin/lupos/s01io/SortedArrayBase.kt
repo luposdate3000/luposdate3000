@@ -42,9 +42,10 @@ abstract class SortedArrayBase<T>(//
         data.prev.append(value)
     }
 
-    fun get(value: T, cmp: Comparator<T> = comparator): T? {
-        return findAction(value, cmp)
-    }
+    fun get(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp)
+    fun set(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, { value }, { value })
+    fun delete(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, delete = true)
+    fun update(value: T, cmp: Comparator<T> = comparator, onCreate: () -> T, onUpdate: (T) -> T): T? = findAction(value, cmp, true, onCreate, onUpdate)
 
     fun findAction(value: T, cmp: Comparator<T> = comparator, isModify: Boolean = false, onCreate: () -> T? = { null }, onUpdate: (T) -> T? = { null }, delete: Boolean = false): T? {
 //this function assumes that the provided get-comparator is compatible to the one provided at allocation time
@@ -54,12 +55,11 @@ abstract class SortedArrayBase<T>(//
                 lock.writeLock()
                 internalSortWithLock()
             } else {
-                while (true) {
+                lock.readLock()
+                while (sortuntil != size) {
+                    lock.readUnlock()
                     sort()
                     lock.readLock()
-                    if (sortuntil == size)
-                        break
-                    lock.readUnlock()
                 }
             }
             if (size > 0) {
