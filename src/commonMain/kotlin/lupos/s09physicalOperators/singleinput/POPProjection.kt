@@ -9,9 +9,11 @@ import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -47,8 +49,8 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
             Trace.traceSuspend<ResultChunk>({ "POPProjection.next" }, {
                 val inbuf = resultFlowConsume({ this@POPProjection }, { children[0] }, { child.next() })
                 val outbuf = ResultChunk(resultSet)
-		outbuf.size=inbuf.size
-		outbuf.pos=inbuf.pos
+                outbuf.size = inbuf.size
+                outbuf.pos = inbuf.pos
                 for (v in variablesNew)
                     outbuf.setColumn(v.second, inbuf.getColumn(v.first))
                 resultFlowProduce({ this@POPProjection }, { outbuf })

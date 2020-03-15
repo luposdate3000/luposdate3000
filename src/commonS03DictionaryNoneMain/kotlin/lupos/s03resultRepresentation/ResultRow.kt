@@ -2,8 +2,10 @@ package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 

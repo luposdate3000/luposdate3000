@@ -1,4 +1,6 @@
 package com.soywiz.korio.net.http
+import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04logicalOperators.ResultIterator
 
 internal actual val httpFactory: HttpFactory by lazy {

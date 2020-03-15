@@ -1,4 +1,6 @@
 package com.soywiz.korio.file.std
+import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.*

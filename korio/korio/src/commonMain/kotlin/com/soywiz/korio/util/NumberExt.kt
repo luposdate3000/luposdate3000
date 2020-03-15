@@ -1,6 +1,8 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
 package com.soywiz.korio.util
+import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04logicalOperators.ResultIterator
 
 import com.soywiz.korio.lang.*

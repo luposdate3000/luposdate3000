@@ -4,10 +4,12 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -29,23 +31,22 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is ValueIri)
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                a
-            })
-        if (a is ValueSimpleLiteral || a is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string")
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
+    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+        val rVektor = ResultVektorRaw()
+        val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
+        for (i in resultChunk.pos until resultChunk.size) {
+            val a = aVektor.data[i]
+            if (a is ValueIri)
+                rVektor.data[i] = a
+            else if (a is ValueSimpleLiteral || a is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string") {
                 val b = a as ValueStringBase
                 if (prefix != "" && !prefix.endsWith("/"))
-                    ValueIri(prefix + "/" + b.content)
+                    rVektor.data[i] = ValueIri(prefix + "/" + b.content)
                 else
-                    ValueIri(prefix + b.content)
-            })
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPBuiltInCall IRI only works with simple string input")
-        })
+                    rVektor.data[i] = ValueIri(prefix + b.content)
+            }
+        }
+        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 
     override fun cloneOP() = AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)

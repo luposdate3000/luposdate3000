@@ -1,5 +1,8 @@
 package lupos.s03resultRepresentation
 
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
+
 class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
     val columns = resultSet.getVariableNames().size
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }

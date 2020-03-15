@@ -5,12 +5,14 @@ import lupos.s00misc.*
 import lupos.s00misc.resultFlow
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -38,26 +40,20 @@ class AOPAggregationSAMPLE(query: Query, @JvmField val distinct: Boolean, childs
     }
 
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
+    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         if (!collectMode.get()) {
-            if (a.get() is ValueUndef)
-                return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    ValueUndef()
-                })
-            else
-                return resultFlow({ this }, { resultRow }, { resultSet }, {
-                    a.get()!!
-                })
+            val rVektor = ResultVektorRaw()
+            for (i in 0 until resultChunk.size)
+                rVektor.data[i] = a.get()!!
+            return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
         }
-        if (distinct)
-            throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                Exception("AOPAggregationSAMPLE does not support distinct")
-            })
-        val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        a.set(b)
-        return resultFlow({ this }, { resultRow }, { resultSet }, {
-            a.get()!!
-        })
+        val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
+        if (resultChunk.size > 0)
+            a.set(bVektor.data[0])
+        val rVektor = ResultVektorRaw()
+        for (i in 0 until resultChunk.size)
+            rVektor.data[i] = a.get()!!
+        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 
     override fun cloneOP() = AOPAggregationSAMPLE(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

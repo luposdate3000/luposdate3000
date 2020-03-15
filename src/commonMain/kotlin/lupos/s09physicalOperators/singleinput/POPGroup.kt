@@ -12,12 +12,14 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -138,11 +140,16 @@ class POPGroup : POPBase {
                             for (b in bindings) {
                                 try {
                                     setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
-                                    for (resultRow in tmpMutableMap[k]!!)
-                                        (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
+                                    var buf = ResultChunk(resultSet)
+                                    for (resultRow in tmpMutableMap[k]!!) {
+                                        if (!buf.canAppend())
+                                            (b.second as AOPBase).calculate(children[0].resultSet, buf)
+                                        buf = ResultChunk(resultSet)
+                                        buf.append(resultRow)
+                                    }
                                     setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
-                                    val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
-                                    resultSet.setValue(row, b.first, a.valueToString())
+                                    val a = (b.second as AOPBase).calculate(children[0].resultSet, buf)
+                                    resultSet.setValue(row, b.first, a.data[0])
                                 } catch (e: Throwable) {
                                     e.printStackTrace()
                                     GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })

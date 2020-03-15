@@ -10,10 +10,12 @@ import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -49,19 +51,14 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
             Trace.traceSuspend<ResultChunk>({ "POPBind.next" }, {
                 val inbuf = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
                 val outbuf = ResultChunk(resultSet)
-outbuf.size=inbuf.size
-outbuf.pos=inbuf.pos
+                outbuf.size = inbuf.size
+                outbuf.pos = inbuf.pos
                 val col = outbuf.getColumn(variableNew)
                 for (v in variables)
                     outbuf.setColumn(v.second, inbuf.getColumn(v.first))
-                var idx = inbuf.pos
-                for (row in inbuf) {
-                    try {
-                        col.data[idx] = resultSet.createValue((children[1] as AOPBase).calculate(children[0].resultSet, row))
-                    } catch (e: Throwable) {
-                    }
-                    idx++
-                }
+                val vektor = (children[1] as AOPBase).calculate(children[0].resultSet, inbuf)
+                for (i in inbuf.pos until inbuf.size)
+                    col.data[i] = resultSet.createValue(vektor.data[i])
                 resultFlowProduce({ this@POPBind }, { outbuf })
             })
         }

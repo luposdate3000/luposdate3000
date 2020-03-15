@@ -16,10 +16,12 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

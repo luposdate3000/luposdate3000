@@ -1,4 +1,6 @@
 package com.soywiz.korio.util
+import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04logicalOperators.ResultIterator
 
 inline fun <T, R : Any> Iterable<T>.computeRle(callback: (T) -> R): List<Pair<R, IntRange>> {

@@ -1,4 +1,6 @@
 package com.soywiz.korio.util
+import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04logicalOperators.ResultIterator
 
 public inline fun <T, R> Iterable<T>.firstNotNullOrNull(predicate: (T) -> R?): R? {

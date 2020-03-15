@@ -98,6 +98,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
@@ -123,6 +124,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1

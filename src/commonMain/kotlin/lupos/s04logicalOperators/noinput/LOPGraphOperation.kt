@@ -4,6 +4,8 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query

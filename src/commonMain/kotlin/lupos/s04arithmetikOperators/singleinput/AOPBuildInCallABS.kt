@@ -5,10 +5,12 @@ import kotlin.math.abs
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -24,23 +26,19 @@ class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperator
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is ValueDouble)
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                ValueDouble(abs(a.value))
-            })
-        if (a is ValueDecimal)
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                ValueDecimal(abs(a.value))
-            })
-        if (a is ValueInteger)
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                ValueInteger(abs(a.value))
-            })
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPBuiltInCall ABS only works with numeric input")
-        })
+    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+        val rVektor = ResultVektorRaw()
+        val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
+        for (i in resultChunk.pos until resultChunk.size) {
+            val a = aVektor.data[i]
+            if (a is ValueDouble)
+                rVektor.data[i] = ValueDouble(abs(a.value))
+            else if (a is ValueDecimal)
+                rVektor.data[i] = ValueDecimal(abs(a.value))
+            else if (a is ValueInteger)
+                rVektor.data[i] = ValueInteger(abs(a.value))
+        }
+        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 
     override fun cloneOP() = AOPBuildInCallABS(query, children[0].cloneOP() as AOPBase)

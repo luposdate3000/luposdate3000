@@ -1,6 +1,8 @@
 package lupos.s01io
 
 import lupos.s00misc.*
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
 class SortedMap<K, V>(comparator: Comparator<K>, val arrayAllocator: (Int) -> Array<Pair<K, V>>, val undefValue: V) {

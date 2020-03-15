@@ -9,9 +9,11 @@ import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s01io.*
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -90,8 +92,8 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                     }
                 } catch (e: Throwable) {
                 }
-if(outbuf.size==0)
-res.close()
+                if (outbuf.size == 0)
+                    res.close()
                 resultFlowProduce({ this@POPDistinct }, { outbuf })
             })
         }

@@ -3,6 +3,8 @@ package lupos.s03resultRepresentation
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.ResultIterator
 
@@ -89,6 +91,16 @@ class ValueUndef() : ValueDefinition() {
     override fun toDouble() = throw Exception("cannot cast ValueUndef to Double")
     override fun toInt() = throw Exception("cannot cast ValueUndef to Int")
     override fun toBoolean() = throw Exception("cannot cast ValueUndef to Boolean")
+    override fun hashCode() = 0
+}
+
+class ValueError() : ValueDefinition() {
+    override fun toXMLElement() = XMLElement("ValueError")
+    override fun valueToString() = null
+    override fun equals(other: Any?) = false
+    override fun toDouble() = throw Exception("cannot cast ValueError to Double")
+    override fun toInt() = throw Exception("cannot cast ValueError to Int")
+    override fun toBoolean() = throw Exception("cannot cast ValueError to Boolean")
     override fun hashCode() = 0
 }
 

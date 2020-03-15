@@ -1,6 +1,8 @@
 package lupos.s04logicalOperators
 
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.ResultIterator
 
 

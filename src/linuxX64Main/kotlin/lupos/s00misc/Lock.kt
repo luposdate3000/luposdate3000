@@ -2,6 +2,8 @@ package lupos.s00misc
 
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import platform.posix.pthread_mutex_init

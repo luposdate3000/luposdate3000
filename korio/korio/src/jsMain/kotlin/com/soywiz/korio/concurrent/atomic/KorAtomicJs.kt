@@ -1,4 +1,6 @@
 package com.soywiz.korio.concurrent.atomic
+import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04logicalOperators.ResultIterator
 
 actual fun <T> korAtomic(initial: T): KorAtomicRef<T> =

@@ -5,6 +5,8 @@ import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import java.nio.MappedByteBuffer
 import kotlin.jvm.JvmField
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 

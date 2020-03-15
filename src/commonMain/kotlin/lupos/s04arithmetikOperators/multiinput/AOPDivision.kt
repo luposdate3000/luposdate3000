@@ -4,10 +4,12 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlow
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -27,39 +29,27 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
         return true
     }
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-        if (a is ValueDouble || b is ValueDouble) {
-            if (b.toDouble() == 0.0)
-                throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                    Exception("AOPDivision by zero")
-                })
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                ValueDouble(a.toDouble() / b.toDouble())
-            })
+    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+        val rVektor = ResultVektorRaw()
+        val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
+        val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
+        for (i in resultChunk.pos until resultChunk.size) {
+            val a = aVektor.data[i]
+            val b = bVektor.data[i]
+            if (a is ValueDouble || b is ValueDouble) {
+                if (b.toDouble() != 0.0)
+                    rVektor.data[i] = ValueDouble(a.toDouble() / b.toDouble())
+            }
+            if (a is ValueDecimal || b is ValueDecimal) {
+                if (b.toDouble() != 0.0)
+                    rVektor.data[i] = ValueDecimal(a.toDouble() / b.toDouble())
+            }
+            if (a is ValueInteger || b is ValueInteger) {
+                if (b.toInt() != 0)
+                    rVektor.data[i] = ValueDecimal(a.toDouble() / b.toDouble())
+            }
         }
-        if (a is ValueDecimal || b is ValueDecimal) {
-            if (b.toDouble() == 0.0)
-                throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                    Exception("AOPDivision by zero")
-                })
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                ValueDecimal(a.toDouble() / b.toDouble())
-            })
-        }
-        if (a is ValueInteger || b is ValueInteger) {
-            if (b.toInt() == 0)
-                throw resultFlow({ this }, { resultRow }, { resultSet }, {
-                    Exception("AOPDivision by zero")
-                })
-            return resultFlow({ this }, { resultRow }, { resultSet }, {
-                ValueDecimal(a.toDouble() / b.toDouble())
-            })
-        }
-        throw resultFlow({ this }, { resultRow }, { resultSet }, {
-            Exception("AOPDivision only works with numeric input")
-        })
+        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 
     override fun cloneOP() = AOPDivision(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

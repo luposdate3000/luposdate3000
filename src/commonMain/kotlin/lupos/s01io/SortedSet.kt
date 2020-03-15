@@ -1,6 +1,8 @@
 package lupos.s01io
 
 import lupos.s00misc.*
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
 class SortedSet<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Array<T>) : SortedArrayBase<T>(comparator, arrayAllocator, ::SortedDistinctDataPageAllocator) {

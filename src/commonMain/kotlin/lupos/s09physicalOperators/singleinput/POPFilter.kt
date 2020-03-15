@@ -10,10 +10,12 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -92,9 +94,10 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
             Trace.traceSuspend<ResultChunk>({ "POPFilter.next" }, {
                 val outbuf = ResultChunk(resultSet)
                 var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
+                val resultVektor = expression.calculate(resultSet, inbuf)
                 for (row in inbuf)
                     try {
-                        if (expression.calculate(resultSet, row).toBoolean())
+                        if (resultVektor.data[inbuf.pos - 1].toBoolean())
                             outbuf.append(row)
                     } catch (e: Throwable) {
                     }

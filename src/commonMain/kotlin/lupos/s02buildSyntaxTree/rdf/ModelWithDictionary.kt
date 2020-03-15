@@ -4,6 +4,8 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.rdf.RDFTerm
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 

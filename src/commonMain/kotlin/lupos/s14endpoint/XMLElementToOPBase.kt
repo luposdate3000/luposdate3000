@@ -5,6 +5,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
@@ -27,6 +28,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE

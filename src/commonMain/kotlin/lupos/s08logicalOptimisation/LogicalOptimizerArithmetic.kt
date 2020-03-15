@@ -4,9 +4,11 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.*
@@ -28,7 +30,10 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
                 val resultSet = ResultSet(query.dictionary)
                 val resultRow = resultSet.createResultRow()
-                res = AOPConstant(query, node.calculate(resultSet, resultRow))
+                val resultChunk = ResultChunk(resultSet)
+                resultChunk.size = 1
+                val rVektor = node.calculate(resultSet, resultChunk)
+                res = AOPConstant(query, rVektor.data[0])
                 onChange()
             }
         }
