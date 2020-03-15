@@ -38,20 +38,20 @@ abstract class SortedArrayBase<T>(//
         data.prev.append(value)
     }
 
-    fun get(value: T): T? {
+    fun get(value: T,cmp:Comparator<T> =comparator): T? {
+//this function assumes that the provided get-comparator is compatible to the one provided at allocation time
         var res: T? = null
         if (size > 0) {
             sort()
             lock.withReadLock {
                 var tmp = data
                 loop@ while (true) {
-                    if (comparator.compare(tmp.data[tmp.size - 1], value) >= 0) {
+                    if (cmp.compare(tmp.data[tmp.size - 1], value) >= 0)
                         for (i in 0 until tmp.size)
-                            if (comparator.compare(tmp.data[i], value) == 0) {
+                            if (cmp.compare(tmp.data[i], value) == 0) {
                                 res = tmp.data[i]
                                 break@loop
                             }
-                    }
                     tmp = tmp.next
                     if (tmp == data)
                         break
