@@ -69,7 +69,6 @@ abstract class SortedArrayBase<T>(//
                         for (i in 0 until tmp.size)
                             if (cmp.compare(tmp.data[i], value) == 0) {
                                 res = tmp.data[i]
-                                println("found $res")
                                 if (isModify) {
                                     var del = delete
                                     val x = onUpdate(tmp.data[i])
@@ -81,20 +80,14 @@ abstract class SortedArrayBase<T>(//
                                             del = true
                                     }
                                     if (del) {
-                                        println("delete now !!")
-                                        println("oldtmp ${this@SortedArrayBase} $tmp")
                                         res = tmp.delete(i)
-                                        println("newtmp ${this@SortedArrayBase} $tmp")
                                         tmp.internal_sort()
-                                        println("newtmp2 ${this@SortedArrayBase} $tmp")
                                         size--
                                         sortuntil--
                                         if (size > 0 && tmp.size == 0) {
-                                            println("start remove entire page ${this@SortedArrayBase}")
                                             val nextpage = tmp.removePage()
                                             if (tmp == data)
                                                 data = nextpage!!
-                                            println("end remove entire page ${this@SortedArrayBase}")
                                         }
                                     }
                                 }

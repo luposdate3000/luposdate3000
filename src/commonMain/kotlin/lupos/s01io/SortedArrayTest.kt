@@ -43,15 +43,12 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
 }
 
 fun tests() {
-    println("xxx $mySortedArray")
     testsArray()
-    println("xxx $mySortedSet")
     testsSet()
     testsMap()
 }
 
 fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>, stage: Int = 0) {
-    println("zzz $mySorted")
     var i = 0
     val values = mutableListOf<Int>()
     kotlinList.sort()
@@ -100,7 +97,6 @@ fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>, stag
                 val count = values[0] % values.size
                 for (i in 0 until count) {
                     val key = values[i]
-                    println("deleteing $key")
                     kotlinList.remove(key)
                     mySorted.delete(key)
                 }
@@ -108,7 +104,6 @@ fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>, stag
         }
         else -> return
     }
-    println("vvv $mySorted")
     testsBase(mySorted, kotlinList, stage + 1)
 }
 
@@ -138,14 +133,8 @@ fun testsMap(stage: Int = 0) {
         require(x == v)
         values.add(k)
     }
-    println("xxx $stage")
-    println(kotlinMap)
-    println(mySortedMap.data)
     mySortedMap.forEach { k, v ->
-        println(k)
-        println(v)
         val x = kotlinMap[k]
-        println(x)
         require(x == v)
     }
     when (stage) {
@@ -168,7 +157,6 @@ fun testsMap(stage: Int = 0) {
                 val count = values[0] % values.size
                 for (i in 0 until count) {
                     val key = values[i]
-                    println("deleteing $key")
                     kotlinMap.remove(key)
                     mySortedMap.delete(key)
                 }
