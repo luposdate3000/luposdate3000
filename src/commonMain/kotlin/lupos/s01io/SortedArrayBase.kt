@@ -43,11 +43,11 @@ abstract class SortedArrayBase<T>(//
     }
 
     fun get(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp)
-    fun set(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, { value }, { value })
-    fun delete(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, delete = true)
-    fun update(value: T, cmp: Comparator<T> = comparator, onCreate: () -> T, onUpdate: (T) -> T): T? = findAction(value, cmp, true, onCreate, onUpdate)
+    fun set(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, { value }, { Pair(value, true) })
+    fun delete(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, delete = true)
+    fun update(value: T, cmp: Comparator<T> = comparator, onCreate: () -> T?, onUpdate: (T) -> T?): T? = findAction(value, cmp, true, onCreate, { val x = onUpdate(it);Pair(x, x != null) })
 
-    fun findAction(value: T, cmp: Comparator<T> = comparator, isModify: Boolean = false, onCreate: () -> T? = { null }, onUpdate: (T) -> T? = { null }, delete: Boolean = false): T? {
+    fun findAction(value: T, cmp: Comparator<T> = comparator, isModify: Boolean = false, onCreate: () -> T? = { null }, onUpdate: (T) -> Pair<T?, Boolean>? = { null }, delete: Boolean = false): T? {
 //this function assumes that the provided get-comparator is compatible to the one provided at allocation time
         var res: T? = null
         CoroutinesHelper.runBlock {
@@ -68,15 +68,36 @@ abstract class SortedArrayBase<T>(//
                     if (cmp.compare(tmp.data[tmp.size - 1], value) >= 0)
                         for (i in 0 until tmp.size)
                             if (cmp.compare(tmp.data[i], value) == 0) {
+                                res = tmp.data[i]
+                                println("found $res")
                                 if (isModify) {
-                                    if (delete) {
-                                    } else {
-                                        val x = onUpdate(tmp.data[i])
-                                        if (x != null)
-                                            tmp.data[i] = x
+                                    var del = delete
+                                    val x = onUpdate(tmp.data[i])
+                                    if (x != null) {
+                                        if (x.first != null) {
+                                            tmp.data[i] = x.first!!
+                                            res = tmp.data[i]
+                                        } else
+                                            del = true
+                                    }
+                                    if (del) {
+                                        println("delete now !!")
+                                        println("oldtmp ${this@SortedArrayBase} $tmp")
+                                        res = tmp.delete(i)
+                                        println("newtmp ${this@SortedArrayBase} $tmp")
+                                        tmp.internal_sort()
+                                        println("newtmp2 ${this@SortedArrayBase} $tmp")
+                                        size--
+                                        sortuntil--
+                                        if (size > 0 && tmp.size == 0) {
+                                            println("start remove entire page ${this@SortedArrayBase}")
+                                            val nextpage = tmp.removePage()
+                                            if (tmp == data)
+                                                data = nextpage!!
+                                            println("end remove entire page ${this@SortedArrayBase}")
+                                        }
                                     }
                                 }
-                                res = tmp.data[i]
                                 break@loop
                             }
                     tmp = tmp.next

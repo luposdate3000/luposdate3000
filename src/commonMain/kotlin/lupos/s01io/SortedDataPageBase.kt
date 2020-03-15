@@ -17,6 +17,14 @@ abstract class SortedDataPageBase<T>(val comparator: Comparator<T>, val arrayAll
         return this
     }
 
+    fun removePage(): SortedDataPageBase<T>? {
+        prev.next = next
+        next.prev = prev
+        if (next == this)
+            return null
+        return next
+    }
+
     val data = arrayAllocator(capacity)
     var size = 0
     var sortuntil = 0
@@ -36,4 +44,13 @@ abstract class SortedDataPageBase<T>(val comparator: Comparator<T>, val arrayAll
 
     abstract fun append(value: T): Boolean
     abstract fun internal_sort(): Int
+    fun delete(idx: Int): T {
+        val res: T
+        res = data[idx]
+        for (i in idx until size - 1)
+            data[i] = data[i + 1]
+        size--
+        sortuntil = size
+        return res
+    }
 }

@@ -14,21 +14,23 @@ class MyComparatorInt : Comparator<Int> {
 }
 
 fun intArrayAllocator(size: Int) = Array<Int>(size) { 0 }
-fun intPairArrayAllocator(size: Int) = Array<Pair<Int,Int>>(size) { Pair(0,0) }
+fun intPairArrayAllocator(size: Int) = Array<Pair<Int, Int>>(size) { Pair(0, 0) }
 
+var kotlinList = mutableListOf<Int>()
+var kotlinList2 = mutableListOf<Int>()
+var kotlinMap = mutableMapOf<Int, Int>()
+var mySortedArray = SortedArray<Int>(MyComparatorInt(), ::intArrayAllocator)
+var mySortedSet = SortedSet<Int>(MyComparatorInt(), ::intArrayAllocator)
+var mySortedMap = SortedMap<Int, Int>(MyComparatorInt(), ::intPairArrayAllocator, 0)
 fun sortedArrayTest(buffer: DynamicByteArray) {
-    val kotlinList = mutableListOf<Int>()
-    val kotlinMap = mutableMapOf<Int, Int>()
-    val mySortedArray = SortedArray<Int>(MyComparatorInt(), ::intArrayAllocator)
-    val mySortedSet = SortedSet<Int>(MyComparatorInt(), ::intArrayAllocator)
-    val mySortedMap = SortedMap<Int, Int>(MyComparatorInt(), ::intPairArrayAllocator, 0)
     for (i in 0 until Int.MAX_VALUE) {
 //    for(i in 0 until 20) {
         try {
             val tmp = buffer.getNextInt() % 100
             if (tmp % 10 == 0)
-                tests(mySortedArray, kotlinList, mySortedSet, mySortedMap, kotlinMap)
+                tests()
             kotlinList.add(tmp)
+            kotlinList2.add(tmp)
             kotlinMap[tmp] = tmp
             mySortedArray.add(tmp)
             mySortedSet.add(tmp)
@@ -37,19 +39,24 @@ fun sortedArrayTest(buffer: DynamicByteArray) {
             break
         }
     }
-    tests(mySortedArray, kotlinList, mySortedSet, mySortedMap, kotlinMap)
+    tests()
 }
 
-fun tests(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>, mySortedSet: SortedSet<Int>, mySortedMap: SortedMap<Int, Int>, kotlinMap: MutableMap<Int, Int>) {
-    testsArray(mySortedArray, kotlinList)
-    testsSet(mySortedSet, kotlinList)
-    testsMap(mySortedMap, kotlinMap)
+fun tests() {
+    println("xxx $mySortedArray")
+    testsArray()
+    println("xxx $mySortedSet")
+    testsSet()
+    testsMap()
 }
 
-fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>) {
+fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>, stage: Int = 0) {
+    println("zzz $mySorted")
     var i = 0
+    val values = mutableListOf<Int>()
     kotlinList.sort()
     mySorted.forEach {
+        values.add(it)
         if (kotlinList[i] != it) {
             println(mySorted)
             println(kotlinList)
@@ -86,10 +93,26 @@ fun testsBase(mySorted: SortedArrayBase<Int>, kotlinList: MutableList<Int>) {
         val y1 = mySorted.get(kotlinList[i] + 1)
         require((x1 && y1 == kotlinList[i] + 1) || (!x1 && y1 == null))
     }
+    when (stage) {
+        0 -> {
+            if (values.size > 0) {
+                values.shuffle()
+                val count = values[0] % values.size
+                for (i in 0 until count) {
+                    val key = values[i]
+                    println("deleteing $key")
+                    kotlinList.remove(key)
+                    mySorted.delete(key)
+                }
+            }
+        }
+        else -> return
+    }
+    println("vvv $mySorted")
+    testsBase(mySorted, kotlinList, stage + 1)
 }
 
-fun testsArray(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>) {
-//array verification
+fun testsArray() {
     var i = 0
     mySortedArray.forEachUnordered {
         if (kotlinList[i] != it) {
@@ -103,17 +126,27 @@ fun testsArray(mySortedArray: SortedArray<Int>, kotlinList: MutableList<Int>) {
     testsBase(mySortedArray, kotlinList)
 }
 
-fun testsSet(mySortedSet: SortedSet<Int>, kotlinList: MutableList<Int>) {
-    val kotlinSet = kotlinList.distinct().toMutableList()
-    testsBase(mySortedSet, kotlinSet)
+fun testsSet() {
+    kotlinList2 = kotlinList2.distinct().toMutableList()
+    testsBase(mySortedSet, kotlinList2)
 }
 
-fun testsMap(mySortedMap: SortedMap<Int, Int>, kotlinMap: MutableMap<Int, Int>, stage: Int = 0) {
+fun testsMap(stage: Int = 0) {
     val values = mutableListOf<Int>()
     kotlinMap.forEach { k, v ->
         val x = mySortedMap.get(k)
         require(x == v)
         values.add(k)
+    }
+    println("xxx $stage")
+    println(kotlinMap)
+    println(mySortedMap.data)
+    mySortedMap.forEach { k, v ->
+        println(k)
+        println(v)
+        val x = kotlinMap[k]
+        println(x)
+        require(x == v)
     }
     when (stage) {
         0 -> {
@@ -129,7 +162,19 @@ fun testsMap(mySortedMap: SortedMap<Int, Int>, kotlinMap: MutableMap<Int, Int>, 
                 mySortedMap.update(it, onCreate = { it * stage }, onUpdate = { v -> require(oldValue == v);it * stage })
             }
         }
+        2 -> {
+            if (values.size > 0) {
+                values.shuffle()
+                val count = values[0] % values.size
+                for (i in 0 until count) {
+                    val key = values[i]
+                    println("deleteing $key")
+                    kotlinMap.remove(key)
+                    mySortedMap.delete(key)
+                }
+            }
+        }
         else -> return
     }
-    testsMap(mySortedMap, kotlinMap, stage + 1)
+    testsMap(stage + 1)
 }

@@ -51,6 +51,6 @@ class SortedDataPage<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Arra
                 data[i] = tmp[i]
             sortuntil = size
         }
-        return oldSize - size
+        return 0
     }
 }
