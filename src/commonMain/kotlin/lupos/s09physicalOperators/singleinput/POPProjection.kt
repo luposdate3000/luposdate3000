@@ -44,12 +44,14 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
             res._close()
         }
         res.next = {
-            Trace.traceSuspend<ResultRow>({ "POPProjection.next" }, {
-                val rowOld = resultFlowConsume({ this@POPProjection }, { children[0] }, { child.next() })
-                val row = resultSet.createResultRow()
+            Trace.traceSuspend<ResultChunk>({ "POPProjection.next" }, {
+                val inbuf = resultFlowConsume({ this@POPProjection }, { children[0] }, { child.next() })
+                val outbuf = ResultChunk(resultSet)
+		outbuf.size=inbuf.size
+		outbuf.pos=inbuf.pos
                 for (v in variablesNew)
-                    resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
-                resultFlowProduce({ this@POPProjection }, { row })
+                    outbuf.setColumn(v.second, inbuf.getColumn(v.first))
+                resultFlowProduce({ this@POPProjection }, { outbuf })
             })
         }
         return res

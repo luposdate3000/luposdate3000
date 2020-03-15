@@ -48,7 +48,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
-import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
@@ -62,7 +61,6 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
-import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -233,9 +231,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "POPEmptyRow" -> POPEmptyRow(query)
         "POPUnion" -> POPUnion(query, convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
-        "POPJoinNestedLoop" -> POPJoinNestedLoop(query, convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPJoinHashMap" -> POPJoinHashMap(query, convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
-        "POPTemporaryStore" -> POPTemporaryStore(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         "TripleStoreIteratorLocal" -> {
             val res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]

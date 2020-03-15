@@ -36,45 +36,47 @@ object ResultRepresenationNetwork {
         var currentRowCounter = 0
         CoroutinesHelper.runBlock {
             var firstDict = true
-            queryChannel.forEach { resultRow ->
-                var newDictionaryMax = latestDictionaryMax
-                for (v in variables)
-                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || query.resultSet.getValue(resultRow, v) > newDictionaryMax))
-                        newDictionaryMax = query.resultSet.getValue(resultRow, v)
-                if (newDictionaryMax == null || newDictionaryMax != latestDictionaryMax) {
-                    if (!firstDict) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount a $currentRowCounter" })
-                        res.setInt(currentRowCounter, posResultLen)
-                    }
-                    if (newDictionaryMax == null) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a 0" })
-                        res.appendInt(0)
-                    } else if (latestDictionaryMax == null) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax + 1}" })
-                        res.appendInt(newDictionaryMax + 1)
-                        for (v in 0 until newDictionaryMax + 1) {
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueObject(v)!!.valueToString()!!}" })
-                            res.appendString(query.resultSet.getValueObject(v)!!.valueToString()!!)
+            queryChannel.forEach { resultRows ->
+                for (resultRow in resultRows) {
+                    var newDictionaryMax = latestDictionaryMax
+                    for (v in variables)
+                        if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || query.resultSet.getValue(resultRow, v) > newDictionaryMax))
+                            newDictionaryMax = query.resultSet.getValue(resultRow, v)
+                    if (newDictionaryMax == null || newDictionaryMax != latestDictionaryMax) {
+                        if (!firstDict) {
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount a $currentRowCounter" })
+                            res.setInt(currentRowCounter, posResultLen)
                         }
-                    } else {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax - latestDictionaryMax!!}" })
-                        res.appendInt(newDictionaryMax - latestDictionaryMax!!)
-                        for (v in latestDictionaryMax!! + 1 until newDictionaryMax + 1) {
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueObject(v)!!.valueToString()!!}" })
-                            res.appendString(query.resultSet.getValueObject(v)!!.valueToString()!!)
+                        if (newDictionaryMax == null) {
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a 0" })
+                            res.appendInt(0)
+                        } else if (latestDictionaryMax == null) {
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax + 1}" })
+                            res.appendInt(newDictionaryMax + 1)
+                            for (v in 0 until newDictionaryMax + 1) {
+                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueObject(v)!!.valueToString()!!}" })
+                                res.appendString(query.resultSet.getValueObject(v)!!.valueToString()!!)
+                            }
+                        } else {
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax - latestDictionaryMax!!}" })
+                            res.appendInt(newDictionaryMax - latestDictionaryMax!!)
+                            for (v in latestDictionaryMax!! + 1 until newDictionaryMax + 1) {
+                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValueObject(v)!!.valueToString()!!}" })
+                                res.appendString(query.resultSet.getValueObject(v)!!.valueToString()!!)
+                            }
                         }
+                        currentRowCounter = 0
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
+                        posResultLen = res.appendSpace(4)
+                        firstDict = false
+                        latestDictionaryMax = newDictionaryMax
                     }
-                    currentRowCounter = 0
-                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
-                    posResultLen = res.appendSpace(4)
-                    firstDict = false
-                    latestDictionaryMax = newDictionaryMax
+                    for (v in variables) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow, v!!)}" })
+                        res.appendInt(query.resultSet.getValue(resultRow, v!!))
+                    }
+                    currentRowCounter++
                 }
-                for (v in variables) {
-                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow, v!!)}" })
-                    res.appendInt(query.resultSet.getValue(resultRow, v!!))
-                }
-                currentRowCounter++
             }
             if (!firstDict) {
                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount b $currentRowCounter" })
@@ -124,9 +126,10 @@ object ResultRepresenationNetwork {
         override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
 
         override fun evaluate() = Trace.trace<ResultIterator>({ "POPImportFromNetworkPackage.evaluate" }, {
-            val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+            val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
             CoroutinesHelper.runBlock {
                 Trace.trace({ "POPImportFromNetworkPackage.next" }, {
+                    var outbuf = ResultChunk(resultSet)
                     try {
                         while (true) {
                             if (rowsUntilNextDictionary == 0) {
@@ -153,8 +156,13 @@ object ResultRepresenationNetwork {
                                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${query.dictionary.getValue(i)}" })
                                 resultSet.setValue(row, v, i)
                             }
-                            channel.send(row)
+                            if (!outbuf.canAppend()) {
+                                channel.send(resultFlowProduce({ this@POPImportFromNetworkPackage }, { outbuf }))
+                                outbuf = ResultChunk(resultSet)
+                            }
+                            outbuf.append(row)
                         }
+                        channel.send(resultFlowProduce({ this@POPImportFromNetworkPackage }, { outbuf }))
                         channel.close()
                     } catch (e: Throwable) {
                         channel.close(e)

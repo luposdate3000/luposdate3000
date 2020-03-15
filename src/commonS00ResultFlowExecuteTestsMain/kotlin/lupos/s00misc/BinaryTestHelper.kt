@@ -277,9 +277,6 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
             EOperatorID.POPImportFromNetworkPackageID -> {
                 return fromBinaryPOP(query, buffer)
             }
-            EOperatorID.POPTemporaryStoreID -> {
-                return fromBinaryPOP(query, buffer)
-            }
             EOperatorID.POPModifyDataID -> {
                 val type = EModifyType.values()[nextInt(query, buffer, EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()

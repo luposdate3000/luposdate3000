@@ -10,5 +10,4 @@ import lupos.s04logicalOperators.ResultIterator
 
 abstract class LOPBase(query: Query, operatorID: EOperatorID, classname: String, children: Array<OPBase>) :
         OPBase(query, operatorID, classname, ResultSet(ResultSetDictionary()), children) {
-    override fun evaluate() = throw Exception("not implemented $classname.evaluate")
 }

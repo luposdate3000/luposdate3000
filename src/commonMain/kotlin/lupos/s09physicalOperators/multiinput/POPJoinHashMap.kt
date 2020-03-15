@@ -65,7 +65,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             variablesJ[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
         }
         val channels = children.map { it.evaluate() }
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
+        var outbuf = ResultChunk(resultSet)
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next" }, {
                 var hadUndefKey = false
@@ -73,49 +74,54 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 try {
                     for (idx in 0 until 2) {
                         try {
-                            channels[idx].forEach { rowA ->
-                                resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
-                                var keys = mutableSetOf<String>()
-                                keys.add("")
-                                var exactkey = ""
-                                for (k in variablesJ[idx]) {
-                                    val v = children[idx].resultSet.getValue(rowA, k.first)
-                                    val kk = "" + v + "-"
-                                    exactkey += kk
-                                    val newkeys = mutableSetOf<String>()
-                                    for (x in keys) {
-                                        if (kk == undefKey)
-                                            hadUndefKey = true
-                                        else
-                                            newkeys.add(x + kk)
-                                        if (hadUndefKey)
-                                            newkeys.add(x + undefKey)
+                            channels[idx].forEach { rowsA ->
+                                for (rowA in resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowsA })) {
+                                    var keys = mutableSetOf<String>()
+                                    keys.add("")
+                                    var exactkey = ""
+                                    for (k in variablesJ[idx]) {
+                                        val v = children[idx].resultSet.getValue(rowA, k.first)
+                                        val kk = "" + v + "-"
+                                        exactkey += kk
+                                        val newkeys = mutableSetOf<String>()
+                                        for (x in keys) {
+                                            if (kk == undefKey)
+                                                hadUndefKey = true
+                                            else
+                                                newkeys.add(x + kk)
+                                            if (hadUndefKey)
+                                                newkeys.add(x + undefKey)
+                                        }
+                                        keys = newkeys
                                     }
-                                    keys = newkeys
-                                }
-                                var t = map[idx][exactkey]
-                                if (t == null)
-                                    t = mutableListOf()
-                                t.add(rowA)
-                                map[idx][exactkey] = t
-                                for (key in keys) {
-                                    if (map[idx][key] == null)
-                                        map[idx][key] = mutableListOf()
-                                    val rowsB = map[1 - idx][key]
-                                    if (rowsB != null) {
-                                        for (rowB in rowsB) {
-                                            val row = resultSet.createResultRow()
-                                            for (p in variables[idx])
-                                                resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
-                                            for (p in variables[1 - idx])
-                                                resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
-                                            for (p in variablesJ[idx])
-                                                resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
-                                            for (p in variablesJ[1 - idx]) {
-                                                if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
+                                    var t = map[idx][exactkey]
+                                    if (t == null)
+                                        t = mutableListOf()
+                                    t.add(rowA)
+                                    map[idx][exactkey] = t
+                                    for (key in keys) {
+                                        if (map[idx][key] == null)
+                                            map[idx][key] = mutableListOf()
+                                        val rowsB = map[1 - idx][key]
+                                        if (rowsB != null) {
+                                            for (rowB in rowsB) {
+                                                val row = resultSet.createResultRow()
+                                                for (p in variables[idx])
+                                                    resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
+                                                for (p in variables[1 - idx])
                                                     resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
+                                                for (p in variablesJ[idx])
+                                                    resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
+                                                for (p in variablesJ[1 - idx]) {
+                                                    if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
+                                                        resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
+                                                }
+                                                if (!outbuf.canAppend()) {
+                                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                                    outbuf = ResultChunk(resultSet)
+                                                }
+                                                outbuf.append(row)
                                             }
-                                            channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
                                         }
                                     }
                                 }
@@ -136,11 +142,16 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                         resultSet.copy(row, p.second, rowA, p.first, children[0].resultSet)
                                     for (p in variablesJ[0])
                                         resultSet.copy(row, p.second, rowA, p.first, children[0].resultSet)
-                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
+                                    if (!outbuf.canAppend()) {
+                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                        outbuf = ResultChunk(resultSet)
+                                    }
+                                    outbuf.append(row)
                                 }
                             }
                         }
                     }
+                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                     channel.close()
                     for (c in channels)
                         c.close()

@@ -46,16 +46,23 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         var variableNew = resultSet.createVariable(name.name)
         val res = ResultIterator()
         res.next = {
-            Trace.traceSuspend<ResultRow>({ "POPBind.next" }, {
-                val row = resultSet.createResultRow()
-                val rowOld = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
+            Trace.traceSuspend<ResultChunk>({ "POPBind.next" }, {
+                val inbuf = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
+                val outbuf = ResultChunk(resultSet)
+outbuf.size=inbuf.size
+outbuf.pos=inbuf.pos
+                val col = outbuf.getColumn(variableNew)
                 for (v in variables)
-                    resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
-                try {
-                    resultSet.setValue(row, variableNew, (children[1] as AOPBase).calculate(children[0].resultSet, rowOld).valueToString())
-                } catch (e: Throwable) {
+                    outbuf.setColumn(v.second, inbuf.getColumn(v.first))
+                var idx = inbuf.pos
+                for (row in inbuf) {
+                    try {
+                        col.data[idx] = resultSet.createValue((children[1] as AOPBase).calculate(children[0].resultSet, row))
+                    } catch (e: Throwable) {
+                    }
+                    idx++
                 }
-                resultFlowProduce({ this@POPBind }, { row })
+                resultFlowProduce({ this@POPBind }, { outbuf })
             })
         }
         res.close = {

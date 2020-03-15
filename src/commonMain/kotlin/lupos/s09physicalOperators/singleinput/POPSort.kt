@@ -91,9 +91,9 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         val child = children[0].evaluate()
         val data = SortedArray<ResultRow>(ComparatorImpl(resultSet, resultSet.createVariable(sortBy.name)), { size -> Array(size) { resultSet.createResultRow() } })
         CoroutinesHelper.runBlock {
-            child.forEach { row ->
-                resultFlowConsume({ this@POPSort }, { children[0] }, { row })
-                data.add(row)
+            child.forEach { rows ->
+                for (row in resultFlowConsume({ this@POPSort }, { children[0] }, { rows }))
+                    data.add(row)
             }
         }
         if (data.size == 0)
@@ -101,12 +101,19 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         val iterator = data.iterator(sortOrder)
         val res = ResultIterator()
         res.next = {
-            Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
-                if (!iterator.hasNext()) {
-                    res.close()
-                    res.next()
+            Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
+                var outbuf = ResultChunk(resultSet)
+                try {
+                    while (outbuf.canAppend()) {
+                        if (!iterator.hasNext()) {
+                            res.close()
+                            res.next()
+                        }
+                        outbuf.append(iterator.next())
+                    }
+                } catch (e: Throwable) {
                 }
-                resultFlowProduce({ this@POPSort }, { iterator.next() })
+                resultFlowProduce({ this@POPSort }, { outbuf })
             })
         }
         return res

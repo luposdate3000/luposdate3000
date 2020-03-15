@@ -2,9 +2,9 @@ package lupos.s12p2p
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
@@ -62,26 +62,35 @@ class POPServiceIRI : POPBase {
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPServiceIRI.evaluate" }, {
         for (n in getProvidedVariableNames())
             resultSet.createVariable(n)
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             Trace.trace({ "POPServiceIRI.next" }, {
                 try {
                     if (constraint == null) {
                         if (silent) {
-                            val res = resultSet.createResultRow()
-                            channel.send(res)
+                            val outbuf = ResultChunk(resultSet)
+                            outbuf.append(resultSet.createResultRow())
+                            channel.send(outbuf)
                         }
                     } else {
                         val variables = mutableListOf<Pair<Variable, Variable>>()
                         for (n in getProvidedVariableNames())
                             variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
                         val constraintChannel = constraint.evaluate()
-                        constraintChannel.forEach { oldRow ->
-                            val res = resultSet.createResultRow()
-                            for (n in variables)
-                                resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
-                            channel.send(res)
+                        var outbuf = ResultChunk(resultSet)
+                        constraintChannel.forEach { oldRows ->
+                            for (oldRow in oldRows) {
+                                val res = resultSet.createResultRow()
+                                for (n in variables)
+                                    resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
+                                if (!outbuf.canAppend()) {
+                                    channel.send(resultFlowProduce({ this@POPServiceIRI }, { outbuf }))
+                                    outbuf = ResultChunk(resultSet)
+                                }
+                                outbuf.append(res)
+                            }
                         }
+                        channel.send(outbuf)
                     }
                     channel.close()
                 } catch (e: Throwable) {

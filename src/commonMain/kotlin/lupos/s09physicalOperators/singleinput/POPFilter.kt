@@ -63,39 +63,42 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                     variableID = resultSet.createVariable((childA as AOPVariable).name)
                 }
                 res.next = {
-                    Trace.trace<ResultRow>({ "POPFilter.next" }, {
-                        var row = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                        while (constID == resultSet.getValue(row, variableID))
-                            row = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                        resultFlowProduce({ this@POPFilter }, { row })
+                    Trace.trace<ResultChunk>({ "POPFilter.next" }, {
+                        val outbuf = ResultChunk(resultSet)
+                        val inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
+                        for (row in inbuf)
+                            if (constID != resultSet.getValue(row, variableID))
+                                outbuf.append(row)
+                        resultFlowProduce({ this@POPFilter }, { outbuf })
                     })
                 }
             } else {
                 val variableIDA = resultSet.createVariable((childA as AOPVariable).name)
                 val variableIDB = resultSet.createVariable((childB as AOPVariable).name)
                 res.next = {
-                    Trace.trace<ResultRow>({ "POPFilter.next" }, {
-                        var row = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                        while (resultSet.getValue(row, variableIDA) == resultSet.getValue(row, variableIDB))
-                            row = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                        resultFlowProduce({ this@POPFilter }, { row })
+                    Trace.trace<ResultChunk>({ "POPFilter.next" }, {
+                        val outbuf = ResultChunk(resultSet)
+                        var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
+                        for (row in inbuf)
+                            if (resultSet.getValue(row, variableIDA) != resultSet.getValue(row, variableIDB))
+                                outbuf.append(row)
+                        resultFlowProduce({ this@POPFilter }, { outbuf })
                     })
                 }
             }
             return res
         }
         res.next = {
-            Trace.traceSuspend<ResultRow>({ "POPFilter.next" }, {
-                var row: ResultRow
-                while (true) {
-                    row = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
+            Trace.traceSuspend<ResultChunk>({ "POPFilter.next" }, {
+                val outbuf = ResultChunk(resultSet)
+                var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
+                for (row in inbuf)
                     try {
                         if (expression.calculate(resultSet, row).toBoolean())
-                            break
+                            outbuf.append(row)
                     } catch (e: Throwable) {
                     }
-                }
-                resultFlowProduce({ this@POPFilter }, { row })
+                resultFlowProduce({ this@POPFilter }, { outbuf })
             })
         }
         return res

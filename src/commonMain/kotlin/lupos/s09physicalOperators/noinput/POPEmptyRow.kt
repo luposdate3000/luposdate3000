@@ -23,7 +23,9 @@ class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POP
         val res = ResultIterator()
         res.next = {
             res.close()
-            resultFlowProduce({ this@POPEmptyRow }, { resultSet.createResultRow() })
+            val outbuffer = ResultChunk(resultSet)
+            outbuffer.append(resultSet.createResultRow())
+            resultFlowProduce({ this@POPEmptyRow }, { outbuffer })
         }
         return res
     }

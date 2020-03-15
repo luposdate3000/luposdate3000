@@ -75,15 +75,24 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
         val child = children[0].evaluate()
-        val XXXvariables = resultSet.getVariableNames().map { resultSet.createVariable(it) }.toTypedArray()
         val data = SortedSet<ResultRow>(ComparatorImpl(resultSet), { size -> Array(size) { resultSet.createResultRow() } })
         val res = ResultIterator()
         res.next = {
-            Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
-                var row: ResultRow = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-                while (data.update(row, onCreate = { row }, onUpdate = { row }) != null)
-                    row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-                resultFlowProduce({ this@POPDistinct }, { row })
+            Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
+                var outbuf = ResultChunk(resultSet)
+                try {
+                    while (outbuf.size == 0) {
+                        val inbuf = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
+                        for (row in inbuf) {
+                            if (data.update(row, onCreate = { row }, onUpdate = { row }) == null)
+                                outbuf.append(row)
+                        }
+                    }
+                } catch (e: Throwable) {
+                }
+if(outbuf.size==0)
+res.close()
+                resultFlowProduce({ this@POPDistinct }, { outbuf })
             })
         }
         return res

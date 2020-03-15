@@ -16,6 +16,5 @@ abstract class AOPBase(query: Query,
                        classname: String,
                        children: Array<OPBase>) :
         OPBase(query, operatorID, classname, ResultSet(ResultSetDictionary()), children) {
-    override fun evaluate() = throw Exception("not implemented $classname.evaluate")
     abstract fun calculate(resultSet: ResultSet, resultRow: ResultRow): ValueDefinition
 }

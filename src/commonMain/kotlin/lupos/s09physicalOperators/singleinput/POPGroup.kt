@@ -106,27 +106,29 @@ class POPGroup : POPBase {
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
         val child = children[0].evaluate()
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         val variables = Array(by.size) { Pair(resultSet.createVariable(by[it].name), children[0].resultSet.createVariable(by[it].name)) }
         val res = ResultIterator()
         CoroutinesHelper.run {
             Trace.trace({ "POPGroup.next" }, {
+                var outbuf = ResultChunk(resultSet)
                 try {
                     val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                    child.forEach { oldRow ->
-                        resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRow })
-                        var key = "|"
-                        for (variable in variables)
-                            key = key + children[0].resultSet.getValue(oldRow, variable.second) + "|"
-                        var tmp = tmpMutableMap[key]
-                        if (tmp == null) {
-                            tmp = mutableListOf()
-                            tmpMutableMap[key] = tmp
+                    child.forEach { oldRows ->
+                        for (oldRow in resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRows })) {
+                            var key = "|"
+                            for (variable in variables)
+                                key = key + children[0].resultSet.getValue(oldRow, variable.second) + "|"
+                            var tmp = tmpMutableMap[key]
+                            if (tmp == null) {
+                                tmp = mutableListOf()
+                                tmpMutableMap[key] = tmp
+                            }
+                            tmp.add(oldRow)
                         }
-                        tmp.add(oldRow)
                     }
                     if (tmpMutableMap.keys.size == 0) {
-                        channel.send(resultFlowProduce({ this@POPGroup }, { resultSet.createResultRow() }))
+                        outbuf.append(resultSet.createResultRow())
                     } else {
                         for (k in tmpMutableMap.keys) {
                             val oldRow = tmpMutableMap[k]!!.first()
@@ -147,10 +149,15 @@ class POPGroup : POPBase {
                                     GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                                 }
                             }
-                            channel.send(resultFlowProduce({ this@POPGroup }, { row }))
+                            if (!outbuf.canAppend()) {
+                                channel.send(resultFlowProduce({ this@POPGroup }, { outbuf }))
+                                outbuf = ResultChunk(resultSet)
+                            }
+                            outbuf.append(row)
                         }
                     }
                 } finally {
+                    channel.send(resultFlowProduce({ this@POPGroup }, { outbuf }))
                     channel.close()
                     child.close()
                     res._close()

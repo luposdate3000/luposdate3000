@@ -83,10 +83,10 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         val iterator = P2P.getKnownClientsCopy().iterator()
         val res = ResultIteratorImpl(P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate())
         res.next = {
-            Trace.traceSuspend<ResultRow>({ "TripleStoreIteratorGlobal.next" }, {
-                var row: ResultRow
+            Trace.traceSuspend<ResultChunk>({ "TripleStoreIteratorGlobal.next" }, {
+                var outbuf: ResultChunk
                 try {
-                    row = res.iterator.next()
+                    outbuf = res.iterator.next()
                 } catch (e: Throwable) {
                     if (iterator.hasNext()) {
                         res.iterator = P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate()
@@ -94,9 +94,9 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                         res.iterator.close()
                         res.close()
                     }
-                    row = res.next()
+                    outbuf = res.next()
                 }
-                resultFlowProduce({ this@TripleStoreIteratorGlobal }, { row })
+                resultFlowProduce({ this@TripleStoreIteratorGlobal }, { outbuf })
             })
         }
         res.close = {
@@ -180,9 +180,11 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     suspend fun addData(iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
         val vars = arrayOf(iterator.resultSet.createVariable("s"), iterator.resultSet.createVariable("p"), iterator.resultSet.createVariable("o"))
         val channel = iterator.evaluate()
-        channel.forEach { oldRow ->
-            val params = Array(3) { iterator.resultSet.getValueObject(oldRow, vars[it]) }
-            addData(params)
+        channel.forEach { oldRows ->
+            for (oldRow in oldRows) {
+                val params = Array(3) { iterator.resultSet.getValueObject(oldRow, vars[it]) }
+                addData(params)
+            }
         }
     })
 

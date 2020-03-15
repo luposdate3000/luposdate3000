@@ -2,10 +2,10 @@ package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
@@ -45,16 +45,22 @@ open class TripleStoreIteratorLocal(query: Query,
     override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocal.evaluate" }, {
         val newVariables = Array(3) { resultSet.createVariable((params[it] as AOPVariable).name) }
         val variables = arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"))
-        val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
+        val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         CoroutinesHelper.run {
             Trace.trace({ "TripleStoreIteratorLocal.next" }, {
+                var outbuf = ResultChunk(resultSet)
                 try {
                     store.forEach(variables, { it ->
-                        val result = resultSet.createResultRow()
+                        val row = resultSet.createResultRow()
                         for (i in 0 until 3)
-                            resultSet.setValue(result, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
-                        channel.send(result)
+                            resultSet.setValue(row, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
+                        if (!outbuf.canAppend()) {
+                            channel.send(resultFlowProduce({ this@TripleStoreIteratorLocal }, { outbuf }))
+                            outbuf = ResultChunk(resultSet)
+                        }
+                        outbuf.append(row)
                     }, index)
+                    channel.send(resultFlowProduce({ this@TripleStoreIteratorLocal }, { outbuf }))
                     channel.close()
                 } catch (e: Throwable) {
                     channel.close(e)

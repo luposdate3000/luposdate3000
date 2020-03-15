@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val resultSet: ResultSet, val children: Array<OPBase>) {
 
-    abstract fun evaluate(): ResultIterator
+    open fun evaluate(): ResultIterator = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
 
     open fun applyPrefix(prefix: String, iri: String) {
