@@ -118,7 +118,6 @@ class POPGroup : POPBase {
                         var key = "|"
                         for (variable in variables)
                             key = key + children[0].resultSet.getValue(oldRow, variable.second) + "|"
-                        println("xxx $key")
                         var tmp = tmpMutableMap[key]
                         if (tmp == null) {
                             tmp = mutableListOf()

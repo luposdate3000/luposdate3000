@@ -54,6 +54,11 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     override fun toInt() = throw Exception("cannot cast ValueBnode to Int")
     override fun toBoolean() = throw Exception("cannot cast ValueBnode to Boolean")
     override fun hashCode() = value.hashCode()
+override operator fun compareTo(other: ValueDefinition): Int {
+        if (other !is ValueBnode)
+            throw Exception("type error")
+	return value.compareTo(other.value)
+    }
 }
 
 class ValueBoolean(@JvmField var value: Boolean) : ValueDefinition() {
@@ -198,6 +203,11 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override fun toInt(): Int = throw Exception("cannot cast ValueIri to Int")
     override fun toBoolean(): Boolean = throw Exception("cannot cast ValueIri to Boolean")
     override fun hashCode() = iri.hashCode()
+override operator fun compareTo(other: ValueDefinition): Int {
+        if (other !is ValueIri)
+            throw Exception("type error")
+        return iri.compareTo(other.iri)
+    }
 }
 
 

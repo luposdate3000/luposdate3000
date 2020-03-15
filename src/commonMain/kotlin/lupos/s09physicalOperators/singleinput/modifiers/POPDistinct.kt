@@ -7,6 +7,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
+import lupos.s01io.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -36,17 +37,52 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         return "{SELECT DISTINCT * {" + sparql + "}}"
     }
 
+    class ComparatorImpl(@JvmField val resultSet: ResultSet) : Comparator<ResultRow> {
+        val variables = resultSet.getVariableNames().map { resultSet.createVariable(it) }.toTypedArray()
+        override fun compare(a: ResultRow, b: ResultRow): Int {
+            var res = 0
+            for (variable in variables) {
+                val objA = resultSet.getValueObject(a, variable)
+                val objB = resultSet.getValueObject(b, variable)
+                try {
+                    res = objA.compareTo(objB)
+                } catch (e: Throwable) {
+                    if (objA is ValueUndef)
+                        res = -2
+                    else if (objB is ValueUndef)
+                        res = +1
+                    else if (objA is ValueBnode)
+                        res = -3
+                    else if (objB is ValueBnode)
+                        res = +1
+                    else if (objA is ValueIri)
+                        res = -4
+                    else if (objB is ValueIri)
+                        res = +1
+                    else {
+                        val sA = objA.valueToString()!!
+                        val sB = objB.valueToString()!!
+                        res = sA.compareTo(sB)
+                    }
+                }
+                if (res != 0)
+                    return res
+            }
+            return 0
+        }
+    }
+
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
         val child = children[0].evaluate()
-        val data = mutableSetOf<ResultRow>()
+        val XXXvariables = resultSet.getVariableNames().map { resultSet.createVariable(it) }.toTypedArray()
+        val data = SortedSet<ResultRow>(ComparatorImpl(resultSet), { size -> Array(size) { resultSet.createResultRow() } })
         val res = ResultIterator()
         res.next = {
-            Trace.trace<ResultRow>({ "POPDistinct.next" }, {
-                var row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-                while (data.contains(row))
+            Trace.traceSuspend<ResultRow>({ "POPSort.next" }, {
+                var row: ResultRow = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
+                while (data.update(row, onCreate = { row }, onUpdate = { row }) != null)
                     row = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-                data.add(row)
                 resultFlowProduce({ this@POPDistinct }, { row })
             })
         }

@@ -92,6 +92,7 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         val data = SortedArray<ResultRow>(ComparatorImpl(resultSet, resultSet.createVariable(sortBy.name)), { size -> Array(size) { resultSet.createResultRow() } })
         CoroutinesHelper.runBlock {
             child.forEach { row ->
+                resultFlowConsume({ this@POPSort }, { children[0] }, { row })
                 data.add(row)
             }
         }

@@ -75,12 +75,11 @@ abstract class SortedArrayBase<T>(//
                                     if (x != null) {
                                         if (x.first != null) {
                                             tmp.data[i] = x.first!!
-                                            res = tmp.data[i]
                                         } else
                                             del = true
                                     }
                                     if (del) {
-                                        res = tmp.delete(i)
+                                        tmp.delete(i)
                                         tmp.internal_sort()
                                         size--
                                         sortuntil--
