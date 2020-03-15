@@ -35,6 +35,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
             val a = aVektor.data[i]
             val b = (children[1] as AOPBase)
             var found = false
+try{
             if (b is AOPSet) {
                 for (c in b.children) {
                     val tmp = (c as AOPBase).calculate(resultSet, resultChunk)
@@ -43,8 +44,10 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
                         break
                     }
                 }
-            } else
+            }
                 rVektor.data[i] = ValueBoolean(found)
+}catch(e:Throwable){ 
+}
         }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }

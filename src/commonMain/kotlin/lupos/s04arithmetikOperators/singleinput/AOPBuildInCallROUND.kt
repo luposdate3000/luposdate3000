@@ -31,13 +31,16 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
         for (i in resultChunk.pos until resultChunk.size) {
             val a = aVektor.data[i]
+try{
             if (a is ValueDouble)
                 rVektor.data[i] = ValueDouble(a.toDouble().roundToInt().toDouble())
             else if (a is ValueDecimal)
                 rVektor.data[i] = ValueDecimal(a.toDouble().roundToInt().toDouble())
             else if (a is ValueInteger)
                 rVektor.data[i] = a
-        }
+    }catch(e:Throwable){ 
+}
+    }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

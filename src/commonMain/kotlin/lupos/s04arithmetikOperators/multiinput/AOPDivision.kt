@@ -36,6 +36,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
         for (i in resultChunk.pos until resultChunk.size) {
             val a = aVektor.data[i]
             val b = bVektor.data[i]
+try{
             if (a is ValueDouble || b is ValueDouble) {
                 if (b.toDouble() != 0.0)
                     rVektor.data[i] = ValueDouble(a.toDouble() / b.toDouble())
@@ -48,7 +49,9 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 if (b.toInt() != 0)
                     rVektor.data[i] = ValueDecimal(a.toDouble() / b.toDouble())
             }
-        }
+    }catch(e:Throwable){ 
+}
+    }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

@@ -38,12 +38,15 @@ class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
         for (i in resultChunk.pos until resultChunk.size) {
             val a = aVektor.data[i]
             val b = bVektor.data[i]
+try{
             if (a is ValueDouble || b is ValueDouble)
                 rVektor.data[i] = ValueDouble(a.toDouble() + b.toDouble())
             else if (a is ValueDecimal || b is ValueDecimal)
                 rVektor.data[i] = ValueDecimal(a.toDouble() + b.toDouble())
             else if (a is ValueInteger || b is ValueInteger)
                 rVektor.data[i] = ValueInteger(a.toInt() + b.toInt())
+}catch(e:Throwable){
+}
         }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
