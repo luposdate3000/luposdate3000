@@ -140,11 +140,11 @@ class POPGroup : POPBase {
                             for (b in bindings) {
                                 try {
                                     setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
-                                    var buf = ResultChunk(resultSet)
+                                    var buf = ResultChunk(children[0].resultSet)
                                     for (resultRow in tmpMutableMap[k]!!) {
                                         if (!buf.canAppend())
                                             (b.second as AOPBase).calculate(children[0].resultSet, buf)
-                                        buf = ResultChunk(resultSet)
+                                        buf = ResultChunk(children[0].resultSet)
                                         buf.append(resultRow)
                                     }
                                     setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())

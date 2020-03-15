@@ -69,9 +69,9 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
             try {
                 res = objA.compareTo(objB)
             } catch (e: Throwable) {
-                if (objA is ValueUndef)
+                if (objA is ValueUndef||objA is ValueError)
                     return -1
-                if (objB is ValueUndef)
+                if (objB is ValueUndef||objB is ValueError)
                     return +1
                 if (objA is ValueBnode)
                     return -1
