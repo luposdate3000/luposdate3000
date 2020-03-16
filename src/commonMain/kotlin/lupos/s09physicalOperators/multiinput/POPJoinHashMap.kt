@@ -9,6 +9,7 @@ import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s01io.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
@@ -41,126 +42,143 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         return true
     }
 
+    class ComparatorImpl() : Comparator<Array<Value>> {
+        override fun compare(a: Array<Value>, b: Array<Value>): Int {
+            for (i in 0 until a.size) {
+                if (a[i] < b[i])
+                    return -1
+                if (a[i] > b[i])
+                    return +1
+            }
+            return 0
+        }
+    }
+
+    class ComparatorNoneImpl() : Comparator<ResultChunk> {
+        override fun compare(a: ResultChunk, b: ResultChunk): Int = throw Exception("dont sort this")
+    }
+
+    fun arrayAllocator(size: Int) = Array(size) { ResultChunk(resultSet) }
+
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {
-        val joinVariables = mutableListOf<String>()
-        val map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
-        val variables: Array<MutableList<Pair<Variable, Variable>>>
-        val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
-        val variablesAt = children[0].getProvidedVariableNames()
-        val variablesBt = children[1].getProvidedVariableNames()
-        val variablesA = MutableList(variablesAt.size) { variablesAt[it] }
-        val variablesB = MutableList(variablesBt.size) { variablesBt[it] }
-        variablesA.forEach {
-            if (variablesB.contains(it))
-                joinVariables.add(it)
-        }
-        val variablesA2 = variablesA.minus(joinVariables)
-        val variablesB2 = variablesB.minus(joinVariables)
-        variables = arrayOf(mutableListOf(), mutableListOf())
-        variablesJ = arrayOf(mutableListOf(), mutableListOf())
-        for (name in variablesA2)
-            variables[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
-        for (name in variablesB2)
-            variables[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
-        for (name in joinVariables) {
-            variablesJ[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
-            variablesJ[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
-        }
+        val variablesA = children[0].getProvidedVariableNames()
+        val variablesB = children[1].getProvidedVariableNames()
+        val variablesJ = mutableListOf<String>()
+        val variablesAO = mutableListOf<String>()
+        val variablesBO = mutableListOf<String>()
+        for (i in 0 until variablesA.size)
+            if (variablesB.contains(variablesA[i]))
+                variablesJ.add(variablesA[i])
+            else
+                variablesAO.add(variablesA[i])
+        for (i in 0 until variablesB.size)
+            if (!variablesA.contains(variablesB[i]))
+                variablesBO.add(variablesB[i])
+        val varAO = variablesAO.map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
+        val varBO = variablesBO.map { Pair(children[1].resultSet.createVariable(it), resultSet.createVariable(it)) }
+        val varJ = variablesJ.map { Pair(Pair(children[0].resultSet.createVariable(it), children[1].resultSet.createVariable(it)), resultSet.createVariable(it)) }
+        val map = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
+            size ->
+            Array(size) {
+                Pair(Array<Value>(varJ.size) {
+                    resultSet.dictionary.undefValue //
+                }, SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)) //
+            }//
+        },null)
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         var outbuf = ResultChunk(resultSet)
+        val col0JAA = varJ.map { it.first.first }.toTypedArray()
+        val col0JBA = varJ.map { it.first.second }.toTypedArray()
+        val col0AA = varAO.map { it.first }.toTypedArray()
+        val col0BA = varBO.map { it.first }.toTypedArray()
+        val col1JA = varJ.map { it.second }.toTypedArray()
+        val col1AA = varAO.map { it.second }.toTypedArray()
+        val col1BA = varBO.map { it.second }.toTypedArray()
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next" }, {
-                var hadUndefKey = false
-                val undefKey = "" + query.dictionary.undefValue + "-"
-                try {
-                    for (idx in 0 until 2) {
-                        try {
-                            channels[idx].forEach { rowsA ->
-                                for (rowA in resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowsA })) {
-                                    var keys = mutableSetOf<String>()
-                                    keys.add("")
-                                    var exactkey = ""
-                                    for (k in variablesJ[idx]) {
-                                        val v = children[idx].resultSet.getValue(rowA, k.first)
-                                        val kk = "" + v + "-"
-                                        exactkey += kk
-                                        val newkeys = mutableSetOf<String>()
-                                        for (x in keys) {
-                                            if (kk == undefKey)
-                                                hadUndefKey = true
-                                            else
-                                                newkeys.add(x + kk)
-                                            if (hadUndefKey)
-                                                newkeys.add(x + undefKey)
-                                        }
-                                        keys = newkeys
-                                    }
-                                    var t = map[idx][exactkey]
-                                    if (t == null)
-                                        t = mutableListOf()
-                                    t.add(rowA)
-                                    map[idx][exactkey] = t
-                                    for (key in keys) {
-                                        if (map[idx][key] == null)
-                                            map[idx][key] = mutableListOf()
-                                        val rowsB = map[1 - idx][key]
-                                        if (rowsB != null) {
-                                            for (rowB in rowsB) {
-                                                val row = resultSet.createResultRow()
-                                                for (p in variables[idx])
-                                                    resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
-                                                for (p in variables[1 - idx])
-                                                    resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
-                                                for (p in variablesJ[idx])
-                                                    resultSet.copy(row, p.second, rowA, p.first, children[idx].resultSet)
-                                                for (p in variablesJ[1 - idx]) {
-                                                    if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
-                                                        resultSet.copy(row, p.second, rowB, p.first, children[1 - idx].resultSet)
-                                                }
-                                                if (!outbuf.canAppend()) {
-                                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
-                                                    outbuf = ResultChunk(resultSet)
-                                                }
-                                                outbuf.append(row)
-                                            }
-                                        }
-                                    }
+                while (true) {
+                    try {
+                        val inbuf = channels[1].next()
+                        while (inbuf.hasNext()) {
+                            val same = inbuf.sameElements(col0JBA)
+                            val key = inbuf.current(col0JBA)
+                            map.update(key, onCreate = {
+                                val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
+                                val buf = ResultChunk(children[1].resultSet)
+                                buf.copy(col1BA, inbuf, col1BA, same)
+                                data.add(buf)
+                                data
+                            }, onUpdate = { old ->
+                                var buf = old!!.lastUnordered()
+                                val avail = buf!!.availableSpace()
+                                if (avail > same)
+                                    buf.copy(col1BA, inbuf, col1BA, same)
+                                else {
+                                    buf.copy(col1BA, inbuf, col1BA, avail)
+                                    buf = ResultChunk(resultSet)
+                                    if (avail != same)
+                                        buf.copy(col1BA, inbuf, col1BA, same - avail)
+                                    old.add(buf)
+                                }
+                                old
+                            })
+                        }
+                    } catch (e: Throwable) {
+                    }
+                }
+                while (true) {
+                    try {
+                        val inbuf = channels[0].next()
+                        val same = inbuf.sameElements(col0JAA)
+                        val key = inbuf.current(col0JAA)
+                        val other = map.get(key)
+                        if (other == null && optional) {
+                            val avail = outbuf.availableSpace()
+                            if (avail > same) {
+                                outbuf.copy(col1AA, inbuf, col0AA, same)
+                                outbuf.copy(col1JA, inbuf, col0JAA, same)
+                            } else {
+                                outbuf.copy(col1AA, inbuf, col0AA, avail)
+                                outbuf.copy(col1JA, inbuf, col0JAA, avail)
+                                channel.send(outbuf)
+                                outbuf = ResultChunk(resultSet)
+                                if (avail != same) {
+                                    outbuf.copy(col1AA, inbuf, col0AA, same - avail)
+                                    outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
                                 }
                             }
-                        } catch (e: Throwable) {
-                            if (idx == 0 || !optional)
-                                throw e
-                        }
-                    }
-                    if (optional) {
-                        for ((k, v) in map[0]) {
-                            if (map[1][k] == null) {
-                                for (rowA in v) {
-                                    val row = resultSet.createResultRow()
-                                    for (p in variables[1])
-                                        resultSet.setUndefValue(row, p.second)
-                                    for (p in variables[0])
-                                        resultSet.copy(row, p.second, rowA, p.first, children[0].resultSet)
-                                    for (p in variablesJ[0])
-                                        resultSet.copy(row, p.second, rowA, p.first, children[0].resultSet)
-                                    if (!outbuf.canAppend()) {
-                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                        } else if (other != null) {
+                            val aData = inbuf.current()
+                            inbuf.skip(same)
+                            for (i in 0 until same) {
+                                other.forEachUnordered { it ->
+                                    val count = it.size
+                                    val avail = outbuf.availableSpace()
+                                    if (count < avail) {
+                                        outbuf.copy(col1AA, aData, col0AA, count)
+                                        outbuf.copy(col1JA, aData, col0JAA, count)
+                                        outbuf.copy(col1BA, it, col1BA, count)
+                                    } else {
+                                        outbuf.copy(col1AA, aData, col0AA, avail)
+                                        outbuf.copy(col1JA, aData, col0JAA, avail)
+                                        outbuf.copy(col1BA, it, col1BA, avail)
+                                        channel.send(outbuf)
                                         outbuf = ResultChunk(resultSet)
+                                        if (count != avail) {
+                                            outbuf.copy(col1AA, aData, col0AA, count - avail)
+                                            outbuf.copy(col1JA, aData, col0JAA, count - avail)
+                                            outbuf.copy(col1BA, it, col1BA, count - avail)
+                                        }
                                     }
-                                    outbuf.append(row)
                                 }
                             }
                         }
+                    } catch (e: Throwable) {
                     }
-                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                    if (outbuf.size > 0)
+                        channel.send(outbuf)
                     channel.close()
-                    for (c in channels)
-                        c.close()
-                } catch (e: Throwable) {
-                    channel.close()
-                    for (c in channels)
-                        c.close()
                 }
             })
         }

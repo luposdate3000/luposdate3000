@@ -6,7 +6,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
 class SortedArray<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Array<T>) : SortedArrayBase<T>(comparator, arrayAllocator, ::SortedDataPageAllocator) {
-    fun forEachUnordered(action: (T) -> Unit) {
+    fun forEachUnordered(action:suspend (T) -> Unit) {
         var tmp = data
         lock.withReadLock {
             for (i in 0 until tmp.size)
