@@ -23,12 +23,13 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
-        val variable = resultSet.createVariable(name)
-        for (i in 0 until resultChunk.size)
-            if (!resultSet.hasVariable(name))
-                rVektor.data[i] = ValueUndef()
-            else
+        if (resultSet.hasVariable(name)) {
+            val variable = resultSet.createVariable(name)
+            for (i in 0 until resultChunk.size)
                 rVektor.data[i] = resultSet.getValueObject(resultChunk.getColumn(variable).data[i])
+        } else
+            for (i in 0 until resultChunk.size)
+                rVektor.data[i] = ValueUndef()
         println("AOPVariable($name) = ${rVektor.toString(resultChunk.pos, resultChunk.size)}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
