@@ -580,7 +580,8 @@ class SparqlTestSuite() {
                 }
             } catch (e: ParseError) {
                 if (expectedResult) {
-                    GlobalLogger.log(ELoggerType.DEBUG, { e.message })
+e.printStackTrace()
+                    GlobalLogger.log(ELoggerType.DEBUG, { e })
                     GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
                     GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
                     updateAllMicroTest(testName, queryFile, false)

@@ -44,18 +44,14 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
 
     class ComparatorImpl() : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
-            println("cmp ${a.map { it }} ${b.map { it }}")
             for (i in 0 until a.size) {
                 if (a[i] < b[i]) {
-                    println("cmp -1")
                     return -1
                 }
                 if (a[i] > b[i]) {
-                    println("cmp +1")
                     return +1
                 }
             }
-            println("cmp 0")
             return 0
         }
     }
@@ -239,7 +235,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     println("g")
                 }
                 println("h")
-                if (outbuf.size > 0)
+if(outbuf.size>0)
                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                 channel.close()
             })
