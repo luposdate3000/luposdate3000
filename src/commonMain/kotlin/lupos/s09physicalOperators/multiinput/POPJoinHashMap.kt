@@ -44,12 +44,18 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
 
     class ComparatorImpl() : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
+println("cmp ${a.map { it }} ${b.map { it }}")
             for (i in 0 until a.size) {
-                if (a[i] < b[i])
+                if (a[i] < b[i]) {
+println("cmp -1")
                     return -1
-                if (a[i] > b[i])
+                }
+                if (a[i] > b[i]) {
+println("cmp +1")
                     return +1
+                }
             }
+println("cmp 0")
             return 0
         }
     }
@@ -97,42 +103,59 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val col1BA = varBO.map { it.second }.toTypedArray()
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next" }, {
+println("a")
                 while (true) {
                     try {
-                        val inbuf = channels[1].next()
+                        val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
                         while (inbuf.hasNext()) {
+println("b")
                             val same = inbuf.sameElements(col0JBA)
                             val key = inbuf.current(col0JBA)
+println("ba ${key.map { it }} $same ${inbuf.size} ${inbuf.pos}")
                             map.update(key, onCreate = {
+println("bc")
                                 val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
                                 val buf = ResultChunk(children[1].resultSet)
-                                buf.copy(col1BA, inbuf, col1BA, same)
+                                buf.copy(col0BA, inbuf, col0BA, same)
+                                buf.skipSize(col0JBA,same)
+                                inbuf.skipPos(col0JBA,same)
                                 data.add(buf)
                                 data
                             }, onUpdate = { old ->
+println("bd")
                                 var buf = old!!.lastUnordered()
                                 val avail = buf!!.availableSpace()
+println("bb $avail")
                                 if (avail > same)
-                                    buf.copy(col1BA, inbuf, col1BA, same)
-                                else {
-                                    buf.copy(col1BA, inbuf, col1BA, avail)
+                                    buf.copy(col0BA, inbuf, col0BA, same)
+				else {
+                                    buf.copy(col0BA, inbuf, col0BA, avail)
                                     buf = ResultChunk(resultSet)
                                     if (avail != same)
-                                        buf.copy(col1BA, inbuf, col1BA, same - avail)
+                                        buf.copy(col0BA, inbuf, col0BA, same - avail)
                                     old.add(buf)
                                 }
+                                buf.skipSize(col0JBA,same)
+                                inbuf.skipPos(col0JBA,same)
                                 old
                             })
                         }
                     } catch (e: Throwable) {
+                        break
                     }
                 }
+println("c")
                 while (true) {
+println("d")
                     try {
-                        val inbuf = channels[0].next()
+println("i")
+                        val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
+println("j")
                         val same = inbuf.sameElements(col0JAA)
                         val key = inbuf.current(col0JAA)
+println("k ${key.map { it }}")
                         val other = map.get(key)
+println("l")
                         if (other == null && optional) {
                             val avail = outbuf.availableSpace()
                             if (avail > same) {
@@ -148,38 +171,47 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
                                 }
                             }
+			    outbuf.skipSize(col1BA,same)
                         } else if (other != null) {
                             val aData = inbuf.current()
                             inbuf.skip(same)
                             for (i in 0 until same) {
+println("e")
                                 other.forEachUnordered { it ->
+val oldpos=it.pos
+println("f")
                                     val count = it.size
                                     val avail = outbuf.availableSpace()
                                     if (count < avail) {
                                         outbuf.copy(col1AA, aData, col0AA, count)
                                         outbuf.copy(col1JA, aData, col0JAA, count)
-                                        outbuf.copy(col1BA, it, col1BA, count)
+                                        outbuf.copy(col1BA, it, col0BA, count)
                                     } else {
                                         outbuf.copy(col1AA, aData, col0AA, avail)
                                         outbuf.copy(col1JA, aData, col0JAA, avail)
-                                        outbuf.copy(col1BA, it, col1BA, avail)
+                                        outbuf.copy(col1BA, it, col0BA, avail)
                                         channel.send(outbuf)
                                         outbuf = ResultChunk(resultSet)
                                         if (count != avail) {
                                             outbuf.copy(col1AA, aData, col0AA, count - avail)
                                             outbuf.copy(col1JA, aData, col0JAA, count - avail)
-                                            outbuf.copy(col1BA, it, col1BA, count - avail)
+                                            outbuf.copy(col1BA, it, col0BA, count - avail)
                                         }
                                     }
+//reset for later use
+it.pos=oldpos
                                 }
                             }
                         }
                     } catch (e: Throwable) {
+                        break
                     }
-                    if (outbuf.size > 0)
-                        channel.send(outbuf)
-                    channel.close()
+println("g")
                 }
+println("h")
+                if (outbuf.size > 0)
+                    channel.send(outbuf)
+                channel.close()
             })
         }
         return ResultIterator(next = {

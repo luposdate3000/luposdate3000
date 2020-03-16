@@ -85,10 +85,9 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                 try {
                     while (outbuf.size == 0) {
                         val inbuf = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-                        for (row in inbuf) {
+                        for (row in inbuf)
                             if (data.update(row, onCreate = { row }, onUpdate = { row }) == null)
                                 outbuf.append(row)
-                        }
                     }
                 } catch (e: Throwable) {
                 }

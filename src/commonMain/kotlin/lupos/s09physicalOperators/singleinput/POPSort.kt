@@ -105,16 +105,13 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         res.next = {
             Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
                 var outbuf = ResultChunk(resultSet)
-                try {
                     while (outbuf.canAppend()) {
                         if (!iterator.hasNext()) {
                             res.close()
-                            res.next()
+break
                         }
                         outbuf.append(iterator.next())
                     }
-                } catch (e: Throwable) {
-                }
                 resultFlowProduce({ this@POPSort }, { outbuf })
             })
         }

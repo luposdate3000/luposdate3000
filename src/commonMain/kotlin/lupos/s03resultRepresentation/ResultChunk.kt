@@ -11,7 +11,7 @@ class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
 
     //die eigentlichen Daten als Array von Spalten
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
-
+//reference for retrieving the current pos
     //dies ist die aktuelle Zeile innerhalb von diesem Spaltenvektor (nur beim lesen verändert)
     var pos: Int
         get() = data[0].pos
@@ -71,9 +71,19 @@ class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
         return res
     }
 
+fun skipPos(columns: Array<Variable>,count: Int){
+for (c in 0 until columns.size)
+data[columns[c].toInt()].pos+=count
+}
+fun skipSize(columns: Array<Variable>,count: Int){
+for (c in 0 until columns.size)
+data[columns[c].toInt()].size+=count
+}
+
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
+println("cpycol ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val colFrom = chunkFrom.data[columnsFrom[c].toInt()]
             colTo.copy(colFrom, count)
@@ -83,6 +93,7 @@ class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
+println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
             colTo.copy(valFrom, count)
@@ -125,12 +136,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: ResultVektor, count: Int) {
+println("cp $count $pos $size ${from.pos} ${from.size}")
         for (i in 0 until count)
             append(from.next())
     }
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: Value, count: Int) {
+println("cp $count $pos $size")
         for (i in 0 until count)
             append(from)
     }

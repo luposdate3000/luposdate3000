@@ -58,8 +58,10 @@ abstract class SortedArrayBase<T>(//
 
     fun findAction(value: T, cmp: Comparator<T> = comparator, isModify: Boolean = false, onCreate: () -> T? = { null }, onUpdate: (T) -> Pair<T?, Boolean>? = { null }, delete: Boolean = false): T? {
 //this function assumes that the provided get-comparator is compatible to the one provided at allocation time
+//println("Xa")
         var res: T? = null
         CoroutinesHelper.runBlock {
+//println("Xb")
             if (isModify) {
                 lock.writeLock()
                 internalSortWithLock()
@@ -71,6 +73,8 @@ abstract class SortedArrayBase<T>(//
                     lock.readLock()
                 }
             }
+try{
+//println("Xc")
             if (size > 0) {
                 var tmp = data
                 loop@ while (true) {
@@ -78,7 +82,9 @@ abstract class SortedArrayBase<T>(//
                         for (i in 0 until tmp.size)
                             if (cmp.compare(tmp.data[i], value) == 0) {
                                 res = tmp.data[i]
+//println("Xd")
                                 if (isModify) {
+//println("Xe")
                                     var del = delete
                                     val x = onUpdate(tmp.data[i])
                                     if (x != null) {
@@ -88,6 +94,7 @@ abstract class SortedArrayBase<T>(//
                                             del = true
                                     }
                                     if (del) {
+//println("Xf")
                                         tmp.delete(i)
                                         tmp.internal_sort()
                                         size--
@@ -101,21 +108,32 @@ abstract class SortedArrayBase<T>(//
                                 }
                                 break@loop
                             }
+//println("Xg")
                     tmp = tmp.next
                     if (tmp == data)
                         break
                 }
             }
+//println("Xh")
             if (res == null && isModify) {
+//println("Xi")
                 val x = onCreate()
                 if (x != null)
                     internalAddWithLock(x)
+//println("Xj")
             }
+}catch(e:Throwable){
+e.printStackTrace()
+}finally{
+//println("Xk")
             if (isModify)
                 lock.writeUnlock()
             else
                 lock.readUnlock()
+}
+//println("Xl")
         }
+//println("Xm")
         return res
     }
 
