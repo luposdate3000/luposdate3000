@@ -29,8 +29,10 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPUnion.evaluate" }, {
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
-        var variablesA = children[0].getProvidedVariableNames().map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
-        var variablesB = children[1].getProvidedVariableNames().map { Pair(children[1].resultSet.createVariable(it), resultSet.createVariable(it)) }
+val var0A=children[0].getProvidedVariableNames().map {children[0].resultSet.createVariable(it)}.toTypedArray()
+val var0B=children[1].getProvidedVariableNames().map {children[1].resultSet.createVariable(it)}.toTypedArray()
+val var1A=children[0].getProvidedVariableNames().map {resultSet.createVariable(it)}.toTypedArray()
+val var1B=children[1].getProvidedVariableNames().map {resultSet.createVariable(it)}.toTypedArray()
         val res = ResultIterator()
         res.close = {
             childA.close()
@@ -41,25 +43,21 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
             Trace.traceSuspend<ResultChunk>({ "POPUnion.next" }, {
                 var outbuf = ResultChunk(resultSet)
                 try {
-                    val rowsOld = childA.next()
-                    for (rowOld in rowsOld) {
-                        var row = resultSet.createResultRow()
-                        for (v in variablesA)
-                            resultSet.copy(row, v.second, rowOld, v.first, children[0].resultSet)
-                        outbuf.append(row)
-                    }
+                    val inbuf =  resultFlowConsume({ this@POPUnion }, { children[0] }, { childA.next()})
+val pos=inbuf.pos
+val size=inbuf.size
+outbuf.copy(var1A,inbuf,var0A,size-pos)
+outbuf.size=size-pos
                 } catch (e: Throwable) {
                     childA.close()
                     res.next = {
                         Trace.trace<ResultChunk>({ "POPUnion.next" }, {
                             val outbuf = ResultChunk(resultSet)
-                            val rowsOld = childB.next()
-                            for (rowOld in rowsOld) {
-                                val row = resultSet.createResultRow()
-                                for (v in variablesB)
-                                    resultSet.copy(row, v.second, rowOld, v.first, children[1].resultSet)
-                                outbuf.append(row)
-                            }
+                            val inbuf =  resultFlowConsume({ this@POPUnion }, { children[1] }, { childB.next()})
+val pos=inbuf.pos
+val size=inbuf.size
+outbuf.copy(var1B,inbuf,var0B,size-pos)
+outbuf.size=size-pos
                             resultFlowProduce({ this@POPUnion }, { outbuf })
                         })
                     }

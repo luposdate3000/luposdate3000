@@ -26,6 +26,8 @@ class ResultSetDictionary {
 
     fun createValue(value: ValueDefinition): Value {
         var res: Value = undefValue
+if(value is ValueUndef|| value is ValueError)
+return res
         CoroutinesHelper.runBlockWithLock(mutex, {
             val o = mapSTL[value]
             if (o != null)

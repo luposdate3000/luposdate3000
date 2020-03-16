@@ -164,7 +164,7 @@ val                         key = inbuf.current(col0JAA)
                             } else {
                                 outbuf.copy(col1AA, inbuf, col0AA, avail)
                                 outbuf.copy(col1JA, inbuf, col0JAA, avail)
-                                channel.send(outbuf)
+                                channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf}))
                                 outbuf = ResultChunk(resultSet)
                                 if (avail != same) {
                                     outbuf.copy(col1AA, inbuf, col0AA, same - avail)
@@ -190,7 +190,7 @@ println("write ${col1AA.map{it}} ${col1JA.map{it}} ${col1BA.map{it}} ${col0AA.ma
                                         outbuf.copy(col1AA, aData, col0AA, avail)
                                         outbuf.copy(col1JA, aData, col0JAA, avail)
                                         outbuf.copy(col1BA, it, col0BA, avail)
-                                        channel.send(outbuf)
+                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf}))
                                         outbuf = ResultChunk(resultSet)
                                         if (count != avail) {
                                             outbuf.copy(col1AA, aData, col0AA, count - avail)
@@ -210,7 +210,7 @@ println("write ${col1AA.map{it}} ${col1JA.map{it}} ${col1BA.map{it}} ${col0AA.ma
                 }
                 println("h")
                 if (outbuf.size > 0)
-                    channel.send(outbuf)
+                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf}))
                 channel.close()
             })
         }
