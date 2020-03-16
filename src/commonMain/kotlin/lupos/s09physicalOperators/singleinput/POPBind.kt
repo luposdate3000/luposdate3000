@@ -62,8 +62,8 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                     outbuf.pos = inbuf.pos
                 } catch (e: Throwable) {
                     e.printStackTrace()
-res.close()
-res.next.invoke()
+                    res.close()
+                    res.next.invoke()
                 }
                 resultFlowProduce({ this@POPBind }, { outbuf })
             })

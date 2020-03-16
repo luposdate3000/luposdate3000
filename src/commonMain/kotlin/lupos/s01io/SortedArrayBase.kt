@@ -61,7 +61,7 @@ abstract class SortedArrayBase<T>(//
 //println("Xa")
         var res: T? = null
         CoroutinesHelper.runBlock {
-//println("Xb")
+            //println("Xb")
             if (isModify) {
                 lock.writeLock()
                 internalSortWithLock()
@@ -73,64 +73,64 @@ abstract class SortedArrayBase<T>(//
                     lock.readLock()
                 }
             }
-try{
+            try {
 //println("Xc")
-            if (size > 0) {
-                var tmp = data
-                loop@ while (true) {
-                    if (cmp.compare(tmp.data[tmp.size - 1], value) >= 0)
-                        for (i in 0 until tmp.size)
-                            if (cmp.compare(tmp.data[i], value) == 0) {
-                                res = tmp.data[i]
+                if (size > 0) {
+                    var tmp = data
+                    loop@ while (true) {
+                        if (cmp.compare(tmp.data[tmp.size - 1], value) >= 0)
+                            for (i in 0 until tmp.size)
+                                if (cmp.compare(tmp.data[i], value) == 0) {
+                                    res = tmp.data[i]
 //println("Xd")
-                                if (isModify) {
+                                    if (isModify) {
 //println("Xe")
-                                    var del = delete
-                                    val x = onUpdate(tmp.data[i])
-                                    if (x != null) {
-                                        if (x.first != null) {
-                                            tmp.data[i] = x.first!!
-                                        } else
-                                            del = true
-                                    }
-                                    if (del) {
+                                        var del = delete
+                                        val x = onUpdate(tmp.data[i])
+                                        if (x != null) {
+                                            if (x.first != null) {
+                                                tmp.data[i] = x.first!!
+                                            } else
+                                                del = true
+                                        }
+                                        if (del) {
 //println("Xf")
-                                        tmp.delete(i)
-                                        tmp.internal_sort()
-                                        size--
-                                        sortuntil--
-                                        if (size > 0 && tmp.size == 0) {
-                                            val nextpage = tmp.removePage()
-                                            if (tmp == data)
-                                                data = nextpage!!
+                                            tmp.delete(i)
+                                            tmp.internal_sort()
+                                            size--
+                                            sortuntil--
+                                            if (size > 0 && tmp.size == 0) {
+                                                val nextpage = tmp.removePage()
+                                                if (tmp == data)
+                                                    data = nextpage!!
+                                            }
                                         }
                                     }
+                                    break@loop
                                 }
-                                break@loop
-                            }
 //println("Xg")
-                    tmp = tmp.next
-                    if (tmp == data)
-                        break
+                        tmp = tmp.next
+                        if (tmp == data)
+                            break
+                    }
                 }
-            }
 //println("Xh")
-            if (res == null && isModify) {
+                if (res == null && isModify) {
 //println("Xi")
-                val x = onCreate()
-                if (x != null)
-                    internalAddWithLock(x)
+                    val x = onCreate()
+                    if (x != null)
+                        internalAddWithLock(x)
 //println("Xj")
-            }
-}catch(e:Throwable){
-e.printStackTrace()
-}finally{
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            } finally {
 //println("Xk")
-            if (isModify)
-                lock.writeUnlock()
-            else
-                lock.readUnlock()
-}
+                if (isModify)
+                    lock.writeUnlock()
+                else
+                    lock.readUnlock()
+            }
 //println("Xl")
         }
 //println("Xm")

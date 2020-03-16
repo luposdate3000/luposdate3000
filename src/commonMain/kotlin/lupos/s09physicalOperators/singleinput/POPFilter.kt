@@ -65,6 +65,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                     variableID = resultSet.createVariable((childA as AOPVariable).name)
                 }
                 res.next = {
+                    println("filterA")
                     Trace.trace<ResultChunk>({ "POPFilter.next" }, {
                         val outbuf = ResultChunk(resultSet)
                         val inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
@@ -78,6 +79,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                 val variableIDA = resultSet.createVariable((childA as AOPVariable).name)
                 val variableIDB = resultSet.createVariable((childB as AOPVariable).name)
                 res.next = {
+                    println("filterB")
                     Trace.trace<ResultChunk>({ "POPFilter.next" }, {
                         val outbuf = ResultChunk(resultSet)
                         var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
@@ -91,16 +93,22 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
             return res
         }
         res.next = {
+            println("filterC")
             Trace.traceSuspend<ResultChunk>({ "POPFilter.next" }, {
                 val outbuf = ResultChunk(resultSet)
                 var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
                 val resultVektor = expression.calculate(resultSet, inbuf)
-                for (row in inbuf)
+                var pos = inbuf.pos
+                for (row in inbuf) {
                     try {
-                        if (resultVektor.data[inbuf.pos - 1].toBoolean())
+                        println("$pos ${inbuf.size} ${inbuf.pos} ${resultVektor.data[pos].toSparql()}")
+                        if (resultVektor.data[pos].toBoolean())
                             outbuf.append(row)
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                     }
+                    pos++
+                }
                 resultFlowProduce({ this@POPFilter }, { outbuf })
             })
         }

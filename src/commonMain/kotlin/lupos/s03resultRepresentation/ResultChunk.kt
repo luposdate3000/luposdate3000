@@ -3,6 +3,7 @@ package lupos.s03resultRepresentation
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
+
 //ein Block von mehreren Zeilen
 class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
 
@@ -11,7 +12,7 @@ class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
 
     //die eigentlichen Daten als Array von Spalten
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
-//reference for retrieving the current pos
+    //reference for retrieving the current pos
     //dies ist die aktuelle Zeile innerhalb von diesem Spaltenvektor (nur beim lesen verändert)
     var pos: Int
         get() = data[0].pos
@@ -51,8 +52,9 @@ class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
         pos += count
     }
 
-    fun current(columns: Array<Variable>) = Array(columns.size) { data[it].current() }
+    fun current(columns: Array<Variable>) = Array(columns.size) { data[columns[it].toInt()].current() }
     fun current() = Array(columns) { data[it].current() }
+    fun nextArr() = Array(columns) { data[it].next() }
 
     fun setColumn(variable: Variable, col: ResultVektor) {
         data[variable.toInt()] = col
@@ -71,19 +73,20 @@ class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
         return res
     }
 
-fun skipPos(columns: Array<Variable>,count: Int){
-for (c in 0 until columns.size)
-data[columns[c].toInt()].pos+=count
-}
-fun skipSize(columns: Array<Variable>,count: Int){
-for (c in 0 until columns.size)
-data[columns[c].toInt()].size+=count
-}
+    fun skipPos(columns: Array<Variable>, count: Int) {
+        for (c in 0 until columns.size)
+            data[columns[c].toInt()].pos += count
+    }
+
+    fun skipSize(columns: Array<Variable>, count: Int) {
+        for (c in 0 until columns.size)
+            data[columns[c].toInt()].size += count
+    }
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
-println("cpycol ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
+//            println("cpycol ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val colFrom = chunkFrom.data[columnsFrom[c].toInt()]
             colTo.copy(colFrom, count)
@@ -93,13 +96,25 @@ println("cpycol ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
-println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
+//            println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
             colTo.copy(valFrom, count)
         }
     }
 
+    override fun toString(): String {
+        val res = StringBuilder()
+        for (c in 0 until columns)
+            res.append("(${resultSet.getVariableNames()[c]},${data[c].pos},${data[c].size}), ")
+        res.append("\n")
+        for (r in pos until size) {
+            for (c in 0 until columns)
+                res.append("${data[c].data[r]}, ")
+            res.append("\n")
+        }
+        return res.toString()
+    }
 }
 
 //eine einzelne Spalte von Werten
@@ -136,14 +151,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: ResultVektor, count: Int) {
-println("cp $count $pos $size ${from.pos} ${from.size}")
+//        println("cp $count $pos $size ${from.pos} ${from.size}")
         for (i in 0 until count)
             append(from.next())
     }
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: Value, count: Int) {
-println("cp $count $pos $size")
+//        println("cp $count $pos $size")
         for (i in 0 until count)
             append(from)
     }

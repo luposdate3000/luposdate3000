@@ -44,18 +44,18 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
 
     class ComparatorImpl() : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
-println("cmp ${a.map { it }} ${b.map { it }}")
+            println("cmp ${a.map { it }} ${b.map { it }}")
             for (i in 0 until a.size) {
                 if (a[i] < b[i]) {
-println("cmp -1")
+                    println("cmp -1")
                     return -1
                 }
                 if (a[i] > b[i]) {
-println("cmp +1")
+                    println("cmp +1")
                     return +1
                 }
             }
-println("cmp 0")
+            println("cmp 0")
             return 0
         }
     }
@@ -103,40 +103,40 @@ println("cmp 0")
         val col1BA = varBO.map { it.second }.toTypedArray()
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next" }, {
-println("a")
+                println("a")
                 while (true) {
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
                         while (inbuf.hasNext()) {
-println("b")
+                            println("b")
                             val same = inbuf.sameElements(col0JBA)
-                            val key = inbuf.current(col0JBA)
-println("ba ${key.map { it }} $same ${inbuf.size} ${inbuf.pos}")
+val key=inbuf.current(col0JBA)
+                            println("ba ${key.map { it }} $same ${inbuf.size} ${inbuf.pos}")
                             map.update(key, onCreate = {
-println("bc")
+                                println("bc")
                                 val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
                                 val buf = ResultChunk(children[1].resultSet)
                                 buf.copy(col0BA, inbuf, col0BA, same)
-                                buf.skipSize(col0JBA,same)
-                                inbuf.skipPos(col0JBA,same)
+                                buf.skipSize(col0JBA, same)
+                                inbuf.skipPos(col0JBA, same)
                                 data.add(buf)
                                 data
                             }, onUpdate = { old ->
-println("bd")
+                                println("bd")
                                 var buf = old!!.lastUnordered()
                                 val avail = buf!!.availableSpace()
-println("bb $avail")
+                                println("bb $avail")
                                 if (avail > same)
                                     buf.copy(col0BA, inbuf, col0BA, same)
-				else {
+                                else {
                                     buf.copy(col0BA, inbuf, col0BA, avail)
                                     buf = ResultChunk(resultSet)
                                     if (avail != same)
                                         buf.copy(col0BA, inbuf, col0BA, same - avail)
                                     old.add(buf)
                                 }
-                                buf.skipSize(col0JBA,same)
-                                inbuf.skipPos(col0JBA,same)
+                                buf.skipSize(col0JBA, same)
+                                inbuf.skipPos(col0JBA, same)
                                 old
                             })
                         }
@@ -144,18 +144,18 @@ println("bb $avail")
                         break
                     }
                 }
-println("c")
+                println("c")
                 while (true) {
-println("d")
+                    println("d")
                     try {
-println("i")
+                        println("i")
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
-println("j")
+                        println("j")
                         val same = inbuf.sameElements(col0JAA)
-                        val key = inbuf.current(col0JAA)
-println("k ${key.map { it }}")
+val                         key = inbuf.current(col0JAA)
+                        println("k ${key.map { it }}")
                         val other = map.get(key)
-println("l")
+                        println("l")
                         if (other == null && optional) {
                             val avail = outbuf.availableSpace()
                             if (avail > same) {
@@ -171,17 +171,17 @@ println("l")
                                     outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
                                 }
                             }
-			    outbuf.skipSize(col1BA,same)
+                            outbuf.skipSize(col1BA, same)
                         } else if (other != null) {
-                            val aData = inbuf.current()
-                            inbuf.skip(same)
                             for (i in 0 until same) {
-println("e")
+                            val aData = inbuf.nextArr()
+println("adata ${aData.map{it}}")
                                 other.forEachUnordered { it ->
-val oldpos=it.pos
-println("f")
+                                    val oldpos = it.pos
+                                    println("f")
                                     val count = it.size
                                     val avail = outbuf.availableSpace()
+println("write ${col1AA.map{it}} ${col1JA.map{it}} ${col1BA.map{it}} ${col0AA.map{it}} ${col0JAA.map{it}} ${col0BA.map{it}}")
                                     if (count < avail) {
                                         outbuf.copy(col1AA, aData, col0AA, count)
                                         outbuf.copy(col1JA, aData, col0JAA, count)
@@ -199,16 +199,16 @@ println("f")
                                         }
                                     }
 //reset for later use
-it.pos=oldpos
+                                    it.pos = oldpos
                                 }
                             }
                         }
                     } catch (e: Throwable) {
                         break
                     }
-println("g")
+                    println("g")
                 }
-println("h")
+                println("h")
                 if (outbuf.size > 0)
                     channel.send(outbuf)
                 channel.close()

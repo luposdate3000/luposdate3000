@@ -27,4 +27,12 @@ class ResultVektorRaw() {
     }
 
     val data = Array<ValueDefinition>(capacity) { ValueError() }
+
+    fun toString(pos: Int, size: Int): String {
+        val res = StringBuilder()
+        for (i in pos until size)
+            res.append("${data[i].toSparql()}, ")
+        return res.toString()
+    }
+
 }
