@@ -4,7 +4,8 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
-class ResultChunkNoColumns(resultSet: ResultSet,columns:Int) : ResultChunk(resultSet,columns) {
+class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(resultSet, columns) {
+val emptyArray=arrayOf<Value>()
     var posField = 0
     var sizeField = 0
     override var pos: Int
@@ -17,34 +18,44 @@ class ResultChunkNoColumns(resultSet: ResultSet,columns:Int) : ResultChunk(resul
         set(value) {
             sizeField = value
         }
-override fun next(): ResultRow{
+
+    override fun next(): ResultRow {
+        posField++
+        return resultSet.createResultRow()
+    }
+
+    override fun availableSpace() = ResultVektor.capacity - sizeField
+    override fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
+        posField += count
+    }
+
+    override fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
+        posField += count
+    }
+
+    override fun skipPos(columns: Array<Variable>, count: Int) {
+        posField += count
+    }
+
+    override fun skipSize(columns: Array<Variable>, count: Int) {
+        posField += count
+    }
+override fun nextArr():Array<Value>{
 posField++
-return resultSet.createResultRow()
-}
-override fun availableSpace() = ResultVektor.capacity - sizeField
-override   fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
-posField+=count
-}
-override fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
-posField+=count
-}
-override  fun skipPos(columns: Array<Variable>, count: Int){
-posField+=count
-}
-override  fun skipSize(columns: Array<Variable>, count: Int){
-posField+=count 
+return emptyArray
 }
 }
 
-open class ResultChunk(val resultSet: ResultSet,val columns:Int) : Iterator<ResultRow> {
-companion object{
-operator fun invoke(resultSet: ResultSet):ResultChunk{
-val columns=resultSet.getVariableNames().size
-if(columns==0)
-return ResultChunkNoColumns(resultSet,columns)
-return ResultChunk(resultSet,columns)
-}
-}
+open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<ResultRow> {
+    companion object {
+        operator fun invoke(resultSet: ResultSet): ResultChunk {
+            val columns = resultSet.getVariableNames().size
+            if (columns == 0)
+                return ResultChunkNoColumns(resultSet, columns)
+            return ResultChunk(resultSet, columns)
+        }
+    }
+
     //die eigentlichen Daten als Array von Spalten
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
     //reference for retrieving the current pos
@@ -63,7 +74,7 @@ return ResultChunk(resultSet,columns)
                 data[i].size = value
         }
 
-open    fun availableSpace() = data[0].availableSpace()
+    open fun availableSpace() = data[0].availableSpace()
     fun canAppend() = availableSpace() > 0
 
     //backwards compatibility
@@ -84,7 +95,7 @@ open    fun availableSpace() = data[0].availableSpace()
 
     fun current(columns: Array<Variable>) = Array(columns.size) { data[columns[it].toInt()].current() }
     fun current() = Array(columns) { data[it].current() }
-    fun nextArr() = Array(columns) { data[it].next() }
+open    fun nextArr() = Array(columns) { data[it].next() }
 
     fun setColumn(variable: Variable, col: ResultVektor) {
         data[variable.toInt()] = col
@@ -103,18 +114,18 @@ open    fun availableSpace() = data[0].availableSpace()
         return res
     }
 
-open     fun skipPos(columns: Array<Variable>, count: Int) {
+    open fun skipPos(columns: Array<Variable>, count: Int) {
         for (c in 0 until columns.size)
             data[columns[c].toInt()].pos += count
     }
 
-open    fun skipSize(columns: Array<Variable>, count: Int) {
+    open fun skipSize(columns: Array<Variable>, count: Int) {
         for (c in 0 until columns.size)
             data[columns[c].toInt()].size += count
     }
 
     //dies hier wird durch kompression später deutlich verbessert
-open    fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
+    open fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
 //            println("cpycol ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
@@ -124,7 +135,7 @@ open    fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom
     }
 
     //dies hier wird durch kompression später deutlich verbessert
-   open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
+    open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
 //            println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
@@ -138,12 +149,12 @@ open    fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom
         for (c in 0 until columns)
             res.append("(${resultSet.getVariableNames()[c]},${data[c].pos},${data[c].size}), ")
         res.append("\n")
-if(columns>0)
-        for (r in pos until size) {
-            for (c in 0 until columns)
-                res.append("${data[c].data[r]}, ")
-            res.append("\n")
-        }
+        if (columns > 0)
+            for (r in pos until size) {
+                for (c in 0 until columns)
+                    res.append("${data[c].data[r]}, ")
+                res.append("\n")
+            }
         return res.toString()
     }
 }

@@ -580,7 +580,7 @@ class SparqlTestSuite() {
                 }
             } catch (e: ParseError) {
                 if (expectedResult) {
-e.printStackTrace()
+                    e.printStackTrace()
                     GlobalLogger.log(ELoggerType.DEBUG, { e })
                     GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
                     GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })

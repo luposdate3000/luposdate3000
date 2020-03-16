@@ -39,7 +39,7 @@ object QueryResultToXML {
                 })
             }
         } else {
-println("output a")
+            println("output a")
             val bnodeMap = mutableMapOf<String, String>()
             val nodeResults = XMLElement("results")
             nodeSparql.addContent(nodeResults)
@@ -47,17 +47,17 @@ println("output a")
                 nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
-println("output b")
+            println("output b")
             CoroutinesHelper.runBlock {
                 Trace.traceSuspend({ "QueryResultToXML.runBlock" }, {
                     child.forEach { rows ->
-println("output c")
+                        println("output c")
                         for (row in resultFlowConsume({ OPNothing(query.query) }, { query }, { rows })) {
-println("output d")
+                            println("output d")
                             val nodeResult = XMLElement("result")
                             nodeResults.addContent(nodeResult)
                             for (variable in variables) {
-println("output e")
+                                println("output e")
                                 if (!query.resultSet.isUndefValue(row, variable.second)) {
                                     val value = query.resultSet.getValueObject(row, variable.second)!!.valueToString()
                                     if (value != null) {//TODO this should be ALWAYS true ?!?

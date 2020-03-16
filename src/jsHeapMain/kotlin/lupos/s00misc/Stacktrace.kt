@@ -8,6 +8,6 @@ import lupos.s04logicalOperators.ResultIterator
 
 
 fun Throwable.kotlinStacktrace() {
-printStackTrace()
+    printStackTrace()
     GlobalLogger.log(ELoggerType.DEBUG, { this })
 }
