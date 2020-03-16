@@ -3,7 +3,7 @@ package lupos.s03resultRepresentation
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
+//ein Block von mehreren Zeilen
 class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
 
     //anzahl der Spalten
@@ -100,6 +100,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     var pos = 0
     var size = 0
 
+    //dieses array wird durch die seiten-basierte implementierung ausgetauscht
     val data = Array<Value>(capacity) { undefValue }
 
     fun current(): Value = data[pos]
