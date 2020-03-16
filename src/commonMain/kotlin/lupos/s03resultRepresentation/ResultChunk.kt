@@ -3,20 +3,22 @@ package lupos.s03resultRepresentation
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-class ResultChunkNoColumns(resultSet: ResultSet):ResultChunk(resultSet){
-var posField=0
-var sizeField=0
-override var pos:Int
-get()=posField
-set(value){
-posField=value
+
+class ResultChunkNoColumns(resultSet: ResultSet) : ResultChunk(resultSet) {
+    var posField = 0
+    var sizeField = 0
+    override var pos: Int
+        get() = posField
+        set(value) {
+            posField = value
+        }
+    override var size: Int
+        get() = sizeField
+        set(value) {
+            sizeField = value
+        }
 }
-override var size:Int
-get()=sizeField
-set(value){
-sizeField=value
-}
-}
+
 open class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
 
     //anzahl der Spalten
@@ -26,14 +28,14 @@ open class ResultChunk(val resultSet: ResultSet) : Iterator<ResultRow> {
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
     //reference for retrieving the current pos
     //dies ist die aktuelle Zeile innerhalb von diesem Spaltenvektor (nur beim lesen verändert)
-open    var pos: Int
-        get()=data[0].pos
+    open var pos: Int
+        get() = data[0].pos
         set(value) {
             for (i in 0 until data.size)
                 data[i].pos = value
         }
     //dies ist die aktuelle Zeile innerhalb von diesem Spaltenvektor (nur beim schreiben verändert)
-open    var size: Int
+    open var size: Int
         get() = data[0].size
         set(value) {
             for (i in 0 until data.size)

@@ -67,6 +67,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
     fun arrayAllocator(size: Int) = Array(size) { ResultChunk(resultSet) }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {
+        val undefValue = resultSet.dictionary.undefValue
         val variablesA = children[0].getProvidedVariableNames()
         val variablesB = children[1].getProvidedVariableNames()
         val variablesJ = mutableListOf<String>()
@@ -83,11 +84,19 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val varAO = variablesAO.map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
         val varBO = variablesBO.map { Pair(children[1].resultSet.createVariable(it), resultSet.createVariable(it)) }
         val varJ = variablesJ.map { Pair(Pair(children[0].resultSet.createVariable(it), children[1].resultSet.createVariable(it)), resultSet.createVariable(it)) }
-        val map = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
+        val mapWithUndef = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
             size ->
             Array(size) {
                 Pair(Array<Value>(varJ.size) {
-                    resultSet.dictionary.undefValue //
+                    undefValue //
+                }, SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)) //
+            }//
+        }, null)
+        val mapWithoutUndef = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
+            size ->
+            Array(size) {
+                Pair(Array<Value>(varJ.size) {
+                    undefValue //
                 }, SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)) //
             }//
         }, null)
@@ -110,8 +119,16 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         while (inbuf.hasNext()) {
                             println("b")
                             val same = inbuf.sameElements(col0JBA)
-val key=inbuf.current(col0JBA)
+                            val key = inbuf.current(col0JBA)
                             println("ba ${key.map { it }} $same ${inbuf.size} ${inbuf.pos}")
+                            var containsUndef = false
+                            for (k in key)
+                                if (k == undefValue)
+                                    containsUndef = true
+                            val map = if (containsUndef)
+                                mapWithUndef
+                            else
+                                mapWithoutUndef
                             map.update(key, onCreate = {
                                 println("bc")
                                 val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
@@ -152,11 +169,23 @@ val key=inbuf.current(col0JBA)
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
                         println("j")
                         val same = inbuf.sameElements(col0JAA)
-val                         key = inbuf.current(col0JAA)
+                        val key = inbuf.current(col0JAA)
                         println("k ${key.map { it }}")
-                        val other = map.get(key)
+                        val other0 = mapWithoutUndef.get(key)
                         println("l")
-                        if (other == null && optional) {
+                        val others = mutableListOf<SortedArray<ResultChunk>>()
+                        if (other0 != null)
+                            others.add(other0)
+                        mapWithUndef.forEach { k, v ->
+//assuming not too much undef values - otherwiese improve here
+                            var match = true
+                            for (i in 0 until key.size)
+                                if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                    match = false
+                            if (match)
+                                others.add(v!!)
+                        }
+                        if (others.size == 0 && optional) {
                             val avail = outbuf.availableSpace()
                             if (avail > same) {
                                 outbuf.copy(col1AA, inbuf, col0AA, same)
@@ -164,7 +193,7 @@ val                         key = inbuf.current(col0JAA)
                             } else {
                                 outbuf.copy(col1AA, inbuf, col0AA, avail)
                                 outbuf.copy(col1JA, inbuf, col0JAA, avail)
-                                channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf}))
+                                channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                 outbuf = ResultChunk(resultSet)
                                 if (avail != same) {
                                     outbuf.copy(col1AA, inbuf, col0AA, same - avail)
@@ -172,37 +201,38 @@ val                         key = inbuf.current(col0JAA)
                                 }
                             }
                             outbuf.skipSize(col1BA, same)
-                        } else if (other != null) {
-                            for (i in 0 until same) {
-                            val aData = inbuf.nextArr()
-println("adata ${aData.map{it}}")
-                                other.forEachUnordered { it ->
-                                    val oldpos = it.pos
-                                    println("f")
-                                    val count = it.size
-                                    val avail = outbuf.availableSpace()
-println("write ${col1AA.map{it}} ${col1JA.map{it}} ${col1BA.map{it}} ${col0AA.map{it}} ${col0JAA.map{it}} ${col0BA.map{it}}")
-                                    if (count < avail) {
-                                        outbuf.copy(col1AA, aData, col0AA, count)
-                                        outbuf.copy(col1JA, aData, col0JAA, count)
-                                        outbuf.copy(col1BA, it, col0BA, count)
-                                    } else {
-                                        outbuf.copy(col1AA, aData, col0AA, avail)
-                                        outbuf.copy(col1JA, aData, col0JAA, avail)
-                                        outbuf.copy(col1BA, it, col0BA, avail)
-                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf}))
-                                        outbuf = ResultChunk(resultSet)
-                                        if (count != avail) {
-                                            outbuf.copy(col1AA, aData, col0AA, count - avail)
-                                            outbuf.copy(col1JA, aData, col0JAA, count - avail)
-                                            outbuf.copy(col1BA, it, col0BA, count - avail)
+                        } else
+                            for (other in others) {
+                                for (i in 0 until same) {
+                                    val aData = inbuf.nextArr()
+                                    println("adata ${aData.map { it }}")
+                                    other.forEachUnordered { it ->
+                                        val oldpos = it.pos
+                                        println("f")
+                                        val count = it.size
+                                        val avail = outbuf.availableSpace()
+                                        println("write ${col1AA.map { it }} ${col1JA.map { it }} ${col1BA.map { it }} ${col0AA.map { it }} ${col0JAA.map { it }} ${col0BA.map { it }}")
+                                        if (count < avail) {
+                                            outbuf.copy(col1AA, aData, col0AA, count)
+                                            outbuf.copy(col1JA, aData, col0JAA, count)
+                                            outbuf.copy(col1BA, it, col0BA, count)
+                                        } else {
+                                            outbuf.copy(col1AA, aData, col0AA, avail)
+                                            outbuf.copy(col1JA, aData, col0JAA, avail)
+                                            outbuf.copy(col1BA, it, col0BA, avail)
+                                            channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                            outbuf = ResultChunk(resultSet)
+                                            if (count != avail) {
+                                                outbuf.copy(col1AA, aData, col0AA, count - avail)
+                                                outbuf.copy(col1JA, aData, col0JAA, count - avail)
+                                                outbuf.copy(col1BA, it, col0BA, count - avail)
+                                            }
                                         }
-                                    }
 //reset for later use
-                                    it.pos = oldpos
+                                        it.pos = oldpos
+                                    }
                                 }
                             }
-                        }
                     } catch (e: Throwable) {
                         break
                     }
@@ -210,7 +240,7 @@ println("write ${col1AA.map{it}} ${col1JA.map{it}} ${col1BA.map{it}} ${col0AA.ma
                 }
                 println("h")
                 if (outbuf.size > 0)
-                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf}))
+                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                 channel.close()
             })
         }
