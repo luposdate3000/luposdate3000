@@ -170,19 +170,44 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             val same = inbuf.sameElements(col0JAA)
                             val key = inbuf.current(col0JAA)
                             println("$classname $uuid k ${key.map { it }}")
-                            val other0 = mapWithoutUndef.get(key)
                             println("$classname $uuid l")
                             val others = mutableListOf<SortedArray<ResultChunk>>()
-                            if (other0 != null)
-                                others.add(other0)
-                            mapWithUndef.forEach { k, v ->
-                                //assuming not too much undef values - otherwiese improve here
-                                var match = true
-                                for (i in 0 until key.size)
-                                    if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
-                                        match = false
-                                if (match)
-                                    others.add(v!!)
+                            var containsUndef = false
+                            for (k in key)
+                                if (k == undefValue)
+                                    containsUndef = true
+                            if (containsUndef) {
+                                mapWithoutUndef.forEach { k, v ->
+                                    //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
+                                    var match = true
+                                    for (i in 0 until key.size)
+                                        if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                            match = false
+                                    if (match)
+                                        others.add(v!!)
+                                }
+                                mapWithUndef.forEach { k, v ->
+                                    //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
+                                    var match = true
+                                    for (i in 0 until key.size)
+                                        if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                            match = false
+                                    if (match)
+                                        others.add(v!!)
+                                }
+                            } else {
+                                val other0 = mapWithoutUndef.get(key)
+                                if (other0 != null)
+                                    others.add(other0)
+                                mapWithUndef.forEach { k, v ->
+                                    //assuming not too much undef values - otherwiese improve here
+                                    var match = true
+                                    for (i in 0 until key.size)
+                                        if (k[i] != undefValue && key[i] != k[i])
+                                            match = false
+                                    if (match)
+                                        others.add(v!!)
+                                }
                             }
                             if (others.size == 0 && optional) {
                                 println("$classname $uuid optional")
@@ -205,9 +230,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 for (i in 0 until same) {
                                     val aData = inbuf.nextArr()
                                     println("$classname $uuid adata ${aData.map { it }}")
-println("others.size")
+                                    println("$classname $uuid ${others.size}")
                                     for (other in others) {
-println("other.size")
+                                        println("$classname $uuid ${other.size}")
                                         other.forEachUnordered { it ->
                                             val oldpos = it.pos
                                             println("$classname $uuid f")

@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
 
-class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", child.resultSet, arrayOf(child)) {
+class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", ResultSet(query.dictionary), arrayOf(child)) {
     override fun toSparql(): String {
         var res = "{SELECT "
         for (c in variables)
