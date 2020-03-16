@@ -51,18 +51,18 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
             Trace.traceSuspend<ResultChunk>({ "POPBind.next" }, {
                 val inbuf = resultFlowConsume({ this@POPBind }, { children[0] }, { child.next() })
                 val outbuf = ResultChunk(resultSet)
-try{
-                outbuf.size = inbuf.size
-                outbuf.pos = inbuf.pos
-                val col = outbuf.getColumn(variableNew)
-                for (v in variables)
-                    outbuf.setColumn(v.second, inbuf.getColumn(v.first))
-                val vektor = (children[1] as AOPBase).calculate(children[0].resultSet, inbuf)
-                for (i in inbuf.pos until inbuf.size)
-                    col.data[i] = resultSet.createValue(vektor.data[i])
-}catch(e:Throwable){
-e.printStackTrace()
-}
+                try {
+                    outbuf.size = inbuf.size
+                    outbuf.pos = inbuf.pos
+                    val col = outbuf.getColumn(variableNew)
+                    for (v in variables)
+                        outbuf.setColumn(v.second, inbuf.getColumn(v.first))
+                    val vektor = (children[1] as AOPBase).calculate(children[0].resultSet, inbuf)
+                    for (i in inbuf.pos until inbuf.size)
+                        col.data[i] = resultSet.createValue(vektor.data[i])
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
                 resultFlowProduce({ this@POPBind }, { outbuf })
             })
         }

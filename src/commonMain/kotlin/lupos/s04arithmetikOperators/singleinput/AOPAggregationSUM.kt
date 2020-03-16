@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.resultFlow
@@ -11,6 +11,7 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -37,17 +38,18 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
- override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
-val value=a.get()!!
-val rVektor = ResultVektorRaw()
-for (i in resultChunk.pos until resultChunk.size)  
-rVektor.data[i] =value    
- return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
+    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+        val value = a.get()!!
+        val rVektor = ResultVektorRaw()
+        for (i in resultChunk.pos until resultChunk.size)
+            rVektor.data[i] = value
+        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
+
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow) {
-val child=children[0]as AOPVariable
-val variable=resultSet.createVariable(child.name)
-val b=resultSet.getValueObject(resultRow,variable)
+        val child = children[0] as AOPVariable
+        val variable = resultSet.createVariable(child.name)
+        val b = resultSet.getValueObject(resultRow, variable)
         if (a.get() is ValueUndef)
             a.set(b)
         else if (a.get() is ValueDouble || b is ValueDouble)
@@ -57,7 +59,7 @@ val b=resultSet.getValueObject(resultRow,variable)
         else if (a.get() is ValueInteger || b is ValueInteger)
             a.set(ValueInteger(a.get()!!.toInt() + b.toInt()))
         else
-a.set(ValueError())
+            a.set(ValueError())
     }
 
     override fun cloneOP() = AOPAggregationSUM(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

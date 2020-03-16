@@ -84,7 +84,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     resultSet.dictionary.undefValue //
                 }, SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)) //
             }//
-        },null)
+        }, null)
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         var outbuf = ResultChunk(resultSet)

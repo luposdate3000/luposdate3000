@@ -35,19 +35,19 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
             val a = aVektor.data[i]
             val b = (children[1] as AOPBase)
             var found = false
-           try{
- if (b is AOPSet) {
-                for (c in b.children) {
-                    val tmp = (c as AOPBase).calculate(resultSet, resultChunk)
-                    if (tmp.data[0] == a) {
-                        found = true
-                        break
+            try {
+                if (b is AOPSet) {
+                    for (c in b.children) {
+                        val tmp = (c as AOPBase).calculate(resultSet, resultChunk)
+                        if (tmp.data[0] == a) {
+                            found = true
+                            break
+                        }
                     }
                 }
-            } 
                 rVektor.data[i] = ValueBoolean(!found)
-}catch(e:Throwable){ 
-}
+            } catch (e: Throwable) {
+            }
         }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }

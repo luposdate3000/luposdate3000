@@ -95,16 +95,16 @@ class POPGroup : POPBase {
         }
     }
 
-    fun getAggregations(node: OPBase,  count: Int) :MutableList<AOPAggregationBase>{
-var res=mutableListOf<AOPAggregationBase>()
+    fun getAggregations(node: OPBase, count: Int): MutableList<AOPAggregationBase> {
+        var res = mutableListOf<AOPAggregationBase>()
         for (n in node.children)
-            res.addAll(getAggregations(n,  count))
+            res.addAll(getAggregations(n, count))
         if (node is AOPAggregationBase) {
             node.count.set(count)
-                node.a.set(ValueUndef())
-res.add(node)
+            node.a.set(ValueUndef())
+            res.add(node)
         }
-return res
+        return res
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
@@ -140,12 +140,12 @@ return res
                                 resultSet.copy(row, variable.first, oldRow, variable.second, children[0].resultSet)
                             for (b in bindings) {
                                 try {
-val aggregations=getAggregations(b.second,tmpMutableMap[k]!!.count())
-				for(a in aggregations)
-                                    for (resultRow in tmpMutableMap[k]!!)
-					a.calculate(children[0].resultSet,resultRow)
-val tmpbuf = ResultChunk(resultSet)
-tmpbuf.size=1
+                                    val aggregations = getAggregations(b.second, tmpMutableMap[k]!!.count())
+                                    for (a in aggregations)
+                                        for (resultRow in tmpMutableMap[k]!!)
+                                            a.calculate(children[0].resultSet, resultRow)
+                                    val tmpbuf = ResultChunk(resultSet)
+                                    tmpbuf.size = 1
                                     val a = (b.second as AOPBase).calculate(children[0].resultSet, tmpbuf)
                                     resultSet.setValue(row, b.first, a.data[0])
                                 } catch (e: Throwable) {

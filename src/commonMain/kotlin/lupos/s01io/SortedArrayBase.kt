@@ -43,12 +43,13 @@ abstract class SortedArrayBase<T>(//
         size++
         data.prev.append(value)
     }
-fun lastUnordered():T?{
-if(size==0)
-return null
-val l= data.prev
-return l.data[l.size-1]
-}
+
+    fun lastUnordered(): T? {
+        if (size == 0)
+            return null
+        val l = data.prev
+        return l.data[l.size - 1]
+    }
 
     fun get(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp)
     fun set(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, { value }, { Pair(value, true) })

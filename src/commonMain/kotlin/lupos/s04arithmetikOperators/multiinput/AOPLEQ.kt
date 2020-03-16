@@ -36,10 +36,10 @@ class AOPLEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
         for (i in resultChunk.pos until resultChunk.size) {
             val a = aVektor.data[i]
             val b = bVektor.data[i]
-try{
-            rVektor.data[i] = ValueBoolean(a.compareTo(b) <= 0)
-}catch(e:Throwable){ 
-}
+            try {
+                rVektor.data[i] = ValueBoolean(a.compareTo(b) <= 0)
+            } catch (e: Throwable) {
+            }
         }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
