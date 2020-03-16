@@ -243,23 +243,22 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                             var avail = outbuf.availableSpace()
                                             println("$classname $uuid write ${col1AA.map { it }} ${col1JA.map { it }} ${col1BA.map { it }} ${col0AA.map { it }} ${col0JAA.map { it }} ${col0BA.map { it }}")
                                             if (containsUndef) {
-                                                for (j in 0 until count) {
-                                                    if (avail == j) {
-                                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
-                                                        outbuf = ResultChunk(resultSet)
+						if (count < avail) {
+                                                    outbuf.copy(col1AA, aData, col0AA, count)
+                                                    outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count)
+                                                    outbuf.copy(col1BA, it, col0BA, count)
+                                                }else{
+					            outbuf.copy(col1AA, aData, col0AA, avail)
+                                                    outbuf.copyNonNull(col1JA, aData, col0JAA,other.first, avail)
+                                                    outbuf.copy(col1BA, it, col0BA, avail)
+                                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                                    outbuf = ResultChunk(resultSet)
+                                                    if (count != avail) {
+                                                        outbuf.copy(col1AA, aData, col0AA, count - avail)
+                                                        outbuf.copyNonNull(col1JA, aData, col0JAA, other.first,count - avail)
+                                                        outbuf.copy(col1BA, it, col0BA, count - avail)
                                                     }
-println("aaa"+outbuf)
-println("aab"+it)
-                                                    outbuf.copy(col1AA, aData, col0AA, 1)
-println("aac"+outbuf)
-println("aad"+it)
-                                                    outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, 1)
-println("aae"+outbuf)
-println("aaf"+it)
-                                                    outbuf.copy(col1BA, it, col0BA, 1)
-println("aag"+outbuf)
-println("aah"+it)
-                                                }
+						}
                                             } else {
                                                 if (count < avail) {
                                                     outbuf.copy(col1AA, aData, col0AA, count)
