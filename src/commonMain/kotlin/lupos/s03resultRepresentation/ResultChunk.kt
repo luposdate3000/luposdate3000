@@ -5,7 +5,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
 class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(resultSet, columns) {
-val emptyArray=arrayOf<Value>()
+    val emptyArray = arrayOf<Value>()
     var posField = 0
     var sizeField = 0
     override var pos: Int
@@ -33,6 +33,10 @@ val emptyArray=arrayOf<Value>()
         posField += count
     }
 
+    override fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
+        posField += count
+    }
+
     override fun skipPos(columns: Array<Variable>, count: Int) {
         posField += count
     }
@@ -40,10 +44,11 @@ val emptyArray=arrayOf<Value>()
     override fun skipSize(columns: Array<Variable>, count: Int) {
         posField += count
     }
-override fun nextArr():Array<Value>{
-posField++
-return emptyArray
-}
+
+    override fun nextArr(): Array<Value> {
+        posField++
+        return emptyArray
+    }
 }
 
 open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<ResultRow> {
@@ -95,7 +100,7 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
     fun current(columns: Array<Variable>) = Array(columns.size) { data[columns[it].toInt()].current() }
     fun current() = Array(columns) { data[it].current() }
-open    fun nextArr() = Array(columns) { data[it].next() }
+    open fun nextArr() = Array(columns) { data[it].next() }
 
     fun setColumn(variable: Variable, col: ResultVektor) {
         data[variable.toInt()] = col
@@ -141,6 +146,19 @@ open    fun nextArr() = Array(columns) { data[it].next() }
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
             colTo.copy(valFrom, count)
+        }
+    }
+
+    //dies hier wird durch kompression später deutlich verbessert
+    open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
+        for (c in 0 until columnsTo.size) {
+//            println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
+            val colTo = data[columnsTo[c].toInt()]
+            val valFrom = arrFrom[columnsFrom[c].toInt()]
+            if (valFrom != resultSet.dictionary.undefValue)
+                colTo.copy(valFrom, count)
+            else
+                colTo.copy(arrFromAlternative[c], count)
         }
     }
 

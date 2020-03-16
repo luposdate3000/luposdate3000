@@ -171,7 +171,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             val key = inbuf.current(col0JAA)
                             println("$classname $uuid k ${key.map { it }}")
                             println("$classname $uuid l")
-                            val others = mutableListOf<SortedArray<ResultChunk>>()
+                            val others = mutableListOf<Pair<Array<Value>, SortedArray<ResultChunk>>>()
                             var containsUndef = false
                             for (k in key)
                                 if (k == undefValue)
@@ -184,7 +184,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                         if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
                                             match = false
                                     if (match)
-                                        others.add(v!!)
+                                        others.add(Pair(k, v!!))
                                 }
                                 mapWithUndef.forEach { k, v ->
                                     //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
@@ -192,21 +192,25 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     for (i in 0 until key.size)
                                         if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
                                             match = false
-                                    if (match)
-                                        others.add(v!!)
+                                    if (match) {
+                                        others.add(Pair(k, v!!))
+                                        containsUndef = true
+                                    }
                                 }
                             } else {
                                 val other0 = mapWithoutUndef.get(key)
                                 if (other0 != null)
-                                    others.add(other0)
+                                    others.add(Pair(key, other0))
                                 mapWithUndef.forEach { k, v ->
                                     //assuming not too much undef values - otherwiese improve here
                                     var match = true
                                     for (i in 0 until key.size)
                                         if (k[i] != undefValue && key[i] != k[i])
                                             match = false
-                                    if (match)
-                                        others.add(v!!)
+                                    if (match) {
+                                        others.add(Pair(k, v!!))
+                                        containsUndef = true
+                                    }
                                 }
                             }
                             if (others.size == 0 && optional) {
@@ -232,27 +236,46 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     println("$classname $uuid adata ${aData.map { it }}")
                                     println("$classname $uuid ${others.size}")
                                     for (other in others) {
-                                        println("$classname $uuid ${other.size}")
-                                        other.forEachUnordered { it ->
+                                        other.second.forEachUnordered { it ->
                                             val oldpos = it.pos
                                             println("$classname $uuid f")
                                             val count = it.size
-                                            val avail = outbuf.availableSpace()
+                                            var avail = outbuf.availableSpace()
                                             println("$classname $uuid write ${col1AA.map { it }} ${col1JA.map { it }} ${col1BA.map { it }} ${col0AA.map { it }} ${col0JAA.map { it }} ${col0BA.map { it }}")
-                                            if (count < avail) {
-                                                outbuf.copy(col1AA, aData, col0AA, count)
-                                                outbuf.copy(col1JA, aData, col0JAA, count)
-                                                outbuf.copy(col1BA, it, col0BA, count)
+                                            if (containsUndef) {
+                                                for (j in 0 until count) {
+                                                    if (avail == j) {
+                                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                                        outbuf = ResultChunk(resultSet)
+                                                    }
+println("aaa"+outbuf)
+println("aab"+it)
+                                                    outbuf.copy(col1AA, aData, col0AA, 1)
+println("aac"+outbuf)
+println("aad"+it)
+                                                    outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, 1)
+println("aae"+outbuf)
+println("aaf"+it)
+                                                    outbuf.copy(col1BA, it, col0BA, 1)
+println("aag"+outbuf)
+println("aah"+it)
+                                                }
                                             } else {
-                                                outbuf.copy(col1AA, aData, col0AA, avail)
-                                                outbuf.copy(col1JA, aData, col0JAA, avail)
-                                                outbuf.copy(col1BA, it, col0BA, avail)
-                                                channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
-                                                outbuf = ResultChunk(resultSet)
-                                                if (count != avail) {
-                                                    outbuf.copy(col1AA, aData, col0AA, count - avail)
-                                                    outbuf.copy(col1JA, aData, col0JAA, count - avail)
-                                                    outbuf.copy(col1BA, it, col0BA, count - avail)
+                                                if (count < avail) {
+                                                    outbuf.copy(col1AA, aData, col0AA, count)
+                                                    outbuf.copy(col1JA, aData, col0JAA, count)
+                                                    outbuf.copy(col1BA, it, col0BA, count)
+                                                } else {
+                                                    outbuf.copy(col1AA, aData, col0AA, avail)
+                                                    outbuf.copy(col1JA, aData, col0JAA, avail)
+                                                    outbuf.copy(col1BA, it, col0BA, avail)
+                                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                                    outbuf = ResultChunk(resultSet)
+                                                    if (count != avail) {
+                                                        outbuf.copy(col1AA, aData, col0AA, count - avail)
+                                                        outbuf.copy(col1JA, aData, col0JAA, count - avail)
+                                                        outbuf.copy(col1BA, it, col0BA, count - avail)
+                                                    }
                                                 }
                                             }
 //reset for later use
