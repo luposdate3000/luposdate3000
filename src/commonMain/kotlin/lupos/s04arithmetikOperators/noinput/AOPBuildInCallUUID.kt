@@ -26,7 +26,7 @@ class AOPBuildInCallUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildInCa
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
-        for (i in resultChunk.pos until resultChunk.size)
+        for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = ValueIri("urn:uuid:" + uuid4())
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }

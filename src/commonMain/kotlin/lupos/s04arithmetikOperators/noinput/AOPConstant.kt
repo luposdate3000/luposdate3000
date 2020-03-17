@@ -18,8 +18,9 @@ class AOPConstant(query: Query, val value: ValueDefinition) : AOPBase(query, EOp
     override fun equals(other: Any?): Boolean = other is AOPConstant && toXMLElement() == other.toXMLElement()
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
-        for (i in resultChunk.pos until resultChunk.size)
+        for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = value
+println("${resultChunk.availableRead()} ${rVektor.data.map{it.toSparql()}}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

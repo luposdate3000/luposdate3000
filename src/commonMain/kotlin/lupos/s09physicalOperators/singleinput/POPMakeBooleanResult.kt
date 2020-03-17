@@ -37,7 +37,7 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
                 val child = children[0].evaluate()
                 var row = resultSet.createResultRow()
                 try {
-                    while (resultFlowConsume({ this@POPMakeBooleanResult }, { children[0] }, { child.next() }).size == 0) {
+                    while (resultFlowConsume({ this@POPMakeBooleanResult }, { children[0] }, { child.next() }).availableRead() == 0) {
                     }
                     resultSet.setValue(row, variableNew, ValueBoolean(true).valueToString())
                 } catch (e: Throwable) {

@@ -28,7 +28,7 @@ class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOp
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
+        for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             if (a !is ValueUndef && a !is ValueError)
                 rVektor.data[i] = ValueBoolean(a is ValueStringBase || a is ValueDouble || a is ValueBoolean || a is ValueInteger || a is ValueDecimal || a is ValueDateTime)

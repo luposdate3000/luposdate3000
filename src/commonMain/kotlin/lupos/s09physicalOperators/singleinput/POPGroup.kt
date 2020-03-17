@@ -145,7 +145,7 @@ class POPGroup : POPBase {
                                         for (resultRow in tmpMutableMap[k]!!)
                                             a.calculate(children[0].resultSet, resultRow)
                                     val tmpbuf = ResultChunk(resultSet)
-                                    tmpbuf.size = 1
+                                    tmpbuf.skipSize(1)
                                     val a = (b.second as AOPBase).calculate(children[0].resultSet, tmpbuf)
                                     resultSet.setValue(row, b.first, a.data[0])
                                 } catch (e: Throwable) {

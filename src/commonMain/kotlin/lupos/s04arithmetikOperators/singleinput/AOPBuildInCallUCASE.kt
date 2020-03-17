@@ -28,7 +28,7 @@ class AOPBuildInCallUCASE(query: Query, child: AOPBase) : AOPBase(query, EOperat
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
+        for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             if (a is ValueLanguageTaggedLiteral)
                 rVektor.data[i] = ValueLanguageTaggedLiteral(a.delimiter, a.content.toUpperCase(), a.language)

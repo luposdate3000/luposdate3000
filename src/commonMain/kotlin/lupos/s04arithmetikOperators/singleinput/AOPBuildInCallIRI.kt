@@ -34,7 +34,8 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
+println("${resultChunk.availableRead()} ${aVektor.data.map{it.toSparql()}}")
+        for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             if (a is ValueIri)
                 rVektor.data[i] = a
@@ -46,6 +47,7 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
                     rVektor.data[i] = ValueIri(prefix + b.content)
             }
         }
+println("to ${resultChunk.availableRead()} ${rVektor.data.map{it.toSparql()}}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

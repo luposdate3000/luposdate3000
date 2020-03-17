@@ -44,20 +44,14 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
                 var outbuf = ResultChunk(resultSet)
                 try {
                     val inbuf = resultFlowConsume({ this@POPUnion }, { children[0] }, { childA.next() })
-                    val pos = inbuf.pos
-                    val size = inbuf.size
-                    outbuf.copy(var1A, inbuf, var0A, size - pos)
-                    outbuf.size = size - pos
+                    outbuf.copy(var1A, inbuf, var0A, inbuf.availableRead())
                 } catch (e: Throwable) {
                     childA.close()
                     res.next = {
                         Trace.trace<ResultChunk>({ "POPUnion.next" }, {
                             val outbuf = ResultChunk(resultSet)
                             val inbuf = resultFlowConsume({ this@POPUnion }, { children[1] }, { childB.next() })
-                            val pos = inbuf.pos
-                            val size = inbuf.size
-                            outbuf.copy(var1B, inbuf, var0B, size - pos)
-                            outbuf.size = size - pos
+                            outbuf.copy(var1B, inbuf, var0B, inbuf.availableRead())
                             resultFlowProduce({ this@POPUnion }, { outbuf })
                         })
                     }

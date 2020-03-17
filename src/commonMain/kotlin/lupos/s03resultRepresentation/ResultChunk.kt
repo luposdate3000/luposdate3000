@@ -8,23 +8,25 @@ class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(res
     val emptyArray = arrayOf<Value>()
     var posField = 0
     var sizeField = 0
-    override var pos: Int
+    override var posx: Int
         get() = posField
         set(value) {
             posField = value
         }
-    override var size: Int
+    override var sizex: Int
         get() = sizeField
         set(value) {
             sizeField = value
         }
 
+override fun hasNext()=posField<sizeField
     override fun next(): ResultRow {
         posField++
         return resultSet.createResultRow()
     }
 
-    override fun availableSpace() = ResultVektor.capacity - sizeField
+    override fun availableWrite() = ResultVektor.capacity - sizeField
+    override fun availableRead() = sizeField-posField
     override fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         posField += count
     }
@@ -42,7 +44,14 @@ class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(res
     }
 
     override fun skipSize(columns: Array<Variable>, count: Int) {
+        sizeField += count
+    }
+    override fun skipPos( count: Int) {
         posField += count
+    }
+
+    override fun skipSize( count: Int) {
+        sizeField += count
     }
 
     override fun nextArr(): Array<Value> {
@@ -61,36 +70,30 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         }
     }
 
-    //die eigentlichen Daten als Array von Spalten
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
-    //reference for retrieving the current pos
-    //dies ist die aktuelle Zeile innerhalb von diesem Spaltenvektor (nur beim lesen verändert)
-    open var pos: Int
+    open var posx: Int
         get() = data[0].pos
         set(value) {
             for (i in 0 until data.size)
                 data[i].pos = value
         }
-    //dies ist die aktuelle Zeile innerhalb von diesem Spaltenvektor (nur beim schreiben verändert)
-    open var size: Int
+    open var sizex: Int
         get() = data[0].size
         set(value) {
             for (i in 0 until data.size)
                 data[i].size = value
         }
 
-    open fun availableSpace() = data[0].availableSpace()
-    fun canAppend() = availableSpace() > 0
+    open fun availableWrite() = data[0].availableWrite()
+    open fun availableRead() = data[0].availableRead()
+    fun canAppend() = availableWrite() > 0
 
-    //backwards compatibility
     fun append(row: ResultRow) {
         for (i in 0 until columns)
-            data[i].data[size] = row.values[i]
-        size++
+            data[i].append( row.values[i])
     }
 
-    override fun hasNext() = pos < size
-    //backwards compatibility
+    override fun hasNext() = data[0].hasNext()
     override fun next(): ResultRow {
         val row = resultSet.createResultRow()
         for (i in 0 until columns)
@@ -99,7 +102,6 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
     }
 
     fun current(columns: Array<Variable>) = Array(columns.size) { data[columns[it].toInt()].current() }
-    fun current() = Array(columns) { data[it].current() }
     open fun nextArr() = Array(columns) { data[it].next() }
 
     fun setColumn(variable: Variable, col: ResultVektor) {
@@ -108,9 +110,8 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
     fun getColumn(variable: Variable) = data[variable.toInt()]
 
-    //dies hier wird durch kompression später deutlich verbessert
     fun sameElements(columns: Array<Variable>): Int {
-        var res = size - pos
+        var res = availableRead()
         for (i in columns) {
             val t = data[i.toInt()].sameElements()
             if (t < res)
@@ -128,8 +129,16 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         for (c in 0 until columns.size)
             data[columns[c].toInt()].size += count
     }
+    open fun skipPos( count: Int) {
+        for (c in 0 until columns)
+            data[c].pos += count
+    }
 
-    //dies hier wird durch kompression später deutlich verbessert
+    open fun skipSize( count: Int) {
+        for (c in 0 until columns)
+            data[c].size += count
+    }
+
     open fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
@@ -138,7 +147,6 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         }
     }
 
-    //dies hier wird durch kompression später deutlich verbessert
     open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
@@ -147,7 +155,6 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         }
     }
 
-    //dies hier wird durch kompression später deutlich verbessert
     open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
@@ -175,32 +182,47 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
             }
         return res.toString()
     }
+
+fun backupPosition(){
+for(i in 0 until columns)
+data[i].backupPosition()
+}
+fun restorePosition(){ 
+for(i in 0 until columns)
+data[i].restorePosition()
 }
 
-//eine einzelne Spalte von Werten
+}
+
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         val capacity = 6
     }
 
     var pos = 0
+    var posBackup = 0
     var size = 0
 
-    //dieses array wird durch die seiten-basierte implementierung ausgetauscht
     val data = Array<Value>(capacity) { undefValue }
 
+
+fun backupPosition(){
+posBackup=pos
+}
+fun restorePosition(){
+pos=posBackup
+}
     fun current(): Value = data[pos]
     override fun next(): Value = data[pos++]
     override fun hasNext() = pos < size
-    fun availableSpace() = capacity - size
-    fun canAppend() = availableSpace() > 0
+    fun availableWrite() = capacity - size
+    fun availableRead() = size - pos
+    fun canAppend() = availableWrite() > 0
 
-    //dies hier wird durch kompression später deutlich verbessert
     fun append(value: Value) {
         data[size++] = value
     }
 
-    //dies hier wird durch kompression später deutlich verbessert
     fun sameElements(): Int {
         var res = 1
         while (pos + res < size && data[pos + res] == data[pos])
@@ -208,13 +230,11 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         return res
     }
 
-    //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: ResultVektor, count: Int) {
         for (i in 0 until count)
             append(from.next())
     }
 
-    //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: Value, count: Int) {
         for (i in 0 until count)
             append(from)

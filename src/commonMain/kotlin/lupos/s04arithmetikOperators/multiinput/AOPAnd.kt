@@ -33,7 +33,7 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
         val rVektor = ResultVektorRaw()
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
         val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
+        for (i in 0 until resultChunk.availableRead()) {
             var a: ValueDefinition
             var b: ValueDefinition
             try {

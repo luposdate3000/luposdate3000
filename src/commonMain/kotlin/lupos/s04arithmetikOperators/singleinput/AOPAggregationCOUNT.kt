@@ -45,7 +45,7 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val value = ValueInteger(count.get())
         val rVektor = ResultVektorRaw()
-        for (i in resultChunk.pos until resultChunk.size)
+        for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = value
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }

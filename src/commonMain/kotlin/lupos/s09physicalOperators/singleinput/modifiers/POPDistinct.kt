@@ -83,7 +83,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
             Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
                 var outbuf = ResultChunk(resultSet)
                 try {
-                    while (outbuf.size == 0) {
+                    while (outbuf.availableRead() == 0) {
                         val inbuf = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
                         for (row in inbuf)
                             if (data.update(row, onCreate = { row }, onUpdate = { row }) == null)
@@ -91,7 +91,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
                     }
                 } catch (e: Throwable) {
                 }
-                if (outbuf.size == 0)
+                if (outbuf.availableRead() == 0)
                     res.close()
                 resultFlowProduce({ this@POPDistinct }, { outbuf })
             })

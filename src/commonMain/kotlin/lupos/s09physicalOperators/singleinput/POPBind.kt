@@ -56,10 +56,8 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                     for (v in variables)
                         outbuf.setColumn(v.second, inbuf.getColumn(v.first))
                     val vektor = (children[1] as AOPBase).calculate(children[0].resultSet, inbuf)
-                    for (i in inbuf.pos until inbuf.size)
-                        col.data[i] = resultSet.createValue(vektor.data[i])
-                    outbuf.size = inbuf.size
-                    outbuf.pos = inbuf.pos
+                    for (i in 0 until inbuf.availableRead())
+col.append(resultSet.createValue(vektor.data[i]))
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     res.close()

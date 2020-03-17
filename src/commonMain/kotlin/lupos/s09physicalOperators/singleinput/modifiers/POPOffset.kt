@@ -53,12 +53,13 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
                     var count = offset
                     while (count > 0) {
                         outbuffer = resultFlowConsume({ this@POPOffset }, { children[0] }, { child.next() })
-                        if (count < outbuffer.size) {
-                            outbuffer.pos = count
+val available=outbuffer.availableRead()
+                        if (count < available) {
+                            outbuffer.skipPos( count)
                             res.next = child.next
                             res.close = child.close
                         }
-                        count -= outbuffer.size
+                        count -= available
                     }
                 } catch (e: Throwable) {
                     outbuffer = null

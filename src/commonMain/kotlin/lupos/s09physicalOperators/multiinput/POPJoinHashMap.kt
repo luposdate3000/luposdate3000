@@ -132,7 +132,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 data
                             }, onUpdate = { old ->
                                 var buf = old!!.lastUnordered()
-                                val avail = buf!!.availableSpace()
+                                val avail = buf!!.availableWrite()
                                 if (avail > same)
                                     buf.copy(col0BA, inbuf, col0BA, same)
                                 else {
@@ -202,7 +202,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 }
                             }
                             if (others.size == 0 && optional) {
-                                val avail = outbuf.availableSpace()
+                                val avail = outbuf.availableWrite()
                                 if (avail > same) {
                                     outbuf.copy(col1AA, inbuf, col0AA, same)
                                     outbuf.copy(col1JA, inbuf, col0JAA, same)
@@ -222,9 +222,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     val aData = inbuf.nextArr()
                                     for (other in others) {
                                         other.second.forEachUnordered { it ->
-                                            val oldpos = it.pos
-                                            val count = it.size
-                                            var avail = outbuf.availableSpace()
+it.backupPosition()
+                                            val count = it.availableRead()
+                                            var avail = outbuf.availableWrite()
                                             if (containsUndef) {
                                                 if (count < avail) {
                                                     outbuf.copy(col1AA, aData, col0AA, count)
@@ -260,7 +260,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                     }
                                                 }
                                             }
-                                            it.pos = oldpos
+it.restorePosition()
                                         }
                                     }
                                 }
@@ -272,7 +272,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         break
                     }
                 }
-                if (outbuf.size > 0)
+                if (outbuf.availableRead() > 0)
                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                 channel.close()
             })

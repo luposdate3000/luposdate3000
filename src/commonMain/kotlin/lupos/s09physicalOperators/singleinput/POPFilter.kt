@@ -95,7 +95,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                 val outbuf = ResultChunk(resultSet)
                 var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
                 val resultVektor = expression.calculate(resultSet, inbuf)
-                var pos = inbuf.pos
+                var pos = 0
                 for (row in inbuf) {
                     try {
                         if (resultVektor.data[pos].toBoolean())

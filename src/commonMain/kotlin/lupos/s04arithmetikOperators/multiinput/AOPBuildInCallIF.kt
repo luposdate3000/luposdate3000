@@ -30,7 +30,7 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
         val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
         val cVektor = (children[2] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
+        for (i in 0 until resultChunk.availableRead()) {
             try {
                 if (aVektor.data[i].toBoolean())
                     rVektor.data[i] = bVektor.data[i]

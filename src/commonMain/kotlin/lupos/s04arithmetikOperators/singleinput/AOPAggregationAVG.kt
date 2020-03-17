@@ -40,7 +40,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val value = a.get()!!
         val rVektor = ResultVektorRaw()
-        for (i in resultChunk.pos until resultChunk.size)
+        for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = value
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }

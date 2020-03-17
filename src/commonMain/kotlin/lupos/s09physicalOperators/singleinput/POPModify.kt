@@ -50,14 +50,14 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                     val variable = children[0].resultSet.createVariable(i.graph)
                                     val storenames = rowsOld.getColumn(variable)
                                     val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in rowsOld.pos until rowsOld.size) {
+                                    for (i in 0 until rowsOld.availableRead()) {
                                         val store = DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(storenames.data[i]).valueToString()!!, true)
                                         store.addData(Array(3) { data[it].data[i] })
                                     }
                                 } else {
                                     val store = DistributedTripleStore.getNamedGraph(query, i.graph, true)
                                     val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in rowsOld.pos until rowsOld.size)
+                                    for (i in 0 until rowsOld.availableRead())
                                         store.addData(Array(3) { data[it].data[i] })
                                 }
                             } catch (e: Throwable) {
@@ -69,14 +69,14 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                     val variable = children[0].resultSet.createVariable(i.graph)
                                     val storenames = rowsOld.getColumn(variable)
                                     val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in rowsOld.pos until rowsOld.size) {
+                                    for (i in 0 until rowsOld.availableRead()) {
                                         val store = DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(storenames.data[i]).valueToString()!!, false)
                                         store.deleteData(Array(3) { data[it].data[i] })
                                     }
                                 } else {
                                     val store = DistributedTripleStore.getNamedGraph(query, i.graph, false)
                                     val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in rowsOld.pos until rowsOld.size)
+                                    for (i in 0 until rowsOld.availableRead())
                                         store.deleteData(Array(3) { data[it].data[i] })
                                 }
                             } catch (e: Throwable) {

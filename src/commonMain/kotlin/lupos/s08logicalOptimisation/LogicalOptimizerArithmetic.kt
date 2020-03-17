@@ -31,7 +31,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
                 val resultSet = ResultSet(query.dictionary)
                 val resultRow = resultSet.createResultRow()
                 val resultChunk = ResultChunk(resultSet)
-                resultChunk.size = 1
+                resultChunk.skipSize(1)
                 val rVektor = node.calculate(resultSet, resultChunk)
                 res = AOPConstant(query, rVektor.data[0])
                 onChange()

@@ -51,8 +51,6 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
                 val outbuf = ResultChunk(resultSet)
                 for (v in variablesNew)
                     outbuf.setColumn(v.second, inbuf.getColumn(v.first))
-                outbuf.size = inbuf.size
-                outbuf.pos = inbuf.pos
                 resultFlowProduce({ this@POPProjection }, { outbuf })
             })
         }

@@ -29,7 +29,7 @@ class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildIn
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw()
-        for (i in 0 until resultChunk.size)
+        for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = ValueBnode("" + uuid + localbnode.next())
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }

@@ -32,7 +32,7 @@ class AOPBuildInCallSTRLANG(query: Query, child: AOPBase, childB: AOPBase) : AOP
         val rVektor = ResultVektorRaw()
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
         val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
-        for (i in resultChunk.pos until resultChunk.size) {
+        for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             val b = bVektor.data[i]
             if (a is ValueSimpleLiteral && b is ValueSimpleLiteral)
