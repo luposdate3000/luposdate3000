@@ -213,14 +213,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         posAbsolute += count
         if (count >= 0) {
             var i = count
-            while (i > 0) {
+            while (true) {
                 val c = data[posIndex].count - posIndexLocal
                 if (c < i) {
-                    i -= c
                     nextElement()
+                    i -= c
                 } else {
                     posIndexLocal += i
-                    i = 0
+                    break
                 }
             }
         } else {
@@ -234,14 +234,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             data[sizeIndex].count += count
         else {
             var i = count
-            while (i > 0) {
+            while (true) {
                 val c = data[sizeIndex].count
                 if (c < i) {
                     sizeIndex--
                     i -= c
                 } else {
                     data[sizeIndex].count -= i
-                    i = 0
+                    break
                 }
             }
         }
@@ -303,19 +303,18 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     fun copy(from: ResultVektor, count: Int) {
         var i = count
-        if (count > 0) {
+        if (count > 0)
             from.safeNextElement()
-        }
-        while (i > 0) {
+        while (true) {
             val c = from.data[from.posIndex].count - from.posIndexLocal
-            if (c <= i) {
+            if (c < i) {
                 append(from.data[from.posIndex].value, c)
                 from.nextElement()
                 i -= c
             } else {
                 append(from.data[from.posIndex].value, i)
                 from.posIndexLocal += i
-                i = 0
+                break
             }
         }
         from.posAbsolute += count
