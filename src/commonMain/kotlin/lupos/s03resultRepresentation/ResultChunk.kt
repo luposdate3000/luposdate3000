@@ -111,14 +111,11 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
     //dies hier wird durch kompression später deutlich verbessert
     fun sameElements(columns: Array<Variable>): Int {
         var res = size - pos
-println("same $res $this")
         for (i in columns) {
             val t = data[i.toInt()].sameElements()
-println("same $i $t ")
             if (t < res)
                 res = t
         }
-println("same $res ")
         return res
     }
 
@@ -135,7 +132,6 @@ println("same $res ")
     //dies hier wird durch kompression später deutlich verbessert
     open fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
-//            println("cpycol ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val colFrom = chunkFrom.data[columnsFrom[c].toInt()]
             colTo.copy(colFrom, count)
@@ -145,7 +141,6 @@ println("same $res ")
     //dies hier wird durch kompression später deutlich verbessert
     open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
         for (c in 0 until columnsTo.size) {
-//            println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
             colTo.copy(valFrom, count)
@@ -155,7 +150,6 @@ println("same $res ")
     //dies hier wird durch kompression später deutlich verbessert
     open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
         for (c in 0 until columnsTo.size) {
-//            println("cpyarr ${columnsTo[c].toInt()} ${columnsFrom[c].toInt()}")
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
             if (valFrom != resultSet.dictionary.undefValue)
@@ -173,10 +167,10 @@ println("same $res ")
         if (columns > 0)
             for (r in 0 until ResultVektor.capacity) {
                 for (c in 0 until columns)
-if(r>=data[c].pos&&r<data[c].size)
-                    res.append("${data[c].data[r]}, ")
-else
-res.append("-, ")
+                    if (r >= data[c].pos && r < data[c].size)
+                        res.append("${data[c].data[r]}, ")
+                    else
+                        res.append("-, ")
                 res.append("\n")
             }
         return res.toString()
@@ -209,21 +203,19 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     //dies hier wird durch kompression später deutlich verbessert
     fun sameElements(): Int {
         var res = 1
-while(pos+res<size&&data[pos+res]==data[pos])
-res++
+        while (pos + res < size && data[pos + res] == data[pos])
+            res++
         return res
     }
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: ResultVektor, count: Int) {
-//        println("cp $count $pos $size ${from.pos} ${from.size}")
         for (i in 0 until count)
             append(from.next())
     }
 
     //dies hier wird durch kompression später deutlich verbessert
     fun copy(from: Value, count: Int) {
-//        println("cp $count $pos $size")
         for (i in 0 until count)
             append(from)
     }

@@ -48,9 +48,6 @@ class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
             } catch (e: Throwable) {
             }
         }
-        println("AOPAdditiona = ${aVektor.toString(resultChunk.pos, resultChunk.size)}")
-        println("AOPAdditionb = ${bVektor.toString(resultChunk.pos, resultChunk.size)}")
-        println("AOPAdditionr = ${rVektor.toString(resultChunk.pos, resultChunk.size)}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

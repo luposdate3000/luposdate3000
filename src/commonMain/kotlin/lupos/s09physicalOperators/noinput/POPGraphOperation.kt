@@ -106,7 +106,6 @@ class POPGraphOperation(query: Query,
         val res = ResultIterator()
         res.next = {
             Trace.traceSuspend<ResultChunk>({ "POPGraphOperation.next" }, {
-                println("next graph")
                 try {
                     when (graph1type) {
                         EGraphRefType.AllGraphRef -> {
@@ -250,21 +249,15 @@ class POPGraphOperation(query: Query,
                         }
                         else -> SanityCheck.checkUnreachable()
                     }
-                    println("graph a")
                 } catch (e: Throwable) {
-                    println("graph b")
                     if (!silent) {
-                        println("graph c")
                         res.close()
                         throw e
                     }
                 }
-                println("graph e")
                 res.close()
-                println("graph f")
                 val outbuffer = ResultChunk(resultSet)
                 outbuffer.append(resultSet.createResultRow())
-                println("graph g")
                 resultFlowProduce({ this@POPGraphOperation }, { outbuffer })
             })
         }

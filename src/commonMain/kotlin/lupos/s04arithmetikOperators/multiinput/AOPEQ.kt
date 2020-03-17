@@ -41,9 +41,6 @@ class AOPEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
             } catch (e: Throwable) {
             }
         }
-        println("AOPEQa = ${aVektor.toString(resultChunk.pos, resultChunk.size)}")
-        println("AOPEQb = ${bVektor.toString(resultChunk.pos, resultChunk.size)}")
-        println("AOPEQr = ${rVektor.toString(resultChunk.pos, resultChunk.size)}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

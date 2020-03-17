@@ -30,7 +30,6 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         } else
             for (i in 0 until resultChunk.size)
                 rVektor.data[i] = ValueUndef()
-        println("AOPVariable($name) = ${rVektor.toString(resultChunk.pos, resultChunk.size)}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 
