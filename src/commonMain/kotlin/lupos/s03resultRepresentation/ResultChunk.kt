@@ -8,25 +8,15 @@ class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(res
     val emptyArray = arrayOf<Value>()
     var posField = 0
     var sizeField = 0
-    override var posx: Int
-        get() = posField
-        set(value) {
-            posField = value
-        }
-    override var sizex: Int
-        get() = sizeField
-        set(value) {
-            sizeField = value
-        }
 
-override fun hasNext()=posField<sizeField
+    override fun hasNext() = posField < sizeField
     override fun next(): ResultRow {
         posField++
         return resultSet.createResultRow()
     }
 
     override fun availableWrite() = ResultVektor.capacity - sizeField
-    override fun availableRead() = sizeField-posField
+    override fun availableRead() = sizeField - posField
     override fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         posField += count
     }
@@ -46,11 +36,12 @@ override fun hasNext()=posField<sizeField
     override fun skipSize(columns: Array<Variable>, count: Int) {
         sizeField += count
     }
-    override fun skipPos( count: Int) {
+
+    override fun skipPos(count: Int) {
         posField += count
     }
 
-    override fun skipSize( count: Int) {
+    override fun skipSize(count: Int) {
         sizeField += count
     }
 
@@ -71,18 +62,6 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
     }
 
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
-    open var posx: Int
-        get() = data[0].pos
-        set(value) {
-            for (i in 0 until data.size)
-                data[i].pos = value
-        }
-    open var sizex: Int
-        get() = data[0].size
-        set(value) {
-            for (i in 0 until data.size)
-                data[i].size = value
-        }
 
     open fun availableWrite() = data[0].availableWrite()
     open fun availableRead() = data[0].availableRead()
@@ -90,7 +69,7 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
     fun append(row: ResultRow) {
         for (i in 0 until columns)
-            data[i].append( row.values[i])
+            data[i].append(row.values[i])
     }
 
     override fun hasNext() = data[0].hasNext()
@@ -129,12 +108,13 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         for (c in 0 until columns.size)
             data[columns[c].toInt()].size += count
     }
-    open fun skipPos( count: Int) {
+
+    open fun skipPos(count: Int) {
         for (c in 0 until columns)
             data[c].pos += count
     }
 
-    open fun skipSize( count: Int) {
+    open fun skipSize(count: Int) {
         for (c in 0 until columns)
             data[c].size += count
     }
@@ -183,14 +163,15 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         return res.toString()
     }
 
-fun backupPosition(){
-for(i in 0 until columns)
-data[i].backupPosition()
-}
-fun restorePosition(){ 
-for(i in 0 until columns)
-data[i].restorePosition()
-}
+    fun backupPosition() {
+        for (i in 0 until columns)
+            data[i].backupPosition()
+    }
+
+    fun restorePosition() {
+        for (i in 0 until columns)
+            data[i].restorePosition()
+    }
 
 }
 
@@ -205,13 +186,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     val data = Array<Value>(capacity) { undefValue }
 
+    fun backupPosition() {
+        posBackup = pos
+    }
 
-fun backupPosition(){
-posBackup=pos
-}
-fun restorePosition(){
-pos=posBackup
-}
+    fun restorePosition() {
+        pos = posBackup
+    }
+
     fun current(): Value = data[pos]
     override fun next(): Value = data[pos++]
     override fun hasNext() = pos < size

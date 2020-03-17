@@ -222,7 +222,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     val aData = inbuf.nextArr()
                                     for (other in others) {
                                         other.second.forEachUnordered { it ->
-it.backupPosition()
+                                            it.backupPosition()
                                             val count = it.availableRead()
                                             var avail = outbuf.availableWrite()
                                             if (containsUndef) {
@@ -260,7 +260,7 @@ it.backupPosition()
                                                     }
                                                 }
                                             }
-it.restorePosition()
+                                            it.restorePosition()
                                         }
                                     }
                                 }

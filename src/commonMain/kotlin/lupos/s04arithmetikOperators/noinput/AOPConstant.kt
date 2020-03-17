@@ -20,7 +20,7 @@ class AOPConstant(query: Query, val value: ValueDefinition) : AOPBase(query, EOp
         val rVektor = ResultVektorRaw()
         for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = value
-println("${resultChunk.availableRead()} ${rVektor.data.map{it.toSparql()}}")
+        println("${resultChunk.availableRead()} ${rVektor.data.map { it.toSparql() }}")
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
 

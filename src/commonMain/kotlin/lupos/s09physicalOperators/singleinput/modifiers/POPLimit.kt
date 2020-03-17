@@ -41,9 +41,9 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
             res.next = {
                 Trace.traceSuspend<ResultChunk>({ "POPLimit.next" }, {
                     val outbuffer = resultFlowProduce({ this@POPLimit }, { resultFlowConsume({ this@POPLimit }, { children[0] }, { child.next() }) })
-val available=outbuffer.availableRead()
+                    val available = outbuffer.availableRead()
                     if (res.count <= available) {
-outbuffer.skipSize(-res.count)
+                        outbuffer.skipSize(-res.count)
                         res.close()
                     }
                     res.count -= available

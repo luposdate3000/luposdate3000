@@ -25,11 +25,11 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         val rVektor = ResultVektorRaw()
         if (resultSet.hasVariable(name)) {
             val variable = resultSet.createVariable(name)
-val column=resultChunk.getColumn(variable)
-column.backupPosition()
+            val column = resultChunk.getColumn(variable)
+            column.backupPosition()
             for (i in 0 until column.availableRead())
                 rVektor.data[i] = resultSet.getValueObject(column.next())
-column.restorePosition()
+            column.restorePosition()
         } else
             for (i in 0 until resultChunk.availableRead())
                 rVektor.data[i] = ValueUndef()
