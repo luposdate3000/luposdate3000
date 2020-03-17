@@ -207,19 +207,21 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 if (avail > same) {
                                     outbuf.copy(col1AA, inbuf, col0AA, same)
                                     outbuf.copy(col1JA, inbuf, col0JAA, same)
+                                    outbuf.skipSize(col1BA, same)
                                 } else {
                                     if (avail > 0) {
                                         outbuf.copy(col1AA, inbuf, col0AA, avail)
                                         outbuf.copy(col1JA, inbuf, col0JAA, avail)
+                                        outbuf.skipSize(col1BA, avail)
                                     }
                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                     outbuf = ResultChunk(resultSet)
                                     if (avail != same) {
                                         outbuf.copy(col1AA, inbuf, col0AA, same - avail)
                                         outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
+                                        outbuf.skipSize(col1BA, same-avail)
                                     }
                                 }
-                                outbuf.skipSize(col1BA, same)
                             } else {
                                 for (i in 0 until same) {
                                     val aData = inbuf.nextArr()

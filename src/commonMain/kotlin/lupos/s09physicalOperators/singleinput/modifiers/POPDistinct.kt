@@ -44,29 +44,9 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         override fun compare(a: ResultRow, b: ResultRow): Int {
             var res = 0
             for (variable in variables) {
-                val objA = resultSet.getValueObject(a, variable)
-                val objB = resultSet.getValueObject(b, variable)
-                try {
-                    res = objA.compareTo(objB)
-                } catch (e: Throwable) {
-                    if (objA is ValueUndef)
-                        res = -2
-                    else if (objB is ValueUndef)
-                        res = +1
-                    else if (objA is ValueBnode)
-                        res = -3
-                    else if (objB is ValueBnode)
-                        res = +1
-                    else if (objA is ValueIri)
-                        res = -4
-                    else if (objB is ValueIri)
-                        res = +1
-                    else {
-                        val sA = objA.valueToString()!!
-                        val sB = objB.valueToString()!!
-                        res = sA.compareTo(sB)
-                    }
-                }
+                val objA = resultSet.getValue(a, variable)
+                val objB = resultSet.getValue(b, variable)
+		res=objA.compareTo(objB)
                 if (res != 0)
                     return res
             }
