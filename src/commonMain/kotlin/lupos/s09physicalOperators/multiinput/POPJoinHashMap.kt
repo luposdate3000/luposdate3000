@@ -112,8 +112,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
                         while (inbuf.hasNext()) {
+println("xx3 $inbuf")
                             val same = inbuf.sameElements(col0JBA)
+println("xx4 $inbuf $same")
                             val key = inbuf.current(col0JBA)
+println("xx5 $inbuf")
                             var containsUndef = false
                             for (k in key)
                                 if (k == undefValue)
@@ -125,25 +128,38 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             map.update(key, onCreate = {
                                 val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
                                 val buf = ResultChunk(children[1].resultSet)
+println("xxx $buf $inbuf")
                                 buf.copy(col0BA, inbuf, col0BA, same)
+println("xxa $buf")
                                 buf.skipSize(col0JBA, same)
+println("xxb $buf")
                                 inbuf.skipPos(col0JBA, same)
+println("xxc $inbuf")
                                 data.add(buf)
                                 data
                             }, onUpdate = { old ->
                                 var buf = old!!.lastUnordered()
+println("xxd $buf")
                                 val avail = buf!!.availableWrite()
-                                if (avail > same)
+println("xxe $buf $avail")
+                                if (avail > same){
                                     buf.copy(col0BA, inbuf, col0BA, same)
-                                else {
-                                    buf.copy(col0BA, inbuf, col0BA, avail)
+println("xxf $buf $inbuf")
+                         }       else {
+println("xxg $buf $inbuf")
+				    if(avail>0)
+                                        buf.copy(col0BA, inbuf, col0BA, avail)
+println("xxh $buf")
                                     buf = ResultChunk(resultSet)
                                     if (avail != same)
                                         buf.copy(col0BA, inbuf, col0BA, same - avail)
+println("xxi $buf")
                                     old.add(buf)
                                 }
                                 buf.skipSize(col0JBA, same)
+println("xxb $buf")
                                 inbuf.skipPos(col0JBA, same)
+println("xxb $inbuf")
                                 old
                             })
                         }
@@ -244,9 +260,13 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                 }
                                             } else {
                                                 if (count < avail) {
+println("xx6 $outbuf")
                                                     outbuf.copy(col1AA, aData, col0AA, count)
+println("xx7 $outbuf")
                                                     outbuf.copy(col1JA, aData, col0JAA, count)
+println("xx8 $outbuf $it")
                                                     outbuf.copy(col1BA, it, col0BA, count)
+println("xx9 $outbuf $it")
                                                 } else {
                                                     outbuf.copy(col1AA, aData, col0AA, avail)
                                                     outbuf.copy(col1JA, aData, col0JAA, avail)

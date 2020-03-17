@@ -63,8 +63,20 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
 
-    open fun availableWrite() = data[0].availableWrite()
-    open fun availableRead() = data[0].availableRead()
+    open fun availableWrite(): Int {
+        var res = data[0].availableWrite()
+        for (i in 1 until columns) {
+            val tmp = data[i].availableWrite()
+            if (res > tmp)
+                res = tmp
+        }
+        return res
+    }
+
+    open fun availableRead(): Int {
+        return data[0].availableRead()
+    }
+
     fun canAppend() = availableWrite() > 0
 
     fun append(row: ResultRow) {
@@ -101,22 +113,22 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
     open fun skipPos(columns: Array<Variable>, count: Int) {
         for (c in 0 until columns.size)
-            data[columns[c].toInt()].pos += count
+            data[columns[c].toInt()].skipPos(count)
     }
 
     open fun skipSize(columns: Array<Variable>, count: Int) {
         for (c in 0 until columns.size)
-            data[columns[c].toInt()].size += count
+            data[columns[c].toInt()].skipSize(count)
     }
 
     open fun skipPos(count: Int) {
         for (c in 0 until columns)
-            data[c].pos += count
+            data[c].skipPos(count)
     }
 
     open fun skipSize(count: Int) {
         for (c in 0 until columns)
-            data[c].size += count
+            data[c].skipSize(count)
     }
 
     open fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
@@ -149,14 +161,19 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
     override fun toString(): String {
         val res = StringBuilder()
         for (c in 0 until columns)
-            res.append("(${resultSet.getVariableNames()[c]},${data[c].pos},${data[c].size}), ")
+            res.append("(${resultSet.getVariableNames()[c]},${data[c].posIndex},${data[c].sizeIndex},${data[c].posAbsolute},${data[c].sizeAbsolute},${data[c].posIndexLocal}), ")
         res.append("\n")
         if (columns > 0)
             for (r in 0 until ResultVektor.capacity) {
                 for (c in 0 until columns)
-                    if (r >= data[c].pos && r < data[c].size)
-                        res.append("${data[c].data[r]}, ")
-                    else
+                    if (r >= data[c].posIndex && r <= data[c].sizeIndex&&data[c].data[r].count>0) {
+                        res.append(data[c].data[r].value)
+                        if (r == data[c].posIndex)
+                            res.append("(${data[c].data[r].count - data[c].posIndexLocal})")
+                        else
+                            res.append("(${data[c].data[r].count})")
+                        res.append(", ")
+                    } else
                         res.append("-, ")
                 res.append("\n")
             }
@@ -175,50 +192,137 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
 }
 
+class CompressedElement(var count: Int, var value: Value)
+
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         val capacity = 6
     }
 
-    var pos = 0
-    var posBackup = 0
-    var size = 0
+    var posAbsolute = 0
+    var posIndex = 0
+    var posIndexLocal = 0
+    var posBackup = Array(3) { 0 }
+    var sizeAbsolute = 0
+    var sizeIndex = 0
 
-    val data = Array<Value>(capacity) { undefValue }
+    val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
+
+    fun skipPos(count: Int) {
+        posAbsolute += count
+        if (count >= 0) {
+            var i = count
+            while (i > 0) {
+                val c = data[posIndex].count - posIndexLocal
+                if (c < i) {
+                    i -= c
+                    nextElement()
+                } else {
+                    posIndexLocal += i
+                    i = 0
+                }
+            }
+        } else {
+            require(false)
+        }
+    }
+
+    fun skipSize(count: Int) {
+        sizeAbsolute += count
+        if (count >= 0)
+            data[sizeIndex].count += count
+        else {
+var i=count
+while(i>0){
+val c=data[sizeIndex].count
+if(c<i){
+sizeIndex--
+i-=c
+}else{
+data[sizeIndex].count-=i
+i=0
+}
+}
+        }
+    }
 
     fun backupPosition() {
-        posBackup = pos
+        posBackup[0] = posAbsolute
+        posBackup[1] = posIndex
+        posBackup[2] = posIndexLocal
     }
 
     fun restorePosition() {
-        pos = posBackup
+        posAbsolute = posBackup[0]
+        posIndex = posBackup[1]
+        posIndexLocal = posBackup[2]
     }
 
-    fun current(): Value = data[pos]
-    override fun next(): Value = data[pos++]
-    override fun hasNext() = pos < size
-    fun availableWrite() = capacity - size
-    fun availableRead() = size - pos
+    fun current(): Value = data[posIndex].value
+    override fun next(): Value {
+        safeNextElement()
+        posIndexLocal++
+        posAbsolute++
+        return data[posIndex].value
+    }
+
+    override fun hasNext() = sizeAbsolute > posAbsolute
+    fun availableWrite() = capacity - sizeIndex
+    fun availableRead() = sizeAbsolute - posAbsolute
     fun canAppend() = availableWrite() > 0
 
-    fun append(value: Value) {
-        data[size++] = value
+    fun append(value: Value, count: Int = 1) {
+        if (data[sizeIndex].value == value)
+            data[sizeIndex].count += count
+        else {
+            if (sizeAbsolute > 0)
+                sizeIndex++
+            data[sizeIndex].count = count
+            data[sizeIndex].value = value
+        }
+        sizeAbsolute += count
     }
 
     fun sameElements(): Int {
-        var res = 1
-        while (pos + res < size && data[pos + res] == data[pos])
-            res++
-        return res
+        safeNextElement()
+        if (posIndex > sizeIndex)
+            return 0
+        return data[posIndex].count - posIndexLocal
+    }
+
+    fun nextElement() {
+        posIndex++
+        posIndexLocal = 0
+    }
+
+    fun safeNextElement() {
+        if (posIndexLocal == data[posIndex].count)
+            nextElement()
     }
 
     fun copy(from: ResultVektor, count: Int) {
-        for (i in 0 until count)
-            append(from.next())
+        println("yyy $count $posIndex $posIndexLocal ${from.posIndex} ${from.posIndexLocal}")
+        var i = count
+if(count>0){
+        from.safeNextElement()
+}
+        while (i > 0) {
+            val c = from.data[from.posIndex].count - from.posIndexLocal
+            println("yy2 $i $c")
+            if (c <= i) {
+                append(from.data[from.posIndex].value, c)
+                from.nextElement()
+                i -= c
+            } else {
+                append(from.data[from.posIndex].value, i)
+                from.posIndexLocal += i
+                i = 0
+            }
+        }
+from.posAbsolute+=count
     }
 
     fun copy(from: Value, count: Int) {
-        for (i in 0 until count)
-            append(from)
+        append(from, count)
     }
 }

@@ -42,22 +42,31 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
         res.next = {
             Trace.traceSuspend<ResultChunk>({ "POPModify.next" }, {
                 try {
-                    child.forEach { rowsOld ->
-                        resultFlowConsume({ this@POPModify }, { children[0] }, { rowsOld })
+                    child.forEach { inbuf ->
+                        resultFlowConsume({ this@POPModify }, { children[0] }, { inbuf })
                         for (i in insert) {
                             try {
                                 if (i.graphVar) {
                                     val variable = children[0].resultSet.createVariable(i.graph)
-                                    val storenames = rowsOld.getColumn(variable)
-                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in 0 until rowsOld.availableRead()) {
-                                        val store = DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(storenames.data[i]).valueToString()!!, true)
-                                        store.addData(Array(3) { data[it].data[i] })
+                                    val storenames = inbuf.getColumn(variable)
+                                    val data = Array<ResultVektorRaw>(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
+                                    var count = inbuf.availableRead()
+                                    var index = 0
+                                    while (count > 0) {
+                                        val c = storenames.sameElements()
+                                        val name = storenames.current()
+                                        storenames.skipPos(c)
+                                        val nameS = children[0].resultSet.getValueObject(name).valueToString()!!
+                                        val store = DistributedTripleStore.getNamedGraph(query, nameS, true)
+                                        for (d in 0 until c)
+                                            store.addData(Array(3) { data[it].data[index] })
+                                        count -= c
+					index += c
                                     }
                                 } else {
                                     val store = DistributedTripleStore.getNamedGraph(query, i.graph, true)
-                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in 0 until rowsOld.availableRead())
+                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
+                                    for (i in 0 until inbuf.availableRead())
                                         store.addData(Array(3) { data[it].data[i] })
                                 }
                             } catch (e: Throwable) {
@@ -67,16 +76,25 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                             try {
                                 if (i.graphVar) {
                                     val variable = children[0].resultSet.createVariable(i.graph)
-                                    val storenames = rowsOld.getColumn(variable)
-                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in 0 until rowsOld.availableRead()) {
-                                        val store = DistributedTripleStore.getNamedGraph(query, children[0].resultSet.getValueObject(storenames.data[i]).valueToString()!!, false)
-                                        store.deleteData(Array(3) { data[it].data[i] })
+                                    val storenames = inbuf.getColumn(variable)
+                                    val data = Array<ResultVektorRaw>(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
+                                    var count = inbuf.availableRead()
+                                    var index = 0
+                                    while (count > 0) {
+                                        val c = storenames.sameElements()
+                                        val name = storenames.current()
+                                        storenames.skipPos(c)
+                                        val nameS = children[0].resultSet.getValueObject(name).valueToString()!!
+                                        val store = DistributedTripleStore.getNamedGraph(query, nameS, true)
+                                        for (d in 0 until c)
+                                            store.deleteData(Array(3) { data[it].data[index] })
+                                        count -= c
+                                        index += c
                                     }
                                 } else {
                                     val store = DistributedTripleStore.getNamedGraph(query, i.graph, false)
-                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, rowsOld) }
-                                    for (i in 0 until rowsOld.availableRead())
+                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
+                                    for (i in 0 until inbuf.availableRead())
                                         store.deleteData(Array(3) { data[it].data[i] })
                                 }
                             } catch (e: Throwable) {
