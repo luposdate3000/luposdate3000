@@ -111,11 +111,14 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
     //dies hier wird durch kompression später deutlich verbessert
     fun sameElements(columns: Array<Variable>): Int {
         var res = size - pos
+println("same $res $this")
         for (i in columns) {
             val t = data[i.toInt()].sameElements()
+println("same $i $t ")
             if (t < res)
                 res = t
         }
+println("same $res ")
         return res
     }
 
@@ -168,9 +171,12 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
             res.append("(${resultSet.getVariableNames()[c]},${data[c].pos},${data[c].size}), ")
         res.append("\n")
         if (columns > 0)
-            for (r in pos until size) {
+            for (r in 0 until ResultVektor.capacity) {
                 for (c in 0 until columns)
+if(r>=data[c].pos&&r<data[c].size)
                     res.append("${data[c].data[r]}, ")
+else
+res.append("-, ")
                 res.append("\n")
             }
         return res.toString()
@@ -203,9 +209,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     //dies hier wird durch kompression später deutlich verbessert
     fun sameElements(): Int {
         var res = 1
-        for (i in pos + 1 until size)
-            if (data[i] == data[pos])
-                res++
+while(pos+res<size&&data[pos+res]==data[pos])
+res++
         return res
     }
 

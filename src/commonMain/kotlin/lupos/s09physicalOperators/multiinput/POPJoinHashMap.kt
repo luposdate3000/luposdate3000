@@ -108,15 +108,16 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val col1BA = varBO.map { it.second }.toTypedArray()
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next" }, {
-                println("$classname $uuid a")
+println("$classname $uuid a")
                 while (true) {
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
                         while (inbuf.hasNext()) {
-                            println("$classname $uuid b")
+println("$classname $uuid b")
                             val same = inbuf.sameElements(col0JBA)
+//xxx?
                             val key = inbuf.current(col0JBA)
-                            println("$classname $uuid ba ${key.map { it }} $same ${inbuf.size} ${inbuf.pos}")
+println("$classname $uuid ba ${key.map { it }} $same ${inbuf.size} ${inbuf.pos}")
                             var containsUndef = false
                             for (k in key)
                                 if (k == undefValue)
@@ -126,7 +127,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             else
                                 mapWithoutUndef
                             map.update(key, onCreate = {
-                                println("$classname $uuid bc")
+println("$classname $uuid bc")
                                 val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
                                 val buf = ResultChunk(children[1].resultSet)
                                 buf.copy(col0BA, inbuf, col0BA, same)
@@ -135,10 +136,10 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 data.add(buf)
                                 data
                             }, onUpdate = { old ->
-                                println("$classname $uuid bd")
+println("$classname $uuid bd")
                                 var buf = old!!.lastUnordered()
                                 val avail = buf!!.availableSpace()
-                                println("$classname $uuid bb $avail")
+println("$classname $uuid bb $avail")
                                 if (avail > same)
                                     buf.copy(col0BA, inbuf, col0BA, same)
                                 else {
@@ -159,18 +160,18 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         break
                     }
                 }
-                println("$classname $uuid c")
+println("$classname $uuid c")
                 while (true) {
-                    println("$classname $uuid d")
+println("$classname $uuid d")
                     try {
-                        println("$classname $uuid i")
+println("$classname $uuid i")
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
-                        println("$classname $uuid j")
+println("$classname $uuid j")
                         while (inbuf.hasNext()) {
                             val same = inbuf.sameElements(col0JAA)
                             val key = inbuf.current(col0JAA)
-                            println("$classname $uuid k ${key.map { it }}")
-                            println("$classname $uuid l")
+println("$classname $uuid k ${key.map { it }}")
+println("$classname $uuid l")
                             val others = mutableListOf<Pair<Array<Value>, SortedArray<ResultChunk>>>()
                             var containsUndef = false
                             for (k in key)
@@ -214,7 +215,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 }
                             }
                             if (others.size == 0 && optional) {
-                                println("$classname $uuid optional")
+println("$classname $uuid optional")
                                 val avail = outbuf.availableSpace()
                                 if (avail > same) {
                                     outbuf.copy(col1AA, inbuf, col0AA, same)
@@ -233,15 +234,15 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             } else {
                                 for (i in 0 until same) {
                                     val aData = inbuf.nextArr()
-                                    println("$classname $uuid adata ${aData.map { it }}")
-                                    println("$classname $uuid ${others.size}")
+println("$classname $uuid adata ${aData.map { it }}")
+println("$classname $uuid ${others.size}")
                                     for (other in others) {
                                         other.second.forEachUnordered { it ->
                                             val oldpos = it.pos
-                                            println("$classname $uuid f")
+println("$classname $uuid f ${other.first.map{it}} $oldpos")
                                             val count = it.size
                                             var avail = outbuf.availableSpace()
-                                            println("$classname $uuid write ${col1AA.map { it }} ${col1JA.map { it }} ${col1BA.map { it }} ${col0AA.map { it }} ${col0JAA.map { it }} ${col0BA.map { it }}")
+println("$classname $uuid write ${col1AA.map { it }} ${col1JA.map { it }} ${col1BA.map { it }} ${col0AA.map { it }} ${col0JAA.map { it }} ${col0BA.map { it }} $count $avail")
                                             if (containsUndef) {
 						if (count < avail) {
                                                     outbuf.copy(col1AA, aData, col0AA, count)
@@ -277,6 +278,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                     }
                                                 }
                                             }
+println("$classname $uuid outbuf $outbuf")
 //reset for later use
                                             it.pos = oldpos
                                         }
@@ -289,9 +291,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             e.printStackTrace()
                         break
                     }
-                    println("$classname $uuid g")
+println("$classname $uuid g")
                 }
-                println("$classname $uuid h")
+println("$classname $uuid h")
                 if (outbuf.size > 0)
                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                 channel.close()
