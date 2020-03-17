@@ -302,14 +302,12 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun copy(from: ResultVektor, count: Int) {
-        println("yyy $count $posIndex $posIndexLocal ${from.posIndex} ${from.posIndexLocal}")
         var i = count
         if (count > 0) {
             from.safeNextElement()
         }
         while (i > 0) {
             val c = from.data[from.posIndex].count - from.posIndexLocal
-            println("yy2 $i $c")
             if (c <= i) {
                 append(from.data[from.posIndex].value, c)
                 from.nextElement()

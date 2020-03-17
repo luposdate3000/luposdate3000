@@ -112,11 +112,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
                         while (inbuf.hasNext()) {
-                            println("xx3 $inbuf")
                             val same = inbuf.sameElements(col0JBA)
-                            println("xx4 $inbuf $same")
                             val key = inbuf.current(col0JBA)
-                            println("xx5 $inbuf")
                             var containsUndef = false
                             for (k in key)
                                 if (k == undefValue)
@@ -128,38 +125,26 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             map.update(key, onCreate = {
                                 val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
                                 val buf = ResultChunk(children[1].resultSet)
-                                println("xxx $buf $inbuf")
                                 buf.copy(col0BA, inbuf, col0BA, same)
-                                println("xxa $buf")
                                 buf.skipSize(col0JBA, same)
-                                println("xxb $buf")
                                 inbuf.skipPos(col0JBA, same)
-                                println("xxc $inbuf")
                                 data.add(buf)
                                 data
                             }, onUpdate = { old ->
                                 var buf = old!!.lastUnordered()
-                                println("xxd $buf")
                                 val avail = buf!!.availableWrite()
-                                println("xxe $buf $avail")
                                 if (avail > same) {
                                     buf.copy(col0BA, inbuf, col0BA, same)
-                                    println("xxf $buf $inbuf")
                                 } else {
-                                    println("xxg $buf $inbuf")
                                     if (avail > 0)
                                         buf.copy(col0BA, inbuf, col0BA, avail)
-                                    println("xxh $buf")
                                     buf = ResultChunk(resultSet)
                                     if (avail != same)
                                         buf.copy(col0BA, inbuf, col0BA, same - avail)
-                                    println("xxi $buf")
                                     old.add(buf)
                                 }
                                 buf.skipSize(col0JBA, same)
-                                println("xxb $buf")
                                 inbuf.skipPos(col0JBA, same)
-                                println("xxb $inbuf")
                                 old
                             })
                         }
@@ -220,27 +205,18 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             if (others.size == 0 && optional) {
                                 val avail = outbuf.availableWrite()
                                 if (avail > same) {
-                                    println("xv1 $outbuf $inbuf")
                                     outbuf.copy(col1AA, inbuf, col0AA, same)
-                                    println("xv2 $outbuf $inbuf")
                                     outbuf.copy(col1JA, inbuf, col0JAA, same)
-                                    println("xv3 $outbuf $inbuf")
                                 } else {
                                     if (avail > 0) {
-                                        println("xv4 $outbuf $inbuf")
                                         outbuf.copy(col1AA, inbuf, col0AA, avail)
-                                        println("xv5 $outbuf $inbuf")
                                         outbuf.copy(col1JA, inbuf, col0JAA, avail)
-                                        println("xv6 $outbuf $inbuf")
                                     }
                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                     outbuf = ResultChunk(resultSet)
                                     if (avail != same) {
-                                        println("xv7 $outbuf $inbuf")
                                         outbuf.copy(col1AA, inbuf, col0AA, same - avail)
-                                        println("xv8 $outbuf $inbuf")
                                         outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
-                                        println("xv9 $outbuf $inbuf")
                                     }
                                 }
                                 outbuf.skipSize(col1BA, same)
@@ -254,64 +230,40 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                             var avail = outbuf.availableWrite()
                                             if (containsUndef) {
                                                 if (count < avail) {
-                                                    println("xva $outbuf")
                                                     outbuf.copy(col1AA, aData, col0AA, count)
-                                                    println("xvb $outbuf")
                                                     outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count)
-                                                    println("xvc $outbuf $it")
                                                     outbuf.copy(col1BA, it, col0BA, count)
-                                                    println("xvd $outbuf $it")
                                                 } else {
                                                     if (avail > 0) {
-                                                        println("xve $outbuf")
                                                         outbuf.copy(col1AA, aData, col0AA, avail)
-                                                        println("xvf $outbuf")
                                                         outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, avail)
-                                                        println("xvg $outbuf $it")
                                                         outbuf.copy(col1BA, it, col0BA, avail)
-                                                        println("xvh $outbuf $it")
                                                     }
                                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                                     outbuf = ResultChunk(resultSet)
                                                     if (count != avail) {
-                                                        println("xvi $outbuf")
                                                         outbuf.copy(col1AA, aData, col0AA, count - avail)
-                                                        println("xvj $outbuf")
                                                         outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count - avail)
-                                                        println("xvk $outbuf $it")
                                                         outbuf.copy(col1BA, it, col0BA, count - avail)
-                                                        println("xvl $outbuf $it")
                                                     }
                                                 }
                                             } else {
                                                 if (count < avail) {
-                                                    println("xx6 $outbuf")
                                                     outbuf.copy(col1AA, aData, col0AA, count)
-                                                    println("xx7 $outbuf")
                                                     outbuf.copy(col1JA, aData, col0JAA, count)
-                                                    println("xx8 $outbuf $it")
                                                     outbuf.copy(col1BA, it, col0BA, count)
-                                                    println("xx9 $outbuf $it")
                                                 } else {
                                                     if (avail > 0) {
-                                                        println("xy1 $outbuf")
                                                         outbuf.copy(col1AA, aData, col0AA, avail)
-                                                        println("xy2 $outbuf")
                                                         outbuf.copy(col1JA, aData, col0JAA, avail)
-                                                        println("xy3 $outbuf $it")
                                                         outbuf.copy(col1BA, it, col0BA, avail)
-                                                        println("xy4 $outbuf $it")
                                                     }
                                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                                     outbuf = ResultChunk(resultSet)
                                                     if (count != avail) {
-                                                        println("xy5 $outbuf")
                                                         outbuf.copy(col1AA, aData, col0AA, count - avail)
-                                                        println("xy6 $outbuf")
                                                         outbuf.copy(col1JA, aData, col0JAA, count - avail)
-                                                        println("xy7 $outbuf $it")
                                                         outbuf.copy(col1BA, it, col0BA, count - avail)
-                                                        println("xy8 $outbuf $it")
                                                     }
                                                 }
                                             }
