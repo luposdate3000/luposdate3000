@@ -22,7 +22,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
-        val rVektor = ResultVektorRaw()
+        val rVektor = ResultVektorRaw(resultChunk.availableRead())
         if (resultSet.hasVariable(name)) {
             val variable = resultSet.createVariable(name)
             val column = resultChunk.getColumn(variable)

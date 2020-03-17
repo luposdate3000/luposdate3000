@@ -21,11 +21,7 @@ abstract class AOPBase(query: Query,
     abstract fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw
 }
 
-class ResultVektorRaw() {
-    companion object {
-        val capacity = 6
-    }
-
+class ResultVektorRaw(val capacity:Int) {
     val data = Array<ValueDefinition>(capacity) { ValueError() }
 
     fun toString(pos: Int, size: Int): String {

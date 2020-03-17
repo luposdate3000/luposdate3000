@@ -7,7 +7,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 
 abstract class SortedDataPageBase<T>(val comparator: Comparator<T>, val arrayAllocator: (Int) -> Array<T>, val pageAllocator: (Comparator<T>, (Int) -> Array<T>) -> SortedDataPageBase<T>) {
     companion object {
-        val capacity = 4
+        val capacity = 200
     }
 
     fun concatCompleteLoop(b: SortedDataPageBase<T>): SortedDataPageBase<T> {

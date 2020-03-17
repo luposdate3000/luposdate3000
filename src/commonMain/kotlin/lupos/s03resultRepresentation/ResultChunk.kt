@@ -197,7 +197,7 @@ class CompressedElement(var count: Int, var value: Value)
 
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
-        val capacity = 6
+        val capacity = 100
     }
 
     var posAbsolute = 0

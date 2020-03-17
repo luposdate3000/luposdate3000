@@ -85,7 +85,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             Array(size) {
                 Pair(Array<Value>(varJ.size) {
                     undefValue //
-                }, SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)) //
+                }, null)//
             }//
         }, null)
         val mapWithoutUndef = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
@@ -93,7 +93,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             Array(size) {
                 Pair(Array<Value>(varJ.size) {
                     undefValue //
-                }, SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)) //
+                }, null)//
             }//
         }, null)
         val channels = children.map { it.evaluate() }

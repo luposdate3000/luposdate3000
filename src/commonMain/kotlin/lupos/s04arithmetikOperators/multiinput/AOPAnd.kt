@@ -30,7 +30,7 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
     }
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
-        val rVektor = ResultVektorRaw()
+        val rVektor = ResultVektorRaw(resultChunk.availableRead())
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
         val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
         for (i in 0 until resultChunk.availableRead()) {

@@ -26,7 +26,7 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
     }
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
-        val rVektor = ResultVektorRaw()
+        val rVektor = ResultVektorRaw(resultChunk.availableRead())
         val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
         val bVektor = (children[1] as AOPBase).calculate(resultSet, resultChunk)
         val cVektor = (children[2] as AOPBase).calculate(resultSet, resultChunk)

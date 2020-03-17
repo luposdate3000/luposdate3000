@@ -40,7 +40,7 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
 
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val value = a.get()!!
-        val rVektor = ResultVektorRaw()
+        val rVektor = ResultVektorRaw(resultChunk.availableRead())
         for (i in 0 until resultChunk.availableRead())
             rVektor.data[i] = value
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
