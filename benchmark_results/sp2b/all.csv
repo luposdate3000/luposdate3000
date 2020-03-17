@@ -174,3 +174,8 @@ luposdate3000,1000,90.72,83.41,58.58,17.20,94.33,78.45,56.49,82.58,85.18,65.81,3
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
 luposdate3000,10000,64.48,37.88,1.46,1.67,53.04,100.99,11.24,21.65,65.80,71.00,.09,.91,10.25,9.20,2.25,1.60,3.43
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+luposdate3000,100,103.37,91.90,23.57,10.90,77.92,83.17,25.26,89.28,89.64,83.91,1.59,34.93,51.48,32.96,4.63,15.12,14.45
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+luposdate3000,1000,85.23,52.21,2.61,1.30,76.54,86.13,5.22,22.50,118.57,69.37,.05,6.93,10.54,5.91,.28,1.72,.84
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
