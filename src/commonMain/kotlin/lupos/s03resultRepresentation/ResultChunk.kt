@@ -160,13 +160,14 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
 
     override fun toString(): String {
         val res = StringBuilder()
+        res.append("" + availableRead() + "r" + availableWrite() + "w")
         for (c in 0 until columns)
-            res.append("(${resultSet.getVariableNames()[c]},${data[c].posIndex},${data[c].sizeIndex},${data[c].posAbsolute},${data[c].sizeAbsolute},${data[c].posIndexLocal}), ")
+            res.append("(${resultSet.getVariableNames()[c]},${data[c].posIndex},${data[c].sizeIndex},${data[c].posAbsolute},${data[c].sizeAbsolute},${data[c].posIndexLocal} ${data[c].availableRead()} ${data[c].availableWrite()}), ")
         res.append("\n")
         if (columns > 0)
             for (r in 0 until ResultVektor.capacity) {
                 for (c in 0 until columns)
-                    if (r >= data[c].posIndex && r <= data[c].sizeIndex&&data[c].data[r].count>0) {
+                    if (r >= data[c].posIndex && r <= data[c].sizeIndex && data[c].data[r].count > 0) {
                         res.append(data[c].data[r].value)
                         if (r == data[c].posIndex)
                             res.append("(${data[c].data[r].count - data[c].posIndexLocal})")
@@ -232,17 +233,17 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         if (count >= 0)
             data[sizeIndex].count += count
         else {
-var i=count
-while(i>0){
-val c=data[sizeIndex].count
-if(c<i){
-sizeIndex--
-i-=c
-}else{
-data[sizeIndex].count-=i
-i=0
-}
-}
+            var i = count
+            while (i > 0) {
+                val c = data[sizeIndex].count
+                if (c < i) {
+                    sizeIndex--
+                    i -= c
+                } else {
+                    data[sizeIndex].count -= i
+                    i = 0
+                }
+            }
         }
     }
 
@@ -267,7 +268,7 @@ i=0
     }
 
     override fun hasNext() = sizeAbsolute > posAbsolute
-    fun availableWrite() = capacity - sizeIndex
+    fun availableWrite() = capacity - sizeIndex - 1
     fun availableRead() = sizeAbsolute - posAbsolute
     fun canAppend() = availableWrite() > 0
 
@@ -303,9 +304,9 @@ i=0
     fun copy(from: ResultVektor, count: Int) {
         println("yyy $count $posIndex $posIndexLocal ${from.posIndex} ${from.posIndexLocal}")
         var i = count
-if(count>0){
-        from.safeNextElement()
-}
+        if (count > 0) {
+            from.safeNextElement()
+        }
         while (i > 0) {
             val c = from.data[from.posIndex].count - from.posIndexLocal
             println("yy2 $i $c")
@@ -319,7 +320,7 @@ if(count>0){
                 i = 0
             }
         }
-from.posAbsolute+=count
+        from.posAbsolute += count
     }
 
     fun copy(from: Value, count: Int) {
