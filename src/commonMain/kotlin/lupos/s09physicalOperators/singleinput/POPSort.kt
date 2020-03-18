@@ -61,28 +61,28 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         return res
     }
 
-    class ComparatorImpl(@JvmField val resultSet: ResultSet, val variable: Variable) : Comparator<ResultRow> {
-        override fun compare(a: ResultRow, b: ResultRow): Int {
-            val objA = resultSet.getValueObject(a, variable)
-            val objB = resultSet.getValueObject(b, variable)
+    class ComparatorImpl(val query: Query) : Comparator<Value> {
+        override fun compare(aID: Value, bID: Value): Int {
+            val a = query.dictionary.getValue(aID)
+            val b = query.dictionary.getValue(bID)
             var res = 0
             try {
-                res = objA.compareTo(objB)
+                res = a.compareTo(b)
             } catch (e: Throwable) {
-                if (objA is ValueUndef || objA is ValueError)
+                if (a is ValueUndef || a is ValueError)
                     return -1
-                if (objB is ValueUndef || objB is ValueError)
+                if (b is ValueUndef || b is ValueError)
                     return +1
-                if (objA is ValueBnode)
+                if (a is ValueBnode)
                     return -1
-                if (objB is ValueBnode)
+                if (b is ValueBnode)
                     return +1
-                if (objA is ValueIri)
+                if (a is ValueIri)
                     return -1
-                if (objB is ValueIri)
+                if (b is ValueIri)
                     return +1
-                val sA = objA.valueToString()!!
-                val sB = objB.valueToString()!!
+                val sA = a.valueToString()!!
+                val sB = b.valueToString()!!
                 return sA.compareTo(sB)
             }
             return res
@@ -91,28 +91,30 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
         val child = children[0].evaluate()
-        val data = SortedArray<ResultRow>(ComparatorImpl(resultSet, resultSet.createVariable(sortBy.name)), { size -> Array(size) { resultSet.createResultRow() } })
+        var data: ResultChunk? = null
         CoroutinesHelper.runBlock {
-            child.forEach { rows ->
-                for (row in resultFlowConsume({ this@POPSort }, { children[0] }, { rows }))
-                    data.add(row)
+            child.forEach { chunk ->
+                val next = resultFlowConsume({ this@POPSort }, { children[0] }, { child.next() })
+                if (next.availableRead() > 0) {
+                    if (data == null)
+                        data = next
+                    else
+                        ResultChunk.append(data!!, next)
+                }
             }
         }
-        if (data.size == 0)
+        if (data == null)
             return ResultIterator()
-        val iterator = data.iterator(sortOrder)
+        ResultChunk.sort(
+                Array(data!!.columns) { ComparatorImpl(query) },
+                Array(data!!.columns) { resultSet.createVariable(sortBy.name) },
+                data!!)
         val res = ResultIterator()
         res.next = {
             Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
-                var outbuf = ResultChunk(resultSet)
-                while (outbuf.canAppend()) {
-                    if (!iterator.hasNext()) {
-                        res.close()
-                        break
-                    }
-                    outbuf.append(iterator.next())
-                }
-                resultFlowProduce({ this@POPSort }, { outbuf })
+                var result = data!!
+                data = ResultChunk.removeFirst(data!!)
+                resultFlowProduce({ this@POPSort }, { result })
             })
         }
         return res

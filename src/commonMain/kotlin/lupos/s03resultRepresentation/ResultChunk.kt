@@ -66,12 +66,15 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         }
 
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
-var targetLast=target
+            var targetLast = target
             loop@ while (a.hasNext() && b.hasNext()) {
                 var cmp = 0
                 for (i in columnOrder) {
-                    cmp = comparator[i.toInt()].compare(a.data[i.toInt()].current(), b.data[i.toInt()].current())
-                    if (cmp != 0) {
+                    val vala = a.data[i.toInt()].current()
+                    val valb = b.data[i.toInt()].current()
+                    if (vala != valb) {
+                        cmp = comparator[i.toInt()].compare(vala, valb)
+                        require(cmp != 0)
                         if (cmp < 0) {
                             var count = a.data[i.toInt()].sameElements()
                             targetLast = copy(a, targetLast, count)
@@ -102,7 +105,7 @@ var targetLast=target
                     return chunks
                 }
                 2 -> {
-                    val a = split(chunks,1)
+                    val a = split(chunks, 1)
                     val b = chunks
                     val resultSet = a.resultSet
                     val columns = a.columns
@@ -111,18 +114,18 @@ var targetLast=target
                     var res = ResultChunk(resultSet, columns)
                     var resLast = res
                     resLast = sortHelper(comparator, columnOrder, a, b, resLast)
-                    val idx = if (a.hasNext()){
-                    var count = a.availableRead()
-                    copy(a, resLast, count)
-                    }else{
-                    var count = b.availableRead()
-                    copy(b, resLast, count)
-}
+                    val idx = if (a.hasNext()) {
+                        var count = a.availableRead()
+                        copy(a, resLast, count)
+                    } else {
+                        var count = b.availableRead()
+                        copy(b, resLast, count)
+                    }
                     return res
                 }
                 else -> {
                     val half = chunkCount / 2
-                    var a: ResultChunk? = sort(comparator, columnOrder, split(chunks,half))
+                    var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
                     var b: ResultChunk? = sort(comparator, columnOrder, chunks)
                     val resultSet = a!!.resultSet
                     val columns = a!!.columns
