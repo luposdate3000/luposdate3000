@@ -1,5 +1,4 @@
 import java.io.File;
-import kotlinx.coroutines.*
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ConnectException
@@ -7,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.time.Duration
 import java.time.Instant
+import kotlinx.coroutines.*
 import lupos.*
 import lupos.s00misc.*
 import lupos.s00misc.executeBinaryTest
@@ -65,7 +65,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var currentSize = 0
     var testnumber = 0
     var counter = datasize
-var errors=0
+    var errors = 0
     while (true) {
         testnumber++
         counter--
@@ -94,11 +94,11 @@ var errors=0
             e.printStackTrace()
             input.pos = currentSize
             lupos.s00misc.File("crash-${data.hashCode()}").write(input)
-if(errors++>1000){
-runBlocking{
-delay(Long.MAX_VALUE)
-}
-}
+            if (errors++ > 1000) {
+                runBlocking {
+                    delay(Long.MAX_VALUE)
+                }
+            }
         }
     }
 }

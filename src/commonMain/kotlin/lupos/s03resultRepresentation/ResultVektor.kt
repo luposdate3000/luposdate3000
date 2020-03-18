@@ -18,19 +18,19 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
 
-override fun toString():String{
-val res=StringBuilder()
-res.append("$capacity $posAbsolute $posIndex $posIndexLocal $posBackup $sizeAbsolute $sizeIndex\n")
-for(i in 0 until capacity){
-res.append("${data[i].value}(${data[i].count})")
-if(i==posIndex)
-res.append("-")
-if(i==sizeIndex)
-res.append("+")
-res.append("\n")
-}
-return res.toString()
-}
+    override fun toString(): String {
+        val res = StringBuilder()
+        res.append("$capacity $posAbsolute $posIndex $posIndexLocal $posBackup $sizeAbsolute $sizeIndex\n")
+        for (i in 0 until capacity) {
+            res.append("${data[i].value}(${data[i].count})")
+            if (i == posIndex)
+                res.append("-")
+            if (i == sizeIndex)
+                res.append("+")
+            res.append("\n")
+        }
+        return res.toString()
+    }
 
     fun skipPos(count: Int) {
         posAbsolute += count

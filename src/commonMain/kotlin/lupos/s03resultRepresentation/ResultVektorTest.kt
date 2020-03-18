@@ -2,6 +2,7 @@ package lupos.s03resultRepresentation
 
 import lupos.s00misc.*
 
+
 class MyComparatorValue : Comparator<Value> {
     override fun compare(a: Value, b: Value): Int {
         if (a < b)
@@ -17,7 +18,8 @@ val MAX_DISTINCT_VALUES = 20
 val MAX_CAPACITY = 100
 val FUNCTION_COUNT = 13
 val MAX_LISTS = 4
-val verbose=true
+val verbose = true
+
 class NoMoreRandomException() : Exception("")
 
 fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
@@ -39,41 +41,47 @@ class ResultVektorTestHelper {
     var backup = 0
 }
 
-fun log(s:String){
-if(verbose)
-println(s)
+fun log(s: String) {
+    if (verbose)
+        println(s)
 }
 
 fun ResultVektorTest(buffer: DynamicByteArray) {
     var expectException = false
-log("start")
+    log("start")
     try {
         ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 1, true) + 1
         require(ResultVektor.capacity > 0)
         val helpers = Array(MAX_LISTS) { ResultVektorTestHelper() }
         while (true) {
             expectException = false
-val helperIdx=nextRandom(buffer, MAX_LISTS,true)
+            val helperIdx = nextRandom(buffer, MAX_LISTS, true)
             val helper = helpers[helperIdx]
-log("helperIdx $helperIdx")
-log(helper.vektor.toString())
-log(helper.kotlinList.toString())
+            log("helperIdx $helperIdx")
+            log(helper.kotlinList.toString())
             val func = nextRandom(buffer, FUNCTION_COUNT, true)
-log("func $func")
+            log("func $func")
             when (func) {
                 0 -> {
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
-log("count $count")
+                    log("count $count")
                     helper.pos += count
                     expectException = helper.pos > helper.size || helper.pos < 0
                     helper.vektor.skipPos(count)
                 }
                 1 -> {
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
-log("count $count")
+                    log("count $count")
                     helper.size += count
-                    for (i in 0 until count)
-                        helper.kotlinList.add(UNDEF_VALUE)
+                    if (count > 0) {
+                        for (i in 0 until count)
+                            helper.kotlinList.add(UNDEF_VALUE)
+                    } else {
+                        expectException = helper.size + count < 0
+                        if (!expectException)
+                            for (i in 0 until -count)
+                                helper.kotlinList.removeAt(helper.kotlinList.size - 1)
+                    }
                     expectException = helper.size < 0 || !helper.vektor.canAppend()
                     helper.vektor.skipSize(count)
                 }
@@ -86,47 +94,56 @@ log("count $count")
                     helper.pos = helper.backup
                 }
                 4 -> {
-expectException=helper.pos>=helper.size
+                    expectException = helper.pos >= helper.size
                     val c = helper.vektor.current()
                     require(c == helper.kotlinList[helper.pos])
                 }
                 5 -> {
+                    expectException = helper.pos >= helper.size
                     val c = helper.vektor.next()
                     require(c == helper.kotlinList[helper.pos])
                     helper.pos++
                 }
-                6 -> require((helper.pos <= helper.size) == helper.vektor.hasNext())
-                7 -> require(ResultVektor.capacity - helper.size - 1 <= helper.vektor.availableWrite())
-                8 -> require(helper.size - helper.pos == helper.vektor.availableRead())
-                9 -> require(helper.size >= ResultVektor.capacity || helper.vektor.canAppend())
+                6 -> {
+                    log("${helper.pos} ${helper.size} ${(helper.pos < helper.size)} ${helper.vektor.hasNext()}")
+                    require((helper.pos < helper.size) == helper.vektor.hasNext())
+                }
+                7 -> {
+                    require(ResultVektor.capacity - helper.size - 1 <= helper.vektor.availableWrite())
+                }
+                8 -> {
+                    require(helper.size - helper.pos == helper.vektor.availableRead())
+                }
+                9 -> {
+                    require(helper.size >= ResultVektor.capacity || helper.vektor.canAppend())
+                }
                 10 -> {
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
-log("count $count")
+                    log("count $count")
                     val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
-log("count $value")
+                    log("count $value")
                     for (i in 0 until count)
                         helper.kotlinList.add(value)
                     helper.size += count
-                    expectException = count == 0
+                    expectException = count <= 0
                     helper.vektor.append(value, count)
                 }
                 11 -> {
                     var same = 0
-                    while (helper.pos + same<helper.size&&helper.kotlinList[helper.pos] == helper.kotlinList[helper.pos + same])
+                    while (helper.pos + same < helper.size && helper.kotlinList[helper.pos] == helper.kotlinList[helper.pos + same])
                         same++
-val tmp=helper.vektor.sameElements()
-log("same $same $tmp")
+                    val tmp = helper.vektor.sameElements()
+                    log("same $same $tmp")
                     require(same == tmp)
                 }
                 12 -> {
-val helperIdx2=nextRandom(buffer, MAX_LISTS, true)
+                    val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
                     val helper2 = helpers[helperIdx2]
-log("helperIdx2 $helperIdx2")
-log(helper2.vektor.toString())
-log(helper2.kotlinList.toString())
+                    log("helperIdx2 $helperIdx2")
+                    log(helper2.kotlinList.toString())
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
-log("count $count")
-                    expectException = helper.vektor.availableRead() < count
+                    log("count $count")
+                    expectException = helper.vektor.availableRead() < count || count < 0
                     if (!expectException) {
                         for (i in helper.pos until helper.pos + count)
                             helper2.kotlinList.add(helper.kotlinList[i])
