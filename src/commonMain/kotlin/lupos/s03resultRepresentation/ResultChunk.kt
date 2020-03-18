@@ -13,120 +13,162 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
             return ResultChunk(resultSet, columns)
         }
 
-        fun copy(from: ResultChunk, target: MutableList<ResultChunk>, count: Int) {
-                    val resultSet = from.resultSet
-                    val columns = from.columns
-            var targetLast = target[target.size - 1]!!
+        fun removeFirst(root: ResultChunk): ResultChunk? {
+            if (root.next == root)
+                return null
+            val res = root.next
+            res.prev = root.prev
+            root.prev.next = res
+            return res
+        }
+
+        fun split(root: ResultChunk, count: Int): ResultChunk {
+            var other = root
+            for (i in 0 until count)
+                other = other.next
+            val rootLast = other.prev
+            val otherLast = root.prev
+            root.prev = rootLast
+            rootLast.next = root
+            otherLast.next = other
+            other.prev = otherLast
+            return other
+        }
+
+        fun append(rootLast: ResultChunk, other: ResultChunk): ResultChunk {
+            val root = rootLast.next
+            val otherLast = other.prev
+            rootLast.next = other
+            root.prev = otherLast
+            otherLast.next = root
+            other.prev = rootLast
+            return otherLast
+        }
+
+        fun copy(from: ResultChunk, target: ResultChunk, count: Int): ResultChunk {
+            val resultSet = from.resultSet
+            val columns = from.columns
+            var targetLast = target
             var available = targetLast.availableWrite()
             if (available == 0) {
-                targetLast = ResultChunk(resultSet, columns)
-                target.add(targetLast)
+                targetLast = append(targetLast, ResultChunk(resultSet, columns))
                 available = ResultVektor.capacity
             }
-var cnt=count
+            var cnt = count
             while (available < cnt) {
                 targetLast.copy(from, available)
                 cnt -= available
-                targetLast = ResultChunk(resultSet, columns)
-                target.add(targetLast)
+                targetLast = append(targetLast, ResultChunk(resultSet, columns))
                 available = ResultVektor.capacity
             }
             targetLast.copy(from, cnt)
+            return targetLast
         }
 
-        fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: MutableList<ResultChunk>) {
+        fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
+var targetLast=target
             loop@ while (a.hasNext() && b.hasNext()) {
                 var cmp = 0
                 for (i in columnOrder) {
                     cmp = comparator[i.toInt()].compare(a.data[i.toInt()].current(), b.data[i.toInt()].current())
                     if (cmp != 0) {
-                        if (cmp < 0){
-                        var count = a.data[i.toInt()].sameElements()
-                        copy(a, target, count)
-}                        else{
-                        var count = b.data[i.toInt()].sameElements()
-                        copy(b, target, count)
-                            }
+                        if (cmp < 0) {
+                            var count = a.data[i.toInt()].sameElements()
+                            targetLast = copy(a, targetLast, count)
+                        } else {
+                            var count = b.data[i.toInt()].sameElements()
+                            targetLast = copy(b, targetLast, count)
+                        }
                         continue@loop
                     }
                 }
                 if (cmp == 0) {
-val i=columnOrder[columnOrder.size-1]
-                        var countA = a.data[i.toInt()].sameElements()
-                        copy(a, target, countA)
-                        var countB = b.data[i.toInt()].sameElements()
-                        copy(b, target, countB)
+                    val i = columnOrder[columnOrder.size - 1]
+                    var countA = a.data[i.toInt()].sameElements()
+                    targetLast = copy(a, targetLast, countA)
+                    var countB = b.data[i.toInt()].sameElements()
+                    targetLast = copy(b, targetLast, countB)
                 }
             }
+            return targetLast
         }
 
-        fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: Array<ResultChunk>): Array<ResultChunk> {
-            when (chunks.size) {
+        fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
+            val chunkCount = chunks.chunkCount()
+            when (chunkCount) {
                 0 -> return chunks
                 1 -> {
-                    chunks[0].sort(comparator, columnOrder)
+                    chunks.sort(comparator, columnOrder)
                     return chunks
                 }
                 2 -> {
-                    val a = chunks[0]
-                    val b = chunks[1]
+                    val a = split(chunks,1)
+                    val b = chunks
                     val resultSet = a.resultSet
                     val columns = a.columns
                     a.sort(comparator, columnOrder)
                     b.sort(comparator, columnOrder)
-                    val res = mutableListOf(ResultChunk(resultSet, columns))
-                    var resLast = res[0]!!
-                    sortHelper(comparator, columnOrder, a, b, res)
-                    val idx = if (a.hasNext())
-                        0
-                    else
-                        1
-                    var count = chunks[idx].availableRead()
-                    copy(chunks[idx], res, count)
-                    return res.toTypedArray()
+                    var res = ResultChunk(resultSet, columns)
+                    var resLast = res
+                    resLast = sortHelper(comparator, columnOrder, a, b, resLast)
+                    val idx = if (a.hasNext()){
+                    var count = a.availableRead()
+                    copy(a, resLast, count)
+                    }else{
+                    var count = b.availableRead()
+                    copy(b, resLast, count)
+}
+                    return res
                 }
                 else -> {
-                    val half = chunks.size / 2
-                    val aarr = sort(comparator, columnOrder, Array(half) { chunks[it] })
-                    val barr = sort(comparator, columnOrder, Array(chunks.size - half) { chunks[half + it] })
-                    var aidx = 0
-                    var bidx = 0
-                    var a = aarr[aidx]
-                    var b = barr[bidx]
-                    val resultSet = a.resultSet
-                    val columns = a.columns
-                    val res = mutableListOf(ResultChunk(resultSet, columns))
-                    var resLast = res[0]!!
+                    val half = chunkCount / 2
+                    var a: ResultChunk? = sort(comparator, columnOrder, split(chunks,half))
+                    var b: ResultChunk? = sort(comparator, columnOrder, chunks)
+                    val resultSet = a!!.resultSet
+                    val columns = a!!.columns
+                    val res = ResultChunk(resultSet, columns)
+                    var resLast = res
                     while (true) {
-                        sortHelper(comparator, columnOrder, a, b, res)
-                        if (a.hasNext()){
-				if(++bidx==barr.size)
-					break
-				b=barr[bidx]
-                        }else{
-				if(++aidx==aarr.size)
-					break
-				a=aarr[aidx]
+                        resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
+                        if (a.hasNext()) {
+                            b = removeFirst(b)
+                            if (b == null)
+                                break
+                        } else {
+                            a = removeFirst(a)
+                            if (a == null)
+                                break
                         }
-		    }
-                    if (aidx < aarr.size) {
-                        var count = a.availableRead()
-                        copy(a, res, count)
-			for(i in aidx+1 until aarr.size)
-				res.add(aarr[i])
-                    } else {
-                        var count = b.availableRead()
-                        copy(b, res, count)
-			for(i in bidx+1 until barr.size)
-                                res.add(barr[i])
                     }
-                    return res.toTypedArray()
+                    if (a != null) {
+                        var count = a!!.availableRead()
+                        resLast = copy(a, resLast, count)
+                        append(resLast, a)
+                    } else {
+                        var count = b!!.availableRead()
+                        resLast = copy(b!!, resLast, count)
+                        append(resLast, b!!)
+                    }
+                    return res
                 }
             }
         }
     }
 
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
+    var prev = this
+    var next = this
+
+    fun chunkCount(): Int {
+        var res = 1
+        var tmp = this.next
+        while (tmp != this) {
+            res++
+            tmp = tmp.next
+        }
+        return res
+    }
+
     fun insertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
         var column = data[columnOrder[0].toInt()]
         var idx = column.insertSorted(values[0], comparator = comparator[columnOrder[0].toInt()], count = count)
