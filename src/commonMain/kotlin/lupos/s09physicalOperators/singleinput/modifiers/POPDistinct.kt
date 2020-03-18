@@ -46,7 +46,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
             for (variable in variables) {
                 val objA = resultSet.getValue(a, variable)
                 val objB = resultSet.getValue(b, variable)
-		res=objA.compareTo(objB)
+                res = objA.compareTo(objB)
                 if (res != 0)
                     return res
             }

@@ -219,7 +219,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     if (avail != same) {
                                         outbuf.copy(col1AA, inbuf, col0AA, same - avail)
                                         outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
-                                        outbuf.skipSize(col1BA, same-avail)
+                                        outbuf.skipSize(col1BA, same - avail)
                                     }
                                 }
                             } else {

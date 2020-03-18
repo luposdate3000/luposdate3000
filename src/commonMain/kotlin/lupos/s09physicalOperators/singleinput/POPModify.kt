@@ -61,7 +61,7 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
                                         for (d in 0 until c)
                                             store.addData(Array(3) { data[it].data[index] })
                                         count -= c
-					index += c
+                                        index += c
                                     }
                                 } else {
                                     val store = DistributedTripleStore.getNamedGraph(query, i.graph, true)
