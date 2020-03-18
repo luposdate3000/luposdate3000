@@ -12,47 +12,62 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
                 return ResultChunkNoColumns(resultSet, columns)
             return ResultChunk(resultSet, columns)
         }
-	fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>,chunks:Array<ResultChunk>):Array<ResultChunk>{
-when(chunks.size){
-0->return chunks
-1->{
-chunks[0].sort()
-return chunks
-}
-2->{
-chunks[0].sort()
-chunks[1].sort()
-val res=mutableListOf(ResultChunk(resultSet,columns))
-var resLast=res[0]
-while(a.hasNext()&&b.hasNext()){
-var cmp=0
-for(i in columnOrder){
-cmp=comparator.compare(chunks[0].data[i.toInt()].current(),chunks[1].data[i.toInt()].current())
-if(cmp<0){
-val same = chunks[0].sameElements()
-if(!resLast.canAppend()){
-resLast=ResultChunk(resultSet,columns)
-res.add(resLast)
-}
-resLast.append(chunks[0].current())
-}
-}
-}
 
-return res.toTypedArray()
-}
-else->{
-return xxx
-}
-}
-	}
+        fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: Array<ResultChunk>): Array<ResultChunk> {
+            when (chunks.size) {
+                0 -> return chunks
+                1 -> {
+                    chunks[0].sort(comparator,columnOrder)
+                    return chunks
+                }
+                2 -> {
+val resultSet=chunks[0].resultSet
+val columns=chunks[0].columns
+                    chunks[0].sort(comparator,columnOrder)
+                    chunks[1].sort(comparator,columnOrder)
+                    val res = mutableListOf(ResultChunk(resultSet, columns))
+                    var resLast = res[0]
+loop@                    while (chunks[0].hasNext() && chunks[1].hasNext()) {
+                        var cmp = 0
+                        for (i in columnOrder) {
+                            cmp = comparator[i.toInt()].compare(chunks[0].getColumn(i).current(), chunks[1].getColumn(i).current())
+                            if (cmp != 0) {
+                                var idx = if (cmp < 0)
+                                    0
+                                else
+                                    1
+                                val same = chunks[idx].sameElements()
+                                if (!resLast.canAppend()) {
+                                    resLast = ResultChunk(resultSet, columns)
+                                    res.add(resLast)
+                                }
+                                resLast.append(chunks[idx].current(), same)
+				continue@loop
+                            }
+                        }
+                        if (cmp == 0) {
+                            val same = chunks[0].sameElements() + chunks[1].sameElements()
+                            if (!resLast.canAppend()) {
+                                resLast = ResultChunk(resultSet, columns)
+                                res.add(resLast)
+                            }
+                            resLast.append(chunks[0].current(), same)
+                        }
+                    }
+                    return res.toTypedArray()
+                }
+                else -> {
+                    return xxx
+                }
+            }
+        }
 
     }
 
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
     fun insertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
         var column = data[columnOrder[0].toInt()]
-        var idx = column.insertSorted(values[0], comparator[columnOrder[0].toInt()], count)
+        var idx = column.insertSorted(values[0], comparator=comparator[columnOrder[0].toInt()], count=count)
         var first = idx
         var last = first + column.data[first].count
         for (i in 1 until columns) {
@@ -71,7 +86,7 @@ return xxx
             skipPos(same)
         }
         for (i in 0 until columns)
-            data[i] = tmp[i]
+            data[i] = tmp.data[i]
     }
 
     open fun availableWrite(): Int {
@@ -88,6 +103,10 @@ return xxx
     fun append(row: ResultRow, count: Int = 1) {
         for (i in 0 until columns)
             data[i].append(row.values[i], count)
+    }
+    fun append(values: Array<Value>, count: Int = 1) {
+        for (i in 0 until columns)
+            data[i].append(values[i], count)
     }
 
     fun backupPosition() {
@@ -156,6 +175,7 @@ return xxx
         }
         return res
     }
+
     fun sameElements(): Int {
         var res = availableRead()
         for (i in 0 until columns) {
@@ -208,7 +228,6 @@ return xxx
             }
         return res.toString()
     }
-
 
 
 }

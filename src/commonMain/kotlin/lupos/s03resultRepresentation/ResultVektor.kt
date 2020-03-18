@@ -1,3 +1,8 @@
+package lupos.s03resultRepresentation
+
+import lupos.s03resultRepresentation.ResultChunk
+import lupos.s04arithmetikOperators.ResultVektorRaw
+
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         val capacity = 5
@@ -28,6 +33,9 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             }
         } else {
             require(false)
+        }
+    }
+
     fun skipSize(count: Int) {
         sizeAbsolute += count
         if (count >= 0)
@@ -43,6 +51,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     data[sizeIndex].count -= i
                     break
                 }
+            }
+        }
+    }
+
     fun backupPosition() {
         posBackup[0] = posAbsolute
         posBackup[1] = posIndex
@@ -115,32 +127,34 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         }
         from.posAbsolute += count
     }
+
     fun copy(from: Value, count: Int) {
         append(from, count)
     }
-fun insertSorted(value:Value,first:Int=posIndex,last:Int=sizeIndex+1,comparator:Comparator<Value>,count:Int){
-sizeAbsolute += count
-for(i in first until last)
-if(data[i]==value){
-data[i].count++
-return i
-}
-for(i in first until last)  
-if(comparator(data[i],value)>0){
-var j=sizeIndex
-while(j>i){
-data[j]=data[j-1]
-j--
-}
-data[i].value=value
-data[i].count=count
-return i
-}
-if(sizeAbsolute>count)
-sizeIndex++
-val i=sizeindex
-data[i].value=value
-data[i].count=count
-return i
-}
+
+    fun insertSorted(value: Value, first: Int = posIndex, last: Int = sizeIndex + 1, comparator: Comparator<Value>, count: Int) :Int{
+        sizeAbsolute += count
+        for (i in first until last)
+            if (data[i].value == value) {
+                data[i].count++
+                return i
+            }
+        for (i in first until last)
+            if (comparator.compare(data[i].value, value) > 0) {
+                var j = sizeIndex
+                while (j > i) {
+                    data[j] = data[j - 1]
+                    j--
+                }
+                data[i].value = value
+                data[i].count = count
+                return i
+            }
+        if (sizeAbsolute > count)
+            sizeIndex++
+        val i = sizeIndex
+        data[i].value = value
+        data[i].count = count
+        return i
+    }
 }
