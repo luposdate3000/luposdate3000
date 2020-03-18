@@ -6,7 +6,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
-        val capacity = 5
+        var capacity = 5
     }
 
     var posAbsolute = 0
@@ -18,6 +18,20 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
 
+override fun toString():String{
+val res=StringBuilder()
+res.append("$capacity $posAbsolute $posIndex $posIndexLocal $posBackup $sizeAbsolute $sizeIndex\n")
+for(i in 0 until capacity){
+res.append("${data[i].value}(${data[i].count})")
+if(i==posIndex)
+res.append("-")
+if(i==sizeIndex)
+res.append("+")
+res.append("\n")
+}
+return res.toString()
+}
+
     fun skipPos(count: Int) {
         posAbsolute += count
         if (count >= 0) {
@@ -25,7 +39,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             while (true) {
                 val c = data[posIndex].count - posIndexLocal
                 if (c < i) {
-                    nextElement()
+                    internalNextElement()
                     i -= c
                 } else {
                     posIndexLocal += i
@@ -70,7 +84,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     fun current(): Value = data[posIndex].value
     override fun next(): Value {
-        safeNextElement()
+        internalSafeNextElement()
         posIndexLocal++
         posAbsolute++
         return data[posIndex].value
@@ -94,31 +108,31 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun sameElements(): Int {
-        safeNextElement()
+        internalSafeNextElement()
         if (posIndex > sizeIndex)
             return 0
         return data[posIndex].count - posIndexLocal
     }
 
-    fun nextElement() {
+    fun internalNextElement() {
         posIndex++
         posIndexLocal = 0
     }
 
-    fun safeNextElement() {
+    fun internalSafeNextElement() {
         if (posIndexLocal == data[posIndex].count)
-            nextElement()
+            internalNextElement()
     }
 
     fun copy(from: ResultVektor, count: Int) {
         var i = count
         if (count > 0)
-            from.safeNextElement()
+            from.internalSafeNextElement()
         while (true) {
             val c = from.data[from.posIndex].count - from.posIndexLocal
             if (c < i) {
                 append(from.data[from.posIndex].value, c)
-                from.nextElement()
+                from.internalNextElement()
                 i -= c
             } else {
                 append(from.data[from.posIndex].value, i)
@@ -127,10 +141,6 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             }
         }
         from.posAbsolute += count
-    }
-
-    fun copy(from: Value, count: Int) {
-        append(from, count)
     }
 
     fun insertSorted(value: Value, first: Int = posIndex, last: Int = sizeIndex + 1, comparator: Comparator<Value>, count: Int): Int {

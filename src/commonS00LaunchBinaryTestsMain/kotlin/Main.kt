@@ -42,7 +42,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val input = lupos.s00misc.File.readStdInAsDynamicByteArray()
     if (input != null) {
         val pos = input.pos
-        val testcase = TestCase.SortedArray
+        val testcase = TestCase.ResultVektor
 //        for (testcase in TestCase.values()) {
         input.pos = pos
         testcase.action(input!!)

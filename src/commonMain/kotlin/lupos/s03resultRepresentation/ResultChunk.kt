@@ -245,7 +245,7 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
-            colTo.copy(valFrom, count)
+            colTo.append(valFrom, count)
         }
     }
 
@@ -254,9 +254,9 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
             if (valFrom != resultSet.dictionary.undefValue)
-                colTo.copy(valFrom, count)
+                colTo.append(valFrom, count)
             else
-                colTo.copy(arrFromAlternative[c], count)
+                colTo.append(arrFromAlternative[c], count)
         }
     }
 

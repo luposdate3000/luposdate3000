@@ -1,4 +1,5 @@
 import java.io.File;
+import kotlinx.coroutines.*
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ConnectException
@@ -64,6 +65,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var currentSize = 0
     var testnumber = 0
     var counter = datasize
+var errors=0
     while (true) {
         testnumber++
         counter--
@@ -92,6 +94,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             e.printStackTrace()
             input.pos = currentSize
             lupos.s00misc.File("crash-${data.hashCode()}").write(input)
+if(errors++>1000){
+runBlocking{
+delay(Long.MAX_VALUE)
+}
+}
         }
     }
 }
