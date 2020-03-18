@@ -3,6 +3,7 @@ package lupos.s03resultRepresentation
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
+
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         val capacity = 5
@@ -132,7 +133,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         append(from, count)
     }
 
-    fun insertSorted(value: Value, first: Int = posIndex, last: Int = sizeIndex + 1, comparator: Comparator<Value>, count: Int) :Int{
+    fun insertSorted(value: Value, first: Int = posIndex, last: Int = sizeIndex + 1, comparator: Comparator<Value>, count: Int): Int {
         sizeAbsolute += count
         for (i in first until last)
             if (data[i].value == value) {

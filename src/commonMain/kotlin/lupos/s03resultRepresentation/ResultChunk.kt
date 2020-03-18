@@ -17,32 +17,41 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
             when (chunks.size) {
                 0 -> return chunks
                 1 -> {
-                    chunks[0].sort(comparator,columnOrder)
+                    chunks[0].sort(comparator, columnOrder)
                     return chunks
                 }
                 2 -> {
-val resultSet=chunks[0].resultSet
-val columns=chunks[0].columns
-                    chunks[0].sort(comparator,columnOrder)
-                    chunks[1].sort(comparator,columnOrder)
+                    val resultSet = chunks[0].resultSet
+                    val columns = chunks[0].columns
+                    chunks[0].sort(comparator, columnOrder)
+                    chunks[1].sort(comparator, columnOrder)
                     val res = mutableListOf(ResultChunk(resultSet, columns))
                     var resLast = res[0]
-loop@                    while (chunks[0].hasNext() && chunks[1].hasNext()) {
+                    loop@ while (chunks[0].hasNext() && chunks[1].hasNext()) {
                         var cmp = 0
                         for (i in columnOrder) {
-                            cmp = comparator[i.toInt()].compare(chunks[0].getColumn(i).current(), chunks[1].getColumn(i).current())
+                            cmp = comparator[i.toInt()].compare(chunks[0].data[i.toInt()].current(), chunks[1].data[i.toInt()].current())
                             if (cmp != 0) {
                                 var idx = if (cmp < 0)
                                     0
                                 else
                                     1
-                                val same = chunks[idx].sameElements()
-                                if (!resLast.canAppend()) {
+                                var count = chunks[idx].data[i.toInt()].sameElements()
+                                var available = resLast.availableWrite()
+                                if (available == 0) {
                                     resLast = ResultChunk(resultSet, columns)
                                     res.add(resLast)
+                                    available = ResultVektor.capacity
                                 }
-                                resLast.append(chunks[idx].current(), same)
-				continue@loop
+                                while (available < count) {
+                                    resLast.copy(chunks[idx], available)
+                                    count -= available
+                                    resLast = ResultChunk(resultSet, columns)
+                                    res.add(resLast)
+                                    available = ResultVektor.capacity
+                                }
+                                resLast.copy(chunks[idx], count)
+                                continue@loop
                             }
                         }
                         if (cmp == 0) {
@@ -67,7 +76,7 @@ loop@                    while (chunks[0].hasNext() && chunks[1].hasNext()) {
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
     fun insertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
         var column = data[columnOrder[0].toInt()]
-        var idx = column.insertSorted(values[0], comparator=comparator[columnOrder[0].toInt()], count=count)
+        var idx = column.insertSorted(values[0], comparator = comparator[columnOrder[0].toInt()], count = count)
         var first = idx
         var last = first + column.data[first].count
         for (i in 1 until columns) {
@@ -104,6 +113,7 @@ loop@                    while (chunks[0].hasNext() && chunks[1].hasNext()) {
         for (i in 0 until columns)
             data[i].append(row.values[i], count)
     }
+
     fun append(values: Array<Value>, count: Int = 1) {
         for (i in 0 until columns)
             data[i].append(values[i], count)
@@ -121,6 +131,14 @@ loop@                    while (chunks[0].hasNext() && chunks[1].hasNext()) {
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
             val colFrom = chunkFrom.data[columnsFrom[c].toInt()]
+            colTo.copy(colFrom, count)
+        }
+    }
+
+    open fun copy(chunkFrom: ResultChunk, count: Int) {
+        for (c in 0 until columns) {
+            val colTo = data[c]
+            val colFrom = chunkFrom.data[c]
             colTo.copy(colFrom, count)
         }
     }

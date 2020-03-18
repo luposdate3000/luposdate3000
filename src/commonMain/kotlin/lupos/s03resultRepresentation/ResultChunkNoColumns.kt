@@ -17,6 +17,10 @@ class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(res
 
     override fun availableWrite() = ResultVektor.capacity - sizeField
     override fun availableRead() = sizeField - posField
+    override fun copy(chunkFrom: ResultChunk, count: Int) {
+        posField += count
+    }
+
     override fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunk, columnsFrom: Array<Variable>, count: Int) {
         posField += count
     }
