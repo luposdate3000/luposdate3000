@@ -13,3 +13,4 @@ do
 	cat $f | ./build/executable || break
 	mv $f donefolder/
 done
+echo $f

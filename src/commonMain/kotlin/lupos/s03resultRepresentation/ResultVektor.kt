@@ -33,7 +33,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun skipPos(count: Int) {
-println(count)
+        require(posAbsolute + count <= sizeAbsolute)
+        println(count)
         posAbsolute += count
         if (count >= 0) {
             var i = count
@@ -64,6 +65,7 @@ println(count)
     }
 
     fun skipSize(count: Int) {
+        require(posAbsolute <= sizeAbsolute + count)
         sizeAbsolute += count
         if (count >= 0)
             data[sizeIndex].count += count
@@ -112,6 +114,7 @@ println(count)
     fun canAppend() = availableWrite() > 0
 
     fun append(value: Value, count: Int = 1) {
+        require(sizeIndex < capacity)
         if (data[sizeIndex].value == value)
             data[sizeIndex].count += count
         else {
@@ -160,25 +163,26 @@ println(count)
     }
 
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute + 1, comparator: Comparator<Value>, count: Int): Int {
- posAbsolute=0
- posIndex=0
- posIndexLocal=0
+        require(availableWrite() >= 2)
+        posAbsolute = 0
+        posIndex = 0
+        posIndexLocal = 0
         sizeAbsolute += count
         var firstIndex = 0
         var firstIndexLocal = 0
         var lastIndex = 0
         var lastIndexLocal = 0
         var idx = first
-println("a")
+        println("a")
         while (true) {
-println("b")
+            println("b")
             val c = data[firstIndex].count
             if (c >= idx) {
-println("c $idx")
+                println("c $idx")
                 firstIndexLocal = idx
                 break
             } else {
-println("d")
+                println("d")
                 idx -= c
                 firstIndex++
             }
@@ -188,29 +192,29 @@ println("d")
         idx = last - first //maximaler noch zu gehende index
         var currentidx = first//aktuelle absolute position
         while (true) {
-println("e $currentidx")
+            println("e $currentidx")
             if (lastIndex > sizeIndex) {
-println("p")
+                println("p")
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
                 return currentidx - firstIndexLocal
             } else if (data[lastIndex].value == value) {
-println("f")
+                println("f")
                 data[lastIndex].count += count
                 return currentidx - firstIndexLocal
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
 //hinzufügen jetzt oder später
-println("g $lastIndex ${data[lastIndex].value} $value")
+                println("g $lastIndex ${data[lastIndex].value} $value")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
                 if (c > idx) {
 //das letzte element geht weiter als mein bereich - split
-println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
+                    println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("i")
+                        println("i")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -222,18 +226,18 @@ println("i")
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
-println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
+                    println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     idx -= c
                     lastIndexLocal = 0
                     lastIndex++
                 }
             } else {
-println("m")
-                if (firstIndex == lastIndex&&firstIndexLocal!=data[firstIndex].count) {
-println("n")
+                println("m")
+                if (firstIndex == lastIndex && firstIndexLocal != data[firstIndex].count) {
+                    println("n")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("k")
+                        println("k")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -245,16 +249,16 @@ println("k")
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
-println("o")
+                    println("o")
                     var j = sizeIndex
                     while (j > lastIndex) {
-println("l")
-                        data[j+1].count = data[j ].count
-                        data[j+1].value = data[j ].value
+                        println("l")
+                        data[j + 1].count = data[j].count
+                        data[j + 1].value = data[j].value
                         j--
                     }
-                    data[lastIndex+1].value = value
-                    data[lastIndex+1].count = count
+                    data[lastIndex + 1].value = value
+                    data[lastIndex + 1].count = count
                     sizeIndex++
                     return currentidx - firstIndexLocal
                 }

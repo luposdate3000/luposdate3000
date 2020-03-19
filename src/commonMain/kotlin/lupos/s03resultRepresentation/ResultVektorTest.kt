@@ -72,8 +72,8 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                 }
                 1 -> {
                     var count = nextRandom(buffer, MAX_CAPACITY, false)
-			if(count<0&&				helper.pos>helper.size+count)
-				count=helper.pos-helper.size
+                    if (count < 0 && helper.pos > helper.size + count)
+                        count = helper.pos - helper.size
                     log("count $count")
                     expectException = helper.size + count < 0 || !helper.vektor.canAppend()
                     helper.vektor.skipSize(count)
@@ -164,56 +164,48 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     helper.pos += count
                 }
                 13 -> {
-                    if (helper.size > 0) {
-                        val first = nextRandom(buffer, helper.size, true)
-                        val last = first + nextRandom(buffer, helper.size - first, true)
-                        log("first $first")
-                        log("last $last")
-                        for (i in first until last) {
-                            if (helper.kotlinList[i] == DONT_CARE_VALUE) {
-                                helper.vektor.skipPos(i - helper.pos)
-                                helper.pos = i
-                                val v = helper.vektor.current()
-                                helper.kotlinList[i] = v
-                            }
-                        }
-                        val listA = mutableListOf<Value>()
-                        val listB = mutableListOf<Value>()
-                        val listC = mutableListOf<Value>()
-                        for (i in 0 until first)
-                            listA.add(helper.kotlinList[i])
-                        for (i in first until last)
-                            listB.add(helper.kotlinList[i])
-                        for (i in last until helper.kotlinList.size)
-                            listC.add(helper.kotlinList[i])
-                        log("inA $listA")
-                        log("inB $listB")
-                        listB.sort()
-                        log("inB2 $listB")
-                        log("inC $listC")
-                        listA.addAll(listB)
-                        listA.addAll(listC)
-                        val newVektor = ResultVektor(UNDEF_VALUE)
-                        helper.vektor.skipPos(-helper.pos)
-                        newVektor.copy(helper.vektor, first)
-                        helper.vektor.skipPos(last - first)
-                        newVektor.copy(helper.vektor, helper.size - last)
-                        var idx = first
-                        log("helpera ${newVektor}")
-                        while (idx < last) {
-                            val value = helper.kotlinList[idx]
-                            var count = 0
-                            while (idx + count < last && helper.kotlinList[idx + count] == value)
-                                count++
-                            log("insert $first $idx $count $value")
-                            newVektor.insertSorted(value, first, idx, MyComparatorValue(), count)
-                            log("helperb ${newVektor}")
-                            idx += count
-                        }
-                        newVektor.skipPos(helper.pos)
-                        helper.vektor = newVektor
-                        helper.kotlinList = listA
+                    expectException = helper.vektor.availableWrite() < 2
+                    val first = nextRandom(buffer, helper.size, true)
+                    val lastTarget = first + nextRandom(buffer, helper.size - first, true)
+                    var last = first
+                    helper.vektor.skipPos(-helper.pos)
+                    if (helper.kotlinList[last] == DONT_CARE_VALUE) {
+                        helper.vektor.skipPos(last)
+                        helper.kotlinList[last] = helper.vektor.current()
+                        helper.vektor.skipPos(-last)
                     }
+                    while (last < lastTarget) {
+                        if (helper.kotlinList[last + 1] == DONT_CARE_VALUE) {
+                            helper.vektor.skipPos(last + 1)
+                            helper.kotlinList[last + 1] = helper.vektor.current()
+                            helper.vektor.skipPos(-last - 1)
+                        }
+                        val lastValue = helper.kotlinList[last]
+                        val thisValue = helper.kotlinList[last + 1]
+                        if (MyComparatorValue().compare(lastValue, thisValue) <= 0)
+                            last++
+                    }
+                    val count = last - first
+                    val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
+                    val listA = mutableListOf<Value>()
+                    val listB = mutableListOf<Value>()
+                    val listC = mutableListOf<Value>()
+                    for (i in 0 until first)
+                        listA.add(helper.kotlinList[i])
+                    for (i in first until last)
+                        listB.add(helper.kotlinList[i])
+                    for (i in last until helper.kotlinList.size)
+                        listC.add(helper.kotlinList[i])
+                    log("inA $listA")
+                    log("inB $listB")
+                    listB.sort()
+                    log("inB2 $listB")
+                    log("inC $listC")
+                    listA.addAll(listB)
+                    listA.addAll(listC)
+                    helper.vektor.insertSorted(value, first, last, MyComparatorValue(), count)
+                    helper.pos = 0
+                    helper.kotlinList = listA
                 }
                 else -> {
                     require(func < FUNCTION_COUNT)
@@ -237,7 +229,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                         r = helper.kotlinList.size
                     require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
                 }
-println("x ${helper.pos} ${helper.size} ${helper.vektor.posAbsolute}")
+                println("x ${helper.pos} ${helper.size} ${helper.vektor.posAbsolute}")
                 helper.vektor.skipPos(helper.pos - helper.size)
             }
             log("\n")
