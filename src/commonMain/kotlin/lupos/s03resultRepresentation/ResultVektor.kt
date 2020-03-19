@@ -213,8 +213,8 @@ println("i")
                     }
                     data[lastIndex+1].value = value
                     data[lastIndex+1].count = count
-data[lastIndex].count = firstIndexLocal
-                    data[lastIndex + 2].count -= firstIndexLocal
+data[lastIndex].count = firstIndexLocal+idx
+                    data[lastIndex + 2].count -= firstIndexLocal-idx
                     sizeIndex+=2
                     return currentidx - firstIndexLocal
                 } else {
