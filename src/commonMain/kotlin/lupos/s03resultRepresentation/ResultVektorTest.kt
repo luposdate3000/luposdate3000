@@ -156,7 +156,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     log(helper2.kotlinList.toString())
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
                     log("count $count")
-                    expectException = helper.vektor.availableRead() < count || count < 0
+                    expectException = helper.vektor.availableRead() < count || count <= 0
                     helper2.vektor.copy(helper.vektor, count)
                     for (i in helper.pos until helper.pos + count)
                         helper2.kotlinList.add(helper.kotlinList[i])
@@ -182,9 +182,9 @@ helper.pos = 0
                         }
                         val lastValue = helper.kotlinList[last]
                         val thisValue = helper.kotlinList[last + 1]
-last++
 if(lastValue==thisValue||MyComparatorValue().compare(lastValue, thisValue) < 0)
 break
+last++
                     }
                     val count = nextRandom(buffer, MAX_CAPACITY, true)
                     val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
@@ -238,6 +238,7 @@ helper.size+=count
                         r = helper.kotlinList.size
                     require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
                 }
+require(helper.vektor.data[helper.vektor.sizeIndex].count>0 || helper.vektor.sizeIndex==0)
                 println("x ${helper.pos} ${helper.size} ${helper.vektor.posAbsolute}")
                 helper.vektor.skipPos(helper.pos - helper.size)
             }

@@ -144,8 +144,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun copy(from: ResultVektor, count: Int) {
+require(count>0)
         var i = count
-        if (count > 0)
             from.internalSafeNextElement()
         while (true) {
             val c = from.data[from.posIndex].count - from.posIndexLocal
@@ -222,8 +222,8 @@ require(count>0)
                     }
                     data[lastIndex + 1].value = value
                     data[lastIndex + 1].count = count
-                    data[lastIndex].count = firstIndexLocal + idx
-                    data[lastIndex + 2].count -= firstIndexLocal + idx
+                    data[lastIndex].count -= lastIndexLocal
+                    data[lastIndex + 2].count = lastIndexLocal
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
@@ -252,14 +252,14 @@ require(count>0)
                 } else {
                     println("o")
                     var j = sizeIndex
-                    while (j > lastIndex) {
+                    while (j >= lastIndex) {
                         println("l")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
                     }
-                    data[lastIndex + 1].value = value
-                    data[lastIndex + 1].count = count
+                    data[lastIndex ].value = value
+                    data[lastIndex ].count = count
                     sizeIndex++
                     return currentidx - firstIndexLocal
                 }
