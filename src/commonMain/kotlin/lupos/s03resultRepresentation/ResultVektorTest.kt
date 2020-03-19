@@ -182,16 +182,22 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                         }
                         val lastValue = helper.kotlinList[last]
                         val thisValue = helper.kotlinList[last + 1]
-                        if (MyComparatorValue().compare(lastValue, thisValue) <= 0)
+                        if (lastValue==thisValue||MyComparatorValue().compare(lastValue, thisValue) < 0)
                             last++
                     }
-                    val count = last - first
+                    val count = nextRandom(buffer, MAX_CAPACITY, true)
                     val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
+log("first $first")
+log("last $last")
+log("value $value")
+log("count $count")
                     val listA = mutableListOf<Value>()
                     val listB = mutableListOf<Value>()
                     val listC = mutableListOf<Value>()
                     for (i in 0 until first)
                         listA.add(helper.kotlinList[i])
+                    for (i in 0 until count)
+                        listB.add(value)
                     for (i in first until last)
                         listB.add(helper.kotlinList[i])
                     for (i in last until helper.kotlinList.size)
