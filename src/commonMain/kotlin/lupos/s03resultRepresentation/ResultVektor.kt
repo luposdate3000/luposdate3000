@@ -47,15 +47,15 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 }
             }
         } else {
-var i = count
+            var i = -count
             while (true) {
-                val c = data[sizeIndex].count-posIndexLocal
+                val c = posIndexLocal
                 if (c < i) {
-		    posIndexLocal=0
                     posIndex--
+                    posIndexLocal = data[posIndex].count
                     i -= c
                 } else {
-		    posIndexLocal=i
+                    posIndexLocal -= i
                     break
                 }
             }
@@ -131,7 +131,7 @@ var i = count
     }
 
     fun internalSafeNextElement() {
-        if (posIndexLocal == data[posIndex].count&&posIndex<sizeIndex)
+        if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex)
             internalNextElement()
     }
 

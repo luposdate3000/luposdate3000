@@ -19,7 +19,7 @@ val MAX_DISTINCT_VALUES = 20
 val MAX_CAPACITY = 100
 val FUNCTION_COUNT = 13
 val MAX_LISTS = 4
-val verbose = true
+val verbose = false
 
 class NoMoreRandomException() : Exception("")
 
@@ -66,14 +66,14 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                 0 -> {
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
                     log("count $count")
-                    expectException = helper.pos +count> helper.size || helper.pos +count< 0
+                    expectException = helper.pos + count > helper.size || helper.pos + count < 0
                     helper.vektor.skipPos(count)
                     helper.pos += count
                 }
                 1 -> {
                     val count = nextRandom(buffer, MAX_CAPACITY, false)
                     log("count $count")
-                    expectException = helper.size+count < 0 || !helper.vektor.canAppend()
+                    expectException = helper.size + count < 0 || !helper.vektor.canAppend()
                     helper.vektor.skipSize(count)
                     helper.size += count
                     if (count > 0) {
@@ -97,12 +97,12 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                 4 -> {
                     expectException = helper.pos >= helper.size
                     val c = helper.vektor.current()
-                    require(c == helper.kotlinList[helper.pos]||helper.kotlinList[helper.pos]==DONT_CARE_VALUE)
+                    require(c == helper.kotlinList[helper.pos] || helper.kotlinList[helper.pos] == DONT_CARE_VALUE)
                 }
                 5 -> {
                     expectException = helper.pos >= helper.size
                     val c = helper.vektor.next()
-                    require(c == helper.kotlinList[helper.pos]||helper.kotlinList[helper.pos]==DONT_CARE_VALUE)
+                    require(c == helper.kotlinList[helper.pos] || helper.kotlinList[helper.pos] == DONT_CARE_VALUE)
                     helper.pos++
                 }
                 6 -> {
@@ -131,7 +131,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                 }
                 11 -> {
                     var same = 0
-                    while (helper.pos + same < helper.size && (helper.kotlinList[helper.pos] == helper.kotlinList[helper.pos + same]||helper.kotlinList[helper.pos + same]==DONT_CARE_VALUE))
+                    while (helper.pos + same < helper.size && (helper.kotlinList[helper.pos] == helper.kotlinList[helper.pos + same] || helper.kotlinList[helper.pos + same] == DONT_CARE_VALUE))
                         same++
                     val tmp = helper.vektor.sameElements()
                     log("same $same $tmp")
@@ -146,10 +146,10 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     log("count $count")
                     expectException = helper.vektor.availableRead() < count || count < 0
                     helper2.vektor.copy(helper.vektor, count)
-                        for (i in helper.pos until helper.pos + count)
-                            helper2.kotlinList.add(helper.kotlinList[i])
-                        helper2.size += count
-                        helper.pos += count
+                    for (i in helper.pos until helper.pos + count)
+                        helper2.kotlinList.add(helper.kotlinList[i])
+                    helper2.size += count
+                    helper.pos += count
                 }
                 else -> {
                     require(func < FUNCTION_COUNT)
@@ -157,7 +157,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
             }
             if (expectException)
                 throw Exception("there should be an exception")
-            log(""+expectException)
+            log("" + expectException)
             log("helperIdx $helperIdx ${helper.vektor}")
             log(helper.kotlinList.toString())
             log("\n")
