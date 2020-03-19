@@ -77,6 +77,9 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex--
                     i -= c
                 } else {
+if(c==i)
+sizeIndex--
+else
                     data[sizeIndex].count -= i
                     break
                 }
@@ -180,7 +183,11 @@ require(count>0)
             val c = data[firstIndex].count
             if (c >= idx) {
                 println("c $idx")
+if(c==idx&&data[firstIndex].value!=value){
+firstIndex++
+}else{
                 firstIndexLocal = idx
+}
                 break
             } else {
                 println("d")
@@ -249,7 +256,7 @@ if(currentidx-last==data[lastIndex].count){
                 }
             } else {
                 println("m")
-                if (firstIndex == lastIndex && firstIndexLocal != data[firstIndex].count) {
+                if (firstIndexLocal!=0) {
                     println("n")
                     var j = sizeIndex
                     while (j >= lastIndex) {
