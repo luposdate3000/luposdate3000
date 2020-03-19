@@ -97,12 +97,12 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                 4 -> {
                     expectException = helper.pos >= helper.size
                     val c = helper.vektor.current()
-                    require(c == helper.kotlinList[helper.pos])
+                    require(c == helper.kotlinList[helper.pos]||helper.kotlinList[helper.pos]==DONT_CARE_VALUE)
                 }
                 5 -> {
                     expectException = helper.pos >= helper.size
                     val c = helper.vektor.next()
-                    require(c == helper.kotlinList[helper.pos])
+                    require(c == helper.kotlinList[helper.pos]||helper.kotlinList[helper.pos]==DONT_CARE_VALUE)
                     helper.pos++
                 }
                 6 -> {

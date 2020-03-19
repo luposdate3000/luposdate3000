@@ -67,7 +67,7 @@ var i = count
         if (count >= 0)
             data[sizeIndex].count += count
         else {
-            var i = count
+            var i = -count
             while (true) {
                 val c = data[sizeIndex].count
                 if (c < i) {
