@@ -204,7 +204,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                             log("helperb ${newVektor}")
                             idx += count
                         }
-                        newVektor.skipPos(helper.size - helper.pos)
+                        newVektor.skipPos(helper.pos)
                         helper.vektor = newVektor
                         helper.kotlinList = listA
                     }
@@ -218,6 +218,21 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
             log("" + expectException)
             log("helperIdx $helperIdx ${helper.vektor}")
             log(helper.kotlinList.toString())
+            log("\n")
+            for (helper in helpers) {
+                helper.vektor.skipPos(-helper.pos)
+                for (i in 0 until helper.size) {
+                    val v = helper.vektor.next()
+                    var l = i - 5
+                    var r = i + 6
+                    if (l < 0)
+                        l = 0
+                    if (r > helper.kotlinList.size)
+                        r = helper.kotlinList.size
+                    require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
+                }
+                helper.vektor.skipPos(helper.pos - helper.size)
+            }
             log("\n")
         }
     } catch (e: NoMoreRandomException) {

@@ -164,63 +164,97 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         var firstIndexLocal = 0
         var lastIndex = 0
         var lastIndexLocal = 0
-        var idx = last
-        println("a")
+        var idx = first
+println("a")
         while (true) {
-            println("b")
+println("b")
             val c = data[firstIndex].count
             if (c >= idx) {
-                println("c")
-                firstIndexLocal += idx
+println("c $idx")
+                firstIndexLocal = idx
                 break
             } else {
-                println("d")
+println("d")
                 idx -= c
                 firstIndex++
             }
         }
         lastIndex = firstIndex
         lastIndexLocal = firstIndexLocal
-        idx = count
-        var currentidx = first
+        idx = last-first //maximaler noch zu gehende index
+        var currentidx = first//aktuelle absolute position
         while (true) {
-            println("e")
-            if (data[lastIndex].value == value) {
-                println("f")
+println("e $currentidx")
+if(lastIndex>sizeIndex){
+println("p")
+data[lastIndex].value=value
+data[lastIndex].count = count
+sizeIndex++
+return currentidx - firstIndexLocal
+   }else         if (data[lastIndex].value == value) {
+println("f")
                 data[lastIndex].count += count
-                return currentidx
-            } else {
-                println("g")
+                return currentidx - firstIndexLocal
+            } else if (comparator.compare(data[lastIndex].value, value) < 0) {
+//hinzufügen jetzt oder später
+println("g $lastIndex ${data[lastIndex].value} $value")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
-                if (c >= idx) {
-                    println("h")
+                if (c > idx) {
+//das letzte element geht weiter als mein bereich - split
+println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     lastIndexLocal = idx
-                    break
+                    var j = sizeIndex
+                    while (j >= lastIndex) {
+println("i")
+                        data[j+2].count = data[j ].count
+                        data[j+2].value = data[j ].value
+                        j--
+                    }
+                    data[lastIndex+1].value = value
+                    data[lastIndex+1].count = count
+data[lastIndex].count = firstIndexLocal
+                    data[lastIndex + 2].count -= firstIndexLocal
+                    sizeIndex+=2
+                    return currentidx - firstIndexLocal
                 } else {
-                    println("i")
+println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     idx -= c
                     lastIndexLocal = 0
                     lastIndex++
                 }
-            }
-        }
-        currentidx = first
-        for (i in firstIndex until lastIndex + 1) {
-            println("j")
-            if (comparator.compare(data[i].value, value) > 0 || i == lastIndex) {
-                println("k")
-                var j = sizeIndex
-                while (j > i) {
-                    println("l")
-                    data[j] = data[j - 1]
-                    j--
+            } else {
+println("m")
+                if (firstIndex == lastIndex) {
+println("n")
+                    var j = sizeIndex
+                    while (j >= lastIndex) {
+println("k")
+                        data[j + 2].count = data[j].count
+                        data[j + 2].value = data[j].value
+                        j--
+                    }
+                    data[lastIndex + 1].value = value
+                    data[lastIndex + 1].count = count
+                    data[lastIndex].count = firstIndexLocal
+                    data[lastIndex + 2].count -= firstIndexLocal
+                    sizeIndex += 2
+                    return currentidx - firstIndexLocal
+                } else {
+println("o")
+                    var j = sizeIndex
+                    while (j > lastIndex) {
+println("l")
+                        data[j].count = data[j - 1].count
+                        data[j].value = data[j - 1].value
+                        j--
+                    }
+                    data[lastIndex].value = value
+                    data[lastIndex].count = count
+                    sizeIndex++
+                    return currentidx - firstIndexLocal
                 }
-                data[i].value = value
-                data[i].count = count
-                return currentidx - firstIndexLocal
             }
-            currentidx += data[i].count
         }
         throw Exception("unreachable")
     }
