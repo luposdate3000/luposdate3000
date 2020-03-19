@@ -27,7 +27,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 res.append("-")
             if (i == sizeIndex)
                 res.append("+")
-            res.append("\n")
+            res.append(",")
         }
         return res.toString()
     }
@@ -47,7 +47,18 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 }
             }
         } else {
-            require(false)
+var i = count
+            while (true) {
+                val c = data[sizeIndex].count-posIndexLocal
+                if (c < i) {
+		    posIndexLocal=0
+                    posIndex--
+                    i -= c
+                } else {
+		    posIndexLocal=i
+                    break
+                }
+            }
         }
     }
 
@@ -120,7 +131,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun internalSafeNextElement() {
-        if (posIndexLocal == data[posIndex].count)
+        if (posIndexLocal == data[posIndex].count&&posIndex<sizeIndex)
             internalNextElement()
     }
 
