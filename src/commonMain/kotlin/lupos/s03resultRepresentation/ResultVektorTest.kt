@@ -115,7 +115,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     require(ResultVektor.capacity - helper.size - 1 <= helper.vektor.availableWrite())
                 }
                 8 -> {
-                    require(helper.size - helper.pos == helper.vektor.availableRead())
+                    require(helper.size - helper.pos == helper.vektor.availableRead(),{"${helper.size} ${helper.pos} ${helper.size - helper.pos} ${helper.vektor.availableRead()}"})
                 }
                 9 -> {
                     require(helper.size >= ResultVektor.capacity || helper.vektor.canAppend())
@@ -164,11 +164,11 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     helper.pos += count
                 }
                 13 -> {
-                    expectException = helper.vektor.availableWrite() < 2
                     val first = nextRandom(buffer, helper.size, true)
                     val lastTarget = first + nextRandom(buffer, helper.size - first, true)
                     var last = first
                     helper.vektor.skipPos(-helper.pos)
+helper.pos = 0
                     if (helper.kotlinList[last] == DONT_CARE_VALUE) {
                         helper.vektor.skipPos(last)
                         helper.kotlinList[last] = helper.vektor.current()
@@ -182,8 +182,9 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                         }
                         val lastValue = helper.kotlinList[last]
                         val thisValue = helper.kotlinList[last + 1]
-                        if (lastValue==thisValue||MyComparatorValue().compare(lastValue, thisValue) < 0)
-                            last++
+last++
+if(lastValue==thisValue||MyComparatorValue().compare(lastValue, thisValue) < 0)
+break
                     }
                     val count = nextRandom(buffer, MAX_CAPACITY, true)
                     val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
@@ -209,9 +210,11 @@ log("count $count")
                     log("inC $listC")
                     listA.addAll(listB)
                     listA.addAll(listC)
+log("size "+listA.size)
+                    expectException = helper.vektor.availableWrite() < 2 || count==0
                     helper.vektor.insertSorted(value, first, last, MyComparatorValue(), count)
-                    helper.pos = 0
                     helper.kotlinList = listA
+helper.size+=count
                 }
                 else -> {
                     require(func < FUNCTION_COUNT)

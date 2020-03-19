@@ -164,6 +164,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute + 1, comparator: Comparator<Value>, count: Int): Int {
         require(availableWrite() >= 2)
+require(count>0)
         posAbsolute = 0
         posIndex = 0
         posIndexLocal = 0
@@ -222,7 +223,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     data[lastIndex + 1].value = value
                     data[lastIndex + 1].count = count
                     data[lastIndex].count = firstIndexLocal + idx
-                    data[lastIndex + 2].count -= firstIndexLocal - idx
+                    data[lastIndex + 2].count -= firstIndexLocal + idx
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
