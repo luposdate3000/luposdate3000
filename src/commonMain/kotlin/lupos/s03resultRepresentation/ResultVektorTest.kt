@@ -8,7 +8,7 @@ class MyComparatorValue : Comparator<Value> {
         if (a < b)
             return -1
         if (a == b)
-            return 0
+            throw Exception("dont compare equal values using comparator")
         return 1
     }
 }
@@ -17,7 +17,7 @@ val UNDEF_VALUE = Int.MAX_VALUE
 val DONT_CARE_VALUE = -Int.MAX_VALUE
 val MAX_DISTINCT_VALUES = 20
 val MAX_CAPACITY = 100
-val FUNCTION_COUNT = 13
+val FUNCTION_COUNT = 14
 val MAX_LISTS = 4
 val verbose = true
 
@@ -35,8 +35,8 @@ fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
 }
 
 class ResultVektorTestHelper {
-    val vektor = ResultVektor(UNDEF_VALUE)
-    val kotlinList = mutableListOf<Value>()
+    var vektor = ResultVektor(UNDEF_VALUE)
+    var kotlinList = mutableListOf<Value>()
     var pos = 0
     var size = 0
     var backup = 0
@@ -161,6 +161,45 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     helper2.size += count
                     helper.pos += count
                 }
+                13 -> {
+                    val first = nextRandom(buffer, MAX_CAPACITY, false)
+                    val last = first + nextRandom(buffer, MAX_CAPACITY - first, false)
+                    for (i in helper.pos until helper.size) {
+                        if (helper.kotlinList[i] == DONT_CARE_VALUE) {
+                            helper.vektor.skipPos(i - helper.pos)
+                            helper.pos = i
+                            val v = helper.vektor.current()
+                            helper.kotlinList[i] = v
+                        }
+                    }
+                    val listA = mutableListOf<Value>()
+                    val listB = mutableListOf<Value>()
+                    val listC = mutableListOf<Value>()
+                    for (i in 0 until first)
+                        listA.add(helper.kotlinList[i])
+                    for (i in first until last)
+                        listB.add(helper.kotlinList[i])
+                    for (i in last until helper.kotlinList.size)
+                        listC.add(helper.kotlinList[i])
+                    listB.sort()
+                    listA.addAll(listB)
+                    listA.addAll(listC)
+                    val newVektor = ResultVektor(UNDEF_VALUE)
+                    newVektor.copy(helper.vektor, first)
+                    var idx = first
+                    while (idx < last) {
+                        val value = helper.kotlinList[idx]
+                        var count = 0
+                        while (idx + count < last && helper.kotlinList[idx + count] == value)
+                            count++
+                        newVektor.insertSorted(value, first, last, MyComparatorValue(), count)
+                        idx += count
+                    }
+                    newVektor.copy(helper.vektor, helper.size - last)
+                    newVektor.skipPos(helper.pos)
+                    helper.vektor = newVektor
+                    helper.kotlinList = listA
+                }
                 else -> {
                     require(func < FUNCTION_COUNT)
                 }
@@ -178,10 +217,3 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
             throw e
     }
 }
-
-
-/*
-
-    fun insertSorted(value: Value, first: Int = posIndex, last: Int = sizeIndex + 1, comparator: Comparator<Value>, count: Int): Int {
-
-*/

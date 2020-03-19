@@ -176,12 +176,12 @@ open class ResultChunk(val resultSet: ResultSet, val columns: Int) : Iterator<Re
         var column = data[columnOrder[0].toInt()]
         var idx = column.insertSorted(values[0], comparator = comparator[columnOrder[0].toInt()], count = count)
         var first = idx
-        var last = first + column.data[first].count
+        var last = first + column.data[first].count - count
         for (i in 1 until columns) {
             column = data[columnOrder[i].toInt()]
             idx = column.insertSorted(values[i], first, last, comparator[columnOrder[i].toInt()], count)
             first = idx
-            last = first + column.data[first].count
+            last = first + column.data[first].count - count
         }
     }
 

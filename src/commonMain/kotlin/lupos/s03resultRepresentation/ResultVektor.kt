@@ -158,15 +158,47 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         from.posAbsolute += count
     }
 
-    fun insertSorted(value: Value, first: Int = posIndex, last: Int = sizeIndex + 1, comparator: Comparator<Value>, count: Int): Int {
+    fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute + 1, comparator: Comparator<Value>, count: Int): Int {
         sizeAbsolute += count
-        for (i in first until last)
-            if (data[i].value == value) {
-                data[i].count++
-                return i
+        var firstIndex = 0
+        var firstIndexLocal = 0
+        var lastIndex = 0
+        var lastIndexLocal = 0
+        var idx = last
+        while (true) {
+            val c = data[firstIndex].count
+            if (c > idx) {
+                firstIndexLocal += idx
+                break
+            } else {
+                idx -= c
+                firstIndex++
             }
-        for (i in first until last)
-            if (comparator.compare(data[i].value, value) > 0) {
+        }
+        lastIndex = firstIndex
+        lastIndexLocal = firstIndexLocal
+        idx = count
+        var currentidx = first
+        while (true) {
+            if (data[idx].value == value) {
+                data[idx].count += count
+                return currentidx
+            } else {
+                val c = data[idx].count - lastIndexLocal
+                currentidx += c
+                if (c >= idx) {
+                    lastIndexLocal = idx
+                    break
+                } else {
+                    idx -= c
+                    lastIndexLocal = 0
+                    lastIndex++
+                }
+            }
+        }
+        currentidx = first
+        for (i in firstIndex until lastIndex) {
+            if (comparator.compare(data[i].value, value) > 0 || i == lastIndex) {
                 var j = sizeIndex
                 while (j > i) {
                     data[j] = data[j - 1]
@@ -174,13 +206,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 }
                 data[i].value = value
                 data[i].count = count
-                return i
+                return currentidx - firstIndexLocal
             }
-        if (sizeAbsolute > count)
-            sizeIndex++
-        val i = sizeIndex
-        data[i].value = value
-        data[i].count = count
-        return i
+            currentidx += data[i].count
+        }
+        throw Exception("unreachable")
     }
 }
