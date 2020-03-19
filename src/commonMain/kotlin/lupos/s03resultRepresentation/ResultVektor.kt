@@ -33,6 +33,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun skipPos(count: Int) {
+println(count)
         posAbsolute += count
         if (count >= 0) {
             var i = count
@@ -165,16 +166,16 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         var lastIndex = 0
         var lastIndexLocal = 0
         var idx = first
-//println("a")
+println("a")
         while (true) {
-//println("b")
+println("b")
             val c = data[firstIndex].count
             if (c >= idx) {
-//println("c $idx")
+println("c $idx")
                 firstIndexLocal = idx
                 break
             } else {
-//println("d")
+println("d")
                 idx -= c
                 firstIndex++
             }
@@ -184,29 +185,29 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         idx = last - first //maximaler noch zu gehende index
         var currentidx = first//aktuelle absolute position
         while (true) {
-//println("e $currentidx")
+println("e $currentidx")
             if (lastIndex > sizeIndex) {
-//println("p")
+println("p")
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
                 return currentidx - firstIndexLocal
             } else if (data[lastIndex].value == value) {
-//println("f")
+println("f")
                 data[lastIndex].count += count
                 return currentidx - firstIndexLocal
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
 //hinzufügen jetzt oder später
-//println("g $lastIndex ${data[lastIndex].value} $value")
+println("g $lastIndex ${data[lastIndex].value} $value")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
                 if (c > idx) {
 //das letzte element geht weiter als mein bereich - split
-//println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
+println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-//println("i")
+println("i")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -218,18 +219,18 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
-//println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
+println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     idx -= c
                     lastIndexLocal = 0
                     lastIndex++
                 }
             } else {
-//println("m")
+println("m")
                 if (firstIndex == lastIndex) {
-//println("n")
+println("n")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-//println("k")
+println("k")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -241,10 +242,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
-//println("o")
+println("o")
                     var j = sizeIndex + 1
                     while (j >= lastIndex) {
-//println("l")
+println("l")
                         data[j].count = data[j - 1].count
                         data[j].value = data[j - 1].value
                         j--

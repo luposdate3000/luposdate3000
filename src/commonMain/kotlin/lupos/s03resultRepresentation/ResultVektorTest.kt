@@ -71,7 +71,9 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     helper.pos += count
                 }
                 1 -> {
-                    val count = nextRandom(buffer, MAX_CAPACITY, false)
+                    var count = nextRandom(buffer, MAX_CAPACITY, false)
+			if(count<0&&				helper.pos>helper.size+count)
+				count=helper.pos-helper.size
                     log("count $count")
                     expectException = helper.size + count < 0 || !helper.vektor.canAppend()
                     helper.vektor.skipSize(count)
@@ -235,6 +237,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                         r = helper.kotlinList.size
                     require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
                 }
+println("x ${helper.pos} ${helper.size} ${helper.vektor.posAbsolute}")
                 helper.vektor.skipPos(helper.pos - helper.size)
             }
             log("\n")
