@@ -131,20 +131,20 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                 }
                 11 -> {
                     var same = 0
-		    var lastsame=-1
-var helperValue=DONT_CARE_VALUE
-val tmp = helper.vektor.sameElements()
-while(same!=lastsame && same!=tmp){
-if(helperValue==DONT_CARE_VALUE)
-helperValue=helper.kotlinList[helper.pos]
-                    while (helper.pos + same < helper.size && helperValue == helper.kotlinList[helper.pos + same])
-                        same++
-if(same==tmp)
-break
-                    while (helper.pos + same < helper.size && helper.kotlinList[helper.pos + same] == DONT_CARE_VALUE)
-                        same++
-                    log("same $same $tmp")
-}
+                    var lastsame = -1
+                    var helperValue = DONT_CARE_VALUE
+                    val tmp = helper.vektor.sameElements()
+                    while (same != lastsame && same != tmp) {
+                        if (helperValue == DONT_CARE_VALUE)
+                            helperValue = helper.kotlinList[helper.pos]
+                        while (helper.pos + same < helper.size && helperValue == helper.kotlinList[helper.pos + same])
+                            same++
+                        if (same == tmp)
+                            break
+                        while (helper.pos + same < helper.size && helper.kotlinList[helper.pos + same] == DONT_CARE_VALUE)
+                            same++
+                        log("same $same $tmp")
+                    }
                     require(same == tmp)
                 }
                 12 -> {

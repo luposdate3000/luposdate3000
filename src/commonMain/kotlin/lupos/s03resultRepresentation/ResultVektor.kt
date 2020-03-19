@@ -94,9 +94,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun current(): Value {
-internalSafeNextElement()
-return data[posIndex].value
-}
+        internalSafeNextElement()
+        return data[posIndex].value
+    }
+
     override fun next(): Value {
         internalSafeNextElement()
         posIndexLocal++
