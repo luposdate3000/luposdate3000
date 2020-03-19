@@ -165,12 +165,16 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         var lastIndex = 0
         var lastIndexLocal = 0
         var idx = last
+        println("a")
         while (true) {
+            println("b")
             val c = data[firstIndex].count
-            if (c > idx) {
+            if (c >= idx) {
+                println("c")
                 firstIndexLocal += idx
                 break
             } else {
+                println("d")
                 idx -= c
                 firstIndex++
             }
@@ -180,16 +184,21 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         idx = count
         var currentidx = first
         while (true) {
-            if (data[idx].value == value) {
-                data[idx].count += count
+            println("e")
+            if (data[lastIndex].value == value) {
+                println("f")
+                data[lastIndex].count += count
                 return currentidx
             } else {
-                val c = data[idx].count - lastIndexLocal
+                println("g")
+                val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
                 if (c >= idx) {
+                    println("h")
                     lastIndexLocal = idx
                     break
                 } else {
+                    println("i")
                     idx -= c
                     lastIndexLocal = 0
                     lastIndex++
@@ -197,10 +206,13 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             }
         }
         currentidx = first
-        for (i in firstIndex until lastIndex) {
+        for (i in firstIndex until lastIndex + 1) {
+            println("j")
             if (comparator.compare(data[i].value, value) > 0 || i == lastIndex) {
+                println("k")
                 var j = sizeIndex
                 while (j > i) {
+                    println("l")
                     data[j] = data[j - 1]
                     j--
                 }
