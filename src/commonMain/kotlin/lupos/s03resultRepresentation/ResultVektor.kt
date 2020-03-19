@@ -93,7 +93,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         posIndexLocal = posBackup[2]
     }
 
-    fun current(): Value = data[posIndex].value
+    fun current(): Value {
+internalSafeNextElement()
+return data[posIndex].value
+}
     override fun next(): Value {
         internalSafeNextElement()
         posIndexLocal++
