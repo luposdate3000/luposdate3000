@@ -34,7 +34,6 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     fun skipPos(count: Int) {
         require(posAbsolute + count <= sizeAbsolute)
-        println(count)
         posAbsolute += count
         if (count >= 0) {
             var i = count
@@ -77,10 +76,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex--
                     i -= c
                 } else {
-if(c==i)
-sizeIndex--
-else
-                    data[sizeIndex].count -= i
+                    if (c == i)
+                        sizeIndex--
+                    else
+                        data[sizeIndex].count -= i
                     break
                 }
             }
@@ -147,9 +146,9 @@ else
     }
 
     fun copy(from: ResultVektor, count: Int) {
-require(count>0)
+        require(count > 0)
         var i = count
-            from.internalSafeNextElement()
+        from.internalSafeNextElement()
         while (true) {
             val c = from.data[from.posIndex].count - from.posIndexLocal
             if (c < i) {
@@ -167,7 +166,7 @@ require(count>0)
 
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute + 1, comparator: Comparator<Value>, count: Int): Int {
         require(availableWrite() >= 2)
-require(count>0)
+        require(count > 0)
         posAbsolute = 0
         posIndex = 0
         posIndexLocal = 0
@@ -177,20 +176,16 @@ require(count>0)
         var lastIndex = 0
         var lastIndexLocal = 0
         var idx = first
-        println("a")
         while (true) {
-            println("b")
             val c = data[firstIndex].count
             if (c >= idx) {
-                println("c $idx")
-if(c==idx&&data[firstIndex].value!=value){
-firstIndex++
-}else{
-                firstIndexLocal = idx
-}
+                if (c == idx && data[firstIndex].value != value) {
+                    firstIndex++
+                } else {
+                    firstIndexLocal = idx
+                }
                 break
             } else {
-                println("d")
                 idx -= c
                 firstIndex++
             }
@@ -200,67 +195,55 @@ firstIndex++
         idx = last - first //maximaler noch zu gehende index
         var currentidx = first//aktuelle absolute position
         while (true) {
-            println("e $currentidx")
             if (lastIndex > sizeIndex) {
-                println("p")
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
                 return currentidx - firstIndexLocal
             } else if (data[lastIndex].value == value) {
-                println("f")
                 data[lastIndex].count += count
                 return currentidx - firstIndexLocal
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
 //hinzufügen jetzt oder später
-                println("g $lastIndex ${data[lastIndex].value} $value")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
-if(currentidx-last==data[lastIndex].count){
+                if (currentidx - last == data[lastIndex].count) {
 //hinzufügen direkt am ende des bereiches
-                    println("w $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        println("v")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
                     }
-                    data[lastIndex ].value = value
-                    data[lastIndex ].count = count
-                    sizeIndex ++
+                    data[lastIndex].value = value
+                    data[lastIndex].count = count
+                    sizeIndex++
                     return currentidx - firstIndexLocal
-}else                if (c > idx) {
+                } else if (c > idx) {
 //das letzte element geht weiter als mein bereich - split
-                    println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        println("i")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
                     }
                     data[lastIndex + 1].value = value
                     data[lastIndex + 1].count = count
-                    data[lastIndex].count -= currentidx-last
-                    data[lastIndex + 2].count = currentidx-last
+                    data[lastIndex].count -= currentidx - last
+                    data[lastIndex + 2].count = currentidx - last
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
-                    println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     idx -= c
                     lastIndexLocal = 0
                     lastIndex++
                 }
             } else {
-                println("m")
-                if (firstIndexLocal!=0) {
-                    println("n")
+                if (firstIndexLocal != 0) {
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        println("k")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -272,16 +255,14 @@ if(currentidx-last==data[lastIndex].count){
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
-                    println("o")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        println("l")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
                     }
-                    data[lastIndex ].value = value
-                    data[lastIndex ].count = count
+                    data[lastIndex].value = value
+                    data[lastIndex].count = count
                     sizeIndex++
                     return currentidx - firstIndexLocal
                 }

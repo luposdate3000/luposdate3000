@@ -19,7 +19,7 @@ val MAX_DISTINCT_VALUES = 20
 val MAX_CAPACITY = 100
 val FUNCTION_COUNT = 14
 val MAX_LISTS = 4
-val verbose = true
+val verbose = false
 
 class NoMoreRandomException() : Exception("")
 
@@ -115,7 +115,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     require(ResultVektor.capacity - helper.size - 1 <= helper.vektor.availableWrite())
                 }
                 8 -> {
-                    require(helper.size - helper.pos == helper.vektor.availableRead(),{"${helper.size} ${helper.pos} ${helper.size - helper.pos} ${helper.vektor.availableRead()}"})
+                    require(helper.size - helper.pos == helper.vektor.availableRead(), { "${helper.size} ${helper.pos} ${helper.size - helper.pos} ${helper.vektor.availableRead()}" })
                 }
                 9 -> {
                     require(helper.size >= ResultVektor.capacity || helper.vektor.canAppend())
@@ -168,7 +168,7 @@ fun ResultVektorTest(buffer: DynamicByteArray) {
                     val lastTarget = first + nextRandom(buffer, helper.size - first, true)
                     var last = first
                     helper.vektor.skipPos(-helper.pos)
-helper.pos = 0
+                    helper.pos = 0
                     if (helper.kotlinList[last] == DONT_CARE_VALUE) {
                         helper.vektor.skipPos(last)
                         helper.kotlinList[last] = helper.vektor.current()
@@ -182,16 +182,16 @@ helper.pos = 0
                         }
                         val lastValue = helper.kotlinList[last]
                         val thisValue = helper.kotlinList[last + 1]
-if(lastValue==thisValue||MyComparatorValue().compare(lastValue, thisValue) < 0)
-break
-last++
+                        if (lastValue == thisValue || MyComparatorValue().compare(lastValue, thisValue) < 0)
+                            break
+                        last++
                     }
                     val count = nextRandom(buffer, MAX_CAPACITY, true)
                     val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
-log("first $first")
-log("last $last")
-log("value $value")
-log("count $count")
+                    log("first $first")
+                    log("last $last")
+                    log("value $value")
+                    log("count $count")
                     val listA = mutableListOf<Value>()
                     val listB = mutableListOf<Value>()
                     val listC = mutableListOf<Value>()
@@ -210,11 +210,11 @@ log("count $count")
                     log("inC $listC")
                     listA.addAll(listB)
                     listA.addAll(listC)
-log("size "+listA.size)
-                    expectException = helper.vektor.availableWrite() < 2 || count==0
+                    log("size " + listA.size)
+                    expectException = helper.vektor.availableWrite() < 2 || count == 0
                     helper.vektor.insertSorted(value, first, last, MyComparatorValue(), count)
                     helper.kotlinList = listA
-helper.size+=count
+                    helper.size += count
                 }
                 else -> {
                     require(func < FUNCTION_COUNT)
@@ -238,8 +238,7 @@ helper.size+=count
                         r = helper.kotlinList.size
                     require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
                 }
-require(helper.vektor.data[helper.vektor.sizeIndex].count>0 || helper.vektor.sizeIndex==0)
-                println("x ${helper.pos} ${helper.size} ${helper.vektor.posAbsolute}")
+                require(helper.vektor.data[helper.vektor.sizeIndex].count > 0 || helper.vektor.sizeIndex == 0)
                 helper.vektor.skipPos(helper.pos - helper.size)
             }
             log("\n")
