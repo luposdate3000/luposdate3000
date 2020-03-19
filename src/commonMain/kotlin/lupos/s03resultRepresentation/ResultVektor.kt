@@ -160,6 +160,9 @@ println(count)
     }
 
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute + 1, comparator: Comparator<Value>, count: Int): Int {
+ posAbsolute=0
+ posIndex=0
+ posIndexLocal=0
         sizeAbsolute += count
         var firstIndex = 0
         var firstIndexLocal = 0
@@ -226,7 +229,7 @@ println("j $c $idx ${data[lastIndex].count} $lastIndexLocal")
                 }
             } else {
 println("m")
-                if (firstIndex == lastIndex) {
+                if (firstIndex == lastIndex&&firstIndexLocal!=data[firstIndex].count) {
 println("n")
                     var j = sizeIndex
                     while (j >= lastIndex) {
@@ -243,15 +246,15 @@ println("k")
                     return currentidx - firstIndexLocal
                 } else {
 println("o")
-                    var j = sizeIndex + 1
-                    while (j >= lastIndex) {
+                    var j = sizeIndex
+                    while (j > lastIndex) {
 println("l")
-                        data[j].count = data[j - 1].count
-                        data[j].value = data[j - 1].value
+                        data[j+1].count = data[j ].count
+                        data[j+1].value = data[j ].value
                         j--
                     }
-                    data[lastIndex].value = value
-                    data[lastIndex].count = count
+                    data[lastIndex+1].value = value
+                    data[lastIndex+1].count = count
                     sizeIndex++
                     return currentidx - firstIndexLocal
                 }
