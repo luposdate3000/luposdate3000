@@ -209,20 +209,19 @@ require(count>0)
                 println("g $lastIndex ${data[lastIndex].value} $value")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
-if(idx==0){
-//das letzte element geht weiter als mein bereich - split
-                    println("h $c $idx ${data[lastIndex].count} $lastIndexLocal")
+if(currentidx-last==data[lastIndex].count){
+//hinzufügen direkt am ende des bereiches
+                    println("w $c $idx ${data[lastIndex].count} $lastIndexLocal")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        println("i")
+                        println("v")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
                     }
                     data[lastIndex ].value = value
                     data[lastIndex ].count = count
-                    data[lastIndex + 1].count -= lastIndexLocal
                     sizeIndex ++
                     return currentidx - firstIndexLocal
 }else                if (c > idx) {
@@ -238,8 +237,8 @@ if(idx==0){
                     }
                     data[lastIndex + 1].value = value
                     data[lastIndex + 1].count = count
-                    data[lastIndex].count = lastIndexLocal
-                    data[lastIndex + 2].count -= lastIndexLocal
+                    data[lastIndex].count -= currentidx-last
+                    data[lastIndex + 2].count = currentidx-last
                     sizeIndex += 2
                     return currentidx - firstIndexLocal
                 } else {
