@@ -32,7 +32,7 @@ object ResultChunkTest {
     val MAX_CAPACITY = 100
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 4
-    val verbose = false
+    val verbose = true
 
     class NoMoreRandomException() : Exception("")
 
@@ -69,13 +69,21 @@ object ResultChunkTest {
 
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
         var tmp = chunk
+        log("" + kotlinList.map { it.map { it } })
+        log("" + tmp)
+        tmp.backupPosition()
         for (i in 0 until kotlinList.size) {
             val v = tmp.nextArr()
             val w = kotlinList[i]
             require(comparator.compare(v, w) == 0)
-            if (tmp.availableRead() == 0)
+            if (tmp.availableRead() == 0) {
+                tmp.restorePosition()
                 tmp = tmp.next
+                tmp.backupPosition()
+                log("" + tmp)
+            }
         }
+        tmp.restorePosition()
         require(tmp == chunk)
     }
 
@@ -89,12 +97,15 @@ object ResultChunkTest {
             var kotlinList = mutableListOf<Array<Value>>()
             var resultSetDictionary = ResultSetDictionary()
             var resultSet = ResultSet(resultSetDictionary)
+            for (i in 0 until columns)
+                resultSet.createVariable("name$i")
             var chunk = ResultChunk(resultSet, columns)
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
             var chunkLast = chunk
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
                 var count = nextRandom(buffer, ResultVektor.capacity, false)
+                expectException = count <= 0
                 for (i in 0 until count)
                     kotlinList.add(value)
                 if (!chunkLast.canAppend())

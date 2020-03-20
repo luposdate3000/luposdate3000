@@ -264,7 +264,7 @@ object ResultChunkBaseTest {
                     log("helper ${helper.chunk}")
                     require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
                     require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
-                    println("skippos ${-helper.pos}")
+                    log("skippos ${-helper.pos}")
                     if (helper.pos != 0)
                         helper.chunk.skipPos(-helper.pos)
                     for (j in 0 until helper.size) {
