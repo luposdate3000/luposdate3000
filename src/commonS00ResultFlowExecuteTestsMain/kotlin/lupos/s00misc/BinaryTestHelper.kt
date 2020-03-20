@@ -94,6 +94,7 @@ enum class TestCase(val action: (DynamicByteArray) -> Unit) {
 //    Sparql(::executeBinaryTest),
     ResultVektor(ResultVektorTest::invoke),
     ResultChunkBase(ResultChunkBaseTest::invoke),
+    ResultChunk(ResultChunkTest::invoke),
 //    SortedArray(::sortedArrayTest)
 }
 

@@ -97,63 +97,55 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
-            val chunkCount = chunks.chunkCount()
-            when (chunkCount) {
-                0 -> return chunks
-                1 -> {
-                    chunks.sort(comparator, columnOrder)
-                    return chunks
-                }
-                2 -> {
-                    val a = split(chunks, 1)
-                    val b = chunks
-                    val resultSet = a.resultSet
-                    val columns = a.columns
-                    a.sort(comparator, columnOrder)
-                    b.sort(comparator, columnOrder)
-                    var res = ResultChunk(resultSet, columns)
-                    var resLast = res
-                    resLast = sortHelper(comparator, columnOrder, a, b, resLast)
-                    val idx = if (a.hasNext()) {
-                        var count = a.availableRead()
-                        copy(a, resLast, count)
+            var chunkCount = 1
+            var tmp = chunks.next
+            while (tmp != chunks) {
+                chunkCount++
+                tmp = tmp.next
+            }
+            if (chunkCount == 1) {
+val resultSet = chunks.resultSet
+val columns = chunks.columns
+val res = ResultChunk(resultSet, columns)
+var resLast=res
+        while (chunks.hasNext()) {
+            val same = chunks.sameElements()
+if(resLast.availableWrite()<2)
+resLast=append(resLast,ResultChunk(resultSet, columns))
+            resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
+            chunks.skipPos(same)
+        }
+return res
+            } else {
+                val half = chunkCount / 2
+                var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
+                var b: ResultChunk? = sort(comparator, columnOrder, chunks)
+                val resultSet = a!!.resultSet
+                val columns = a!!.columns
+                val res = ResultChunk(resultSet, columns)
+                var resLast = res
+                while (true) {
+                    resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
+                    if (a.hasNext()) {
+                        b = removeFirst(b)
+                        if (b == null)
+                            break
                     } else {
-                        var count = b.availableRead()
-                        copy(b, resLast, count)
+                        a = removeFirst(a)
+                        if (a == null)
+                            break
                     }
-                    return res
                 }
-                else -> {
-                    val half = chunkCount / 2
-                    var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
-                    var b: ResultChunk? = sort(comparator, columnOrder, chunks)
-                    val resultSet = a!!.resultSet
-                    val columns = a!!.columns
-                    val res = ResultChunk(resultSet, columns)
-                    var resLast = res
-                    while (true) {
-                        resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
-                        if (a.hasNext()) {
-                            b = removeFirst(b)
-                            if (b == null)
-                                break
-                        } else {
-                            a = removeFirst(a)
-                            if (a == null)
-                                break
-                        }
-                    }
-                    if (a != null) {
-                        var count = a!!.availableRead()
-                        resLast = copy(a, resLast, count)
-                        append(resLast, a)
-                    } else {
-                        var count = b!!.availableRead()
-                        resLast = copy(b!!, resLast, count)
-                        append(resLast, b!!)
-                    }
-                    return res
+                if (a != null) {
+                    var count = a!!.availableRead()
+                    resLast = copy(a, resLast, count)
+                    append(resLast, a)
+                } else {
+                    var count = b!!.availableRead()
+                    resLast = copy(b!!, resLast, count)
+                    append(resLast, b!!)
                 }
+                return res
             }
         }
     }
@@ -171,7 +163,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         return res
     }
 
-    fun insertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
+    fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
         var column = data[columnOrder[0].toInt()]
         var idx = column.insertSorted(values[0], comparator = comparator[columnOrder[0].toInt()], count = count)
         var first = idx
@@ -182,17 +174,6 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             first = idx
             last = first + column.data[first].count - count
         }
-    }
-
-    fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>) {
-        val tmp = ResultChunk(resultSet, columns)
-        while (hasNext()) {
-            val same = sameElements()
-            tmp.insertSorted(comparator, columnOrder, Array(columns) { data[it].current() }, same)
-            skipPos(same)
-        }
-        for (i in 0 until columns)
-            data[i] = tmp.data[i]
     }
 }
 
