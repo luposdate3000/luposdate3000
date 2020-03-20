@@ -92,7 +92,7 @@ import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: (DynamicByteArray) -> Unit) {
     Sparql(::executeBinaryTest),
-    ResultVektor(::ResultVektorTest),
+    ResultVektor(ResultVektorTest::invoke),
     SortedArray(::sortedArrayTest)
 }
 

@@ -20,3 +20,5 @@ javafuzz
 nohup.out
 .scannerwork
 html
+run
+benchmark_results/sp2b/*.n3
