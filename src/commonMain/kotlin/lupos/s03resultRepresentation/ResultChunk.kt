@@ -104,18 +104,18 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 tmp = tmp.next
             }
             if (chunkCount == 1) {
-val resultSet = chunks.resultSet
-val columns = chunks.columns
-val res = ResultChunk(resultSet, columns)
-var resLast=res
-        while (chunks.hasNext()) {
-            val same = chunks.sameElements()
-if(resLast.availableWrite()<2)
-resLast=append(resLast,ResultChunk(resultSet, columns))
-            resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
-            chunks.skipPos(same)
-        }
-return res
+                val resultSet = chunks.resultSet
+                val columns = chunks.columns
+                val res = ResultChunk(resultSet, columns)
+                var resLast = res
+                while (chunks.hasNext()) {
+                    val same = chunks.sameElements()
+                    if (resLast.availableWrite() < 2)
+                        resLast = append(resLast, ResultChunk(resultSet, columns))
+                    resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
+                    chunks.skipPos(same)
+                }
+                return res
             } else {
                 val half = chunkCount / 2
                 var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))

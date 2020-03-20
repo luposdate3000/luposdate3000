@@ -12,15 +12,16 @@ object ResultChunkTest {
             return 1
         }
     }
-    class MyComparatorRow(val variables:Array<Variable>) : Comparator<Array<Value>> {
+
+    class MyComparatorRow(val variables: Array<Variable>) : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
-for(v in variables){
-if(a[v.toInt()]<b[v.toInt()])
-return -1
-if(a[v.toInt()]>b[v.toInt()])
-return +1
-}
-return 0
+            for (v in variables) {
+                if (a[v.toInt()] < b[v.toInt()])
+                    return -1
+                if (a[v.toInt()] > b[v.toInt()])
+                    return +1
+            }
+            return 0
         }
     }
 
@@ -66,17 +67,18 @@ return 0
             println(s)
     }
 
-fun checkEquals(kotlinList:MutableList<Array<Value>>,chunk:ResultChunk,comparator:Comparator<Array<Value>>){
-var tmp=chunk
-for(i in 0 until kotlinList.size){
-val v=tmp.nextArr()
-val w=kotlinList[i]
-require(comparator.compare(v,w)==0)
-if(tmp.availableRead()==0)
-tmp=tmp.next
-}
-require (tmp==chunk)
-}
+    fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
+        var tmp = chunk
+        for (i in 0 until kotlinList.size) {
+            val v = tmp.nextArr()
+            val w = kotlinList[i]
+            require(comparator.compare(v, w) == 0)
+            if (tmp.availableRead() == 0)
+                tmp = tmp.next
+        }
+        require(tmp == chunk)
+    }
+
     operator fun invoke(buffer: DynamicByteArray) {
         var expectException = false
         log("-----------------------start")
@@ -84,28 +86,28 @@ require (tmp==chunk)
             columns = nextRandom(buffer, MAX_COLUMNS - 1, true) + 1
             ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 2, true) + 2
             require(ResultVektor.capacity > 0)
-        var kotlinList = mutableListOf<Array<Value>>()
-        var resultSetDictionary = ResultSetDictionary()
-        var resultSet = ResultSet(resultSetDictionary)
-        var chunk = ResultChunk(resultSet, columns)
-var comparatorArray:Array<Comparator<Value>> =Array(columns){MyComparatorValue()}
-var chunkLast=chunk
-while(true){
-val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
-var count = nextRandom(buffer, ResultVektor.capacity, false)
-for(i in 0 until count)
-kotlinList.add(value)
-if(!chunkLast.canAppend())
-chunkLast=ResultChunk.append(chunkLast,ResultChunk(resultSet, columns))
-chunkLast.append(value,count)
-                        val allcolumns = MutableList(columns) { it.toLong() }
-                        val columns = Array(columns) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
-val comparator=MyComparatorRow(columns)
-checkEquals(kotlinList,chunk,comparator)
-kotlinList.sortWith(comparator)
-chunk=ResultChunk.sort(comparatorArray,columns,chunk)
-checkEquals(kotlinList,chunk,comparator)
-}
+            var kotlinList = mutableListOf<Array<Value>>()
+            var resultSetDictionary = ResultSetDictionary()
+            var resultSet = ResultSet(resultSetDictionary)
+            var chunk = ResultChunk(resultSet, columns)
+            var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
+            var chunkLast = chunk
+            while (true) {
+                val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
+                var count = nextRandom(buffer, ResultVektor.capacity, false)
+                for (i in 0 until count)
+                    kotlinList.add(value)
+                if (!chunkLast.canAppend())
+                    chunkLast = ResultChunk.append(chunkLast, ResultChunk(resultSet, columns))
+                chunkLast.append(value, count)
+                val allcolumns = MutableList(columns) { it.toLong() }
+                val columns = Array(columns) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
+                val comparator = MyComparatorRow(columns)
+                checkEquals(kotlinList, chunk, comparator)
+                kotlinList.sortWith(comparator)
+                chunk = ResultChunk.sort(comparatorArray, columns, chunk)
+                checkEquals(kotlinList, chunk, comparator)
+            }
         } catch (e: NoMoreRandomException) {
         } catch (e: Throwable) {
             if (!expectException)
