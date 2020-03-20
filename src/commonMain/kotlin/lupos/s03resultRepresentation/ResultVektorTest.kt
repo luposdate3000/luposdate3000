@@ -19,7 +19,7 @@ object ResultVektorTest {
     val MAX_CAPACITY = 100
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 4
-    val verbose = false
+    val verbose = true
 
     class NoMoreRandomException() : Exception("")
 
@@ -237,8 +237,8 @@ object ResultVektorTest {
                             r = helper.kotlinList.size
                         require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
                     }
-                    require(helper.vektor.data[helper.vektor.sizeIndex].count > 0 || helper.vektor.sizeIndex == 0)
                     helper.vektor.skipPos(helper.pos - helper.size)
+                    require(helper.vektor.data[helper.vektor.sizeIndex].count > 0 || helper.vektor.sizeIndex == 0)
                 }
                 log("\n")
             }

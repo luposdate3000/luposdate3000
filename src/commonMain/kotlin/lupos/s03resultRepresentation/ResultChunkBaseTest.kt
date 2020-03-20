@@ -20,7 +20,7 @@ object ResultChunkBaseTest {
     val MAX_CAPACITY = 100
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 4
-    val verbose = false
+    val verbose = true
 
     class NoMoreRandomException() : Exception("")
 
@@ -57,6 +57,10 @@ object ResultChunkBaseTest {
         var pos = 0
         var size = 0
         var backup = 0
+constructor(){
+for(i in 0 until columns)
+resultSet.createVariable("name$i")
+}
     }
 
     fun log(s: String) {
@@ -66,7 +70,7 @@ object ResultChunkBaseTest {
 
     operator fun invoke(buffer: DynamicByteArray) {
         var expectException = false
-        log("start")
+        log("-----------------------start")
         try {
             columns = nextRandom(buffer, MAX_COLUMNS - 1, true) + 1
             ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 2, true) + 2
@@ -76,6 +80,7 @@ object ResultChunkBaseTest {
                 expectException = false
                 val helperIdx = nextRandom(buffer, MAX_LISTS, true)
                 val helper = helpers[helperIdx]
+log("helper ${helper.chunk}")
                 val func = nextRandom(buffer, FUNCTION_COUNT, true)
                 log("func $func")
                 when (func) {
@@ -144,10 +149,11 @@ object ResultChunkBaseTest {
                         helper.pos++
                     }
                     9 -> {
-                        require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size)
+                        require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size -1,{"${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}"})
                     }
                     10 -> {
                         val colcount = nextRandom(buffer, columns, true)
+expectException=colcount==0||helper.pos>=helper.size
                         val allcolumns = MutableList(colcount) { it.toLong() }
                         val columns = Array(colcount) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
                         val v = helper.chunk.current(columns)
@@ -182,8 +188,10 @@ object ResultChunkBaseTest {
                         val columns2 = allcolumns.toTypedArray()
                         val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
                         val helper2 = helpers[helperIdx2]
+log("helper2 ${helper2.chunk}")
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-                        expectException = count > helper.chunk.availableRead() || count <= 0
+log("count $count")
+                        expectException = count > helper.chunk.availableRead() || count <= 0||colcount==0
                         if (count == 0) {
                             helper2.chunk.copy(columns, helper.chunk, columns, count)
                             helper.chunk.skipPos(columns2, count)
@@ -217,9 +225,9 @@ for(j in 0 until helper.size){
                         val v = helper.chunk.nextArr()
                         val w = helper.kotlinList[j]
                         for (i in 0 until columns)
-                            require(v[i] == w[i])
+                            require(v[i] == w[i]|| w[i]==DONT_CARE_VALUE)
 }
-helper.chunk.skipPos(helper.pos)
+helper.chunk.skipPos(helper.pos-helper.size)
                 }
                 log("\n")
             }

@@ -76,7 +76,9 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex--
                     i -= c
                 } else {
-                    if (c == i)
+if(sizeIndex==0&&c==i)
+data[0].count=0
+                else    if (c == i)
                         sizeIndex--
                     else
                         data[sizeIndex].count -= i
