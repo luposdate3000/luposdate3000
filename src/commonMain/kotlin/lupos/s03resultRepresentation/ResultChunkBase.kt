@@ -18,11 +18,13 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
 
     open fun availableRead(): Int = data[0].availableRead()
     fun append(row: ResultRow, count: Int = 1) {
+        require(count > 0)
         for (i in 0 until columns)
             data[i].append(row.values[i], count)
     }
 
     fun append(values: Array<Value>, count: Int = 1) {
+        require(count > 0)
         for (i in 0 until columns)
             data[i].append(values[i], count)
     }
@@ -44,6 +46,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
     }
 
     open fun copy(chunkFrom: ResultChunkBase, count: Int) {
+        require(count > 0)
         for (c in 0 until columns) {
             val colTo = data[c]
             val colFrom = chunkFrom.data[c]
@@ -52,6 +55,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
     }
 
     open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
+        require(count > 0)
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
@@ -60,6 +64,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
     }
 
     open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
+        require(count > 0)
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
@@ -113,21 +118,25 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
     }
 
     open fun skipPos(columns: Array<Variable>, count: Int) {
+        require(count != 0)
         for (c in 0 until columns.size)
             data[columns[c].toInt()].skipPos(count)
     }
 
     open fun skipSize(columns: Array<Variable>, count: Int) {
+        require(count != 0)
         for (c in 0 until columns.size)
             data[columns[c].toInt()].skipSize(count)
     }
 
     open fun skipPos(count: Int) {
+        require(count != 0)
         for (c in 0 until columns)
             data[c].skipPos(count)
     }
 
     open fun skipSize(count: Int) {
+        require(count != 0)
         for (c in 0 until columns)
             data[c].skipSize(count)
     }

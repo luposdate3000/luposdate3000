@@ -88,7 +88,7 @@ object ResultChunkBaseTest {
                     0 -> {
                         val count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
                         log("count $count")
-                        expectException = helper.pos + count > helper.size || helper.pos + count < 0
+                        expectException = helper.pos + count > helper.size || count == 0 || helper.pos + count < 0
                         helper.chunk.skipPos(count)
                         helper.pos += count
                     }
@@ -97,7 +97,7 @@ object ResultChunkBaseTest {
                         if (count < 0 && helper.pos > helper.size + count)
                             count = helper.pos - helper.size
                         log("count $count")
-                        expectException = helper.size + count < 0 || !helper.chunk.canAppend()
+                        expectException = helper.size + count < 0 || count == 0 || !helper.chunk.canAppend()
                         helper.chunk.skipSize(count)
                         if (count > 0) {
                             for (i in 0 until count)
@@ -115,7 +115,7 @@ object ResultChunkBaseTest {
                             count = helper.pos - helper.size
                         log("count $count")
                         val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
-                        expectException = helper.size + count < 0 || !helper.chunk.canAppend()
+                        expectException = count <= 0 || !helper.chunk.canAppend()
                         helper.chunk.append(value, count)
                         for (i in 0 until count)
                             helper.kotlinList.add(helper.size, value)
@@ -170,7 +170,7 @@ object ResultChunkBaseTest {
                         val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
                         val helper2 = helpers[helperIdx2]
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-                        expectException = count > helper.chunk.availableRead() || count <= 0
+                        expectException = count > helper.size - helper.pos || count <= 0
                         if (count == 0) {
                             for (i in 0 until count) {
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
@@ -180,7 +180,7 @@ object ResultChunkBaseTest {
                             helper2.chunk.copy(helper.chunk, count)
                         }
                         while (helper2.chunk.canAppend() && count > 0) {
-                            val c = helper2.chunk.availableWrite()
+                            val c = min(helper2.chunk.availableWrite(), count)
                             for (i in 0 until c) {
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
                                 helper.pos++
@@ -262,17 +262,21 @@ object ResultChunkBaseTest {
                 log("\n")
                 for (helper in helpers) {
                     log("helper ${helper.chunk}")
+                    require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
                     require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
                     println("skippos ${-helper.pos}")
-                    helper.chunk.skipPos(-helper.pos)
+                    if (helper.pos != 0)
+                        helper.chunk.skipPos(-helper.pos)
                     for (j in 0 until helper.size) {
                         val v = helper.chunk.nextArr()
                         val w = helper.kotlinList[j]
                         for (i in 0 until columns)
                             require(v[i] == w[i] || w[i] == DONT_CARE_VALUE, { "${helper.kotlinList.map { it.map { it }.toString() + "\n" }}\n ${v.map { it }} ${w.map { it }}" })
                     }
-                    helper.chunk.skipPos(helper.pos - helper.size)
+                    if (helper.pos - helper.size != 0)
+                        helper.chunk.skipPos(helper.pos - helper.size)
                     require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
+                    require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
                 }
                 log("\n")
             }
