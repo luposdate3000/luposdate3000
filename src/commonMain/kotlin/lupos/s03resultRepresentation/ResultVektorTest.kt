@@ -82,7 +82,6 @@ object ResultVektorTest {
                             for (i in 0 until count)
                                 helper.kotlinList.add(DONT_CARE_VALUE)
                         } else {
-                            expectException = helper.size + count < 0
                             if (!expectException)
                                 for (i in 0 until -count)
                                     helper.kotlinList.removeAt(helper.kotlinList.size - 1)
@@ -118,7 +117,7 @@ object ResultVektorTest {
                         require(helper.size - helper.pos == helper.vektor.availableRead(), { "${helper.size} ${helper.pos} ${helper.size - helper.pos} ${helper.vektor.availableRead()}" })
                     }
                     9 -> {
-                        require(helper.size >= ResultVektor.capacity || helper.vektor.canAppend())
+                        require(helper.vektor.canAppend() || helper.size >= ResultVektor.capacity)
                     }
                     10 -> {
                         val count = nextRandom(buffer, MAX_CAPACITY, false)

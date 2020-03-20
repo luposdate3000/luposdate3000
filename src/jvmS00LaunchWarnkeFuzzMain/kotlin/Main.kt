@@ -40,7 +40,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
         }
     }
-    var testcase = TestCase.Sparql
+    var testcase = TestCase.ResultVektor
     var datasize = 16
     if (args.size > 0) {
         JenaRequest.db = args[0]

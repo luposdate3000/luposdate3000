@@ -91,9 +91,10 @@ import lupos.s15tripleStoreDistributed.*
 
 
 enum class TestCase(val action: (DynamicByteArray) -> Unit) {
-    Sparql(::executeBinaryTest),
+//    Sparql(::executeBinaryTest),
     ResultVektor(ResultVektorTest::invoke),
-    SortedArray(::sortedArrayTest)
+    ResultChunkBase(ResultChunkBaseTest::invoke),
+//    SortedArray(::sortedArrayTest)
 }
 
 enum class ValueEnum {
