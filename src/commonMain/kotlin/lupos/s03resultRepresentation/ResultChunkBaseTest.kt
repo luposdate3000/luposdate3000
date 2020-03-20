@@ -198,7 +198,8 @@ log("count $count")
                             helper2.chunk.skipSize(columns2, count)
                         }
                         while (helper2.chunk.canAppend() && count > 0) {
-                            val c = helper2.chunk.availableWrite()
+                            val c = min(helper2.chunk.availableWrite(),count)
+log("progress $c")
                             helper2.chunk.copy(columns, helper.chunk, columns, c)
                             helper.chunk.skipPos(columns2, c)
                             helper2.chunk.skipSize(columns2, c)
