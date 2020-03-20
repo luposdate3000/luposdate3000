@@ -118,7 +118,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun canAppend() = availableWrite() > 0
 
     fun append(value: Value, count: Int = 1) {
-        require(sizeIndex < capacity)
+        require(sizeIndex < capacity-1)
         if (data[sizeIndex].value == value)
             data[sizeIndex].count += count
         else {

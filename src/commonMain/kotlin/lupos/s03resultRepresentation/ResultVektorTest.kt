@@ -155,8 +155,9 @@ object ResultVektorTest {
                         log(helper2.kotlinList.toString())
                         val count = nextRandom(buffer, MAX_CAPACITY, false)
                         log("count $count")
-                        expectException = helper.vektor.availableRead() < count || count <= 0
+                        expectException = helper.vektor.availableRead() < count || count <= 0||helper2.vektor.availableWrite()<count
                         helper2.vektor.copy(helper.vektor, count)
+			expectException = helper.vektor.availableRead() < count || count <= 0
                         for (i in helper.pos until helper.pos + count)
                             helper2.kotlinList.add(helper.kotlinList[i])
                         helper2.size += count
