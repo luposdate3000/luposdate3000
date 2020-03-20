@@ -69,13 +69,13 @@ object ResultChunkTest {
 
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
         var tmp = chunk
-        log("" + kotlinList.map { it.map { it } })
+        log("" + kotlinList.map { it.map { it }.toString()+"\n" })
         log("" + tmp)
         tmp.backupPosition()
         for (i in 0 until kotlinList.size) {
             val v = tmp.nextArr()
             val w = kotlinList[i]
-            require(comparator.compare(v, w) == 0)
+            require(comparator.compare(v, w) == 0,{"$i ${v.map{it}} ${w.map{it}}"})
             if (tmp.availableRead() == 0) {
                 tmp.restorePosition()
                 tmp = tmp.next
@@ -100,8 +100,8 @@ object ResultChunkTest {
             for (i in 0 until columns)
                 resultSet.createVariable("name$i")
             var chunk = ResultChunk(resultSet, columns)
+var chunkLast=chunk
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
-            var chunkLast = chunk
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
                 var count = nextRandom(buffer, ResultVektor.capacity, false)
@@ -117,6 +117,7 @@ object ResultChunkTest {
                 checkEquals(kotlinList, chunk, comparator)
                 kotlinList.sortWith(comparator)
                 chunk = ResultChunk.sort(comparatorArray, columns, chunk)
+chunkLast=chunk.prev
                 checkEquals(kotlinList, chunk, comparator)
             }
         } catch (e: NoMoreRandomException) {

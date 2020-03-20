@@ -19,7 +19,7 @@ object ResultVektorTest {
     val MAX_CAPACITY = 100
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 4
-    val verbose = false
+    val verbose = true
 
     class NoMoreRandomException() : Exception("")
 
@@ -207,11 +207,16 @@ object ResultVektorTest {
                         listB.sort()
                         log("inB2 $listB")
                         log("inC $listC")
-                        listA.addAll(listB)
-                        listA.addAll(listC)
                         log("size " + listA.size)
                         expectException = helper.vektor.availableWrite() < 2 || count == 0
-                        helper.vektor.insertSorted(value, first, last, MyComparatorValue(), count)
+val ret=                        helper.vektor.insertSorted(value, first, last-1, MyComparatorValue(), count)
+require(ret.second>=count)
+require(ret.first>=listA.size||listA[listA.size-1]==value||listA[listA.size-1]==DONT_CARE_VALUE,{"${ret.first} ${listA.size}"})
+require(ret.first+ret.second<=listA.size+listB.size||listC[0]==value||listC[0]==DONT_CARE_VALUE,{"${ret.first+ret.second} ${listA.size+listB.size}"})
+                        listA.addAll(listB)
+                        listA.addAll(listC)
+for(i in ret.first until ret.first+ret.second)
+require(listA[i]==value||listA[i]==DONT_CARE_VALUE)
                         helper.kotlinList = listA
                         helper.size += count
                     }

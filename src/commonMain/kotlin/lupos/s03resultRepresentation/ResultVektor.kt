@@ -166,7 +166,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         from.posAbsolute += count
     }
 
-    fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute + 1, comparator: Comparator<Value>, count: Int): Int {
+    fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute , comparator: Comparator<Value>, count: Int): Pair<Int,Int> {
+println("aa")
         require(availableWrite() >= 2)
         require(count > 0)
         posAbsolute = 0
@@ -179,41 +180,50 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         var lastIndexLocal = 0
         var idx = first
         while (true) {
+println("ab")
             val c = data[firstIndex].count
             if (c >= idx) {
+println("ac")
                 if (c == idx && data[firstIndex].value != value) {
+println("ad")
                     firstIndex++
                 } else {
+println("ae")
                     firstIndexLocal = idx
                 }
                 break
             } else {
+println("af")
                 idx -= c
                 firstIndex++
             }
         }
         lastIndex = firstIndex
         lastIndexLocal = firstIndexLocal
-        idx = last - first //maximaler noch zu gehende index
+        idx = last - first +1//maximaler noch zu gehende index
         var currentidx = first//aktuelle absolute position
         while (true) {
+println("ag")
             if (lastIndex > sizeIndex) {
+println("ah")
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
-                return currentidx - firstIndexLocal
+                return Pair(currentidx - firstIndexLocal,count)
             } else if (data[lastIndex].value == value) {
+println("ai")
                 data[lastIndex].count += count
-                return currentidx - firstIndexLocal
+                return Pair(currentidx - firstIndexLocal,data[lastIndex].count)
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
-//hinzufügen jetzt oder später
+println("aj")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
-                if (currentidx - last == data[lastIndex].count) {
-//hinzufügen direkt am ende des bereiches
+                if (currentidx - last-1 == data[lastIndex].count) {
+println("ak")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
+println("al")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
@@ -221,31 +231,35 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     data[lastIndex].value = value
                     data[lastIndex].count = count
                     sizeIndex++
-                    return currentidx - firstIndexLocal
+                    return Pair(currentidx - firstIndexLocal,count)
                 } else if (c > idx) {
-//das letzte element geht weiter als mein bereich - split
+println("am")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
+println("aa")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
                     }
                     data[lastIndex + 1].value = value
                     data[lastIndex + 1].count = count
-                    data[lastIndex].count -= currentidx - last
-                    data[lastIndex + 2].count = currentidx - last
+                    data[lastIndex].count -= currentidx - last-1
+                    data[lastIndex + 2].count = currentidx - last-1
                     sizeIndex += 2
-                    return currentidx - firstIndexLocal
+                    return Pair(currentidx - firstIndexLocal,count)
                 } else {
+println("an")
                     idx -= c
                     lastIndexLocal = 0
                     lastIndex++
                 }
             } else {
+println("ao")
                 if (firstIndexLocal != 0) {
                     var j = sizeIndex
                     while (j >= lastIndex) {
+println("ao")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -255,10 +269,12 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     data[lastIndex].count = firstIndexLocal
                     data[lastIndex + 2].count -= firstIndexLocal
                     sizeIndex += 2
-                    return currentidx - firstIndexLocal
+                    return Pair(currentidx - firstIndexLocal,count)
                 } else {
+println("aq")
                     var j = sizeIndex
                     while (j >= lastIndex) {
+println("ar")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
@@ -266,7 +282,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     data[lastIndex].value = value
                     data[lastIndex].count = count
                     sizeIndex++
-                    return currentidx - firstIndexLocal
+                    return Pair(currentidx - firstIndexLocal,count)
                 }
             }
         }

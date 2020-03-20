@@ -23,6 +23,7 @@ do
 		done
 	)  >> log/db$db 2>&1 &
 done
+wait
 for db in $(seq 5 8)
 do
 	size=$(echo "scale=0;(12*1.6^${db})/1" | bc)
