@@ -140,17 +140,22 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
         res.append("\n")
         if (columns > 0)
             for (r in 0 until ResultVektor.capacity) {
+                var flag = false
                 for (c in 0 until columns)
                     if (r >= data[c].posIndex && r <= data[c].sizeIndex && data[c].data[r].count > 0) {
                         res.append(data[c].data[r].value)
-                        if (r == data[c].posIndex)
-                            res.append("(${data[c].data[r].count - data[c].posIndexLocal})")
+                        if (r == data[c].posIndex && data[c].posIndexLocal != 0)
+                            res.append("(${data[c].data[r].count - data[c].posIndexLocal})<${data[c].data[r].count}>")
                         else
                             res.append("(${data[c].data[r].count})")
                         res.append(", ")
-                    } else
-                        res.append("-, ")
+                    } else {
+                        res.append("<${data[c].data[r].count}>, ")
+                        flag = true
+                    }
                 res.append("\n")
+                if (flag && r > 4)
+                    break
             }
         return res.toString()
     }

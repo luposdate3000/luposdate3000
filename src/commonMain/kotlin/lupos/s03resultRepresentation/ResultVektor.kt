@@ -35,7 +35,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun skipPos(count: Int) {
         require(posAbsolute + count <= sizeAbsolute)
         posAbsolute += count
-        if (count >= 0) {
+        if (count > 0) {
             var i = count
             while (true) {
                 val c = data[posIndex].count - posIndexLocal
@@ -76,9 +76,9 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex--
                     i -= c
                 } else {
-if(sizeIndex==0&&c==i)
-data[0].count=0
-                else    if (c == i)
+                    if (sizeIndex == 0 && c == i)
+                        data[0].count = 0
+                    else if (c == i)
                         sizeIndex--
                     else
                         data[sizeIndex].count -= i

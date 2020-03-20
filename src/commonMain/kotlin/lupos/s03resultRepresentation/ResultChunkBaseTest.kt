@@ -57,10 +57,11 @@ object ResultChunkBaseTest {
         var pos = 0
         var size = 0
         var backup = 0
-constructor(){
-for(i in 0 until columns)
-resultSet.createVariable("name$i")
-}
+
+        constructor() {
+            for (i in 0 until columns)
+                resultSet.createVariable("name$i")
+        }
     }
 
     fun log(s: String) {
@@ -80,7 +81,7 @@ resultSet.createVariable("name$i")
                 expectException = false
                 val helperIdx = nextRandom(buffer, MAX_LISTS, true)
                 val helper = helpers[helperIdx]
-log("helper ${helper.chunk}")
+                log("helper ${helper.chunk}")
                 val func = nextRandom(buffer, FUNCTION_COUNT, true)
                 log("func $func")
                 when (func) {
@@ -98,15 +99,15 @@ log("helper ${helper.chunk}")
                         log("count $count")
                         expectException = helper.size + count < 0 || !helper.chunk.canAppend()
                         helper.chunk.skipSize(count)
-                        helper.size += count
                         if (count > 0) {
                             for (i in 0 until count)
-                                helper.kotlinList.add(Array(columns) { DONT_CARE_VALUE })
+                                helper.kotlinList.add(helper.size, Array(columns) { DONT_CARE_VALUE })
                         } else {
                             if (!expectException)
                                 for (i in 0 until -count)
-                                    helper.kotlinList.removeAt(helper.kotlinList.size - 1)
+                                    helper.kotlinList.removeAt(helper.size - 1)
                         }
+                        helper.size += count
                     }
                     2 -> {
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
@@ -117,7 +118,8 @@ log("helper ${helper.chunk}")
                         expectException = helper.size + count < 0 || !helper.chunk.canAppend()
                         helper.chunk.append(value, count)
                         for (i in 0 until count)
-                            helper.kotlinList.add(value)
+                            helper.kotlinList.add(helper.size, value)
+                        helper.size += count
                     }
                     3 -> {
                         helper.backup = helper.pos
@@ -128,7 +130,7 @@ log("helper ${helper.chunk}")
                         helper.chunk.restorePosition()
                     }
                     5 -> {
-                        require(helper.size - helper.pos == helper.chunk.availableRead())
+                        require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
                     }
                     6 -> {
                         require(helper.chunk.canAppend() || helper.size >= ResultVektor.capacity)
@@ -145,21 +147,21 @@ log("helper ${helper.chunk}")
                         val v = helper.chunk.nextArr()
                         val w = helper.kotlinList[helper.pos]
                         for (i in 0 until columns)
-                            require(v[i] == w[i])
+                            require(v[i] == w[i] || w[i] == DONT_CARE_VALUE)
                         helper.pos++
                     }
                     9 -> {
-                        require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size -1,{"${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}"})
+                        require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
                     }
                     10 -> {
                         val colcount = nextRandom(buffer, columns, true)
-expectException=colcount==0||helper.pos>=helper.size
-                        val allcolumns = MutableList(colcount) { it.toLong() }
+                        expectException = colcount == 0 || helper.pos >= helper.size
+                        val allcolumns = MutableList(columns) { it.toLong() }
                         val columns = Array(colcount) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
                         val v = helper.chunk.current(columns)
                         val w = Array(colcount) { helper.kotlinList[helper.pos][columns[it].toInt()] }
                         for (i in 0 until colcount)
-                            require(v[i] == w[i])
+                            require(v[i] == w[i] || w[i] == DONT_CARE_VALUE)
                     }
                     11 -> {
                         require((helper.chunk.availableRead() > 0) == helper.chunk.hasNext())
@@ -183,31 +185,53 @@ expectException=colcount==0||helper.pos>=helper.size
                     }
                     13 -> {
                         val colcount = nextRandom(buffer, columns, true)
-                        val allcolumns = MutableList(colcount) { it.toLong() }
-                        val columns = Array(colcount) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
+                        val allcolumns = MutableList(columns) { it.toLong() }
+                        val columns1 = Array(colcount) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
                         val columns2 = allcolumns.toTypedArray()
                         val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
                         val helper2 = helpers[helperIdx2]
-log("helper2 ${helper2.chunk}")
+                        log("helper2 ${helper2.chunk}")
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-log("count $count")
-                        expectException = count > helper.chunk.availableRead() || count <= 0||colcount==0
+                        log("count $count")
+                        log("columns ${columns1.map { it }} ${columns2.map { it }}")
+                        expectException = count > helper.chunk.availableRead() || count <= 0 || colcount == 0
                         if (count == 0) {
-                            helper2.chunk.copy(columns, helper.chunk, columns, count)
+                            for (i in 0 until count) {
+                                val v = Array(columns) { helper.kotlinList[helper.pos][it] }
+                                helper.pos++
+                                for (col in columns2)
+                                    v[col.toInt()] = DONT_CARE_VALUE
+                                helper2.kotlinList.add(helper2.size++, v)
+                            }
+                            helper2.chunk.copy(columns1, helper.chunk, columns1, count)
                             helper.chunk.skipPos(columns2, count)
                             helper2.chunk.skipSize(columns2, count)
                         }
                         while (helper2.chunk.canAppend() && count > 0) {
-                            val c = min(helper2.chunk.availableWrite(),count)
-log("progress $c")
-                            helper2.chunk.copy(columns, helper.chunk, columns, c)
+                            val c = min(helper2.chunk.availableWrite(), count)
+                            log("progress $c")
+                            for (i in 0 until c) {
+                                val v = Array(columns) { helper.kotlinList[helper.pos][it] }
+                                helper.pos++
+                                for (col in columns2)
+                                    v[col.toInt()] = DONT_CARE_VALUE
+                                helper2.kotlinList.add(helper2.size++, v)
+                            }
+                            helper2.chunk.copy(columns1, helper.chunk, columns1, c)
                             helper.chunk.skipPos(columns2, c)
                             helper2.chunk.skipSize(columns2, c)
                             count -= c
                         }
                         if (count > 0) {
                             expectException = true
-                            helper2.chunk.copy(columns, helper.chunk, columns, count)
+                            for (i in 0 until count) {
+                                val v = Array(columns) { helper.kotlinList[helper.pos][it] }
+                                helper.pos++
+                                for (col in columns2)
+                                    v[col.toInt()] = DONT_CARE_VALUE
+                                helper2.kotlinList.add(helper2.size++, v)
+                            }
+                            helper2.chunk.copy(columns1, helper.chunk, columns1, count)
                             helper.chunk.skipPos(columns2, count)
                             helper2.chunk.skipSize(columns2, count)
                         }
@@ -221,14 +245,18 @@ log("progress $c")
                 log("" + expectException)
                 log("\n")
                 for (helper in helpers) {
-helper.chunk.skipPos(-helper.pos)
-for(j in 0 until helper.size){
+                    log("helper ${helper.chunk}")
+                    require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
+                    println("skippos ${-helper.pos}")
+                    helper.chunk.skipPos(-helper.pos)
+                    for (j in 0 until helper.size) {
                         val v = helper.chunk.nextArr()
                         val w = helper.kotlinList[j]
                         for (i in 0 until columns)
-                            require(v[i] == w[i]|| w[i]==DONT_CARE_VALUE)
-}
-helper.chunk.skipPos(helper.pos-helper.size)
+                            require(v[i] == w[i] || w[i] == DONT_CARE_VALUE)
+                    }
+                    helper.chunk.skipPos(helper.pos - helper.size)
+                    require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
                 }
                 log("\n")
             }
