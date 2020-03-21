@@ -300,22 +300,22 @@ Coverage.statementStart(511)
     }
     var prev = this
     var next = this
-    fun chunkCount(): Int {
-Coverage.funStart(512)
-        var res = 1
-Coverage.statementStart(513)
-        var tmp = this.next
-Coverage.statementStart(514)
-        while (tmp != this) {
-Coverage.whileLoopStart(515)
-            res++
-Coverage.statementStart(516)
-            tmp = tmp.next
-Coverage.statementStart(517)
-        }
-Coverage.statementStart(518)
-        return res
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
 Coverage.funStart(519)
         var columnidx = columnOrder[0].toInt()

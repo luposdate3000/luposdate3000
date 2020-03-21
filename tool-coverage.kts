@@ -97,6 +97,7 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     lines.forEach {
         val line = it
         if (res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size-1]))&&(!whenBrackets.contains(openBrackets-1))) {
+appendCoverageStatement(filename, counter, res.size)
             res.add("Coverage.statementStart(${counter++})")
         }
         if (line.startsWith("package "))
