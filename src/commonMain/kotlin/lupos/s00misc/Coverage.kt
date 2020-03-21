@@ -4,7 +4,7 @@ import kotlinx.coroutines.*
 import lupos.s00misc.File
 object Coverage {
     var verbose = false
-    val counters = Array(CoverageMapGenerated.keys.size) { 0 }
+    val counters = Array(CoverageMapGenerated.keys.size) { 0L }
     fun funStart(counter: Int) {
         counters[counter]++
         if (verbose)
