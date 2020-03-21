@@ -191,19 +191,22 @@ return Pair(0,count)
         var lastIndexLocal = 0
         var idx = first
         var absoluteindex = 0
-        while (true) {
+        while (idx>0) {
 println("b2")
             val c = data[firstIndex].count
-            if (c >= idx) {
+if(c==0){
+println("b25")
+firstIndexLocal = idx
+break
+}else            if (c == idx) {
+println("b26")
+firstIndexLocal = 0
+absoluteindex=first
+firstIndex++
+break
+}else            if (c > idx) {
 println("b3")
-                if (c == idx && data[firstIndex].value != value&&c!=0) {
-println("b4")
-                    absoluteindex += data[firstIndex].count
-                    firstIndex++
-                } else {
-println("b5")
                     firstIndexLocal = idx
-                }
                 break
             } else {
 println("b6")
