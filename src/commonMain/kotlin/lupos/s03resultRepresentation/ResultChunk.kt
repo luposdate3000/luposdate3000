@@ -4,9 +4,11 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
+import lupos.s00misc.Coverage
 open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(resultSet, columns) {
     companion object {
         operator fun invoke(resultSet: ResultSet): ResultChunk {
+Coverage.funStart(60)
             val columns = resultSet.getVariableNames().size
             if (columns == 0)
                 return ResultChunkNoColumns(resultSet, columns)
@@ -14,6 +16,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun removeFirst(root: ResultChunk): ResultChunk? {
+Coverage.funStart(61)
             if (root.next == root)
                 return null
             val res = root.next
@@ -23,6 +26,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun split(root: ResultChunk, count: Int): ResultChunk {
+Coverage.funStart(62)
             require(count > 0)
             var other = root
             for (i in 0 until count)
@@ -37,6 +41,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun append(rootLast: ResultChunk, other: ResultChunk): ResultChunk {
+Coverage.funStart(63)
             val root = rootLast.next
             val otherLast = other.prev
             rootLast.next = other
@@ -47,17 +52,20 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun copy(from: ResultChunk, target: ResultChunk, count: Int): ResultChunk {
+Coverage.funStart(64)
             require(count > 0)
             val resultSet = from.resultSet
             val columns = from.columns
             var targetLast = target
             var available = targetLast.availableWrite()
             if (available == 0) {
+Coverage.ifStart(65)
                 targetLast = append(targetLast, ResultChunk(resultSet, columns))
                 available = ResultVektor.capacity
             }
             var cnt = count
             while (available < cnt) {
+Coverage.whileLoopStart(66)
                 targetLast.copy(from, available)
                 cnt -= available
                 targetLast = append(targetLast, ResultChunk(resultSet, columns))
@@ -68,19 +76,25 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
+Coverage.funStart(67)
             var targetLast = target
             loop@ while (a.availableRead() > 0 && b.availableRead() > 0) {
+Coverage.whileLoopStart(68)
                 var cmp = 0
                 for (i in columnOrder) {
+Coverage.forLoopStart(69)
                     val vala = a.data[i.toInt()].current()
                     val valb = b.data[i.toInt()].current()
                     if (vala != valb) {
+Coverage.ifStart(70)
                         cmp = comparator[i.toInt()].compare(vala, valb)
                         require(cmp != 0)
                         if (cmp < 0) {
+Coverage.ifStart(71)
                             var count = a.data[i.toInt()].sameElements()
                             targetLast = copy(a, targetLast, count)
                         } else {
+Coverage.ifStart(72)
                             var count = b.data[i.toInt()].sameElements()
                             targetLast = copy(b, targetLast, count)
                         }
@@ -88,6 +102,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                     }
                 }
                 if (cmp == 0) {
+Coverage.ifStart(73)
                     val i = columnOrder[columnOrder.size - 1]
                     var countA = a.data[i.toInt()].sameElements()
                     targetLast = copy(a, targetLast, countA)
@@ -99,30 +114,37 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
+Coverage.funStart(74)
             var chunkCount = 1
             var tmp = chunks.next
             while (tmp != chunks) {
+Coverage.whileLoopStart(75)
                 chunkCount++
                 tmp = tmp.next
             }
             if (chunkCount == 1) {
+Coverage.ifStart(76)
                 val resultSet = chunks.resultSet
                 val columns = chunks.columns
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (chunks.hasNext()) {
+Coverage.whileLoopStart(77)
                     val same = chunks.sameElements()
                     if (resLast.availableWrite() < 2) {
+Coverage.ifStart(78)
                         resLast = append(resLast, ResultChunk(resultSet, columns))
                     }
                     resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
                     chunks.skipPos(same)
                 }
                 if (res != res.next) {
+Coverage.ifStart(79)
                     return sort(comparator, columnOrder, res)
                 }
                 return res
             } else {
+Coverage.ifStart(80)
                 val half = chunkCount / 2
                 var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
                 var b: ResultChunk? = sort(comparator, columnOrder, chunks)
@@ -131,35 +153,46 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (true) {
+Coverage.whileLoopStart(81)
                     resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
                     if (a.hasNext()) {
+Coverage.ifStart(82)
                         b = removeFirst(b)
                         if (b == null) {
+Coverage.ifStart(83)
                             break
                         }
                     } else {
+Coverage.ifStart(84)
                         a = removeFirst(a)
                         if (a == null) {
+Coverage.ifStart(85)
                             break
                         }
                     }
                 }
                 if (a != null) {
+Coverage.ifStart(86)
                     var count = a!!.availableRead()
                     if (count > 0) {
+Coverage.ifStart(87)
                         resLast = copy(a, resLast, count)
                     }
                     a = removeFirst(a)
                     if (a != null) {
+Coverage.ifStart(88)
                         append(resLast, a)
                     }
                 } else {
+Coverage.ifStart(89)
                     var count = b!!.availableRead()
                     if (count > 0) {
+Coverage.ifStart(90)
                         resLast = copy(b!!, resLast, count)
                     }
                     b = removeFirst(b)
                     if (b != null) {
+Coverage.ifStart(91)
                         append(resLast, b!!)
                     }
                 }
@@ -172,9 +205,11 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
     var next = this
 
     fun chunkCount(): Int {
+Coverage.funStart(92)
         var res = 1
         var tmp = this.next
         while (tmp != this) {
+Coverage.whileLoopStart(93)
             res++
             tmp = tmp.next
         }
@@ -182,12 +217,14 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
     }
 
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
+Coverage.funStart(94)
         var columnidx = columnOrder[0].toInt()
         var column = data[columnidx]
         var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)
         var first = idx.first
         var last = first + idx.second - count
         for (i in 1 until columns) {
+Coverage.forLoopStart(95)
             columnidx = columnOrder[i].toInt()
             column = data[columnidx]
             idx = column.insertSorted(values[columnidx], first, last, comparator[columnOrder[i].toInt()], count)

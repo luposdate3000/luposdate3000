@@ -3,9 +3,11 @@ package lupos.s03resultRepresentation
 import lupos.s00misc.*
 
 
+import lupos.s00misc.Coverage
 object ResultVektorTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
+Coverage.funStart(183)
             if (a < b)
                 return -1
             if (a == b)
@@ -25,6 +27,7 @@ object ResultVektorTest {
     class NoMoreRandomException() : Exception("")
 
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
+Coverage.funStart(184)
         try {
             val res = buffer.getNextInt() % max
             if (positiveOnly && res < 0)
@@ -44,11 +47,13 @@ object ResultVektorTest {
     }
 
     fun log(s: String) {
+Coverage.funStart(185)
         if (verbose)
             println(s)
     }
 
     operator fun invoke(buffer: DynamicByteArray) {
+Coverage.funStart(186)
         var expectException = false
         log("start")
         try {
@@ -56,6 +61,7 @@ object ResultVektorTest {
             require(ResultVektor.capacity > 0)
             val helpers = Array(MAX_LISTS) { ResultVektorTestHelper() }
             while (true) {
+Coverage.whileLoopStart(187)
                 expectException = false
                 val helperIdx = nextRandom(buffer, MAX_LISTS, true)
                 val helper = helpers[helperIdx]
@@ -80,9 +86,11 @@ object ResultVektorTest {
                         helper.vektor.skipSize(count)
                         helper.size += count
                         if (count > 0) {
+Coverage.ifStart(188)
                             for (i in 0 until count)
                                 helper.kotlinList.add(DONT_CARE_VALUE)
                         } else {
+Coverage.ifStart(189)
                             if (!expectException)
                                 for (i in 0 until -count)
                                     helper.kotlinList.removeAt(helper.kotlinList.size - 1)
@@ -137,6 +145,7 @@ object ResultVektorTest {
                         var helperValue = DONT_CARE_VALUE
                         val tmp = helper.vektor.sameElements()
                         while (same != lastsame && same != tmp) {
+Coverage.whileLoopStart(190)
                             if (helperValue == DONT_CARE_VALUE)
                                 helperValue = helper.kotlinList[helper.pos]
                             while (helper.pos + same < helper.size && helperValue == helper.kotlinList[helper.pos + same])
@@ -171,12 +180,15 @@ object ResultVektorTest {
                         helper.vektor.skipPos(-helper.pos)
                         helper.pos = 0
                         if (helper.kotlinList[last] == DONT_CARE_VALUE) {
+Coverage.ifStart(191)
                             helper.vektor.skipPos(last)
                             helper.kotlinList[last] = helper.vektor.current()
                             helper.vektor.skipPos(-last)
                         }
                         while (last < lastTarget) {
+Coverage.whileLoopStart(192)
                             if (helper.kotlinList[last + 1] == DONT_CARE_VALUE) {
+Coverage.ifStart(193)
                                 helper.vektor.skipPos(last + 1)
                                 helper.kotlinList[last + 1] = helper.vektor.current()
                                 helper.vektor.skipPos(-last - 1)
@@ -228,6 +240,7 @@ object ResultVektorTest {
                         helper.size += count
                     }
                     else -> {
+Coverage.ifStart(194)
                         require(func < FUNCTION_COUNT)
                     }
                 }
@@ -238,8 +251,10 @@ object ResultVektorTest {
                 log(helper.kotlinList.toString())
                 log("\n")
                 for (helper in helpers) {
+Coverage.forLoopStart(195)
                     helper.vektor.skipPos(-helper.pos)
                     for (i in 0 until helper.size) {
+Coverage.forLoopStart(196)
                         val v = helper.vektor.next()
                         var l = i - 5
                         var r = i + 6
