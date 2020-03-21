@@ -37,9 +37,7 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
                         return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     } else {
                         Coverage.ifStart(287)
-                        throw Exception("AOPVariable cannot identify type #${tmp}#") {
-                            Coverage.ifStart(288)
-                        }
+                        throw Exception("AOPVariable unknown type #${tmp}#") 
                     }
                 }
                 else -> {
