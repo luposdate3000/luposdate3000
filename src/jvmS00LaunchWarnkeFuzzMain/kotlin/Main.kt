@@ -70,7 +70,10 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         testnumber++
         counter--
         if (counter == 0) {
-            datasize = (datasize * 1.2).toInt() + 1
+            if (datasize < 1000)
+                datasize += 4
+            else
+                datasize = (datasize * 1.2).toInt() + 1
             counter = datasize
             println("changed datasize to $datasize for $counter tests")
         }

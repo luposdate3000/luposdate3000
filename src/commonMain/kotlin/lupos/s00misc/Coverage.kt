@@ -41,7 +41,9 @@ object Coverage {
         if (verbose)
             println("ifStart $counter")
     }
-
+fun statementStart(counter: Int) {
+        counters[counter]++
+    }
     override fun toString(): String {
         val res = StringBuilder()
         for (k in 0 until counters.size) {

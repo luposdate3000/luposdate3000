@@ -1,234 +1,296 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
-
 open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterator<ResultRow> {
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
     open fun availableWrite(): Int {
-        Coverage.funStart(0)
+Coverage.funStart(0)
         var res = data[0].availableWrite()
+Coverage.statementStart(1)
         for (i in 1 until columns) {
-            Coverage.forLoopStart(1)
+Coverage.forLoopStart(2)
             val tmp = data[i].availableWrite()
+Coverage.statementStart(3)
             if (res > tmp) {
-                Coverage.ifStart(2)
+Coverage.ifStart(4)
                 res = tmp
+Coverage.statementStart(5)
             }
+Coverage.statementStart(6)
         }
+Coverage.statementStart(7)
         return res
     }
-
     open fun availableRead(): Int = data[0].availableRead()
     fun append(row: ResultRow, count: Int = 1) {
-        Coverage.funStart(3)
+Coverage.funStart(8)
         require(count > 0)
+Coverage.statementStart(9)
         for (i in 0 until columns) {
-            Coverage.forLoopStart(4)
+Coverage.forLoopStart(10)
             data[i].append(row.values[i], count)
+Coverage.statementStart(11)
         }
+Coverage.statementStart(12)
     }
-
     fun append(values: Array<Value>, count: Int = 1) {
-        Coverage.funStart(5)
+Coverage.funStart(13)
         require(count > 0)
+Coverage.statementStart(14)
         for (i in 0 until columns) {
-            Coverage.forLoopStart(6)
+Coverage.forLoopStart(15)
             data[i].append(values[i], count)
+Coverage.statementStart(16)
         }
+Coverage.statementStart(17)
     }
-
     fun backupPosition() {
-        Coverage.funStart(7)
+Coverage.funStart(18)
         for (i in 0 until columns) {
-            Coverage.forLoopStart(8)
+Coverage.forLoopStart(19)
             data[i].backupPosition()
+Coverage.statementStart(20)
         }
+Coverage.statementStart(21)
     }
-
     fun canAppend() = availableWrite() > 0
     fun current(columns: Array<Variable>) = Array(columns.size) { data[columns[it].toInt()].current() }
     fun current() = Array(columns) { data[it].current() }
     open fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunkBase, columnsFrom: Array<Variable>, count: Int) {
-        Coverage.funStart(9)
+Coverage.funStart(22)
         for (c in 0 until columnsTo.size) {
-            Coverage.forLoopStart(10)
+Coverage.forLoopStart(23)
             val colTo = data[columnsTo[c].toInt()]
+Coverage.statementStart(24)
             val colFrom = chunkFrom.data[columnsFrom[c].toInt()]
+Coverage.statementStart(25)
             colTo.copy(colFrom, count)
+Coverage.statementStart(26)
         }
+Coverage.statementStart(27)
     }
-
     open fun copy(chunkFrom: ResultChunkBase, count: Int) {
-        Coverage.funStart(11)
+Coverage.funStart(28)
         require(count > 0)
+Coverage.statementStart(29)
         for (c in 0 until columns) {
-            Coverage.forLoopStart(12)
+Coverage.forLoopStart(30)
             val colTo = data[c]
+Coverage.statementStart(31)
             val colFrom = chunkFrom.data[c]
+Coverage.statementStart(32)
             colTo.copy(colFrom, count)
+Coverage.statementStart(33)
         }
+Coverage.statementStart(34)
     }
-
     open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
-        Coverage.funStart(13)
+Coverage.funStart(35)
         require(count > 0)
+Coverage.statementStart(36)
         for (c in 0 until columnsTo.size) {
-            Coverage.forLoopStart(14)
+Coverage.forLoopStart(37)
             val colTo = data[columnsTo[c].toInt()]
+Coverage.statementStart(38)
             val valFrom = arrFrom[columnsFrom[c].toInt()]
+Coverage.statementStart(39)
             colTo.append(valFrom, count)
+Coverage.statementStart(40)
         }
+Coverage.statementStart(41)
     }
-
     open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
-        Coverage.funStart(15)
+Coverage.funStart(42)
         require(count > 0)
+Coverage.statementStart(43)
         for (c in 0 until columnsTo.size) {
-            Coverage.forLoopStart(16)
+Coverage.forLoopStart(44)
             val colTo = data[columnsTo[c].toInt()]
+Coverage.statementStart(45)
             val valFrom = arrFrom[columnsFrom[c].toInt()]
+Coverage.statementStart(46)
             if (valFrom != resultSet.dictionary.undefValue) {
-                Coverage.ifStart(17)
+Coverage.ifStart(47)
                 colTo.append(valFrom, count)
+Coverage.statementStart(48)
             } else {
-                Coverage.ifStart(18)
+Coverage.ifStart(49)
                 colTo.append(arrFromAlternative[c], count)
+Coverage.statementStart(50)
             }
+Coverage.statementStart(51)
         }
+Coverage.statementStart(52)
     }
-
     fun getColumn(variable: Variable) = data[variable.toInt()]
     override fun hasNext() = data[0].hasNext()
     override fun next(): ResultRow {
-        Coverage.funStart(19)
+Coverage.funStart(53)
         val row = resultSet.createResultRow()
+Coverage.statementStart(54)
         for (i in 0 until columns) {
-            Coverage.forLoopStart(20)
+Coverage.forLoopStart(55)
             row.values[i] = data[i].next()
+Coverage.statementStart(56)
         }
+Coverage.statementStart(57)
         return row
     }
-
     open fun nextArr() = Array(columns) { data[it].next() }
     fun setColumn(variable: Variable, col: ResultVektor) {
-        Coverage.funStart(21)
+Coverage.funStart(58)
         data[variable.toInt()] = col
+Coverage.statementStart(59)
     }
-
     fun restorePosition() {
-        Coverage.funStart(22)
+Coverage.funStart(60)
         for (i in 0 until columns) {
-            Coverage.forLoopStart(23)
+Coverage.forLoopStart(61)
             data[i].restorePosition()
+Coverage.statementStart(62)
         }
+Coverage.statementStart(63)
     }
-
     fun sameElements(columns: Array<Variable>): Int {
-        Coverage.funStart(24)
+Coverage.funStart(64)
         var res = availableRead()
+Coverage.statementStart(65)
         for (i in columns) {
-            Coverage.forLoopStart(25)
+Coverage.forLoopStart(66)
             val t = data[i.toInt()].sameElements()
+Coverage.statementStart(67)
             if (t < res) {
-                Coverage.ifStart(26)
+Coverage.ifStart(68)
                 res = t
+Coverage.statementStart(69)
             }
+Coverage.statementStart(70)
         }
+Coverage.statementStart(71)
         return res
     }
-
     fun sameElements(): Int {
-        Coverage.funStart(27)
+Coverage.funStart(72)
         var res = availableRead()
+Coverage.statementStart(73)
         for (i in 0 until columns) {
-            Coverage.forLoopStart(28)
+Coverage.forLoopStart(74)
             val t = data[i].sameElements()
+Coverage.statementStart(75)
             if (t < res) {
-                Coverage.ifStart(29)
+Coverage.ifStart(76)
                 res = t
+Coverage.statementStart(77)
             }
+Coverage.statementStart(78)
         }
+Coverage.statementStart(79)
         return res
     }
-
     open fun skipPos(columns: Array<Variable>, count: Int) {
-        Coverage.funStart(30)
+Coverage.funStart(80)
         require(count != 0)
+Coverage.statementStart(81)
         for (c in 0 until columns.size) {
-            Coverage.forLoopStart(31)
+Coverage.forLoopStart(82)
             data[columns[c].toInt()].skipPos(count)
+Coverage.statementStart(83)
         }
+Coverage.statementStart(84)
     }
-
     open fun skipSize(columns: Array<Variable>, count: Int) {
-        Coverage.funStart(32)
+Coverage.funStart(85)
         require(count != 0)
+Coverage.statementStart(86)
         for (c in 0 until columns.size) {
-            Coverage.forLoopStart(33)
+Coverage.forLoopStart(87)
             data[columns[c].toInt()].skipSize(count)
+Coverage.statementStart(88)
         }
+Coverage.statementStart(89)
     }
-
     open fun skipPos(count: Int) {
-        Coverage.funStart(34)
+Coverage.funStart(90)
         require(count != 0)
+Coverage.statementStart(91)
         for (c in 0 until columns) {
-            Coverage.forLoopStart(35)
+Coverage.forLoopStart(92)
             data[c].skipPos(count)
+Coverage.statementStart(93)
         }
+Coverage.statementStart(94)
     }
-
     open fun skipSize(count: Int) {
-        Coverage.funStart(36)
+Coverage.funStart(95)
         require(count != 0)
+Coverage.statementStart(96)
         for (c in 0 until columns) {
-            Coverage.forLoopStart(37)
+Coverage.forLoopStart(97)
             data[c].skipSize(count)
+Coverage.statementStart(98)
         }
+Coverage.statementStart(99)
     }
-
     override fun toString(): String {
-        Coverage.funStart(38)
+Coverage.funStart(100)
         val res = StringBuilder()
+Coverage.statementStart(101)
         res.append("" + availableRead() + "r" + availableWrite() + "w")
+Coverage.statementStart(102)
         for (c in 0 until columns) {
-            Coverage.forLoopStart(39)
+Coverage.forLoopStart(103)
             res.append("(${resultSet.getVariableNames()[c]},${data[c].posIndex},${data[c].sizeIndex},${data[c].posAbsolute},${data[c].sizeAbsolute},${data[c].posIndexLocal} ${data[c].availableRead()} ${data[c].availableWrite()}), ")
+Coverage.statementStart(104)
         }
+Coverage.statementStart(105)
         res.append("\n")
+Coverage.statementStart(106)
         if (columns > 0) {
-            Coverage.ifStart(40)
+Coverage.ifStart(107)
             for (r in 0 until ResultVektor.capacity) {
-                Coverage.forLoopStart(41)
+Coverage.forLoopStart(108)
                 var flag = 0
+Coverage.statementStart(109)
                 for (c in 0 until columns) {
-                    Coverage.forLoopStart(42)
+Coverage.forLoopStart(110)
                     res.append(data[c].data[r].value)
+Coverage.statementStart(111)
                     if (r >= data[c].posIndex && r <= data[c].sizeIndex && data[c].data[r].count > 0) {
-                        Coverage.ifStart(43)
+Coverage.ifStart(112)
                         if (r == data[c].posIndex && data[c].posIndexLocal != 0) {
-                            Coverage.ifStart(44)
+Coverage.ifStart(113)
                             res.append("(${data[c].data[r].count - data[c].posIndexLocal})<${data[c].data[r].count}>")
+Coverage.statementStart(114)
                         } else {
-                            Coverage.ifStart(45)
+Coverage.ifStart(115)
                             res.append("(${data[c].data[r].count})")
+Coverage.statementStart(116)
                         }
+Coverage.statementStart(117)
                         res.append(", ")
+Coverage.statementStart(118)
                     } else {
-                        Coverage.ifStart(46)
+Coverage.ifStart(119)
                         res.append("<${data[c].data[r].count}>, ")
+Coverage.statementStart(120)
                         flag++
+Coverage.statementStart(121)
                     }
+Coverage.statementStart(122)
                 }
+Coverage.statementStart(123)
                 res.append("\n")
+Coverage.statementStart(124)
                 if (flag == columns && r > 4) {
-                    Coverage.ifStart(47)
+Coverage.ifStart(125)
                     break
                 }
+Coverage.statementStart(126)
             }
+Coverage.statementStart(127)
         }
+Coverage.statementStart(128)
         return res.toString()
     }
 }

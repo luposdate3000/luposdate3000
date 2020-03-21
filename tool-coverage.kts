@@ -7,14 +7,17 @@ val regexWhileLoopBracket = ".*s*while.*\\{\\s*".toRegex()
 val regexForEachLoopBracket = ".*s*forEach.*\\{\\s*".toRegex()
 val regexForLoopBracket = ".*s*for.*\\{\\s*".toRegex()
 val regexIfBracket = ".*s*(if|else).*\\{\\s*".toRegex()
+val regexWhenBracket = ".*s*when.*\\{\\s*".toRegex()
 val regexWhileLoop = ".*s*while.*".toRegex()
 val regexForLoop = ".*s*for.*".toRegex()
 val regexIf = ".*s*(if|else).*".toRegex()
 val regexWhenCaseBracket = ".*s*->\\s*\\{.*".toRegex()
 val regexWhenCase = ".*s*->.*".toRegex()
+val regexReturn = "\\s*(return|break|continue|throw).*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
 val coverageMap = mutableMapOf<Int, String>()
 var counter = 0
+val whenBrackets=mutableListOf<Int>()
 
 enum class CoverageMode {
     Enable, Disable
@@ -44,6 +47,10 @@ fun appendCoverageWhenCase(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
 
+fun appendCoverageStatement(filename: String, counter: Int, linenumber: Int) {
+    coverageMap[counter] = "$filename:$linenumber"
+}
+
 var coveragemode = CoverageMode.Enable
 for (arg in args) {
     if (!arg.endsWith("Coverage.kt")) {
@@ -54,7 +61,7 @@ for (arg in args) {
             val fileTarget = File(arg + ".tmp")
             fileTarget.printWriter().use { out ->
                 when (coveragemode) {
-                    CoverageMode.Enable -> addCoverage(arg, fileSource.bufferedReader().readLines()).forEach {
+                    CoverageMode.Enable -> addCoverage(arg, removeCoverage(fileSource.bufferedReader().readLines())).forEach {
                         out.println(it)
                     }
                     CoverageMode.Disable -> removeCoverage(fileSource.bufferedReader().readLines()).forEach {
@@ -78,14 +85,20 @@ File("src/commonMain/kotlin/lupos/s00misc/CoverageMapGenerated.kt").printWriter(
     out.println(")")
 }
 
+
 fun addCoverage(filename: String, lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     var appendClosingBracket = 0
     var hadPackage = false
     var hadImport = false
     var hadCoverageImport = false
+    var openBracketsFunction = Int.MAX_VALUE
+    var openBrackets = 0
     lines.forEach {
-        val line = it.replace(regexCoverage, "")
+        val line = it
+        if (res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size-1]))&&(!whenBrackets.contains(openBrackets-1))) {
+            res.add("Coverage.statementStart(${counter++})")
+        }
         if (line.startsWith("package "))
             hadPackage = true
         else if (line.startsWith("import ")) {
@@ -97,12 +110,27 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
                 res.add(coverageImport)
             hadCoverageImport = true
         }
+        for (i in 0 until line.length) {
+            if (line[i] == '{')
+                openBrackets++
+            if (line[i] == '}') {
+                openBrackets--
+                if (openBrackets < openBracketsFunction)
+                    openBracketsFunction = Int.MAX_VALUE
+		whenBrackets.remove(openBrackets)
+            }
+        }
         when {
+regexWhenBracket.matches(line) -> {
+res.add(line)
+whenBrackets.add(openBrackets-1)
+}
             regexFunBracket.matches(line) -> {
                 require(appendClosingBracket == 0, { "$filename ${res.size}" })
                 res.add(line)
                 appendCoverageFun(filename, counter, res.size)
                 res.add("Coverage.funStart(${counter++})")
+                openBracketsFunction = openBrackets
             }
             regexWhileLoopBracket.matches(line) -> {
                 require(appendClosingBracket == 0, { "$filename ${res.size}" })
@@ -183,7 +211,8 @@ fun removeCoverage(lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     lines.forEach {
         val line = it.replace(regexCoverage, "")
-        res.add(line)
+        if(!regexSpace.matches(line))
+            res.add(line)
     }
     return res
 }
