@@ -2,6 +2,7 @@ package lupos.s03resultRepresentation
 
 import lupos.s00misc.*
 
+
 object ResultVektorTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {

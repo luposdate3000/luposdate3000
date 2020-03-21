@@ -118,23 +118,18 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun canAppend() = availableWrite() > 0
 
     fun append(value: Value, count: Int = 1) {
-println("d0 $count")
-        require(sizeIndex < capacity - 1 &&count>0)
-if(sizeAbsolute==0){
-println("d1")
+        require(sizeIndex < capacity - 1 && count > 0)
+        if (sizeAbsolute == 0) {
             data[sizeIndex].count = count
             data[sizeIndex].value = value
-}else        if (data[sizeIndex].value == value){
-println("d2")
+        } else if (data[sizeIndex].value == value) {
             data[sizeIndex].count += count
-}        else {
-println("d3")
+        } else {
             sizeIndex++
             data[sizeIndex].count = count
             data[sizeIndex].value = value
         }
         sizeAbsolute += count
-println("d4 $sizeAbsolute")
     }
 
     fun sameElements(): Int {
@@ -174,11 +169,10 @@ println("d4 $sizeAbsolute")
     }
 
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute, comparator: Comparator<Value>, count: Int): Pair<Int, Int> {
-println("b1")
-if(sizeAbsolute==0){
-append(value,count)
-return Pair(0,count)
-}
+        if (sizeAbsolute == 0) {
+            append(value, count)
+            return Pair(0, count)
+        }
         require(availableWrite() >= 2)
         require(count > 0)
         posAbsolute = 0
@@ -191,25 +185,20 @@ return Pair(0,count)
         var lastIndexLocal = 0
         var idx = first
         var absoluteindex = 0
-        while (idx>0) {
-println("b2")
+        while (idx > 0) {
             val c = data[firstIndex].count
-if(c==0){
-println("b25")
-firstIndexLocal = idx
-break
-}else            if (c == idx) {
-println("b26")
-firstIndexLocal = 0
-absoluteindex=first
-firstIndex++
-break
-}else            if (c > idx) {
-println("b3")
-                    firstIndexLocal = idx
+            if (c == 0) {
+                firstIndexLocal = idx
+                break
+            } else if (c == idx) {
+                firstIndexLocal = 0
+                absoluteindex = first
+                firstIndex++
+                break
+            } else if (c > idx) {
+                firstIndexLocal = idx
                 break
             } else {
-println("b6")
                 absoluteindex += data[firstIndex].count
                 idx -= c
                 firstIndex++
@@ -220,29 +209,23 @@ println("b6")
         idx = last - first + 1//maximaler noch zu gehende index
         var currentidx = first
         while (true) {
-println("b7 $absoluteindex $last")
-if (data[lastIndex].value == value) {
-println("b13")
+            if (data[lastIndex].value == value) {
                 data[lastIndex].count += count
                 return Pair(absoluteindex, data[lastIndex].count)
-            } else            if (absoluteindex == last) {
-println("b8")
+            } else if (absoluteindex == last) {
                 var j = sizeIndex
                 while (j >= lastIndex) {
-println("b9")
                     data[j + 1].count = data[j].count
                     data[j + 1].value = data[j].value
                     j--
                 }
-                data[lastIndex ].value = value
-                data[lastIndex ].count = count
+                data[lastIndex].value = value
+                data[lastIndex].count = count
                 sizeIndex++
                 return Pair(last, count)
-            } else if (absoluteindex + data[lastIndex].count > last&&comparator.compare(data[lastIndex].value, value) < 0) {
-println("b10")
+            } else if (absoluteindex + data[lastIndex].count > last && comparator.compare(data[lastIndex].value, value) < 0) {
                 var j = sizeIndex
                 while (j >= lastIndex) {
-println("b11")
                     data[j + 2].count = data[j].count
                     data[j + 2].value = data[j].value
                     j--
@@ -254,21 +237,17 @@ println("b11")
                 sizeIndex += 2
                 return Pair(last, count)
             } else if (lastIndex > sizeIndex) {
-println("b12")
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
                 return Pair(absoluteindex, count)
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
-println("b14")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
                 if (currentidx - last - 1 == data[lastIndex].count) {
-println("b15")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("b16")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
@@ -278,11 +257,9 @@ println("b16")
                     sizeIndex++
                     return Pair(absoluteindex, count)
                 } else if (c > idx) {
-println("b17")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("b18")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -295,19 +272,15 @@ println("b18")
                     absoluteindex += data[lastIndex].count
                     return Pair(absoluteindex, count)
                 } else {
-println("b19")
                     idx -= c
                     lastIndexLocal = 0
                     absoluteindex += data[lastIndex].count
                     lastIndex++
                 }
             } else {
-println("b20")
                 if (firstIndexLocal != 0) {
-println("b21")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("b22")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -320,10 +293,8 @@ println("b22")
                     absoluteindex += data[lastIndex].count
                     return Pair(absoluteindex, count)
                 } else {
-println("b23")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("b24")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--

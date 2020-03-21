@@ -2,6 +2,7 @@ package lupos.s03resultRepresentation
 
 import lupos.s00misc.*
 
+
 object ResultChunkTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
@@ -71,38 +72,27 @@ object ResultChunkTest {
         var tmp = chunk
         log("" + kotlinList.map { it.map { it }.toString() + "\n" })
         log("" + tmp)
-println("c1 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         tmp.backupPosition()
-println("c2 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         for (i in 0 until kotlinList.size) {
-println("c7 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
-while(tmp.availableRead() == 0){
-println("c8 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
-tmp.restorePosition()
-tmp = tmp.next
-tmp.backupPosition()
-log("" + tmp)
-if(tmp==chunk)
-break
-}
-println("c9 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
+            while (tmp.availableRead() == 0) {
+                tmp.restorePosition()
+                tmp = tmp.next
+                tmp.backupPosition()
+                log("" + tmp)
+                if (tmp == chunk)
+                    break
+            }
             val v = tmp.nextArr()
             val w = kotlinList[i]
             require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }}" })
             if (tmp.availableRead() == 0) {
-println("c3 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 tmp.restorePosition()
-println("c4 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 tmp = tmp.next
-println("c5 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 tmp.backupPosition()
-println("c6 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 log("" + tmp)
             }
         }
-println("c7 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         tmp.restorePosition()
-println("c8 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         require(tmp == chunk)
     }
 

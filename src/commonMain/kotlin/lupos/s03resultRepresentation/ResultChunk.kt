@@ -66,25 +66,19 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
-            println("a")
             var targetLast = target
             loop@ while (a.hasNext() && b.hasNext()) {
-                println("b")
                 var cmp = 0
                 for (i in columnOrder) {
-                    println("c")
                     val vala = a.data[i.toInt()].current()
                     val valb = b.data[i.toInt()].current()
                     if (vala != valb) {
-                        println("d")
                         cmp = comparator[i.toInt()].compare(vala, valb)
                         require(cmp != 0)
                         if (cmp < 0) {
-                            println("e")
                             var count = a.data[i.toInt()].sameElements()
                             targetLast = copy(a, targetLast, count)
                         } else {
-                            println("f")
                             var count = b.data[i.toInt()].sameElements()
                             targetLast = copy(b, targetLast, count)
                         }
@@ -92,7 +86,6 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                     }
                 }
                 if (cmp == 0) {
-                    println("g")
                     val i = columnOrder[columnOrder.size - 1]
                     var countA = a.data[i.toInt()].sameElements()
                     targetLast = copy(a, targetLast, countA)
@@ -107,33 +100,24 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             var chunkCount = 1
             var tmp = chunks.next
             while (tmp != chunks) {
-                println("h")
                 chunkCount++
                 tmp = tmp.next
             }
             if (chunkCount == 1) {
-                println("i")
                 val resultSet = chunks.resultSet
                 val columns = chunks.columns
                 val res = ResultChunk(resultSet, columns)
-println("x1 $res")
                 var resLast = res
                 while (chunks.hasNext()) {
-                    println("j")
                     val same = chunks.sameElements()
                     if (resLast.availableWrite() < 2) {
-                        println("k")
                         resLast = append(resLast, ResultChunk(resultSet, columns))
-println("x2 $res")
                     }
                     resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
-println("x3 $res")
                     chunks.skipPos(same)
                 }
-println("x4 $res")
                 return res
             } else {
-                println("l")
                 val half = chunkCount / 2
                 var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
                 var b: ResultChunk? = sort(comparator, columnOrder, chunks)
@@ -142,31 +126,24 @@ println("x4 $res")
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (true) {
-                    println("m")
                     resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
                     if (a.hasNext()) {
-                        println("n")
                         b = removeFirst(b)
                         if (b == null) {
-                            println("o")
                             break
                         }
                     } else {
-                        println("p")
                         a = removeFirst(a)
                         if (a == null) {
-                            println("a")
                             break
                         }
                     }
                 }
                 if (a != null) {
-                    println("q")
                     var count = a!!.availableRead()
                     resLast = copy(a, resLast, count)
                     append(resLast, a)
                 } else {
-                    println("r")
                     var count = b!!.availableRead()
                     resLast = copy(b!!, resLast, count)
                     append(resLast, b!!)
@@ -190,23 +167,20 @@ println("x4 $res")
     }
 
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
-        println("s ${values.map { it }} $count ${columnOrder.map { it }}")
         var columnidx = columnOrder[0].toInt()
         var column = data[columnidx]
         var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)
         var first = idx.first
         var last = first + idx.second - count
         for (i in 1 until columns) {
-            println("t $first $last $idx $columnidx")
             columnidx = columnOrder[i].toInt()
             column = data[columnidx]
             idx = column.insertSorted(values[columnidx], first, last, comparator[columnOrder[i].toInt()], count)
-if(idx.first>first)
-first=idx.first
-if(last>first + idx.second - count)
-last=first + idx.second - count
+            if (idx.first > first)
+                first = idx.first
+            if (last > first + idx.second - count)
+                last = first + idx.second - count
         }
-println("y1 $this")
     }
 }
 
