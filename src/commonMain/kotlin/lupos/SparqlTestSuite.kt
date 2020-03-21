@@ -42,7 +42,6 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 class SparqlTestSuite() {
     @JvmField
     val errorBoundForDecimalsDigits = 6
@@ -53,7 +52,6 @@ class SparqlTestSuite() {
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-
             val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
             val inputDataFile = "resources/sp2b/sp2b.n3"
             for (f in sp2bFiles) {
@@ -62,7 +60,6 @@ class SparqlTestSuite() {
                 val resultFile = "resources/sp2b/$f.srj"
                 parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
             }
-
         }
         GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace" })
         Trace.print()
@@ -77,7 +74,6 @@ class SparqlTestSuite() {
         val nil_iri = Dictionary.IRI(nil)
         val first_iri = Dictionary.IRI(first)
         val rest_iri = Dictionary.IRI(rest)
-
         fun recursiveListMembers(current: Long) {
             data.sp(current, first_iri).forEach { f(it) }
             data.sp(current, rest_iri).forEach {
@@ -86,7 +82,6 @@ class SparqlTestSuite() {
                 }
             }
         }
-
         recursiveListMembers(start)
     }
 
@@ -113,11 +108,8 @@ class SparqlTestSuite() {
         var numberOfTests = 0
         GlobalLogger.log(ELoggerType.DEBUG, { "Reading file " + filename + "..." })
         val data = createSevenIndices(prefix + filename)
-
         val newprefix = prefix + filename.substringBeforeLast("/") + "/"
-
         val manifestEntries = data.po(Dictionary.IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest"))
-
         manifestEntries.forEach {
             // Are other manifest files included?
             val included = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include"))
@@ -627,7 +619,6 @@ class SevenIndices {
     fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
     fun spo(key1: Long, key2: Long, key3: Long): Boolean = this.spo(ID_Triple(key1, key2, key3))
     fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
-
     fun distinct() {
         distinctOneKeyMap(this.s)
         distinctOneKeyMap(this.p)

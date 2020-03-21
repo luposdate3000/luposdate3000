@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ThreadSafeMutableList<T>(values: MutableList<T> = mutableListOf<T>()) {
     val mutex = ReadWriteLock()
     val global_values = AtomicReference(values.freeze())

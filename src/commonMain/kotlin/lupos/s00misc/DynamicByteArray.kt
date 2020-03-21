@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 class DynamicByteArray {
     companion object {
@@ -136,6 +135,4 @@ class DynamicByteArray {
         pos += l
         return res
     }
-
 }
-

@@ -89,7 +89,6 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
-
 enum class TestCase(val action: (DynamicByteArray) -> Unit) {
     //    Sparql(::executeBinaryTest),
     ResultVektor(ResultVektorTest::invoke),
@@ -137,12 +136,10 @@ val MAX_LIMIT = 100
 val MAX_OFFSET = 100
 val MAX_TRIPLES = 100
 val MAX_GRAPH_NAMES = 10
-
 val testDictionaryVarName = ThreadSafeMutableList<String?>()
 val testDictionaryValue = ThreadSafeMutableList<String?>()
 val testDictionaryValueTyped = ThreadSafeMutableMap<ValueEnum, ThreadSafeMutableList<String?>>()
 var hadArrayIndexOutOfBoundsException = false
-
 fun fromBinaryListOfVariables(query: Query, buffer: DynamicByteArray, count: Int): MutableList<AOPVariable> {
     var res = mutableListOf<AOPVariable>()
     for (i in 0 until count)
@@ -274,7 +271,6 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
             operatorID = EOperatorIDPOP[id % EOperatorIDPOP.size]
         else
             operatorID = EOperatorID.values()[id]
-
         when (operatorID) {
             EOperatorID.POPServiceIRIID -> {
                 return fromBinaryPOP(query, buffer)
@@ -633,7 +629,6 @@ fun fromBinaryAOP(query: Query, buffer: DynamicByteArray): AOPBase {
             operatorID = EOperatorIDAOP[id % EOperatorIDAOP.size]
         else
             operatorID = EOperatorID.values()[id]
-
         when (operatorID) {
             EOperatorID.AOPBuildInCallIsIriID -> {
                 val child = fromBinaryAOP(query, buffer)
@@ -963,7 +958,6 @@ fun executeBinaryTests(folder: String) {
     }
     println("executed testcases : $testcases")
 }
-
 
 fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     val buffer = File(filename).readAsDynamicByteArray()

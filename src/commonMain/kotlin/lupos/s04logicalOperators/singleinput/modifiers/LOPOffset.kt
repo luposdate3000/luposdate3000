@@ -10,11 +10,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPOffset(query: Query, @JvmField val offset: Int, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPOffsetID, "LOPOffset", arrayOf(child)) {
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPOffset)
             return false

@@ -183,13 +183,11 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.*
 
-
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
     val queryExecutionStartTime = ValueDateTime() /*required for BuildInCall.NOW */
 
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
-
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
         val aName = a.name.name
         if (b.children[1].getRequiredVariableNames().contains(aName)) {
@@ -1346,5 +1344,4 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
-
 }

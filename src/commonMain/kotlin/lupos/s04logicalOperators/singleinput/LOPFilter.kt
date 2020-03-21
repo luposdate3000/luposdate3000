@@ -11,10 +11,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPFilter(query: Query, filter: AOPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter)) {
     override fun childrenToVerifyCount() = 1
-
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames().distinct()
     }

@@ -12,7 +12,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOperatorID.AOPVariableID, "AOPVariable", arrayOf()) {
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
@@ -20,7 +19,6 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name)
     override fun cloneOP() = this
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
-
     override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
         val rVektor = ResultVektorRaw(resultChunk.availableRead())
         if (resultSet.hasVariable(name)) {
@@ -35,5 +33,4 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
                 rVektor.data[i] = ValueUndef()
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
-
 }

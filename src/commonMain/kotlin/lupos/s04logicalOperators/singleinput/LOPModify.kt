@@ -11,14 +11,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPModify(query: Query,
                 @JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
                 @JvmField val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
                 child: OPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child)) {
-
     override fun getProvidedVariableNames() = mutableListOf<String>()
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModify")
         res.addContent(XMLElement("where").addContent(childrenToXML()))

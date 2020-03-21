@@ -12,7 +12,6 @@ import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
 
-
 class Lock {
     val mutex = cValue<pthread_mutex_t>()
 

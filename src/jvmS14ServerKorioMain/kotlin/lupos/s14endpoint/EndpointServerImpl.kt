@@ -25,7 +25,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {
     @JvmField
@@ -100,4 +99,3 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
-

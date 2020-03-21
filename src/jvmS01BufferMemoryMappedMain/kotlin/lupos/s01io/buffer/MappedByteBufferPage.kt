@@ -10,13 +10,10 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 typealias Page = MappedByteBufferPage
 
 inline fun createString(chars: CharArray): String = String(chars)
-
 class MappedByteBufferPage(@JvmField val buffer: MappedByteBuffer) {
-
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField
     var locked = 0

@@ -18,19 +18,15 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.LOPBind
 
-
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val resultSet: ResultSet, val children: Array<OPBase>) {
-
     open fun evaluate(): ResultIterator = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
-
     open fun applyPrefix(prefix: String, iri: String) {
         for (c in children)
             c.applyPrefix(prefix, iri)
     }
 
     open fun childrenToVerifyCount(): Int = children.size
-
     open fun updateChildren(i: Int, child: OPBase) {
         SanityCheck.check({ i < children.size })
         children[i] = child
@@ -46,7 +42,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     val uuid: Long = global_uuid.next()
 
     override fun toString(): String = toXMLElement().toPrettyString()
-
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children)

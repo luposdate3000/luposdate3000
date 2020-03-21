@@ -21,7 +21,6 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
-
 object P2P {
     @JvmField
     val knownClients = ThreadSafeMutableList<String>()
@@ -84,5 +83,4 @@ object P2P {
 
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
     })
-
 }

@@ -14,11 +14,9 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 // this class avoids virtual method calls, which speeds up processing of Big Data
 class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeInt,
@@ -95,7 +93,6 @@ inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(@JvmField 
 
 class B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
@@ -144,7 +141,6 @@ inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val tree: B_P
 
 class B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) { // val k:Int = 1000, @JvmField val k_star:Int = 500){
     val bplustree = B_Plus_Tree_VariableSizePointers<Int, Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
@@ -193,7 +189,6 @@ inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val t
 
 class B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding<Int, Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
@@ -253,7 +248,6 @@ inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val tre
 
 class B_Plus_Tree_DifferenceEncoding_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding_OnlyKeys<Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
@@ -305,7 +299,6 @@ inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(@JvmField val t
 
 class B_Plus_Tree_Static_Int_to_Int(@JvmField val filename: String) {
     val bplustree = B_Plus_Tree_Static<Int, Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeInt,
@@ -354,7 +347,6 @@ inline class Derived_B_Plus_Tree_Static_Int_to_Int(@JvmField val tree: B_Plus_Tr
 
 class B_Plus_Tree_StaticCompressed_Int_to_Int(@JvmField val filename: String) {
     val bplustree = B_Plus_Tree_Static_CompressedPointer<Int, Int>(filename)
-
     inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,

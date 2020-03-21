@@ -15,12 +15,9 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child)) {
-
     override fun toSparql() = "SHA1(" + children[0].toSparql() + ")"
-
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSHA1)
             return false

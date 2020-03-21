@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 fun classNameToString(c: Any): String {
     val res = c::class.simpleName
     if (res == null)

@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 enum class EGraphRefType {
     IriGraphRef,
     DefaultGraphRef,

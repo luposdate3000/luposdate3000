@@ -4,7 +4,6 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.ResultIterator
 
-
 object SanityCheck {
     inline fun <T> helper(action: () -> T): T? = action()
     inline fun check(value: () -> Boolean) = require(value())

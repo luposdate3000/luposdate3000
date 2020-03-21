@@ -11,7 +11,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     val prefixes = mutableMapOf<String, String>()
@@ -564,5 +563,4 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
             }
         }
     }
-
 }

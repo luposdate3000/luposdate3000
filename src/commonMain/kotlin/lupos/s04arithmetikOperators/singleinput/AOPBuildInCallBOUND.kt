@@ -14,11 +14,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPBuildInCallBOUND(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallBOUNDID, "AOPBuildInCallBOUND", arrayOf(child)) {
-
     override fun toSparql() = "BOUND(" + children[0].toSparql() + ")"
-
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallBOUND)
             return false

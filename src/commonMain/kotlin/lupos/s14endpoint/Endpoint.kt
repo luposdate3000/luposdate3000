@@ -38,7 +38,6 @@ import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 object Endpoint {
     @JvmField
     val REQUEST_BINARY = arrayOf("/binary")

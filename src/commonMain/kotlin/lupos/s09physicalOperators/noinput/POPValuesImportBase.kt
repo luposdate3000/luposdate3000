@@ -22,7 +22,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 abstract class POPValuesImportBase(query: Query, variables: List<String>) : POPValues(query, variables, mutableListOf<List<String?>>()) {
     fun cleanString(s: String?): String? = Trace.trace({ "POPValuesImportBase.cleanString" }, {
         if (s == null)

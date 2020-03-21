@@ -17,7 +17,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 open class TripleStoreIteratorLocal(query: Query,
                                     resultSet: ResultSet,
                                     val store: TripleStoreLocal,
@@ -30,13 +29,9 @@ open class TripleStoreIteratorLocal(query: Query,
                 classname,
                 resultSet,
                 arrayOf()) {
-
     override fun getGraphName() = store.name
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).addContent(XMLElement("sparam").addContent(params[0].toXMLElement())).addContent(XMLElement("pparam").addContent(params[1].toXMLElement())).addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
-
     override fun cloneOP() = TripleStoreIteratorLocal(query, resultSet, store, index)
-
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
         for (p in params)

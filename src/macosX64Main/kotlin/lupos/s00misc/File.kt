@@ -13,7 +13,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import stdio.*
 
-
 class File {
     val filename: String
 
@@ -105,7 +104,6 @@ class File {
     }
 }
 
-
 class PrintWriter(val f: File) {
     var file: CPointer<FILE>? = null
     fun open() {
@@ -122,4 +120,3 @@ class PrintWriter(val f: File) {
         luposfprintf(file, s + "\n")
     }
 }
-

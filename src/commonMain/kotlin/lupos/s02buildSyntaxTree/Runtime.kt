@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 interface TokenIterator {
     fun nextToken(): Token
     fun getIndex(): Int
@@ -109,9 +108,7 @@ class LexerCharIterator(@JvmField val content:String) {
     @JvmField var index = 0;
     @JvmField var lineNumber = 0
     @JvmField var columnNumber = 0
-
     inline fun hasNext() = (this.index<this.content.length);
-
     inline fun nextChar(): Char {
         if(this.index<this.content.length){
             val result = this.content[this.index];
@@ -121,15 +118,12 @@ class LexerCharIterator(@JvmField val content:String) {
             throw UnexpectedEndOfFile(this.index-1, this.content);
         }
     }
-
     inline fun putBack(){
         this.index = if(this.index>0) this.index-1 else 0;
     }
-
     inline fun putBack(number:Int){
         this.index = if(this.index>number) this.index-number else 0;
     }
-
     inline fun lookahead(number:Int=0): Char {
         if(this.index+number<this.content.length){
             return this.content[this.index+number];
@@ -138,7 +132,6 @@ class LexerCharIterator(@JvmField val content:String) {
         }
     }
 }
-
 fun main(args : Array<String>){
     val lci = LexerCharIterator("abcdefghijklmnopqrstuvwxyz")
     val n = lci.nextChar()
@@ -163,9 +156,7 @@ fun main(args : Array<String>){
     }
 }
 */
-
 class LexerCharIterator(@JvmField val content: CharIterator) {
-
     constructor(contentString: String) : this(contentString.iterator())
 
     companion object {
@@ -184,7 +175,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
     var backArrayIndex = 0
 
     inline fun hasNext() = (this.content.hasNext() || this.backArrayIndex > 0)
-
     inline fun updateLineNumber(c: Char) {
         if (c == '\n') {
             lineNumber++
@@ -306,9 +296,7 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     }
 
     abstract fun nodeToString(): String
-
 //    inline fun <T> getChildrensValues(visitor: Visitor<T>, nodes: Array<out ASTNode> = this.children): List<T> = List<T>(children.size) { children[it].visit(visitor) }
-
 //    open fun <T> visit(visitor: Visitor<T>): T = visitor.visit(this, this.getChildrensValues(visitor));
 }
 

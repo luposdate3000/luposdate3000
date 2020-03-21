@@ -10,7 +10,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     @JvmField
     val variablesSTL = mutableMapOf<String, Variable>()
@@ -48,11 +47,8 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     }
 
     fun getVariable(variable: Variable) = variablesLTS[variable.toInt()]
-
     fun hasVariable(name: String) = variablesLTS.contains(name)
-
     fun getVariableNames() = variablesLTS
-
     fun createValue(value: Any?): Value {
         return when (value) {
             null -> dictionary.undefValue
@@ -64,7 +60,6 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     }
 
     val createdRows = SanityCheck.helper<MutableSet<Long>> { mutableSetOf<Long>() }
-
     fun createResultRow(): ResultRow {
         val res = ResultRow(variablesLTS.size, dictionary.undefValue)
         SanityCheck.helper<Unit> { createdRows!!.add(res.uuid) }
@@ -72,7 +67,6 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     }
 
     fun getValueObject(value: Value) = dictionary.getValue(value)
-
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         return r.values[v.toInt()] == dictionary.undefValue

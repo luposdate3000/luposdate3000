@@ -10,9 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPMakeBooleanResult(query: Query, child: OPBase) : LOPBase(query, EOperatorID.LOPMakeBooleanResultID, "LOPMakeBooleanResult", arrayOf(child)) {
-
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf("?boolean")
     }

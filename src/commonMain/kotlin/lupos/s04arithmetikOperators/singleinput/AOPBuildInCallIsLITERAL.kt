@@ -14,11 +14,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIsLITERALID, "AOPBuildInCallIsLITERAL", arrayOf(child)) {
-
     override fun toSparql() = "isLiteral(" + children[0].toSparql() + ")"
-
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallIsLITERAL)
             return false

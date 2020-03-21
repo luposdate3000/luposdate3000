@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {
     @JvmField
     val values = Array(columns) { undefValue }
@@ -20,7 +19,6 @@ class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {
     val uuid: Long = global_uuid.next()
 
     override fun toString() = values.toString()
-
     override operator fun compareTo(other: ResultRow): Int {
         var res = 0
         val s = values.size - other.values.size
@@ -39,12 +37,10 @@ class ResultRow(columns: Int, undefValue: Value) : Comparable<ResultRow> {
     }
 
     override fun equals(other: Any?) = (!(other == null || !(other is ResultRow))) && compareTo(other) == 0
-
     override fun hashCode(): Int {
         var res = values.size.hashCode()
         for (v in values)
             res += v.hashCode()
         return res
     }
-
 }

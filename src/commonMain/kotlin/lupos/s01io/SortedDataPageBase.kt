@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
 abstract class SortedDataPageBase<T>(val comparator: Comparator<T>, val arrayAllocator: (Int) -> Array<T>, val pageAllocator: (Comparator<T>, (Int) -> Array<T>) -> SortedDataPageBase<T>) {
     companion object {
         val capacity = 200

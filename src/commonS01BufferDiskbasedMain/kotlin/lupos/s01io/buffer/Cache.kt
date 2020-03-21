@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 /**
  * This is one element of the doubly linked list.
  * The list should have a dummy element, which succeeding element is the head of the list
@@ -17,7 +16,6 @@ import lupos.s04logicalOperators.ResultIterator
  * @param <T> the type of the keys to be stored...
  */
 class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
-
     @JvmField
     var before: CachedEntry<T, V> = this
     @JvmField
@@ -59,7 +57,6 @@ class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
  * item if the cache is full.
  */
 class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValue: V, @JvmField val size: Int) {
-
     @JvmField
     val entries = HashMap<T, CachedEntry<T, V>>(size)
     @JvmField

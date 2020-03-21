@@ -9,15 +9,12 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 // problems unmap:
 // see e.g.: https://stackoverflow.com/questions/2972986
-
 // furthermore, memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
 // and slides comparing different ways:
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
-
 class CachedFile {
     @JvmField
     val file: RandomAccessFile

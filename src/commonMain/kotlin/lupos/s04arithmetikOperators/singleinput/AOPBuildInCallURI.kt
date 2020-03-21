@@ -14,9 +14,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
-
     override fun toSparql() = "URI(" + children[0].toSparql() + ")"
     override fun applyPrefix(prefix: String, iri: String) {
         if (prefix == "")
@@ -24,7 +22,6 @@ class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: Stri
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)
-
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallURI)
             return false

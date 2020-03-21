@@ -25,13 +25,11 @@ import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPModify && insert.equals(other.insert) && delete.equals(other.delete) && children[0] == other.children[0]
     override fun toSparqlQuery() = toSparql()
     override fun getProvidedVariableNames() = listOf<String>()
     override fun cloneOP() = POPModify(query, insert, delete, children[0].cloneOP())
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPModify.evaluate" }, {
         val child = children[0].evaluate()
         val res = ResultIterator()

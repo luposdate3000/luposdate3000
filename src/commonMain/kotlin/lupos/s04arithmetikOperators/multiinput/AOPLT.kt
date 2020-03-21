@@ -14,9 +14,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPLTID, "AOPLT", arrayOf(childA, childB)) {
-
     override fun toSparql() = "(" + children[0].toSparql() + " < " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
         if (other !is AOPLT)

@@ -10,9 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPReduced(query: Query, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPReducedID, "LOPReduced", arrayOf(child)) {
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPReduced)
             return false

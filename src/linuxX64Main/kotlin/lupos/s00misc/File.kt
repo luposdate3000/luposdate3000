@@ -21,7 +21,6 @@ import stdio.fwrite
 import stdio.luposfprintf
 import unistd.luposSTDINread
 
-
 class File(val filename: String) {
     companion object {
         fun readStdInAsDynamicByteArray(): DynamicByteArray? {
@@ -129,7 +128,6 @@ class File(val filename: String) {
     }
 }
 
-
 class PrintWriter(val f: File) {
     var file: CValuesRef<FILE>? = null
     fun open() {
@@ -146,4 +144,3 @@ class PrintWriter(val f: File) {
         luposfprintf(file, s + "\n")
     }
 }
-

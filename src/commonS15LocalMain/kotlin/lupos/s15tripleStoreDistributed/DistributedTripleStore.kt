@@ -22,9 +22,7 @@ import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 
-
 val uuid = ThreadSafeUuid()
-
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
@@ -95,7 +93,6 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         val res = DistributedTripleStore.localStore.getNamedGraph(query, name).getIterator(query, ResultSet(query.dictionary), params, index)
         return res
     }
-
 }
 
 object DistributedTripleStore {

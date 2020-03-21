@@ -20,7 +20,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPDistinctID, "POPDistinct", child.resultSet, arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPDistinct)
@@ -78,5 +77,4 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         }
         return res
     })
-
 }

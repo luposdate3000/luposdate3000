@@ -11,16 +11,13 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import sun.nio.ch.FileChannelImpl
 
-
 typealias Page = UnsafePage
 
 inline fun createString(chars: CharArray): String = String(chars)
-
 // memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
 // and slides comparing different ways:
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
-
 class CachedFile {
     @JvmField
     val file: RandomAccessFile
@@ -46,7 +43,6 @@ class CachedFile {
 
         private fun initUnsafe(): sun.misc.Unsafe {
             var theUnsafe: Any? = null
-
             try {
                 val uc = Class.forName("sun.misc.Unsafe")
                 val f = uc.getDeclaredField("theUnsafe")
@@ -69,7 +65,6 @@ class CachedFile {
                 Long::class.javaPrimitiveType,
                 Long::class.javaPrimitiveType)
         val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
-
         // Bundle reflection calls to get access to the given method
         @Throws(Exception::class)
         private fun getMethod(cls: Class<*>, name: String, vararg params: Class<*>?): Method {

@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
 class SortedMap<K, V>(comparator: Comparator<K>, val arrayAllocator: (Int) -> Array<Pair<K, V>>, val undefValue: V) {
     class LocalComparator<K, V>(val cmp: Comparator<K>) : Comparator<Pair<K, V>> {
         override fun compare(a: Pair<K, V>, b: Pair<K, V>): Int = cmp.compare(a.first, b.first)

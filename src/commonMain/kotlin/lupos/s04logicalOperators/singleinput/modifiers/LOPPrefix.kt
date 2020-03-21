@@ -10,11 +10,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPPrefix(query: Query, @JvmField val name: String, @JvmField val iri: String, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPPrefixID, "LOPPrefix", arrayOf(child)) {
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPPrefix)
             return false

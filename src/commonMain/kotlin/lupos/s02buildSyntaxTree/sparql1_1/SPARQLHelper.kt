@@ -10,7 +10,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 enum class BuiltInFunctions {
     STR,
     LANG,
@@ -78,7 +77,6 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     }
 
     val uuid: Long = global_uuid.next()
-
     override fun toString(): String {
         return toString("")
     }

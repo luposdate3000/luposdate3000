@@ -25,7 +25,6 @@ import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, EOperatorID.POPModifyDataID, "POPModifyData", ResultSet(query.dictionary), arrayOf()) {
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
     override fun cloneOP() = POPModifyData(query, type, data)
@@ -46,7 +45,6 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         res += "}"
         return res
     }
-
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
         val res = ResultIterator()

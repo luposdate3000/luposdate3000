@@ -14,9 +14,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class NotFoundException : Exception()
-
 class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0), @JvmField var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField var v: V? = null) {
     /**
      * @return a: If a<0: key k is smaller at position -a
@@ -225,13 +223,9 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
 class Radix_Tree_MainMemory<V> {
     val root: Radix_Tree_MainMemory_Node<V> = Radix_Tree_MainMemory_Node<V>()
     fun get(k: ByteArray): V? = this.root.get(k, 0)
-
     fun get(k: String): V? = this.get(k.toBytesUTF())
-
     fun put(k: ByteArray, v: V) = this.root.put(k, 0, v)
-
     fun put(k: String, v: V) = this.put(k.toBytesUTF(), v)
-
     fun toStringDataStructure(): String = this.root.toStringDataStructure("")
 }
 
@@ -262,9 +256,7 @@ class Static_Radix_Tree<V>(@JvmField val filename: String) {
     }
 
     fun maxSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 6) // max. size: assume none-local adddresses with offset => 6 bytes per address
-
     fun minSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 1) // min. size: assume local adddresses with 1 byte offset
-
     private fun sizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>, sizePerAddress: Int): Int {
         var size = 4 // size of label
         size += node.label.size * 2 // 1 char is stored in 2 bytes

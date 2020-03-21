@@ -11,7 +11,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPGraphOperation(query: Query,
                         @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
                         var silent: Boolean = false,
@@ -20,7 +19,6 @@ class LOPGraphOperation(query: Query,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null
 ) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf()) {
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation)
             return false

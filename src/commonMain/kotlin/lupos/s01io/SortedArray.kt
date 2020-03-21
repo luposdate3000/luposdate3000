@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
 class SortedArray<T>(comparator: Comparator<T>, arrayAllocator: (Int) -> Array<T>) : SortedArrayBase<T>(comparator, arrayAllocator, ::SortedDataPageAllocator) {
     fun forEachUnordered(action: suspend (T) -> Unit) {
         var tmp = data

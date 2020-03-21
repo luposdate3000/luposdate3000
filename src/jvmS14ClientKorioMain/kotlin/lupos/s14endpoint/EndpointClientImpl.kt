@@ -34,7 +34,6 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {
     @JvmField

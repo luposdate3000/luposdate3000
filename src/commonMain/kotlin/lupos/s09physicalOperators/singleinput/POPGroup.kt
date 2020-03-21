@@ -27,7 +27,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
 
-
 class POPGroup : POPBase {
     @JvmField
     var by: List<AOPVariable>

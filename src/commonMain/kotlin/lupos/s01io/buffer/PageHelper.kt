@@ -9,7 +9,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2
 inline fun deserializeInt(page: Page, address: Long) = page.getInt(address)
 inline fun serializeInt(page: Page, address: Long, value: Int) {
@@ -17,7 +16,6 @@ inline fun serializeInt(page: Page, address: Long, value: Int) {
 }
 
 inline fun serializedSizeOfInt(value: Int) = 4L
-
 /* Int stored in variable number of bytes
 * First byte: 2 to 3 bits for encoding how many bytes are necessary: 00 -> 1 Byte, 01 -> 2 Bytes, 10 -> 3 Bytes, 110 -> 4 Bytes, 111 -> 5 Bytes
 * Int is stored in the remaining 6 to 5 bits in the first byte and the remaining bytes

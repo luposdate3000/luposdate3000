@@ -6,15 +6,12 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ThreadSafeMutableStack<T> {
     @JvmField
     val elements = ThreadSafeMutableList<T>()
 
     fun isEmpty() = elements.isEmpty()
-
     fun push(item: T) = elements.add(item)
-
     fun pop(): T? {
         val item = elements.lastOrNull()
         if (!isEmpty()) {
@@ -26,4 +23,3 @@ class ThreadSafeMutableStack<T> {
 
     override fun toString(): String = elements.toString()
 }
-

@@ -10,7 +10,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 inline fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultChunk): ResultChunk {
     val res = action()
     println("consume :: ${consumerv().classname}@${consumerv().uuid} ${producerv().classname}@${producerv().uuid} ${res.availableWrite()} ${res.availableRead()} ${res}")
@@ -24,7 +23,6 @@ inline fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultChunk)
 }
 
 inline fun <T> resultFlow(inputv: () -> AOPBase, resultChunkv: () -> ResultChunk, resultSetv: () -> ResultSet, action: () -> T): T = action()
-
 inline fun printAllMicroTest() {
 }
 

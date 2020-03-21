@@ -6,13 +6,10 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
-
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // configuration and search methods/receiveRun: do with inline functions for avoiding calls to overridden methods
 class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField val directoryOfIndex: String? = null) {
-
     companion object {
         private var dir_counter = 0
         private val prefix = "LSM_"
@@ -102,7 +99,6 @@ inline fun <K, V> put(k: K, v: V, isFirstLevelFull: () -> Boolean, putFirstLevel
 }
 
 inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val mainMemoryDatastructure: HashMap<K, V> = hashMapOf<K, V>()) {
-
     inline fun put(k: K, v: V) {
         this.mainMemoryDatastructure[k] = v
     }
@@ -112,7 +108,6 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val 
     }
 
     inline fun size(): Int = this.mainMemoryDatastructure.size
-
     // returns the value of the key, or null if the key is not found
     inline fun getOrNull(k: K): V? = this.mainMemoryDatastructure[k]
 
@@ -161,12 +156,9 @@ interface Searchable<K, V, R> {
     class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(@JvmField val level: Int, @JvmField val createRunFromFirstLevelInput: (Pair<Int, () -> Pair<K, V>?>) -> R) {
         var MAX_RUNS = 4
         var nextLevel: Level<K, V, R>? = null
-
         val runs: Array<R?> = arrayOfNulls<Any>(MAX_RUNS) as Array<R?>
         var numberOfRuns = 0
-
         fun createLevel(lavel: Int) = Level<K, V, R>(this.level + 1, this.createRunFromFirstLevelInput)
-
         fun receiveFromLowerLevel(r: R) {
             if (numberOfRuns + 1 >= MAX_RUNS) {
                 if (this.nextLevel == null) {
@@ -284,16 +276,12 @@ interface Searchable<K, V, R> {
 class LSM_Tree<K : Comparable<in K>, V> {
     var MAX_ENTRIES = 50000
     val firstLevel = HashMapIndexWithLazySorting<K, V>()
-
     inline fun getOrNull(k: K, remainingLevels: (k: K) -> V?): V? = getOrNull(k, { this.firstLevel.getOrNull(it) }, remainingLevels)
-
     inline fun get(k: K, remainingLevels: (k: K) -> V): V = get(k, { this.firstLevel.get(it) }, remainingLevels)
-
     inline fun put(k: K, v: V, receiveRunFromFirstLevel: (Pair<Int, () -> Pair<K, V>?>) -> Unit) {
         put(k, v, { this.firstLevel.size() >= MAX_ENTRIES }, { k: K, v: V -> { this.firstLevel.put(k, v) } }, { this.firstLevel.getRun() }, receiveRunFromFirstLevel, { this.firstLevel.clear() })
     }
 
     inline fun range(smallerKey: K, biggerKey: K, noinline remainingLevels: () -> Pair<K, V>?): () -> Pair<K, V>? = range(this.firstLevel.range(smallerKey, biggerKey), remainingLevels)
-
     inline fun rangeNoOrder(smallerKey: K, biggerKey: K, noinline remainingLevels: () -> Pair<K, V>?): () -> Pair<K, V>? = rangeNoOrder(this.firstLevel.rangeNoOrder(smallerKey, biggerKey), remainingLevels)
 }

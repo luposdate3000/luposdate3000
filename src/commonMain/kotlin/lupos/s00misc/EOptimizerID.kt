@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnChange: Boolean) {
     LogicalOptimizerID(false, true),
     LogicalOptimizerRemoveProjectionID(true, true),

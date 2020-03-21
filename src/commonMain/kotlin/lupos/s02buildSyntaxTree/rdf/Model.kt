@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 abstract class RDFTerm {
     abstract fun toN3String(): String
 }

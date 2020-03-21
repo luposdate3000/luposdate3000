@@ -7,18 +7,15 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)
 override val classname="is"
  */
 object CacheOfFiles {
-
     /**
      * the max. number of opened files
      */
     const val MAXOPENEDFILES = 10
-
     @JvmField
     val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
 
@@ -44,7 +41,6 @@ object CacheOfFiles {
 
     // problems unmap:
     // see e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
-
     // furthermore, memory mapped file and unsafe api:
     // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
     // and slides comparing different ways:

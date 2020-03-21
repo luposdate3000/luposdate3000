@@ -27,7 +27,6 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
-
 object EndpointClientImpl {
     fun encodeParam(key: String, value: Any) = key + "=" + value
     suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "P2P.retryRequestBytes" }, {

@@ -11,7 +11,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
     override fun toString(): String {
@@ -35,18 +34,14 @@ class LANGTAG(@JvmField val language: String, index: Int) : Token("@" + language
 class DOUBLECIRCUMFLEX(index: Int) : Token("^^", index)
 class BNODE(@JvmField val name: String, index: Int) : Token("_:" + name, index)
 class ANON_BNODE(index: Int) : Token("[]", index)
-
 class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token(beforeColon + ":", index)
 class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token(beforeColon + ":" + afterColon, index)
-
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
-
 class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", index, lineNumber, columnNumber) {
     constructor(index: Int, iterator: LexerCharIterator) : this(index, iterator.lineNumber, iterator.columnNumber)
 }
 
 class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
-
     fun skip() {
         loop@ while (true) {
             val c = iterator.nextChar()
@@ -77,9 +72,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
     }
 
     override fun getLineNumber() = this.iterator.lineNumber
-
     override fun getColumnNumber() = this.iterator.columnNumber
-
     override fun nextToken(): Token {
         try {
             skip()
@@ -348,7 +341,6 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                 this.iterator.putBack(c)
                 return PNAME_NS(beforeColon, startToken)
             }
-
             // it is definitely a PNAME_LN!
             loopPNAME_LN@ while (this.iterator.hasNext()) {
                 val nextChar = this.iterator.nextChar()
@@ -538,9 +530,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                     || c in '\u1000'..'\uEFFF'
 
     inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-
     inline fun DIGIT(c: Char) = c in '0'..'9'
-
     inline fun VARNAMESECONDCHARANDLATER(c: Char) =
             PN_CHARS_U(c)
                     || DIGIT(c)
@@ -549,9 +539,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                     || c in '\u203F'..'\u2040'
 
     inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-
     inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-
     inline fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',

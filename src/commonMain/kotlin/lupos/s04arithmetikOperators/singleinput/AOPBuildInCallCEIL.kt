@@ -15,11 +15,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
-
     override fun toSparql() = "CEIL(" + children[0].toSparql() + ")"
-
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCEIL)
             return false

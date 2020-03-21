@@ -10,13 +10,11 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class OnePageBenchmark {
     val page: Page = bufferManager.getPage("tmp/test", 0)
     val page1: Page = bufferManager.getPage("tmp/test", 1)
     val offset: Long = page.getPageIndex()
     val offset1: Long = page1.getPageIndex()
-
     inline fun writeOnePage() {
         val page2 = page
         var adr = offset

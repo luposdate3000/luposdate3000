@@ -10,9 +10,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s14endpoint.EndpointClientImpl
 
-
 class ExceptionJenaBug(message: String) : Exception(message)
-
 class JenaRequest {
     companion object {
         var port = "3030"
@@ -26,7 +24,6 @@ class JenaRequest {
     fun finalize() {
     }
 
-
     constructor() {
         var message: String? = null
         if (dbwascreated)
@@ -38,7 +35,6 @@ class JenaRequest {
             }
         requestUpdate("DROP SILENT ALL")
     }
-
 
     fun insertDataIntoGraph(graph: String?, data: XMLElement) {
         var query = "INSERT DATA{\n"
@@ -108,5 +104,4 @@ class JenaRequest {
             return requestUpdate(query)
         return requestQuery(query)
     }
-
 }

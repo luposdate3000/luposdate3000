@@ -8,7 +8,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class File(@JvmField val filename: String) {
     companion object {
         fun readStdInAsDynamicByteArray(): DynamicByteArray? {

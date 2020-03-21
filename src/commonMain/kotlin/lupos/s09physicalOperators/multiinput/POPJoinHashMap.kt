@@ -21,9 +21,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", ResultSet(query.dictionary), arrayOf(childA, childB)) {
-
     override fun toSparql(): String {
         if (optional)
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
@@ -61,7 +59,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
     }
 
     fun arrayAllocator(size: Int) = Array(size) { ResultChunk(resultSet) }
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {
         val undefValue = resultSet.dictionary.undefValue
         val variablesA = children[0].getProvidedVariableNames()

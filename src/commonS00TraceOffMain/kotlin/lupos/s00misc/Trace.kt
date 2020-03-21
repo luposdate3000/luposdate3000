@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 object Trace {
     inline fun <T> trace(name: () -> String, action: () -> T): T {
         return action()

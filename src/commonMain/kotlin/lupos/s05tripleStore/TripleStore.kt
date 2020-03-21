@@ -15,7 +15,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 abstract class POPTripleStoreIteratorBase(query: Query,
                                           operatorID: EOperatorID,
                                           classname: String,
@@ -25,7 +24,6 @@ abstract class POPTripleStoreIteratorBase(query: Query,
     var params = arrayOf<AOPBase>(AOPVariable(query, "#s$uuid"), AOPVariable(query, "#p$uuid"), AOPVariable(query, "#o$uuid"))
 
     abstract fun getGraphName(): String
-
     override fun equals(other: Any?): Boolean {
         if (other !is POPTripleStoreIteratorBase)
             return false
@@ -97,4 +95,3 @@ class PersistentStoreLocal {
         }
     }
 }
-

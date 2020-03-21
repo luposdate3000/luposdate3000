@@ -8,7 +8,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class Lock {
     @JvmField
     val mutex = Mutex()
@@ -21,7 +20,6 @@ class Lock {
             mutex.unlock()
         }
     }
-
 
     inline fun <T> withLock(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null

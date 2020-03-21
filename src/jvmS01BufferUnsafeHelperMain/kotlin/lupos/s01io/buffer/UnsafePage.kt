@@ -6,9 +6,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class UnsafePage {
-
     companion object {
         @JvmField
                 /* in this way no getter method is used for access to UNSAFE
@@ -18,7 +16,6 @@ class UnsafePage {
 
         private fun initUnsafe(): sun.misc.Unsafe {
             var theUnsafe: Any? = null
-
             try {
                 val uc = Class.forName("sun.misc.Unsafe")
                 val f = uc.getDeclaredField("theUnsafe")
@@ -35,16 +32,11 @@ class UnsafePage {
     // this does not generate any setters/getters avoiding a virtual method call!
     @JvmField
     val basepointer: Long
-
     // this does not generate any getter avoiding a virtual method call!
     @JvmField
     val PAGESIZE = 8 * 1024L
-
-
     @JvmField
     var locked = 0
-
-
     @JvmField
     val cleaner: () -> Unit
 

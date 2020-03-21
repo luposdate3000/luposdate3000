@@ -9,13 +9,10 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 object Dictionary {
     private val max_id = ThreadSafeUuid()
-
     private val RDFTerm_to_ID = ThreadSafeMutableMap<String, Long>()
     private val ID_to_RDFTerm = ThreadSafeMutableMap<Long, RDFTerm>()
-
     private fun addRDFTerm(term: RDFTerm): Long {
         val result = max_id.next()
         this.RDFTerm_to_ID[term.toN3String()] = result

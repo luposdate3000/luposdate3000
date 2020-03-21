@@ -11,7 +11,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
 
-
 class LogicalOptimizerRemovePrefix(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemovePrefixID) {
     override val classname = "LogicalOptimizerRemovePrefix"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
@@ -23,5 +22,4 @@ class LogicalOptimizerRemovePrefix(query: Query) : OptimizerBase(query, EOptimiz
         }
         res
     })
-
 }

@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class XMLElement {
     // https://regex101.com
     companion object {
@@ -72,7 +71,6 @@ class XMLElement {
     var content: String = ""
     @JvmField
     val childs = mutableListOf<XMLElement>()
-
     @JvmField
     val tag: String
 
@@ -248,5 +246,3 @@ class XMLElement {
 
     fun toPrettyString() = Trace.trace<String>({ "XMLElement.toPrettyString" }, { toPrettyString("").toString() })
 }
-
-

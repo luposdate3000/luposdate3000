@@ -6,7 +6,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
     val res = mutableListOf<XMLElement>()

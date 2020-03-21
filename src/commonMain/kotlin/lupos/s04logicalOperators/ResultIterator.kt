@@ -5,7 +5,6 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.ResultIterator
 
-
 open class ResultIterator() {
     var next: suspend () -> ResultChunk = ::_next
     var close: () -> Unit = ::_close

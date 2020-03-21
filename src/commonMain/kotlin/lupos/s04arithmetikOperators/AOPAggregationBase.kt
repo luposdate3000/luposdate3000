@@ -15,7 +15,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 abstract class AOPAggregationBase(query: Query,
                                   operatorID: EOperatorID,
                                   classname: String,

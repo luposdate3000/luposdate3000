@@ -23,13 +23,11 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmField val components: Int) {
     @JvmField
     val values = ThreadSafeMutableList<Value>()
 
     inline fun valuesToStrings(key: Array<Value>): Array<ValueDefinition> = Array(components) { dictionary.getValue(key[it])!! }
-
     fun modifyInternal(key: Array<Value>, value: Array<ValueDefinition>, type: EModifyType, idx: Int, step: Int) {
         val realIdx = idx * components
         val nextStep: Int
@@ -109,7 +107,6 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
     inline fun remove(key1: Value) = remove(arrayOf(key1))
     inline fun remove(key1: Value, key2: Value) = remove(arrayOf(key1, key2))
     inline fun remove(key1: Value, key2: Value, key3: Value) = remove(arrayOf(key1, key2, key3))
-
     fun forEach(action: (Array<Value>) -> Unit) {
         for (i in 0 until values.size() step components)
             action(Array(components) { values[i + it]!! })
@@ -120,7 +117,6 @@ class SortedSetDictionary(@JvmField val dictionary: ResultSetDictionary, @JvmFie
             action(Array(components) { values[i + it]!! })
     }
 }
-
 
 class TripleStoreLocal {
     @JvmField

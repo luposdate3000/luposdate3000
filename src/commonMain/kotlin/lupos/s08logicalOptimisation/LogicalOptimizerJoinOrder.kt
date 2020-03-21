@@ -13,7 +13,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
 
-
 class Plan : Comparable<Plan> {
     val child: OPBase?
     val childs: Pair<Int, Int>?
@@ -39,7 +38,6 @@ class Plan : Comparable<Plan> {
     }
 
     override operator fun compareTo(other: Plan) = cost.compareTo(other.cost)
-
     fun toOPBase(plans: Array<Plan?>): OPBase {
         if (child != null)
             return child
@@ -51,7 +49,6 @@ class Plan : Comparable<Plan> {
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname = "LogicalOptimizerJoinOrder"
-
     fun findAllJoinsInChildren(node: LOPJoin): List<OPBase> {
         val res = mutableListOf<OPBase>()
         for (c in node.children)

@@ -9,7 +9,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 @UseExperimental(kotlin.time.ExperimentalTime::class)
 object Trace {
     @JvmField

@@ -7,7 +7,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
         throw Exception("not implemented")

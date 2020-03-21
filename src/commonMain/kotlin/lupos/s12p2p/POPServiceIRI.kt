@@ -18,7 +18,6 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
-
 class POPServiceIRI : POPBase {
     @JvmField
     val constraint: OPBase?
@@ -60,7 +59,6 @@ class POPServiceIRI : POPBase {
     }
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPServiceIRI.evaluate" }, {
         for (n in getProvidedVariableNames())
             resultSet.createVariable(n)

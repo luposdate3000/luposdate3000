@@ -10,9 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPOptional(query: Query, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPOptionalID, "LOPOptional", arrayOf(child)) {
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPOptional)
             return false

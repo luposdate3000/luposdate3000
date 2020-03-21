@@ -20,7 +20,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", child.resultSet, arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset)
@@ -42,7 +41,6 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
     }
 
     override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {
         val res = ResultIterator()
         res.next = {

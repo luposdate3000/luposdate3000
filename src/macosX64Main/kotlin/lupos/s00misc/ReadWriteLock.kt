@@ -14,7 +14,6 @@ import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
 
-
 class ReadWriteLock {
     val allowNewReads = cValue<pthread_mutex_t>()
     val allowNewWrites = cValue<pthread_mutex_t>()

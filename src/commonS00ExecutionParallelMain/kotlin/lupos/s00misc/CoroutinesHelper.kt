@@ -13,7 +13,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 typealias CoroutinesHelperMutex = Lock
 
 object CoroutinesHelper {
@@ -29,11 +28,9 @@ object CoroutinesHelper {
     }
 
     inline fun createLock() = Lock()()
-
     inline fun runBlockWithLock(lock: CoroutinesHelperMutex, crossinline action: () -> Unit) = runBlocking {
         lock.withWriteLock {
             action()
         }
     }
 }
-

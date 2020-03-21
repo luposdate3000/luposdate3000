@@ -26,11 +26,8 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class BPlusTreeTests {
-
     fun getFilename(testnumber: String = "") = "../tmp/test/test$testnumber"
-
     fun testBPlusTreeInsertAndExactSearch(tree: I_B_Plus_Tree<Int, Int>) {
         // initialize and create B_Plus_Tree
         val list = mutableListOf<Pair<Int, Int>>()
@@ -129,27 +126,22 @@ class BPlusTreeTests {
         adr++
         page.putInt(adr, 4)
         adr += 4
-
         page.putInt(adr, 0)
         adr += 4
         page.putInt(adr, 0)
         adr += 4
-
         page.putInt(adr, 1)
         adr += 4
         page.putInt(adr, 1)
         adr += 4
-
         page.putInt(adr, 2)
         adr += 4
         page.putInt(adr, 2)
         adr += 4
-
         page.putInt(adr, 3)
         adr += 4
         page.putInt(adr, 3)
         adr += 4
-
         // now test search
         val b = B_Plus_Tree_Uncompressed_Int_to_Int(filename)
         try {
@@ -214,7 +206,6 @@ class BPlusTreeTests {
 
     @Test
     fun testBPlusTree_RangeSearch_DifferenceEncoding_Int() = testBPlusTreeInsertAndRangeSearch_OnlyKeys(Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(getFilename("Range9"), 8000, 8000))
-
 
     // TODO: test of sip_search! Similar to the following method...
     fun testBPlusTree4b() {

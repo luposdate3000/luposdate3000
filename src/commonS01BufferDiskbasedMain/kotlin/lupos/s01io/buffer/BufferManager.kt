@@ -6,25 +6,19 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 
 val PAGESIZE: Int = 8 * 1024
-
 val bufferManager: BufferManager = BufferManager()
 
 class BufferManager {
-
     /**
      * the max. number of opened files
      */
     @JvmField
     val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
-
     private val cache = LeastRecentlyUsed<PageAddress, Page?>(PageAddress("", -1), null, MAXPAGES)
-
     fun getPage(file: String, number: Int): Page = getPage(PageAddress(file, number))
-
     fun getPage(pageAddress: PageAddress): Page {
         val page = this.cache.getEntry(pageAddress)
         if (page == null) {

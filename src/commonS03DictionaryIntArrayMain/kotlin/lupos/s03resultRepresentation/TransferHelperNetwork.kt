@@ -15,7 +15,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s14endpoint.Endpoint
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 class TransferHelperNetwork {
     companion object {
@@ -119,4 +118,3 @@ class TransferHelperNetwork {
         return data
     }
 }
-

@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
 class SortedIteratorDESC<T> : Iterator<T> {
     val data: SortedArrayBase<T>
     var node: SortedDataPageBase<T>

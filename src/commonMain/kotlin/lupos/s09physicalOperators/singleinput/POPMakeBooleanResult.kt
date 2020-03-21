@@ -20,14 +20,12 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", ResultSet(query.dictionary), arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPMakeBooleanResult && children[0] == other.children[0]
     override fun toSparqlQuery() = "ASK{" + children[0].toSparql() + "}"
     override fun cloneOP() = POPMakeBooleanResult(query, children[0].cloneOP())
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPMakeBooleanResult.evaluate" }, {
         val variableNew = resultSet.createVariable("?boolean")
         val res = ResultIterator()
@@ -51,5 +49,4 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
         }
         return res
     })
-
 }

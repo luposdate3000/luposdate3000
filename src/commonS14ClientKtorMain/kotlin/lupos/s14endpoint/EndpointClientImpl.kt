@@ -42,7 +42,6 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
-
 object EndpointClientImpl {
     @JvmField
     val client = HttpClient() {
@@ -83,4 +82,3 @@ object EndpointClientImpl {
         }
     })
 }
-

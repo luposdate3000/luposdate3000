@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     val res = mutableListOf<XMLElement>()
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
@@ -15,12 +14,10 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     val nodeHead = XMLElement("head")
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
-
     if (!json.contains("results")) {
         nodeSparql.addContent(XMLElement("boolean").addContent("" + (json.contains("true") && !json.contains("false"))))
         return res
     }
-
     nodeSparql.addContent(nodeResults)
     var lastParent: XMLElement? = null
     var lastParentCounter = 0

@@ -10,11 +10,9 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 typealias CoroutinesHelperMutex = Int
 
 object CoroutinesHelper {
-
     @JvmField
     val channelType = UNLIMITED
 

@@ -22,7 +22,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 open class POPValues : POPBase {
     @JvmField
     val variables = mutableListOf<Variable>()
@@ -96,9 +95,7 @@ open class POPValues : POPBase {
     }
 
     override fun getProvidedVariableNames() = variables.map { resultSet.getVariable(it) }.distinct()
-
     override fun getRequiredVariableNames() = mutableListOf<String>()
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPValues.evaluate" }, {
         val iterator = data.iterator()
         val res = ResultIterator()

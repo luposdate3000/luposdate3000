@@ -46,12 +46,10 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 @UseExperimental(ExperimentalStdlibApi::class)
 abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {
     @JvmField
     val fullname = hostname + ":" + port
-
 
     fun process_turtle_input(data: String): XMLElement = Trace.trace({ "process_turtle_input" }, {
         val query = Query()
@@ -121,7 +119,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         q.commit()
         return res
     })
-
 
     suspend fun receive(path: String, data: ByteArray): ByteArray = Trace.traceSuspend({ "EndpointServer.receiveA" }, {
         when (path) {

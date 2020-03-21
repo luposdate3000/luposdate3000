@@ -10,7 +10,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 fun XMLElement.Companion.parseFromTtl(ttl: String): List<XMLElement>? {
     val res = mutableListOf<XMLElement>()
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")

@@ -8,7 +8,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[offset] = this.toByte()
     val remaining1 = this ushr 8
@@ -75,7 +74,6 @@ inline fun Page.getString(address: Long): String { // avoid using this method an
 }
 
 inline fun ByteArray.toInt(offset: Int) = (0xFF and this[offset].toInt()) or ((0xFF and this[offset + 1].toInt()) or ((0xFF and this[offset + 2].toInt()) or ((0xFF and this[offset + 3].toInt()) shl 8) shl 8) shl 8)
-
 inline fun ByteArray.toStringUTF(offset: Int): String {
     val size = this.toInt(offset)
     val buffer = CharArray(size)

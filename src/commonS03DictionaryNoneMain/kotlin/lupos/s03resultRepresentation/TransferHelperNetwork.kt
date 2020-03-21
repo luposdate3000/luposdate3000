@@ -14,7 +14,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s14endpoint.Endpoint
 
-
 class TransferHelperNetwork {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
@@ -38,4 +37,3 @@ class TransferHelperNetwork {
         throw Exception("not implemented")
     }
 }
-

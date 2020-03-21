@@ -10,11 +10,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPLimit(query: Query, @JvmField val limit: Int, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPLimitID, "LOPLimit", arrayOf(child)) {
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPLimit)
             return false

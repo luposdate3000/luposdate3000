@@ -26,7 +26,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s12p2p.P2P
 
-
 val uuid = ThreadSafeUuid()
 
 class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {

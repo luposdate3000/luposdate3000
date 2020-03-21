@@ -9,7 +9,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ResultRow() : Comparable<ResultRow> {
     @JvmField
     val values = mutableMapOf<Variable, Value>()
@@ -20,7 +19,6 @@ class ResultRow() : Comparable<ResultRow> {
 
     @JvmField
     val uuid: Long = global_uuid.next()
-
 
     override fun toString(): String {
         return values.toString()
@@ -56,5 +54,4 @@ class ResultRow() : Comparable<ResultRow> {
     override fun hashCode(): Int {
         return values.hashCode()
     }
-
 }

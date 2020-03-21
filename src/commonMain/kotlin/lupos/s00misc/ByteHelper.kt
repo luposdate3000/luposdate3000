@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 inline fun Byte.bit0(): Boolean = (this and 1) > 0
 inline fun Byte.bit1(): Boolean = (this and 2) > 0
 inline fun Byte.bit2(): Boolean = (this and 4) > 0

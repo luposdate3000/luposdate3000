@@ -9,7 +9,6 @@ import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 abstract class AOPBinaryOperationFixedName(query: Query, operatorID: EOperatorID,
                                            classname: String,
                                            children: Array<OPBase>) : AOPBase(query, operatorID, classname, children) {

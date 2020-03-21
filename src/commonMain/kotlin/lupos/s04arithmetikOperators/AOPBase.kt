@@ -12,7 +12,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 abstract class AOPBase(query: Query,
                        operatorID: EOperatorID,
                        classname: String,
@@ -23,12 +22,10 @@ abstract class AOPBase(query: Query,
 
 class ResultVektorRaw(val capacity: Int) {
     val data = Array<ValueDefinition>(capacity) { ValueError() }
-
     fun toString(pos: Int, size: Int): String {
         val res = StringBuilder()
         for (i in pos until size)
             res.append("${data[i].toSparql()}, ")
         return res.toString()
     }
-
 }

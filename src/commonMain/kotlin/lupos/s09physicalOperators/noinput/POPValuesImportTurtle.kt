@@ -46,9 +46,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 class POPValuesImportTurtle : POPValuesImportBase {
-
     fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
         addRow(arrayOf(Dictionary[triple_s]!!.toN3String(), Dictionary[triple_p]!!.toN3String(), Dictionary[triple_o]!!.toN3String()))
     }

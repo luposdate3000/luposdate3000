@@ -7,11 +7,9 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ThreadSafeMutableMap<k, v>() {
     val mutex = ReadWriteLock()
     val global_values = AtomicReference(mutableMapOf<k, v>().freeze())
-
     fun clear() = mutex.withWriteLock {
         val values = global_values.value.toMutableMap()
         values.clear()
@@ -69,5 +67,4 @@ class ThreadSafeMutableMap<k, v>() {
         }
         return value
     }
-
 }

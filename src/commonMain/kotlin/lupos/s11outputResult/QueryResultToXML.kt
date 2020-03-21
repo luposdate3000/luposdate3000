@@ -14,7 +14,6 @@ import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 object QueryResultToXML {
     fun toXML(query: POPBase): List<XMLElement> {
         val child = query.evaluate()

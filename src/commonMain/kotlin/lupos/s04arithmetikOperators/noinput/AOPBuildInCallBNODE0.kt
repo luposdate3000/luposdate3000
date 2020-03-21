@@ -13,15 +13,12 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {
-
     override fun toSparql() = "BNODE()"
 
     companion object {
         val localbnode = ThreadSafeUuid()
     }
-
 
     override fun equals(other: Any?): Boolean {
         return other is AOPBuildInCallBNODE0

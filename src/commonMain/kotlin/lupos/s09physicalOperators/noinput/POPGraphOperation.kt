@@ -29,7 +29,6 @@ import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-
 class POPGraphOperation(query: Query,
                         val silent: Boolean,
                         var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
@@ -37,7 +36,6 @@ class POPGraphOperation(query: Query,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null,
                         val action: EGraphOperationType) : POPBase(query, EOperatorID.POPGraphOperationID, "POPGraphOperation", ResultSet(query.dictionary), arrayOf()) {
-
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
@@ -97,7 +95,6 @@ class POPGraphOperation(query: Query,
     }
 
     override fun cloneOP() = POPGraphOperation(query, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-
     fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri
     }

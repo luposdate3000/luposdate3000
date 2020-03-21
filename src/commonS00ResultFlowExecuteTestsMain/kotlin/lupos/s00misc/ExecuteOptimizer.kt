@@ -8,7 +8,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s08logicalOptimisation.OptimizerBase
 
-
 object ExecuteOptimizer {
     @JvmField
     val enabledOptimizers = ThreadSafeMutableMap<EOptimizerID, Boolean>()

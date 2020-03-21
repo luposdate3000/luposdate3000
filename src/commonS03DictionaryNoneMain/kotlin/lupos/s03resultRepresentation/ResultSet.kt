@@ -11,7 +11,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     @JvmField
     val variables = mutableListOf<String>()
@@ -50,7 +49,6 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     }
 
     val createdRows = SanityCheck.helper<MutableSet<Long>> { mutableSetOf<Long>() }
-
     fun createResultRow(): ResultRow {
         val res = ResultRow()
         SanityCheck.helper<Unit> { createdRows!!.add(res.uuid) }
@@ -58,7 +56,6 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
     }
 
     fun getValueObject(value: Value) = dictionary.getValue(value)
-
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         return r.values[v] == dictionary.undefValue
@@ -83,7 +80,6 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         SanityCheck.check({ createdRows!!.contains(r.uuid) })
         return getValueObject(r.values[k]!!)!!
     }
-
 
     fun copy(to: ResultRow, kTo: Variable, from: ResultRow, kFrom: Variable, fromR: ResultSet) {
         SanityCheck.check({ createdRows!!.contains(to.uuid) })

@@ -10,9 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class LOPNOOP(query: Query, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPNOOPID, "LOPNOOP", arrayOf(child)) {
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPNOOP)
             return false
@@ -25,4 +23,3 @@ class LOPNOOP(query: Query, child: OPBase = OPNothing(query)) : LOPBase(query, E
 
     override fun cloneOP() = LOPNOOP(query, children[0].cloneOP())
 }
-

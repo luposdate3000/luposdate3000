@@ -13,7 +13,6 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.POPServiceIRI
 
-
 class KeyDistributionOptimizer(query: Query) : OptimizerBase(query, EOptimizerID.KeyDistributionOptimizerID) {
     override val classname = "KeyDistributionOptimizer"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {

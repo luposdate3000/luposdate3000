@@ -24,12 +24,9 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", child.resultSet, arrayOf(child)) {
-
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP() = POPSort(query, sortBy, sortOrder, children[0].cloneOP())
-
     fun getRecoursiveSortVariables(): List<String> {
         val c = children[0]
         if (c is POPSort)
@@ -131,5 +128,4 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         res.addContent(childrenToXML())
         return res
     }
-
 }

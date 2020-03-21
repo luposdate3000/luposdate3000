@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ThreadSafeMutableAny<T>(val value: T) {
     val global_value = AtomicReference(value.freeze())
     fun get(): T {

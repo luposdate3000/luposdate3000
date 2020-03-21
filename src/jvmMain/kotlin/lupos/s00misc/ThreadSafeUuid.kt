@@ -6,9 +6,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 class ThreadSafeUuid {
-
     companion object {
         var global_uuid = 0L
     }

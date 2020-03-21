@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
 class MyComparatorInt : Comparator<Int> {
     override fun compare(a: Int, b: Int): Int {
         if (a < b)
@@ -17,7 +16,6 @@ class MyComparatorInt : Comparator<Int> {
 
 fun intArrayAllocator(size: Int) = Array<Int>(size) { 0 }
 fun intPairArrayAllocator(size: Int) = Array<Pair<Int, Int>>(size) { Pair(0, 0) }
-
 var kotlinList = mutableListOf<Int>()
 var kotlinList2 = mutableListOf<Int>()
 var kotlinMap = mutableMapOf<Int, Int>()

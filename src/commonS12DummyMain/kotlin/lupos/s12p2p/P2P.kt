@@ -27,7 +27,6 @@ import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
 
-
 object P2P {
     @JvmField
     val knownClients = ThreadSafeMutableList<String>()
@@ -271,5 +270,4 @@ object P2P {
             }
         }
     })
-
 }

@@ -18,9 +18,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-
 class POPValuesImportXML : POPValuesImportBase {
-
     constructor(query: Query, data: XMLElement) : super(query, data["head"]!!.childs.map { it.attributes["name"]!! }) {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
         SanityCheck.checkEQ({ data.tag }, { "sparql" })
@@ -44,5 +42,4 @@ class POPValuesImportXML : POPValuesImportBase {
             addRow(row)
         }
     }
-
 }

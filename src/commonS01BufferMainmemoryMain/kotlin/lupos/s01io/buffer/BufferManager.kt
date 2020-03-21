@@ -6,15 +6,12 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 
 val PAGESIZE: Int = 8 * 1024
-
 val bufferManager: BufferManager = BufferManager()
 
 class BufferManager {
-
     @JvmField
     val memoryOfFiles = hashMapOf<String, Array<Page?>>()
 

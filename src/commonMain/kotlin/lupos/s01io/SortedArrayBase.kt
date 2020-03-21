@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
-
 abstract class SortedArrayBase<T>(//
         val comparator: Comparator<T>,//
         val arrayAllocator: (Int) -> Array<T>,//
@@ -55,7 +54,6 @@ abstract class SortedArrayBase<T>(//
     fun set(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, { value }, { Pair(value, true) })
     fun delete(value: T, cmp: Comparator<T> = comparator): T? = findAction(value, cmp, true, delete = true)
     fun update(value: T, cmp: Comparator<T> = comparator, onCreate: () -> T?, onUpdate: (T) -> T?): T? = findAction(value, cmp, true, onCreate, { val x = onUpdate(it);Pair(x, x != null) })
-
     fun findAction(value: T, cmp: Comparator<T> = comparator, isModify: Boolean = false, onCreate: () -> T? = { null }, onUpdate: (T) -> Pair<T?, Boolean>? = { null }, delete: Boolean = false): T? {
 //this function assumes that the provided get-comparator is compatible to the one provided at allocation time
         var res: T? = null
@@ -183,4 +181,3 @@ abstract class SortedArrayBase<T>(//
         }
     }
 }
-
