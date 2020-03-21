@@ -1,13 +1,13 @@
 package lupos.s03resultRepresentation
 
 import lupos.s00misc.*
-
-
 import lupos.s00misc.Coverage
+
+
 object ResultChunkTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
-Coverage.funStart(106)
+            Coverage.funStart(106)
             if (a < b)
                 return -1
             if (a == b)
@@ -18,9 +18,9 @@ Coverage.funStart(106)
 
     class MyComparatorRow(val variables: Array<Variable>) : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
-Coverage.funStart(107)
+            Coverage.funStart(107)
             for (v in variables) {
-Coverage.forLoopStart(108)
+                Coverage.forLoopStart(108)
                 if (a[v.toInt()] < b[v.toInt()])
                     return -1
                 if (a[v.toInt()] > b[v.toInt()])
@@ -42,7 +42,7 @@ Coverage.forLoopStart(108)
     class NoMoreRandomException() : Exception("")
 
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
-Coverage.funStart(109)
+        Coverage.funStart(109)
         try {
             val res = buffer.getNextInt() % max
             if (positiveOnly && res < 0)
@@ -54,14 +54,14 @@ Coverage.funStart(109)
     }
 
     fun max(a: Int, b: Int): Int {
-Coverage.funStart(110)
+        Coverage.funStart(110)
         if (a < b)
             return b
         return a
     }
 
     fun min(a: Int, b: Int): Int {
-Coverage.funStart(111)
+        Coverage.funStart(111)
         if (a > b)
             return b
         return a
@@ -71,21 +71,21 @@ Coverage.funStart(111)
 
 
     fun log(s: String) {
-Coverage.funStart(112)
+        Coverage.funStart(112)
         if (verbose)
             println(s)
     }
 
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
-Coverage.funStart(113)
+        Coverage.funStart(113)
         var tmp = chunk
         log("" + kotlinList.map { it.map { it }.toString() + "\n" })
         log("" + tmp)
         tmp.backupPosition()
         for (i in 0 until kotlinList.size) {
-Coverage.forLoopStart(114)
+            Coverage.forLoopStart(114)
             while (tmp.availableRead() == 0) {
-Coverage.whileLoopStart(115)
+                Coverage.whileLoopStart(115)
                 tmp.restorePosition()
                 tmp = tmp.next
                 tmp.backupPosition()
@@ -97,7 +97,7 @@ Coverage.whileLoopStart(115)
             val w = kotlinList[i]
             require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }}" })
             if (tmp.availableRead() == 0) {
-Coverage.ifStart(116)
+                Coverage.ifStart(116)
                 tmp.restorePosition()
                 tmp = tmp.next
                 tmp.backupPosition()
@@ -109,7 +109,7 @@ Coverage.ifStart(116)
     }
 
     operator fun invoke(buffer: DynamicByteArray) {
-Coverage.funStart(117)
+        Coverage.funStart(117)
         var expectException = false
         log("-----------------------start")
         try {
@@ -125,7 +125,7 @@ Coverage.funStart(117)
             var chunkLast = chunk
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
             while (true) {
-Coverage.whileLoopStart(118)
+                Coverage.whileLoopStart(118)
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
                 log("value ${value.map { it }}")
                 var count = nextRandom(buffer, ResultVektor.capacity, false)

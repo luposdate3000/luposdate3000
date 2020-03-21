@@ -38,7 +38,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
         }
     }
-Coverage.verbose=true
+    Coverage.verbose = true
     val input = lupos.s00misc.File.readStdInAsDynamicByteArray()
     if (input != null) {
         val pos = input.pos
