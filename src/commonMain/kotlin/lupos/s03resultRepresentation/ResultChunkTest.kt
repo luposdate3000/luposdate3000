@@ -101,7 +101,7 @@ object ResultChunkTest {
         log("-----------------------start")
         try {
             columns = nextRandom(buffer, MAX_COLUMNS - 1, true) + 1
-            ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 2, true) + 2
+            ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 3, true) + 3
             require(ResultVektor.capacity > 0)
             var kotlinList = mutableListOf<Array<Value>>()
             var resultSetDictionary = ResultSetDictionary()
@@ -113,7 +113,9 @@ object ResultChunkTest {
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
+log("value ${value.map{it}}")
                 var count = nextRandom(buffer, ResultVektor.capacity, false)
+log("count $count")
                 expectException = count <= 0
                 for (i in 0 until count)
                     kotlinList.add(value)
@@ -122,6 +124,7 @@ object ResultChunkTest {
                 chunkLast.append(value, count)
                 val allcolumns = MutableList(columns) { it.toLong() }
                 val columns = Array(columns) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
+log("columns ${columns.map{it}}")
                 val comparator = MyComparatorRow(columns)
                 checkEquals(kotlinList, chunk, comparator)
                 kotlinList.sortWith(comparator)
