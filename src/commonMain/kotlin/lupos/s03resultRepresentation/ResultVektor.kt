@@ -118,16 +118,23 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun canAppend() = availableWrite() > 0
 
     fun append(value: Value, count: Int = 1) {
-        require(sizeIndex < capacity - 1)
-        if (data[sizeIndex].value == value)
+println("d0 $count")
+        require(sizeIndex < capacity - 1 &&count>0)
+if(sizeAbsolute==0){
+println("d1")
+            data[sizeIndex].count = count
+            data[sizeIndex].value = value
+}else        if (data[sizeIndex].value == value){
+println("d2")
             data[sizeIndex].count += count
-        else {
-            if (sizeAbsolute > 0)
-                sizeIndex++
+}        else {
+println("d3")
+            sizeIndex++
             data[sizeIndex].count = count
             data[sizeIndex].value = value
         }
         sizeAbsolute += count
+println("d4 $sizeAbsolute")
     }
 
     fun sameElements(): Int {

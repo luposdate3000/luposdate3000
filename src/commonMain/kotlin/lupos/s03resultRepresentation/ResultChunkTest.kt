@@ -75,6 +75,17 @@ println("c1 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].size
         tmp.backupPosition()
 println("c2 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         for (i in 0 until kotlinList.size) {
+println("c7 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
+while(tmp.availableRead() == 0){
+println("c8 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
+tmp.restorePosition()
+tmp = tmp.next
+tmp.backupPosition()
+log("" + tmp)
+if(tmp==chunk)
+break
+}
+println("c9 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
             val v = tmp.nextArr()
             val w = kotlinList[i]
             require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }}" })

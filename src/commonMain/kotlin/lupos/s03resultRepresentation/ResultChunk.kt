@@ -116,6 +116,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 val resultSet = chunks.resultSet
                 val columns = chunks.columns
                 val res = ResultChunk(resultSet, columns)
+println("x1 $res")
                 var resLast = res
                 while (chunks.hasNext()) {
                     println("j")
@@ -123,10 +124,13 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                     if (resLast.availableWrite() < 2) {
                         println("k")
                         resLast = append(resLast, ResultChunk(resultSet, columns))
+println("x2 $res")
                     }
                     resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
+println("x3 $res")
                     chunks.skipPos(same)
                 }
+println("x4 $res")
                 return res
             } else {
                 println("l")
@@ -202,6 +206,7 @@ first=idx.first
 if(last>first + idx.second - count)
 last=first + idx.second - count
         }
+println("y1 $this")
     }
 }
 
