@@ -218,7 +218,11 @@ println("b6")
         var currentidx = first
         while (true) {
 println("b7 $absoluteindex $last")
-            if (absoluteindex == last) {
+if (data[lastIndex].value == value) {
+println("b13")
+                data[lastIndex].count += count
+                return Pair(absoluteindex, data[lastIndex].count)
+            } else            if (absoluteindex == last) {
 println("b8")
                 var j = sizeIndex
                 while (j >= lastIndex) {
@@ -231,7 +235,7 @@ println("b9")
                 data[lastIndex ].count = count
                 sizeIndex++
                 return Pair(last, count)
-            } else if (absoluteindex + data[lastIndex].count > last) {
+            } else if (absoluteindex + data[lastIndex].count > last&&comparator.compare(data[lastIndex].value, value) < 0) {
 println("b10")
                 var j = sizeIndex
                 while (j >= lastIndex) {
@@ -252,10 +256,6 @@ println("b12")
                 data[lastIndex].count = count
                 sizeIndex++
                 return Pair(absoluteindex, count)
-            } else if (data[lastIndex].value == value) {
-println("b13")
-                data[lastIndex].count += count
-                return Pair(absoluteindex, data[lastIndex].count)
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
 println("b14")
                 val c = data[lastIndex].count - lastIndexLocal
