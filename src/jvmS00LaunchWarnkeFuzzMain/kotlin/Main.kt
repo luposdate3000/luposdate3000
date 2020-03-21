@@ -92,6 +92,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
                 }
         } catch (e: Throwable) {
             e.printStackTrace()
+            lupos.s00misc.File("crash-${data.hashCode()}-x").write(input)
             input.pos = currentSize
             lupos.s00misc.File("crash-${data.hashCode()}").write(input)
             if (errors++ > 1000) {

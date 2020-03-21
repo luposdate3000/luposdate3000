@@ -72,10 +72,8 @@ Coverage.ifStart(163)
     }
 
     fun max(a: Int, b: Int): Int {
-Coverage.funStart(164)
 
         if (a < b) {
-Coverage.ifStart(165)
 
             return b
         }
@@ -83,10 +81,8 @@ Coverage.ifStart(165)
     }
 
     fun min(a: Int, b: Int): Int {
-Coverage.funStart(166)
 
         if (a > b) {
-Coverage.ifStart(167)
 
             return b
         }
@@ -95,14 +91,40 @@ Coverage.ifStart(167)
 
     var columns = 4
     fun log(s: String) {
-Coverage.funStart(168)
 
         if (verbose) {
-Coverage.ifStart(169)
 
             println(s)
         }
     }
+
+fun kotlinListToString(kotlinList: MutableList<Array<Value>>):String{
+val res=StringBuilder()
+res.append("[\n")
+if(kotlinList.size>0){
+var counter=1
+var idx=1
+var lastRow=kotlinList[0]
+while(idx<kotlinList.size){
+var row=kotlinList[idx]
+var equal=true
+for(i in lastRow.indices)
+if(lastRow[i]!=row[i])
+equal=false
+if(equal)
+counter++
+else{
+res.append("${lastRow.map{it}}($counter)\n")
+lastRow=row
+counter=1
+}
+idx++
+}
+res.append("${lastRow.map{it}}($counter)\n")
+}
+res.append("]\n")
+return res.toString()
+}
 
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
 Coverage.funStart(170)
@@ -129,7 +151,7 @@ Coverage.ifStart(173)
             }
             val v = tmp.nextArr()
             val w = kotlinList[i]
-            require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }}" })
+            require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }} \n${kotlinListToString(kotlinList)} ${tmp.prev} $tmp ${tmp.next}" })
             if (tmp.availableRead() == 0) {
 Coverage.ifStart(174)
 

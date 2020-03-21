@@ -28,6 +28,11 @@ object Coverage {
         if (verbose)
             println("whileLoopStart $counter")
     }
+    fun whenCaseStart(counter: Int) {
+        counters[counter]++
+        if (verbose)
+            println("whenCaseStart $counter")
+    }
 
     fun ifStart(counter: Int) {
         counters[counter]++

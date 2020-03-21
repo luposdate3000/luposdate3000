@@ -57,10 +57,8 @@ Coverage.ifStart(249)
     }
 
     fun log(s: String) {
-Coverage.funStart(250)
 
         if (verbose) {
-Coverage.ifStart(251)
 
             println(s)
         }
@@ -347,6 +345,7 @@ Coverage.ifStart(281)
                         require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
                     }
                     helper.vektor.skipPos(helper.pos - helper.size)
+log(helper.vektor.toString())
                     require(helper.vektor.data[helper.vektor.sizeIndex].count > 0 || helper.vektor.sizeIndex == 0)
                 }
                 log("\n")

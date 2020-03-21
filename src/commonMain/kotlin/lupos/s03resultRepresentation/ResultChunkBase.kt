@@ -244,14 +244,14 @@ Coverage.ifStart(40)
             for (r in 0 until ResultVektor.capacity) {
 Coverage.forLoopStart(41)
 
-                var flag = false
+                var flag = 0
                 for (c in 0 until columns) {
 Coverage.forLoopStart(42)
 
+                        res.append(data[c].data[r].value)
                     if (r >= data[c].posIndex && r <= data[c].sizeIndex && data[c].data[r].count > 0) {
 Coverage.ifStart(43)
 
-                        res.append(data[c].data[r].value)
                         if (r == data[c].posIndex && data[c].posIndexLocal != 0) {
 Coverage.ifStart(44)
 
@@ -266,11 +266,11 @@ Coverage.ifStart(45)
 Coverage.ifStart(46)
 
                         res.append("<${data[c].data[r].count}>, ")
-                        flag = true
+                        flag++
                     }
                 }
                 res.append("\n")
-                if (flag && r > 4) {
+                if (flag==columns && r > 4) {
 Coverage.ifStart(47)
 
                     break
