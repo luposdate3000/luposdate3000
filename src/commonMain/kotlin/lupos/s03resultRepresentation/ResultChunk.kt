@@ -104,20 +104,6 @@ println("b7")
                     targetLast = copy(b, targetLast, countB)
                 }
             }
-var count=a.availableRead()
-while(count>0){
-println("b8")
-println("$count")
-                            targetLast = copy(a, targetLast, count)
-count=a.availableRead()
-}
-count=b.availableRead()
-while(count>0){
-println("b9")
-println("$count")
-                            targetLast = copy(b, targetLast, count)
-count=b.availableRead()
-}
             return targetLast
         }
 
@@ -148,10 +134,7 @@ println("c5")
                 }
 if(res!=res.next){
 println("c14")
-var a=split(res,1)
-var b=res
-println("$a $b")
-return sortHelper(comparator, columnOrder,a,b , ResultChunk(resultSet, columns)).next
+return sort(comparator,columnOrder,res)
 }
                 return res
             } else {
