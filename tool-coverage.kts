@@ -39,6 +39,7 @@ fun appendCoverageIf(filename: String, counter: Int, linenumber: Int) {
 fun appendCoverageFun(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
+
 fun appendCoverageWhenCase(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
@@ -115,7 +116,7 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
                 appendCoverageForEachLoop(filename, counter, res.size)
                 res.add("Coverage.forEachLoopStart(${counter++})")
             }
-regexWhenCaseBracket.matches(line) -> {
+            regexWhenCaseBracket.matches(line) -> {
                 require(appendClosingBracket == 0, { "$filename ${res.size}" })
                 res.add(line)
                 appendCoverageWhenCase(filename, counter, res.size)

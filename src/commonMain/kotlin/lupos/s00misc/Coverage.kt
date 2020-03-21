@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlinx.coroutines.*
 import lupos.s00misc.File
+
 object Coverage {
     var verbose = false
     val counters = Array(CoverageMapGenerated.keys.size) { 0L }
@@ -28,6 +29,7 @@ object Coverage {
         if (verbose)
             println("whileLoopStart $counter")
     }
+
     fun whenCaseStart(counter: Int) {
         counters[counter]++
         if (verbose)
@@ -50,20 +52,20 @@ object Coverage {
         return res.toString()
     }
 
-fun printToFile(){
-val s = toString()
-var h=s.hashCode()
-if(h<0)
-h=-h
-                File("coverage${h}.cov").printWriter { out ->
-                    out.println(s)
-                }
-}
+    fun printToFile() {
+        val s = toString()
+        var h = s.hashCode()
+        if (h < 0)
+            h = -h
+        File("coverage${h}.cov").printWriter { out ->
+            out.println(s)
+        }
+    }
 
     init {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() = runBlocking {
-printToFile()
+                printToFile()
             }
         })
     }
