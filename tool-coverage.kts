@@ -11,10 +11,27 @@ val regexWhileLoop = ".*s*while.*".toRegex()
 val regexForLoop = ".*s*for.*".toRegex()
 val regexIf = ".*s*(if|else).*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
+val coverageMap=mutableMapOf<Int,String>()
 var counter = 0
 
 enum class CoverageMode {
     Enable, Disable
+}
+
+fun appendCoverageForLoop(filename:String,counter:Int,linenumber:Int){
+coverageMap[counter]="$filename:$linenumber"
+}
+fun appendCoverageForEachLoop(filename:String,counter:Int,linenumber:Int){
+coverageMap[counter]="$filename:$linenumber"
+}
+fun appendCoverageWhileLoop(filename:String,counter:Int,linenumber:Int){
+coverageMap[counter]="$filename:$linenumber"
+}
+fun appendCoverageIf(filename:String,counter:Int,linenumber:Int){
+coverageMap[counter]="$filename:$linenumber"
+}
+fun appendCoverageFun(filename:String,counter:Int,linenumber:Int){
+coverageMap[counter]="$filename:$linenumber"
 }
 
 var coveragemode = CoverageMode.Enable
@@ -27,7 +44,7 @@ for (arg in args) {
             val fileTarget = File(arg + ".tmp")
             fileTarget.printWriter().use { out ->
                 when (coveragemode) {
-                    CoverageMode.Enable -> addCoverage(fileSource.bufferedReader().readLines()).forEach {
+                    CoverageMode.Enable -> addCoverage(arg,fileSource.bufferedReader().readLines()).forEach {
                         out.println(it)
                     }
                     CoverageMode.Disable -> removeCoverage(fileSource.bufferedReader().readLines()).forEach {
@@ -41,13 +58,23 @@ for (arg in args) {
         }
     }
 }
+File("src/commonMain/kotlin/lupos/s00misc/CoverageMapGenerated.kt").printWriter().use { out ->
+out.println("package lupos.s00misc")
+out.println("val CoverageMapGenerated=mapOf(")
+coverageMap.forEach{k,v->
+out.println("$k to \"$v\",")
+}
+out.println("$counter to \"\"")
+out.println(")")
+}
 
-fun addCoverage(lines: List<String>): List<String> {
+fun addCoverage(filename:String,lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     var appendClosingBracket = 0
     var hadPackage = false
     var hadImport = false
     var hadCoverageImport = false
+var linenumber=0
     lines.forEach {
         val line = it.replace(regexCoverage, "")
         if (line.startsWith("package "))
@@ -64,36 +91,44 @@ fun addCoverage(lines: List<String>): List<String> {
         when {
             regexFunBracket.matches(line) -> {
                 res.add(line)
+appendCoverageFun(filename,counter,linenumber)
                 res.add("Coverage.funStart(${counter++})")
             }
             regexWhileLoopBracket.matches(line) -> {
                 res.add(line)
+appendCoverageWhileLoop(filename,counter,linenumber)
                 res.add("Coverage.whileLoopStart(${counter++})")
             }
             regexForEachLoopBracket.matches(line) -> {
                 res.add(line)
+appendCoverageForEachLoop(filename,counter,linenumber)
                 res.add("Coverage.forEachLoopStart(${counter++})")
             }
             regexForLoopBracket.matches(line) -> {
                 res.add(line)
+appendCoverageForLoop(filename,counter,linenumber)
                 res.add("Coverage.forLoopStart(${counter++})")
             }
             regexIfBracket.matches(line) -> {
                 res.add(line)
+appendCoverageIf(filename,counter,linenumber)
                 res.add("Coverage.ifStart(${counter++})")
             }
             regexWhileLoop.matches(line) -> {
                 res.add(line + "{")
+appendCoverageWhileLoop(filename,counter,linenumber)
                 res.add("Coverage.whileLoopStart(${counter++})")
                 appendClosingBracket = 2
             }
             regexForLoop.matches(line) -> {
                 res.add(line + "{")
+appendCoverageForLoop(filename,counter,linenumber)
                 res.add("Coverage.forLoopStart(${counter++})")
                 appendClosingBracket = 2
             }
             regexIf.matches(line) -> {
                 res.add(line + "{")
+appendCoverageIf(filename,counter,linenumber)
                 res.add("Coverage.ifStart(${counter++})")
                 appendClosingBracket = 2
             }
@@ -109,6 +144,7 @@ fun addCoverage(lines: List<String>): List<String> {
             res.add("}")
             appendClosingBracket = 0
         }
+linenumber++
     }
     return res
 }

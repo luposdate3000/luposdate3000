@@ -66,6 +66,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var testnumber = 0
     var counter = datasize
     var errors = 0
+Runtime.getRuntime().addShutdownHook(new Thread() {
+          public void run() {
+Coverage.print()
+          }
+      });
     while (true) {
         testnumber++
         counter--

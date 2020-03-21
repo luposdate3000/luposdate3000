@@ -20,18 +20,42 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
 
     override fun toString(): String {
-        Coverage.funStart(0)
+Coverage.funStart(0)
+
+
+
+
+
+
         val res = StringBuilder()
         res.append("$capacity $posAbsolute $posIndex $posIndexLocal $posBackup $sizeAbsolute $sizeIndex\n")
         for (i in 0 until capacity) {
-            Coverage.forLoopStart(1)
+Coverage.forLoopStart(1)
+
+
+
+
+
+
             res.append("${data[i].value}(${data[i].count})")
             if (i == posIndex) {
-                Coverage.ifStart(2)
+Coverage.ifStart(2)
+
+
+
+
+
+
                 res.append("-")
             }
             if (i == sizeIndex) {
-                Coverage.ifStart(3)
+Coverage.ifStart(3)
+
+
+
+
+
+
                 res.append("+")
             }
             res.append(",")
@@ -40,38 +64,92 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun skipPos(count: Int) {
-        Coverage.funStart(4)
+Coverage.funStart(4)
+
+
+
+
+
+
         require(posAbsolute + count <= sizeAbsolute)
         posAbsolute += count
         if (count > 0) {
-            Coverage.ifStart(5)
+Coverage.ifStart(5)
+
+
+
+
+
+
             var i = count
             while (true) {
-                Coverage.whileLoopStart(6)
+Coverage.whileLoopStart(6)
+
+
+
+
+
+
                 val c = data[posIndex].count - posIndexLocal
                 if (c < i) {
-                    Coverage.ifStart(7)
+Coverage.ifStart(7)
+
+
+
+
+
+
                     internalNextElement()
                     i -= c
                 } else {
-                    Coverage.ifStart(8)
+Coverage.ifStart(8)
+
+
+
+
+
+
                     posIndexLocal += i
                     break
                 }
             }
         } else {
-            Coverage.ifStart(9)
+Coverage.ifStart(9)
+
+
+
+
+
+
             var i = -count
             while (true) {
-                Coverage.whileLoopStart(10)
+Coverage.whileLoopStart(10)
+
+
+
+
+
+
                 val c = posIndexLocal
                 if (c < i) {
-                    Coverage.ifStart(11)
+Coverage.ifStart(11)
+
+
+
+
+
+
                     posIndex--
                     posIndexLocal = data[posIndex].count
                     i -= c
                 } else {
-                    Coverage.ifStart(12)
+Coverage.ifStart(12)
+
+
+
+
+
+
                     posIndexLocal -= i
                     break
                 }
@@ -80,32 +158,86 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun skipSize(count: Int) {
-        Coverage.funStart(13)
+Coverage.funStart(13)
+
+
+
+
+
+
         require(posAbsolute <= sizeAbsolute + count)
         sizeAbsolute += count
         if (count >= 0) {
-            Coverage.ifStart(14)
+Coverage.ifStart(14)
+
+
+
+
+
+
             data[sizeIndex].count += count
         } else {
-            Coverage.ifStart(15)
+Coverage.ifStart(15)
+
+
+
+
+
+
             var i = -count
             while (true) {
-                Coverage.whileLoopStart(16)
+Coverage.whileLoopStart(16)
+
+
+
+
+
+
                 val c = data[sizeIndex].count
                 if (c < i) {
-                    Coverage.ifStart(17)
+Coverage.ifStart(17)
+
+
+
+
+
+
                     sizeIndex--
                     i -= c
                 } else {
-                    Coverage.ifStart(18)
+Coverage.ifStart(18)
+
+
+
+
+
+
                     if (sizeIndex == 0 && c == i) {
-                        Coverage.ifStart(19)
+Coverage.ifStart(19)
+
+
+
+
+
+
                         data[0].count = 0
                     } else if (c == i) {
-                        Coverage.ifStart(20)
+Coverage.ifStart(20)
+
+
+
+
+
+
                         sizeIndex--
                     } else {
-                        Coverage.ifStart(21)
+Coverage.ifStart(21)
+
+
+
+
+
+
                         data[sizeIndex].count -= i
                     }
                     break
@@ -115,27 +247,51 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun backupPosition() {
-        Coverage.funStart(22)
+Coverage.funStart(22)
+
+
+
+
+
+
         posBackup[0] = posAbsolute
         posBackup[1] = posIndex
         posBackup[2] = posIndexLocal
     }
 
     fun restorePosition() {
-        Coverage.funStart(23)
+Coverage.funStart(23)
+
+
+
+
+
+
         posAbsolute = posBackup[0]
         posIndex = posBackup[1]
         posIndexLocal = posBackup[2]
     }
 
     fun current(): Value {
-        Coverage.funStart(24)
+Coverage.funStart(24)
+
+
+
+
+
+
         internalSafeNextElement()
         return data[posIndex].value
     }
 
     override fun next(): Value {
-        Coverage.funStart(25)
+Coverage.funStart(25)
+
+
+
+
+
+
         internalSafeNextElement()
         posIndexLocal++
         posAbsolute++
@@ -148,17 +304,41 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun canAppend() = availableWrite() > 0
 
     fun append(value: Value, count: Int = 1) {
-        Coverage.funStart(26)
+Coverage.funStart(26)
+
+
+
+
+
+
         require(sizeIndex < capacity - 1 && count > 0)
         if (sizeAbsolute == 0) {
-            Coverage.ifStart(27)
+Coverage.ifStart(27)
+
+
+
+
+
+
             data[sizeIndex].count = count
             data[sizeIndex].value = value
         } else if (data[sizeIndex].value == value) {
-            Coverage.ifStart(28)
+Coverage.ifStart(28)
+
+
+
+
+
+
             data[sizeIndex].count += count
         } else {
-            Coverage.ifStart(29)
+Coverage.ifStart(29)
+
+
+
+
+
+
             sizeIndex++
             data[sizeIndex].count = count
             data[sizeIndex].value = value
@@ -167,44 +347,98 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun sameElements(): Int {
-        Coverage.funStart(30)
+Coverage.funStart(30)
+
+
+
+
+
+
         internalSafeNextElement()
         if (posIndex > sizeIndex) {
-            Coverage.ifStart(31)
+Coverage.ifStart(31)
+
+
+
+
+
+
             return 0
         }
         return data[posIndex].count - posIndexLocal
     }
 
     fun internalNextElement() {
-        Coverage.funStart(32)
+Coverage.funStart(32)
+
+
+
+
+
+
         posIndex++
         posIndexLocal = 0
     }
 
     fun internalSafeNextElement() {
-        Coverage.funStart(33)
+Coverage.funStart(33)
+
+
+
+
+
+
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
-            Coverage.ifStart(34)
+Coverage.ifStart(34)
+
+
+
+
+
+
             internalNextElement()
         }
     }
 
     fun copy(from: ResultVektor, count: Int) {
-        Coverage.funStart(35)
+Coverage.funStart(35)
+
+
+
+
+
+
         require(count > 0)
         var i = count
         from.internalSafeNextElement()
         while (true) {
-            Coverage.whileLoopStart(36)
+Coverage.whileLoopStart(36)
+
+
+
+
+
+
             val c = from.data[from.posIndex].count - from.posIndexLocal
             if (c < i) {
-                Coverage.ifStart(37)
+Coverage.ifStart(37)
+
+
+
+
+
+
                 append(from.data[from.posIndex].value, c)
                 from.internalNextElement()
                 i -= c
             } else {
-                Coverage.ifStart(38)
+Coverage.ifStart(38)
+
+
+
+
+
+
                 append(from.data[from.posIndex].value, i)
                 from.posIndexLocal += i
                 break
@@ -214,9 +448,21 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute, comparator: Comparator<Value>, count: Int): Pair<Int, Int> {
-        Coverage.funStart(39)
+Coverage.funStart(39)
+
+
+
+
+
+
         if (sizeAbsolute == 0) {
-            Coverage.ifStart(40)
+Coverage.ifStart(40)
+
+
+
+
+
+
             append(value, count)
             return Pair(0, count)
         }
@@ -233,24 +479,54 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         var idx = first
         var absoluteindex = 0
         while (idx > 0) {
-            Coverage.whileLoopStart(41)
+Coverage.whileLoopStart(41)
+
+
+
+
+
+
             val c = data[firstIndex].count
             if (c == 0) {
-                Coverage.ifStart(42)
+Coverage.ifStart(42)
+
+
+
+
+
+
                 firstIndexLocal = idx
                 break
             } else if (c == idx) {
-                Coverage.ifStart(43)
+Coverage.ifStart(43)
+
+
+
+
+
+
                 firstIndexLocal = 0
                 absoluteindex = first
                 firstIndex++
                 break
             } else if (c > idx) {
-                Coverage.ifStart(44)
+Coverage.ifStart(44)
+
+
+
+
+
+
                 firstIndexLocal = idx
                 break
             } else {
-                Coverage.ifStart(45)
+Coverage.ifStart(45)
+
+
+
+
+
+
                 absoluteindex += data[firstIndex].count
                 idx -= c
                 firstIndex++
@@ -261,16 +537,40 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         idx = last - first + 1//maximaler noch zu gehende index
         var currentidx = first
         while (true) {
-            Coverage.whileLoopStart(46)
+Coverage.whileLoopStart(46)
+
+
+
+
+
+
             if (data[lastIndex].value == value) {
-                Coverage.ifStart(47)
+Coverage.ifStart(47)
+
+
+
+
+
+
                 data[lastIndex].count += count
                 return Pair(absoluteindex, data[lastIndex].count)
             } else if (absoluteindex == last) {
-                Coverage.ifStart(48)
+Coverage.ifStart(48)
+
+
+
+
+
+
                 var j = sizeIndex
                 while (j >= lastIndex) {
-                    Coverage.whileLoopStart(49)
+Coverage.whileLoopStart(49)
+
+
+
+
+
+
                     data[j + 1].count = data[j].count
                     data[j + 1].value = data[j].value
                     j--
@@ -280,10 +580,22 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 sizeIndex++
                 return Pair(last, count)
             } else if (absoluteindex + data[lastIndex].count > last && comparator.compare(data[lastIndex].value, value) < 0) {
-                Coverage.ifStart(50)
+Coverage.ifStart(50)
+
+
+
+
+
+
                 var j = sizeIndex
                 while (j >= lastIndex) {
-                    Coverage.whileLoopStart(51)
+Coverage.whileLoopStart(51)
+
+
+
+
+
+
                     data[j + 2].count = data[j].count
                     data[j + 2].value = data[j].value
                     j--
@@ -295,21 +607,45 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 sizeIndex += 2
                 return Pair(last, count)
             } else if (lastIndex > sizeIndex) {
-                Coverage.ifStart(52)
+Coverage.ifStart(52)
+
+
+
+
+
+
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
                 return Pair(absoluteindex, count)
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
-                Coverage.ifStart(53)
+Coverage.ifStart(53)
+
+
+
+
+
+
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
                 if (currentidx - last - 1 == data[lastIndex].count) {
-                    Coverage.ifStart(54)
+Coverage.ifStart(54)
+
+
+
+
+
+
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        Coverage.whileLoopStart(55)
+Coverage.whileLoopStart(55)
+
+
+
+
+
+
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
@@ -319,11 +655,23 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     sizeIndex++
                     return Pair(absoluteindex, count)
                 } else if (c > idx) {
-                    Coverage.ifStart(56)
+Coverage.ifStart(56)
+
+
+
+
+
+
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        Coverage.whileLoopStart(57)
+Coverage.whileLoopStart(57)
+
+
+
+
+
+
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -336,19 +684,43 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     absoluteindex += data[lastIndex].count
                     return Pair(absoluteindex, count)
                 } else {
-                    Coverage.ifStart(58)
+Coverage.ifStart(58)
+
+
+
+
+
+
                     idx -= c
                     lastIndexLocal = 0
                     absoluteindex += data[lastIndex].count
                     lastIndex++
                 }
             } else {
-                Coverage.ifStart(59)
+Coverage.ifStart(59)
+
+
+
+
+
+
                 if (firstIndexLocal != 0) {
-                    Coverage.ifStart(60)
+Coverage.ifStart(60)
+
+
+
+
+
+
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        Coverage.whileLoopStart(61)
+Coverage.whileLoopStart(61)
+
+
+
+
+
+
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -361,10 +733,22 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                     absoluteindex += data[lastIndex].count
                     return Pair(absoluteindex, count)
                 } else {
-                    Coverage.ifStart(62)
+Coverage.ifStart(62)
+
+
+
+
+
+
                     var j = sizeIndex
                     while (j >= lastIndex) {
-                        Coverage.whileLoopStart(63)
+Coverage.whileLoopStart(63)
+
+
+
+
+
+
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
