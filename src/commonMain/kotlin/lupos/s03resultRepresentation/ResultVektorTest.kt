@@ -20,7 +20,7 @@ object ResultVektorTest {
     val MAX_CAPACITY = 100
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 4
-    val verbose = true
+    val verbose = false
 
     class NoMoreRandomException() : Exception("")
 

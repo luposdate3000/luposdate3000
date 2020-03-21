@@ -68,35 +68,26 @@ require(count>0)
         }
 
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
-println("b1 ${columnOrder.map{it}}")
             var targetLast = target
             loop@ while (a.availableRead()>0 && b.availableRead()>0) {
-println("b2")
                 var cmp = 0
                 for (i in columnOrder) {
-println("b3")
                     val vala = a.data[i.toInt()].current()
                     val valb = b.data[i.toInt()].current()
                     if (vala != valb) {
-println("b4 ${vala} ${valb}")
                         cmp = comparator[i.toInt()].compare(vala, valb)
                         require(cmp != 0)
                         if (cmp < 0) {
-println("b5")
                             var count = a.data[i.toInt()].sameElements()
-println("$count")
                             targetLast = copy(a, targetLast, count)
                         } else {
-println("b6")
                             var count = b.data[i.toInt()].sameElements()
-println("$count")
                             targetLast = copy(b, targetLast, count)
                         }
                         continue@loop
                     }
                 }
                 if (cmp == 0) {
-println("b7")
                     val i = columnOrder[columnOrder.size - 1]
                     var countA = a.data[i.toInt()].sameElements()
                     targetLast = copy(a, targetLast, countA)
@@ -108,37 +99,30 @@ println("b7")
         }
 
         fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
-println("c1")
             var chunkCount = 1
             var tmp = chunks.next
             while (tmp != chunks) {
-println("c2")
                 chunkCount++
                 tmp = tmp.next
             }
             if (chunkCount == 1) {
-println("c3")
                 val resultSet = chunks.resultSet
                 val columns = chunks.columns
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (chunks.hasNext()) {
-println("c4")
                     val same = chunks.sameElements()
                     if (resLast.availableWrite() < 2) {
-println("c5")
                         resLast = append(resLast, ResultChunk(resultSet, columns))
                     }
                     resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
                     chunks.skipPos(same)
                 }
 if(res!=res.next){
-println("c14")
 return sort(comparator,columnOrder,res)
 }
                 return res
             } else {
-println("c6")
                 val half = chunkCount / 2
                 var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
                 var b: ResultChunk? = sort(comparator, columnOrder, chunks)
@@ -147,26 +131,20 @@ println("c6")
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (true) {
-println("c7")
                     resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
                     if (a.hasNext()) {
-println("c8")
                         b = removeFirst(b)
                         if (b == null) {
-println("c9")
                             break
                         }
                     } else {
-println("c10")
                         a = removeFirst(a)
                         if (a == null) {
-println("c11")
                             break
                         }
                     }
                 }
                 if (a != null) {
-println("c12")
                     var count = a!!.availableRead()
 if(count>0){
                     resLast = copy(a, resLast, count)
@@ -176,7 +154,6 @@ if(a!=null){
                     append(resLast, a)
 }
                 } else {
-println("c13")
                     var count = b!!.availableRead()
 if(count>0){
                     resLast = copy(b!!, resLast, count)
@@ -211,7 +188,6 @@ if(b!=null){
         var first = idx.first
         var last = first + idx.second - count
         for (i in 1 until columns) {
-println("a ${values.map{it}} $first $last $idx $columnidx")
             columnidx = columnOrder[i].toInt()
             column = data[columnidx]
             idx = column.insertSorted(values[columnidx], first, last, comparator[columnOrder[i].toInt()], count)
@@ -220,7 +196,6 @@ println("a ${values.map{it}} $first $last $idx $columnidx")
             if (last > first + idx.second - count)
                 last = first + idx.second - count
         }
-println("a ${values.map{it}} $first $last $idx $columnidx")
     }
 }
 
