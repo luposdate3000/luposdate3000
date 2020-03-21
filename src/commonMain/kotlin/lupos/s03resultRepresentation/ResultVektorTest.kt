@@ -6,13 +6,13 @@ import lupos.s00misc.Coverage
 object ResultVektorTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
-            Coverage.funStart(245)
+            Coverage.funStart(265)
             if (a < b) {
-                Coverage.ifStart(246)
+                Coverage.ifStart(266)
                 return -1
             }
             if (a == b) {
-                Coverage.ifStart(247)
+                Coverage.ifStart(267)
                 throw Exception("dont compare equal values using comparator")
             }
             return 1
@@ -30,11 +30,11 @@ object ResultVektorTest {
     class NoMoreRandomException() : Exception("")
 
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
-        Coverage.funStart(248)
+        Coverage.funStart(268)
         try {
             val res = buffer.getNextInt() % max
             if (positiveOnly && res < 0) {
-                Coverage.ifStart(249)
+                Coverage.ifStart(269)
                 return -res
             }
             return res
@@ -52,13 +52,15 @@ object ResultVektorTest {
     }
 
     fun log(s: String) {
+        Coverage.funStart(270)
         if (verbose) {
+            Coverage.ifStart(271)
             println(s)
         }
     }
 
     operator fun invoke(buffer: DynamicByteArray) {
-        Coverage.funStart(252)
+        Coverage.funStart(272)
         var expectException = false
         log("start")
         try {
@@ -66,7 +68,7 @@ object ResultVektorTest {
             require(ResultVektor.capacity > 0)
             val helpers = Array(MAX_LISTS) { ResultVektorTestHelper() }
             while (true) {
-                Coverage.whileLoopStart(253)
+                Coverage.whileLoopStart(273)
                 expectException = false
                 val helperIdx = nextRandom(buffer, MAX_LISTS, true)
                 val helper = helpers[helperIdx]
@@ -76,6 +78,7 @@ object ResultVektorTest {
                 log("func $func")
                 when (func) {
                     0 -> {
+                        Coverage.whenCaseStart(274)
                         val count = nextRandom(buffer, MAX_CAPACITY, false)
                         log("count $count")
                         expectException = helper.pos + count > helper.size || helper.pos + count < 0
@@ -83,9 +86,10 @@ object ResultVektorTest {
                         helper.pos += count
                     }
                     1 -> {
+                        Coverage.whenCaseStart(275)
                         var count = nextRandom(buffer, MAX_CAPACITY, false)
                         if (count < 0 && helper.pos > helper.size + count) {
-                            Coverage.ifStart(254)
+                            Coverage.ifStart(276)
                             count = helper.pos - helper.size
                         }
                         log("count $count")
@@ -93,55 +97,64 @@ object ResultVektorTest {
                         helper.vektor.skipSize(count)
                         helper.size += count
                         if (count > 0) {
-                            Coverage.ifStart(255)
+                            Coverage.ifStart(277)
                             for (i in 0 until count) {
-                                Coverage.forLoopStart(256)
+                                Coverage.forLoopStart(278)
                                 helper.kotlinList.add(DONT_CARE_VALUE)
                             }
                         } else {
-                            Coverage.ifStart(257)
+                            Coverage.ifStart(279)
                             if (!expectException) {
-                                Coverage.ifStart(258)
+                                Coverage.ifStart(280)
                                 for (i in 0 until -count) {
-                                    Coverage.forLoopStart(259)
+                                    Coverage.forLoopStart(281)
                                     helper.kotlinList.removeAt(helper.kotlinList.size - 1)
                                 }
                             }
                         }
                     }
                     2 -> {
+                        Coverage.whenCaseStart(282)
                         helper.vektor.backupPosition()
                         helper.backup = helper.pos
                     }
                     3 -> {
+                        Coverage.whenCaseStart(283)
                         helper.vektor.restorePosition()
                         helper.pos = helper.backup
                     }
                     4 -> {
+                        Coverage.whenCaseStart(284)
                         expectException = helper.pos >= helper.size
                         val c = helper.vektor.current()
                         require(c == helper.kotlinList[helper.pos] || helper.kotlinList[helper.pos] == DONT_CARE_VALUE)
                     }
                     5 -> {
+                        Coverage.whenCaseStart(285)
                         expectException = helper.pos >= helper.size
                         val c = helper.vektor.next()
                         require(c == helper.kotlinList[helper.pos] || helper.kotlinList[helper.pos] == DONT_CARE_VALUE)
                         helper.pos++
                     }
                     6 -> {
+                        Coverage.whenCaseStart(286)
                         log("${helper.pos} ${helper.size} ${(helper.pos < helper.size)} ${helper.vektor.hasNext()}")
                         require((helper.pos < helper.size) == helper.vektor.hasNext())
                     }
                     7 -> {
+                        Coverage.whenCaseStart(287)
                         require(ResultVektor.capacity - helper.size - 1 <= helper.vektor.availableWrite())
                     }
                     8 -> {
+                        Coverage.whenCaseStart(288)
                         require(helper.size - helper.pos == helper.vektor.availableRead(), { "${helper.size} ${helper.pos} ${helper.size - helper.pos} ${helper.vektor.availableRead()}" })
                     }
                     9 -> {
+                        Coverage.whenCaseStart(289)
                         require(helper.vektor.canAppend() || helper.size >= ResultVektor.capacity)
                     }
                     10 -> {
+                        Coverage.whenCaseStart(290)
                         val count = nextRandom(buffer, MAX_CAPACITY, false)
                         log("count $count")
                         val value = nextRandom(buffer, MAX_DISTINCT_VALUES, false)
@@ -149,32 +162,33 @@ object ResultVektorTest {
                         expectException = count <= 0 || !helper.vektor.canAppend()
                         helper.vektor.append(value, count)
                         for (i in 0 until count) {
-                            Coverage.forLoopStart(260)
+                            Coverage.forLoopStart(291)
                             helper.kotlinList.add(value)
                         }
                         helper.size += count
                     }
                     11 -> {
+                        Coverage.whenCaseStart(292)
                         var same = 0
                         var lastsame = -1
                         var helperValue = DONT_CARE_VALUE
                         val tmp = helper.vektor.sameElements()
                         while (same != lastsame && same != tmp) {
-                            Coverage.whileLoopStart(261)
+                            Coverage.whileLoopStart(293)
                             if (helperValue == DONT_CARE_VALUE) {
-                                Coverage.ifStart(262)
+                                Coverage.ifStart(294)
                                 helperValue = helper.kotlinList[helper.pos]
                             }
                             while (helper.pos + same < helper.size && helperValue == helper.kotlinList[helper.pos + same]) {
-                                Coverage.whileLoopStart(263)
+                                Coverage.whileLoopStart(295)
                                 same++
                             }
                             if (same == tmp) {
-                                Coverage.ifStart(264)
+                                Coverage.ifStart(296)
                                 break
                             }
                             while (helper.pos + same < helper.size && helper.kotlinList[helper.pos + same] == DONT_CARE_VALUE) {
-                                Coverage.whileLoopStart(265)
+                                Coverage.whileLoopStart(297)
                                 same++
                             }
                             log("same $same $tmp")
@@ -182,6 +196,7 @@ object ResultVektorTest {
                         require(same == tmp)
                     }
                     12 -> {
+                        Coverage.whenCaseStart(298)
                         val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
                         val helper2 = helpers[helperIdx2]
                         log("helperIdx2 $helperIdx2 ${helper2.vektor}")
@@ -192,28 +207,29 @@ object ResultVektorTest {
                         helper2.vektor.copy(helper.vektor, count)
                         expectException = helper.vektor.availableRead() < count || count <= 0
                         for (i in helper.pos until helper.pos + count) {
-                            Coverage.forLoopStart(266)
+                            Coverage.forLoopStart(299)
                             helper2.kotlinList.add(helper.kotlinList[i])
                         }
                         helper2.size += count
                         helper.pos += count
                     }
                     13 -> {
+                        Coverage.whenCaseStart(300)
                         val first = nextRandom(buffer, helper.size, true)
                         val lastTarget = first + nextRandom(buffer, helper.size - first, true)
                         var last = first
                         helper.vektor.skipPos(-helper.pos)
                         helper.pos = 0
                         if (helper.kotlinList[last] == DONT_CARE_VALUE) {
-                            Coverage.ifStart(267)
+                            Coverage.ifStart(301)
                             helper.vektor.skipPos(last)
                             helper.kotlinList[last] = helper.vektor.current()
                             helper.vektor.skipPos(-last)
                         }
                         while (last < lastTarget) {
-                            Coverage.whileLoopStart(268)
+                            Coverage.whileLoopStart(302)
                             if (helper.kotlinList[last + 1] == DONT_CARE_VALUE) {
-                                Coverage.ifStart(269)
+                                Coverage.ifStart(303)
                                 helper.vektor.skipPos(last + 1)
                                 helper.kotlinList[last + 1] = helper.vektor.current()
                                 helper.vektor.skipPos(-last - 1)
@@ -221,7 +237,7 @@ object ResultVektorTest {
                             val lastValue = helper.kotlinList[last]
                             val thisValue = helper.kotlinList[last + 1]
                             if (lastValue == thisValue || MyComparatorValue().compare(lastValue, thisValue) < 0) {
-                                Coverage.ifStart(270)
+                                Coverage.ifStart(304)
                                 break
                             }
                             last++
@@ -236,19 +252,19 @@ object ResultVektorTest {
                         val listB = mutableListOf<Value>()
                         val listC = mutableListOf<Value>()
                         for (i in 0 until first) {
-                            Coverage.forLoopStart(271)
+                            Coverage.forLoopStart(305)
                             listA.add(helper.kotlinList[i])
                         }
                         for (i in 0 until count) {
-                            Coverage.forLoopStart(272)
+                            Coverage.forLoopStart(306)
                             listB.add(value)
                         }
                         for (i in first until last) {
-                            Coverage.forLoopStart(273)
+                            Coverage.forLoopStart(307)
                             listB.add(helper.kotlinList[i])
                         }
                         for (i in last until helper.kotlinList.size) {
-                            Coverage.forLoopStart(274)
+                            Coverage.forLoopStart(308)
                             listC.add(helper.kotlinList[i])
                         }
                         log("inA $listA")
@@ -270,19 +286,19 @@ object ResultVektorTest {
                         listA.addAll(listB)
                         listA.addAll(listC)
                         for (i in ret.first until ret.first + ret.second) {
-                            Coverage.forLoopStart(275)
+                            Coverage.forLoopStart(309)
                             require(listA[i] == value || listA[i] == DONT_CARE_VALUE)
                         }
                         helper.kotlinList = listA
                         helper.size += count
                     }
                     else -> {
-                        Coverage.ifStart(276)
+                        Coverage.whenCaseStart(310)
                         require(func < FUNCTION_COUNT)
                     }
                 }
                 if (expectException) {
-                    Coverage.ifStart(277)
+                    Coverage.ifStart(311)
                     throw Exception("there should be an exception")
                 }
                 log("" + expectException)
@@ -290,22 +306,22 @@ object ResultVektorTest {
                 log(helper.kotlinList.toString())
                 log("\n")
                 for (helper in helpers) {
-                    Coverage.forLoopStart(278)
+                    Coverage.forLoopStart(312)
                     helper.vektor.skipPos(-helper.pos)
                     for (i in 0 until helper.size) {
-                        Coverage.forLoopStart(279)
+                        Coverage.forLoopStart(313)
                         val v = helper.vektor.next()
                         var l = i - 5
                         var r = i + 6
                         if (l < 0) {
-                            Coverage.ifStart(280)
+                            Coverage.ifStart(314)
                             l = 0
                         }
                         if (r > helper.kotlinList.size) {
-                            Coverage.ifStart(281)
+                            Coverage.ifStart(315)
                             r = helper.kotlinList.size
                         }
-                        require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i -> $v != ${helper.kotlinList.subList(l, r)}" })
+                        require(v == helper.kotlinList[i] || helper.kotlinList[i] == DONT_CARE_VALUE, { "$i - > $v != ${helper.kotlinList.subList(l, r)}" })
                     }
                     helper.vektor.skipPos(helper.pos - helper.size)
                     log(helper.vektor.toString())
@@ -316,7 +332,7 @@ object ResultVektorTest {
         } catch (e: NoMoreRandomException) {
         } catch (e: Throwable) {
             if (!expectException) {
-                Coverage.ifStart(282)
+                Coverage.ifStart(316)
                 throw e
             }
         }
