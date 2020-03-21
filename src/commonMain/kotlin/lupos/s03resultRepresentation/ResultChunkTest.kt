@@ -69,21 +69,29 @@ object ResultChunkTest {
 
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
         var tmp = chunk
-        log("" + kotlinList.map { it.map { it }.toString()+"\n" })
+        log("" + kotlinList.map { it.map { it }.toString() + "\n" })
         log("" + tmp)
+println("c1 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         tmp.backupPosition()
+println("c2 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         for (i in 0 until kotlinList.size) {
             val v = tmp.nextArr()
             val w = kotlinList[i]
-            require(comparator.compare(v, w) == 0,{"$i ${v.map{it}} ${w.map{it}}"})
+            require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }}" })
             if (tmp.availableRead() == 0) {
+println("c3 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 tmp.restorePosition()
+println("c4 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 tmp = tmp.next
+println("c5 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 tmp.backupPosition()
+println("c6 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
                 log("" + tmp)
             }
         }
+println("c7 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         tmp.restorePosition()
+println("c8 ${tmp.availableRead()} ${tmp.data[0].posAbsolute} ${tmp.data[0].sizeAbsolute}")
         require(tmp == chunk)
     }
 
@@ -100,7 +108,7 @@ object ResultChunkTest {
             for (i in 0 until columns)
                 resultSet.createVariable("name$i")
             var chunk = ResultChunk(resultSet, columns)
-var chunkLast=chunk
+            var chunkLast = chunk
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
@@ -117,7 +125,7 @@ var chunkLast=chunk
                 checkEquals(kotlinList, chunk, comparator)
                 kotlinList.sortWith(comparator)
                 chunk = ResultChunk.sort(comparatorArray, columns, chunk)
-chunkLast=chunk.prev
+                chunkLast = chunk.prev
                 checkEquals(kotlinList, chunk, comparator)
             }
         } catch (e: NoMoreRandomException) {

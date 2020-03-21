@@ -155,9 +155,9 @@ object ResultVektorTest {
                         log(helper2.kotlinList.toString())
                         val count = nextRandom(buffer, MAX_CAPACITY, false)
                         log("count $count")
-                        expectException = helper.vektor.availableRead() < count || count <= 0||helper2.vektor.availableWrite()<count
+                        expectException = helper.vektor.availableRead() < count || count <= 0 || helper2.vektor.availableWrite() < count
                         helper2.vektor.copy(helper.vektor, count)
-			expectException = helper.vektor.availableRead() < count || count <= 0
+                        expectException = helper.vektor.availableRead() < count || count <= 0
                         for (i in helper.pos until helper.pos + count)
                             helper2.kotlinList.add(helper.kotlinList[i])
                         helper2.size += count
@@ -210,19 +210,19 @@ object ResultVektorTest {
                         log("inC $listC")
                         log("size " + listA.size)
                         expectException = helper.vektor.availableWrite() < 2 || count == 0
-val ret=                        helper.vektor.insertSorted(value, first, last-1, MyComparatorValue(), count)
-log("${helper.vektor}")
-log("asize ${listA.size}")
-log("bsize ${listB.size}")
-log("csize ${listC.size}")
-log("ret $ret")
-require(ret.second>=count)
-require((ret.first>=listA.size)||(listA[listA.size-1]==value)||(listA[listA.size-1]==DONT_CARE_VALUE),{"${ret.first} ${listA.size}"})
-require((ret.first+ret.second<=listA.size+listB.size)||(listC[0]==value)||(listC[0]==DONT_CARE_VALUE),{"${ret.first+ret.second} ${listA.size+listB.size}"})
+                        val ret = helper.vektor.insertSorted(value, first, last - 1, MyComparatorValue(), count)
+                        log("${helper.vektor}")
+                        log("asize ${listA.size}")
+                        log("bsize ${listB.size}")
+                        log("csize ${listC.size}")
+                        log("ret $ret")
+                        require(ret.second >= count)
+                        require((ret.first >= listA.size) || (listA[listA.size - 1] == value) || (listA[listA.size - 1] == DONT_CARE_VALUE), { "${ret.first} ${listA.size}" })
+                        require((ret.first + ret.second <= listA.size + listB.size) || (listC[0] == value) || (listC[0] == DONT_CARE_VALUE), { "${ret.first + ret.second} ${listA.size + listB.size}" })
                         listA.addAll(listB)
                         listA.addAll(listC)
-for(i in ret.first until ret.first+ret.second)
-require(listA[i]==value||listA[i]==DONT_CARE_VALUE)
+                        for (i in ret.first until ret.first + ret.second)
+                            require(listA[i] == value || listA[i] == DONT_CARE_VALUE)
                         helper.kotlinList = listA
                         helper.size += count
                     }

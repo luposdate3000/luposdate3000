@@ -118,7 +118,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun canAppend() = availableWrite() > 0
 
     fun append(value: Value, count: Int = 1) {
-        require(sizeIndex < capacity-1)
+        require(sizeIndex < capacity - 1)
         if (data[sizeIndex].value == value)
             data[sizeIndex].count += count
         else {
@@ -166,8 +166,12 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         from.posAbsolute += count
     }
 
-    fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute , comparator: Comparator<Value>, count: Int): Pair<Int,Int> {
-println("aa")
+    fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute, comparator: Comparator<Value>, count: Int): Pair<Int, Int> {
+println("b1")
+if(sizeAbsolute==0){
+append(value,count)
+return Pair(0,count)
+}
         require(availableWrite() >= 2)
         require(count > 0)
         posAbsolute = 0
@@ -179,54 +183,82 @@ println("aa")
         var lastIndex = 0
         var lastIndexLocal = 0
         var idx = first
-var absoluteindex=0
+        var absoluteindex = 0
         while (true) {
-println("ab")
+println("b2")
             val c = data[firstIndex].count
             if (c >= idx) {
-println("ac")
-                if (c == idx && data[firstIndex].value != value) {
-println("ad")
-absoluteindex+=data[firstIndex].count
+println("b3")
+                if (c == idx && data[firstIndex].value != value&&c!=0) {
+println("b4")
+                    absoluteindex += data[firstIndex].count
                     firstIndex++
                 } else {
-println("ae")
+println("b5")
                     firstIndexLocal = idx
                 }
                 break
             } else {
-println("af")
-absoluteindex+=data[firstIndex].count
+println("b6")
+                absoluteindex += data[firstIndex].count
                 idx -= c
                 firstIndex++
             }
         }
         lastIndex = firstIndex
         lastIndexLocal = firstIndexLocal
-        idx = last - first +1//maximaler noch zu gehende index
+        idx = last - first + 1//maximaler noch zu gehende index
         var currentidx = first
         while (true) {
-println("ag")
-            if (lastIndex > sizeIndex) {
-println("ah")
+println("b7 $absoluteindex $last")
+            if (absoluteindex == last) {
+println("b8")
+                var j = sizeIndex
+                while (j >= lastIndex) {
+println("b9")
+                    data[j + 1].count = data[j].count
+                    data[j + 1].value = data[j].value
+                    j--
+                }
+                data[lastIndex ].value = value
+                data[lastIndex ].count = count
+                sizeIndex++
+                return Pair(last, count)
+            } else if (absoluteindex + data[lastIndex].count > last) {
+println("b10")
+                var j = sizeIndex
+                while (j >= lastIndex) {
+println("b11")
+                    data[j + 2].count = data[j].count
+                    data[j + 2].value = data[j].value
+                    j--
+                }
+                data[lastIndex + 1].value = value
+                data[lastIndex + 1].count = count
+                data[lastIndex].count = last - absoluteindex
+                data[lastIndex + 2].count -= last - absoluteindex
+                sizeIndex += 2
+                return Pair(last, count)
+            } else if (lastIndex > sizeIndex) {
+println("b12")
                 data[lastIndex].value = value
                 data[lastIndex].count = count
                 sizeIndex++
-                return Pair(absoluteindex,count)
+                return Pair(absoluteindex, count)
             } else if (data[lastIndex].value == value) {
-println("ai")
+println("b13")
                 data[lastIndex].count += count
-                return Pair(absoluteindex,data[lastIndex].count)
+                return Pair(absoluteindex, data[lastIndex].count)
             } else if (comparator.compare(data[lastIndex].value, value) < 0) {
-println("aj")
+println("b14")
                 val c = data[lastIndex].count - lastIndexLocal
                 currentidx += c
-                if (currentidx - last-1 == data[lastIndex].count) {
-println("ak")
+                if (currentidx - last - 1 == data[lastIndex].count) {
+println("b15")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("al")
+println("b16")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
@@ -234,38 +266,38 @@ println("al")
                     data[lastIndex].value = value
                     data[lastIndex].count = count
                     sizeIndex++
-                    return Pair(absoluteindex,count)
+                    return Pair(absoluteindex, count)
                 } else if (c > idx) {
-println("am")
+println("b17")
                     lastIndexLocal = idx
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("as")
+println("b18")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
                     }
                     data[lastIndex + 1].value = value
                     data[lastIndex + 1].count = count
-                    data[lastIndex].count -= currentidx - last-1
-                    data[lastIndex + 2].count = currentidx - last-1
+                    data[lastIndex].count -= currentidx - last - 1
+                    data[lastIndex + 2].count = currentidx - last - 1
                     sizeIndex += 2
-absoluteindex+=data[lastIndex].count
-println("xxx $currentidx $firstIndexLocal $last $idx $count ${currentidx -firstIndexLocal} $absoluteindex")
-                    return Pair(absoluteindex,count)
+                    absoluteindex += data[lastIndex].count
+                    return Pair(absoluteindex, count)
                 } else {
-println("an")
+println("b19")
                     idx -= c
                     lastIndexLocal = 0
-absoluteindex+=data[lastIndex].count
+                    absoluteindex += data[lastIndex].count
                     lastIndex++
                 }
             } else {
-println("ao")
+println("b20")
                 if (firstIndexLocal != 0) {
+println("b21")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("ao")
+println("b22")
                         data[j + 2].count = data[j].count
                         data[j + 2].value = data[j].value
                         j--
@@ -275,13 +307,13 @@ println("ao")
                     data[lastIndex].count = firstIndexLocal
                     data[lastIndex + 2].count -= firstIndexLocal
                     sizeIndex += 2
-absoluteindex+=data[lastIndex].count
-                    return Pair(absoluteindex,count)
+                    absoluteindex += data[lastIndex].count
+                    return Pair(absoluteindex, count)
                 } else {
-println("aq")
+println("b23")
                     var j = sizeIndex
                     while (j >= lastIndex) {
-println("ar")
+println("b24")
                         data[j + 1].count = data[j].count
                         data[j + 1].value = data[j].value
                         j--
@@ -289,7 +321,7 @@ println("ar")
                     data[lastIndex].value = value
                     data[lastIndex].count = count
                     sizeIndex++
-                    return Pair(absoluteindex,count)
+                    return Pair(absoluteindex, count)
                 }
             }
         }
