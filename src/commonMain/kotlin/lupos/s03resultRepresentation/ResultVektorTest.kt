@@ -210,7 +210,7 @@ object ResultVektorTest {
                         log("inC $listC")
                         log("size " + listA.size)
                         expectException = helper.vektor.availableWrite() < 2 || count == 0
-                        val ret = helper.vektor.insertSorted(value, first, last - 1, MyComparatorValue(), count)
+                        val ret = helper.vektor.insertSorted(value, first, last, MyComparatorValue(), count)
                         log("${helper.vektor}")
                         log("asize ${listA.size}")
                         log("bsize ${listB.size}")
