@@ -23,7 +23,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun split(root: ResultChunk, count: Int): ResultChunk {
-require(count>0)
+            require(count > 0)
             var other = root
             for (i in 0 until count)
                 other = other.next
@@ -47,7 +47,7 @@ require(count>0)
         }
 
         fun copy(from: ResultChunk, target: ResultChunk, count: Int): ResultChunk {
-require(count>0)
+            require(count > 0)
             val resultSet = from.resultSet
             val columns = from.columns
             var targetLast = target
@@ -69,7 +69,7 @@ require(count>0)
 
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
             var targetLast = target
-            loop@ while (a.availableRead()>0 && b.availableRead()>0) {
+            loop@ while (a.availableRead() > 0 && b.availableRead() > 0) {
                 var cmp = 0
                 for (i in columnOrder) {
                     val vala = a.data[i.toInt()].current()
@@ -118,9 +118,9 @@ require(count>0)
                     resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
                     chunks.skipPos(same)
                 }
-if(res!=res.next){
-return sort(comparator,columnOrder,res)
-}
+                if (res != res.next) {
+                    return sort(comparator, columnOrder, res)
+                }
                 return res
             } else {
                 val half = chunkCount / 2
@@ -146,22 +146,22 @@ return sort(comparator,columnOrder,res)
                 }
                 if (a != null) {
                     var count = a!!.availableRead()
-if(count>0){
-                    resLast = copy(a, resLast, count)
-}
-a=removeFirst(a)
-if(a!=null){
-                    append(resLast, a)
-}
+                    if (count > 0) {
+                        resLast = copy(a, resLast, count)
+                    }
+                    a = removeFirst(a)
+                    if (a != null) {
+                        append(resLast, a)
+                    }
                 } else {
                     var count = b!!.availableRead()
-if(count>0){
-                    resLast = copy(b!!, resLast, count)
-}
-b = removeFirst(b)
-if(b!=null){
-                    append(resLast, b!!)
-}
+                    if (count > 0) {
+                        resLast = copy(b!!, resLast, count)
+                    }
+                    b = removeFirst(b)
+                    if (b != null) {
+                        append(resLast, b!!)
+                    }
                 }
                 return res
             }

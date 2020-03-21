@@ -113,9 +113,9 @@ object ResultChunkTest {
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
-log("value ${value.map{it}}")
+                log("value ${value.map { it }}")
                 var count = nextRandom(buffer, ResultVektor.capacity, false)
-log("count $count")
+                log("count $count")
                 expectException = count <= 0
                 for (i in 0 until count)
                     kotlinList.add(value)
@@ -124,7 +124,7 @@ log("count $count")
                 chunkLast.append(value, count)
                 val allcolumns = MutableList(columns) { it.toLong() }
                 val columns = Array(columns) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
-log("columns ${columns.map{it}}")
+                log("columns ${columns.map { it }}")
                 val comparator = MyComparatorRow(columns)
                 checkEquals(kotlinList, chunk, comparator)
                 kotlinList.sortWith(comparator)
