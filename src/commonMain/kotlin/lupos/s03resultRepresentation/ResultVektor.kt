@@ -18,7 +18,7 @@ _posAbsolute=value
 }
     var posIndex = 0
     var posIndexLocal = 0
-    var posBackup = Array(3) { 0 }
+    var posBackup = 0
     var sizeAbsolute = 0
     var sizeIndex = 0
     val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
@@ -81,12 +81,14 @@ Coverage.statementStart(700)
             }
 Coverage.statementStart(701)
         } else {
+println(this)
 Coverage.ifStart(702)
             var i = -count
 Coverage.statementStart(703)
             while (true) {
 Coverage.whileLoopStart(704)
                 val c = posIndexLocal
+println("c $c $i")
 Coverage.statementStart(705)
                 if (c < i) {
 Coverage.ifStart(706)
@@ -156,22 +158,16 @@ Coverage.statementStart(735)
     }
     fun backupPosition() {
 Coverage.funStart(736)
-        posBackup[0] = posAbsolute
+        posBackup = posAbsolute
 Coverage.statementStart(737)
-        posBackup[1] = posIndex
-Coverage.statementStart(738)
-        posBackup[2] = posIndexLocal
-Coverage.statementStart(739)
     }
     fun restorePosition() {
 Coverage.funStart(740)
-require(posBackup[0]<=sizeAbsolute)
-        posAbsolute = posBackup[0]
-Coverage.statementStart(741)
-        posIndex = posBackup[1]
-Coverage.statementStart(742)
-        posIndexLocal = posBackup[2]
-Coverage.statementStart(743)
+require(posBackup<=sizeAbsolute)
+posAbsolute=0
+posIndex=0
+posIndexLocal=0
+skipPos(posBackup)
     }
     fun current(): Value {
 Coverage.funStart(744)

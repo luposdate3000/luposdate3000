@@ -22,3 +22,6 @@ nohup.out
 html
 run
 benchmark_results/sp2b/*.n3
+fs
+mnt
+x
