@@ -942,13 +942,13 @@ fun executeBinaryTests(folder: String) {
         File(folder).walk {
             if (it.endsWith(".bin")) {
                 testcases++
-                    val tmp = DistributedTripleStore.getGraphNames().toList()
-                    val query = Query()
-                    tmp.forEach {
-                        DistributedTripleStore.dropGraph(query, it)
-                    }
-                    query.commit()
-                    executeBinaryTest(it, false)
+                val tmp = DistributedTripleStore.getGraphNames().toList()
+                val query = Query()
+                tmp.forEach {
+                    DistributedTripleStore.dropGraph(query, it)
+                }
+                query.commit()
+                executeBinaryTest(it, false)
             }
         }
     } catch (e: Throwable) {

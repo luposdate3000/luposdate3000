@@ -64,14 +64,14 @@
     <lineToCover lineNumber="148" covered="true"/>
     <lineToCover lineNumber="150" covered="true"/>
     <lineToCover lineNumber="152" covered="true"/>
-    <lineToCover lineNumber="155" covered="false"/>
-    <lineToCover lineNumber="157" covered="false"/>
-    <lineToCover lineNumber="159" covered="false"/>
-    <lineToCover lineNumber="161" covered="false"/>
-    <lineToCover lineNumber="163" covered="false"/>
-    <lineToCover lineNumber="165" covered="false"/>
-    <lineToCover lineNumber="167" covered="false"/>
-    <lineToCover lineNumber="169" covered="false"/>
+    <lineToCover lineNumber="155" covered="true"/>
+    <lineToCover lineNumber="157" covered="true"/>
+    <lineToCover lineNumber="159" covered="true"/>
+    <lineToCover lineNumber="161" covered="true"/>
+    <lineToCover lineNumber="163" covered="true"/>
+    <lineToCover lineNumber="165" covered="true"/>
+    <lineToCover lineNumber="167" covered="true"/>
+    <lineToCover lineNumber="169" covered="true"/>
     <lineToCover lineNumber="173" covered="true"/>
     <lineToCover lineNumber="175" covered="true"/>
     <lineToCover lineNumber="177" covered="true"/>
@@ -302,10 +302,10 @@
     <lineToCover lineNumber="336" covered="true"/>
     <lineToCover lineNumber="338" covered="true"/>
     <lineToCover lineNumber="340" covered="true"/>
-    <lineToCover lineNumber="342" covered="false"/>
-    <lineToCover lineNumber="344" covered="false"/>
-    <lineToCover lineNumber="346" covered="false"/>
-    <lineToCover lineNumber="348" covered="false"/>
+    <lineToCover lineNumber="342" covered="true"/>
+    <lineToCover lineNumber="344" covered="true"/>
+    <lineToCover lineNumber="346" covered="true"/>
+    <lineToCover lineNumber="348" covered="true"/>
     <lineToCover lineNumber="350" covered="false"/>
     <lineToCover lineNumber="352" covered="true"/>
     <lineToCover lineNumber="355" covered="true"/>
@@ -473,7 +473,7 @@
     <lineToCover lineNumber="141" covered="true"/>
     <lineToCover lineNumber="143" covered="true"/>
     <lineToCover lineNumber="145" covered="true"/>
-    <lineToCover lineNumber="148" covered="true"/>
+    <lineToCover lineNumber="147" covered="true"/>
     <lineToCover lineNumber="150" covered="true"/>
     <lineToCover lineNumber="152" covered="true"/>
     <lineToCover lineNumber="154" covered="true"/>
@@ -483,7 +483,7 @@
     <lineToCover lineNumber="162" covered="true"/>
     <lineToCover lineNumber="164" covered="true"/>
     <lineToCover lineNumber="166" covered="true"/>
-    <lineToCover lineNumber="170" covered="true"/>
+    <lineToCover lineNumber="168" covered="true"/>
     <lineToCover lineNumber="172" covered="true"/>
     <lineToCover lineNumber="174" covered="true"/>
     <lineToCover lineNumber="176" covered="true"/>
@@ -504,8 +504,8 @@
     <lineToCover lineNumber="206" covered="true"/>
     <lineToCover lineNumber="208" covered="true"/>
     <lineToCover lineNumber="210" covered="true"/>
-    <lineToCover lineNumber="213" covered="true"/>
-    <lineToCover lineNumber="216" covered="true"/>
+    <lineToCover lineNumber="212" covered="true"/>
+    <lineToCover lineNumber="215" covered="true"/>
     <lineToCover lineNumber="218" covered="true"/>
     <lineToCover lineNumber="220" covered="true"/>
     <lineToCover lineNumber="222" covered="true"/>
@@ -518,11 +518,11 @@
     <lineToCover lineNumber="236" covered="true"/>
     <lineToCover lineNumber="238" covered="true"/>
     <lineToCover lineNumber="240" covered="true"/>
-    <lineToCover lineNumber="243" covered="true"/>
+    <lineToCover lineNumber="242" covered="true"/>
     <lineToCover lineNumber="245" covered="true"/>
     <lineToCover lineNumber="247" covered="true"/>
     <lineToCover lineNumber="249" covered="true"/>
-    <lineToCover lineNumber="252" covered="true"/>
+    <lineToCover lineNumber="251" covered="true"/>
     <lineToCover lineNumber="254" covered="true"/>
     <lineToCover lineNumber="256" covered="true"/>
     <lineToCover lineNumber="258" covered="true"/>
@@ -544,8 +544,8 @@
     <lineToCover lineNumber="290" covered="true"/>
     <lineToCover lineNumber="292" covered="true"/>
     <lineToCover lineNumber="294" covered="true"/>
-    <lineToCover lineNumber="297" covered="false"/>
-    <lineToCover lineNumber="303" covered="true"/>
+    <lineToCover lineNumber="296" covered="true"/>
+    <lineToCover lineNumber="299" covered="false"/>
     <lineToCover lineNumber="305" covered="true"/>
     <lineToCover lineNumber="307" covered="true"/>
     <lineToCover lineNumber="309" covered="true"/>
@@ -562,6 +562,7 @@
     <lineToCover lineNumber="331" covered="true"/>
     <lineToCover lineNumber="333" covered="true"/>
     <lineToCover lineNumber="335" covered="true"/>
+    <lineToCover lineNumber="337" covered="true"/>
   </file>
   <file path="src/commonMain/kotlin/lupos/s03resultRepresentation/ResultChunkNoColumns.kt">
     <lineToCover lineNumber="10" covered="false"/>
@@ -713,7 +714,7 @@
     <lineToCover lineNumber="290" covered="false"/>
     <lineToCover lineNumber="292" covered="true"/>
     <lineToCover lineNumber="294" covered="true"/>
-    <lineToCover lineNumber="296" covered="true"/>
+    <lineToCover lineNumber="296" covered="false"/>
     <lineToCover lineNumber="299" covered="true"/>
     <lineToCover lineNumber="301" covered="true"/>
   </file>
