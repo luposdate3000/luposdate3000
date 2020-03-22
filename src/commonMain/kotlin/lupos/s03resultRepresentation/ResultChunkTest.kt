@@ -42,11 +42,11 @@ Coverage.statementStart(590)
     }
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
-    val MAX_COLUMNS = 10
-    val MAX_DISTINCT_VALUES = 20
-    val MAX_CAPACITY = 100
+    val MAX_COLUMNS = 3
+    val MAX_DISTINCT_VALUES = 5
+    val MAX_CAPACITY = 50
     val FUNCTION_COUNT = 14
-    val MAX_LISTS = 4
+    val MAX_LISTS = 3
     val verbose = false
     class NoMoreRandomException() : Exception("")
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {

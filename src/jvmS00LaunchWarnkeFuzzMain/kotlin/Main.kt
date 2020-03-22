@@ -90,8 +90,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
                     timepoint = timepointNext2
                     if (testnumber % 1000 == 0)
                         println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
-                    if (testnumber % 1000000 == 0)
-                        Coverage.printToFile()
                     break
                 } catch (e: ConnectException) {
                     e.printStackTrace()
