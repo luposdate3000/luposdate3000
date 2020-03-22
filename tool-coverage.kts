@@ -1,6 +1,6 @@
 import java.io.File
 
-val regexCoverage = "Coverage.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
+val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()
 val regexFunBracket = ".*s*fun\\s+.*\\{\\s*".toRegex()
 val regexWhileLoopBracket = ".*s*while.*\\{\\s*".toRegex()
