@@ -1,12 +1,21 @@
 package lupos.s03resultRepresentation
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         var capacity = 6
     }
-    var posAbsolute = 0
+    var _posAbsolute = 0
+val uuid=ThreadSafeUuid().next()
+    var posAbsolute :Int
+get():Int{
+return _posAbsolute
+}
+set(value){
+println("set $uuid $value")
+_posAbsolute=value
+}
     var posIndex = 0
     var posIndexLocal = 0
     var posBackup = Array(3) { 0 }
