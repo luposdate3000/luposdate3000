@@ -36,7 +36,7 @@ class AOPBuildInCallCONCAT(query: Query, child: AOPBase, childB: AOPBase) : AOPB
             if (a is ValueLanguageTaggedLiteral && b is ValueLanguageTaggedLiteral && a.language == b.language)
                 rVektor.data[i] = ValueLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
             else if (a is ValueTypedLiteral && b is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri)
-                rVektor.data[i] = ValueTypedLiteral.create(a.delimiter, a.content + b.content, a.type_iri)
+                rVektor.data[i] = ValueTypedLiteral(a.delimiter, a.content + b.content, a.type_iri)
             else if (a is ValueStringBase && b is ValueStringBase)
                 rVektor.data[i] = ValueSimpleLiteral(a.delimiter, a.content + b.content)
         }

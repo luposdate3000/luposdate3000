@@ -1,12 +1,15 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
+
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         var capacity = 6
     }
+
     var _posAbsolute = 0
     val uuid = ThreadSafeUuid().next()
     var posAbsolute: Int
@@ -23,440 +26,453 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     var sizeIndex = 0
     val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
     override fun toString(): String {
-Coverage.funStart(645)
+        Coverage.funStart(644)
         val res = StringBuilder()
-Coverage.statementStart(646)
+        Coverage.statementStart(645)
         res.append("$capacity $posAbsolute $posIndex $posIndexLocal $posBackup $sizeAbsolute $sizeIndex\n")
-Coverage.statementStart(647)
+        Coverage.statementStart(646)
         for (i in 0 until capacity) {
-Coverage.forLoopStart(648)
+            Coverage.forLoopStart(647)
             res.append("${data[i].value}(${data[i].count})")
-Coverage.statementStart(649)
+            Coverage.statementStart(648)
             if (i == posIndex) {
-Coverage.ifStart(650)
+                Coverage.ifStart(649)
                 res.append("-")
-Coverage.statementStart(651)
+                Coverage.statementStart(650)
             }
-Coverage.statementStart(652)
+            Coverage.statementStart(651)
             if (i == sizeIndex) {
-Coverage.ifStart(653)
+                Coverage.ifStart(652)
                 res.append("+")
-Coverage.statementStart(654)
+                Coverage.statementStart(653)
             }
-Coverage.statementStart(655)
+            Coverage.statementStart(654)
             res.append(",")
-Coverage.statementStart(656)
+            Coverage.statementStart(655)
         }
-Coverage.statementStart(657)
+        Coverage.statementStart(656)
         return res.toString()
     }
+
     fun skipPos(count: Int) {
-Coverage.funStart(658)
+        Coverage.funStart(657)
         require(posAbsolute + count <= sizeAbsolute)
-Coverage.statementStart(659)
+        Coverage.statementStart(658)
         posAbsolute += count
-Coverage.statementStart(660)
+        Coverage.statementStart(659)
         if (count > 0) {
-Coverage.ifStart(661)
+            Coverage.ifStart(660)
             var i = count
-Coverage.statementStart(662)
+            Coverage.statementStart(661)
             while (true) {
-Coverage.whileLoopStart(663)
+                Coverage.whileLoopStart(662)
                 val c = data[posIndex].count - posIndexLocal
-Coverage.statementStart(664)
+                Coverage.statementStart(663)
                 if (c < i) {
-Coverage.ifStart(665)
+                    Coverage.ifStart(664)
                     internalNextElement()
-Coverage.statementStart(666)
+                    Coverage.statementStart(665)
                     i -= c
-Coverage.statementStart(667)
+                    Coverage.statementStart(666)
                 } else {
-Coverage.ifStart(668)
+                    Coverage.ifStart(667)
                     posIndexLocal += i
-Coverage.statementStart(669)
+                    Coverage.statementStart(668)
                     break
                 }
-Coverage.statementStart(670)
+                Coverage.statementStart(669)
             }
-Coverage.statementStart(671)
+            Coverage.statementStart(670)
         } else {
-Coverage.ifStart(672)
+            Coverage.ifStart(671)
             var i = -count
-Coverage.statementStart(673)
+            Coverage.statementStart(672)
             while (true) {
-Coverage.whileLoopStart(674)
+                Coverage.whileLoopStart(673)
                 val c = posIndexLocal
-Coverage.statementStart(675)
+                Coverage.statementStart(674)
                 if (c < i) {
-Coverage.ifStart(676)
+                    Coverage.ifStart(675)
                     posIndex--
-Coverage.statementStart(677)
+                    Coverage.statementStart(676)
                     posIndexLocal = data[posIndex].count
-Coverage.statementStart(678)
+                    Coverage.statementStart(677)
                     i -= c
-Coverage.statementStart(679)
+                    Coverage.statementStart(678)
                 } else {
-Coverage.ifStart(680)
+                    Coverage.ifStart(679)
                     posIndexLocal -= i
-Coverage.statementStart(681)
+                    Coverage.statementStart(680)
                     break
                 }
-Coverage.statementStart(682)
+                Coverage.statementStart(681)
             }
-Coverage.statementStart(683)
+            Coverage.statementStart(682)
         }
-Coverage.statementStart(684)
+        Coverage.statementStart(683)
     }
+
     fun skipSize(count: Int) {
-Coverage.funStart(685)
+        Coverage.funStart(684)
         require(posAbsolute <= sizeAbsolute + count)
-Coverage.statementStart(686)
+        Coverage.statementStart(685)
         sizeAbsolute += count
-Coverage.statementStart(687)
+        Coverage.statementStart(686)
         if (count >= 0) {
-Coverage.ifStart(688)
+            Coverage.ifStart(687)
             data[sizeIndex].count += count
-Coverage.statementStart(689)
+            Coverage.statementStart(688)
         } else {
-Coverage.ifStart(690)
+            Coverage.ifStart(689)
             var i = -count
-Coverage.statementStart(691)
+            Coverage.statementStart(690)
             while (true) {
-Coverage.whileLoopStart(692)
+                Coverage.whileLoopStart(691)
                 val c = data[sizeIndex].count
-Coverage.statementStart(693)
+                Coverage.statementStart(692)
                 if (sizeIndex == 0) {
-Coverage.ifStart(694)
+                    Coverage.ifStart(693)
                     data[sizeIndex].count -= i
-Coverage.statementStart(695)
+                    Coverage.statementStart(694)
                     break
                 } else if (c < i) {
-Coverage.ifStart(696)
+                    Coverage.ifStart(695)
                     sizeIndex--
-Coverage.statementStart(697)
+                    Coverage.statementStart(696)
                     i -= c
-Coverage.statementStart(698)
+                    Coverage.statementStart(697)
                 } else if (c == i) {
-Coverage.ifStart(699)
+                    Coverage.ifStart(698)
                     sizeIndex--
-Coverage.statementStart(700)
+                    Coverage.statementStart(699)
                     break
                 } else {
-Coverage.ifStart(701)
+                    Coverage.ifStart(700)
                     data[sizeIndex].count -= i
-Coverage.statementStart(702)
+                    Coverage.statementStart(701)
                     break
                 }
-Coverage.statementStart(703)
+                Coverage.statementStart(702)
             }
-Coverage.statementStart(704)
+            Coverage.statementStart(703)
         }
-Coverage.statementStart(705)
+        Coverage.statementStart(704)
     }
+
     fun backupPosition() {
-Coverage.funStart(706)
+        Coverage.funStart(705)
         posBackup = posAbsolute
-Coverage.statementStart(707)
+        Coverage.statementStart(706)
     }
+
     fun restorePosition() {
-Coverage.funStart(708)
+        Coverage.funStart(707)
         require(posBackup <= sizeAbsolute)
-Coverage.statementStart(709)
+        Coverage.statementStart(708)
         posAbsolute = 0
-Coverage.statementStart(710)
+        Coverage.statementStart(709)
         posIndex = 0
-Coverage.statementStart(711)
+        Coverage.statementStart(710)
         posIndexLocal = 0
-Coverage.statementStart(712)
+        Coverage.statementStart(711)
         skipPos(posBackup)
-Coverage.statementStart(713)
+        Coverage.statementStart(712)
     }
+
     fun current(): Value {
-Coverage.funStart(714)
+        Coverage.funStart(713)
         internalSafeNextElement()
-Coverage.statementStart(715)
+        Coverage.statementStart(714)
         return data[posIndex].value
     }
+
     override fun next(): Value {
-Coverage.funStart(716)
+        Coverage.funStart(715)
         internalSafeNextElement()
-Coverage.statementStart(717)
+        Coverage.statementStart(716)
         posIndexLocal++
-Coverage.statementStart(718)
+        Coverage.statementStart(717)
         posAbsolute++
-Coverage.statementStart(719)
+        Coverage.statementStart(718)
         return data[posIndex].value
     }
+
     override fun hasNext() = sizeAbsolute > posAbsolute
     fun availableWrite() = capacity - sizeIndex - 1
     fun availableRead() = sizeAbsolute - posAbsolute
     fun canAppend() = availableWrite() > 0
     fun append(value: Value, count: Int = 1) {
-Coverage.funStart(720)
+        Coverage.funStart(719)
         require(sizeIndex < capacity - 1 && count > 0)
-Coverage.statementStart(721)
+        Coverage.statementStart(720)
         if (sizeAbsolute == 0) {
-Coverage.ifStart(722)
+            Coverage.ifStart(721)
             data[sizeIndex].count = count
-Coverage.statementStart(723)
+            Coverage.statementStart(722)
             data[sizeIndex].value = value
-Coverage.statementStart(724)
+            Coverage.statementStart(723)
         } else if (data[sizeIndex].value == value) {
-Coverage.ifStart(725)
+            Coverage.ifStart(724)
             data[sizeIndex].count += count
-Coverage.statementStart(726)
+            Coverage.statementStart(725)
         } else {
-Coverage.ifStart(727)
+            Coverage.ifStart(726)
             sizeIndex++
-Coverage.statementStart(728)
+            Coverage.statementStart(727)
             data[sizeIndex].count = count
-Coverage.statementStart(729)
+            Coverage.statementStart(728)
             data[sizeIndex].value = value
-Coverage.statementStart(730)
+            Coverage.statementStart(729)
         }
-Coverage.statementStart(731)
+        Coverage.statementStart(730)
         sizeAbsolute += count
-Coverage.statementStart(732)
+        Coverage.statementStart(731)
     }
+
     fun sameElements(): Int {
-Coverage.funStart(733)
+        Coverage.funStart(732)
         internalSafeNextElement()
-Coverage.statementStart(734)
+        Coverage.statementStart(733)
         require(posIndex <= sizeIndex)
-Coverage.statementStart(735)
+        Coverage.statementStart(734)
         return data[posIndex].count - posIndexLocal
     }
+
     fun internalNextElement() {
-Coverage.funStart(736)
+        Coverage.funStart(735)
         posIndex++
-Coverage.statementStart(737)
+        Coverage.statementStart(736)
         posIndexLocal = 0
-Coverage.statementStart(738)
+        Coverage.statementStart(737)
     }
+
     fun internalSafeNextElement() {
-Coverage.funStart(739)
+        Coverage.funStart(738)
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
-Coverage.ifStart(740)
+            Coverage.ifStart(739)
             internalNextElement()
-Coverage.statementStart(741)
+            Coverage.statementStart(740)
         }
-Coverage.statementStart(742)
+        Coverage.statementStart(741)
     }
+
     fun copy(from: ResultVektor, count: Int) {
-Coverage.funStart(743)
+        Coverage.funStart(742)
         require(count > 0)
-Coverage.statementStart(744)
+        Coverage.statementStart(743)
         var i = count
-Coverage.statementStart(745)
+        Coverage.statementStart(744)
         from.internalSafeNextElement()
-Coverage.statementStart(746)
+        Coverage.statementStart(745)
         while (true) {
-Coverage.whileLoopStart(747)
+            Coverage.whileLoopStart(746)
             val c = from.data[from.posIndex].count - from.posIndexLocal
-Coverage.statementStart(748)
+            Coverage.statementStart(747)
             if (c < i) {
-Coverage.ifStart(749)
+                Coverage.ifStart(748)
                 append(from.data[from.posIndex].value, c)
-Coverage.statementStart(750)
+                Coverage.statementStart(749)
                 from.internalNextElement()
-Coverage.statementStart(751)
+                Coverage.statementStart(750)
                 i -= c
-Coverage.statementStart(752)
+                Coverage.statementStart(751)
             } else {
-Coverage.ifStart(753)
+                Coverage.ifStart(752)
                 append(from.data[from.posIndex].value, i)
-Coverage.statementStart(754)
+                Coverage.statementStart(753)
                 from.posIndexLocal += i
-Coverage.statementStart(755)
+                Coverage.statementStart(754)
                 break
             }
-Coverage.statementStart(756)
+            Coverage.statementStart(755)
         }
-Coverage.statementStart(757)
+        Coverage.statementStart(756)
         from.posAbsolute += count
-Coverage.statementStart(758)
+        Coverage.statementStart(757)
     }
+
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute, comparator: Comparator<Value>, count: Int): Pair<Int, Int> {
-Coverage.funStart(759)
+        Coverage.funStart(758)
         if (sizeAbsolute == 0) {
-Coverage.ifStart(760)
+            Coverage.ifStart(759)
             append(value, count)
-Coverage.statementStart(761)
+            Coverage.statementStart(760)
             return Pair(0, count)
         }
-Coverage.statementStart(762)
+        Coverage.statementStart(761)
         require(availableWrite() >= 2)
-Coverage.statementStart(763)
+        Coverage.statementStart(762)
         require(count > 0)
-Coverage.statementStart(764)
+        Coverage.statementStart(763)
         posAbsolute = 0
-Coverage.statementStart(765)
+        Coverage.statementStart(764)
         posIndex = 0
-Coverage.statementStart(766)
+        Coverage.statementStart(765)
         posIndexLocal = 0
-Coverage.statementStart(767)
+        Coverage.statementStart(766)
         sizeAbsolute += count
-Coverage.statementStart(768)
+        Coverage.statementStart(767)
         var index = 0
-Coverage.statementStart(769)
+        Coverage.statementStart(768)
         var indexLocal = 0
-Coverage.statementStart(770)
+        Coverage.statementStart(769)
         var idx = first
-Coverage.statementStart(771)
+        Coverage.statementStart(770)
         var absoluteindex = 0
-Coverage.statementStart(772)
+        Coverage.statementStart(771)
         while (idx > 0) {
-Coverage.whileLoopStart(773)
+            Coverage.whileLoopStart(772)
             val c = data[index].count
-Coverage.statementStart(774)
+            Coverage.statementStart(773)
             if (c == idx) {
-Coverage.ifStart(775)
+                Coverage.ifStart(774)
                 indexLocal = 0
-Coverage.statementStart(776)
+                Coverage.statementStart(775)
                 absoluteindex = first
-Coverage.statementStart(777)
+                Coverage.statementStart(776)
                 index++
-Coverage.statementStart(778)
+                Coverage.statementStart(777)
                 break
             } else if (c > idx) {
-Coverage.ifStart(779)
+                Coverage.ifStart(778)
                 indexLocal = idx
-Coverage.statementStart(780)
+                Coverage.statementStart(779)
                 break
             } else {
-Coverage.ifStart(781)
+                Coverage.ifStart(780)
                 absoluteindex += data[index].count
-Coverage.statementStart(782)
+                Coverage.statementStart(781)
                 idx -= c
-Coverage.statementStart(783)
+                Coverage.statementStart(782)
                 index++
-Coverage.statementStart(784)
+                Coverage.statementStart(783)
             }
-Coverage.statementStart(785)
+            Coverage.statementStart(784)
         }
-Coverage.statementStart(786)
+        Coverage.statementStart(785)
         idx = last - first + 1
-Coverage.statementStart(787)
+        Coverage.statementStart(786)
         var currentidx = first
-Coverage.statementStart(788)
+        Coverage.statementStart(787)
         while (true) {
-Coverage.whileLoopStart(789)
+            Coverage.whileLoopStart(788)
             if (data[index].value == value) {
-Coverage.ifStart(790)
+                Coverage.ifStart(789)
                 data[index].count += count
-Coverage.statementStart(791)
+                Coverage.statementStart(790)
                 return Pair(absoluteindex, data[index].count)
             } else if (absoluteindex == last) {
-Coverage.ifStart(792)
+                Coverage.ifStart(791)
                 var j = sizeIndex
-Coverage.statementStart(793)
+                Coverage.statementStart(792)
                 while (j >= index) {
-Coverage.whileLoopStart(794)
+                    Coverage.whileLoopStart(793)
                     data[j + 1].count = data[j].count
-Coverage.statementStart(795)
+                    Coverage.statementStart(794)
                     data[j + 1].value = data[j].value
-Coverage.statementStart(796)
+                    Coverage.statementStart(795)
                     j--
-Coverage.statementStart(797)
+                    Coverage.statementStart(796)
                 }
-Coverage.statementStart(798)
+                Coverage.statementStart(797)
                 data[index].value = value
-Coverage.statementStart(799)
+                Coverage.statementStart(798)
                 data[index].count = count
-Coverage.statementStart(800)
+                Coverage.statementStart(799)
                 sizeIndex++
-Coverage.statementStart(801)
+                Coverage.statementStart(800)
                 return Pair(last, count)
             } else if (absoluteindex + data[index].count > last && comparator.compare(data[index].value, value) < 0) {
-Coverage.ifStart(802)
+                Coverage.ifStart(801)
                 var j = sizeIndex
-Coverage.statementStart(803)
+                Coverage.statementStart(802)
                 while (j >= index) {
-Coverage.whileLoopStart(804)
+                    Coverage.whileLoopStart(803)
                     data[j + 2].count = data[j].count
-Coverage.statementStart(805)
+                    Coverage.statementStart(804)
                     data[j + 2].value = data[j].value
-Coverage.statementStart(806)
+                    Coverage.statementStart(805)
                     j--
-Coverage.statementStart(807)
+                    Coverage.statementStart(806)
                 }
-Coverage.statementStart(808)
+                Coverage.statementStart(807)
                 data[index + 1].value = value
-Coverage.statementStart(809)
+                Coverage.statementStart(808)
                 data[index + 1].count = count
-Coverage.statementStart(810)
+                Coverage.statementStart(809)
                 data[index].count = last - absoluteindex
-Coverage.statementStart(811)
+                Coverage.statementStart(810)
                 data[index + 2].count -= last - absoluteindex
-Coverage.statementStart(812)
+                Coverage.statementStart(811)
                 sizeIndex += 2
-Coverage.statementStart(813)
+                Coverage.statementStart(812)
                 return Pair(last, count)
             } else if (comparator.compare(data[index].value, value) < 0) {
-Coverage.ifStart(814)
+                Coverage.ifStart(813)
                 val c = data[index].count - indexLocal
-Coverage.statementStart(815)
+                Coverage.statementStart(814)
                 currentidx += c
-Coverage.statementStart(816)
+                Coverage.statementStart(815)
                 idx -= c
-Coverage.statementStart(817)
+                Coverage.statementStart(816)
                 indexLocal = 0
-Coverage.statementStart(818)
+                Coverage.statementStart(817)
                 absoluteindex += data[index].count
-Coverage.statementStart(819)
+                Coverage.statementStart(818)
                 index++
-Coverage.statementStart(820)
+                Coverage.statementStart(819)
             } else if (indexLocal != 0) {
-Coverage.ifStart(821)
+                Coverage.ifStart(820)
                 var j = sizeIndex
-Coverage.statementStart(822)
+                Coverage.statementStart(821)
                 while (j >= index) {
-Coverage.whileLoopStart(823)
+                    Coverage.whileLoopStart(822)
                     data[j + 2].count = data[j].count
-Coverage.statementStart(824)
+                    Coverage.statementStart(823)
                     data[j + 2].value = data[j].value
-Coverage.statementStart(825)
+                    Coverage.statementStart(824)
                     j--
-Coverage.statementStart(826)
+                    Coverage.statementStart(825)
                 }
-Coverage.statementStart(827)
+                Coverage.statementStart(826)
                 data[index + 1].value = value
-Coverage.statementStart(828)
+                Coverage.statementStart(827)
                 data[index + 1].count = count
-Coverage.statementStart(829)
+                Coverage.statementStart(828)
                 data[index].count = indexLocal
-Coverage.statementStart(830)
+                Coverage.statementStart(829)
                 data[index + 2].count -= indexLocal
-Coverage.statementStart(831)
+                Coverage.statementStart(830)
                 sizeIndex += 2
-Coverage.statementStart(832)
+                Coverage.statementStart(831)
                 absoluteindex += data[index].count
-Coverage.statementStart(833)
+                Coverage.statementStart(832)
                 return Pair(absoluteindex, count)
             } else {
-Coverage.ifStart(834)
+                Coverage.ifStart(833)
                 var j = sizeIndex
-Coverage.statementStart(835)
+                Coverage.statementStart(834)
                 while (j >= index) {
-Coverage.whileLoopStart(836)
+                    Coverage.whileLoopStart(835)
                     data[j + 1].count = data[j].count
-Coverage.statementStart(837)
+                    Coverage.statementStart(836)
                     data[j + 1].value = data[j].value
-Coverage.statementStart(838)
+                    Coverage.statementStart(837)
                     j--
-Coverage.statementStart(839)
+                    Coverage.statementStart(838)
                 }
-Coverage.statementStart(840)
+                Coverage.statementStart(839)
                 data[index].value = value
-Coverage.statementStart(841)
+                Coverage.statementStart(840)
                 data[index].count = count
-Coverage.statementStart(842)
+                Coverage.statementStart(841)
                 sizeIndex++
-Coverage.statementStart(843)
+                Coverage.statementStart(842)
                 return Pair(absoluteindex, count)
             }
-Coverage.statementStart(844)
+            Coverage.statementStart(843)
         }
 /*Coverage Unreachable*/
+        Coverage.statementStart(845)
     }
 }

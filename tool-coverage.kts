@@ -14,6 +14,7 @@ val regexIf = ".*s*(if|else).*".toRegex()
 val regexWhenCaseBracket = ".*s*->\\s*\\{.*".toRegex()
 val regexWhenCase = ".*s*->.*".toRegex()
 val regexReturn = "\\s*(return|break|continue|throw).*".toRegex()
+val regexUnreachable = ".*Coverage Unreachable.*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
 val coverageMap = mutableMapOf<Int, String>()
 var counter = 0
@@ -94,6 +95,7 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     var hadCoverageImport = false
     var openBracketsFunction = Int.MAX_VALUE
     var openBrackets = 0
+    var openBracketsUnreachable = Int.MAX_VALUE
     lines.forEach {
         val line = it
         if (res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size - 1])) && (!whenBrackets.contains(openBrackets - 1))) {
@@ -119,9 +121,21 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
                 if (openBrackets < openBracketsFunction)
                     openBracketsFunction = Int.MAX_VALUE
                 whenBrackets.remove(openBrackets)
+                if (openBrackets < openBracketsUnreachable)
+                    openBracketsUnreachable = Int.MAX_VALUE
             }
         }
         when {
+            openBracketsUnreachable == openBrackets -> {
+                res.add(line)
+            }
+            regexUnreachable.matches(line) -> {
+                if (regexCoverage.matches(res[res.size - 1])) {
+                    res.removeAt(res.size - 1)
+                }
+                openBracketsUnreachable = openBrackets
+                res.add(line)
+            }
             regexWhenBracket.matches(line) -> {
                 res.add(line)
                 whenBrackets.add(openBrackets - 1)

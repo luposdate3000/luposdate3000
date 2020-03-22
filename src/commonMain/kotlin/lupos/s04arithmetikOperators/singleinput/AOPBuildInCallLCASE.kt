@@ -30,7 +30,7 @@ class AOPBuildInCallLCASE(query: Query, child: AOPBase) : AOPBase(query, EOperat
             if (a is ValueLanguageTaggedLiteral)
                 rVektor.data[i] = ValueLanguageTaggedLiteral(a.delimiter, a.content.toLowerCase(), a.language)
             else if (a is ValueTypedLiteral)
-                rVektor.data[i] = ValueTypedLiteral.create(a.delimiter, a.content.toLowerCase(), a.type_iri)
+                rVektor.data[i] = ValueTypedLiteral(a.delimiter, a.content.toLowerCase(), a.type_iri)
             else if (a is ValueSimpleLiteral)
                 rVektor.data[i] = ValueSimpleLiteral(a.delimiter, a.content.toLowerCase())
         }

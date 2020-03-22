@@ -53,9 +53,9 @@ class ResultSet(@JvmField val dictionary: ResultSetDictionary) {
         return when (value) {
             null -> dictionary.undefValue
             is ValueDefinition -> dictionary.createValue(value)
-            is String -> dictionary.createValue(ValueDefinition.create(value))
+            is String -> dictionary.createValue(ValueDefinition(value))
             is Value -> value
-            else -> dictionary.createValue(ValueDefinition.create(value.toString()))
+            else -> dictionary.createValue(ValueDefinition(value.toString()))
         }
     }
 

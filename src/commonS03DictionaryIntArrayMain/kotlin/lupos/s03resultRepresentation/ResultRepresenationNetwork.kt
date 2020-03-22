@@ -138,7 +138,7 @@ object ResultRepresenationNetwork {
                                 for (i in 0 until dictEntryCount) {
                                     val s = data.getNextString()
                                     GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
-                                    variableMap.add(query.dictionary.createValue(ValueDefinition.create(s)))
+                                    variableMap.add(query.dictionary.createValue(ValueDefinition(s)))
                                 }
                                 rowsUntilNextDictionary = data.getNextInt()
                                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })

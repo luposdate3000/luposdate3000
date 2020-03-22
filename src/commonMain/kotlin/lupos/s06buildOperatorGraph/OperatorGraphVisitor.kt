@@ -645,7 +645,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPConstant(query, ValueDefinition.create(node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">"))
+        return AOPConstant(query, ValueDefinition(node.delimiter + node.content + node.delimiter + "^^<" + node.type_iri + ">"))
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {

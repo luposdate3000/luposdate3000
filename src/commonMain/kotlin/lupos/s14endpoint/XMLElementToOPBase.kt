@@ -120,7 +120,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "ValueDouble" -> AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))
         "AOPMultiplication" -> AOPMultiplication(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         "ValueSimpleLiteral" -> AOPConstant(query, ValueSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!))
-        "ValueTypedLiteral" -> AOPConstant(query, ValueTypedLiteral.create(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
+        "ValueTypedLiteral" -> AOPConstant(query, ValueTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
         "ValueLanguageTaggedLiteral" -> AOPConstant(query, ValueLanguageTaggedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!))
         "ValueBoolean" -> AOPConstant(query, ValueBoolean(node.attributes["value"]!!.toBoolean()))
         "AOPBuildInCallSTRDT" -> AOPBuildInCallSTRDT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)

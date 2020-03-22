@@ -34,7 +34,7 @@ class AOPBuildInCallSTRDT(query: Query, child: AOPBase, childB: AOPBase) : AOPBa
             val a = aVektor.data[i]
             val b = bVektor.data[i]
             if (a is ValueSimpleLiteral && b is ValueIri)
-                rVektor.data[i] = ValueTypedLiteral.create(a.delimiter, a.content, b.iri)
+                rVektor.data[i] = ValueTypedLiteral(a.delimiter, a.content, b.iri)
         }
         return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
     }
