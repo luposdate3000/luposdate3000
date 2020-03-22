@@ -39,12 +39,10 @@ Coverage.statementStart(1080)
                     if (tmp.endsWith(">") && typeIdx > 0) {
 Coverage.ifStart(1081)
                         return ValueTypedLiteral.create("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
-                    } else if (langIdx > 0) {
-Coverage.ifStart(1082)
-                        return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     } else {
-Coverage.ifStart(1083)
-                        throw Exception("AOPVariable unknown type #${tmp}#")
+Coverage.ifStart(1082)
+require(langIdx > 0)
+                        return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     }
 Coverage.statementStart(1084)
                 }
@@ -53,7 +51,7 @@ Coverage.whenCaseStart(1085)
                     return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
                 }
             }
-Coverage.statementStart(1086)
+/*Coverage Unreachable*/
         }
     }
     fun toSparql(): String {
@@ -190,7 +188,7 @@ Coverage.whenCaseStart(1110)
                     return ValueTypedLiteral(delimiter, content, type_iri)
                 }
             }
-Coverage.statementStart(1111)
+/*Coverage Unreachable*/
         }
     }
     override fun toXMLElement() = XMLElement("ValueTypedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)

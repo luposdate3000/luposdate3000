@@ -62,7 +62,7 @@ Coverage.statementStart(546)
 Coverage.statementStart(547)
             throw NoMoreRandomException()
         }
-Coverage.statementStart(548)
+/*Coverage Unreachable*/
     }
     var columns = 4
     fun log(s: String) {
@@ -250,13 +250,13 @@ Coverage.statementStart(637)
                 checkEquals(kotlinList, chunk, comparator)
 Coverage.statementStart(638)
             }
-Coverage.statementStart(639)
+/*Coverage Unreachable*/
         } catch (e: NoMoreRandomException) {
 Coverage.statementStart(640)
         } catch (e: Throwable) {
 Coverage.statementStart(641)
             if (!expectException) {
-Coverage.ifStart(642)
+/*Coverage Unreachable*/
                 throw e
             }
 Coverage.statementStart(643)

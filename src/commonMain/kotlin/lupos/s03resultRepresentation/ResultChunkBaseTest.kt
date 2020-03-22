@@ -2,22 +2,6 @@ package lupos.s03resultRepresentation
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 object ResultChunkBaseTest {
-    class MyComparatorValue : Comparator<Value> {
-        override fun compare(a: Value, b: Value): Int {
-Coverage.funStart(129)
-            if (a < b) {
-Coverage.ifStart(130)
-                return -1
-            }
-Coverage.statementStart(131)
-            if (a == b) {
-Coverage.ifStart(132)
-                throw Exception("dont compare equal values using comparator")
-            }
-Coverage.statementStart(133)
-            return 1
-        }
-    }
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
     val MAX_COLUMNS = 3
@@ -43,7 +27,7 @@ Coverage.statementStart(138)
 Coverage.statementStart(139)
             throw NoMoreRandomException()
         }
-Coverage.statementStart(140)
+/*Coverage Unreachable*/
     }
     fun max(a: Int, b: Int): Int {
 Coverage.funStart(141)
@@ -299,18 +283,8 @@ Coverage.statementStart(248)
 Coverage.statementStart(249)
                         if (count == 0) {
 Coverage.ifStart(250)
-                            for (i in 0 until count) {
-Coverage.forLoopStart(251)
-                                val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(252)
-                                helper.pos++
-Coverage.statementStart(253)
-                                helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(254)
-                            }
-Coverage.statementStart(255)
                             helper2.chunk.copy(helper.chunk, count)
-Coverage.statementStart(256)
+/*Coverage Unreachable*/
                         }
 Coverage.statementStart(257)
                         while (helper2.chunk.canAppend() && count > 0) {
@@ -444,8 +418,7 @@ Coverage.statementStart(320)
 Coverage.statementStart(321)
                     }
                     else -> {
-Coverage.whenCaseStart(322)
-                        throw Exception("unreachable")
+/*Coverage Unreachable*/
                     }
                 }
 Coverage.statementStart(323)
@@ -503,13 +476,13 @@ Coverage.statementStart(348)
                 log("\n")
 Coverage.statementStart(349)
             }
-Coverage.statementStart(350)
+/*Coverage Unreachable*/
         } catch (e: NoMoreRandomException) {
 Coverage.statementStart(351)
         } catch (e: Throwable) {
 Coverage.statementStart(352)
             if (!expectException) {
-Coverage.ifStart(353)
+/*Coverage Unreachable*/
                 throw e
             }
 Coverage.statementStart(354)

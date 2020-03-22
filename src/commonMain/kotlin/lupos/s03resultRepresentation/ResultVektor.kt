@@ -457,7 +457,6 @@ Coverage.statementStart(843)
             }
 Coverage.statementStart(844)
         }
-Coverage.statementStart(845)
-        throw Exception("unreachable")
+/*Coverage Unreachable*/
     }
 }

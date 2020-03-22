@@ -39,7 +39,7 @@ Coverage.statementStart(854)
 Coverage.statementStart(855)
             throw NoMoreRandomException()
         }
-Coverage.statementStart(856)
+/*Coverage Unreachable*/
     }
     class ResultVektorTestHelper {
         var vektor = ResultVektor(UNDEF_VALUE)
@@ -433,8 +433,7 @@ Coverage.statementStart(1038)
 Coverage.statementStart(1039)
                     }
                     else -> {
-Coverage.whenCaseStart(1040)
-                        throw Exception("unreachable")
+/*Coverage Unreachable*/
                     }
                 }
 Coverage.statementStart(1041)
@@ -490,13 +489,13 @@ Coverage.statementStart(1065)
                 log("\n")
 Coverage.statementStart(1066)
             }
-Coverage.statementStart(1067)
+/*Coverage Unreachable*/
         } catch (e: NoMoreRandomException) {
 Coverage.statementStart(1068)
         } catch (e: Throwable) {
 Coverage.statementStart(1069)
             if (!expectException) {
-Coverage.ifStart(1070)
+/*Coverage Unreachable*/
                 throw e
             }
 Coverage.statementStart(1071)

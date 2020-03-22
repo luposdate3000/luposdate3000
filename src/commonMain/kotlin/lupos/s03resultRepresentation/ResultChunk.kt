@@ -297,7 +297,7 @@ Coverage.statementStart(490)
 Coverage.statementStart(491)
                 return res
             }
-Coverage.statementStart(492)
+/*Coverage Unreachable*/
         }
     }
     var prev = this
