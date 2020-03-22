@@ -336,7 +336,8 @@ Coverage.statementStart(1026)
 Coverage.statementStart(1027)
                             val thisValue = helper.kotlinList[last + 1]
 Coverage.statementStart(1028)
-                            if (lastValue == thisValue || MyComparatorValue().compare(lastValue, thisValue) < 0) {
+println("yyy $lastValue $thisValue")
+                            if (lastValue != thisValue && MyComparatorValue().compare(lastValue, thisValue) > 0) {
 Coverage.ifStart(1029)
                                 break
                             }
