@@ -1,23 +1,26 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
+
 object ResultChunkBaseTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
-Coverage.funStart(129)
+            Coverage.funStart(158)
             if (a < b) {
-Coverage.ifStart(130)
+                Coverage.ifStart(159)
                 return -1
             }
-Coverage.statementStart(131)
+            Coverage.statementStart(160)
             if (a == b) {
-Coverage.ifStart(132)
+                Coverage.ifStart(161)
                 throw Exception("dont compare equal values using comparator")
             }
-Coverage.statementStart(133)
+            Coverage.statementStart(162)
             return 1
         }
     }
+
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
     val MAX_COLUMNS = 10
@@ -26,44 +29,50 @@ Coverage.statementStart(133)
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 4
     val verbose = false
+
     class NoMoreRandomException() : Exception("")
+
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
-Coverage.funStart(134)
+        Coverage.funStart(163)
         try {
-Coverage.statementStart(135)
+            Coverage.statementStart(164)
             val res = buffer.getNextInt() % max
-Coverage.statementStart(136)
+            Coverage.statementStart(165)
             if (positiveOnly && res < 0) {
-Coverage.ifStart(137)
+                Coverage.ifStart(166)
                 return -res
             }
-Coverage.statementStart(138)
+            Coverage.statementStart(167)
             return res
         } catch (e: Throwable) {
-Coverage.statementStart(139)
+            Coverage.statementStart(168)
             throw NoMoreRandomException()
         }
-Coverage.statementStart(140)
+        Coverage.statementStart(169)
     }
+
     fun max(a: Int, b: Int): Int {
-Coverage.funStart(141)
+        Coverage.funStart(170)
         if (a < b) {
-Coverage.ifStart(142)
+            Coverage.ifStart(171)
             return b
         }
-Coverage.statementStart(143)
+        Coverage.statementStart(172)
         return a
     }
+
     fun min(a: Int, b: Int): Int {
-Coverage.funStart(144)
+        Coverage.funStart(173)
         if (a > b) {
-Coverage.ifStart(145)
+            Coverage.ifStart(174)
             return b
         }
-Coverage.statementStart(146)
+        Coverage.statementStart(175)
         return a
     }
+
     var columns = 4
+
     class ResultVektorTestHelper {
         var kotlinList = mutableListOf<Array<Value>>()
         var resultSetDictionary = ResultSetDictionary()
@@ -72,489 +81,492 @@ Coverage.statementStart(146)
         var pos = 0
         var size = 0
         var backup = 0
+
         constructor() {
             for (i in 0 until columns) {
-Coverage.forLoopStart(147)
+                Coverage.forLoopStart(176)
                 resultSet.createVariable("name$i")
             }
         }
     }
+
     fun log(s: String) {
-Coverage.funStart(148)
+        Coverage.funStart(177)
         if (verbose) {
-Coverage.ifStart(149)
+            Coverage.ifStart(178)
             println(s)
-Coverage.statementStart(150)
+            Coverage.statementStart(179)
         }
-Coverage.statementStart(151)
+        Coverage.statementStart(180)
     }
+
     operator fun invoke(buffer: DynamicByteArray) {
-Coverage.funStart(152)
+        Coverage.funStart(181)
         var expectException = false
-Coverage.statementStart(153)
+        Coverage.statementStart(182)
         log("-----------------------start")
-Coverage.statementStart(154)
+        Coverage.statementStart(183)
         try {
-Coverage.statementStart(155)
+            Coverage.statementStart(184)
             columns = nextRandom(buffer, MAX_COLUMNS - 1, true) + 1
-Coverage.statementStart(156)
+            Coverage.statementStart(185)
             ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 2, true) + 2
-Coverage.statementStart(157)
+            Coverage.statementStart(186)
             require(ResultVektor.capacity > 0)
-Coverage.statementStart(158)
+            Coverage.statementStart(187)
             val helpers = Array(MAX_LISTS) { ResultVektorTestHelper() }
-Coverage.statementStart(159)
+            Coverage.statementStart(188)
             while (true) {
-Coverage.whileLoopStart(160)
+                Coverage.whileLoopStart(189)
                 expectException = false
-Coverage.statementStart(161)
+                Coverage.statementStart(190)
                 val helperIdx = nextRandom(buffer, MAX_LISTS, true)
-Coverage.statementStart(162)
+                Coverage.statementStart(191)
                 val helper = helpers[helperIdx]
-Coverage.statementStart(163)
+                Coverage.statementStart(192)
                 log("helper ${helper.chunk}")
-Coverage.statementStart(164)
+                Coverage.statementStart(193)
                 val func = nextRandom(buffer, FUNCTION_COUNT, true)
-Coverage.statementStart(165)
+                Coverage.statementStart(194)
                 log("func $func")
-Coverage.statementStart(166)
+                Coverage.statementStart(195)
                 when (func) {
                     0 -> {
-Coverage.whenCaseStart(167)
+                        Coverage.whenCaseStart(196)
                         val count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-Coverage.statementStart(168)
+                        Coverage.statementStart(197)
                         log("count $count")
-Coverage.statementStart(169)
+                        Coverage.statementStart(198)
                         expectException = helper.pos + count > helper.size || count == 0 || helper.pos + count < 0
-Coverage.statementStart(170)
+                        Coverage.statementStart(199)
                         helper.chunk.skipPos(count)
-Coverage.statementStart(171)
+                        Coverage.statementStart(200)
                         helper.pos += count
-Coverage.statementStart(172)
+                        Coverage.statementStart(201)
                     }
                     1 -> {
-Coverage.whenCaseStart(173)
+                        Coverage.whenCaseStart(202)
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-Coverage.statementStart(174)
+                        Coverage.statementStart(203)
                         if (count < 0 && helper.pos > helper.size + count) {
-Coverage.ifStart(175)
+                            Coverage.ifStart(204)
                             count = helper.pos - helper.size
-Coverage.statementStart(176)
+                            Coverage.statementStart(205)
                         }
-Coverage.statementStart(177)
+                        Coverage.statementStart(206)
                         log("count $count")
-Coverage.statementStart(178)
+                        Coverage.statementStart(207)
                         expectException = helper.size + count < 0 || count == 0 || !helper.chunk.canAppend()
-Coverage.statementStart(179)
+                        Coverage.statementStart(208)
                         helper.chunk.skipSize(count)
-Coverage.statementStart(180)
+                        Coverage.statementStart(209)
                         if (count > 0) {
-Coverage.ifStart(181)
+                            Coverage.ifStart(210)
                             for (i in 0 until count) {
-Coverage.forLoopStart(182)
+                                Coverage.forLoopStart(211)
                                 helper.kotlinList.add(helper.size, Array(columns) { DONT_CARE_VALUE })
-Coverage.statementStart(183)
+                                Coverage.statementStart(212)
                             }
-Coverage.statementStart(184)
+                            Coverage.statementStart(213)
                         } else {
-Coverage.ifStart(185)
+                            Coverage.ifStart(214)
                             if (!expectException) {
-Coverage.ifStart(186)
+                                Coverage.ifStart(215)
                                 for (i in 0 until -count) {
-Coverage.forLoopStart(187)
+                                    Coverage.forLoopStart(216)
                                     helper.kotlinList.removeAt(helper.size + count)
-Coverage.statementStart(188)
+                                    Coverage.statementStart(217)
                                 }
-Coverage.statementStart(189)
+                                Coverage.statementStart(218)
                             }
-Coverage.statementStart(190)
+                            Coverage.statementStart(219)
                         }
-Coverage.statementStart(191)
+                        Coverage.statementStart(220)
                         helper.size += count
-Coverage.statementStart(192)
+                        Coverage.statementStart(221)
                     }
                     2 -> {
-Coverage.whenCaseStart(193)
+                        Coverage.whenCaseStart(222)
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-Coverage.statementStart(194)
+                        Coverage.statementStart(223)
                         if (count < 0 && helper.pos > helper.size + count) {
-Coverage.ifStart(195)
+                            Coverage.ifStart(224)
                             count = helper.pos - helper.size
-Coverage.statementStart(196)
+                            Coverage.statementStart(225)
                         }
-Coverage.statementStart(197)
+                        Coverage.statementStart(226)
                         log("count $count")
-Coverage.statementStart(198)
+                        Coverage.statementStart(227)
                         val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
-Coverage.statementStart(199)
+                        Coverage.statementStart(228)
                         expectException = count <= 0 || !helper.chunk.canAppend()
-Coverage.statementStart(200)
+                        Coverage.statementStart(229)
                         helper.chunk.append(value, count)
-Coverage.statementStart(201)
+                        Coverage.statementStart(230)
                         for (i in 0 until count) {
-Coverage.forLoopStart(202)
+                            Coverage.forLoopStart(231)
                             helper.kotlinList.add(helper.size, value)
-Coverage.statementStart(203)
+                            Coverage.statementStart(232)
                         }
-Coverage.statementStart(204)
+                        Coverage.statementStart(233)
                         helper.size += count
-Coverage.statementStart(205)
+                        Coverage.statementStart(234)
                     }
                     3 -> {
-Coverage.whenCaseStart(206)
+                        Coverage.whenCaseStart(235)
                         helper.backup = helper.pos
-Coverage.statementStart(207)
+                        Coverage.statementStart(236)
                         helper.chunk.backupPosition()
-Coverage.statementStart(208)
+                        Coverage.statementStart(237)
                     }
                     4 -> {
-Coverage.whenCaseStart(209)
+                        Coverage.whenCaseStart(238)
                         helper.pos = helper.backup
-Coverage.statementStart(210)
+                        Coverage.statementStart(239)
                         helper.chunk.restorePosition()
-Coverage.statementStart(211)
+                        Coverage.statementStart(240)
                     }
                     5 -> {
-Coverage.whenCaseStart(212)
+                        Coverage.whenCaseStart(241)
                         require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
-Coverage.statementStart(213)
+                        Coverage.statementStart(242)
                     }
                     6 -> {
-Coverage.whenCaseStart(214)
+                        Coverage.whenCaseStart(243)
                         require(helper.chunk.canAppend() || helper.size >= ResultVektor.capacity)
-Coverage.statementStart(215)
+                        Coverage.statementStart(244)
                     }
                     7 -> {
-Coverage.whenCaseStart(216)
+                        Coverage.whenCaseStart(245)
                         expectException = helper.pos >= helper.size
-Coverage.statementStart(217)
+                        Coverage.statementStart(246)
                         val v = helper.chunk.current()
-Coverage.statementStart(218)
+                        Coverage.statementStart(247)
                         val w = helper.kotlinList[helper.pos]
-Coverage.statementStart(219)
+                        Coverage.statementStart(248)
                         for (i in 0 until columns) {
-Coverage.forLoopStart(220)
+                            Coverage.forLoopStart(249)
                             require(v[i] == w[i] || w[i] == DONT_CARE_VALUE)
-Coverage.statementStart(221)
+                            Coverage.statementStart(250)
                         }
-Coverage.statementStart(222)
+                        Coverage.statementStart(251)
                     }
                     8 -> {
-Coverage.whenCaseStart(223)
+                        Coverage.whenCaseStart(252)
                         expectException = helper.pos >= helper.size
-Coverage.statementStart(224)
+                        Coverage.statementStart(253)
                         val v = helper.chunk.nextArr()
-Coverage.statementStart(225)
+                        Coverage.statementStart(254)
                         val w = helper.kotlinList[helper.pos]
-Coverage.statementStart(226)
+                        Coverage.statementStart(255)
                         for (i in 0 until columns) {
-Coverage.forLoopStart(227)
+                            Coverage.forLoopStart(256)
                             require(v[i] == w[i] || w[i] == DONT_CARE_VALUE)
-Coverage.statementStart(228)
+                            Coverage.statementStart(257)
                         }
-Coverage.statementStart(229)
+                        Coverage.statementStart(258)
                         helper.pos++
-Coverage.statementStart(230)
+                        Coverage.statementStart(259)
                     }
                     9 -> {
-Coverage.whenCaseStart(231)
+                        Coverage.whenCaseStart(260)
                         require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
-Coverage.statementStart(232)
+                        Coverage.statementStart(261)
                     }
                     10 -> {
-Coverage.whenCaseStart(233)
+                        Coverage.whenCaseStart(262)
                         val colcount = nextRandom(buffer, columns, true)
-Coverage.statementStart(234)
+                        Coverage.statementStart(263)
                         expectException = colcount == 0 || helper.pos >= helper.size
-Coverage.statementStart(235)
+                        Coverage.statementStart(264)
                         val allcolumns = MutableList(columns) { it.toLong() }
-Coverage.statementStart(236)
+                        Coverage.statementStart(265)
                         val columns = Array(colcount) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
-Coverage.statementStart(237)
+                        Coverage.statementStart(266)
                         val v = helper.chunk.current(columns)
-Coverage.statementStart(238)
+                        Coverage.statementStart(267)
                         val w = Array(colcount) { helper.kotlinList[helper.pos][columns[it].toInt()] }
-Coverage.statementStart(239)
+                        Coverage.statementStart(268)
                         for (i in 0 until colcount) {
-Coverage.forLoopStart(240)
+                            Coverage.forLoopStart(269)
                             require(v[i] == w[i] || w[i] == DONT_CARE_VALUE)
-Coverage.statementStart(241)
+                            Coverage.statementStart(270)
                         }
-Coverage.statementStart(242)
+                        Coverage.statementStart(271)
                     }
                     11 -> {
-Coverage.whenCaseStart(243)
+                        Coverage.whenCaseStart(272)
                         require((helper.chunk.availableRead() > 0) == helper.chunk.hasNext())
-Coverage.statementStart(244)
+                        Coverage.statementStart(273)
                     }
                     12 -> {
-Coverage.whenCaseStart(245)
+                        Coverage.whenCaseStart(274)
                         val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
-Coverage.statementStart(246)
+                        Coverage.statementStart(275)
                         val helper2 = helpers[helperIdx2]
-Coverage.statementStart(247)
+                        Coverage.statementStart(276)
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-Coverage.statementStart(248)
+                        Coverage.statementStart(277)
                         expectException = count > helper.size - helper.pos || count <= 0
-Coverage.statementStart(249)
+                        Coverage.statementStart(278)
                         if (count == 0) {
-Coverage.ifStart(250)
+                            Coverage.ifStart(279)
                             for (i in 0 until count) {
-Coverage.forLoopStart(251)
+                                Coverage.forLoopStart(280)
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(252)
+                                Coverage.statementStart(281)
                                 helper.pos++
-Coverage.statementStart(253)
+                                Coverage.statementStart(282)
                                 helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(254)
+                                Coverage.statementStart(283)
                             }
-Coverage.statementStart(255)
+                            Coverage.statementStart(284)
                             helper2.chunk.copy(helper.chunk, count)
-Coverage.statementStart(256)
+                            Coverage.statementStart(285)
                         }
-Coverage.statementStart(257)
+                        Coverage.statementStart(286)
                         while (helper2.chunk.canAppend() && count > 0) {
-Coverage.whileLoopStart(258)
+                            Coverage.whileLoopStart(287)
                             val c = min(helper2.chunk.availableWrite(), count)
-Coverage.statementStart(259)
+                            Coverage.statementStart(288)
                             for (i in 0 until c) {
-Coverage.forLoopStart(260)
+                                Coverage.forLoopStart(289)
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(261)
+                                Coverage.statementStart(290)
                                 helper.pos++
-Coverage.statementStart(262)
+                                Coverage.statementStart(291)
                                 helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(263)
+                                Coverage.statementStart(292)
                             }
-Coverage.statementStart(264)
+                            Coverage.statementStart(293)
                             helper2.chunk.copy(helper.chunk, c)
-Coverage.statementStart(265)
+                            Coverage.statementStart(294)
                             count -= c
-Coverage.statementStart(266)
+                            Coverage.statementStart(295)
                         }
-Coverage.statementStart(267)
+                        Coverage.statementStart(296)
                         if (count > 0) {
-Coverage.ifStart(268)
+                            Coverage.ifStart(297)
                             expectException = true
-Coverage.statementStart(269)
+                            Coverage.statementStart(298)
                             for (i in 0 until count) {
-Coverage.forLoopStart(270)
+                                Coverage.forLoopStart(299)
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(271)
+                                Coverage.statementStart(300)
                                 helper.pos++
-Coverage.statementStart(272)
+                                Coverage.statementStart(301)
                                 helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(273)
+                                Coverage.statementStart(302)
                             }
-Coverage.statementStart(274)
+                            Coverage.statementStart(303)
                             helper2.chunk.copy(helper.chunk, count)
-Coverage.statementStart(275)
+                            Coverage.statementStart(304)
                         }
-Coverage.statementStart(276)
+                        Coverage.statementStart(305)
                     }
                     13 -> {
-Coverage.whenCaseStart(277)
+                        Coverage.whenCaseStart(306)
                         val colcount = nextRandom(buffer, columns, true)
-Coverage.statementStart(278)
+                        Coverage.statementStart(307)
                         val allcolumns = MutableList(columns) { it.toLong() }
-Coverage.statementStart(279)
+                        Coverage.statementStart(308)
                         val columns1 = Array(colcount) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
-Coverage.statementStart(280)
+                        Coverage.statementStart(309)
                         val columns2 = allcolumns.toTypedArray()
-Coverage.statementStart(281)
+                        Coverage.statementStart(310)
                         val helperIdx2 = nextRandom(buffer, MAX_LISTS, true)
-Coverage.statementStart(282)
+                        Coverage.statementStart(311)
                         val helper2 = helpers[helperIdx2]
-Coverage.statementStart(283)
+                        Coverage.statementStart(312)
                         log("helper2 ${helper2.chunk}")
-Coverage.statementStart(284)
+                        Coverage.statementStart(313)
                         var count = nextRandom(buffer, max(ResultVektor.capacity, helper.size), false)
-Coverage.statementStart(285)
+                        Coverage.statementStart(314)
                         log("count $count")
-Coverage.statementStart(286)
+                        Coverage.statementStart(315)
                         log("columns ${columns1.map { it }} ${columns2.map { it }}")
-Coverage.statementStart(287)
+                        Coverage.statementStart(316)
                         expectException = count > helper.chunk.availableRead() || count <= 0 || colcount == 0
-Coverage.statementStart(288)
+                        Coverage.statementStart(317)
                         if (count == 0) {
-Coverage.ifStart(289)
+                            Coverage.ifStart(318)
                             for (i in 0 until count) {
-Coverage.forLoopStart(290)
+                                Coverage.forLoopStart(319)
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(291)
+                                Coverage.statementStart(320)
                                 helper.pos++
-Coverage.statementStart(292)
+                                Coverage.statementStart(321)
                                 for (col in columns2) {
-Coverage.forLoopStart(293)
+                                    Coverage.forLoopStart(322)
                                     v[col.toInt()] = DONT_CARE_VALUE
-Coverage.statementStart(294)
+                                    Coverage.statementStart(323)
                                 }
-Coverage.statementStart(295)
+                                Coverage.statementStart(324)
                                 helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(296)
+                                Coverage.statementStart(325)
                             }
-Coverage.statementStart(297)
+                            Coverage.statementStart(326)
                             helper2.chunk.copy(columns1, helper.chunk, columns1, count)
-Coverage.statementStart(298)
+                            Coverage.statementStart(327)
                             helper.chunk.skipPos(columns2, count)
-Coverage.statementStart(299)
+                            Coverage.statementStart(328)
                             helper2.chunk.skipSize(columns2, count)
-Coverage.statementStart(300)
+                            Coverage.statementStart(329)
                         }
-Coverage.statementStart(301)
+                        Coverage.statementStart(330)
                         while (helper2.chunk.canAppend() && count > 0) {
-Coverage.whileLoopStart(302)
+                            Coverage.whileLoopStart(331)
                             val c = min(helper2.chunk.availableWrite(), count)
-Coverage.statementStart(303)
+                            Coverage.statementStart(332)
                             log("progress $c")
-Coverage.statementStart(304)
+                            Coverage.statementStart(333)
                             for (i in 0 until c) {
-Coverage.forLoopStart(305)
+                                Coverage.forLoopStart(334)
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(306)
+                                Coverage.statementStart(335)
                                 helper.pos++
-Coverage.statementStart(307)
+                                Coverage.statementStart(336)
                                 for (col in columns2) {
-Coverage.forLoopStart(308)
+                                    Coverage.forLoopStart(337)
                                     v[col.toInt()] = DONT_CARE_VALUE
-Coverage.statementStart(309)
+                                    Coverage.statementStart(338)
                                 }
-Coverage.statementStart(310)
+                                Coverage.statementStart(339)
                                 helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(311)
+                                Coverage.statementStart(340)
                             }
-Coverage.statementStart(312)
+                            Coverage.statementStart(341)
                             helper2.chunk.copy(columns1, helper.chunk, columns1, c)
-Coverage.statementStart(313)
+                            Coverage.statementStart(342)
                             helper.chunk.skipPos(columns2, c)
-Coverage.statementStart(314)
+                            Coverage.statementStart(343)
                             helper2.chunk.skipSize(columns2, c)
-Coverage.statementStart(315)
+                            Coverage.statementStart(344)
                             count -= c
-Coverage.statementStart(316)
+                            Coverage.statementStart(345)
                         }
-Coverage.statementStart(317)
+                        Coverage.statementStart(346)
                         if (count > 0) {
-Coverage.ifStart(318)
+                            Coverage.ifStart(347)
                             expectException = true
-Coverage.statementStart(319)
+                            Coverage.statementStart(348)
                             for (i in 0 until count) {
-Coverage.forLoopStart(320)
+                                Coverage.forLoopStart(349)
                                 val v = Array(columns) { helper.kotlinList[helper.pos][it] }
-Coverage.statementStart(321)
+                                Coverage.statementStart(350)
                                 helper.pos++
-Coverage.statementStart(322)
+                                Coverage.statementStart(351)
                                 for (col in columns2) {
-Coverage.forLoopStart(323)
+                                    Coverage.forLoopStart(352)
                                     v[col.toInt()] = DONT_CARE_VALUE
-Coverage.statementStart(324)
+                                    Coverage.statementStart(353)
                                 }
-Coverage.statementStart(325)
+                                Coverage.statementStart(354)
                                 helper2.kotlinList.add(helper2.size++, v)
-Coverage.statementStart(326)
+                                Coverage.statementStart(355)
                             }
-Coverage.statementStart(327)
+                            Coverage.statementStart(356)
                             helper2.chunk.copy(columns1, helper.chunk, columns1, count)
-Coverage.statementStart(328)
+                            Coverage.statementStart(357)
                             helper.chunk.skipPos(columns2, count)
-Coverage.statementStart(329)
+                            Coverage.statementStart(358)
                             helper2.chunk.skipSize(columns2, count)
-Coverage.statementStart(330)
+                            Coverage.statementStart(359)
                         }
-Coverage.statementStart(331)
+                        Coverage.statementStart(360)
                     }
                     else -> {
-Coverage.whenCaseStart(332)
+                        Coverage.whenCaseStart(361)
                         require(func < FUNCTION_COUNT)
-Coverage.statementStart(333)
+                        Coverage.statementStart(362)
                     }
                 }
-Coverage.statementStart(334)
+                Coverage.statementStart(363)
                 if (expectException) {
-Coverage.ifStart(335)
+                    Coverage.ifStart(364)
                     throw Exception("there should be an exception")
                 }
-Coverage.statementStart(336)
+                Coverage.statementStart(365)
                 log("" + expectException)
-Coverage.statementStart(337)
+                Coverage.statementStart(366)
                 log("\n")
-Coverage.statementStart(338)
+                Coverage.statementStart(367)
                 for (helper in helpers) {
-Coverage.forLoopStart(339)
+                    Coverage.forLoopStart(368)
                     log("helper ${helper.chunk}")
-Coverage.statementStart(340)
+                    Coverage.statementStart(369)
                     require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
-Coverage.statementStart(341)
+                    Coverage.statementStart(370)
                     require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
-Coverage.statementStart(342)
+                    Coverage.statementStart(371)
                     log("skippos ${-helper.pos}")
-Coverage.statementStart(343)
+                    Coverage.statementStart(372)
                     if (helper.pos != 0) {
-Coverage.ifStart(344)
+                        Coverage.ifStart(373)
                         helper.chunk.skipPos(-helper.pos)
-Coverage.statementStart(345)
+                        Coverage.statementStart(374)
                     }
-Coverage.statementStart(346)
+                    Coverage.statementStart(375)
                     for (j in 0 until helper.size) {
-Coverage.forLoopStart(347)
+                        Coverage.forLoopStart(376)
                         val v = helper.chunk.nextArr()
-Coverage.statementStart(348)
+                        Coverage.statementStart(377)
                         val w = helper.kotlinList[j]
-Coverage.statementStart(349)
+                        Coverage.statementStart(378)
                         for (i in 0 until columns) {
-Coverage.forLoopStart(350)
+                            Coverage.forLoopStart(379)
                             require(v[i] == w[i] || w[i] == DONT_CARE_VALUE, { "${helper.kotlinList.map { it.map { it }.toString() + "\n" }}\n ${v.map { it }} ${w.map { it }}" })
-Coverage.statementStart(351)
+                            Coverage.statementStart(380)
                         }
-Coverage.statementStart(352)
+                        Coverage.statementStart(381)
                     }
-Coverage.statementStart(353)
+                    Coverage.statementStart(382)
                     if (helper.pos - helper.size != 0) {
-Coverage.ifStart(354)
+                        Coverage.ifStart(383)
                         helper.chunk.skipPos(helper.pos - helper.size)
-Coverage.statementStart(355)
+                        Coverage.statementStart(384)
                     }
-Coverage.statementStart(356)
+                    Coverage.statementStart(385)
                     require(helper.size - helper.pos == helper.chunk.availableRead(), { "${helper.size} ${helper.pos} ${helper.chunk.availableRead()}" })
-Coverage.statementStart(357)
+                    Coverage.statementStart(386)
                     require(helper.chunk.availableWrite() >= ResultVektor.capacity - helper.size - 1, { "${helper.chunk.availableWrite()} ${ResultVektor.capacity} ${helper.size}" })
-Coverage.statementStart(358)
+                    Coverage.statementStart(387)
                 }
-Coverage.statementStart(359)
+                Coverage.statementStart(388)
                 log("\n")
-Coverage.statementStart(360)
+                Coverage.statementStart(389)
             }
-Coverage.statementStart(361)
+            Coverage.statementStart(390)
         } catch (e: NoMoreRandomException) {
-Coverage.statementStart(362)
+            Coverage.statementStart(391)
         } catch (e: Throwable) {
-Coverage.statementStart(363)
+            Coverage.statementStart(392)
             if (!expectException) {
-Coverage.ifStart(364)
+                Coverage.ifStart(393)
                 throw e
             }
-Coverage.statementStart(365)
+            Coverage.statementStart(394)
         }
-Coverage.statementStart(366)
+        Coverage.statementStart(395)
     }
 }
 /*
     fun append(row: ResultRow, count: Int = 1) {
-Coverage.funStart(367)
+Coverage.funStart(396)
     open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
-Coverage.funStart(368)
+Coverage.funStart(397)
     open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
-Coverage.funStart(369)
+Coverage.funStart(398)
     fun getColumn(variable: Variable) = data[variable.toInt()]
-Coverage.statementStart(370)
+Coverage.statementStart(399)
     override fun next(): ResultRow {
-Coverage.funStart(371)
+Coverage.funStart(400)
     fun setColumn(variable: Variable, col: ResultVektor) {
-Coverage.funStart(372)
+Coverage.funStart(401)
     fun sameElements(columns: Array<Variable>): Int {
-Coverage.funStart(373)
+Coverage.funStart(402)
     fun sameElements(): Int {
-Coverage.funStart(374)
+Coverage.funStart(403)
     override fun toString(): String {
-Coverage.funStart(375)
+Coverage.funStart(404)
 */

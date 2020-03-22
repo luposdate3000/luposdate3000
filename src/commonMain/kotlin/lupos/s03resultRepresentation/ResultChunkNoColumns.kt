@@ -1,64 +1,75 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
+
 class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(resultSet, columns) {
     val emptyArray = arrayOf<Value>()
     var posField = 0
     var sizeField = 0
     override fun hasNext() = posField < sizeField
     override fun next(): ResultRow {
-Coverage.funStart(529)
+        Coverage.funStart(599)
         posField++
-Coverage.statementStart(530)
+        Coverage.statementStart(600)
         return resultSet.createResultRow()
     }
+
     override fun availableWrite() = ResultVektor.capacity - sizeField
     override fun availableRead() = sizeField - posField
     override fun copy(chunkFrom: ResultChunkBase, count: Int) {
-Coverage.funStart(531)
+        Coverage.funStart(601)
         posField += count
-Coverage.statementStart(532)
+        Coverage.statementStart(602)
     }
+
     override fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunkBase, columnsFrom: Array<Variable>, count: Int) {
-Coverage.funStart(533)
+        Coverage.funStart(603)
         posField += count
-Coverage.statementStart(534)
+        Coverage.statementStart(604)
     }
+
     override fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
-Coverage.funStart(535)
+        Coverage.funStart(605)
         posField += count
-Coverage.statementStart(536)
+        Coverage.statementStart(606)
     }
+
     override fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
-Coverage.funStart(537)
+        Coverage.funStart(607)
         posField += count
-Coverage.statementStart(538)
+        Coverage.statementStart(608)
     }
+
     override fun skipPos(columns: Array<Variable>, count: Int) {
-Coverage.funStart(539)
+        Coverage.funStart(609)
         posField += count
-Coverage.statementStart(540)
+        Coverage.statementStart(610)
     }
+
     override fun skipSize(columns: Array<Variable>, count: Int) {
-Coverage.funStart(541)
+        Coverage.funStart(611)
         sizeField += count
-Coverage.statementStart(542)
+        Coverage.statementStart(612)
     }
+
     override fun skipPos(count: Int) {
-Coverage.funStart(543)
+        Coverage.funStart(613)
         posField += count
-Coverage.statementStart(544)
+        Coverage.statementStart(614)
     }
+
     override fun skipSize(count: Int) {
-Coverage.funStart(545)
+        Coverage.funStart(615)
         sizeField += count
-Coverage.statementStart(546)
+        Coverage.statementStart(616)
     }
+
     override fun nextArr(): Array<Value> {
-Coverage.funStart(547)
+        Coverage.funStart(617)
         posField++
-Coverage.statementStart(548)
+        Coverage.statementStart(618)
         return emptyArray
     }
 }

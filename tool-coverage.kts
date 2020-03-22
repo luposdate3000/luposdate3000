@@ -17,7 +17,7 @@ val regexReturn = "\\s*(return|break|continue|throw).*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
 val coverageMap = mutableMapOf<Int, String>()
 var counter = 0
-val whenBrackets=mutableListOf<Int>()
+val whenBrackets = mutableListOf<Int>()
 
 enum class CoverageMode {
     Enable, Disable
@@ -96,8 +96,8 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     var openBrackets = 0
     lines.forEach {
         val line = it
-        if (res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size-1]))&&(!whenBrackets.contains(openBrackets-1))) {
-appendCoverageStatement(filename, counter, res.size)
+        if (res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size - 1])) && (!whenBrackets.contains(openBrackets - 1))) {
+            appendCoverageStatement(filename, counter, res.size)
             res.add("Coverage.statementStart(${counter++})")
         }
         if (line.startsWith("package "))
@@ -118,14 +118,14 @@ appendCoverageStatement(filename, counter, res.size)
                 openBrackets--
                 if (openBrackets < openBracketsFunction)
                     openBracketsFunction = Int.MAX_VALUE
-		whenBrackets.remove(openBrackets)
+                whenBrackets.remove(openBrackets)
             }
         }
         when {
-regexWhenBracket.matches(line) -> {
-res.add(line)
-whenBrackets.add(openBrackets-1)
-}
+            regexWhenBracket.matches(line) -> {
+                res.add(line)
+                whenBrackets.add(openBrackets - 1)
+            }
             regexFunBracket.matches(line) -> {
                 require(appendClosingBracket == 0, { "$filename ${res.size}" })
                 res.add(line)
@@ -212,7 +212,7 @@ fun removeCoverage(lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     lines.forEach {
         val line = it.replace(regexCoverage, "")
-        if(!regexSpace.matches(line))
+        if (!regexSpace.matches(line))
             res.add(line)
     }
     return res

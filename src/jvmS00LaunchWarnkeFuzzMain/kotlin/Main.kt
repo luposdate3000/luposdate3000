@@ -88,10 +88,10 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
                     val timepointNext2 = Instant.now()
                     val elapsed2 = Duration.between(timepoint, timepointNext2)
                     timepoint = timepointNext2
-if(testnumber%1000==0)
-                    println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
-if(testnumber%1000000==0)
-Coverage.printToFile()
+                    if (testnumber % 1000 == 0)
+                        println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+                    if (testnumber % 1000000 == 0)
+                        Coverage.printToFile()
                     break
                 } catch (e: ConnectException) {
                     e.printStackTrace()
