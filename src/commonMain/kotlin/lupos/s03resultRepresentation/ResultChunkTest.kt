@@ -4,37 +4,37 @@ import lupos.s00misc.Coverage
 object ResultChunkTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
-Coverage.funStart(556)
+Coverage.funStart(549)
             if (a < b) {
-Coverage.ifStart(557)
+Coverage.ifStart(550)
                 return -1
             }
-Coverage.statementStart(558)
+Coverage.statementStart(551)
             if (a == b) {
-Coverage.ifStart(559)
+Coverage.ifStart(552)
                 throw Exception("dont compare equal values using comparator")
             }
-Coverage.statementStart(560)
+Coverage.statementStart(553)
             return 1
         }
     }
     class MyComparatorRow(val variables: Array<Variable>) : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
-Coverage.funStart(561)
+Coverage.funStart(554)
             for (v in variables) {
-Coverage.forLoopStart(562)
+Coverage.forLoopStart(555)
                 if (a[v.toInt()] < b[v.toInt()]) {
-Coverage.ifStart(563)
+Coverage.ifStart(556)
                     return -1
                 }
-Coverage.statementStart(564)
+Coverage.statementStart(557)
                 if (a[v.toInt()] > b[v.toInt()]) {
-Coverage.ifStart(565)
+Coverage.ifStart(558)
                     return +1
                 }
-Coverage.statementStart(566)
+Coverage.statementStart(559)
             }
-Coverage.statementStart(567)
+Coverage.statementStart(560)
             return 0
         }
     }
@@ -48,249 +48,249 @@ Coverage.statementStart(567)
     val verbose = false
     class NoMoreRandomException() : Exception("")
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
-Coverage.funStart(568)
+Coverage.funStart(561)
         try {
-Coverage.statementStart(569)
+Coverage.statementStart(562)
             val res = buffer.getNextInt() % max
-Coverage.statementStart(570)
+Coverage.statementStart(563)
             if (positiveOnly && res < 0) {
-Coverage.ifStart(571)
+Coverage.ifStart(564)
                 return -res
             }
-Coverage.statementStart(572)
+Coverage.statementStart(565)
             return res
         } catch (e: Throwable) {
-Coverage.statementStart(573)
+Coverage.statementStart(566)
             throw NoMoreRandomException()
         }
-Coverage.statementStart(574)
+Coverage.statementStart(567)
     }
     fun max(a: Int, b: Int): Int {
-Coverage.funStart(575)
+Coverage.funStart(568)
         if (a < b) {
-Coverage.ifStart(576)
+Coverage.ifStart(569)
             return b
         }
-Coverage.statementStart(577)
+Coverage.statementStart(570)
         return a
     }
     fun min(a: Int, b: Int): Int {
-Coverage.funStart(578)
+Coverage.funStart(571)
         if (a > b) {
-Coverage.ifStart(579)
+Coverage.ifStart(572)
             return b
         }
-Coverage.statementStart(580)
+Coverage.statementStart(573)
         return a
     }
     var columns = 4
     fun log(s: String) {
-Coverage.funStart(581)
+Coverage.funStart(574)
         if (verbose) {
-Coverage.ifStart(582)
+Coverage.ifStart(575)
             println(s)
-Coverage.statementStart(583)
+Coverage.statementStart(576)
         }
-Coverage.statementStart(584)
+Coverage.statementStart(577)
     }
     fun kotlinListToString(kotlinList: MutableList<Array<Value>>): String {
-Coverage.funStart(585)
+Coverage.funStart(578)
         val res = StringBuilder()
-Coverage.statementStart(586)
+Coverage.statementStart(579)
         res.append("[\n")
-Coverage.statementStart(587)
+Coverage.statementStart(580)
         if (kotlinList.size > 0) {
-Coverage.ifStart(588)
+Coverage.ifStart(581)
             var counter = 1
-Coverage.statementStart(589)
+Coverage.statementStart(582)
             var idx = 1
-Coverage.statementStart(590)
+Coverage.statementStart(583)
             var lastRow = kotlinList[0]
-Coverage.statementStart(591)
+Coverage.statementStart(584)
             while (idx < kotlinList.size) {
-Coverage.whileLoopStart(592)
+Coverage.whileLoopStart(585)
                 var row = kotlinList[idx]
-Coverage.statementStart(593)
+Coverage.statementStart(586)
                 var equal = true
-Coverage.statementStart(594)
+Coverage.statementStart(587)
                 for (i in lastRow.indices) {
-Coverage.forLoopStart(595)
+Coverage.forLoopStart(588)
                     if (lastRow[i] != row[i]) {
-Coverage.ifStart(596)
+Coverage.ifStart(589)
                         equal = false
-Coverage.statementStart(597)
+Coverage.statementStart(590)
                     }
+Coverage.statementStart(591)
+                }
+Coverage.statementStart(592)
+                if (equal) {
+Coverage.ifStart(593)
+                    counter++
+Coverage.statementStart(594)
+                } else {
+Coverage.ifStart(595)
+                    res.append("${lastRow.map { it }}($counter)\n")
+Coverage.statementStart(596)
+                    lastRow = row
+Coverage.statementStart(597)
+                    counter = 1
 Coverage.statementStart(598)
                 }
 Coverage.statementStart(599)
-                if (equal) {
-Coverage.ifStart(600)
-                    counter++
-Coverage.statementStart(601)
-                } else {
-Coverage.ifStart(602)
-                    res.append("${lastRow.map { it }}($counter)\n")
-Coverage.statementStart(603)
-                    lastRow = row
-Coverage.statementStart(604)
-                    counter = 1
-Coverage.statementStart(605)
-                }
-Coverage.statementStart(606)
                 idx++
-Coverage.statementStart(607)
+Coverage.statementStart(600)
             }
-Coverage.statementStart(608)
+Coverage.statementStart(601)
             res.append("${lastRow.map { it }}($counter)\n")
-Coverage.statementStart(609)
+Coverage.statementStart(602)
         }
-Coverage.statementStart(610)
+Coverage.statementStart(603)
         res.append("]\n")
-Coverage.statementStart(611)
+Coverage.statementStart(604)
         return res.toString()
     }
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
-Coverage.funStart(612)
+Coverage.funStart(605)
         var tmp = chunk
-Coverage.statementStart(613)
+Coverage.statementStart(606)
         log("" + kotlinList.map { it.map { it }.toString() + "\n" })
-Coverage.statementStart(614)
+Coverage.statementStart(607)
         log("" + tmp)
-Coverage.statementStart(615)
+Coverage.statementStart(608)
         tmp.backupPosition()
-Coverage.statementStart(616)
+Coverage.statementStart(609)
         for (i in 0 until kotlinList.size) {
-Coverage.forLoopStart(617)
+Coverage.forLoopStart(610)
             while (tmp.availableRead() == 0) {
-Coverage.whileLoopStart(618)
+Coverage.whileLoopStart(611)
                 tmp.restorePosition()
-Coverage.statementStart(619)
+Coverage.statementStart(612)
                 tmp = tmp.next
-Coverage.statementStart(620)
+Coverage.statementStart(613)
                 tmp.backupPosition()
-Coverage.statementStart(621)
+Coverage.statementStart(614)
                 log("" + tmp)
-Coverage.statementStart(622)
+Coverage.statementStart(615)
                 if (tmp == chunk) {
-Coverage.ifStart(623)
+Coverage.ifStart(616)
                     break
                 }
-Coverage.statementStart(624)
+Coverage.statementStart(617)
             }
-Coverage.statementStart(625)
+Coverage.statementStart(618)
             val v = tmp.nextArr()
-Coverage.statementStart(626)
+Coverage.statementStart(619)
             val w = kotlinList[i]
-Coverage.statementStart(627)
+Coverage.statementStart(620)
             require(comparator.compare(v, w) == 0, { "$i ${v.map { it }} ${w.map { it }} \n${kotlinListToString(kotlinList)} ${tmp.prev} $tmp ${tmp.next}" })
-Coverage.statementStart(628)
+Coverage.statementStart(621)
             if (tmp.availableRead() == 0) {
-Coverage.ifStart(629)
+Coverage.ifStart(622)
                 tmp.restorePosition()
-Coverage.statementStart(630)
+Coverage.statementStart(623)
                 tmp = tmp.next
-Coverage.statementStart(631)
+Coverage.statementStart(624)
                 tmp.backupPosition()
-Coverage.statementStart(632)
+Coverage.statementStart(625)
                 log("" + tmp)
-Coverage.statementStart(633)
+Coverage.statementStart(626)
             }
-Coverage.statementStart(634)
+Coverage.statementStart(627)
         }
-Coverage.statementStart(635)
+Coverage.statementStart(628)
         tmp.restorePosition()
-Coverage.statementStart(636)
+Coverage.statementStart(629)
         require(tmp == chunk)
-Coverage.statementStart(637)
+Coverage.statementStart(630)
     }
     operator fun invoke(buffer: DynamicByteArray) {
-Coverage.funStart(638)
+Coverage.funStart(631)
         var expectException = false
-Coverage.statementStart(639)
+Coverage.statementStart(632)
         log("-----------------------start")
-Coverage.statementStart(640)
+Coverage.statementStart(633)
         try {
-Coverage.statementStart(641)
+Coverage.statementStart(634)
             columns = nextRandom(buffer, MAX_COLUMNS - 1, true) + 1
-Coverage.statementStart(642)
+Coverage.statementStart(635)
             ResultVektor.capacity = nextRandom(buffer, MAX_CAPACITY - 3, true) + 3
-Coverage.statementStart(643)
+Coverage.statementStart(636)
             require(ResultVektor.capacity > 0)
-Coverage.statementStart(644)
+Coverage.statementStart(637)
             var kotlinList = mutableListOf<Array<Value>>()
-Coverage.statementStart(645)
+Coverage.statementStart(638)
             var resultSetDictionary = ResultSetDictionary()
-Coverage.statementStart(646)
+Coverage.statementStart(639)
             var resultSet = ResultSet(resultSetDictionary)
-Coverage.statementStart(647)
+Coverage.statementStart(640)
             for (i in 0 until columns) {
-Coverage.forLoopStart(648)
+Coverage.forLoopStart(641)
                 resultSet.createVariable("name$i")
-Coverage.statementStart(649)
+Coverage.statementStart(642)
             }
-Coverage.statementStart(650)
+Coverage.statementStart(643)
             var chunk = ResultChunk(resultSet, columns)
-Coverage.statementStart(651)
+Coverage.statementStart(644)
             var chunkLast = chunk
-Coverage.statementStart(652)
+Coverage.statementStart(645)
             var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
-Coverage.statementStart(653)
+Coverage.statementStart(646)
             while (true) {
-Coverage.whileLoopStart(654)
+Coverage.whileLoopStart(647)
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
-Coverage.statementStart(655)
+Coverage.statementStart(648)
                 log("value ${value.map { it }}")
-Coverage.statementStart(656)
+Coverage.statementStart(649)
                 var count = nextRandom(buffer, ResultVektor.capacity, false)
-Coverage.statementStart(657)
+Coverage.statementStart(650)
                 log("count $count")
-Coverage.statementStart(658)
+Coverage.statementStart(651)
                 expectException = count <= 0
-Coverage.statementStart(659)
+Coverage.statementStart(652)
                 for (i in 0 until count) {
-Coverage.forLoopStart(660)
+Coverage.forLoopStart(653)
                     kotlinList.add(value)
-Coverage.statementStart(661)
+Coverage.statementStart(654)
                 }
-Coverage.statementStart(662)
+Coverage.statementStart(655)
                 if (!chunkLast.canAppend()) {
-Coverage.ifStart(663)
+Coverage.ifStart(656)
                     chunkLast = ResultChunk.append(chunkLast, ResultChunk(resultSet, columns))
-Coverage.statementStart(664)
+Coverage.statementStart(657)
                 }
-Coverage.statementStart(665)
+Coverage.statementStart(658)
                 chunkLast.append(value, count)
-Coverage.statementStart(666)
+Coverage.statementStart(659)
                 val allcolumns = MutableList(columns) { it.toLong() }
-Coverage.statementStart(667)
+Coverage.statementStart(660)
                 val columns = Array(columns) { allcolumns.removeAt(nextRandom(buffer, allcolumns.size, true)) }
-Coverage.statementStart(668)
+Coverage.statementStart(661)
                 log("columns ${columns.map { it }}")
-Coverage.statementStart(669)
+Coverage.statementStart(662)
                 val comparator = MyComparatorRow(columns)
-Coverage.statementStart(670)
+Coverage.statementStart(663)
                 checkEquals(kotlinList, chunk, comparator)
-Coverage.statementStart(671)
+Coverage.statementStart(664)
                 kotlinList.sortWith(comparator)
-Coverage.statementStart(672)
+Coverage.statementStart(665)
                 chunk = ResultChunk.sort(comparatorArray, columns, chunk)
-Coverage.statementStart(673)
+Coverage.statementStart(666)
                 chunkLast = chunk.prev
-Coverage.statementStart(674)
+Coverage.statementStart(667)
                 checkEquals(kotlinList, chunk, comparator)
-Coverage.statementStart(675)
+Coverage.statementStart(668)
             }
-Coverage.statementStart(676)
+Coverage.statementStart(669)
         } catch (e: NoMoreRandomException) {
-Coverage.statementStart(677)
+Coverage.statementStart(670)
         } catch (e: Throwable) {
-Coverage.statementStart(678)
+Coverage.statementStart(671)
             if (!expectException) {
-Coverage.ifStart(679)
+Coverage.ifStart(672)
                 throw e
             }
-Coverage.statementStart(680)
+Coverage.statementStart(673)
         }
-Coverage.statementStart(681)
+Coverage.statementStart(674)
     }
 }

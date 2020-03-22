@@ -71,9 +71,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         counter--
         if (counter == 0) {
             if (datasize < 1000)
-                datasize += 4
+                datasize += 2
             else
-                datasize = (datasize * 1.2).toInt() + 1
+                datasize = (datasize * 1.01).toInt() + 1
             counter = datasize
             println("changed datasize to $datasize for $counter tests")
         }
@@ -88,16 +88,19 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
                     val timepointNext2 = Instant.now()
                     val elapsed2 = Duration.between(timepoint, timepointNext2)
                     timepoint = timepointNext2
+if(testnumber%1000==0)
                     println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+if(testnumber%1000000==0)
+Coverage.printToFile()
                     break
                 } catch (e: ConnectException) {
                     e.printStackTrace()
                 }
         } catch (e: Throwable) {
             e.printStackTrace()
-            lupos.s00misc.File("crash-${data.hashCode()}-x").write(input)
+            lupos.s00misc.File("mnt/crash-${data.hashCode()}-x").write(input)
             input.pos = currentSize
-            lupos.s00misc.File("crash-${data.hashCode()}").write(input)
+            lupos.s00misc.File("mnt/crash-${data.hashCode()}").write(input)
             if (errors++ > 1000) {
                 runBlocking {
                     delay(Long.MAX_VALUE)

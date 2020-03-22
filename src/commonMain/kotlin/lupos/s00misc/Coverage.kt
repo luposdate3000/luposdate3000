@@ -59,7 +59,7 @@ fun statementStart(counter: Int) {
         var h = s.hashCode()
         if (h < 0)
             h = -h
-        File("coverage${h}.cov").printWriter { out ->
+        File("mnt/coverage${h}.cov").printWriter { out ->
             out.println(s)
         }
     }

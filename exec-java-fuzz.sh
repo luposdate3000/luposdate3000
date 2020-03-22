@@ -19,7 +19,7 @@ do
 		curl -X GET -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets
 		while true
 		do
-			java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size 0
+			timeout -s SIGTERM "2m" java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size 0
 		done
 	) >> log/db$db 2>&1 &
 done
@@ -31,7 +31,7 @@ do
 		curl -X GET -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets
 		while true
 		do
-			java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size 1
+			timeout -s SIGTERM "2m" java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size 1
 		done
 	) >> log/db$db 2>&1 &
 done
@@ -43,7 +43,7 @@ do
 		curl -X GET -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets
 		while true
 		do
-			java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size 2
+			timeout -s SIGTERM "2m" java -cp "$(pwd)/${output2}/distributions/luposdate3000/lib/*" MainKt "db${db}" $size 2
 		done
 	) >> log/db$db 2>&1 &
 done

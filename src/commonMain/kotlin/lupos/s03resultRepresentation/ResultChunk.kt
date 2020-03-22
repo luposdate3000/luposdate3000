@@ -300,56 +300,40 @@ Coverage.statementStart(511)
     }
     var prev = this
     var next = this
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
-Coverage.funStart(519)
+Coverage.funStart(512)
         var columnidx = columnOrder[0].toInt()
-Coverage.statementStart(520)
+Coverage.statementStart(513)
         var column = data[columnidx]
-Coverage.statementStart(521)
+Coverage.statementStart(514)
         var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)
-Coverage.statementStart(522)
+Coverage.statementStart(515)
         var first = idx.first
-Coverage.statementStart(523)
+Coverage.statementStart(516)
         var last = first + idx.second - count
-Coverage.statementStart(524)
+Coverage.statementStart(517)
         for (i in 1 until columns) {
-Coverage.forLoopStart(525)
+Coverage.forLoopStart(518)
             columnidx = columnOrder[i].toInt()
-Coverage.statementStart(526)
+Coverage.statementStart(519)
             column = data[columnidx]
-Coverage.statementStart(527)
+Coverage.statementStart(520)
             idx = column.insertSorted(values[columnidx], first, last, comparator[columnOrder[i].toInt()], count)
-Coverage.statementStart(528)
+Coverage.statementStart(521)
             if (idx.first > first) {
-Coverage.ifStart(529)
+Coverage.ifStart(522)
                 first = idx.first
-Coverage.statementStart(530)
+Coverage.statementStart(523)
             }
-Coverage.statementStart(531)
+Coverage.statementStart(524)
             if (last > first + idx.second - count) {
-Coverage.ifStart(532)
+Coverage.ifStart(525)
                 last = first + idx.second - count
-Coverage.statementStart(533)
+Coverage.statementStart(526)
             }
-Coverage.statementStart(534)
+Coverage.statementStart(527)
         }
-Coverage.statementStart(535)
+Coverage.statementStart(528)
     }
 }
 class ValueComparatorFast : Comparator<Value> {
