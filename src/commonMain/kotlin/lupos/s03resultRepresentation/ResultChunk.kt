@@ -119,222 +119,223 @@ Coverage.whileLoopStart(454)
                 var cmp = 0
 Coverage.statementStart(455)
                 for (i in 0 until columnOrder.size) {
-val c=columnOrder[i].toInt()
 Coverage.forLoopStart(456)
-                    val vala = a.data[c].current()
+val c=columnOrder[i].toInt()
 Coverage.statementStart(457)
-                    val valb = b.data[c].current()
+                    val vala = a.data[c].current()
 Coverage.statementStart(458)
+                    val valb = b.data[c].current()
+Coverage.statementStart(459)
                     if (vala != valb) {
-Coverage.ifStart(459)
+Coverage.ifStart(460)
                         cmp = comparator[c].compare(vala, valb)
-Coverage.statementStart(460)
-                        require(cmp != 0)
 Coverage.statementStart(461)
+                        require(cmp != 0)
+Coverage.statementStart(462)
                         if (cmp < 0) {
-Coverage.ifStart(462)
+Coverage.ifStart(463)
                             var count = a.sameElements(Array(i+1){columnOrder[it]})
-Coverage.statementStart(463)
-                            targetLast = copy(a, targetLast, count)
 Coverage.statementStart(464)
+                            targetLast = copy(a, targetLast, count)
+Coverage.statementStart(465)
                         } else {
-Coverage.ifStart(465)
+Coverage.ifStart(466)
                             var count = b.sameElements(Array(i+1){columnOrder[it]})
-Coverage.statementStart(466)
-                            targetLast = copy(b, targetLast, count)
 Coverage.statementStart(467)
-                        }
+                            targetLast = copy(b, targetLast, count)
 Coverage.statementStart(468)
+                        }
+Coverage.statementStart(469)
                         continue@loop
                     }
-Coverage.statementStart(469)
-                }
 Coverage.statementStart(470)
-                if (cmp == 0) {
-Coverage.ifStart(471)
-                    val i = columnOrder[columnOrder.size - 1]
-Coverage.statementStart(472)
-                    var countA = a.sameElements()
-Coverage.statementStart(473)
-                    targetLast = copy(a, targetLast, countA)
-Coverage.statementStart(474)
-                    var countB = b.sameElements()
-Coverage.statementStart(475)
-                    targetLast = copy(b, targetLast, countB)
-Coverage.statementStart(476)
                 }
+Coverage.statementStart(471)
+                if (cmp == 0) {
+Coverage.ifStart(472)
+                    val i = columnOrder[columnOrder.size - 1]
+Coverage.statementStart(473)
+                    var countA = a.sameElements()
+Coverage.statementStart(474)
+                    targetLast = copy(a, targetLast, countA)
+Coverage.statementStart(475)
+                    var countB = b.sameElements()
+Coverage.statementStart(476)
+                    targetLast = copy(b, targetLast, countB)
 Coverage.statementStart(477)
-            }
+                }
 Coverage.statementStart(478)
+            }
+Coverage.statementStart(479)
             return targetLast
         }
         fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
-Coverage.funStart(479)
+Coverage.funStart(480)
             var chunkCount = 1
-Coverage.statementStart(480)
-            var tmp = chunks.next
 Coverage.statementStart(481)
+            var tmp = chunks.next
+Coverage.statementStart(482)
             while (tmp != chunks) {
-Coverage.whileLoopStart(482)
+Coverage.whileLoopStart(483)
                 chunkCount++
-Coverage.statementStart(483)
-                tmp = tmp.next
 Coverage.statementStart(484)
-            }
+                tmp = tmp.next
 Coverage.statementStart(485)
+            }
+Coverage.statementStart(486)
             if (chunkCount == 1) {
-Coverage.ifStart(486)
+Coverage.ifStart(487)
                 val resultSet = chunks.resultSet
-Coverage.statementStart(487)
-                val columns = chunks.columns
 Coverage.statementStart(488)
-                val res = ResultChunk(resultSet, columns)
+                val columns = chunks.columns
 Coverage.statementStart(489)
-                var resLast = res
+                val res = ResultChunk(resultSet, columns)
 Coverage.statementStart(490)
+                var resLast = res
+Coverage.statementStart(491)
                 while (chunks.hasNext()) {
-Coverage.whileLoopStart(491)
+Coverage.whileLoopStart(492)
                     val same = chunks.sameElements()
-Coverage.statementStart(492)
+Coverage.statementStart(493)
                     if (resLast.availableWrite() < 2) {
-Coverage.ifStart(493)
+Coverage.ifStart(494)
                         resLast = append(resLast, ResultChunk(resultSet, columns))
-Coverage.statementStart(494)
-                    }
 Coverage.statementStart(495)
-                    resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
+                    }
 Coverage.statementStart(496)
-                    chunks.skipPos(same)
+                    resLast.internalInsertSorted(comparator, columnOrder, chunks.current(), same)
 Coverage.statementStart(497)
-                }
+                    chunks.skipPos(same)
 Coverage.statementStart(498)
+                }
+Coverage.statementStart(499)
                 if (res != res.next) {
-Coverage.ifStart(499)
+Coverage.ifStart(500)
                     return sort(comparator, columnOrder, res)
                 }
-Coverage.statementStart(500)
+Coverage.statementStart(501)
                 return res
             } else {
-Coverage.ifStart(501)
+Coverage.ifStart(502)
                 val half = chunkCount / 2
-Coverage.statementStart(502)
-                var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
 Coverage.statementStart(503)
-                var b: ResultChunk? = sort(comparator, columnOrder, chunks)
+                var a: ResultChunk? = sort(comparator, columnOrder, split(chunks, half))
 Coverage.statementStart(504)
-                val resultSet = a!!.resultSet
+                var b: ResultChunk? = sort(comparator, columnOrder, chunks)
 Coverage.statementStart(505)
-                val columns = a!!.columns
+                val resultSet = a!!.resultSet
 Coverage.statementStart(506)
-                val res = ResultChunk(resultSet, columns)
+                val columns = a!!.columns
 Coverage.statementStart(507)
-                var resLast = res
+                val res = ResultChunk(resultSet, columns)
 Coverage.statementStart(508)
+                var resLast = res
+Coverage.statementStart(509)
                 while (true) {
-Coverage.whileLoopStart(509)
+Coverage.whileLoopStart(510)
                     resLast = sortHelper(comparator, columnOrder, a!!, b!!, resLast)
-Coverage.statementStart(510)
+Coverage.statementStart(511)
                     if (a.hasNext()) {
-Coverage.ifStart(511)
+Coverage.ifStart(512)
                         b = removeFirst(b)
-Coverage.statementStart(512)
+Coverage.statementStart(513)
                         if (b == null) {
-Coverage.ifStart(513)
+Coverage.ifStart(514)
                             break
                         }
-Coverage.statementStart(514)
+Coverage.statementStart(515)
                     } else {
-Coverage.ifStart(515)
+Coverage.ifStart(516)
                         a = removeFirst(a)
-Coverage.statementStart(516)
+Coverage.statementStart(517)
                         if (a == null) {
-Coverage.ifStart(517)
+Coverage.ifStart(518)
                             break
                         }
-Coverage.statementStart(518)
-                    }
 Coverage.statementStart(519)
-                }
+                    }
 Coverage.statementStart(520)
-                if (a != null) {
-Coverage.ifStart(521)
-                    var count = a!!.availableRead()
-Coverage.statementStart(522)
-                    if (count > 0) {
-Coverage.ifStart(523)
-                        resLast = copy(a, resLast, count)
-Coverage.statementStart(524)
-                    }
-Coverage.statementStart(525)
-                    a = removeFirst(a)
-Coverage.statementStart(526)
-                    if (a != null) {
-Coverage.ifStart(527)
-                        append(resLast, a)
-Coverage.statementStart(528)
-                    }
-Coverage.statementStart(529)
-                } else {
-Coverage.ifStart(530)
-                    var count = b!!.availableRead()
-Coverage.statementStart(531)
-                    if (count > 0) {
-Coverage.ifStart(532)
-                        resLast = copy(b!!, resLast, count)
-Coverage.statementStart(533)
-                    }
-Coverage.statementStart(534)
-                    b = removeFirst(b)
-Coverage.statementStart(535)
-                    if (b != null) {
-Coverage.ifStart(536)
-                        append(resLast, b!!)
-Coverage.statementStart(537)
-                    }
-Coverage.statementStart(538)
                 }
+Coverage.statementStart(521)
+                if (a != null) {
+Coverage.ifStart(522)
+                    var count = a!!.availableRead()
+Coverage.statementStart(523)
+                    if (count > 0) {
+Coverage.ifStart(524)
+                        resLast = copy(a, resLast, count)
+Coverage.statementStart(525)
+                    }
+Coverage.statementStart(526)
+                    a = removeFirst(a)
+Coverage.statementStart(527)
+                    if (a != null) {
+Coverage.ifStart(528)
+                        append(resLast, a)
+Coverage.statementStart(529)
+                    }
+Coverage.statementStart(530)
+                } else {
+Coverage.ifStart(531)
+                    var count = b!!.availableRead()
+Coverage.statementStart(532)
+                    if (count > 0) {
+Coverage.ifStart(533)
+                        resLast = copy(b!!, resLast, count)
+Coverage.statementStart(534)
+                    }
+Coverage.statementStart(535)
+                    b = removeFirst(b)
+Coverage.statementStart(536)
+                    if (b != null) {
+Coverage.ifStart(537)
+                        append(resLast, b!!)
+Coverage.statementStart(538)
+                    }
 Coverage.statementStart(539)
+                }
+Coverage.statementStart(540)
                 return res
             }
-Coverage.statementStart(540)
+Coverage.statementStart(541)
         }
     }
     var prev = this
     var next = this
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
-Coverage.funStart(541)
+Coverage.funStart(542)
         var columnidx = columnOrder[0].toInt()
-Coverage.statementStart(542)
-        var column = data[columnidx]
 Coverage.statementStart(543)
-        var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)
+        var column = data[columnidx]
 Coverage.statementStart(544)
-        var first = idx.first
+        var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)
 Coverage.statementStart(545)
-        var last = first + idx.second - count
+        var first = idx.first
 Coverage.statementStart(546)
+        var last = first + idx.second - count
+Coverage.statementStart(547)
         for (i in 1 until columns) {
-Coverage.forLoopStart(547)
+Coverage.forLoopStart(548)
             columnidx = columnOrder[i].toInt()
-Coverage.statementStart(548)
-            column = data[columnidx]
 Coverage.statementStart(549)
-            idx = column.insertSorted(values[columnidx], first, last, comparator[columnOrder[i].toInt()], count)
+            column = data[columnidx]
 Coverage.statementStart(550)
+            idx = column.insertSorted(values[columnidx], first, last, comparator[columnOrder[i].toInt()], count)
+Coverage.statementStart(551)
             if (idx.first > first) {
-Coverage.ifStart(551)
+Coverage.ifStart(552)
                 first = idx.first
-Coverage.statementStart(552)
-            }
 Coverage.statementStart(553)
-            if (last > first + idx.second - count) {
-Coverage.ifStart(554)
-                last = first + idx.second - count
-Coverage.statementStart(555)
             }
+Coverage.statementStart(554)
+            if (last > first + idx.second - count) {
+Coverage.ifStart(555)
+                last = first + idx.second - count
 Coverage.statementStart(556)
-        }
+            }
 Coverage.statementStart(557)
+        }
+Coverage.statementStart(558)
     }
 }
 class ValueComparatorFast : Comparator<Value> {
