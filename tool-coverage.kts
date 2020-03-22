@@ -133,6 +133,7 @@ val hadUnreachable=openBracketsUnreachable == openBrackets
             }
             regexUnreachable.matches(line) -> {
                 if (regexCoverage.matches(res[res.size - 1])) {
+		    coverageMap.remove(--counter)
                     res.removeAt(res.size - 1)
                 }
                 openBracketsUnreachable = openBrackets
