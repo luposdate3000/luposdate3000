@@ -1,3 +1,4 @@
+#!/bin/kscript
 import java.io.File
 
 var allChoicesString = ""

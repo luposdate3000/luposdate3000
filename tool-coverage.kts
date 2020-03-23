@@ -1,3 +1,4 @@
+#!/bin/kscript
 import java.io.File
 
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
