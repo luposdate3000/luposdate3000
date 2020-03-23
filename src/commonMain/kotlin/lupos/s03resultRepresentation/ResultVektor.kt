@@ -213,7 +213,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             if (c == idx) {
                 if (data[index].value == value) {
                     data[index].count += count
-                    return Pair(first, data[index].count)
+return Pair(first, data[index].count)
                 }
                 indexLocal = 0
                 absoluteindex = first
@@ -231,9 +231,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         idx = last - first + 1
         var currentidx = first
         while (true) {
-            if (data[index].value == value) {
+if(index>sizeIndex){
+sizeIndex=index
+data[index].count=count
+data[index].value=value
+return Pair(absoluteindex, data[index].count)
+}else            if (data[index].value == value) {
                 data[index].count += count
-                return Pair(absoluteindex, data[index].count)
+return Pair(absoluteindex, data[index].count)
             } else if (absoluteindex == last) {
                 var j = sizeIndex
                 while (j >= index) {
@@ -244,7 +249,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index].value = value
                 data[index].count = count
                 sizeIndex++
-                return Pair(last, count)
+return Pair(last, count)
             } else if (absoluteindex + data[index].count > last && comparator.compare(data[index].value, value) < 0) {
                 var j = sizeIndex
                 while (j >= index) {
@@ -257,7 +262,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index].count = last - absoluteindex
                 data[index + 2].count -= last - absoluteindex
                 sizeIndex += 2
-                return Pair(last, count)
+return Pair(last, count)
             } else if (comparator.compare(data[index].value, value) < 0) {
                 val c = data[index].count - indexLocal
                 currentidx += c
@@ -278,7 +283,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index + 2].count -= indexLocal
                 sizeIndex += 2
                 absoluteindex += data[index].count
-                return Pair(absoluteindex, count)
+return Pair(absoluteindex, count)
             } else {
                 var j = sizeIndex
                 while (j >= index) {
@@ -289,7 +294,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index].value = value
                 data[index].count = count
                 sizeIndex++
-                return Pair(absoluteindex, count)
+return Pair(absoluteindex, count)
             }
         }
 /*Coverage Unreachable*/
