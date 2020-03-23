@@ -80,7 +80,6 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                     val valb = b.data[c].current()
                     if (vala != valb) {
                         cmp = comparator[c].compare(vala, valb)
-                        require(cmp != 0)
                         if (cmp < 0) {
                             var count = a.sameElements(Array(i + 1) { columnOrder[it] })
                             targetLast = copy(a, targetLast, count)
