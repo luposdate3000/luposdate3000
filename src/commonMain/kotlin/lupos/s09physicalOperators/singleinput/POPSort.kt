@@ -28,7 +28,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP() = POPSort(query, sortBy, sortOrder, children[0].cloneOP())
     override fun toSparql(): String {
-        val variables = Array(sortBy.size){sortBy[it].name}
+        val variables = Array(sortBy.size) { sortBy[it].name }
         var child: OPBase = this
         for (i in 0 until variables.size)
             child = child.children[0]
@@ -100,16 +100,16 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         if (data == null)
             return ResultIterator()
         val columnOrder = Array(data!!.columns) { it.toLong() }
-for (v in sortBy.size-1 downTo 0){
-        val highestPriority = resultSet.createVariable(sortBy[v].name)
-var index=0
-while(columnOrder[index]!=highestPriority)
-index++
-        for (i in index downTo 1) {
-            columnOrder[i] = columnOrder[i - 1]
+        for (v in sortBy.size - 1 downTo 0) {
+            val highestPriority = resultSet.createVariable(sortBy[v].name)
+            var index = 0
+            while (columnOrder[index] != highestPriority)
+                index++
+            for (i in index downTo 1) {
+                columnOrder[i] = columnOrder[i - 1]
+            }
+            columnOrder[0] = highestPriority
         }
-        columnOrder[0] = highestPriority
-}
         data = ResultChunk.sort(
                 Array(data!!.columns) { ComparatorImpl(query) },
                 columnOrder,
@@ -128,10 +128,10 @@ index++
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         res.addAttribute("uuid", "" + uuid)
-val sortByXML=XMLElement("by")
-res.addContent(sortByXML)
-for(v in sortBy)
-sortByXML.addContent(XMLElement("variable").addAttribute("name",v.name))
+        val sortByXML = XMLElement("by")
+        res.addContent(sortByXML)
+        for (v in sortBy)
+            sortByXML.addContent(XMLElement("variable").addAttribute("name", v.name))
         if (sortOrder)
             res.addAttribute("order", "ASC")
         else

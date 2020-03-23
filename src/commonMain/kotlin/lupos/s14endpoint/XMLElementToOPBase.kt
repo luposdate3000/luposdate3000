@@ -180,8 +180,8 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPBuildInCallTZ" -> AOPBuildInCallTZ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         "POPSort" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
-val xmlby=node["by"]!!
-val sortBy=Array(xmlby.childs.size){createAOPVariable(query, mapping,xmlby.childs[it].attributes["name"]!!)}
+            val xmlby = node["by"]!!
+            val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
             POPSort(query, sortBy, node.attributes["order"] == "ASC", child)
         }
         "POPProjection" -> {

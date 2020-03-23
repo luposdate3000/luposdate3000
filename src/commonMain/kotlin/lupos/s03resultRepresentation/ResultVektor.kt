@@ -28,12 +28,12 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             return _sizeAbsolute
         }
         set(value) {
-if(uuid==334670L)
-try{
-throw Exception("here")
-}catch(e:Throwable){
-e.printStackTrace()
-}
+            if (uuid == 334670L)
+                try {
+                    throw Exception("here")
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
             _sizeAbsolute = value
         }
     var sizeIndex = 0
@@ -219,7 +219,7 @@ e.printStackTrace()
             if (c == idx) {
                 if (data[index].value == value) {
                     data[index].count += count
-return Pair(first, data[index].count)
+                    return Pair(first, data[index].count)
                 }
                 indexLocal = 0
                 absoluteindex = first
@@ -237,14 +237,14 @@ return Pair(first, data[index].count)
         idx = last - first + 1
         var currentidx = first
         while (true) {
-if(index>sizeIndex){
-sizeIndex=index
-data[index].count=count
-data[index].value=value
-return Pair(absoluteindex, data[index].count)
-}else            if (data[index].value == value) {
+            if (index > sizeIndex) {
+                sizeIndex = index
+                data[index].count = count
+                data[index].value = value
+                return Pair(absoluteindex, data[index].count)
+            } else if (data[index].value == value) {
                 data[index].count += count
-return Pair(absoluteindex, data[index].count)
+                return Pair(absoluteindex, data[index].count)
             } else if (absoluteindex == last) {
                 var j = sizeIndex
                 while (j >= index) {
@@ -255,7 +255,7 @@ return Pair(absoluteindex, data[index].count)
                 data[index].value = value
                 data[index].count = count
                 sizeIndex++
-return Pair(last, count)
+                return Pair(last, count)
             } else if (absoluteindex + data[index].count > last && comparator.compare(data[index].value, value) < 0) {
                 var j = sizeIndex
                 while (j >= index) {
@@ -268,7 +268,7 @@ return Pair(last, count)
                 data[index].count = last - absoluteindex
                 data[index + 2].count -= last - absoluteindex
                 sizeIndex += 2
-return Pair(last, count)
+                return Pair(last, count)
             } else if (comparator.compare(data[index].value, value) < 0) {
                 val c = data[index].count - indexLocal
                 currentidx += c
@@ -289,7 +289,7 @@ return Pair(last, count)
                 data[index + 2].count -= indexLocal
                 sizeIndex += 2
                 absoluteindex += data[index].count
-return Pair(absoluteindex, count)
+                return Pair(absoluteindex, count)
             } else {
                 var j = sizeIndex
                 while (j >= index) {
@@ -300,7 +300,7 @@ return Pair(absoluteindex, count)
                 data[index].value = value
                 data[index].count = count
                 sizeIndex++
-return Pair(absoluteindex, count)
+                return Pair(absoluteindex, count)
             }
         }
 /*Coverage Unreachable*/
