@@ -1,6 +1,8 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
+
 object ResultChunkBaseTest {
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
@@ -10,7 +12,9 @@ object ResultChunkBaseTest {
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 3
     val verbose = false
+
     class NoMoreRandomException() : Exception("")
+
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
         try {
             val res = buffer.getNextInt() % max
@@ -23,19 +27,23 @@ object ResultChunkBaseTest {
         }
 /*Coverage Unreachable*/
     }
+
     fun max(a: Int, b: Int): Int {
         if (a < b) {
             return b
         }
         return a
     }
+
     fun min(a: Int, b: Int): Int {
         if (a > b) {
             return b
         }
         return a
     }
+
     var columns = 4
+
     class ResultVektorTestHelper {
         var kotlinList = mutableListOf<Array<Value>>()
         var resultSetDictionary = ResultSetDictionary()
@@ -44,17 +52,20 @@ object ResultChunkBaseTest {
         var pos = 0
         var size = 0
         var backup = 0
+
         constructor() {
             for (i in 0 until columns) {
                 resultSet.createVariable("name$i")
             }
         }
     }
+
     fun log(s: String) {
         if (verbose) {
             println(s)
         }
     }
+
     operator fun invoke(buffer: DynamicByteArray) {
         var expectException = false
         log("-----------------------start")
@@ -118,7 +129,7 @@ object ResultChunkBaseTest {
                         helper.chunk.backupPosition()
                     }
                     4 -> {
-expectException=helper.backup>helper.size
+                        expectException = helper.backup > helper.size
                         helper.pos = helper.backup
                         helper.chunk.restorePosition()
                     }

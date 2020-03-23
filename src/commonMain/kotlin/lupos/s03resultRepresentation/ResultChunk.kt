@@ -1,7 +1,9 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
+
 open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(resultSet, columns) {
     companion object {
         operator fun invoke(resultSet: ResultSet): ResultChunk {
@@ -11,6 +13,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             }
             return ResultChunk(resultSet, columns)
         }
+
         fun removeFirst(root: ResultChunk): ResultChunk? {
             if (root.next == root) {
                 return null
@@ -20,6 +23,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             root.prev.next = res
             return res
         }
+
         fun split(root: ResultChunk, count: Int): ResultChunk {
             require(count > 0)
             var other = root
@@ -34,6 +38,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             other.prev = otherLast
             return other
         }
+
         fun append(rootLast: ResultChunk, other: ResultChunk): ResultChunk {
             val root = rootLast.next
             val otherLast = other.prev
@@ -43,6 +48,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             other.prev = rootLast
             return otherLast
         }
+
         fun copy(from: ResultChunk, target: ResultChunk, count: Int): ResultChunk {
             require(count > 0)
             val resultSet = from.resultSet
@@ -63,6 +69,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             targetLast.copy(from, cnt)
             return targetLast
         }
+
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
             var targetLast = target
             loop@ while (a.availableRead() > 0 && b.availableRead() > 0) {
@@ -94,22 +101,26 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             }
             return targetLast
         }
+
         fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
-println("sort ?!?")
+            println("sort ?!?")
             var chunkCount = 1
             var tmp = chunks.next
             while (tmp != chunks) {
                 chunkCount++
                 tmp = tmp.next
             }
-println("sort $chunkCount ${columnOrder.map{it}} $chunks")
+            println("sort $chunkCount ${columnOrder.map { it }} $chunks")
             if (chunkCount == 1) {
                 val resultSet = chunks.resultSet
                 val columns = chunks.columns
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (chunks.hasNext()) {
+                    println(chunks)
                     val same = chunks.sameElements()
+                    println(chunks)
+                    require(same > 0)
                     if (resLast.availableWrite() <= 2) {
                         resLast = append(resLast, ResultChunk(resultSet, columns))
                     }
@@ -166,10 +177,11 @@ println("sort $chunkCount ${columnOrder.map{it}} $chunks")
 /*Coverage Unreachable*/
         }
     }
+
     var prev = this
     var next = this
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
-println("columnOrder ${columnOrder.map{it}}")
+        println("columnOrder ${columnOrder.map { it }}")
         var columnidx = columnOrder[0].toInt()
         var column = data[columnidx]
         var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)

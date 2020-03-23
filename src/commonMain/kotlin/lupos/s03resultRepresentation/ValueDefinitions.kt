@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
@@ -7,12 +8,14 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.ResultIterator
+
 sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toXMLElement(): XMLElement
     abstract fun valueToString(): String?
     abstract fun toDouble(): Double
     abstract fun toInt(): Int
     abstract fun toBoolean(): Boolean
+
     companion object {
         operator fun invoke(tmp: String?): ValueDefinition {
             if (tmp == null || tmp.length == 0) {
@@ -43,6 +46,7 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
 /*Coverage Unreachable*/
         }
     }
+
     fun toSparql(): String {
         val res = valueToString()
         if (res == null) {
@@ -50,8 +54,10 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
         }
         return res
     }
+
     override operator fun compareTo(other: ValueDefinition): Int = throw Exception("type error")
 }
+
 class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueBnode").addAttribute("value", "" + value)
     override fun valueToString() = "_:" + value
@@ -67,6 +73,7 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
         return value.compareTo(other.value)
     }
 }
+
 class ValueBoolean(@JvmField var value: Boolean) : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueBnode").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
@@ -86,8 +93,10 @@ class ValueBoolean(@JvmField var value: Boolean) : ValueDefinition() {
         }
         return -1
     }
+
     override fun hashCode() = value.hashCode()
 }
+
 abstract class ValueNumeric() : ValueDefinition()
 class ValueUndef() : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueUndef")
@@ -98,6 +107,7 @@ class ValueUndef() : ValueDefinition() {
     override fun toBoolean() = throw Exception("cannot cast ValueUndef to Boolean")
     override fun hashCode() = 0
 }
+
 class ValueError() : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueError")
     override fun valueToString() = null
@@ -107,6 +117,7 @@ class ValueError() : ValueDefinition() {
     override fun toBoolean() = throw Exception("cannot cast ValueError to Boolean")
     override fun hashCode() = 0
 }
+
 abstract class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueStringBase) {
@@ -114,22 +125,26 @@ abstract class ValueStringBase(@JvmField val delimiter: String, @JvmField val co
         }
         return valueToString()!!.compareTo(other.valueToString()!!)
     }
+
     override fun toBoolean() = content.length > 0
     override fun toDouble() = throw Exception("cannot cast Literal to Double")
     override fun toInt() = throw Exception("cannot cast Literal to Int")
 }
+
 class ValueLanguageTaggedLiteral(delimiter: String, content: String, val language: String) : ValueStringBase(delimiter, content) {
     override fun toXMLElement() = XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
     override fun valueToString() = delimiter + content + delimiter + "@" + language
     override fun equals(other: Any?): Boolean = other is ValueLanguageTaggedLiteral && delimiter == other.delimiter && language == other.language && content == other.content
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + language.hashCode()
 }
+
 class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(delimiter, content) {
     override fun toXMLElement() = XMLElement("ValueSimpleLiteral").addAttribute("delimiter", delimiter).addAttribute("content", content)
     override fun valueToString() = delimiter + content + delimiter
     override fun equals(other: Any?): Boolean = other is ValueSimpleLiteral && delimiter == other.delimiter && content == other.content
     override fun hashCode() = delimiter.hashCode() + content.hashCode()
 }
+
 class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_iri: String, b: Boolean) : ValueStringBase(delimiter, content) {
     companion object {
         operator fun invoke(delimiter: String, content: String, type_iri: String): ValueDefinition {
@@ -156,11 +171,13 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
 /*Coverage Unreachable*/
         }
     }
+
     override fun toXMLElement() = XMLElement("ValueTypedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)
     override fun valueToString() = delimiter + content + delimiter + "^^<" + type_iri + ">"
     override fun equals(other: Any?): Boolean = other is ValueTypedLiteral && delimiter == other.delimiter && type_iri == other.type_iri && content == other.content
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + type_iri.hashCode()
 }
+
 class ValueDecimal(@JvmField var value: Double) : ValueNumeric() {
     override fun toXMLElement() = XMLElement("ValueDecimal").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
@@ -182,6 +199,7 @@ class ValueDecimal(@JvmField var value: Double) : ValueNumeric() {
         throw Exception("type error")
     }
 }
+
 class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
     override fun toXMLElement() = XMLElement("ValueDouble").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#double>"
@@ -203,6 +221,7 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
         throw Exception("type error")
     }
 }
+
 class ValueInteger(@JvmField var value: Int) : ValueNumeric() {
     override fun toXMLElement() = XMLElement("ValueInteger").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"
@@ -224,6 +243,7 @@ class ValueInteger(@JvmField var value: Int) : ValueNumeric() {
         throw Exception("type error")
     }
 }
+
 class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueIri").addAttribute("value", "" + iri)
     override fun valueToString() = "<" + iri + ">"
@@ -239,6 +259,7 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
         return iri.compareTo(other.iri)
     }
 }
+
 class ValueDateTime : ValueDefinition {
     @JvmField
     val year: Int
@@ -256,6 +277,7 @@ class ValueDateTime : ValueDefinition {
     val timezoneHours: Int
     @JvmField
     val timezoneMinutes: Int
+
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueDateTime) {
             throw Exception("type error")
@@ -286,6 +308,7 @@ class ValueDateTime : ValueDefinition {
         }
         return 0
     }
+
     constructor() : super() {
         val time = com.soywiz.klock.DateTime.now()
         year = time.yearInt
@@ -297,6 +320,7 @@ class ValueDateTime : ValueDefinition {
         timezoneHours = 0
         timezoneMinutes = 0
     }
+
     constructor(str: String) : super() {
         if (str.length >= 10) {
             year = str.substring(1, 5).toInt()
@@ -327,6 +351,7 @@ class ValueDateTime : ValueDefinition {
             timezoneMinutes = -1
         }
     }
+
     fun getTZ(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0) {
             return "Z"
@@ -336,6 +361,7 @@ class ValueDateTime : ValueDefinition {
         }
         return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
     }
+
     fun getTimeZone(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0) {
             return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
@@ -345,6 +371,7 @@ class ValueDateTime : ValueDefinition {
         }
         return ""
     }
+
     override fun valueToString(): String {
         if (timezoneHours == -1 && timezoneMinutes == -1) {
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
@@ -355,6 +382,7 @@ class ValueDateTime : ValueDefinition {
         }
 /*Coverage Unreachable*/
     }
+
     override fun toXMLElement() = XMLElement("ValueDateTime").addAttribute("value", valueToString())
     override fun equals(other: Any?): Boolean = other is ValueDateTime && valueToString() == other.valueToString()
     override fun hashCode() = valueToString().hashCode()

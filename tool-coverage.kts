@@ -98,9 +98,9 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     var openBrackets = 0
     var openBracketsUnreachable = Int.MAX_VALUE
     lines.forEach {
-val hadUnreachable=openBracketsUnreachable == openBrackets
+        val hadUnreachable = openBracketsUnreachable == openBrackets
         val line = it
-        if (!hadUnreachable&&res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size - 1])) && (!whenBrackets.contains(openBrackets - 1))) {
+        if (!hadUnreachable && res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size - 1])) && (!whenBrackets.contains(openBrackets - 1))) {
             appendCoverageStatement(filename, counter, res.size)
             res.add("Coverage.statementStart(${counter++})")
         }
@@ -120,12 +120,12 @@ val hadUnreachable=openBracketsUnreachable == openBrackets
                 openBrackets++
             if (line[i] == '}') {
                 openBrackets--
-                if (openBrackets == openBracketsFunction-1)
+                if (openBrackets == openBracketsFunction - 1)
                     openBracketsFunction = Int.MAX_VALUE
                 whenBrackets.remove(openBrackets)
-                if (openBrackets == openBracketsUnreachable-1){
+                if (openBrackets == openBracketsUnreachable - 1) {
                     openBracketsUnreachable = Int.MAX_VALUE
-		}
+                }
             }
         }
         when {
@@ -134,7 +134,7 @@ val hadUnreachable=openBracketsUnreachable == openBrackets
             }
             regexUnreachable.matches(line) -> {
                 if (regexCoverage.matches(res[res.size - 1])) {
-		    coverageMap.remove(--counter)
+                    coverageMap.remove(--counter)
                     res.removeAt(res.size - 1)
                 }
                 openBracketsUnreachable = openBrackets

@@ -89,36 +89,36 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
         val child = children[0].evaluate()
         var data: ResultChunk? = null
-var dataLast: ResultChunk? = null
+        var dataLast: ResultChunk? = null
         CoroutinesHelper.runBlock {
             child.forEach { chunk ->
                 val next = resultFlowConsume({ this@POPSort }, { children[0] }, { chunk })
-require(next.prev==next)
-require(next.next==next)
+                require(next.prev == next)
+                require(next.next == next)
                 if (next.availableRead() > 0) {
-                    if (dataLast == null){
+                    if (dataLast == null) {
                         data = next
                         dataLast = next.prev
-                    }else
-                        dataLast=ResultChunk.append(dataLast!!, next)
+                    } else
+                        dataLast = ResultChunk.append(dataLast!!, next)
                 }
             }
         }
         if (data == null)
             return ResultIterator()
-val columnOrder=Array(data!!.columns){it.toLong()}
-println("sort1 ${columnOrder.map{it}}")
-val highestPriority=resultSet.createVariable(sortBy.name)
-println("sort2 $highestPriority")
-for(i in highestPriority.toInt() downTo 1){
-columnOrder[i]=columnOrder[i-1]
-println("sort3 $i ${columnOrder.map{it}}")
-}
-columnOrder[0]=highestPriority
-println("sort4 ${columnOrder.map{it}}")
-data=        ResultChunk.sort(
+        val columnOrder = Array(data!!.columns) { it.toLong() }
+        println("sort1 ${columnOrder.map { it }}")
+        val highestPriority = resultSet.createVariable(sortBy.name)
+        println("sort2 $highestPriority")
+        for (i in highestPriority.toInt() downTo 1) {
+            columnOrder[i] = columnOrder[i - 1]
+            println("sort3 $i ${columnOrder.map { it }}")
+        }
+        columnOrder[0] = highestPriority
+        println("sort4 ${columnOrder.map { it }}")
+        data = ResultChunk.sort(
                 Array(data!!.columns) { ComparatorImpl(query) },
-columnOrder,
+                columnOrder,
                 data!!)
         val res = ResultIterator()
         res.next = {

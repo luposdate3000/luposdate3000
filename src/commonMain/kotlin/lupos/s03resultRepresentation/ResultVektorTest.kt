@@ -1,6 +1,8 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
+
 object ResultVektorTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
@@ -11,6 +13,7 @@ object ResultVektorTest {
             return 1
         }
     }
+
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
     val MAX_DISTINCT_VALUES = 5
@@ -18,7 +21,9 @@ object ResultVektorTest {
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 3
     val verbose = false
+
     class NoMoreRandomException() : Exception("")
+
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
         try {
             val res = buffer.getNextInt() % max
@@ -31,6 +36,7 @@ object ResultVektorTest {
         }
 /*Coverage Unreachable*/
     }
+
     class ResultVektorTestHelper {
         var vektor = ResultVektor(UNDEF_VALUE)
         var kotlinList = mutableListOf<Value>()
@@ -38,11 +44,13 @@ object ResultVektorTest {
         var size = 0
         var backup = 0
     }
+
     fun log(s: String) {
         if (verbose) {
             println(s)
         }
     }
+
     operator fun invoke(buffer: DynamicByteArray) {
         var expectException = false
         log("start")

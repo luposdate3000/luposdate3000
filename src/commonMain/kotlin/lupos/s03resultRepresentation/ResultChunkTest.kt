@@ -1,6 +1,8 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
+
 object ResultChunkTest {
     class MyComparatorValue : Comparator<Value> {
         override fun compare(a: Value, b: Value): Int {
@@ -11,6 +13,7 @@ object ResultChunkTest {
             return 1
         }
     }
+
     class MyComparatorRow(val variables: Array<Variable>) : Comparator<Array<Value>> {
         override fun compare(a: Array<Value>, b: Array<Value>): Int {
             for (i in variables.indices) {
@@ -25,6 +28,7 @@ object ResultChunkTest {
             return 0
         }
     }
+
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
     val MAX_COLUMNS = 3
@@ -33,7 +37,9 @@ object ResultChunkTest {
     val FUNCTION_COUNT = 14
     val MAX_LISTS = 3
     val verbose = false
+
     class NoMoreRandomException() : Exception("")
+
     fun nextRandom(buffer: DynamicByteArray, max: Int, positiveOnly: Boolean): Int {
         try {
             val res = buffer.getNextInt() % max
@@ -46,12 +52,14 @@ object ResultChunkTest {
         }
 /*Coverage Unreachable*/
     }
+
     var columns = 4
     fun log(s: String) {
         if (verbose) {
             println(s)
         }
     }
+
     fun kotlinListToString(kotlinList: MutableList<Array<Value>>): String {
         val res = StringBuilder()
         res.append("[\n")
@@ -81,6 +89,7 @@ object ResultChunkTest {
         res.append("]\n")
         return res.toString()
     }
+
     fun checkEquals(kotlinList: MutableList<Array<Value>>, chunk: ResultChunk, comparator: Comparator<Array<Value>>) {
         var tmp = chunk
         log(kotlinListToString(kotlinList))
@@ -100,6 +109,7 @@ object ResultChunkTest {
         tmp.restorePosition()
         require(tmp == chunk)
     }
+
     operator fun invoke(buffer: DynamicByteArray) {
         var expectException = false
         log("-----------------------start")

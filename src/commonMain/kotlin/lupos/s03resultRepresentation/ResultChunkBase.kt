@@ -1,7 +1,9 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
+
 open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterator<ResultRow> {
     val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
     open fun availableWrite(): Int {
@@ -14,6 +16,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
         }
         return res
     }
+
     open fun availableRead(): Int = data[0].availableRead()
     fun append(row: ResultRow, count: Int = 1) {
         require(count > 0)
@@ -21,27 +24,32 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
             data[i].append(row.values[i], count)
         }
     }
+
     fun append(values: Array<Value>, count: Int = 1) {
         require(count > 0)
         for (i in 0 until columns) {
             data[i].append(values[i], count)
         }
     }
+
     fun backupPosition() {
         for (i in 0 until columns) {
             data[i].backupPosition()
         }
     }
+
     fun canAppend() = availableWrite() > 0
     fun current(columns: Array<Variable>) = Array(columns.size) { data[columns[it].toInt()].current() }
     fun current() = Array(columns) { data[it].current() }
     open fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunkBase, columnsFrom: Array<Variable>, count: Int) {
+        require(count > 0)
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
             val colFrom = chunkFrom.data[columnsFrom[c].toInt()]
             colTo.copy(colFrom, count)
         }
     }
+
     open fun copy(chunkFrom: ResultChunkBase, count: Int) {
         require(count > 0)
         for (c in 0 until columns) {
@@ -50,6 +58,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
             colTo.copy(colFrom, count)
         }
     }
+
     open fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
         require(count > 0)
         for (c in 0 until columnsTo.size) {
@@ -58,6 +67,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
             colTo.append(valFrom, count)
         }
     }
+
     open fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
         require(count > 0)
         for (c in 0 until columnsTo.size) {
@@ -70,6 +80,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
             }
         }
     }
+
     fun getColumn(variable: Variable) = data[variable.toInt()]
     override fun hasNext() = data[0].hasNext()
     override fun next(): ResultRow {
@@ -79,59 +90,72 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
         }
         return row
     }
+
     open fun nextArr() = Array(columns) { data[it].next() }
     fun setColumn(variable: Variable, col: ResultVektor) {
         data[variable.toInt()] = col
     }
+
     fun restorePosition() {
         for (i in 0 until columns) {
             data[i].restorePosition()
         }
     }
+
     fun sameElements(columns: Array<Variable>): Int {
         var res = availableRead()
+        println("sameElementsa $res")
         for (i in columns) {
             val t = data[i.toInt()].sameElements()
             if (t < res) {
                 res = t
+                println("sameElementsb $res $i")
             }
         }
         return res
     }
+
     fun sameElements(): Int {
         var res = availableRead()
+        println("sameElementsc $res")
         for (i in 0 until columns) {
             val t = data[i].sameElements()
             if (t < res) {
                 res = t
+                println("sameElementsd $res $i")
             }
         }
         return res
     }
+
     open fun skipPos(columns: Array<Variable>, count: Int) {
         require(count != 0)
         for (c in 0 until columns.size) {
             data[columns[c].toInt()].skipPos(count)
         }
     }
+
     open fun skipSize(columns: Array<Variable>, count: Int) {
         require(count != 0)
         for (c in 0 until columns.size) {
             data[columns[c].toInt()].skipSize(count)
         }
     }
+
     open fun skipPos(count: Int) {
         require(count != 0)
         for (c in 0 until columns) {
             data[c].skipPos(count)
         }
     }
+
     open fun skipSize(count: Int) {
         require(count != 0)
         for (c in 0 until columns) {
             data[c].skipSize(count)
         }
     }
+
     override fun toString(): String {
         val res = StringBuilder()
         res.append("" + availableRead() + "r" + availableWrite() + "w")
@@ -145,7 +169,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
                 for (c in 0 until columns) {
                     res.append(data[c].data[r].value)
                     if (r >= data[c].posIndex && r <= data[c].sizeIndex && data[c].data[r].count > 0) {
-                        if (r == data[c].posIndex && data[c].posIndexLocal != 0) {
+                        if (r == data[c].posIndex) {
                             res.append("(${data[c].data[r].count - data[c].posIndexLocal})<${data[c].data[r].count}>")
                         } else {
                             res.append("(${data[c].data[r].count})")

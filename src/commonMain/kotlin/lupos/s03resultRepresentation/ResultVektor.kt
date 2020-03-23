@@ -1,14 +1,17 @@
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
+
 class ResultVektor(undefValue: Value) : Iterator<Value> {
     companion object {
         var capacity = 6
     }
-    var _posAbsolute = 0
+
     val uuid = ThreadSafeUuid().next()
+    var _posAbsolute = 0
     var posAbsolute: Int
         get():Int {
             return _posAbsolute
@@ -19,7 +22,14 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     var posIndex = 0
     var posIndexLocal = 0
     var posBackup = 0
-    var sizeAbsolute = 0
+    var _sizeAbsolute = 0
+    var sizeAbsolute: Int
+        get():Int {
+            return _sizeAbsolute
+        }
+        set(value) {
+            _sizeAbsolute = value
+        }
     var sizeIndex = 0
     val data = Array<CompressedElement>(capacity) { CompressedElement(0, undefValue) }
     override fun toString(): String {
@@ -37,6 +47,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         }
         return res.toString()
     }
+
     fun skipPos(count: Int) {
         require(posAbsolute + count <= sizeAbsolute)
         posAbsolute += count
@@ -67,6 +78,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             }
         }
     }
+
     fun skipSize(count: Int) {
         require(posAbsolute <= sizeAbsolute + count)
         sizeAbsolute += count
@@ -92,9 +104,11 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             }
         }
     }
+
     fun backupPosition() {
         posBackup = posAbsolute
     }
+
     fun restorePosition() {
         require(posBackup <= sizeAbsolute)
         posAbsolute = 0
@@ -102,22 +116,26 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         posIndexLocal = 0
         skipPos(posBackup)
     }
+
     fun current(): Value {
         internalSafeNextElement()
         return data[posIndex].value
     }
+
     override fun next(): Value {
         internalSafeNextElement()
         posIndexLocal++
         posAbsolute++
         return data[posIndex].value
     }
+
     override fun hasNext() = sizeAbsolute > posAbsolute
     fun availableWrite() = capacity - sizeIndex - 1
     fun availableRead() = sizeAbsolute - posAbsolute
     fun canAppend() = availableWrite() > 0
     fun append(value: Value, count: Int = 1) {
-        require(sizeIndex < capacity - 1 && count > 0)
+        require(count > 0)
+        require(sizeIndex < capacity)
         if (sizeAbsolute == 0) {
             data[sizeIndex].count = count
             data[sizeIndex].value = value
@@ -130,38 +148,51 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         }
         sizeAbsolute += count
     }
+
     fun sameElements(): Int {
         internalSafeNextElement()
         require(posIndex <= sizeIndex)
         return data[posIndex].count - posIndexLocal
     }
+
     fun internalNextElement() {
         posIndex++
         posIndexLocal = 0
     }
+
     fun internalSafeNextElement() {
+        println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posIndex $sizeIndex")
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
             internalNextElement()
         }
     }
+
     fun copy(from: ResultVektor, count: Int) {
         require(count > 0)
+        require(from.sizeAbsolute - from.posAbsolute >= count)
         var i = count
-        from.internalSafeNextElement()
+        var c = from.data[from.posIndex].count - from.posIndexLocal
+        if (c == 0) {
+            from.posIndex++
+            from.posIndexLocal = 0
+            c = from.data[from.posIndex].count
+        }
         while (true) {
-            val c = from.data[from.posIndex].count - from.posIndexLocal
             if (c < i) {
                 append(from.data[from.posIndex].value, c)
-                from.internalNextElement()
+                from.posIndex++
+                from.posIndexLocal = 0
                 i -= c
             } else {
                 append(from.data[from.posIndex].value, i)
                 from.posIndexLocal += i
                 break
             }
+            c = from.data[from.posIndex].count
         }
         from.posAbsolute += count
     }
+
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute, comparator: Comparator<Value>, count: Int): Pair<Int, Int> {
         if (sizeAbsolute == 0) {
             append(value, count)
@@ -180,6 +211,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
         while (idx > 0) {
             val c = data[index].count
             if (c == idx) {
+                if (data[index].value == value) {
+                    data[index].count += count
+                    return Pair(first, data[index].count)
+                }
                 indexLocal = 0
                 absoluteindex = first
                 index++
