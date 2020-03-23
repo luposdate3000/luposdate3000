@@ -102,23 +102,19 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun sort(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, chunks: ResultChunk): ResultChunk {
-            println("sort ?!?")
             var chunkCount = 1
             var tmp = chunks.next
             while (tmp != chunks) {
                 chunkCount++
                 tmp = tmp.next
             }
-            println("sort $chunkCount ${columnOrder.map { it }} $chunks")
             if (chunkCount == 1) {
                 val resultSet = chunks.resultSet
                 val columns = chunks.columns
                 val res = ResultChunk(resultSet, columns)
                 var resLast = res
                 while (chunks.hasNext()) {
-                    println(chunks)
                     val same = chunks.sameElements()
-                    println(chunks)
                     require(same > 0)
                     if (resLast.availableWrite() <= 2) {
                         resLast = append(resLast, ResultChunk(resultSet, columns))
@@ -180,7 +176,6 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
     var prev = this
     var next = this
     fun internalInsertSorted(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, values: Array<Value>, count: Int = 1) {
-        println("columnOrder ${columnOrder.map { it }}")
         var columnidx = columnOrder[0].toInt()
         var column = data[columnidx]
         var idx = column.insertSorted(values[columnidx], comparator = comparator[columnOrder[0].toInt()], count = count)

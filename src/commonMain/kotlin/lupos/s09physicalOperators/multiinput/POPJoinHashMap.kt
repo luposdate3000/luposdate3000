@@ -205,13 +205,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     outbuf.copy(col1AA, inbuf, col0AA, same)
                                     outbuf.copy(col1JA, inbuf, col0JAA, same)
                                     outbuf.skipSize(col1BA, same)
-                                    println("join1")
                                 } else {
                                     if (avail > 0) {
                                         outbuf.copy(col1AA, inbuf, col0AA, avail)
                                         outbuf.copy(col1JA, inbuf, col0JAA, avail)
                                         outbuf.skipSize(col1BA, avail)
-                                        println("join2")
                                     }
                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                     outbuf = ResultChunk(resultSet)
@@ -219,7 +217,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                         outbuf.copy(col1AA, inbuf, col0AA, same - avail)
                                         outbuf.copy(col1JA, inbuf, col0JAA, same - avail)
                                         outbuf.skipSize(col1BA, same - avail)
-                                        println("join3")
                                     }
                                 }
                             } else {
@@ -235,13 +232,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                     outbuf.copy(col1AA, aData, col0AA, count)
                                                     outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count)
                                                     outbuf.copy(col1BA, it, col0BA, count)
-                                                    println("join4")
                                                 } else {
                                                     if (avail > 0) {
                                                         outbuf.copy(col1AA, aData, col0AA, avail)
                                                         outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, avail)
                                                         outbuf.copy(col1BA, it, col0BA, avail)
-                                                        println("join5")
                                                     }
                                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                                     outbuf = ResultChunk(resultSet)
@@ -249,7 +244,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                         outbuf.copy(col1AA, aData, col0AA, count - avail)
                                                         outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count - avail)
                                                         outbuf.copy(col1BA, it, col0BA, count - avail)
-                                                        println("join6")
                                                     }
                                                 }
                                             } else {
@@ -257,13 +251,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                     outbuf.copy(col1AA, aData, col0AA, count)
                                                     outbuf.copy(col1JA, aData, col0JAA, count)
                                                     outbuf.copy(col1BA, it, col0BA, count)
-                                                    println("join7")
                                                 } else {
                                                     if (avail > 0) {
                                                         outbuf.copy(col1AA, aData, col0AA, avail)
                                                         outbuf.copy(col1JA, aData, col0JAA, avail)
                                                         outbuf.copy(col1BA, it, col0BA, avail)
-                                                        println("join8")
                                                     }
                                                     channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
                                                     outbuf = ResultChunk(resultSet)
@@ -271,7 +263,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                         outbuf.copy(col1AA, aData, col0AA, count - avail)
                                                         outbuf.copy(col1JA, aData, col0JAA, count - avail)
                                                         outbuf.copy(col1BA, it, col0BA, count - avail)
-                                                        println("join9")
                                                     }
                                                 }
                                             }

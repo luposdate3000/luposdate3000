@@ -104,12 +104,10 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
 
     fun sameElements(columns: Array<Variable>): Int {
         var res = availableRead()
-        println("sameElementsa $res")
         for (i in columns) {
             val t = data[i.toInt()].sameElements()
             if (t < res) {
                 res = t
-                println("sameElementsb $res $i")
             }
         }
         return res
@@ -117,12 +115,10 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
 
     fun sameElements(): Int {
         var res = availableRead()
-        println("sameElementsc $res")
         for (i in 0 until columns) {
             val t = data[i].sameElements()
             if (t < res) {
                 res = t
-                println("sameElementsd $res $i")
             }
         }
         return res

@@ -28,12 +28,6 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             return _sizeAbsolute
         }
         set(value) {
-            if (uuid == 334670L)
-                try {
-                    throw Exception("here")
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
             _sizeAbsolute = value
         }
     var sizeIndex = 0
@@ -167,7 +161,6 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun internalSafeNextElement() {
-        println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posIndex $sizeIndex")
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
             internalNextElement()
         }

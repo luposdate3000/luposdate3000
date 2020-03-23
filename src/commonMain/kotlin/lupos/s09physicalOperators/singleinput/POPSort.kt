@@ -51,34 +51,6 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         return res
     }
 
-    class ComparatorImpl(val query: Query) : Comparator<Value> {
-        override fun compare(aID: Value, bID: Value): Int {
-            val a = query.dictionary.getValue(aID)
-            val b = query.dictionary.getValue(bID)
-            var res = 0
-            try {
-                res = a.compareTo(b)
-            } catch (e: Throwable) {
-                if (a is ValueUndef || a is ValueError)
-                    return -1
-                if (b is ValueUndef || b is ValueError)
-                    return +1
-                if (a is ValueBnode)
-                    return -1
-                if (b is ValueBnode)
-                    return +1
-                if (a is ValueIri)
-                    return -1
-                if (b is ValueIri)
-                    return +1
-                val sA = a.valueToString()!!
-                val sB = b.valueToString()!!
-                return sA.compareTo(sB)
-            }
-            return res
-        }
-    }
-
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
         val child = children[0].evaluate()
         var data: ResultChunk? = null
@@ -110,8 +82,18 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             }
             columnOrder[0] = highestPriority
         }
+val fastcomparator=ValueComparatorFast()
+val comparator=if(sortOrder)
+ValueComparatorASC(query)
+else
+ValueComparatorDESC(query)
         data = ResultChunk.sort(
-                Array(data!!.columns) { ComparatorImpl(query) },
+                Array(data!!.columns) {
+if(it<=sortBy.size)
+ comparator 
+else
+fastcomparator
+},
                 columnOrder,
                 data!!)
         val res = ResultIterator()
