@@ -15,40 +15,28 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toBoolean(): Boolean
     companion object {
         operator fun invoke(tmp: String?): ValueDefinition {
-Coverage.funStart(1048)
             if (tmp == null || tmp.length == 0) {
-Coverage.ifStart(1049)
                 return ValueUndef()
             }
-Coverage.statementStart(1050)
             when {
                 tmp.startsWith("_:") -> {
-Coverage.whenCaseStart(1051)
                     return ValueBnode(tmp.substring(2, tmp.length))
                 }
                 tmp.startsWith("<") && tmp.endsWith(">") -> {
-Coverage.whenCaseStart(1052)
                     return ValueIri(tmp.substring(1, tmp.length - 1))
                 }
                 !tmp.endsWith("" + tmp.get(0)) -> {
-Coverage.whenCaseStart(1053)
                     val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
-Coverage.statementStart(1054)
                     val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
-Coverage.statementStart(1055)
                     if (tmp.endsWith(">") && typeIdx > 0) {
-Coverage.ifStart(1056)
                         return ValueTypedLiteral("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
                     } else {
-Coverage.ifStart(1057)
                         require(langIdx > 0)
-Coverage.statementStart(1058)
                         return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     }
 /*Coverage Unreachable*/
                 }
                 else -> {
-Coverage.whenCaseStart(1059)
                     return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
                 }
             }
@@ -56,14 +44,10 @@ Coverage.whenCaseStart(1059)
         }
     }
     fun toSparql(): String {
-Coverage.funStart(1060)
         val res = valueToString()
-Coverage.statementStart(1061)
         if (res == null) {
-Coverage.ifStart(1062)
             return "UNDEF"
         }
-Coverage.statementStart(1063)
         return res
     }
     override operator fun compareTo(other: ValueDefinition): Int = throw Exception("type error")
@@ -77,12 +61,9 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     override fun toBoolean() = throw Exception("cannot cast ValueBnode to Boolean")
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1064)
         if (other !is ValueBnode) {
-Coverage.ifStart(1065)
             throw Exception("type error")
         }
-Coverage.statementStart(1066)
         return value.compareTo(other.value)
     }
 }
@@ -94,22 +75,15 @@ class ValueBoolean(@JvmField var value: Boolean) : ValueDefinition() {
     override fun toInt() = throw Exception("cannot cast ValueBoolean to Int")
     override fun toBoolean() = value
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1067)
         if (other !is ValueBoolean) {
-Coverage.ifStart(1068)
             throw Exception("type error")
         }
-Coverage.statementStart(1069)
         if (value == other.value) {
-Coverage.ifStart(1070)
             return 0
         }
-Coverage.statementStart(1071)
         if (value && !other.value) {
-Coverage.ifStart(1072)
             return 1
         }
-Coverage.statementStart(1073)
         return -1
     }
     override fun hashCode() = value.hashCode()
@@ -135,12 +109,9 @@ class ValueError() : ValueDefinition() {
 }
 abstract class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1074)
         if (other !is ValueStringBase) {
-Coverage.ifStart(1075)
             throw Exception("type error")
         }
-Coverage.statementStart(1076)
         return valueToString()!!.compareTo(other.valueToString()!!)
     }
     override fun toBoolean() = content.length > 0
@@ -162,30 +133,23 @@ class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(d
 class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_iri: String, b: Boolean) : ValueStringBase(delimiter, content) {
     companion object {
         operator fun invoke(delimiter: String, content: String, type_iri: String): ValueDefinition {
-Coverage.funStart(1077)
             when (type_iri) {
                 "http://www.w3.org/2001/XMLSchema#boolean" -> {
-Coverage.whenCaseStart(1078)
                     return ValueBoolean(content.toBoolean())
                 }
                 "http://www.w3.org/2001/XMLSchema#integer" -> {
-Coverage.whenCaseStart(1079)
                     return ValueInteger(content.toInt())
                 }
                 "http://www.w3.org/2001/XMLSchema#double" -> {
-Coverage.whenCaseStart(1080)
                     return ValueDouble(content.toDouble())
                 }
                 "http://www.w3.org/2001/XMLSchema#decimal" -> {
-Coverage.whenCaseStart(1081)
                     return ValueDecimal(content.toDouble())
                 }
                 "http://www.w3.org/2001/XMLSchema#dateTime" -> {
-Coverage.whenCaseStart(1082)
                     return ValueDateTime(delimiter + content + delimiter + "^^<" + type_iri + ">")
                 }
                 else -> {
-Coverage.whenCaseStart(1083)
                     return ValueTypedLiteral(delimiter, content, type_iri, true)
                 }
             }
@@ -206,22 +170,15 @@ class ValueDecimal(@JvmField var value: Double) : ValueNumeric() {
     override fun toBoolean() = value > 0 || value < 0
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1084)
         if (other is ValueInteger) {
-Coverage.ifStart(1085)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1086)
         if (other is ValueDecimal) {
-Coverage.ifStart(1087)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1088)
         if (other is ValueDouble) {
-Coverage.ifStart(1089)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1090)
         throw Exception("type error")
     }
 }
@@ -234,22 +191,15 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
     override fun toBoolean() = value > 0 || value < 0
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1091)
         if (other is ValueInteger) {
-Coverage.ifStart(1092)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1093)
         if (other is ValueDecimal) {
-Coverage.ifStart(1094)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1095)
         if (other is ValueDouble) {
-Coverage.ifStart(1096)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1097)
         throw Exception("type error")
     }
 }
@@ -262,22 +212,15 @@ class ValueInteger(@JvmField var value: Int) : ValueNumeric() {
     override fun toBoolean() = value != 0
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1098)
         if (other is ValueInteger) {
-Coverage.ifStart(1099)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1100)
         if (other is ValueDecimal) {
-Coverage.ifStart(1101)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1102)
         if (other is ValueDouble) {
-Coverage.ifStart(1103)
             return value.compareTo(other.value)
         }
-Coverage.statementStart(1104)
         throw Exception("type error")
     }
 }
@@ -290,12 +233,9 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override fun toBoolean(): Boolean = throw Exception("cannot cast ValueIri to Boolean")
     override fun hashCode() = iri.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1105)
         if (other !is ValueIri) {
-Coverage.ifStart(1106)
             throw Exception("type error")
         }
-Coverage.statementStart(1107)
         return iri.compareTo(other.iri)
     }
 }
@@ -317,52 +257,33 @@ class ValueDateTime : ValueDefinition {
     @JvmField
     val timezoneMinutes: Int
     override operator fun compareTo(other: ValueDefinition): Int {
-Coverage.funStart(1108)
         if (other !is ValueDateTime) {
-Coverage.ifStart(1109)
             throw Exception("type error")
         }
-Coverage.statementStart(1110)
         if (year != other.year) {
-Coverage.ifStart(1111)
             return year.compareTo(other.year)
         }
-Coverage.statementStart(1112)
         if (month != other.month) {
-Coverage.ifStart(1113)
             return month.compareTo(other.month)
         }
-Coverage.statementStart(1114)
         if (day != other.day) {
-Coverage.ifStart(1115)
             return day.compareTo(other.day)
         }
-Coverage.statementStart(1116)
         if (hours != other.hours) {
-Coverage.ifStart(1117)
             return hours.compareTo(other.hours)
         }
-Coverage.statementStart(1118)
         if (minutes != other.minutes) {
-Coverage.ifStart(1119)
             return minutes.compareTo(other.minutes)
         }
-Coverage.statementStart(1120)
         if (seconds != other.seconds) {
-Coverage.ifStart(1121)
             return seconds.compareTo(other.seconds)
         }
-Coverage.statementStart(1122)
         if (timezoneHours != other.timezoneHours) {
-Coverage.ifStart(1123)
             return timezoneHours.compareTo(other.timezoneHours)
         }
-Coverage.statementStart(1124)
         if (timezoneMinutes != other.timezoneMinutes) {
-Coverage.ifStart(1125)
             return timezoneMinutes.compareTo(other.timezoneMinutes)
         }
-Coverage.statementStart(1126)
         return 0
     }
     constructor() : super() {
@@ -378,79 +299,58 @@ Coverage.statementStart(1126)
     }
     constructor(str: String) : super() {
         if (str.length >= 10) {
-Coverage.ifStart(1127)
             year = str.substring(1, 5).toInt()
             month = str.substring(6, 8).toInt()
             day = str.substring(9, 11).toInt()
         } else {
-Coverage.ifStart(1128)
             year = 0
             month = 0
             day = 0
         }
         if (str.length >= 19) {
-Coverage.ifStart(1129)
             hours = str.substring(12, 14).toInt()
             minutes = str.substring(15, 17).toInt()
             seconds = str.substring(18, 20).toInt()
         } else {
-Coverage.ifStart(1130)
             hours = 0
             minutes = 0
             seconds = 0
         }
         if (str.length >= 25 && str[20] == '-') {
-Coverage.ifStart(1131)
             timezoneHours = str.substring(21, 23).toInt()
             timezoneMinutes = str.substring(24, 26).toInt()
         } else if (str.length >= 20 && str[20] == 'Z') {
-Coverage.ifStart(1132)
             timezoneHours = 0
             timezoneMinutes = 0
         } else {
-Coverage.ifStart(1133)
             timezoneHours = -1
             timezoneMinutes = -1
         }
     }
     fun getTZ(): String {
-Coverage.funStart(1134)
         if (timezoneHours == 0 && timezoneMinutes == 0) {
-Coverage.ifStart(1135)
             return "Z"
         }
-Coverage.statementStart(1136)
         if (timezoneHours == -1 && timezoneMinutes == -1) {
-Coverage.ifStart(1137)
             return ""
         }
-Coverage.statementStart(1138)
         return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
     }
     fun getTimeZone(): String {
-Coverage.funStart(1139)
         if (timezoneHours == 0 && timezoneMinutes == 0) {
-Coverage.ifStart(1140)
             return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
         }
-Coverage.statementStart(1141)
         if (timezoneHours >= 0 && timezoneMinutes == 0) {
-Coverage.ifStart(1142)
             return "\"-PT${timezoneHours}H\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
         }
-Coverage.statementStart(1143)
         return ""
     }
     override fun valueToString(): String {
-Coverage.funStart(1144)
         if (timezoneHours == -1 && timezoneMinutes == -1) {
-Coverage.ifStart(1145)
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         } else if (timezoneHours == 0 && timezoneMinutes == 0) {
-Coverage.ifStart(1146)
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         } else {
-Coverage.ifStart(1147)
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         }
 /*Coverage Unreachable*/

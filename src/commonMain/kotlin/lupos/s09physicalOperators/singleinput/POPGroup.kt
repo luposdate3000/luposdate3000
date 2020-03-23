@@ -162,16 +162,18 @@ class POPGroup : POPBase {
                     }
                 } finally {
                     channel.send(resultFlowProduce({ this@POPGroup }, { outbuf }))
+println("group channel close")
                     channel.close()
                     child.close()
-                    res._close()
                 }
             })
         }
         res.next = {
+println("group channel next call")
             channel.receive()
         }
         res.close = {
+println("group close force")
             channel.close()
             child.close()
             res._close()
