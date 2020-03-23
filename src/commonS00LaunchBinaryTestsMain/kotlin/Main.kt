@@ -29,7 +29,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val query = Query()
     testDictionaryValue.forEach {
         try {
-            val tmp = ValueDefinition.create(it)
+            val tmp = ValueDefinition(it)
             if (testDictionaryValueTyped[ValueToID(tmp)] == null)
                 testDictionaryValueTyped[ValueToID(tmp)] = ThreadSafeMutableList<String?>()
             testDictionaryValueTyped[ValueToID(tmp)]!!.add(it!!)

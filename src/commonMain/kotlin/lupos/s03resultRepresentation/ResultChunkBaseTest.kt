@@ -193,6 +193,7 @@ Coverage.statementStart(202)
                     }
                     4 -> {
 Coverage.whenCaseStart(203)
+expectException=helper.backup>helper.size
                         helper.pos = helper.backup
 Coverage.statementStart(204)
                         helper.chunk.restorePosition()
