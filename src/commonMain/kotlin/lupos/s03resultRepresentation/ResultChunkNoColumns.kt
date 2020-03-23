@@ -8,57 +8,57 @@ class ResultChunkNoColumns(resultSet: ResultSet, columns: Int) : ResultChunk(res
     var sizeField = 0
     override fun hasNext() = posField < sizeField
     override fun next(): ResultRow {
-Coverage.funStart(492)
+Coverage.funStart(493)
         posField++
-Coverage.statementStart(493)
+Coverage.statementStart(494)
         return resultSet.createResultRow()
     }
     override fun availableWrite() = ResultVektor.capacity - sizeField
     override fun availableRead() = sizeField - posField
     override fun copy(chunkFrom: ResultChunkBase, count: Int) {
-Coverage.funStart(494)
+Coverage.funStart(495)
         posField += count
-Coverage.statementStart(495)
+Coverage.statementStart(496)
     }
     override fun copy(columnsTo: Array<Variable>, chunkFrom: ResultChunkBase, columnsFrom: Array<Variable>, count: Int) {
-Coverage.funStart(496)
+Coverage.funStart(497)
         posField += count
-Coverage.statementStart(497)
+Coverage.statementStart(498)
     }
     override fun copy(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, count: Int) {
-Coverage.funStart(498)
+Coverage.funStart(499)
         posField += count
-Coverage.statementStart(499)
+Coverage.statementStart(500)
     }
     override fun copyNonNull(columnsTo: Array<Variable>, arrFrom: Array<Value>, columnsFrom: Array<Variable>, arrFromAlternative: Array<Value>, count: Int) {
-Coverage.funStart(500)
+Coverage.funStart(501)
         posField += count
-Coverage.statementStart(501)
+Coverage.statementStart(502)
     }
     override fun skipPos(columns: Array<Variable>, count: Int) {
-Coverage.funStart(502)
+Coverage.funStart(503)
         posField += count
-Coverage.statementStart(503)
+Coverage.statementStart(504)
     }
     override fun skipSize(columns: Array<Variable>, count: Int) {
-Coverage.funStart(504)
+Coverage.funStart(505)
         sizeField += count
-Coverage.statementStart(505)
+Coverage.statementStart(506)
     }
     override fun skipPos(count: Int) {
-Coverage.funStart(506)
+Coverage.funStart(507)
         posField += count
-Coverage.statementStart(507)
+Coverage.statementStart(508)
     }
     override fun skipSize(count: Int) {
-Coverage.funStart(508)
+Coverage.funStart(509)
         sizeField += count
-Coverage.statementStart(509)
+Coverage.statementStart(510)
     }
     override fun nextArr(): Array<Value> {
-Coverage.funStart(510)
+Coverage.funStart(511)
         posField++
-Coverage.statementStart(511)
+Coverage.statementStart(512)
         return emptyArray
     }
 }
