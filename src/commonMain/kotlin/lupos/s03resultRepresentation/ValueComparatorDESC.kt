@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -23,28 +24,28 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-    class ValueComparatorDESC(val query: Query) : Comparator<Value> {
-        override fun compare(aID: Value, bID: Value): Int {
-            val a = query.dictionary.getValue(aID)
-            val b = query.dictionary.getValue(bID)
-            try {
-                return b.compareTo(a)
-            } catch (e: Throwable) {
-                if (a is ValueUndef || a is ValueError)
-                    return +1
-                if (b is ValueUndef || b is ValueError)
-                    return -1
-                if (a is ValueBnode)
-                    return +1
-                if (b is ValueBnode)
-                    return -1
-                if (a is ValueIri)
-                    return +1
-                if (b is ValueIri)
-                    return -1
-                val sA = a.valueToString()!!
-                val sB = b.valueToString()!!
-                return sB.compareTo(sA)
-            }
+class ValueComparatorDESC(val query: Query) : Comparator<Value> {
+    override fun compare(aID: Value, bID: Value): Int {
+        val a = query.dictionary.getValue(aID)
+        val b = query.dictionary.getValue(bID)
+        try {
+            return b.compareTo(a)
+        } catch (e: Throwable) {
+            if (a is ValueUndef || a is ValueError)
+                return +1
+            if (b is ValueUndef || b is ValueError)
+                return -1
+            if (a is ValueBnode)
+                return +1
+            if (b is ValueBnode)
+                return -1
+            if (a is ValueIri)
+                return +1
+            if (b is ValueIri)
+                return -1
+            val sA = a.valueToString()!!
+            val sB = b.valueToString()!!
+            return sB.compareTo(sA)
         }
     }
+}

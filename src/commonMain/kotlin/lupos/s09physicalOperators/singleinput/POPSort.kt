@@ -82,18 +82,18 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             }
             columnOrder[0] = highestPriority
         }
-val fastcomparator=ValueComparatorFast()
-val comparator=if(sortOrder)
-ValueComparatorASC(query)
-else
-ValueComparatorDESC(query)
+        val fastcomparator = ValueComparatorFast()
+        val comparator = if (sortOrder)
+            ValueComparatorASC(query)
+        else
+            ValueComparatorDESC(query)
         data = ResultChunk.sort(
                 Array(data!!.columns) {
-if(it<=sortBy.size)
- comparator 
-else
-fastcomparator
-},
+                    if (it <= sortBy.size)
+                        comparator
+                    else
+                        fastcomparator
+                },
                 columnOrder,
                 data!!)
         val res = ResultIterator()

@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -23,8 +24,8 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-    class ValueComparatorFast() : Comparator<Value> {
-        override fun compare(a: Value, b: Value): Int {
-		return a.compareTo(b)
-        }
+class ValueComparatorFast() : Comparator<Value> {
+    override fun compare(a: Value, b: Value): Int {
+        return a.compareTo(b)
     }
+}
