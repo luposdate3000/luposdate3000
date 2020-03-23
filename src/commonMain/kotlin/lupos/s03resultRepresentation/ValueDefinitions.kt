@@ -34,7 +34,7 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
                     if (tmp.endsWith(">") && typeIdx > 0) {
                         return ValueTypedLiteral("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
                     } else {
-                        require(langIdx > 0)
+                        SanityCheck.check{langIdx > 0}
                         return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                     }
 /*Coverage Unreachable*/

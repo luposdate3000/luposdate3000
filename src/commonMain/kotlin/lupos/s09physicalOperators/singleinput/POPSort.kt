@@ -58,8 +58,8 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         CoroutinesHelper.runBlock {
             child.forEach { chunk ->
                 val next = resultFlowConsume({ this@POPSort }, { children[0] }, { chunk })
-                require(next.prev == next)
-                require(next.next == next)
+                SanityCheck.checkEQ({next.prev},{ next})
+                SanityCheck.checkEQ({next.next},{ next})
                 if (next.availableRead() > 0) {
                     if (dataLast == null) {
                         data = next

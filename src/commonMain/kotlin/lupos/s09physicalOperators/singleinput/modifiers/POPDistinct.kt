@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
+import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -46,8 +47,8 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         CoroutinesHelper.runBlock {
             child.forEach { chunk ->
                 val next = resultFlowConsume({ this@POPDistinct }, { children[0] }, { chunk })
-                require(next.prev == next)
-                require(next.next == next)
+                SanityCheck.checkEQ({next.prev}, {next})
+                SanityCheck.checkEQ({next.next}, {next})
                 if (next.availableRead() > 0) {
                     if (dataLast == null) {
                         data = next

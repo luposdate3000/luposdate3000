@@ -1,6 +1,7 @@
 package lupos.s03resultRepresentation
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
@@ -25,7 +26,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun split(root: ResultChunk, count: Int): ResultChunk {
-            require(count > 0)
+            SanityCheck.check{count > 0}
             var other = root
             for (i in 0 until count) {
                 other = other.next
@@ -50,7 +51,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         }
 
         fun copy(from: ResultChunk, target: ResultChunk, count: Int): ResultChunk {
-            require(count > 0)
+            SanityCheck.check{count > 0}
             val resultSet = from.resultSet
             val columns = from.columns
             var targetLast = target
@@ -119,7 +120,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 var resLast = res
                 while (chunks.hasNext()) {
                     val same = chunks.sameElements()
-                    require(same > 0)
+                    SanityCheck.check{same > 0}
                     if (resLast.availableWrite() <= 2) {
                         resLast = append(resLast, ResultChunk(resultSet, columns))
                     }
