@@ -93,9 +93,13 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 if (cmp == 0) {
                     val i = columnOrder[columnOrder.size - 1]
                     var countA = a.sameElements()
-                    targetLast = copy(a, targetLast, countA)
                     var countB = b.sameElements()
-                    targetLast = copy(b, targetLast, countB)
+                    val row = a.current()
+                    a.skipPos(countA)
+                    b.skipPos(countB)
+                    if (targetLast.availableWrite() == 0)
+                        targetLast = append(targetLast, ResultChunk(target.resultSet, target.columns))
+                    targetLast.append(row, countA + countB)
                 }
             }
             return targetLast
@@ -192,5 +196,42 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 last = first + idx.second - count
             }
         }
+    }
+
+    fun makeDistinct(root: ResultChunk = this) {
+        backupPosition()
+        while (hasNext()) {
+            val same = sameElements() - 1
+            if (same > 0) {
+                for (c in data) {
+                    c.data[c.posIndex].count -= same
+                    c.sizeAbsolute -= same
+                }
+            }
+            skipPos(1)
+        }
+        if (next != root) {
+            val last = current()
+            loop@ while (next != root) {
+                val cur = next.current()
+                for (i in 0 until columns) {
+                    if (last[i] != cur[i]) {
+                        break@loop
+                    }
+                }
+                next.makeDistinct(root)
+                next.skipPos(1)
+                if (next.hasNext()) {
+                    break
+                }
+                val tmp = next
+                next = tmp.next
+                next.prev = this
+                tmp.prev = tmp
+                tmp.next = next
+//release(tmp)
+            }
+        }
+        restorePosition()
     }
 }

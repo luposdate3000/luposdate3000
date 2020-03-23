@@ -38,41 +38,41 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         return "{SELECT DISTINCT * {" + sparql + "}}"
     }
 
-    class ComparatorImpl(@JvmField val resultSet: ResultSet) : Comparator<ResultRow> {
-        val variables = resultSet.getVariableNames().map { resultSet.createVariable(it) }.toTypedArray()
-        override fun compare(a: ResultRow, b: ResultRow): Int {
-            var res = 0
-            for (variable in variables) {
-                val objA = resultSet.getValue(a, variable)
-                val objB = resultSet.getValue(b, variable)
-                res = objA.compareTo(objB)
-                if (res != 0)
-                    return res
-            }
-            return 0
-        }
-    }
-
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
         val child = children[0].evaluate()
-        val data = SortedSet<ResultRow>(ComparatorImpl(resultSet), { size -> Array(size) { resultSet.createResultRow() } })
+        var data: ResultChunk? = null
+        var dataLast: ResultChunk? = null
+        CoroutinesHelper.runBlock {
+            child.forEach { chunk ->
+                val next = resultFlowConsume({ this@POPDistinct }, { children[0] }, { chunk })
+                require(next.prev == next)
+                require(next.next == next)
+                if (next.availableRead() > 0) {
+                    if (dataLast == null) {
+                        data = next
+                        dataLast = next.prev
+                    } else
+                        dataLast = ResultChunk.append(dataLast!!, next)
+                }
+            }
+        }
+        if (data == null)
+            return ResultIterator()
+        val fastcomparator = ValueComparatorFast()
+        data = ResultChunk.sort(
+                Array(data!!.columns) { fastcomparator },
+                Array(data!!.columns) { it.toLong() },
+                data!!)
         val res = ResultIterator()
         res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
-                var outbuf = ResultChunk(resultSet)
-                try {
-                    while (outbuf.availableRead() == 0) {
-                        val inbuf = resultFlowConsume({ this@POPDistinct }, { children[0] }, { child.next() })
-                        for (row in inbuf)
-                            if (data.update(row, onCreate = { row }, onUpdate = { row }) == null)
-                                outbuf.append(row)
-                    }
-                } catch (e: Throwable) {
-                }
-                if (outbuf.availableRead() == 0)
+            Trace.traceSuspend<ResultChunk>({ "POPDistinct.next" }, {
+                var result = data!!
+                data = ResultChunk.removeFirst(data!!)
+                if (data == null)
                     res.close()
-                resultFlowProduce({ this@POPDistinct }, { outbuf })
+                result.makeDistinct()
+                resultFlowProduce({ this@POPDistinct }, { result })
             })
         }
         return res
