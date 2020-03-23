@@ -224,8 +224,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     val aData = inbuf.nextArr()
                                     for (other in others) {
                                         other.second.forEachUnordered { it ->
-                                            it.backupPosition()
                                             val count = it.availableRead()
+if(count>0){
+                                            it.backupPosition()
                                             var avail = outbuf.availableWrite()
                                             if (containsUndef) {
                                                 if (count < avail) {
@@ -267,6 +268,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                 }
                                             }
                                             it.restorePosition()
+}
                                         }
                                     }
                                 }

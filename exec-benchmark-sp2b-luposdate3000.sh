@@ -4,7 +4,7 @@
 timemin=10000
 #in seconds
 timeout=120
-triples=1000
+triples=10000
 
 ./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS00TraceOnMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15DistributedMain
 ./tool-gradle-build.sh
@@ -34,7 +34,7 @@ while read query; do
 	n=1
 	while true
 	do
-		timeout -s SIGTERM "${timeout}s" curl -X POST --data-binary "@$f" http://localhost:80/sparql/query > /dev/null 2>&1
+		timeout -s SIGTERM "${timeout}s" curl -X POST --data-binary "@$query" http://localhost:80/sparql/query > /dev/null 2>&1
 		code=$?
 		b=$(($(date +%s%N)/1000000))
 		c=$((b - a))

@@ -100,7 +100,6 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                         if (resultVektor.data[pos].toBoolean())
                             outbuf.append(row)
                     } catch (e: Throwable) {
-                        e.printStackTrace()
                     }
                     pos++
                 }
