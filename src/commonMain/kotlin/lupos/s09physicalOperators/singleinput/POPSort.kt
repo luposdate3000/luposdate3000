@@ -24,18 +24,11 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", child.resultSet, arrayOf(child)) {
+class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", child.resultSet, arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP() = POPSort(query, sortBy, sortOrder, children[0].cloneOP())
-    fun getRecoursiveSortVariables(): List<String> {
-        val c = children[0]
-        if (c is POPSort)
-            return c.getRecoursiveSortVariables() + sortBy.name
-        return listOf(sortBy.name)
-    }
-
     override fun toSparql(): String {
-        val variables = getRecoursiveSortVariables()
+        val variables = Array(sortBy.size){sortBy[it].name}
         var child: OPBase = this
         for (i in 0 until variables.size)
             child = child.children[0]
@@ -107,15 +100,16 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
         if (data == null)
             return ResultIterator()
         val columnOrder = Array(data!!.columns) { it.toLong() }
-        println("sort1 ${columnOrder.map { it }}")
-        val highestPriority = resultSet.createVariable(sortBy.name)
-        println("sort2 $highestPriority")
-        for (i in highestPriority.toInt() downTo 1) {
+for (v in sortBy.size-1 downTo 0){
+        val highestPriority = resultSet.createVariable(sortBy[v].name)
+var index=0
+while(columnOrder[index]!=highestPriority)
+index++
+        for (i in index downTo 1) {
             columnOrder[i] = columnOrder[i - 1]
-            println("sort3 $i ${columnOrder.map { it }}")
         }
         columnOrder[0] = highestPriority
-        println("sort4 ${columnOrder.map { it }}")
+}
         data = ResultChunk.sort(
                 Array(data!!.columns) { ComparatorImpl(query) },
                 columnOrder,
@@ -134,7 +128,10 @@ class POPSort(query: Query, @JvmField val sortBy: AOPVariable, @JvmField val sor
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("by", sortBy.name)
+val sortByXML=XMLElement("by")
+res.addContent(sortByXML)
+for(v in sortBy)
+sortByXML.addContent(XMLElement("variable").addAttribute("name",v.name))
         if (sortOrder)
             res.addAttribute("order", "ASC")
         else

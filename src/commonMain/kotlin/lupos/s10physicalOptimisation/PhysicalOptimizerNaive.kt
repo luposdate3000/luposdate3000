@@ -72,7 +72,20 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                         res = POPGroup(query, node.by, null, node.children[0])
                 }
                 is LOPUnion -> res = POPUnion(query, node.children[0], node.children[1])
-                is LOPSort -> res = POPSort(query, node.by, node.asc, node.children[0])
+                is LOPSort -> {
+if(parent!is LOPSort){
+val sortBy=mutableListOf<AOPVariable>()
+sortBy.add(node.by)
+var child=node.children[0]
+while(child is LOPSort){
+sortBy.add(child.by)
+child=child.children[0]
+}
+res = POPSort(query, sortBy.toTypedArray(), node.asc, child)
+}else{
+change=false
+}
+}
                 is LOPFilter -> res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
                 is LOPBind -> res = POPBind(query, node.name, node.children[1] as AOPBase, node.children[0])
                 is LOPJoin -> res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
