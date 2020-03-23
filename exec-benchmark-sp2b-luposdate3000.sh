@@ -4,7 +4,7 @@
 timemin=10000
 #in seconds
 timeout=120
-triples=10000
+triples=1000
 
 ./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS00TraceOffMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15DistributedMain
 ./tool-gradle-build.sh
