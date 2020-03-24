@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir tmp
 for query in $(cat benchmark_results/sp2b/luposdate.csv | sed "s/sparql.*/sparql/g" | sort | uniq | sed "s-resources/sp2b/--g")
 do
 cat benchmark_results/sp2b/luposdate.csv | grep $query > tmp/$query.luposdate3000.csv
@@ -18,3 +19,5 @@ plot 'tmp/$query.luposdate3000.csv' using 2:6 title "luposdate3000" with lines, 
 EOF
 
 done
+mv tmp/*.png benchmark_results/sp2b/
+rm -rf tmp

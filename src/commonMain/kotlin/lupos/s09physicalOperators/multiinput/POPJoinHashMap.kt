@@ -104,7 +104,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val col1AA = varAO.map { it.second }.toTypedArray()
         val col1BA = varBO.map { it.second }.toTypedArray()
         CoroutinesHelper.run {
-            Trace.trace({ "POPJoinHashMap.next" }, {
+            Trace.trace({ "POPJoinHashMap.next1" }, {
                 while (true) {
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
@@ -151,6 +151,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         break
                     }
                 }
+})
+ Trace.trace({ "POPJoinHashMap.next2" }, {
                 while (true) {
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
@@ -162,6 +164,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             for (k in key)
                                 if (k == undefValue)
                                     containsUndef = true
+Trace.trace({ "POPJoinHashMap.next3" }, {
                             if (containsUndef) {
                                 mapWithoutUndef.forEach { k, v ->
                                     //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
@@ -199,6 +202,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     }
                                 }
                             }
+})
                             if (others.size == 0 && optional) {
                                 val avail = outbuf.availableWrite()
                                 if (avail > same) {
