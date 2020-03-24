@@ -119,7 +119,6 @@ resources/sp2b/q3c.sparql,64000,0,291,10014,29.05
 resources/sp2b/q7.sparql,64000,0,2,18480,.10
 resources/sp2b/q3a.sparql,128000,0,247,10018,24.65
 resources/sp2b/q9.sparql,128000,0,174,10027,17.35
-resources/sp2b/q4.sparql,128000,124,1,120003,0
 resources/sp2b/q5b.sparql,128000,0,88,10048,8.75
 resources/sp2b/q10.sparql,128000,0,913,10006,91.24
 resources/sp2b/q2.sparql,128000,0,61,10027,6.08
@@ -144,12 +143,10 @@ resources/sp2b/q12a.sparql,256000,0,52,10075,5.16
 resources/sp2b/q3b.sparql,256000,0,480,10001,47.99
 resources/sp2b/q8.sparql,256000,0,595,10010,59.44
 resources/sp2b/q1.sparql,256000,0,511,10002,51.08
-resources/sp2b/q5a.sparql,256000,124,1,120004,0
 resources/sp2b/q11.sparql,256000,0,464,10018,46.31
 resources/sp2b/q12b.sparql,256000,0,1091,10003,109.06
 resources/sp2b/q12c.sparql,256000,0,1190,10002,118.97
 resources/sp2b/q3c.sparql,256000,0,489,10003,48.88
-resources/sp2b/q7.sparql,256000,124,1,120003,0
 resources/sp2b/q3a.sparql,512000,0,88,10058,8.74
 resources/sp2b/q9.sparql,512000,0,51,10150,5.02
 resources/sp2b/q5b.sparql,512000,0,32,10181,3.14
