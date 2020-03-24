@@ -49,7 +49,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun skipPos(count: Int) {
-        SanityCheck.check{posAbsolute + count <= sizeAbsolute}
+        SanityCheck.check { posAbsolute + count <= sizeAbsolute }
         posAbsolute += count
         if (count > 0) {
             var i = count
@@ -80,7 +80,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun skipSize(count: Int) {
-        SanityCheck.check{posAbsolute <= sizeAbsolute + count}
+        SanityCheck.check { posAbsolute <= sizeAbsolute + count }
         sizeAbsolute += count
         if (count >= 0) {
             data[sizeIndex].count += count
@@ -110,7 +110,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun restorePosition() {
-        SanityCheck.check{posBackup <= sizeAbsolute}
+        SanityCheck.check { posBackup <= sizeAbsolute }
         posAbsolute = 0
         posIndex = 0
         posIndexLocal = 0
@@ -134,8 +134,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun availableRead() = sizeAbsolute - posAbsolute
     fun canAppend() = availableWrite() > 0
     fun append(value: Value, count: Int = 1) {
-        SanityCheck.check{count > 0}
-        SanityCheck.check{sizeIndex < capacity}
+        SanityCheck.check { count > 0 }
+        SanityCheck.check { sizeIndex < capacity }
         if (sizeAbsolute == 0) {
             data[sizeIndex].count = count
             data[sizeIndex].value = value
@@ -151,7 +151,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
 
     fun sameElements(): Int {
         internalSafeNextElement()
-        SanityCheck.check{posIndex <= sizeIndex}
+        SanityCheck.check { posIndex <= sizeIndex }
         return data[posIndex].count - posIndexLocal
     }
 
@@ -167,8 +167,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun copy(from: ResultVektor, count: Int) {
-        SanityCheck.check{count > 0}
-        SanityCheck.check{from.sizeAbsolute - from.posAbsolute >= count}
+        SanityCheck.check { count > 0 }
+        SanityCheck.check { from.sizeAbsolute - from.posAbsolute >= count }
         var i = count
         var c = from.data[from.posIndex].count - from.posIndexLocal
         if (c == 0) {
@@ -197,8 +197,8 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             append(value, count)
             return Pair(0, count)
         }
-        SanityCheck.check{availableWrite() >= 2}
-        SanityCheck.check{count > 0}
+        SanityCheck.check { availableWrite() >= 2 }
+        SanityCheck.check { count > 0 }
         posAbsolute = 0
         posIndex = 0
         posIndexLocal = 0

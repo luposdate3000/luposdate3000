@@ -80,7 +80,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     class ResultIteratorImpl(var iterator: ResultIterator) : ResultIterator() {
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorGlobal.evaluate" }, {//column based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorGlobal.evaluate" }, {
+        //column based
         val iterator = P2P.getKnownClientsCopy().iterator()
         val res = ResultIteratorImpl(P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate())
         res.next = {

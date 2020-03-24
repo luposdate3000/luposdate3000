@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
-import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.resultFlowConsume
 import lupos.s00misc.resultFlowProduce
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s01io.*
 import lupos.s03resultRepresentation.*
@@ -40,15 +40,16 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
     }
 
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {//column based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
+        //column based
         val child = children[0].evaluate()
         var data: ResultChunk? = null
         var dataLast: ResultChunk? = null
         CoroutinesHelper.runBlock {
             child.forEach { chunk ->
                 val next = resultFlowConsume({ this@POPDistinct }, { children[0] }, { chunk })
-                SanityCheck.checkEQ({next.prev}, {next})
-                SanityCheck.checkEQ({next.next}, {next})
+                SanityCheck.checkEQ({ next.prev }, { next })
+                SanityCheck.checkEQ({ next.next }, { next })
                 if (next.availableRead() > 0) {
                     if (dataLast == null) {
                         data = next

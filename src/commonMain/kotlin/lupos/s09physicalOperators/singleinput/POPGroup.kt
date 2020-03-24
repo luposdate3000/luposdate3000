@@ -106,7 +106,8 @@ class POPGroup : POPBase {
         return res
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {//row based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
+        //row based
         val child = children[0].evaluate()
         val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         val variables = Array(by.size) { Pair(resultSet.createVariable(by[it].name), children[0].resultSet.createVariable(by[it].name)) }

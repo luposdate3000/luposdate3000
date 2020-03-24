@@ -41,7 +41,8 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
     }
 
     override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {//column based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {
+        //column based
         val res = ResultIterator()
         res.next = {
             Trace.trace<ResultChunk>({ "POPOffset.next" }, {

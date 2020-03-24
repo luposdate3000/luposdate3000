@@ -39,35 +39,37 @@ open class TripleStoreIteratorLocal(query: Query,
         return tmp.distinct()
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocal.evaluate" }, {//row based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocal.evaluate" }, {
+        //row based
         val newVariables = Array(3) { resultSet.createVariable((params[it] as AOPVariable).name) }
-        val variables = arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"))
-        val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            Trace.trace({ "TripleStoreIteratorLocal.next" }, {
-                var outbuf = ResultChunk(resultSet)
-                try {
-                    store.forEach(variables, { it ->
-                        val row = resultSet.createResultRow()
-                        for (i in 0 until 3)
-                            resultSet.setValue(row, newVariables[i]!!, store.resultSet.getValueObject(it[i]))
-                        if (!outbuf.canAppend()) {
-                            channel.send(resultFlowProduce({ this@TripleStoreIteratorLocal }, { outbuf }))
-                            outbuf = ResultChunk(resultSet)
+        val root = store.getData(null, EIndexPattern.SPO)
+        val res = ResultIterator()
+        if (root != null) {
+            var current = root!!
+            res.next = {
+                val map = mutableMapOf(query.dictionary.undefValue to query.dictionary.undefValue)
+                val outbuf = ResultChunk(resultSet)
+                for (i in 0 until current.availableRead()) {
+//TODO this can be improved - without the need to iterate over rows
+                    val row = current.nextArr()
+                    for (i in 0 until 3) {//translate global ids to query local ids
+                        val x = map[row[i]]
+                        if (x != null) {
+                            row[i] = x
+                        } else {
+                            val y = query.dictionary.createValue(store.resultSet.dictionary.getValue(row[i]))
+                            map[row[i]] = y
+                            row[i] = y
                         }
-                        outbuf.append(row)
-                    }, index)
-                    channel.send(resultFlowProduce({ this@TripleStoreIteratorLocal }, { outbuf }))
-                    channel.close()
-                } catch (e: Throwable) {
-                    channel.close(e)
+                    }
+                    outbuf.append(row)
                 }
-            })
+                current = current.next
+                if (current == root)
+                    res.close()
+                resultFlowProduce({ this@TripleStoreIteratorLocal }, { outbuf })
+            }
         }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
+        return res
     })
 }

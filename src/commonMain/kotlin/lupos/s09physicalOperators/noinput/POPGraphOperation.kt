@@ -99,7 +99,8 @@ class POPGraphOperation(query: Query,
         return iri.iri
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPGraphOperation.evaluate" }, {//column based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPGraphOperation.evaluate" }, {
+        //column based
         val res = ResultIterator()
         res.next = {
             Trace.traceSuspend<ResultChunk>({ "POPGraphOperation.next" }, {

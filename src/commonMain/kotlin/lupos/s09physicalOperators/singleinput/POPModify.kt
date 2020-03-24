@@ -30,7 +30,8 @@ class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField v
     override fun toSparqlQuery() = toSparql()
     override fun getProvidedVariableNames() = listOf<String>()
     override fun cloneOP() = POPModify(query, insert, delete, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModify.evaluate" }, {//row based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModify.evaluate" }, {
+        //row based
         val child = children[0].evaluate()
         val res = ResultIterator()
         res.close = {

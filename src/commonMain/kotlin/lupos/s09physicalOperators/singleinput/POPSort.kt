@@ -51,15 +51,16 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         return res
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {//column based
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
+        //column based
         val child = children[0].evaluate()
         var data: ResultChunk? = null
         var dataLast: ResultChunk? = null
         CoroutinesHelper.runBlock {
             child.forEach { chunk ->
                 val next = resultFlowConsume({ this@POPSort }, { children[0] }, { chunk })
-                SanityCheck.checkEQ({next.prev},{ next})
-                SanityCheck.checkEQ({next.next},{ next})
+                SanityCheck.checkEQ({ next.prev }, { next })
+                SanityCheck.checkEQ({ next.next }, { next })
                 if (next.availableRead() > 0) {
                     if (dataLast == null) {
                         data = next
