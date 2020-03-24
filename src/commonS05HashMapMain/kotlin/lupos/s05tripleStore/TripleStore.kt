@@ -77,55 +77,25 @@ class TripleStoreLocal(@JvmField val name: String) {
                             val vso = arrayOf(vs, vo)
                             when (idx) {
                                 EIndexPattern.S -> {
-                                    if (tripleStoreS[vs] == null) {
-                                        tripleStoreS[vs] = ResultChunk(resultSet, 2)
-                                        tripleStoreS[vs]!!.append(vpo)
-                                    } else {
-                                        tripleStoreS[vs]!!.insertDistinct(vpo)
-                                    }
+                                    tripleStoreS[vs] = ResultChunk.insertDistinct(vpo, tripleStoreS[vs], resultSet)
                                 }
                                 EIndexPattern.P -> {
-                                    if (tripleStoreP[vp] == null) {
-                                        tripleStoreP[vp] = ResultChunk(resultSet, 2)
-                                        tripleStoreP[vp]!!.append(vso)
-                                    } else {
-                                        tripleStoreP[vp]!!.insertDistinct(vso)
-                                    }
+                                    tripleStoreP[vp] = ResultChunk.insertDistinct(vso, tripleStoreP[vp], resultSet)
                                 }
                                 EIndexPattern.O -> {
-                                    if (tripleStoreO[vo] == null) {
-                                        tripleStoreO[vo] = ResultChunk(resultSet, 2)
-                                        tripleStoreO[vo]!!.append(vsp)
-                                    } else {
-                                        tripleStoreO[vo]!!.insertDistinct(vsp)
-                                    }
+                                    tripleStoreO[vo] = ResultChunk.insertDistinct(vsp, tripleStoreO[vo], resultSet)
                                 }
                                 EIndexPattern.SP -> {
-                                    if (tripleStoreSP[vsp] == null) {
-                                        tripleStoreSP[vsp] = ResultChunk(resultSet, 1)
-                                        tripleStoreSP[vsp]!!.append(vao)
-                                    } else {
-                                        tripleStoreSP[vsp]!!.insertDistinct(vao)
-                                    }
+                                    tripleStoreSP[vsp] = ResultChunk.insertDistinct(vao, tripleStoreSP[vsp], resultSet)
                                 }
                                 EIndexPattern.SO -> {
-                                    if (tripleStoreSO[vso] == null) {
-                                        tripleStoreSO[vso] = ResultChunk(resultSet, 1)
-                                        tripleStoreSO[vso]!!.append(vap)
-                                    } else {
-                                        tripleStoreSO[vso]!!.insertDistinct(vap)
-                                    }
+                                    tripleStoreSO[vso] = ResultChunk.insertDistinct(vap, tripleStoreSO[vso], resultSet)
                                 }
                                 EIndexPattern.PO -> {
-                                    if (tripleStorePO[vpo] == null) {
-                                        tripleStorePO[vpo] = ResultChunk(resultSet, 1)
-                                        tripleStorePO[vpo]!!.append(vas)
-                                    } else {
-                                        tripleStorePO[vpo]!!.insertDistinct(vas)
-                                    }
+                                    tripleStorePO[vpo] = ResultChunk.insertDistinct(vas, tripleStorePO[vpo], resultSet)
                                 }
                                 EIndexPattern.SPO -> {
-                                    tripleStoreSPO.insertDistinct(arrayOf(vs, vp, vo))
+                                    tripleStoreSPO = ResultChunk.insertDistinct(arrayOf(vs, vp, vo), tripleStoreSPO, resultSet)
                                 }
                             }
                         }

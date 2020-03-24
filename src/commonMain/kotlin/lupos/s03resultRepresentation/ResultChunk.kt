@@ -22,6 +22,8 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             val res = root.next
             res.prev = root.prev
             root.prev.next = res
+            root.prev = root
+            root.next = root
             return res
         }
 
@@ -69,6 +71,30 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             }
             targetLast.copy(from, cnt)
             return targetLast
+        }
+
+        fun insertDistinct(value: Array<Value>, target: ResultChunk?, resultSet: ResultSet): ResultChunk {
+//TODO this is very slow insertion
+//insert ->
+            var res = target
+            if (res == null)
+                res = ResultChunk(resultSet, value.size)
+            if (res.prev.availableWrite() == 0)
+                append(res.prev, ResultChunk(resultSet, value.size))
+            res.prev.append(value)
+//make distinct - very slow
+            var res2: ResultChunk? = sort(Array(value.size) { ValueComparatorFast() }, Array(value.size) { it.toLong() }, res!!)
+            var res3 = res2!!
+            var last = res3
+            res2.makeDistinct()
+            res2 = removeFirst(res2)
+            while (res2 != null) {
+                val next = res2
+                res2.makeDistinct()
+                res2 = removeFirst(res2)
+                last = append(last, next)
+            }
+            return res3
         }
 
         fun sortHelper(comparator: Array<Comparator<Value>>, columnOrder: Array<Variable>, a: ResultChunk, b: ResultChunk, target: ResultChunk): ResultChunk {
@@ -236,11 +262,49 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
         restorePosition()
     }
 
-    fun insertDistinct(value: Array<Value>) {
-        require(false)
-    }
-
-    fun remove(value: Array<Value>) {
-        require(false)
+    fun remove(value: Array<Value>, root: ResultChunk = this) {
+        require(columns == value.size)
+        for (i in 0 until columns) {
+//fast check - does this page potentially contain the target value?
+            if (data[i].data[0].value > value[i])
+                return
+            if (data[i].data[data[i].sizeIndex].value < value[i]) {
+                if (next != root)
+                    next.remove(value, root)
+                return
+            }
+        }
+        var first = 0
+        var last = data[0].sizeAbsolute
+        val indices = Array(columns) { 0 }
+        for (i in 0 until columns) {
+//search for the value to delete
+            val column = data[i]
+            var localIdx = 0
+            var absIdx = 0
+            while (absIdx + column.data[localIdx].count < first || column.data[localIdx].value != value[i]) {
+                absIdx += column.data[localIdx++].count
+                if (absIdx > last)
+                    return
+            }
+            indices[i] = localIdx
+            if (absIdx > first)
+                first = absIdx
+            if (absIdx < last)
+                last = absIdx
+        }
+//delete it
+        for (i in 0 until columns) {
+            val column = data[i]
+            column.sizeAbsolute--
+            if (column.data[indices[i]].count > 1) {
+                column.data[indices[i]].count--
+            } else {
+                for (j in indices[i] until column.sizeIndex) {
+                    column.data[j] = column.data[j + 1]
+                }
+                column.sizeIndex--
+            }
+        }
     }
 }
