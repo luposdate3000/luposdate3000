@@ -20,7 +20,7 @@ class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POP
     override fun cloneOP() = POPEmptyRow(query)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
-    override fun evaluate(): ResultIterator {
+    override fun evaluate(): ResultIterator {//column based
         val res = ResultIterator()
         res.next = {
             res.close()

@@ -26,7 +26,7 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
     override fun cloneOP() = POPMakeBooleanResult(query, children[0].cloneOP())
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPMakeBooleanResult.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPMakeBooleanResult.evaluate" }, {//row based
         val variableNew = resultSet.createVariable("?boolean")
         val res = ResultIterator()
         res.next = {

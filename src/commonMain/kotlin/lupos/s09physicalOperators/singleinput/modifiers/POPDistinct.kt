@@ -40,7 +40,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
     }
 
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {//column based
         val child = children[0].evaluate()
         var data: ResultChunk? = null
         var dataLast: ResultChunk? = null

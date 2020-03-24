@@ -51,7 +51,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         return res
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {//column based
         val child = children[0].evaluate()
         var data: ResultChunk? = null
         var dataLast: ResultChunk? = null

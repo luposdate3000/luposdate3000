@@ -35,7 +35,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
     override fun cloneOP() = POPFilter(query, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNames() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPFilter.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPFilter.evaluate" }, {//row based
         val child = children[0].evaluate()
         val expression = children[1] as AOPBase
         val res = ResultIterator()

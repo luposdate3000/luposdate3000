@@ -35,7 +35,7 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     override fun equals(other: Any?): Boolean = other is POPProjection && variables.equals(other.variables) && children[0] == other.children[0]
     override fun getProvidedVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
     override fun getRequiredVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPProjection.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPProjection.evaluate" }, {//column based
         var variablesNew = variables.map { Pair(children[0].resultSet.createVariable(it.name), resultSet.createVariable(it.name)) }
         val child = children[0].evaluate()
         val res = ResultIterator()

@@ -59,7 +59,7 @@ class POPServiceIRI : POPBase {
     }
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPServiceIRI.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPServiceIRI.evaluate" }, {//row based
         for (n in getProvidedVariableNames())
             resultSet.createVariable(n)
         val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)

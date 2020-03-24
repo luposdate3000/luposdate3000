@@ -96,7 +96,7 @@ open class POPValues : POPBase {
 
     override fun getProvidedVariableNames() = variables.map { resultSet.getVariable(it) }.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPValues.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPValues.evaluate" }, {//row based
         val iterator = data.iterator()
         val res = ResultIterator()
         res.next = {

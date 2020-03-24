@@ -46,7 +46,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         return res
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {//row based
         val res = ResultIterator()
         res.next = {
             Trace.traceSuspend<ResultChunk>({ "POPModifyData.next" }, {

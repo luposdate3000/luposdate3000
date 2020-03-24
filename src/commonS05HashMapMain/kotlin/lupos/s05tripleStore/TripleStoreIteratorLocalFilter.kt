@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.ResultIterator
 
 class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(query, resultSet, store, index, EOperatorID.TripleStoreIteratorLocalFilterID, "TripleStoreIteratorLocalFilter") {
     override fun cloneOP() = TripleStoreIteratorLocalFilter(query, resultSet, store, index)
-    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocalFilter.evaluate" }, {//row based
         val newVariables = arrayOfNulls<Variable?>(3)
         for (i in 0 until 3)
             if (params[i] is AOPVariable)

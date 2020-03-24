@@ -123,7 +123,7 @@ object ResultRepresenationNetwork {
 
         override fun cloneOP() = throw Exception("not implemented")
         override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
-        override fun evaluate() = Trace.trace<ResultIterator>({ "POPImportFromNetworkPackage.evaluate" }, {
+        override fun evaluate() = Trace.trace<ResultIterator>({ "POPImportFromNetworkPackage.evaluate" }, {//row based
             val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
             CoroutinesHelper.runBlock {
                 Trace.trace({ "POPImportFromNetworkPackage.next" }, {

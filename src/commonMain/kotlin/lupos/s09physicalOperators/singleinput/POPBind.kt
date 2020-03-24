@@ -41,7 +41,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
     override fun getProvidedVariableNames(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNames()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPBind.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPBind.evaluate" }, {//column based
         val child = children[0].evaluate()
         var variables = children[0].getProvidedVariableNames().map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
         var variableNew = resultSet.createVariable(name.name)

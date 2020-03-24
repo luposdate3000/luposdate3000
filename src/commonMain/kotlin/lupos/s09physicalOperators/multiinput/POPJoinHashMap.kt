@@ -59,7 +59,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
     }
 
     fun arrayAllocator(size: Int) = Array(size) { ResultChunk(resultSet) }
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {
+    override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {//column based
         val undefValue = resultSet.dictionary.undefValue
         val variablesA = children[0].getProvidedVariableNames()
         val variablesB = children[1].getProvidedVariableNames()
