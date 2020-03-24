@@ -77,22 +77,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val varAO = variablesAO.map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
         val varBO = variablesBO.map { Pair(children[1].resultSet.createVariable(it), resultSet.createVariable(it)) }
         val varJ = variablesJ.map { Pair(Pair(children[0].resultSet.createVariable(it), children[1].resultSet.createVariable(it)), resultSet.createVariable(it)) }
-        val mapWithUndef = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
-            size ->
-            Array(size) {
-                Pair(Array<Value>(varJ.size) {
-                    undefValue //
-                }, null)//
-            }//
-        }, null)
-        val mapWithoutUndef = SortedMap<Array<Value>, SortedArray<ResultChunk>?>(ComparatorImpl(), {//
-            size ->
-            Array(size) {
-                Pair(Array<Value>(varJ.size) {
-                    undefValue //
-                }, null)//
-            }//
-        }, null)
+        val mapWithUndef = mutableMapOf<Array<Value>, ResultChunk>()
+        val mapWithoutUndef = mutableMapOf<Array<Value>, ResultChunk>()
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         var outbuf = ResultChunk(resultSet)
@@ -119,31 +105,33 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 mapWithUndef
                             else
                                 mapWithoutUndef
-                            map.update(key, onCreate = {
-                                val data = SortedArray<ResultChunk>(ComparatorNoneImpl(), ::arrayAllocator)
+                            val tmp = map[key]
+                            if (tmp == null) {
                                 val buf = ResultChunk(children[1].resultSet)
                                 buf.copy(col0BA, inbuf, col0BA, same)
                                 buf.skipSize(col0JBA, same)
                                 inbuf.skipPos(col0JBA, same)
-                                data.add(buf)
-                                data
-                            }, onUpdate = { old ->
-                                var buf = old!!.lastUnordered()
-                                val avail = buf!!.availableWrite()
-                                if (avail > same) {
-                                    buf.copy(col0BA, inbuf, col0BA, same)
-                                } else {
-                                    if (avail > 0)
+                                map[key] = buf
+                            } else {
+                                var buf = tmp.prev
+                                var avail = buf.availableWrite()
+                                if (avail < same) {
+                                    if (avail > 0) {
                                         buf.copy(col0BA, inbuf, col0BA, avail)
-                                    buf = ResultChunk(resultSet)
-                                    if (avail != same)
-                                        buf.copy(col0BA, inbuf, col0BA, same - avail)
-                                    old.add(buf)
+                                        buf.skipSize(col0JBA, avail)
+                                        inbuf.skipPos(col0JBA, avail)
+                                    }
+                                    buf = ResultChunk.append(buf, ResultChunk(children[1].resultSet))
+                                    val remaining = same - avail
+                                    buf.copy(col0BA, inbuf, col0BA, remaining)
+                                    buf.skipSize(col0JBA, remaining)
+                                    inbuf.skipPos(col0JBA, remaining)
+                                } else {
+                                    buf.copy(col0BA, inbuf, col0BA, same)
+                                    buf.skipSize(col0JBA, same)
+                                    inbuf.skipPos(col0JBA, same)
                                 }
-                                buf.skipSize(col0JBA, same)
-                                inbuf.skipPos(col0JBA, same)
-                                old
-                            })
+                            }
                         }
                     } catch (e: Throwable) {
                         if (e.message != "no more Elements" && e.message != "Channel was closed")
@@ -151,58 +139,58 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         break
                     }
                 }
-})
- Trace.trace({ "POPJoinHashMap.next2" }, {
+            })
+            Trace.trace({ "POPJoinHashMap.next2" }, {
                 while (true) {
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
                         while (inbuf.hasNext()) {
                             val same = inbuf.sameElements(col0JAA)
                             val key = inbuf.current(col0JAA)
-                            val others = mutableListOf<Pair<Array<Value>, SortedArray<ResultChunk>>>()
+                            val others = mutableListOf<Pair<Array<Value>, ResultChunk>>()
                             var containsUndef = false
                             for (k in key)
                                 if (k == undefValue)
                                     containsUndef = true
-Trace.trace({ "POPJoinHashMap.next3" }, {
-                            if (containsUndef) {
-                                mapWithoutUndef.forEach { k, v ->
-                                    //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
-                                    var match = true
-                                    for (i in 0 until key.size)
-                                        if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
-                                            match = false
-                                    if (match)
-                                        others.add(Pair(k, v!!))
-                                }
-                                mapWithUndef.forEach { k, v ->
-                                    //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
-                                    var match = true
-                                    for (i in 0 until key.size)
-                                        if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
-                                            match = false
-                                    if (match) {
-                                        others.add(Pair(k, v!!))
-                                        containsUndef = true
+                            Trace.trace({ "POPJoinHashMap.next3" }, {
+                                if (containsUndef) {
+                                    mapWithoutUndef.forEach { k, v ->
+                                        //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
+                                        var match = true
+                                        for (i in 0 until key.size)
+                                            if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                                match = false
+                                        if (match)
+                                            others.add(Pair(k, v!!))
+                                    }
+                                    mapWithUndef.forEach { k, v ->
+                                        //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
+                                        var match = true
+                                        for (i in 0 until key.size)
+                                            if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                                match = false
+                                        if (match) {
+                                            others.add(Pair(k, v!!))
+                                            containsUndef = true
+                                        }
+                                    }
+                                } else {
+                                    val other0 = mapWithoutUndef.get(key)
+                                    if (other0 != null)
+                                        others.add(Pair(key, other0))
+                                    mapWithUndef.forEach { k, v ->
+                                        //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
+                                        var match = true
+                                        for (i in 0 until key.size)
+                                            if (k[i] != undefValue && key[i] != k[i])
+                                                match = false
+                                        if (match) {
+                                            others.add(Pair(k, v!!))
+                                            containsUndef = true
+                                        }
                                     }
                                 }
-                            } else {
-                                val other0 = mapWithoutUndef.get(key)
-                                if (other0 != null)
-                                    others.add(Pair(key, other0))
-                                mapWithUndef.forEach { k, v ->
-                                    //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
-                                    var match = true
-                                    for (i in 0 until key.size)
-                                        if (k[i] != undefValue && key[i] != k[i])
-                                            match = false
-                                    if (match) {
-                                        others.add(Pair(k, v!!))
-                                        containsUndef = true
-                                    }
-                                }
-                            }
-})
+                            })
                             if (others.size == 0 && optional) {
                                 val avail = outbuf.availableWrite()
                                 if (avail > same) {
@@ -227,52 +215,56 @@ Trace.trace({ "POPJoinHashMap.next3" }, {
                                 for (i in 0 until same) {
                                     val aData = inbuf.nextArr()
                                     for (other in others) {
-                                        other.second.forEachUnordered { it ->
+                                        var it = other.second
+                                        while (true) {
                                             val count = it.availableRead()
-if(count>0){
-                                            it.backupPosition()
-                                            var avail = outbuf.availableWrite()
-                                            if (containsUndef) {
-                                                if (count < avail) {
-                                                    outbuf.copy(col1AA, aData, col0AA, count)
-                                                    outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count)
-                                                    outbuf.copy(col1BA, it, col0BA, count)
-                                                } else {
-                                                    if (avail > 0) {
-                                                        outbuf.copy(col1AA, aData, col0AA, avail)
-                                                        outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, avail)
-                                                        outbuf.copy(col1BA, it, col0BA, avail)
+                                            if (count > 0) {
+                                                it.backupPosition()
+                                                var avail = outbuf.availableWrite()
+                                                if (containsUndef) {
+                                                    if (count < avail) {
+                                                        outbuf.copy(col1AA, aData, col0AA, count)
+                                                        outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count)
+                                                        outbuf.copy(col1BA, it, col0BA, count)
+                                                    } else {
+                                                        if (avail > 0) {
+                                                            outbuf.copy(col1AA, aData, col0AA, avail)
+                                                            outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, avail)
+                                                            outbuf.copy(col1BA, it, col0BA, avail)
+                                                        }
+                                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                                        outbuf = ResultChunk(resultSet)
+                                                        if (count != avail) {
+                                                            outbuf.copy(col1AA, aData, col0AA, count - avail)
+                                                            outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count - avail)
+                                                            outbuf.copy(col1BA, it, col0BA, count - avail)
+                                                        }
                                                     }
-                                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
-                                                    outbuf = ResultChunk(resultSet)
-                                                    if (count != avail) {
-                                                        outbuf.copy(col1AA, aData, col0AA, count - avail)
-                                                        outbuf.copyNonNull(col1JA, aData, col0JAA, other.first, count - avail)
-                                                        outbuf.copy(col1BA, it, col0BA, count - avail)
+                                                } else {
+                                                    if (count < avail) {
+                                                        outbuf.copy(col1AA, aData, col0AA, count)
+                                                        outbuf.copy(col1JA, aData, col0JAA, count)
+                                                        outbuf.copy(col1BA, it, col0BA, count)
+                                                    } else {
+                                                        if (avail > 0) {
+                                                            outbuf.copy(col1AA, aData, col0AA, avail)
+                                                            outbuf.copy(col1JA, aData, col0JAA, avail)
+                                                            outbuf.copy(col1BA, it, col0BA, avail)
+                                                        }
+                                                        channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
+                                                        outbuf = ResultChunk(resultSet)
+                                                        if (count != avail) {
+                                                            outbuf.copy(col1AA, aData, col0AA, count - avail)
+                                                            outbuf.copy(col1JA, aData, col0JAA, count - avail)
+                                                            outbuf.copy(col1BA, it, col0BA, count - avail)
+                                                        }
                                                     }
                                                 }
-                                            } else {
-                                                if (count < avail) {
-                                                    outbuf.copy(col1AA, aData, col0AA, count)
-                                                    outbuf.copy(col1JA, aData, col0JAA, count)
-                                                    outbuf.copy(col1BA, it, col0BA, count)
-                                                } else {
-                                                    if (avail > 0) {
-                                                        outbuf.copy(col1AA, aData, col0AA, avail)
-                                                        outbuf.copy(col1JA, aData, col0JAA, avail)
-                                                        outbuf.copy(col1BA, it, col0BA, avail)
-                                                    }
-                                                    channel.send(resultFlowProduce({ this@POPJoinHashMap }, { outbuf }))
-                                                    outbuf = ResultChunk(resultSet)
-                                                    if (count != avail) {
-                                                        outbuf.copy(col1AA, aData, col0AA, count - avail)
-                                                        outbuf.copy(col1JA, aData, col0JAA, count - avail)
-                                                        outbuf.copy(col1BA, it, col0BA, count - avail)
-                                                    }
-                                                }
+                                                it.restorePosition()
+                                                it = it.next
+                                                if (it == other)
+                                                    break
                                             }
-                                            it.restorePosition()
-}
                                         }
                                     }
                                 }
