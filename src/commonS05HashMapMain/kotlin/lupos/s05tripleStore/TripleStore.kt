@@ -266,6 +266,7 @@ pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
 
     fun addData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         //row based
+println("call addData ${query.transactionID} ${params.map{it.valueToString()}}")
         val values = ResultChunk(resultSet, 3)
         values.append(Array(3) { resultSet.dictionary.createValue(params[it]) })
 var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -278,12 +279,15 @@ var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
 
     fun deleteData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         //row based
+println("call deleteData ${query.transactionID} ${params.map{it.valueToString()}}")
         val values = ResultChunk(resultSet, 3)
-        values.append(Array(3) { resultSet.dictionary.createValue((params[it] as AOPConstant).value) })
+        values.append(Array(3) { resultSet.dictionary.createValue(params[it]) })
 var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
             if (tmp == null) {
+println("delete first")
                 pendingModificationsDelete[idx.ordinal][query.transactionID] = values
             } else {
+println("delete multi")
                 ResultChunk.append(tmp.prev, values)
             }
     })

@@ -264,13 +264,18 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
 
     fun remove(value: Array<Value>, root: ResultChunk = this) {
         require(columns == value.size)
+println("remove ${value.map{it}} $this")
         for (i in 0 until columns) {
 //fast check - does this page potentially contain the target value?
-            if (data[i].data[0].value > value[i])
+            if (data[i].data[0].value > value[i]){
+println("remove not found")
                 return
+	    }
             if (data[i].data[data[i].sizeIndex].value < value[i]) {
-                if (next != root)
+                if (next != root){
+println("remove try next page")
                     next.remove(value, root)
+		}
                 return
             }
         }
@@ -284,8 +289,10 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
             var absIdx = 0
             while (absIdx + column.data[localIdx].count < first || column.data[localIdx].value != value[i]) {
                 absIdx += column.data[localIdx++].count
-                if (absIdx > last)
+                if (absIdx > last){
+println("remove not found2")
                     return
+}
             }
             indices[i] = localIdx
             if (absIdx > first)
@@ -294,6 +301,7 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
                 last = absIdx
         }
 //delete it
+println("remove it")
         for (i in 0 until columns) {
             val column = data[i]
             column.sizeAbsolute--
