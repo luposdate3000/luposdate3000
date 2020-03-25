@@ -56,7 +56,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
                         if (type == EModifyType.INSERT)
                             DistributedTripleStore.getNamedGraph(query, t.graph, true).addData(Array(3) { (t.children[it] as AOPConstant).value })
                         else
-                            DistributedTripleStore.getNamedGraph(query, t.graph, false).deleteDataVar(Array(3) { t.children[it] as AOPBase })
+                            DistributedTripleStore.getNamedGraph(query, t.graph, false).deleteData(Array(3) { (t.children[it] as AOPConstant).value })
                 } finally {
                     res.close()
                 }
@@ -69,7 +69,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     })
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPInsertData")
+        val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
         for (t in data)
             res.addContent(t.toXMLElement())

@@ -45,6 +45,7 @@ println("TripleStoreIteratorLocalFilter evaluate")
             6 -> EIndexPattern.PO
             else -> EIndexPattern.SPO
         }
+println("suggested Index $index $idx")
         val root = store.getData(key.toTypedArray(), idx)
         val res = ResultIterator()
 println("TripleStoreIteratorLocalFilter evaluate ? $idxHelper")

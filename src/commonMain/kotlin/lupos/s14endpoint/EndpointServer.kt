@@ -147,15 +147,10 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             Endpoint.REQUEST_TRIPLE_DELETE[0] -> {
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
-                val param = Array(3) {
-                    if (params[Endpoint.REQUEST_TRIPLE_DELETE[6 + it]]!!.toBoolean())
-                        AOPConstant(query, ValueDefinition(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!))
-                    else
-                        AOPVariable(query, params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)
-                }
+                val param = Array(3) {                        ValueDefinition(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)                }
                 responseStr = Endpoint.process_local_triple_delete(query, params[Endpoint.REQUEST_TRIPLE_DELETE[1]]!!,
                         param,
-                        EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[9]]!!)).toPrettyString()
+                        EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[6]]!!)).toPrettyString()
             }
             Endpoint.REQUEST_STACKTRACE[0] -> Trace.print()
             Endpoint.REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()

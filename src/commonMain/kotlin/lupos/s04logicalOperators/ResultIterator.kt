@@ -29,7 +29,7 @@ open class ResultIterator() {
                 action(next.invoke())
             }
         } catch (e: Throwable) {
-if(!e.message!!.contains("ClosedReceiveChannelException") && e.message!="no more Elements")
+if(e.message != "Channel was closed" && e.message!="no more Elements")
 e.printStackTrace()
             close.invoke()
         }

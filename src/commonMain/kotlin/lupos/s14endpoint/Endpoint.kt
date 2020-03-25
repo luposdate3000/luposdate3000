@@ -44,7 +44,7 @@ object Endpoint {
     @JvmField
     val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     @JvmField
-    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
+    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "idx")
     @JvmField
     val REQUEST_COMMIT = arrayOf("/commit", "id")
     @JvmField
@@ -74,9 +74,9 @@ object Endpoint {
         return XMLElement("success")
     })
 
-    fun process_local_triple_delete(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_delete" }, {
+    fun process_local_triple_delete(query: Query, graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_delete" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        g.deleteDataVar(query, params, idx)
+        g.deleteData(query, params, idx)
         return XMLElement("success")
     })
 

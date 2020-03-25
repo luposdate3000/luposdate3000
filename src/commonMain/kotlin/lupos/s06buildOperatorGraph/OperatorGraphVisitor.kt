@@ -1188,9 +1188,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(query, EModifyType.DELETE)
-        modifyDataHelper(node.children, res)
-        return res
+	return visit(ASTModifyWithWhere(null,node.children,arrayOf<ASTNode>(),arrayOf<ASTGraphRef>(),node.children),listOf<OPBase>())
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {

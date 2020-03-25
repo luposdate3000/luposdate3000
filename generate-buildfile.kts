@@ -44,7 +44,7 @@ val options = mapOf(
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "chooseS00Trace" to listOf("commonS00TraceOnMain", "commonS00TraceOffMain"),
         "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain", "jvmS01BufferUnsafeMain"),
-        "chooseS03" to listOf("commonS03DictionaryNoneMain", "commonS03DictionaryIntArrayMain"),
+        "chooseS03" to listOf("commonS03DictionaryIntArrayMain"),
         "chooseS05" to listOf("commonS05HashMapMain"),
         "chooseS12" to listOf("commonS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
@@ -53,12 +53,10 @@ val options = mapOf(
 )
 val conflicts = listOf(
         setOf("commonS00ExecutionParallelMain", "commonS00TraceOnMain"),
-        setOf("commonS03DictionaryNoneMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
         setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
-        setOf("commonS12DummyMain", "commonS03DictionaryNoneMain"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain")
 )

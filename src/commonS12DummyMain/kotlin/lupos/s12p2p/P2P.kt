@@ -154,36 +154,18 @@ object P2P {
         return res!!
     })
 
-    fun execTripleDelete(query: Query, node: String, graphName: String, data: Array<AOPBase>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
+    fun execTripleDelete(query: Query, node: String, graphName: String, data: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })
         if (node == endpointServer!!.fullname)
             Endpoint.process_local_triple_delete(query, graphName, data, idx)
         else {
-            val s: String
-            if (data[0] is AOPConstant)
-                s = (data[0] as AOPConstant).value.valueToString()!!
-            else
-                s = (data[0] as AOPVariable).name
-            val p: String
-            if (data[1] is AOPConstant)
-                p = (data[1] as AOPConstant).value.valueToString()!!
-            else
-                p = (data[1] as AOPVariable).name
-            val o: String
-            if (data[2] is AOPConstant)
-                o = (data[2] as AOPConstant).value.valueToString()!!
-            else
-                o = (data[2] as AOPVariable).name
             val req = Endpoint.REQUEST_TRIPLE_DELETE[0] +//
                     "?" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[1], graphName) +//
                     "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[2], query.transactionID) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[3], s) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[4], p) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[5], o) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[6], data[0] is AOPConstant) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[7], data[1] is AOPConstant) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[8], data[2] is AOPConstant) +//
-                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[9], idx)
+                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[3], data[0].valueToString()!!) +//
+                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[4], data[1].valueToString()!!) +//
+                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[5], data[2].valueToString()!!) +//
+                    "&" + EndpointClientImpl.encodeParam(Endpoint.REQUEST_TRIPLE_DELETE[6], idx)
             CoroutinesHelper.runBlock {
                 EndpointClientImpl.requestGetBytes("http://${(node)}$req")
             }

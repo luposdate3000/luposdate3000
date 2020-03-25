@@ -80,7 +80,7 @@ println("commit ${query.transactionID}")
                         while (current.hasNext()) {
                             println("insertb")
                             val row = current.nextArr()
-                            for (i in 0 until 3) {//translate query local ids to global ids
+/*                            for (i in 0 until 3) {//translate query local ids to global ids
                                 val x = map[row[i]]
                                 if (x != null) {
                                     row[i] = x
@@ -90,6 +90,7 @@ println("commit ${query.transactionID}")
                                     row[i] = y
                                 }
                             }
+*/
                             val vs = row[0]
                             val vp = row[1]
                             val vo = row[2]
@@ -146,6 +147,7 @@ println("commit ${query.transactionID}")
                         while (current.hasNext()) {
                             println("deleteb")
                             val row = current.nextArr()
+/*
                             for (i in 0 until 3) {//translate query local ids to global ids
                                 val x = map[row[i]]
                                 if (x != null) {
@@ -156,6 +158,7 @@ println("commit ${query.transactionID}")
                                     row[i] = y
                                 }
                             }
+*/
                             val vs = row[0]
                             val vp = row[1]
                             val vo = row[2]
@@ -251,24 +254,6 @@ pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
         }
     }
 
-    fun modifyData(query: Query, values: ResultChunk, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
-        if (action == EModifyType.INSERT) {
-            var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
-            if (tmp == null) {
-                pendingModificationsInsert[idx.ordinal][query.transactionID] = values
-            } else {
-                ResultChunk.append(tmp.prev, values)
-            }
-        } else {
-            var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
-            if (tmp == null) {
-                pendingModificationsDelete[idx.ordinal][query.transactionID] = values
-            } else {
-                ResultChunk.append(tmp.prev, values)
-            }
-        }
-    })
-
     fun clear() = Trace.trace({ "TripleStoreLocal.clear" }, {
         tripleStoreS.clear()
         tripleStoreP.clear()
@@ -281,27 +266,26 @@ pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
 
     fun addData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         //row based
-        val chunk = ResultChunk(resultSet, 3)
-        chunk.append(Array(3) { query.dictionary.createValue(params[it]) })
-        modifyData(query, chunk, EModifyType.INSERT, idx)
+        val values = ResultChunk(resultSet, 3)
+        values.append(Array(3) { resultSet.dictionary.createValue(params[it]) })
+var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+            if (tmp == null) {
+                pendingModificationsInsert[idx.ordinal][query.transactionID] = values
+            } else {
+                ResultChunk.append(tmp.prev, values)
+            }
     })
 
-    fun deleteDataVar(query: Query, params: Array<AOPBase>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
-        val chunk = ResultChunk(resultSet, 3)
-        var tmp = 0
-        for (i in 0 until 3)
-            if (params[i] is AOPConstant)
-                tmp++
-        when (tmp) {
-            3 -> {
-                chunk.append(Array(3) { query.dictionary.createValue((params[it] as AOPConstant).value) })
+    fun deleteData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
+        //row based
+        val values = ResultChunk(resultSet, 3)
+        values.append(Array(3) { resultSet.dictionary.createValue((params[it] as AOPConstant).value) })
+var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+            if (tmp == null) {
+                pendingModificationsDelete[idx.ordinal][query.transactionID] = values
+            } else {
+                ResultChunk.append(tmp.prev, values)
             }
-            else -> {
-//delete and substiture the variables
-                require(false)
-            }
-        }
-        modifyData(query, chunk, EModifyType.DELETE, idx)
     })
 
     fun getIterator(query: Query, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
