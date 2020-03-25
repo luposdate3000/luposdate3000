@@ -16,8 +16,17 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
-class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : TripleStoreIteratorLocal(query, resultSet, store, index, EOperatorID.TripleStoreIteratorLocalFilterID, "TripleStoreIteratorLocalFilter") {
+class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, val store: TripleStoreLocal, var index: EIndexPattern) : POPTripleStoreIteratorBase(query,                EOperatorID.TripleStoreIteratorLocalID,                "TripleStoreIteratorLocal",                resultSet,                arrayOf()) {
+    override fun getGraphName() = store.name
+    override fun toXMLElement() = super.toXMLElement().addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName()).
+addContent(XMLElement("sparam").addContent(params[0].toXMLElement())).addContent(XMLElement("pparam").addContent(params[1].toXMLElement())).addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
     override fun cloneOP() = TripleStoreIteratorLocalFilter(query, resultSet, store, index)
+    override fun getProvidedVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        for (p in params)
+            tmp.addAll(p.getRequiredVariableNames())
+        return tmp.distinct()
+    }
     override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocal.evaluate" }, {
 println("TripleStoreIteratorLocalFilter evaluate")
         //row based

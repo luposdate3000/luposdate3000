@@ -288,10 +288,6 @@ var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
             }
     })
 
-    fun getIterator(query: Query, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
-        return TripleStoreIteratorLocal(query, resultSet, this, index)
-    })
-
     fun getIterator(query: Query, resultSet: ResultSet, params: Array<AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
         val res = TripleStoreIteratorLocalFilter(query, resultSet, this, index)
         res.params = params
