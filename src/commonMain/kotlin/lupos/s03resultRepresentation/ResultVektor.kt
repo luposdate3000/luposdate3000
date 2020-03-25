@@ -161,6 +161,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun internalSafeNextElement() {
+println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posIndex $sizeIndex")
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
             internalNextElement()
         }
@@ -195,7 +196,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     fun insertSorted(value: Value, first: Int = posAbsolute, last: Int = sizeAbsolute, comparator: Comparator<Value>, count: Int): Pair<Int, Int> {
         if (sizeAbsolute == 0) {
             append(value, count)
-            return Pair(0, count)
+            return Pair(0, 0)
         }
         SanityCheck.check { availableWrite() >= 2 }
         SanityCheck.check { count > 0 }
@@ -212,7 +213,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
             if (c == idx) {
                 if (data[index].value == value) {
                     data[index].count += count
-                    return Pair(first, data[index].count)
+                    return Pair(first, index)
                 }
                 indexLocal = 0
                 absoluteindex = first
@@ -234,10 +235,10 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 sizeIndex = index
                 data[index].count = count
                 data[index].value = value
-                return Pair(absoluteindex, data[index].count)
+                return Pair(absoluteindex, index)
             } else if (data[index].value == value) {
                 data[index].count += count
-                return Pair(absoluteindex, data[index].count)
+                return Pair(absoluteindex, index)
             } else if (absoluteindex == last) {
                 var j = sizeIndex
                 while (j >= index) {
@@ -248,7 +249,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index].value = value
                 data[index].count = count
                 sizeIndex++
-                return Pair(last, count)
+                return Pair(last, index)
             } else if (absoluteindex + data[index].count > last && comparator.compare(data[index].value, value) < 0) {
                 var j = sizeIndex
                 while (j >= index) {
@@ -261,7 +262,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index].count = last - absoluteindex
                 data[index + 2].count -= last - absoluteindex
                 sizeIndex += 2
-                return Pair(last, count)
+                return Pair(last, index+1)
             } else if (comparator.compare(data[index].value, value) < 0) {
                 val c = data[index].count - indexLocal
                 currentidx += c
@@ -282,7 +283,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index + 2].count -= indexLocal
                 sizeIndex += 2
                 absoluteindex += data[index].count
-                return Pair(absoluteindex, count)
+                return Pair(absoluteindex, index+1)
             } else {
                 var j = sizeIndex
                 while (j >= index) {
@@ -293,7 +294,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
                 data[index].value = value
                 data[index].count = count
                 sizeIndex++
-                return Pair(absoluteindex, count)
+                return Pair(absoluteindex, index)
             }
         }
 /*Coverage Unreachable*/

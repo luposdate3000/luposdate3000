@@ -120,6 +120,7 @@ println(inbuf)
                         while (inbuf.hasNext()) {
                             println("joinb")
                             val same = inbuf.sameElements(col0JBA)
+require(same>0)
                             val key = inbuf.current(col0JBA)
                             var containsUndef = false
                             for (k in key)
@@ -185,10 +186,13 @@ println(inbuf)
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
 require(inbuf.next==inbuf)
 require(inbuf.prev==inbuf)
-println(inbuf)
+println("a"+inbuf)
                         while (inbuf.hasNext()) {
                             println("joind")
+println("b"+inbuf)
                             val same = inbuf.sameElements(col0JAA)
+println("c"+inbuf)
+require(same>0)
                             val key = inbuf.current(col0JAA)
                             val others = mutableListOf<Pair<Array<Value>, ResultChunk>>()
                             var containsUndef = false
@@ -238,7 +242,8 @@ println(inbuf)
                                 }
                             })
                             println("join others ${others.size} $same")
-                            if (others.size == 0 && optional) {
+                            if (others.size == 0) {
+if(optional){
                                 val avail = outbuf.availableWrite()
                                 if (avail > same) {
                                     outbuf.copy(col1AA, inbuf, col0AA, same)
@@ -258,6 +263,9 @@ println(inbuf)
                                         outbuf.skipSize(col1BA, same - avail)
                                     }
                                 }
+}else{
+inbuf.skipPos(same)
+}
                             } else {
                                 for (i in 0 until same) {
                                     val aData = inbuf.nextArr()

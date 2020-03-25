@@ -231,17 +231,18 @@ object ResultVektorTest {
                         log("size " + listA.size)
                         expectException = helper.vektor.availableWrite() < 2 || count == 0
                         val ret = helper.vektor.insertSorted(value, first, last, MyComparatorValue(), count)
+val retc=helper.vektor.data[ret.second].count
                         log("${helper.vektor}")
                         log("asize ${listA.size}")
                         log("bsize ${listB.size}")
                         log("csize ${listC.size}")
                         log("ret $ret")
-                        require(ret.second >= count)
+                        require(retc >= count)
                         require((ret.first >= listA.size) || (listA[listA.size - 1] == value) || (listA[listA.size - 1] == DONT_CARE_VALUE), { "${ret.first} ${listA.size}" })
-                        require((ret.first + ret.second <= listA.size + listB.size) || (listC[0] == value) || (listC[0] == DONT_CARE_VALUE), { "${ret.first + ret.second} ${listA.size + listB.size}" })
+                        require((ret.first + retc <= listA.size + listB.size) || (listC[0] == value) || (listC[0] == DONT_CARE_VALUE), { "${ret.first + retc} ${listA.size + listB.size}" })
                         listA.addAll(listB)
                         listA.addAll(listC)
-                        for (i in ret.first until ret.first + ret.second) {
+                        for (i in ret.first until ret.first + retc) {
                             require(listA[i] == value || listA[i] == DONT_CARE_VALUE, { "$i : ${listA[i]} $value" })
                         }
                         helper.kotlinList = listA
