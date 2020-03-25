@@ -98,8 +98,8 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                             colIn.sizeAbsolute -= 2
                             colIn.data[colIn.sizeIndex].count--
                             if (colIn.data[colIn.sizeIndex].count == 0) {
-                                require(colIn.sizeIndex > 0)
-                                colIn.sizeIndex--
+                                if(colIn.sizeIndex > 0)
+	                                colIn.sizeIndex--
                             }
                         } else {
                             colOut.data[0].value = colIn.data[colIn.sizeIndex].value
@@ -109,7 +109,7 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                             colIn.sizeAbsolute -= 2
                             colIn.data[colIn.sizeIndex].count -= 2
                             if (colIn.data[colIn.sizeIndex].count == 0) {
-                                require(colIn.sizeIndex > 0)
+                                if(colIn.sizeIndex > 0)
                                 colIn.sizeIndex--
                             }
                         }
