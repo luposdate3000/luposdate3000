@@ -23,6 +23,27 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
 class TripleStoreLocal(@JvmField val name: String) {
+ class MapKey(@JvmField val data: Array<Value>) {
+        override fun hashCode(): Int {
+            var res = 0
+            for (i in 0 until data.size)
+                res += data[i].hashCode()
+            println("hashcode $res")
+            return res
+        }
+
+        override fun equals(other: Any?): Boolean {
+            for (i in 0 until data.size) {
+                if (data[i] != (other as MapKey).data[i]) {
+                    println("equals ${data.map { it }} ${(other as MapKey).data.map { it }} false")
+                    return false
+                }
+            }
+            println("equals ${data.map { it }} ${(other as MapKey).data.map { it }} true")
+            return true
+        }
+    }
+
     @JvmField
     val resultSet = ResultSet(ResultSetDictionary())
     @JvmField
@@ -32,11 +53,11 @@ class TripleStoreLocal(@JvmField val name: String) {
     @JvmField
     val tripleStoreO = mutableMapOf<Value, ResultChunk>()
     @JvmField
-    val tripleStoreSP = mutableMapOf<Array<Value>, ResultChunk>()
+    val tripleStoreSP = mutableMapOf<MapKey, ResultChunk>()
     @JvmField
-    val tripleStoreSO = mutableMapOf<Array<Value>, ResultChunk>()
+    val tripleStoreSO = mutableMapOf<MapKey, ResultChunk>()
     @JvmField
-    val tripleStorePO = mutableMapOf<Array<Value>, ResultChunk>()
+    val tripleStorePO = mutableMapOf<MapKey, ResultChunk>()
     @JvmField
     var tripleStoreSPO = ResultChunk(resultSet, 3)
     @JvmField
@@ -45,17 +66,20 @@ class TripleStoreLocal(@JvmField val name: String) {
     val pendingModificationsDelete = Array(EIndexPattern.values().size) { mutableMapOf<Long, ResultChunk>() }
 
     fun commit2(query: Query) = Trace.trace({ "TripleStoreLocal.commit2" }, {
+println("commit ${query.transactionID}")
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
                 val map = mutableMapOf(query.dictionary.undefValue to query.dictionary.undefValue)
                 if (insert != null) {
                     var current = insert!!
+                    require(current.next.prev == current)
+                    require(current.prev.next == current)
                     while (true) {
+                        println("inserta")
                         while (current.hasNext()) {
-                            val same = current.sameElements()
-                            val row = current.current()
-                            current.skipPos(same)
+                            println("insertb")
+                            val row = current.nextArr()
                             for (i in 0 until 3) {//translate query local ids to global ids
                                 val x = map[row[i]]
                                 if (x != null) {
@@ -75,6 +99,9 @@ class TripleStoreLocal(@JvmField val name: String) {
                             val vpo = arrayOf(vp, vo)
                             val vsp = arrayOf(vs, vp)
                             val vso = arrayOf(vs, vo)
+                            val kpo = MapKey(vpo)
+                            val ksp = MapKey(vsp)
+                            val kso = MapKey(vso)
                             when (idx) {
                                 EIndexPattern.S -> {
                                     tripleStoreS[vs] = ResultChunk.insertDistinct(vpo, tripleStoreS[vs], resultSet)
@@ -86,32 +113,39 @@ class TripleStoreLocal(@JvmField val name: String) {
                                     tripleStoreO[vo] = ResultChunk.insertDistinct(vsp, tripleStoreO[vo], resultSet)
                                 }
                                 EIndexPattern.SP -> {
-                                    tripleStoreSP[vsp] = ResultChunk.insertDistinct(vao, tripleStoreSP[vsp], resultSet)
+                                    tripleStoreSP[ksp] = ResultChunk.insertDistinct(vao, tripleStoreSP[ksp], resultSet)
                                 }
                                 EIndexPattern.SO -> {
-                                    tripleStoreSO[vso] = ResultChunk.insertDistinct(vap, tripleStoreSO[vso], resultSet)
+                                    tripleStoreSO[kso] = ResultChunk.insertDistinct(vap, tripleStoreSO[kso], resultSet)
                                 }
                                 EIndexPattern.PO -> {
-                                    tripleStorePO[vpo] = ResultChunk.insertDistinct(vas, tripleStorePO[vpo], resultSet)
+                                    tripleStorePO[kpo] = ResultChunk.insertDistinct(vas, tripleStorePO[kpo], resultSet)
                                 }
                                 EIndexPattern.SPO -> {
                                     tripleStoreSPO = ResultChunk.insertDistinct(arrayOf(vs, vp, vo), tripleStoreSPO, resultSet)
                                 }
                             }
                         }
+                        require(current.next.prev == current)
+                        require(current.prev.next == current)
                         current = current.next
+                        require(current.next.prev == current)
+                        require(current.prev.next == current)
                         if (current == insert)
                             break
                     }
+		    pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
                 if (delete != null) {
                     var current = delete!!
+                    require(current.next.prev == current)
+                    require(current.prev.next == current)
                     while (true) {
+                        println("deletea")
                         while (current.hasNext()) {
-                            val same = current.sameElements()
-                            val row = current.current()
-                            current.skipPos(same)
+                            println("deleteb")
+                            val row = current.nextArr()
                             for (i in 0 until 3) {//translate query local ids to global ids
                                 val x = map[row[i]]
                                 if (x != null) {
@@ -131,6 +165,9 @@ class TripleStoreLocal(@JvmField val name: String) {
                             val vpo = arrayOf(vp, vo)
                             val vsp = arrayOf(vs, vp)
                             val vso = arrayOf(vs, vo)
+                            val kpo = MapKey(vpo)
+                            val ksp = MapKey(vsp)
+                            val kso = MapKey(vso)
                             when (idx) {
                                 EIndexPattern.S -> {
                                     if (tripleStoreS[vs] != null) {
@@ -148,18 +185,18 @@ class TripleStoreLocal(@JvmField val name: String) {
                                     }
                                 }
                                 EIndexPattern.SP -> {
-                                    if (tripleStoreSP[vsp] != null) {
-                                        tripleStoreSP[vsp]!!.remove(vao)
+                                    if (tripleStoreSP[ksp] != null) {
+                                        tripleStoreSP[ksp]!!.remove(vao)
                                     }
                                 }
                                 EIndexPattern.SO -> {
-                                    if (tripleStoreSO[vso] != null) {
-                                        tripleStoreSO[vso]!!.remove(vap)
+                                    if (tripleStoreSO[kso] != null) {
+                                        tripleStoreSO[kso]!!.remove(vap)
                                     }
                                 }
                                 EIndexPattern.PO -> {
-                                    if (tripleStorePO[vpo] != null) {
-                                        tripleStorePO[vpo]!!.remove(vas)
+                                    if (tripleStorePO[kpo] != null) {
+                                        tripleStorePO[kpo]!!.remove(vas)
                                     }
                                 }
                                 EIndexPattern.SPO -> {
@@ -167,10 +204,15 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 }
                             }
                         }
+                        require(current.next.prev == current)
+                        require(current.prev.next == current)
                         current = current.next
-                        if (current == insert)
+                        require(current.next.prev == current)
+                        require(current.prev.next == current)
+                        if (current == delete)
                             break
                     }
+pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                 }
             }
         }
@@ -193,15 +235,15 @@ class TripleStoreLocal(@JvmField val name: String) {
             }
             EIndexPattern.SP -> {
                 require(key != null)
-                return tripleStoreSP[key]
+                return tripleStoreSP[MapKey(key)]
             }
             EIndexPattern.SO -> {
                 require(key != null)
-                return tripleStoreSO[key]
+                return tripleStoreSO[MapKey(key)]
             }
             EIndexPattern.PO -> {
                 require(key != null)
-                return tripleStorePO[key]
+                return tripleStorePO[MapKey(key)]
             }
             EIndexPattern.SPO -> {
                 return tripleStoreSPO

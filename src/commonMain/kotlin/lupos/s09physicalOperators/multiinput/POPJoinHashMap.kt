@@ -58,6 +58,27 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         override fun compare(a: ResultChunk, b: ResultChunk): Int = throw Exception("dont sort this")
     }
 
+    class MapKey(@JvmField val data: Array<Value>) {
+        override fun hashCode(): Int {
+            var res = 0
+            for (i in 0 until data.size)
+                res += data[i].hashCode()
+            println("hashcode $res")
+            return res
+        }
+
+        override fun equals(other: Any?): Boolean {
+            for (i in 0 until data.size) {
+                if (data[i] != (other as MapKey).data[i]) {
+                    println("equals ${data.map { it }} ${(other as MapKey).data.map { it }} false")
+                    return false
+                }
+            }
+            println("equals ${data.map { it }} ${(other as MapKey).data.map { it }} true")
+            return true
+        }
+    }
+
     fun arrayAllocator(size: Int) = Array(size) { ResultChunk(resultSet) }
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPJoinHashMap.evaluate" }, {
         //column based
@@ -78,8 +99,8 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val varAO = variablesAO.map { Pair(children[0].resultSet.createVariable(it), resultSet.createVariable(it)) }
         val varBO = variablesBO.map { Pair(children[1].resultSet.createVariable(it), resultSet.createVariable(it)) }
         val varJ = variablesJ.map { Pair(Pair(children[0].resultSet.createVariable(it), children[1].resultSet.createVariable(it)), resultSet.createVariable(it)) }
-        val mapWithUndef = mutableMapOf<Array<Value>, ResultChunk>()
-        val mapWithoutUndef = mutableMapOf<Array<Value>, ResultChunk>()
+        val mapWithUndef = mutableMapOf<MapKey, ResultChunk>()
+        val mapWithoutUndef = mutableMapOf<MapKey, ResultChunk>()
         val channels = children.map { it.evaluate() }
         val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
         var outbuf = ResultChunk(resultSet)
@@ -93,28 +114,39 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         CoroutinesHelper.run {
             Trace.trace({ "POPJoinHashMap.next1" }, {
                 while (true) {
+                    println("joina")
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[1] }, { channels[1].next() })
+require(inbuf.next==inbuf)
+require(inbuf.prev==inbuf)
+println(inbuf)
                         while (inbuf.hasNext()) {
+                            println("joinb")
                             val same = inbuf.sameElements(col0JBA)
                             val key = inbuf.current(col0JBA)
                             var containsUndef = false
                             for (k in key)
                                 if (k == undefValue)
                                     containsUndef = true
+                            println("join insert key ${key.map { it }} $containsUndef")
                             val map = if (containsUndef)
                                 mapWithUndef
                             else
                                 mapWithoutUndef
-                            val tmp = map[key]
+                            val mapKey = MapKey(key)
+                            val tmp = map[mapKey]
                             if (tmp == null) {
                                 val buf = ResultChunk(children[1].resultSet)
                                 buf.copy(col0BA, inbuf, col0BA, same)
                                 buf.skipSize(col0JBA, same)
                                 inbuf.skipPos(col0JBA, same)
-                                map[key] = buf
+                                map[mapKey] = buf
+                                require(buf.next.prev == buf)
+                                require(buf.prev.next == buf)
                             } else {
                                 var buf = tmp.prev
+                                require(buf.next.prev == buf)
+                                require(buf.prev.next == buf)
                                 var avail = buf.availableWrite()
                                 if (avail < same) {
                                     if (avail > 0) {
@@ -122,15 +154,23 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                         buf.skipSize(col0JBA, avail)
                                         inbuf.skipPos(col0JBA, avail)
                                     }
+                                    require(buf.next.prev == buf)
+                                    require(buf.prev.next == buf)
                                     buf = ResultChunk.append(buf, ResultChunk(children[1].resultSet))
+                                    require(buf.next.prev == buf)
+                                    require(buf.prev.next == buf)
                                     val remaining = same - avail
                                     buf.copy(col0BA, inbuf, col0BA, remaining)
                                     buf.skipSize(col0JBA, remaining)
                                     inbuf.skipPos(col0JBA, remaining)
+                                    require(buf.next.prev == buf)
+                                    require(buf.prev.next == buf)
                                 } else {
                                     buf.copy(col0BA, inbuf, col0BA, same)
                                     buf.skipSize(col0JBA, same)
                                     inbuf.skipPos(col0JBA, same)
+                                    require(buf.next.prev == buf)
+                                    require(buf.prev.next == buf)
                                 }
                             }
                         }
@@ -143,9 +183,14 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             })
             Trace.trace({ "POPJoinHashMap.next2" }, {
                 while (true) {
+                    println("joinc")
                     try {
                         val inbuf = resultFlowConsume({ this@POPJoinHashMap }, { children[0] }, { channels[0].next() })
+require(inbuf.next==inbuf)
+require(inbuf.prev==inbuf)
+println(inbuf)
                         while (inbuf.hasNext()) {
+                            println("joind")
                             val same = inbuf.sameElements(col0JAA)
                             val key = inbuf.current(col0JAA)
                             val others = mutableListOf<Pair<Array<Value>, ResultChunk>>()
@@ -153,45 +198,49 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             for (k in key)
                                 if (k == undefValue)
                                     containsUndef = true
+                            println("join fetch key ${key.map { it }} $containsUndef")
                             Trace.trace({ "POPJoinHashMap.next3" }, {
                                 if (containsUndef) {
                                     mapWithoutUndef.forEach { k, v ->
                                         //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
                                         var match = true
                                         for (i in 0 until key.size)
-                                            if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                            if (key[i] != undefValue && k.data[i] != undefValue && key[i] != k.data[i])
                                                 match = false
                                         if (match)
-                                            others.add(Pair(k, v!!))
+                                            others.add(Pair(k.data, v!!))
                                     }
                                     mapWithUndef.forEach { k, v ->
                                         //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
                                         var match = true
                                         for (i in 0 until key.size)
-                                            if (key[i] != undefValue && k[i] != undefValue && key[i] != k[i])
+                                            if (key[i] != undefValue && k.data[i] != undefValue && key[i] != k.data[i])
                                                 match = false
                                         if (match) {
-                                            others.add(Pair(k, v!!))
+                                            others.add(Pair(k.data, v!!))
                                             containsUndef = true
                                         }
                                     }
                                 } else {
-                                    val other0 = mapWithoutUndef.get(key)
+                                    val mapKey = MapKey(key)
+                                    println("fetch exact")
+                                    val other0 = mapWithoutUndef[mapKey]
                                     if (other0 != null)
                                         others.add(Pair(key, other0))
                                     mapWithUndef.forEach { k, v ->
                                         //assuming not too much undef values - otherwiese improve here (nested-loop-prefix-search)
                                         var match = true
                                         for (i in 0 until key.size)
-                                            if (k[i] != undefValue && key[i] != k[i])
+                                            if (k.data[i] != undefValue && key[i] != k.data[i])
                                                 match = false
                                         if (match) {
-                                            others.add(Pair(k, v!!))
+                                            others.add(Pair(k.data, v!!))
                                             containsUndef = true
                                         }
                                     }
                                 }
                             })
+                            println("join others ${others.size} $same")
                             if (others.size == 0 && optional) {
                                 val avail = outbuf.availableWrite()
                                 if (avail > same) {
@@ -218,7 +267,10 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     for (other in others) {
                                         var it = other.second
                                         while (true) {
-                                            val count = it.availableRead()
+                                            require(it.next.prev == it)
+                                            require(it.prev.next == it)
+                                            println("joine")
+                                            var count = it.availableRead()
                                             if (count > 0) {
                                                 it.backupPosition()
                                                 var avail = outbuf.availableWrite()
@@ -262,8 +314,10 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                                     }
                                                 }
                                                 it.restorePosition()
+                                                require(it.next.prev == it)
+                                                require(it.prev.next == it)
                                                 it = it.next
-                                                if (it == other)
+                                                if (it == other.second)
                                                     break
                                             }
                                         }

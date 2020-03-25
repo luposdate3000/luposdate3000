@@ -40,6 +40,7 @@ open class TripleStoreIteratorLocal(query: Query,
     }
 
     override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorLocal.evaluate" }, {
+println("TripleStoreIteratorLocal evaluate ?!?")
         //row based
         val newVariables = Array(3) { resultSet.createVariable((params[it] as AOPVariable).name) }
         val root = store.getData(null, EIndexPattern.SPO)

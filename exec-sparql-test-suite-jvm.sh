@@ -17,5 +17,5 @@ echo "diff c c2"
 diff c c2
 echo "diff a c"
 diff a c
-
+diff a c -y |grep "|" -B1
 cd ..

@@ -12,13 +12,13 @@ import lupos.s04logicalOperators.ResultIterator
 
 inline fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultChunk): ResultChunk {
     val res = action()
-//    println("consume :: ${consumerv().classname}@${consumerv().uuid} ${producerv().classname}@${producerv().uuid} ${res.availableWrite()} ${res.availableRead()} ${res}")
+    println("consume :: ${consumerv().classname}@${consumerv().uuid} ${producerv().classname}@${producerv().uuid} ${res.availableWrite()} ${res.availableRead()} ${res}")
     return res
 }
 
 inline fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultChunk): ResultChunk {
     val res = action()
-//    println("produce ::  ${producerv().classname}@${producerv().uuid} ${res.availableWrite()} ${res.availableRead()} ${res}")
+    println("produce ::  ${producerv().classname}@${producerv().uuid} ${res.availableWrite()} ${res.availableRead()} ${res}")
     return res
 }
 

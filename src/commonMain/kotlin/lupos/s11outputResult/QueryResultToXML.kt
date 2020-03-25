@@ -46,14 +46,21 @@ object QueryResultToXML {
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
             CoroutinesHelper.runBlock {
+println("toXML1")
                 Trace.traceSuspend({ "QueryResultToXML.runBlock" }, {
+println("toXML2")
                     child.forEach { rows ->
+println("toXML3")
                         for (row in resultFlowConsume({ OPNothing(query.query) }, { query }, { rows })) {
+println("toXML4")
                             val nodeResult = XMLElement("result")
                             nodeResults.addContent(nodeResult)
                             for (variable in variables) {
+println("toXML5")
                                 if (!query.resultSet.isUndefValue(row, variable.second)) {
+println(query.resultSet.getValueObject(row, variable.second))
                                     val value = query.resultSet.getValueObject(row, variable.second)!!.valueToString()
+println(value)
                                     if (value != null) {//TODO this should be ALWAYS true ?!?
                                         val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                                         if (value.length > 1) {
@@ -84,13 +91,21 @@ object QueryResultToXML {
                                         }
                                         nodeResult.addContent(nodeBinding)
                                     }
+println("toXML6")
                                 }
+println("toXML7")
                             }
+println("toXML8")
                         }
+println("toXML9")
                     }
+println("toXML10")
                 })
+println("toXML11")
             }
+println("toXML12")
         }
+println("toXML13")
         return res
     }
 }
