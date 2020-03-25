@@ -60,7 +60,7 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
             }
             var insertLater = true
             for (i in 0 until target.columns) {
-                if (target.data[i].data[target.data[i].sizeIndex].value < value[i]) {
+                if (target.data[i].data[target.data[i].sizeIndex].value <= value[i]) {
                     insertLater = false
                     break
                 }
@@ -152,9 +152,9 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                 absIdx += column.data[localIdx++].count
             }
             while (column.data[localIdx].value != value[i]) {
-                println("skipneq ${column.data[localIdx].value}")
+                println("skipneq ${column.data[localIdx].value} $absIdx $last")
                 absIdx += column.data[localIdx++].count
-                if (absIdx > last) {
+                if (absIdx >= last) {
                     println("not found 2")
                     return
                 }

@@ -81,15 +81,15 @@ object ResultChunkDistinctStoreTest {
             }
             val v = tmp.nextArr()
             println("search for ${v.map { it }}")
-var found=false
-            loop@ for (i in tmpList.size-1 downTo 0) {
+            var found = false
+            loop@ for (i in tmpList.size - 1 downTo 0) {
                 for (c in 0 until v.size)
                     if (tmpList[i][c] != v[c])
                         continue@loop
-println("found $i ${tmpList[i].map{it}}")
+                println("found $i ${tmpList[i].map { it }}")
                 tmpList.removeAt(i)
-println(""+tmpList.size+""+kotlinListToString(tmpList))
-found=true
+                println("" + tmpList.size + "" + kotlinListToString(tmpList))
+                found = true
             }
             require(found)
         }
@@ -116,7 +116,7 @@ found=true
             for (i in 0 until columns) {
                 resultSet.createVariable("name$i")
             }
-            var chunk : ResultChunkDistinctStore?=null
+            var chunk: ResultChunkDistinctStore? = null
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
                 val insert = nextRandom(buffer, 3, true) != 0
@@ -126,17 +126,17 @@ found=true
                     chunk = ResultChunkDistinctStore.insertDistinct(value, chunk, resultSet)
                 } else {
                     chunk?.remove(value)
-loop@ for (i in kotlinList.size-1 downTo 0) {
-                for (c in 0 until value.size)
-                    if (kotlinList[i][c] != value[c])
-                        continue@loop
-println("found $i ${kotlinList[i].map{it}}")
-                kotlinList.removeAt(i)
-println(""+kotlinList.size+""+kotlinListToString(kotlinList))
-            }
+                    loop@ for (i in kotlinList.size - 1 downTo 0) {
+                        for (c in 0 until value.size)
+                            if (kotlinList[i][c] != value[c])
+                                continue@loop
+                        println("found $i ${kotlinList[i].map { it }}")
+                        kotlinList.removeAt(i)
+                        println("" + kotlinList.size + "" + kotlinListToString(kotlinList))
+                    }
                 }
-if(chunk!=null)
-                checkEquals(kotlinList, chunk)
+                if (chunk != null)
+                    checkEquals(kotlinList, chunk)
             }
 /*Coverage Unreachable*/
         } catch (e: NoMoreRandomException) {
