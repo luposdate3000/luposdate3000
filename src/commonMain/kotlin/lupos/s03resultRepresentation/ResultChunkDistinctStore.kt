@@ -28,6 +28,17 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                 }
             }
             if (insertFront) {
+var exist=true
+	   for (i in 0 until target.columns) {
+                if (target.data[i].data[0].value != value[i]) {
+exist=false
+                    break
+                }
+            }
+if(exist){
+println("internalInsertDistinct i")
+return root!!
+}
                 if (target.availableWrite() > 0) {
                     for (i in 0 until target.columns) {
                         val col = target.data[i]
