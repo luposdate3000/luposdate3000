@@ -1197,6 +1197,16 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         return res
     }
 
+
+fun joinToList(node:OPBase):List<OPBase>{
+if(node is LOPJoin){
+val res=mutableListOf<OPBase>()
+res.addAll(joinToList(node.children[0]))
+res.addAll(joinToList(node.children[1]))
+return res
+}
+return listOf(node)
+}
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
         val child: OPBase = if (node.using.isEmpty()) {
             parseGroup(node.children)
@@ -1222,10 +1232,16 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             val res = LOPModify(query, insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
             return res
         } else {
-            for (e in node.insert)
-                insert.add(e.visit(this) as LOPTriple)
-            for (e in node.delete)
-                delete.add(e.visit(this) as LOPTriple)
+            for (e in node.insert){
+		for(tmp in joinToList(e.visit(this))){
+                insert.add(tmp as LOPTriple)
+		}
+}
+            for (e in node.delete){
+		for(tmp in joinToList(e.visit(this))){
+	                delete.add(tmp as LOPTriple)
+		}
+}
             val res = LOPModify(query, insert, delete, child)
             return res
         }

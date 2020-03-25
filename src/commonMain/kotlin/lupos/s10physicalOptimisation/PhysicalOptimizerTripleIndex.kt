@@ -9,12 +9,14 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s15tripleStoreDistributed.DistributedGraph
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -25,34 +27,42 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
         if (node is LOPTriple) {
             onChange()
             val store = DistributedTripleStore.getNamedGraph(query, node.graph)
-            val idx: EIndexPattern
             var count = 0
             for (n in node.children)
                 if (n is AOPConstant)
                     count++
-            if (count == 0 || count == 3)
-                idx = EIndexPattern.SPO
-            else if (count == 1) {
-                if (node.children[0] is AOPConstant)
-                    idx = EIndexPattern.S
-                else if (node.children[1] is AOPConstant)
-                    idx = EIndexPattern.P
-                else {
-                    SanityCheck.check({ node.children[2] is AOPConstant })
-                    idx = EIndexPattern.O
+require(count<=3)
+val params=Array<AOPBase>(3) { node.children[it] as AOPBase }
+            when (count) {
+                0 -> res = store.getIterator(params, EIndexPattern.SPO)
+                1 -> {
+                    if (node.children[0] is AOPConstant)
+res = store.getIterator(params, EIndexPattern.S)
+                    else if (node.children[1] is AOPConstant)
+res = store.getIterator(params, EIndexPattern.P)
+                    else {
+                        SanityCheck.check({ node.children[2] is AOPConstant })
+res = store.getIterator(params, EIndexPattern.O)
+                    }
                 }
-            } else {
-                SanityCheck.checkEQ({ count }, { 2 })
-                if (node.children[0] !is AOPConstant)
-                    idx = EIndexPattern.PO
-                else if (node.children[1] !is AOPConstant)
-                    idx = EIndexPattern.SO
-                else {
-                    SanityCheck.check({ node.children[2] !is AOPConstant })
-                    idx = EIndexPattern.SP
+                2 -> {
+                    SanityCheck.checkEQ({ count }, { 2 })
+                    if (node.children[0] !is AOPConstant)
+res = store.getIterator(params, EIndexPattern.PO)
+                    else if (node.children[1] !is AOPConstant)
+res = store.getIterator(params, EIndexPattern.SO)
+                    else {
+                        SanityCheck.check({ node.children[2] !is AOPConstant })
+res = store.getIterator(params, EIndexPattern.SP)
+                    }
+                }
+                else -> {
+                    require(count == 3)
+params[1]=AOPVariable(query,"generated${node.uuid}")
+val tmp=store.getIterator(params, EIndexPattern.SO)
+res=POPFilter(query,AOPEQ(query,node.children[1]as AOPBase,params[1]),tmp)
                 }
             }
-            res = store.getIterator(Array<AOPBase>(3) { node.children[it] as AOPBase }, idx)
         }
         res
     })

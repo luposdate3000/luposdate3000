@@ -28,18 +28,15 @@ class TripleStoreLocal(@JvmField val name: String) {
             var res = 0
             for (i in 0 until data.size)
                 res += data[i].hashCode()
-            println("hashcode $res")
             return res
         }
 
         override fun equals(other: Any?): Boolean {
             for (i in 0 until data.size) {
                 if (data[i] != (other as MapKey).data[i]) {
-                    println("equals ${data.map { it }} ${(other as MapKey).data.map { it }} false")
                     return false
                 }
             }
-            println("equals ${data.map { it }} ${(other as MapKey).data.map { it }} true")
             return true
         }
     }

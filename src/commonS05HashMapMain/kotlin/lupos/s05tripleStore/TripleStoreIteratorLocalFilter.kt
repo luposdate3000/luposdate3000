@@ -44,7 +44,8 @@ println("TripleStoreIteratorLocalFilter evaluate")
                 if (i == 1) idxHelper += 2
                 if (i == 2) idxHelper += 4
             }
-        require(idxHelper < 7)//TODO existence test
+println("suggested Index $index $idxHelper")
+require(idxHelper<7)
         val idx = when (idxHelper) {
             1 -> EIndexPattern.S
             2 -> EIndexPattern.P

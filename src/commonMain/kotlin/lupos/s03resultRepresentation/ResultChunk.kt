@@ -264,21 +264,17 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
 
     fun remove(value: Array<Value>, root: ResultChunk = this) {
         require(columns == value.size)
-println("remove ${value.map{it}} $this")
-        for (i in 0 until columns) {
-//fast check - does this page potentially contain the target value?
-            if (data[i].data[0].value > value[i]){
-println("remove not found")
-                return
-	    }
-            if (data[i].data[data[i].sizeIndex].value < value[i]) {
-                if (next != root){
-println("remove try next page")
-                    next.remove(value, root)
-		}
-                return
-            }
-        }
+println("remove ${value.map{it}} columnfirst: ${data.map{""+it.data.map{""+it.value+":"+it.count}+"\n"}}")
+if(data[0].data[0].value>value[0]){
+println("not found")
+return
+}
+if(data[0].data[data[0].sizeIndex].value<value[0]){
+if(next!=root)
+next.remove(value, root)
+println("not found 3")
+return
+}
         var first = 0
         var last = data[0].sizeAbsolute
         val indices = Array(columns) { 0 }
@@ -290,7 +286,8 @@ println("remove try next page")
             while (absIdx + column.data[localIdx].count < first || column.data[localIdx].value != value[i]) {
                 absIdx += column.data[localIdx++].count
                 if (absIdx > last){
-println("remove not found2")
+if(next!=root)
+next.remove(value, root)
                     return
 }
             }
@@ -314,5 +311,6 @@ println("remove it")
                 column.sizeIndex--
             }
         }
+println("remove final ${value.map{it}} columnfirst: ${data.map{""+it.data.map{""+it.value+":"+it.count}+"\n"}}")
     }
 }
