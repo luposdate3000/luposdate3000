@@ -10,7 +10,7 @@ curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "C
 for f in $(ls crash-* --sort=size -r)
 do
 	echo $f
-	cat $f | ./build/executable || continue
+	cat $f | ./build/executable || break
 	mv $f donefolder/
 done
 echo $f

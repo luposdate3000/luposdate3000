@@ -8,13 +8,16 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : ResultChunk(resultSet, columns) {
     companion object {
         fun insertDistinct(value: Array<Value>, target: ResultChunkDistinctStore?, resultSet: ResultSet): ResultChunkDistinctStore {
+            println("insertDistinct")
             return internalInsertDistinct(value, target, resultSet, target)
         }
 
         fun internalInsertDistinct(value: Array<Value>, target: ResultChunkDistinctStore?, resultSet: ResultSet, root: ResultChunkDistinctStore?): ResultChunkDistinctStore {
+            println("internalInsertDistinct 0")
             if (target == null) {
                 val res = ResultChunkDistinctStore(resultSet, value.size)
                 res.append(value)
+                println("internalInsertDistinct a")
                 return res
             }
             var insertFront = true
@@ -32,20 +35,26 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                             col.data[0].count++
                         else {
                             for (j in col.sizeIndex downTo 0) {
-                                col.data[j + 1] = col.data[j]
-                                col.data[0].value = value[i]
-                                col.data[0].count = 1
+                                col.data[j + 1].value = col.data[j].value
+                                col.data[j + 1].count = col.data[j].count
                             }
+                            col.data[0].value = value[i]
+                            col.data[0].count = 1
                             col.sizeIndex++
+                            col.sizeAbsolute++
                         }
                     }
+                    println("internalInsertDistinct b")
                     return root!!
                 } else {
                     val res = ResultChunkDistinctStore(resultSet, value.size)
                     res.append(value)
                     append(res, target).next
-                    if (target == root)
+                    if (target == root) {
+                        println("internalInsertDistinct c")
                         return res
+                    }
+                    println("internalInsertDistinct d")
                     return root!!
                 }
             }
@@ -61,13 +70,16 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                     val res = ResultChunkDistinctStore(resultSet, value.size)
                     res.append(value)
                     append(target, res).next
+                    println("internalInsertDistinct e")
                     return root!!
                 } else {
+                    println("internalInsertDistinct f")
                     return internalInsertDistinct(value, target.next as ResultChunkDistinctStore, resultSet, root)
                 }
             } else {
                 if (target.availableWrite() > 2) {
                     target.internalInsertSorted(Array(value.size) { ValueComparatorFast() }, Array(value.size) { it.toLong() }, value, 1, true)
+                    println("internalInsertDistinct g")
                     return root!!
                 } else {
                     val res = ResultChunkDistinctStore(resultSet, value.size)
@@ -106,6 +118,7 @@ open class ResultChunkDistinctStore(resultSet: ResultSet, columns: Int) : Result
                     res.prev = target
                     target.next = res
                     res.next.prev = res
+                    println("internalInsertDistinct h")
                     return internalInsertDistinct(value, target, resultSet, root)
                 }
             }

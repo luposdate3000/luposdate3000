@@ -4,39 +4,13 @@ import lupos.s00misc.*
 import lupos.s00misc.Coverage
 
 object ResultChunkDistinctStoreTest {
-    class MyComparatorValue : Comparator<Value> {
-        override fun compare(a: Value, b: Value): Int {
-            require(a != b)
-            if (a < b) {
-                return -1
-            }
-            return 1
-        }
-    }
-
-    class MyComparatorRow(val variables: Array<Variable>) : Comparator<Array<Value>> {
-        override fun compare(a: Array<Value>, b: Array<Value>): Int {
-            for (i in variables.indices) {
-                val v = variables[i]
-                if (a[v.toInt()] < b[v.toInt()]) {
-                    return -1
-                }
-                if (a[v.toInt()] > b[v.toInt()]) {
-                    return +1
-                }
-            }
-            return 0
-        }
-    }
 
     val UNDEF_VALUE = Int.MAX_VALUE
     val DONT_CARE_VALUE = -Int.MAX_VALUE
     val MAX_COLUMNS = 3
     val MAX_DISTINCT_VALUES = 5
     val MAX_CAPACITY = 50
-    val FUNCTION_COUNT = 14
-    val MAX_LISTS = 3
-    val verbose = false
+    val verbose = true
 
     class NoMoreRandomException() : Exception("")
 
@@ -95,15 +69,35 @@ object ResultChunkDistinctStoreTest {
         log(kotlinListToString(kotlinList))
         log("" + tmp)
         tmp.backupPosition()
-        for (i in 0 until kotlinList.size) {
-            val v = tmp.nextArr()
-            require(kotlinList.contains(v))
-            if (tmp.availableRead() == 0) {
+        val tmpList = mutableListOf<Array<Value>>()
+        tmpList.addAll(kotlinList)
+        while (tmpList.size > 0) {
+            while (tmp.availableRead() == 0) {
                 tmp.restorePosition()
                 tmp = tmp.next
                 tmp.backupPosition()
                 log("" + tmp)
+                require(tmp != chunk)
             }
+            val v = tmp.nextArr()
+            println("search for ${v.map { it }}")
+var found=false
+            loop@ for (i in tmpList.size-1 downTo 0) {
+                for (c in 0 until v.size)
+                    if (tmpList[i][c] != v[c])
+                        continue@loop
+println("found $i ${tmpList[i].map{it}}")
+                tmpList.removeAt(i)
+println(""+tmpList.size+""+kotlinListToString(tmpList))
+found=true
+            }
+            require(found)
+        }
+        if (tmp.availableRead() == 0) {
+            tmp.restorePosition()
+            tmp = tmp.next
+            tmp.backupPosition()
+            log("" + tmp)
         }
         tmp.restorePosition()
         require(tmp == chunk)
@@ -122,19 +116,26 @@ object ResultChunkDistinctStoreTest {
             for (i in 0 until columns) {
                 resultSet.createVariable("name$i")
             }
-            var chunk = ResultChunkDistinctStore(resultSet, columns)
-            var comparatorArray: Array<Comparator<Value>> = Array(columns) { MyComparatorValue() }
+            var chunk : ResultChunkDistinctStore?=null
             while (true) {
                 val value = Array(columns) { nextRandom(buffer, MAX_DISTINCT_VALUES, false) }
                 val insert = nextRandom(buffer, 3, true) != 0
-                log("value ${value.map { it }}")
+                log("action $insert ${value.map { it }}")
                 if (insert) {
                     kotlinList.add(value)
                     chunk = ResultChunkDistinctStore.insertDistinct(value, chunk, resultSet)
                 } else {
-                    kotlinList.remove(value)
-                    chunk.remove(value)
+                    chunk?.remove(value)
+loop@ for (i in kotlinList.size-1 downTo 0) {
+                for (c in 0 until value.size)
+                    if (kotlinList[i][c] != value[c])
+                        continue@loop
+println("found $i ${kotlinList[i].map{it}}")
+                kotlinList.removeAt(i)
+println(""+kotlinList.size+""+kotlinListToString(kotlinList))
+            }
                 }
+if(chunk!=null)
                 checkEquals(kotlinList, chunk)
             }
 /*Coverage Unreachable*/

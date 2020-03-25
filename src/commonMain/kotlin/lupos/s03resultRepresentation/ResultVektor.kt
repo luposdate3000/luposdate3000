@@ -161,7 +161,6 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun internalSafeNextElement() {
-        println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posIndex $sizeIndex")
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
             internalNextElement()
         }
