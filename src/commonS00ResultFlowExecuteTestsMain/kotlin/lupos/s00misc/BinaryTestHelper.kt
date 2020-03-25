@@ -93,7 +93,8 @@ enum class TestCase(val action: (DynamicByteArray) -> Unit) {
     //    Sparql(::executeBinaryTest),
     ResultVektor(ResultVektorTest::invoke),
     ResultChunkBase(ResultChunkBaseTest::invoke),
-    ResultChunk(ResultChunkTest::invoke)
+    ResultChunk(ResultChunkTest::invoke),
+ResultChunkDistinctStore(ResultChunkDistinctStoreTest::invoke)
 }
 
 enum class ValueEnum {
@@ -336,7 +337,7 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                 val sortBy = AOPVariable(query, nextStringVarName(query, buffer))
                 val sortOrder = DynamicByteArray.intToBool(nextInt(query, buffer, 2))
                 val child = fromBinaryPOPLOP(query, buffer)
-                return POPSort(query, sortBy, sortOrder, child)
+                return POPSort(query, arrayOf(sortBy), sortOrder, child)
             }
             EOperatorID.POPDistinctID -> {
                 val child = fromBinaryPOPLOP(query, buffer)

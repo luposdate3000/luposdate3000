@@ -102,8 +102,8 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
                 var result = data!!
                 data = ResultChunk.removeFirst(data!!)
-			if(data==null)
-			res.close()
+                if (data == null)
+                    res.close()
                 resultFlowProduce({ this@POPSort }, { result })
             })
         }

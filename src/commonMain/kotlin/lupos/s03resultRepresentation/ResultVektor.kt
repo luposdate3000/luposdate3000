@@ -161,7 +161,7 @@ class ResultVektor(undefValue: Value) : Iterator<Value> {
     }
 
     fun internalSafeNextElement() {
-println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posIndex $sizeIndex")
+        println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posIndex $sizeIndex")
         if (posIndexLocal == data[posIndex].count && posIndex < sizeIndex) {
             internalNextElement()
         }
@@ -262,7 +262,7 @@ println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posInde
                 data[index].count = last - absoluteindex
                 data[index + 2].count -= last - absoluteindex
                 sizeIndex += 2
-                return Pair(last, index+1)
+                return Pair(last, index + 1)
             } else if (comparator.compare(data[index].value, value) < 0) {
                 val c = data[index].count - indexLocal
                 currentidx += c
@@ -283,7 +283,7 @@ println("internalSafeNextElement $posIndexLocal ${data[posIndex].count} $posInde
                 data[index + 2].count -= indexLocal
                 sizeIndex += 2
                 absoluteindex += data[index].count
-                return Pair(absoluteindex, index+1)
+                return Pair(absoluteindex, index + 1)
             } else {
                 var j = sizeIndex
                 while (j >= index) {

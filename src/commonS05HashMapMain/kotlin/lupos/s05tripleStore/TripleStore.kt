@@ -11,7 +11,6 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -23,7 +22,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
 class TripleStoreLocal(@JvmField val name: String) {
- class MapKey(@JvmField val data: Array<Value>) {
+    class MapKey(@JvmField val data: Array<Value>) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size)
@@ -44,26 +43,26 @@ class TripleStoreLocal(@JvmField val name: String) {
     @JvmField
     val resultSet = ResultSet(ResultSetDictionary())
     @JvmField
-    val tripleStoreS = mutableMapOf<Value, ResultChunk>()
+    val tripleStoreS = mutableMapOf<Value, ResultChunkDistinctStore>()
     @JvmField
-    val tripleStoreP = mutableMapOf<Value, ResultChunk>()
+    val tripleStoreP = mutableMapOf<Value, ResultChunkDistinctStore>()
     @JvmField
-    val tripleStoreO = mutableMapOf<Value, ResultChunk>()
+    val tripleStoreO = mutableMapOf<Value, ResultChunkDistinctStore>()
     @JvmField
-    val tripleStoreSP = mutableMapOf<MapKey, ResultChunk>()
+    val tripleStoreSP = mutableMapOf<MapKey, ResultChunkDistinctStore>()
     @JvmField
-    val tripleStoreSO = mutableMapOf<MapKey, ResultChunk>()
+    val tripleStoreSO = mutableMapOf<MapKey, ResultChunkDistinctStore>()
     @JvmField
-    val tripleStorePO = mutableMapOf<MapKey, ResultChunk>()
+    val tripleStorePO = mutableMapOf<MapKey, ResultChunkDistinctStore>()
     @JvmField
-    var tripleStoreSPO = ResultChunk(resultSet, 3)
+    var tripleStoreSPO = ResultChunkDistinctStore(resultSet, 3)
     @JvmField
     val pendingModificationsInsert = Array(EIndexPattern.values().size) { mutableMapOf<Long, ResultChunk>() }
     @JvmField
     val pendingModificationsDelete = Array(EIndexPattern.values().size) { mutableMapOf<Long, ResultChunk>() }
 
     fun commit2(query: Query) = Trace.trace({ "TripleStoreLocal.commit2" }, {
-println("commit ${query.transactionID}")
+        println("commit ${query.transactionID}")
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -102,37 +101,37 @@ println("commit ${query.transactionID}")
                             val kso = MapKey(vso)
                             when (idx) {
                                 EIndexPattern.S -> {
-                                    tripleStoreS[vs] = ResultChunk.insertDistinct(vpo, tripleStoreS[vs], resultSet)
+                                    tripleStoreS[vs] = ResultChunkDistinctStore.insertDistinct(vpo, tripleStoreS[vs], resultSet)
                                 }
                                 EIndexPattern.P -> {
-                                    tripleStoreP[vp] = ResultChunk.insertDistinct(vso, tripleStoreP[vp], resultSet)
+                                    tripleStoreP[vp] = ResultChunkDistinctStore.insertDistinct(vso, tripleStoreP[vp], resultSet)
                                 }
                                 EIndexPattern.O -> {
-                                    tripleStoreO[vo] = ResultChunk.insertDistinct(vsp, tripleStoreO[vo], resultSet)
+                                    tripleStoreO[vo] = ResultChunkDistinctStore.insertDistinct(vsp, tripleStoreO[vo], resultSet)
                                 }
                                 EIndexPattern.SP -> {
-                                    tripleStoreSP[ksp] = ResultChunk.insertDistinct(vao, tripleStoreSP[ksp], resultSet)
+                                    tripleStoreSP[ksp] = ResultChunkDistinctStore.insertDistinct(vao, tripleStoreSP[ksp], resultSet)
                                 }
                                 EIndexPattern.SO -> {
-                                    tripleStoreSO[kso] = ResultChunk.insertDistinct(vap, tripleStoreSO[kso], resultSet)
+                                    tripleStoreSO[kso] = ResultChunkDistinctStore.insertDistinct(vap, tripleStoreSO[kso], resultSet)
                                 }
                                 EIndexPattern.PO -> {
-                                    tripleStorePO[kpo] = ResultChunk.insertDistinct(vas, tripleStorePO[kpo], resultSet)
+                                    tripleStorePO[kpo] = ResultChunkDistinctStore.insertDistinct(vas, tripleStorePO[kpo], resultSet)
                                 }
                                 EIndexPattern.SPO -> {
-                                    tripleStoreSPO = ResultChunk.insertDistinct(arrayOf(vs, vp, vo), tripleStoreSPO, resultSet)
+                                    tripleStoreSPO = ResultChunkDistinctStore.insertDistinct(arrayOf(vs, vp, vo), tripleStoreSPO, resultSet)
                                 }
                             }
                         }
                         require(current.next.prev == current)
                         require(current.prev.next == current)
-                        current = current.next
+                        current = current.next as ResultChunkDistinctStore
                         require(current.next.prev == current)
                         require(current.prev.next == current)
                         if (current == insert)
                             break
                     }
-		    pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
+                    pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
                 if (delete != null) {
@@ -206,13 +205,13 @@ println("commit ${query.transactionID}")
                         }
                         require(current.next.prev == current)
                         require(current.prev.next == current)
-                        current = current.next
+                        current = current.next as ResultChunkDistinctStore
                         require(current.next.prev == current)
                         require(current.prev.next == current)
                         if (current == delete)
                             break
                     }
-pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
+                    pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                 }
             }
         }
@@ -258,35 +257,35 @@ pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
         tripleStoreSP.clear()
         tripleStoreSO.clear()
         tripleStorePO.clear()
-        tripleStoreSPO = ResultChunk(resultSet, 3)
+        tripleStoreSPO = ResultChunkDistinctStore(resultSet, 3)
     })
 
     fun addData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         //row based
-println("call addData ${query.transactionID} ${params.map{it.valueToString()}}")
+        println("call addData ${query.transactionID} ${params.map { it.valueToString() }}")
         val values = ResultChunk(resultSet, 3)
         values.append(Array(3) { resultSet.dictionary.createValue(params[it]) })
-var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
-            if (tmp == null) {
-                pendingModificationsInsert[idx.ordinal][query.transactionID] = values
-            } else {
-                ResultChunk.append(tmp.prev, values)
-            }
+        var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+        if (tmp == null) {
+            pendingModificationsInsert[idx.ordinal][query.transactionID] = values
+        } else {
+            ResultChunk.append(tmp.prev, values)
+        }
     })
 
     fun deleteData(query: Query, params: Array<ValueDefinition>, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         //row based
-println("call deleteData ${query.transactionID} ${params.map{it.valueToString()}}")
+        println("call deleteData ${query.transactionID} ${params.map { it.valueToString() }}")
         val values = ResultChunk(resultSet, 3)
         values.append(Array(3) { resultSet.dictionary.createValue(params[it]) })
-var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
-            if (tmp == null) {
-println("delete first")
-                pendingModificationsDelete[idx.ordinal][query.transactionID] = values
-            } else {
-println("delete multi")
-                ResultChunk.append(tmp.prev, values)
-            }
+        var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+        if (tmp == null) {
+            println("delete first")
+            pendingModificationsDelete[idx.ordinal][query.transactionID] = values
+        } else {
+            println("delete multi")
+            ResultChunk.append(tmp.prev, values)
+        }
     })
 
     fun getIterator(query: Query, resultSet: ResultSet, params: Array<AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {

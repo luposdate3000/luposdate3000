@@ -117,9 +117,9 @@ class POPGroup : POPBase {
                 var outbuf = ResultChunk(resultSet)
                 try {
                     val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-println("popgroup-call-child-next")
+                    println("popgroup-call-child-next")
                     child.forEach { oldRows ->
-println("popgroup-found next")
+                        println("popgroup-found next")
                         for (oldRow in resultFlowConsume({ this@POPGroup }, { children[0] }, { oldRows })) {
                             var key = "|"
                             for (variable in variables)
@@ -132,7 +132,7 @@ println("popgroup-found next")
                             tmp.add(oldRow)
                         }
                     }
-println("popgroup-after evaluation")
+                    println("popgroup-after evaluation")
                     if (tmpMutableMap.keys.size == 0) {
                         outbuf.append(resultSet.createResultRow())
                     } else {

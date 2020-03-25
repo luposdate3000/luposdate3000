@@ -147,7 +147,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             Endpoint.REQUEST_TRIPLE_DELETE[0] -> {
                 val query = Query(transactionID = params[Endpoint.REQUEST_TRIPLE_DELETE[2]]!!.toLong())
-                val param = Array(3) {                        ValueDefinition(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!)                }
+                val param = Array(3) { ValueDefinition(params[Endpoint.REQUEST_TRIPLE_GET[3 + it]]!!) }
                 responseStr = Endpoint.process_local_triple_delete(query, params[Endpoint.REQUEST_TRIPLE_DELETE[1]]!!,
                         param,
                         EIndexPattern.valueOf(params[Endpoint.REQUEST_TRIPLE_DELETE[6]]!!)).toPrettyString()

@@ -167,7 +167,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     fun deleteData(t: Array<ValueDefinition>) = Trace.trace({ "DistributedGraph.deleteData" }, {
         EIndexPattern.values().forEach {
             for (node in calculateNodeForDataMaybe(Array<AOPBase>(3) { AOPConstant(query, t[it]) }, it)) {
-                P2P.execTripleDelete(query, node, name,  t, it)
+                P2P.execTripleDelete(query, node, name, t, it)
             }
         }
     })
