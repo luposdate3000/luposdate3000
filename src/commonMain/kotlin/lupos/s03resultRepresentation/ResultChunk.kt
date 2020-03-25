@@ -264,41 +264,47 @@ open class ResultChunk(resultSet: ResultSet, columns: Int) : ResultChunkBase(res
 
     fun remove(value: Array<Value>, root: ResultChunk = this) {
         require(columns == value.size)
-println("remove ${value.map{it}} columnfirst: ${data.map{""+it.data.map{""+it.value+":"+it.count}+"\n"}}")
-if(data[0].data[0].value>value[0]){
-println("not found")
-return
-}
-if(data[0].data[data[0].sizeIndex].value<value[0]){
-if(next!=root)
-next.remove(value, root)
-println("not found 3")
-return
-}
+        println("remove ${value.map { it }} columnfirst: ${data.map { it.toString() }}")
+        if (data[0].data[0].value > value[0]) {
+            println("not found")
+            return
+        }
+        if (data[0].data[data[0].sizeIndex].value < value[0]) {
+            if (next != root)
+                next.remove(value, root)
+            println("not found 3")
+            return
+        }
         var first = 0
         var last = data[0].sizeAbsolute
         val indices = Array(columns) { 0 }
         for (i in 0 until columns) {
 //search for the value to delete
+println("firstlast $first $last")
             val column = data[i]
             var localIdx = 0
             var absIdx = 0
-            while (absIdx + column.data[localIdx].count < first || column.data[localIdx].value != value[i]) {
+            while (absIdx + column.data[localIdx].count < first) {
+println("skipfirst ${column.data[localIdx].value}")
                 absIdx += column.data[localIdx++].count
-                if (absIdx > last){
-if(next!=root)
-next.remove(value, root)
-                    return
-}
             }
+            while (column.data[localIdx].value != value[i]) {
+println("skipneq ${column.data[localIdx].value}")
+                absIdx += column.data[localIdx++].count
+                if (absIdx > last) {
+		    println("not found 2")
+                    return
+                }
+            }
+require(localIdx<=column.sizeIndex)
             indices[i] = localIdx
             if (absIdx > first)
                 first = absIdx
-            if (absIdx < last)
-                last = absIdx
+            if (absIdx +column.data[localIdx].count< last)
+                last = absIdx+column.data[localIdx].count
         }
 //delete it
-println("remove it")
+        println("remove it")
         for (i in 0 until columns) {
             val column = data[i]
             column.sizeAbsolute--
@@ -308,9 +314,12 @@ println("remove it")
                 for (j in indices[i] until column.sizeIndex) {
                     column.data[j] = column.data[j + 1]
                 }
+if(column.sizeIndex==0)
+column.data[0].count=0
+else
                 column.sizeIndex--
             }
         }
-println("remove final ${value.map{it}} columnfirst: ${data.map{""+it.data.map{""+it.value+":"+it.count}+"\n"}}")
+        println("remove final ${value.map { it }} columnfirst: ${data.map { it.toString() }}")
     }
 }
