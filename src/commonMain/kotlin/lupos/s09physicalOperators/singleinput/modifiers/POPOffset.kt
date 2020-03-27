@@ -7,13 +7,11 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
@@ -43,7 +41,7 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         var columns = Array(variables.size) { child.columns[variables[it]] }
-var tmp:Value?=null
+        var tmp: Value? = null
         for (i in 0 until offset) {
             for (columnIndex in 0 until columns.size) {
                 tmp = columns[columnIndex]!!.next()
@@ -52,14 +50,14 @@ var tmp:Value?=null
                 }
             }
         }
-for(variable in variables){
-if(tmp==null){
-child.columns[variable]!!.close()
-}
-outMap[variable]=child.columns[variable]!!
-}
-return ColumnIteratorRow(outMap)
+        for (variable in variables) {
+            if (tmp == null) {
+                child.columns[variable]!!.close()
+            }
+            outMap[variable] = child.columns[variable]!!
+        }
+        return ColumnIteratorRow(outMap)
     }
 
-override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
+    override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 }

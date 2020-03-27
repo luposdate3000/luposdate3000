@@ -8,8 +8,6 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw

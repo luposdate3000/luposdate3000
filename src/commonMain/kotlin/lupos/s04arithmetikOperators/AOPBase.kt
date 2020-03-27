@@ -3,8 +3,6 @@ package lupos.s04arithmetikOperators
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -17,7 +15,7 @@ abstract class AOPBase(query: Query,
                        classname: String,
                        children: Array<OPBase>) :
         OPBase(query, operatorID, classname, ResultSet(ResultSetDictionary()), children) {
-    abstract fun calculate(resultChunk:ResultVektorRaw)
+    abstract fun calculate(resultChunk: ResultVektorRaw)
 }
 
 class ResultVektorRaw(val capacity: Int) {

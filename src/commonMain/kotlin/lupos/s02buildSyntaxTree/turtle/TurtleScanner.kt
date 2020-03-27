@@ -6,7 +6,6 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
-
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

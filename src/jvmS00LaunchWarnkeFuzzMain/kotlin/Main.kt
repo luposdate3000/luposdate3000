@@ -84,8 +84,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         try {
             while (true)
                 try {
-for(testcase in TestCase.values())
-                    testcase.action(input!!)
+                    for (testcase in TestCase.values())
+                        testcase.action(input!!)
                     val timepointNext2 = Instant.now()
                     val elapsed2 = Duration.between(timepoint, timepointNext2)
                     timepoint = timepointNext2

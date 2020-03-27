@@ -8,15 +8,13 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
+import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
@@ -85,10 +83,11 @@ open class POPValues : POPBase {
                 columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
         }
     }
+
     constructor(query: Query, v: List<String>, d: Map<String, List<Value>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         variables = v
         require(variables.size > 0)
-	data=d
+        data = d
     }
 
     constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
@@ -111,7 +110,6 @@ open class POPValues : POPBase {
 
     override fun getProvidedVariableNames() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
-
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIteratorMultiValue>()
         for (name in variables) {

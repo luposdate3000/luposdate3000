@@ -4,21 +4,21 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.ResultIterator
 
-class ColumnIteratorRow(val columns:Map<String,ColumnIterator>)
-
+class ColumnIteratorRow(val columns: Map<String, ColumnIterator>)
 open class ColumnIterator() {
-
     var next: suspend () -> Value? = ::_next
     var close: () -> Unit = ::_close
-    var onNoMoreElements:suspend()->Unit=::_onNoMoreElements
+    var onNoMoreElements: suspend () -> Unit = ::_onNoMoreElements
     fun _close() {
         next = ::_next
         close = ::_close
-onNoMoreElements=::_onNoMoreElements
+        onNoMoreElements = ::_onNoMoreElements
     }
-suspend fun _onNoMoreElements(){
-close()
-}
+
+    suspend fun _onNoMoreElements() {
+        close()
+    }
+
     suspend fun _next(): Value? = null
 }
 
@@ -40,8 +40,8 @@ class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterat
 class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : ColumnIterator() {
     var index = 0
     var index2 = 0
-//TODO use pages instead
-    val data= mutableListOf<Value>()
+    //TODO use pages instead
+    val data = mutableListOf<Value>()
 
     init {
         require(count > 1)
@@ -108,19 +108,19 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
         }
     }
 }
-class ColumnIteratorChildIterator(var child:ColumnIterator) : ColumnIterator() {
 
+class ColumnIteratorChildIterator(var child: ColumnIterator) : ColumnIterator() {
     init {
         next = {
-val res=            child.next()
-if(res==null){
-onNoMoreElements()
-res=            child.next()
-}
-res
+            val res = child.next()
+            if (res == null) {
+                onNoMoreElements()
+                res = child.next()
+            }
+            res
         }
         close = {
-                child.close()
+            child.close()
             _close()
         }
     }

@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
-
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.ResultIterator

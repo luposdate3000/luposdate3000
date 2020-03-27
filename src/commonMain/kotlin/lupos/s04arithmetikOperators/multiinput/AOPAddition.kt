@@ -2,11 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.*
-
-
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -27,7 +23,7 @@ class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
         return true
     }
 
-    override fun calculate(resultChunk:ResultVektorRaw) :ResultVektorRaw{
+    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
         val rVektor = ResultVektorRaw(resultChunk.availableRead())
         val aVektor = (children[0] as AOPBase).calculate(resultChunk)
         val bVektor = (children[1] as AOPBase).calculate(resultChunk)

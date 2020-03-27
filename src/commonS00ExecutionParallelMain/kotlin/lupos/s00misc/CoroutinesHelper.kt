@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Lock
-
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

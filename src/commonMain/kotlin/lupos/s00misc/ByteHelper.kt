@@ -2,7 +2,6 @@ package lupos.s00misc
 
 import kotlin.experimental.and
 import kotlin.jvm.JvmField
-
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

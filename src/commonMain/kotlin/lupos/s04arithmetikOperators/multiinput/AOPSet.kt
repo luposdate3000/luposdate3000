@@ -3,9 +3,6 @@ package lupos.s04arithmetikOperators.multiinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
-
-
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -35,7 +32,7 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
         return true
     }
 
-    override fun calculate(resultChunk:ResultVektorRaw) :ResultVektorRaw{
+    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
         TODO("not implemented")
     }
 

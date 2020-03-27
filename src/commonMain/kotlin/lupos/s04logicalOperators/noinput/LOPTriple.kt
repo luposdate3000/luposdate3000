@@ -2,7 +2,6 @@ package lupos.s04logicalOperators.noinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.LOPBase

@@ -5,7 +5,6 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

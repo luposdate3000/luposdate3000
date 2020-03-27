@@ -11,8 +11,6 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
@@ -100,44 +98,44 @@ class TripleStoreLocal(@JvmField val name: String) {
         tripleStoreSPO.clear()
     }
 
-    fun addData(query: Query, data:Array<ColumnIterator>, idx: EIndexPattern) {
-while(true){
-var tmp=pendingModificationsInsert[idx.ordinal][query.transactionID]
-if(tmp==null){
-tmp=mutableSetOf<MapKey>()
- pendingModificationsInsert[idx.ordinal][query.transactionID] =tmp
-}
-val k=Array(3){ResultSetDictionary.undefValue}
-for(columnIndex in 0 until 3){
-val v=data[columnIndex.next()]
-if(v==null){
-require(columnIndex==0)
-break
-}
-k[columnIndex]=v
-}
-tmp.add(k)
-}
+    fun addData(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern) {
+        while (true) {
+            var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+            if (tmp == null) {
+                tmp = mutableSetOf<MapKey>()
+                pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
+            }
+            val k = Array(3) { ResultSetDictionary.undefValue }
+            for (columnIndex in 0 until 3) {
+                val v = data[columnIndex.next()]
+                if (v == null) {
+                    require(columnIndex == 0)
+                    break
+                }
+                k[columnIndex] = v
+            }
+            tmp.add(k)
+        }
     }
 
-    fun deleteData(query: Query, data:Array<ColumnIterator>, idx: EIndexPattern) {
-while(true){
-var tmp=pendingModificationsDelete[idx.ordinal][query.transactionID]
-if(tmp==null){
-tmp=mutableSetOf<MapKey>()
- pendingModificationsDelete[idx.ordinal][query.transactionID] =tmp
-}
-val k=Array(3){ResultSetDictionary.undefValue}
-for(columnIndex in 0 until 3){
-val v=data[columnIndex.next()]
-if(v==null){
-require(columnIndex==0)
-break
-}
-k[columnIndex]=v
-}
-tmp.add(k)
-}
+    fun deleteData(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern) {
+        while (true) {
+            var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+            if (tmp == null) {
+                tmp = mutableSetOf<MapKey>()
+                pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
+            }
+            val k = Array(3) { ResultSetDictionary.undefValue }
+            for (columnIndex in 0 until 3) {
+                val v = data[columnIndex.next()]
+                if (v == null) {
+                    require(columnIndex == 0)
+                    break
+                }
+                k[columnIndex] = v
+            }
+            tmp.add(k)
+        }
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, index: EIndexPattern): ColumnIteratorRow {

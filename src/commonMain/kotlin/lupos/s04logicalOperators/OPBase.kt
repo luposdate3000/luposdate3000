@@ -9,9 +9,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-
-
-
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.iterator.*
@@ -19,7 +16,7 @@ import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>) {
-open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
+    open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
     open fun applyPrefix(prefix: String, iri: String) {
         for (c in children)

@@ -4,13 +4,8 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-
-
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
-
-
-
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -26,20 +21,19 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
     override fun cloneOP() = POPMakeBooleanResult(query, children[0].cloneOP())
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
-
-override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): ColumnIteratorRow {
 //TODO rows without any column
-val variables =children[0]. getProvidedVariableNames()
-val outMap = mutableMapOf<String, ColumnIterator>()
+        val variables = children[0].getProvidedVariableNames()
+        val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-val tmp=ColumnIteratorRepeatValue(1,query.dictionary.createValue(ValueBoolean(child.columns[variables[0]].next()!=null)))
-tmp.close={
-tmp._close()
-for(variable in variables){
-child.columns[variable].close()
-}
-}
-outMap["?boolean"]=tmp
-return ColumnIteratorRow(outMap)
-}
+        val tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.columns[variables[0]].next() != null)))
+        tmp.close = {
+            tmp._close()
+            for (variable in variables) {
+                child.columns[variable].close()
+            }
+        }
+        outMap["?boolean"] = tmp
+        return ColumnIteratorRow(outMap)
+    }
 }

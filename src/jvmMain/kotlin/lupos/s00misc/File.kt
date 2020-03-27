@@ -3,7 +3,6 @@ package lupos.s00misc
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
-
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

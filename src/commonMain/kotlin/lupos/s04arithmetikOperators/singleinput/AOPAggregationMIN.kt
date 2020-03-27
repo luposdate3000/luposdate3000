@@ -2,11 +2,8 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
-
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
@@ -36,7 +33,7 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
-    override fun calculate(resultChunk:ResultVektorRaw) :ResultVektorRaw{
+    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
         val value = a.get()!!
         val rVektor = ResultVektorRaw(resultChunk.availableRead())
         for (i in 0 until resultChunk.availableRead())

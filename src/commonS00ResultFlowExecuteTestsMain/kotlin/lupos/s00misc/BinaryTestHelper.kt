@@ -7,8 +7,6 @@ import lupos.s01io.*
 import lupos.s02buildSyntaxTree.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.*
@@ -90,7 +88,7 @@ import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: (DynamicByteArray) -> Unit) {
-        Sparql(::executeBinaryTest),
+    Sparql(::executeBinaryTest),
 //    ResultVektor(ResultVektorTest::invoke),
 //    ResultChunkBase(ResultChunkBaseTest::invoke),
 //    ResultChunk(ResultChunkTest::invoke),

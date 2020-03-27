@@ -6,7 +6,6 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ENetworkMessageType
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
-
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.*

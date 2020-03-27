@@ -7,11 +7,9 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-
-
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.*     
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.Query
@@ -29,7 +27,7 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP() = POPLimit(query, limit, children[0].cloneOP())
     override suspend fun evaluate(): ColumnIteratorRow {
-val variables = getProvidedVariableNames()
+        val variables = getProvidedVariableNames()
         var count = 0
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()

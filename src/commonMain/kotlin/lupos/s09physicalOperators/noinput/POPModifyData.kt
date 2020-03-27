@@ -5,14 +5,10 @@ import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
-
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-
-
-
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*

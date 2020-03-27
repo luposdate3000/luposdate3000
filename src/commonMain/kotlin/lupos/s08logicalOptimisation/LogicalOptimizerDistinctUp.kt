@@ -3,7 +3,6 @@ package lupos.s08logicalOptimisation
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.multiinput.*
