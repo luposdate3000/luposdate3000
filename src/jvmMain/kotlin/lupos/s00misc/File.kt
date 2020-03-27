@@ -20,7 +20,7 @@ class File(@JvmField val filename: String) {
     }
 
     fun readAsString() = java.io.File(filename).inputStream().bufferedReader().use { it.readText() }
-    fun walk(action: (String) -> Unit) {
+suspend    fun walk(action:suspend (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))
         }

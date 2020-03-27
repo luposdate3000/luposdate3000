@@ -166,11 +166,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 iterator._close()
                 for (variable in children[0].getProvidedVariableNames()) {
                     childA.columns[variable]!!.close()
-                    outMap[variable].close()
+                    outMap[variable]!!.close()
                 }
                 for (variable in children[1].getProvidedVariableNames()) {
                     childB.columns[variable]!!.close()
-                    outMap[variable].close()
+                    outMap[variable]!!.close()
                 }
             }
             iterator.onNoMoreElements = {

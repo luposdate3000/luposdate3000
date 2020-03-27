@@ -87,7 +87,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
-enum class TestCase(val action: (DynamicByteArray) -> Unit) {
+enum class TestCase(val action: suspend (DynamicByteArray) -> Unit) {
     Sparql(::executeBinaryTest),
 //    ResultVektor(ResultVektorTest::invoke),
 //    ResultChunkBase(ResultChunkBaseTest::invoke),
@@ -1049,7 +1049,7 @@ suspend fun executeBinaryTest(buffer: DynamicByteArray) {
     for (gname in DistributedTripleStore.getGraphNames(true)) {
         val g = DistributedTripleStore.getNamedGraph(query, gname)
         val iterator = g.getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-        val data = QueryResultToXML.toXML(iterator).first()
+        val data = QueryResultToXML.toXML(iterator)
         var hasData = false
         var sparql = "INSERT DATA { "
         if (gname != PersistentStoreLocal.defaultGraphName)
@@ -1117,7 +1117,7 @@ suspend fun executeBinaryTest(buffer: DynamicByteArray) {
                     node5 = XMLElement.convertToOPBase(query, node1xml)
                     SanityCheck.checkEQ({ node1 }, { node5 })
                     isUpdate = node4 is POPGraphOperation || node4 is POPModifyData || node4 is POPModify
-                    output = QueryResultToXML.toXML(node4).first()
+                    output = QueryResultToXML.toXML(node4)
                     query.commit()
                 } catch (e: Throwable) {
                     e1 = e

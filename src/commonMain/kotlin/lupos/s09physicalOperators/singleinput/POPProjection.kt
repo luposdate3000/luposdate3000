@@ -12,11 +12,12 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", ResultSet(query.dictionary), arrayOf(child)) {
+class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
     override fun toSparql(): String {
         var res = "{SELECT "
         for (c in variables)
@@ -31,26 +32,16 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     override fun equals(other: Any?): Boolean = other is POPProjection && variables.equals(other.variables) && children[0] == other.children[0]
     override fun getProvidedVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
     override fun getRequiredVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPProjection.evaluate" }, {
-        //column based
-        var variablesNew = variables.map { Pair(children[0].resultSet.createVariable(it.name), resultSet.createVariable(it.name)) }
-        val child = children[0].evaluate()
-        val res = ResultIterator()
-        res.close = {
-            child.close()
-            res._close()
-        }
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPProjection.next" }, {
-                val inbuf = resultFlowConsume({ this@POPProjection }, { children[0] }, { child.next() })
-                val outbuf = ResultChunk(resultSet)
-                for (v in variablesNew)
-                    outbuf.setColumn(v.second, inbuf.getColumn(v.first))
-                resultFlowProduce({ this@POPProjection }, { outbuf })
-            })
-        }
-        return res
-    })
+
+override suspend fun evaluate(): ColumnIteratorRow {
+ val variables = getProvidedVariableNames()
+val child = children[0].evaluate()
+val outMap = mutableMapOf<String, ColumnIterator>()
+for (variable in variables) {
+outMap[variable]=child.columns[variable]!!
+}
+return ColumnIteratorRow(outMap)
+}
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPProjection")

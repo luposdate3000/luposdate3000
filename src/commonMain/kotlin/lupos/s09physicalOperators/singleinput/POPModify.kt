@@ -5,7 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
@@ -15,94 +15,97 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class POPModify(query: Query, @JvmField val insert: List<LOPTriple>, @JvmField val delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", ResultSet(query.dictionary), arrayOf(child)) {
-    override fun equals(other: Any?): Boolean = other is POPModify && insert.equals(other.insert) && delete.equals(other.delete) && children[0] == other.children[0]
+class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", arrayOf(child)) {
+    val modify = Array<Pair<LOPTriple, EModifyType>>(insert.size + delete.size) {
+        if (it < insert.size) {
+            Pair(insert[it], EModifyType.INSERT)
+        } else {
+            Pair(insert[it - insert.size], EModifyType.DELETE)
+        }
+    }
+
+    override fun equals(other: Any?): Boolean = other is POPModify && modify.equals(other.modify) && children[0] == other.children[0]
     override fun toSparqlQuery() = toSparql()
     override fun getProvidedVariableNames() = listOf<String>()
-    override fun cloneOP() = POPModify(query, insert, delete, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModify.evaluate" }, {
-        //row based
+    override fun cloneOP(): POPModify {
+        val insert = mutableListOf<LOPTriple>()
+        val delete = mutableListOf<LOPTriple>()
+        for (action in modify) {
+            if (action.second == EModifyType.INSERT) {
+                insert.add(action.first)
+            } else {
+                delete.add(action.first)
+            }
+        }
+        return POPModify(query, insert, delete, children[0].cloneOP())
+    }
+
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate()
-        val res = ResultIterator()
-        res.close = {
-            res._close()
-            child.close()
-        }
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPModify.next" }, {
-                try {
-                    child.forEach { inbuf ->
-                        resultFlowConsume({ this@POPModify }, { children[0] }, { inbuf })
-                        for (i in insert) {
-                            try {
-                                if (i.graphVar) {
-                                    val variable = children[0].resultSet.createVariable(i.graph)
-                                    val storenames = inbuf.getColumn(variable)
-                                    val data = Array<ResultVektorRaw>(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
-                                    var count = inbuf.availableRead()
-                                    var index = 0
-                                    while (count > 0) {
-                                        val c = storenames.sameElements()
-                                        val name = storenames.current()
-                                        storenames.skipPos(c)
-                                        val nameS = children[0].resultSet.getValueObject(name).valueToString()!!
-                                        val store = DistributedTripleStore.getNamedGraph(query, nameS, true)
-                                        for (d in 0 until c)
-                                            store.addData(Array(3) { data[it].data[index] })
-                                        count -= c
-                                        index += c
-                                    }
-                                } else {
-                                    val store = DistributedTripleStore.getNamedGraph(query, i.graph, true)
-                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
-                                    for (i in 0 until inbuf.availableRead())
-                                        store.addData(Array(3) { data[it].data[i] })
-                                }
-                            } catch (e: Throwable) {
-                            }
-                        }
-                        for (i in delete) {
-                            try {
-                                if (i.graphVar) {
-                                    val variable = children[0].resultSet.createVariable(i.graph)
-                                    val storenames = inbuf.getColumn(variable)
-                                    val data = Array<ResultVektorRaw>(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
-                                    var count = inbuf.availableRead()
-                                    var index = 0
-                                    while (count > 0) {
-                                        val c = storenames.sameElements()
-                                        val name = storenames.current()
-                                        storenames.skipPos(c)
-                                        val nameS = children[0].resultSet.getValueObject(name).valueToString()!!
-                                        val store = DistributedTripleStore.getNamedGraph(query, nameS, true)
-                                        for (d in 0 until c)
-                                            store.deleteData(Array(3) { data[it].data[index] })
-                                        count -= c
-                                        index += c
-                                    }
-                                } else {
-                                    val store = DistributedTripleStore.getNamedGraph(query, i.graph, false)
-                                    val data = Array(3) { (i.children[it] as AOPBase).calculate(children[0].resultSet, inbuf) }
-                                    for (i in 0 until inbuf.availableRead())
-                                        store.deleteData(Array(3) { data[it].data[i] })
-                                }
-                            } catch (e: Throwable) {
-                            }
-                        }
-                    }
-                } finally {
-                    res.close()
+        val columns = variables.map { child.columns[it] }
+        val row = Array(variables.size) { ResultSetDictionary.undefValue }
+        val data = mutableMapOf<String, Array<Array<MutableList<Value>>>>()
+        loop@ while (true) {
+            for (columnIndex in 0 until variables.size) {
+                val value = columns[columnIndex]!!.next()
+                if (value == null) {
+                    require(columnIndex == 0)
+                    break@loop
                 }
-                var outbuf = ResultChunk(resultSet)
-                outbuf.append(resultSet.createResultRow())
-                resultFlowProduce({ this@POPModify }, { outbuf })
-            })
+                row[columnIndex] = value
+            }
+            for (action in modify) {
+                var graphVarIdx = 0
+                if (action.first.graphVar) {
+                    require(variables.contains(action.first.graph))
+                    while (variables[graphVarIdx] != action.first.graph) {
+                        graphVarIdx++
+                    }
+                }
+                var graphName: String
+                if (action.first.graphVar) {
+                    graphName = query.dictionary.getValue(row[graphVarIdx]!!).valueToString()!!
+                } else {
+                    graphName = action.first.graph
+                }
+                if (data[graphName] == null) {
+                    data[graphName] = Array(EModifyType.values().size) {Array(3){ mutableListOf<Value>() }}
+                }
+                val target = data[graphName]!![action.second.ordinal]!!
+                loop2@ for (columnIndex in 0 until 3) {
+                    val tmp = action.first.children[columnIndex]
+                    if (tmp is AOPConstant) {
+                        target[columnIndex].add(query.dictionary.createValue(tmp.value))
+                    } else {
+                        for (columnIndex2 in 0 until variables.size) {
+                            if (variables[columnIndex2] == (tmp as AOPVariable).name) {
+                                target[columnIndex].add(row[columnIndex2])
+                                continue@loop2
+                            }
+                        }
+                        require(false)
+                    }
+                }
+            }
         }
-        return res
-    })
+        for ((graphName, iterator) in data) {
+            val insert = iterator[EModifyType.INSERT.ordinal]
+            val delete = iterator[EModifyType.DELETE.ordinal]
+            val store = DistributedTripleStore.getNamedGraph(query, graphName, insert[0].size > 0)
+            for (type in EModifyType.values()) {
+                if (iterator[type.ordinal][0].size > 0) {
+                    store.modify(Array(3) { ColumnIteratorMultiValue(iterator[type.ordinal][it]) }, type)
+                }
+            }
+        }
+        return ColumnIteratorRow(mapOf("?success" to ColumnIteratorRepeatValue(1,query.dictionary.createValue( ValueBoolean(true)))))
+    }
+
 }
