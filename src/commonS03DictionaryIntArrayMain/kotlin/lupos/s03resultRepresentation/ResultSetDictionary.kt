@@ -18,11 +18,13 @@ class ResultSetDictionary {
     val mapLTS = ThreadSafeMutableList<ValueDefinition>()
     @JvmField
     val mutex = CoroutinesHelper.createLock()
+companion object{
     @JvmField
     val undefValue = Int.MAX_VALUE
     @JvmField
     val undefValue2 = ValueUndef()
-
+}
+fun createValue(value:String?)=createValue(ValueDefinition(value))
     fun createValue(value: ValueDefinition): Value {
         var res: Value = undefValue
         if (value is ValueUndef || value is ValueError)

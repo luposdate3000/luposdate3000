@@ -88,7 +88,7 @@ class TransferHelperNetwork {
         if (s != null)
             tmp = query.dictionary.createValue(ValueDefinition(s))
         else
-            return query.dictionary.undefValue
+            return ResultSetDictionary.undefValue
         if (lastDictionaryKey == null || tmp > lastDictionaryKey!!) {
             enforceHeader(ENetworkMessageType.DICTIONARY_ENTRY)
             data.appendString(s)

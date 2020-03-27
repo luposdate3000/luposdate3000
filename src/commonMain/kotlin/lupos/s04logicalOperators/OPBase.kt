@@ -14,12 +14,12 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s04logicalOperators.singleinput.LOPBind
 
-abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val resultSet: ResultSet, val children: Array<OPBase>) {
-    open fun evaluate(): ResultIterator = throw Exception("not implemented $classname.evaluate")
+abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>) {
+open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
     open fun applyPrefix(prefix: String, iri: String) {
         for (c in children)

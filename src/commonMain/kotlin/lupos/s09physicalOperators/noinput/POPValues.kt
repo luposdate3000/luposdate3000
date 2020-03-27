@@ -11,7 +11,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
@@ -24,23 +23,24 @@ import lupos.s09physicalOperators.POPBase
 
 open class POPValues : POPBase {
     @JvmField
-    val variables = mutableListOf<Variable>()
+    val variables: List<String>
     @JvmField
-    val data = mutableListOf<ResultRow>()
+    val data = mutableMapOf<String, List<Value>>()
 
     override fun toSparql(): String {
+        require(variables.size > 0)
         var res = "VALUES("
         for (v in variables)
-            res += AOPVariable(query, resultSet.getVariable(v)).toSparql() + " "
+            res += v + " "
         res += ") {"
-        for (m in data) {
+        var columns = Array(variables.size) { data[variables[it]] }
+        for (i in 0 until columns[0]!!.size) {
             res += "("
-            for (v in variables) {
-                val s = resultSet.getValue(m, v)
-                if (s == query.dictionary.undefValue)
+            for (v in 0 until variables.size) {
+                if (columns[v]!![i] == ResultSetDictionary.undefValue)
                     res += "UNDEF "
                 else
-                    res += resultSet.getValueObject(s).valueToString() + " "
+                    res += query.dictionary.getValue(columns[v]!![i]).valueToString() + " "
             }
             res += ")"
         }
@@ -51,68 +51,76 @@ open class POPValues : POPBase {
     override fun equals(other: Any?): Boolean {
         if (other !is POPValues)
             return false
-        if (data.size != other.data.size)
+        require(variables.size > 0)
+        if (variables.size != other.variables.size)
             return false
-        for (i in data.indices) {
-            val m1 = data[i]
-            val m2 = other.data[i]
-            if (m1 != m2)
+        for (v in variables) {
+            if (!other.variables.contains(v))
                 return false
+            if (data[v]!!.size != other.data[v]!!.size)
+                return false
+            var columns1 = Array(variables.size) { data[variables[it]] }
+            var columns2 = Array(variables.size) { other.data[variables[it]] }
+            for (v in 0 until variables.size) {
+                for (i in 0 until columns1[0]!!.size) {
+                    if (columns1[v]!![i] != columns2[v]!![i])
+                        return false
+                }
+            }
         }
         return true
     }
 
-    override fun cloneOP() = POPValues(query, variables.map { resultSet.getVariable(it) }, data.map {
-        val res = mutableListOf<String?>()
-        for (v in variables.indices)
-            res.add(resultSet.getValueObject(it, variables[v]).valueToString())
-        res
-    }.toMutableList())
+    override fun cloneOP() = POPValues(query, variables, data)
 
-    constructor(query: Query, v: List<String>, d: MutableList<List<String?>>) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
-        v.forEach {
-            variables.add(resultSet.createVariable(it))
+    constructor(query: Query, v: List<String>, d: MutableList<List<String?>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
+        variables = v
+        require(variables.size > 0)
+        var columns = Array(variables.size) { mutableListOf<Value>() }
+        for (variableIndex in 0 until variables.size) {
+            data[variables[variableIndex]] = columns[variableIndex]
         }
         d.forEach {
-            val entry = resultSet.createResultRow()
-            for (v1 in it.indices)
-                resultSet.setValue(entry, variables[v1], it[v1])
-            data.add(entry)
+            for (variableIndex in 0 until variables.size)
+                columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
         }
     }
 
     constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
+        val tmpVariables = mutableListOf<String>()
         for (name in values.variables)
-            variables.add(resultSet.createVariable(name.name))
+            tmpVariables.add(name.name)
+        variables = tmpVariables
+        require(variables.size > 0)
+        var columns = Array(variables.size) { mutableListOf<Value>() }
+        for (variableIndex in 0 until variables.size) {
+            data[variables[variableIndex]] = columns[variableIndex]
+        }
         for (v in values.children) {
             SanityCheck.check({ v is AOPValue })
             val it = v.children.iterator()
-            val entry = resultSet.createResultRow()
-            for (v2 in variables)
-                resultSet.setValue(entry, v2, (it.next() as AOPConstant).value.valueToString())
-            data.add(entry)
+            for (variableIndex in 0 until variables.size)
+                columns[variableIndex].add(query.dictionary.createValue((it.next() as AOPConstant).value))
         }
     }
 
-    override fun getProvidedVariableNames() = variables.map { resultSet.getVariable(it) }.distinct()
+    override fun getProvidedVariableNames() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPValues.evaluate" }, {
-        //row based
-        val iterator = data.iterator()
-        val res = ResultIterator()
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPValues.next" }, {
-                val outbuffer = ResultChunk(resultSet)
-                while (outbuffer.canAppend() && iterator.hasNext()) {
-                    outbuffer.append(iterator.next())
+
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val outMap = mutableMapOf<String, ColumnIteratorMultiValue>()
+        for (name in variables) {
+            val tmp = ColumnIteratorMultiValue(data[name])
+            tmp.close = {
+                tmp._close()
+                for (name in variables) {
+                    outMap[name].close()
                 }
-                if (!iterator.hasNext())
-                    res.close()
-                resultFlowProduce({ this@POPValues }, { outbuffer })
-            })
+            }
+            outMap[name] = tmp
         }
-        return res
-    })
+        return ColumnIteratorRow(outMap)
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPValues")
@@ -120,17 +128,18 @@ open class POPValues : POPBase {
         res.addContent(xmlvariables)
         val bindings = XMLElement("bindings")
         res.addContent(bindings)
-        for (v in variables)
-            xmlvariables.addContent(XMLElement("variable").addAttribute("name", resultSet.getVariable(v)))
-        for (d in data) {
+        for (variable in variables)
+            xmlvariables.addContent(XMLElement("variable").addAttribute("name", variable))
+        var columns = Array(variables.size) { data[variables[it]] }
+        for (i in 0 until columns[0]!!.size) {
             val b = XMLElement("binding")
             bindings.addContent(b)
-            for (v in variables) {
-                val value = resultSet.getValueObject(d, v).valueToString()
+            for (variableIndex in 0 until variables.size) {
+                val value = query.dictionary.getValue(columns[variableIndex][i]).valueToString()
                 if (value != null)
-                    b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(v)).addAttribute("content", value))
+                    b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
                 else
-                    b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(v)))
+                    b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]))
             }
         }
         return res

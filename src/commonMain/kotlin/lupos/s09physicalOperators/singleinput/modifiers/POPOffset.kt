@@ -11,7 +11,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -20,7 +19,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", child.resultSet, arrayOf(child)) {
+class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset)
             return false
@@ -41,35 +40,28 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
     }
 
     override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPOffset.evaluate" }, {
-        //column based
-        val res = ResultIterator()
-        res.next = {
-            Trace.trace<ResultChunk>({ "POPOffset.next" }, {
-                val child = children[0].evaluate()
-                var outbuffer: ResultChunk? = null
-                try {
-                    var count = offset
-                    while (count > 0) {
-                        outbuffer = resultFlowConsume({ this@POPOffset }, { children[0] }, { child.next() })
-                        val available = outbuffer.availableRead()
-                        if (count < available) {
-                            outbuffer.skipPos(count)
-                            res.next = child.next
-                            res.close = child.close
-                        }
-                        count -= available
-                    }
-                } catch (e: Throwable) {
-                    outbuffer = null
-                    res.close()
-                    res.next.invoke()
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val variables = getProvidedVariableNames()
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        val child = children[0].evaluate()
+        var columns = Array(variables.size) { data[variables[it]] }
+var tmp:Value?=null
+        for (i in 0 until offset) {
+            for (columnIndex in 0 until columns.size) {
+                tmp = columns[columnIndex].next()
+                if (tmp == null) {
+                    break
                 }
-                outbuffer!!
-            })
+            }
         }
-        return res
-    })
+for(variable in variables){
+if(tmp==null){
+child.columns[variable].close()
+}
+outmap[variable]=child.columns[variable]
+}
+return ColumnIteratorRow(outMap)
+    }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
+override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 }

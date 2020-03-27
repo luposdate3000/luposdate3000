@@ -66,7 +66,7 @@ class TripleStoreLocal(@JvmField val name: String) {
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
-                val map = mutableMapOf(query.dictionary.undefValue to query.dictionary.undefValue)
+                val map = mutableMapOf(ResultSetDictionary.undefValue to ResultSetDictionary.undefValue)
                 if (insert != null) {
                     var current = insert!!
                     require(current.next.prev == current)

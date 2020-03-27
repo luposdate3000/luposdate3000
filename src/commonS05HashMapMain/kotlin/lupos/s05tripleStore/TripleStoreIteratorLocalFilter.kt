@@ -73,7 +73,7 @@ class TripleStoreIteratorLocalFilter(query: Query, resultSet: ResultSet, val sto
                     e.printStackTrace()
                 }
                 println("iterator-next")
-                val map = mutableMapOf(query.dictionary.undefValue to query.dictionary.undefValue)
+                val map = mutableMapOf(ResultSetDictionary.undefValue to ResultSetDictionary.undefValue)
                 val outbuf = ResultChunk(resultSet)
                 for (i in 0 until columns) {
                     val columnIn = current.data[i]

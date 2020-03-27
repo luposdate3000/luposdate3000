@@ -12,7 +12,6 @@ import lupos.s04logicalOperators.ResultIterator
 abstract class POPBase(query: Query,
                        operatorID: EOperatorID,
                        classname: String,
-                       resultSet: ResultSet,
                        children: Array<OPBase>) :
-        OPBase(query, operatorID, classname, resultSet, children) {
+        OPBase(query, operatorID, classname, children) {
 }

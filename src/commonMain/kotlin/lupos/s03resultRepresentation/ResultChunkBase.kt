@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s04arithmetikOperators.ResultVektorRaw
 
 open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterator<ResultRow> {
-    val data = Array(columns) { ResultVektor(resultSet.dictionary.undefValue) }
+    val data = Array(columns) { ResultVektor(ResultSetDictionary.undefValue) }
     open fun availableWrite(): Int {
         var res = data[0].availableWrite()
         for (i in 1 until columns) {
@@ -74,7 +74,7 @@ open class ResultChunkBase(val resultSet: ResultSet, val columns: Int) : Iterato
         for (c in 0 until columnsTo.size) {
             val colTo = data[columnsTo[c].toInt()]
             val valFrom = arrFrom[columnsFrom[c].toInt()]
-            if (valFrom != resultSet.dictionary.undefValue) {
+            if (valFrom != ResultSetDictionary.undefValue) {
                 colTo.append(valFrom, count)
             } else {
                 colTo.append(arrFromAlternative[c], count)
