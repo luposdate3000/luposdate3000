@@ -15,7 +15,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*

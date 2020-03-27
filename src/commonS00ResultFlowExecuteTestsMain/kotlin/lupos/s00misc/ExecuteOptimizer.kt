@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query

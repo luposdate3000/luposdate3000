@@ -5,7 +5,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s01io.buffer.getString
 import lupos.s01io.buffer.Page
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

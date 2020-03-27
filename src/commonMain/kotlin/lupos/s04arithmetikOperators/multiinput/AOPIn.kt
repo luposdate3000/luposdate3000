@@ -3,9 +3,9 @@ package lupos.s04arithmetikOperators.multiinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+
+
+
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -25,9 +25,9 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
         return true
     }
 
-    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+    override fun calculate(resultChunk:ResultVektorRaw) :ResultVektorRaw{
         val rVektor = ResultVektorRaw(resultChunk.availableRead())
-        val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
+        val aVektor = (children[0] as AOPBase).calculate(resultChunk)
         for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             val b = (children[1] as AOPBase)
@@ -35,7 +35,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
             try {
                 if (b is AOPSet) {
                     for (c in b.children) {
-                        val tmp = (c as AOPBase).calculate(resultSet, resultChunk)
+                        val tmp = (c as AOPBase).calculate(resultChunk)
                         if (tmp.data[0] == a) {
                             found = true
                             break
@@ -46,7 +46,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
             } catch (e: Throwable) {
             }
         }
-        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
+        return rVektor
     }
 
     override fun cloneOP() = AOPIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

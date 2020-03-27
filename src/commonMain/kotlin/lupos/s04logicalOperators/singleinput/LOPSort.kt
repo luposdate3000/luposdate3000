@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.LOPBase

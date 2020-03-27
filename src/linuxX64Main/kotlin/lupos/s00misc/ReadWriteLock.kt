@@ -4,7 +4,7 @@ import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

@@ -4,13 +4,13 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlowConsume
-import lupos.s00misc.resultFlowProduce
+
+
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+
+
+
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw

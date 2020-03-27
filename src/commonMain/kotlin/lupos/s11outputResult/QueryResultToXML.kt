@@ -5,7 +5,7 @@ import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw

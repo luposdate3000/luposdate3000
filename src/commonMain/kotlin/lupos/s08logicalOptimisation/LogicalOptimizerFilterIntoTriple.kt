@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw

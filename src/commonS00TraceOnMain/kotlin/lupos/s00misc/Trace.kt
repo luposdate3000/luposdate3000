@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

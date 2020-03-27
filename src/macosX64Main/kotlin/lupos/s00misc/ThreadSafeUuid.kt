@@ -2,7 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicLong
-import lupos.s03resultRepresentation.ResultChunk
+
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator

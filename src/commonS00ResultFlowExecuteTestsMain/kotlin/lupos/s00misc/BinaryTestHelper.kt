@@ -7,8 +7,8 @@ import lupos.s01io.*
 import lupos.s02buildSyntaxTree.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s03resultRepresentation.ResultSet
+
+
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.*

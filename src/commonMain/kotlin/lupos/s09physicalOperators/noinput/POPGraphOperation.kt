@@ -8,7 +8,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlowProduce
+
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
@@ -16,9 +16,9 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+
+
+
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw

@@ -2,11 +2,11 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlow
+
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+
+
+
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -28,9 +28,9 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+    override fun calculate(resultChunk:ResultVektorRaw) :ResultVektorRaw{
         val rVektor = ResultVektorRaw(resultChunk.availableRead())
-        val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
+        val aVektor = (children[0] as AOPBase).calculate(resultChunk)
         for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             if (a is ValueIri)
@@ -43,7 +43,7 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
                     rVektor.data[i] = ValueIri(prefix + b.content)
             }
         }
-        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
+        return rVektor
     }
 
     override fun cloneOP() = AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)

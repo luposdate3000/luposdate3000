@@ -3,11 +3,11 @@ package lupos.s04arithmetikOperators.singleinput
 import com.soywiz.krypto.sha256
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlow
+
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+
+
+
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
@@ -24,15 +24,15 @@ class AOPBuildInCallSHA256(query: Query, child: AOPBase) : AOPBase(query, EOpera
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultSet: ResultSet, resultChunk: ResultChunk): ResultVektorRaw {
+    override fun calculate(resultChunk:ResultVektorRaw) :ResultVektorRaw{
         val rVektor = ResultVektorRaw(resultChunk.availableRead())
-        val aVektor = (children[0] as AOPBase).calculate(resultSet, resultChunk)
+        val aVektor = (children[0] as AOPBase).calculate(resultChunk)
         for (i in 0 until resultChunk.availableRead()) {
             val a = aVektor.data[i]
             if (a is ValueStringBase)
                 rVektor.data[i] = ValueSimpleLiteral(a.delimiter, a.content.encodeToByteArray().sha256().toHexString3())
         }
-        return resultFlow({ this }, { resultChunk }, { resultSet }, { rVektor })
+        return rVektor
     }
 
     override fun cloneOP() = AOPBuildInCallSHA256(query, children[0].cloneOP() as AOPBase)

@@ -11,8 +11,8 @@ import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
+
+
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
