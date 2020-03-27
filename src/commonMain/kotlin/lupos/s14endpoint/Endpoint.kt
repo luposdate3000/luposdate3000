@@ -24,6 +24,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -37,72 +38,32 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object Endpoint {
-    @JvmField
-    val REQUEST_BINARY = arrayOf("/binary")
-    @JvmField
-    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
-    @JvmField
-    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "idx")
-    @JvmField
-    val REQUEST_COMMIT = arrayOf("/commit", "id")
-    @JvmField
-    val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
-    @JvmField
-    val REQUEST_GRAPH_OPERATION = arrayOf("/graph/operation", "name", "id", "type")
-    @JvmField
-    val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
-    @JvmField
-    val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
-    @JvmField
-    val REQUEST_PEERS_LIST = arrayOf("/peers/list")
-    @JvmField
-    val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
-    @JvmField
-    val REQUEST_PEERS_JOIN_INTERNAL = arrayOf("/peers/join_internal", "hostname")
-    @JvmField
-    val REQUEST_PEERS_SELF_TEST = arrayOf("/peers/self_test")
-    @JvmField
-    val REQUEST_STACKTRACE = arrayOf("/stacktrace")
-    @JvmField
-    val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
+    /*
+    the distribution algorithm selected this node, therefore all of these functions need to be executed on THIS node, without any further distribution
+    */
+    suspend fun process_local_triple_modify(query: Query, graphName: String, params: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, params, idx, type)
+    }
 
-    fun process_local_triple_add(query: Query, graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_add" }, {
-        val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        g.addData(query, params, idx)
-        return XMLElement("success")
-    })
+    fun process_local_triple_get(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
+    }
 
-    fun process_local_triple_delete(query: Query, graphName: String, params: Array<ValueDefinition>, idx: EIndexPattern): XMLElement = Trace.trace({ "process_local_triple_delete" }, {
-        val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        g.deleteData(query, params, idx)
-        return XMLElement("success")
-    })
-
-    fun process_local_triple_get(query: Query, resultSet: ResultSet, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase = Trace.trace({ "process_local_triple_get" }, {
-        val g = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
-        return g.getIterator(query, resultSet, params, idx)
-    })
-
-    fun process_local_graph_clear_all(query: Query): XMLElement = Trace.trace({ "process_local_graph_clear_all" }, {
+    fun process_local_graph_clear_all(query: Query) {
         DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames())
             DistributedTripleStore.dropGraph(query, g)
-        return XMLElement("success")
-    })
+    }
 
-    fun process_local_commit(query: Query): XMLElement = Trace.trace({ "process_local_commit" }, {
+    fun process_local_commit(query: Query) {
         DistributedTripleStore.localStore.commit(query)
-        return XMLElement("success")
-    })
+    }
 
-    fun process_local_graph_operation(query: Query, name: String, type: EGraphOperationType): XMLElement = Trace.trace({ "process_local_graph_operation" }, {
+    fun process_local_graph_operation(query: Query, graphName: String, type: EGraphOperationType) {
         when (type) {
-            EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(query, name)
-            EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(query, name)
-            EGraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(query, name)
-            else -> SanityCheck.checkUnreachable()
+            EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(query, graphName)
+            EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(query, graphName)
+            EGraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(query, graphName)
         }
-        GlobalLogger.log(ELoggerType.DEBUG, { "process_local_graph_operation bb" })
-        return XMLElement("success")
-    })
+    }
 }

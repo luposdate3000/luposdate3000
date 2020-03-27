@@ -14,44 +14,20 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID, "POPUnion", ResultSet(query.dictionary), arrayOf(childA, childB)) {
+class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB)) {
     override fun cloneOP() = POPUnion(query, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPUnion.evaluate" }, {
-        //column based
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val variables = getProvidedVariableNames()
+        require(children[0].getProvidedVariableNames().containsAll(variables))
+        require(children[1].getProvidedVariableNames().containsAll(variables))
+        val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
-        val var0A = children[0].getProvidedVariableNames().map { children[0].resultSet.createVariable(it) }.toTypedArray()
-        val var0B = children[1].getProvidedVariableNames().map { children[1].resultSet.createVariable(it) }.toTypedArray()
-        val var1A = children[0].getProvidedVariableNames().map { resultSet.createVariable(it) }.toTypedArray()
-        val var1B = children[1].getProvidedVariableNames().map { resultSet.createVariable(it) }.toTypedArray()
-        val res = ResultIterator()
-        res.close = {
-            childA.close()
-            childB.close()
-            res._close()
+        for (variable in variables) {
+            outMap[variable] = ColumnIteratorMultiIterator(listOf(childA.columns[variable], childB.columns[variable]))
         }
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPUnion.next" }, {
-                var outbuf = ResultChunk(resultSet)
-                try {
-                    val inbuf = resultFlowConsume({ this@POPUnion }, { children[0] }, { childA.next() })
-                    outbuf.copy(var1A, inbuf, var0A, inbuf.availableRead())
-                } catch (e: Throwable) {
-                    childA.close()
-                    res.next = {
-                        Trace.trace<ResultChunk>({ "POPUnion.next" }, {
-                            val outbuf = ResultChunk(resultSet)
-                            val inbuf = resultFlowConsume({ this@POPUnion }, { children[1] }, { childB.next() })
-                            outbuf.copy(var1B, inbuf, var0B, inbuf.availableRead())
-                            resultFlowProduce({ this@POPUnion }, { outbuf })
-                        })
-                    }
-                }
-                resultFlowProduce({ this@POPUnion }, { outbuf })
-            })
-        }
-        return res
-    })
+        return ColumnIteratorRow(outMap)
+    }
 }

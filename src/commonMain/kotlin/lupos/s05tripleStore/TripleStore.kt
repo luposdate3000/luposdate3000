@@ -14,28 +14,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-abstract class POPTripleStoreIteratorBase(query: Query,
-                                          operatorID: EOperatorID,
-                                          classname: String,
-                                          resultSet: ResultSet,
-                                          children: Array<OPBase>) : POPBase(query, operatorID, classname, resultSet, children) {
-    @JvmField
-    var params = arrayOf<AOPBase>(AOPVariable(query, "#s$uuid"), AOPVariable(query, "#p$uuid"), AOPVariable(query, "#o$uuid"))
-
-    abstract fun getGraphName(): String
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPTripleStoreIteratorBase)
-            return false
-        if (getGraphName() != other.getGraphName())
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
-    }
-}
-
 class PersistentStoreLocal {
     @JvmField
     val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
@@ -90,7 +68,7 @@ class PersistentStoreLocal {
 
     fun commit(query: Query) {
         stores.forEachValue { v ->
-            v.commit2(query)
+            v.commit(query)
         }
     }
 }

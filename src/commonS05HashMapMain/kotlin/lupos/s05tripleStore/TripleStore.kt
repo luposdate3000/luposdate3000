@@ -16,6 +16,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 
@@ -23,16 +24,16 @@ class TripleStoreLocal(@JvmField val name: String) {
     class MapKey(@JvmField val data: Array<Value>) {
         override fun hashCode(): Int {
             var res = 0
-            for (i in 0 until data.size)
-                res += data[i].hashCode()
+            for (columnIndex in 0 until data.size)
+                res += data[columnIndex].hashCode()
             return res
         }
 
         override fun equals(other: Any?): Boolean {
             require(other is MapKey)
-            require(data.size == (other as MapKey).data[i])
-            for (i in 0 until data.size) {
-                if (data[i] != (other as MapKey).data[i]) {
+            require(data.size == (other as MapKey).data.size)
+            for (columnIndex in 0 until data.size) {
+                if (data[columnIndex] != (other as MapKey).data[columnIndex]) {
                     return false
                 }
             }
@@ -56,36 +57,40 @@ class TripleStoreLocal(@JvmField val name: String) {
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
-                for (row in insert) {
-                    if (idx == EIndexPattern.SPO) {
-                        tripleStoreSPO.add(row)
-                    } else {
-                        val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
-                        val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
-                        val tmp = tripleStore[idx]!![k]
-                        if (tmp == null) {
-                            tripleStore[idx]!![k] = mutableSetOf(v)
+                if (insert != null) {
+                    for (row in insert) {
+                        if (idx == EIndexPattern.SPO) {
+                            tripleStoreSPO.add(row)
                         } else {
-                            tmp.add(v)
+                            val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
+                            val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
+                            val tmp = tripleStore[idx.ordinal]!![k]
+                            if (tmp == null) {
+                                tripleStore[idx.ordinal]!![k] = mutableSetOf(v)
+                            } else {
+                                tmp.add(v)
+                            }
                         }
+                        pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                     }
-                    pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
-                for (row in delete) {
-                    if (idx == EIndexPattern.SPO) {
-                        tripleStoreSPO.remove(row)
-                    } else {
-                        val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
-                        val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
-                        val tmp = tripleStore[idx]!![k]
-                        if (tmp != null) {
-                            tmp.remove(v)
-                            if (tmp.size == 0)
-                                tripleStore[idx]!!.remove(k)
+                if (delete != null) {
+                    for (row in delete) {
+                        if (idx == EIndexPattern.SPO) {
+                            tripleStoreSPO.remove(row)
+                        } else {
+                            val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
+                            val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
+                            val tmp = tripleStore[idx.ordinal]!![k]
+                            if (tmp != null) {
+                                tmp.remove(v)
+                                if (tmp.size == 0)
+                                    tripleStore[idx.ordinal]!!.remove(k)
+                            }
                         }
+                        pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                     }
-                    pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                 }
             }
         }
@@ -93,52 +98,42 @@ class TripleStoreLocal(@JvmField val name: String) {
 
     fun clear() {
         for (idx in EIndexPattern.values()) {
-            tripleStore[idx].clear()
+            tripleStore[idx.ordinal].clear()
         }
         tripleStoreSPO.clear()
     }
 
-    fun addData(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern) {
+    suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+        require(data.size == 3)
         while (true) {
-            var tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+            var tmp: MutableSet<MapKey>?
+            if (type == EModifyType.INSERT) {
+                tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+            } else {
+                tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+            }
             if (tmp == null) {
                 tmp = mutableSetOf<MapKey>()
-                pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
+                if (type == EModifyType.INSERT) {
+                    pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
+                } else {
+                    pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
+                }
             }
             val k = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
-                val v = data[columnIndex.next()]
+                val v = data[columnIndex].next()
                 if (v == null) {
                     require(columnIndex == 0)
                     break
                 }
                 k[columnIndex] = v
             }
-            tmp.add(k)
+            tmp.add(MapKey(k))
         }
     }
 
-    fun deleteData(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern) {
-        while (true) {
-            var tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
-            if (tmp == null) {
-                tmp = mutableSetOf<MapKey>()
-                pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
-            }
-            val k = Array(3) { ResultSetDictionary.undefValue }
-            for (columnIndex in 0 until 3) {
-                val v = data[columnIndex.next()]
-                if (v == null) {
-                    require(columnIndex == 0)
-                    break
-                }
-                k[columnIndex] = v
-            }
-            tmp.add(k)
-        }
-    }
-
-    fun getIterator(query: Query, params: Array<AOPBase>, index: EIndexPattern): ColumnIteratorRow {
+    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables: List<String>
         var data: Set<MapKey>? = null
@@ -151,7 +146,7 @@ class TripleStoreLocal(@JvmField val name: String) {
             val key = MapKey(idx.keyIndices.map { dictionary.createValue((params[it] as AOPConstant).value) }.toTypedArray())
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
-            data = tripleStore[idx][key]
+            data = tripleStore[idx.ordinal][key]
         }
         if (data == null || data.size == 0) {
             for (variable in variables) {
@@ -160,11 +155,11 @@ class TripleStoreLocal(@JvmField val name: String) {
         } else {
             val columns = Array(variables.size) { mutableListOf<Value>() }
             for (row in data) {
-                for (variableIndex in 0 unitl variables.size) {
+                for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add(query.dictionary.createValue(dictionary.getValue(row.data[variableIndex])))
                 }
             }
-            for (variableIndex in 0 unitl variables.size) {
+            for (variableIndex in 0 until variables.size) {
                 outMap[variables[variableIndex]] = ColumnIteratorMultiValue(columns[variableIndex])
             }
         }

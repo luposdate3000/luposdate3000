@@ -112,7 +112,7 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
 class ColumnIteratorChildIterator(var child: ColumnIterator) : ColumnIterator() {
     init {
         next = {
-            val res = child.next()
+            var res = child.next()
             if (res == null) {
                 onNoMoreElements()
                 res = child.next()

@@ -224,7 +224,7 @@ fun nextInt(query: Query, buffer: DynamicByteArray, maxValue: Int = Int.MAX_VALU
     return tmp % maxValue
 }
 
-fun fromBinary(query: Query, buffer: DynamicByteArray): OPBase {
+suspend fun fromBinary(query: Query, buffer: DynamicByteArray): OPBase {
     try {
         var id = nextInt(query, buffer, EOperatorID.values().size, false)
         val operatorID = EOperatorID.values()[id]
@@ -242,7 +242,7 @@ fun fromBinary(query: Query, buffer: DynamicByteArray): OPBase {
     return OPNothing(query)
 }
 
-fun fromBinaryPOPLOP(query: Query, buffer: DynamicByteArray): OPBase {
+suspend fun fromBinaryPOPLOP(query: Query, buffer: DynamicByteArray): OPBase {
     try {
         val poploplist = EOperatorIDPOP + EOperatorIDLOP
         var id = nextInt(query, buffer, poploplist.size)
@@ -259,7 +259,7 @@ fun fromBinaryPOPLOP(query: Query, buffer: DynamicByteArray): OPBase {
     return OPNothing(query)
 }
 
-fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
+suspend fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
     try {
         var id = nextInt(query, buffer)
         if (id < 0)
@@ -398,8 +398,16 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
                 val o = fromBinaryAOPConstOrVar(query, buffer)
                 val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
                 val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
-                for (i in 0 until tripleCount)
-                    graph.addData(Array(3) { ValueDefinition(nextStringValue(query, buffer)) })
+                val data = mutableListOf<List<String?>>()
+                for (i in 0 until tripleCount) {
+                    val row = mutableListOf<String?>()
+                    for (j in 0 until 3) {
+                        row.add(nextStringValue(query, buffer))
+                    }
+                    data.add(row)
+                }
+                val iterators = POPValues(query, listOf("s", "p", "o"), data).evaluate()
+                graph.modify(arrayOf(iterators.columns["s"]!!, iterators.columns["p"]!!, iterators.columns["o"]!!), EModifyType.INSERT)
                 query.commit()
                 return DistributedTripleStore.getNamedGraph(query, graphName).getIterator(arrayOf(s, p, o), idx)
             }
@@ -431,7 +439,7 @@ fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
     }
 }
 
-fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
+suspend fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
     try {
         var id = nextInt(query, buffer)
         if (id < 0)
@@ -602,7 +610,7 @@ fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
     }
 }
 
-fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
+suspend fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
     val graphNameTmp = (nextStringValueTyped(query, buffer, ValueEnum.ValueIri))
     val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
     val graph = DistributedTripleStore.getNamedGraph(query, graphName, true)
@@ -611,8 +619,16 @@ fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
     var o = fromBinaryAOPConstOrVar(query, buffer)
     val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
     val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
-    for (i in 0 until tripleCount)
-        graph.addData(Array(3) { ValueDefinition(nextStringValue(query, buffer)) })
+    val data = mutableListOf<List<String?>>()
+    for (i in 0 until tripleCount) {
+        val row = mutableListOf<String?>()
+        for (j in 0 until 3) {
+            row.add(nextStringValue(query, buffer))
+        }
+        data.add(row)
+    }
+    val iterators = POPValues(query, listOf("s", "p", "o"), data).evaluate()
+    graph.modify(arrayOf(iterators.columns["s"]!!, iterators.columns["p"]!!, iterators.columns["o"]!!), EModifyType.INSERT)
     query.commit()
     return LOPTriple(query, s, p, o, graphName, false)
 }
@@ -934,7 +950,7 @@ fun fromBinaryAOP(query: Query, buffer: DynamicByteArray): AOPBase {
     }
 }
 
-fun executeBinaryTests(folder: String) {
+suspend fun executeBinaryTests(folder: String) {
     var testcases = 0
     try {
         File(folder).walk {
@@ -955,12 +971,12 @@ fun executeBinaryTests(folder: String) {
     println("executed testcases : $testcases")
 }
 
-fun executeBinaryTest(filename: String, detailedLog: Boolean) {
+suspend fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     val buffer = File(filename).readAsDynamicByteArray()
     executeBinaryTest(buffer)
 }
 
-fun executeBinaryTest(buffer: DynamicByteArray) {
+suspend fun executeBinaryTest(buffer: DynamicByteArray) {
     val query = Query()
     var node1: OPBase = OPNothing(query)
     var node2: OPBase = OPNothing(query)
@@ -998,8 +1014,16 @@ fun executeBinaryTest(buffer: DynamicByteArray) {
                         val o = fromBinaryAOPConstOrVar(query, buffer)
                         val idx = EIndexPattern.values()[nextInt(query, buffer, EIndexPattern.values().size)]
                         val tripleCount = nextInt(query, buffer, MAX_TRIPLES)
-                        for (i in 0 until tripleCount)
-                            graph.addData(Array(3) { ValueDefinition(nextStringValue(query, buffer)) })
+                        val data = mutableListOf<List<String?>>()
+                        for (i in 0 until tripleCount) {
+                            val row = mutableListOf<String?>()
+                            for (j in 0 until 3) {
+                                row.add(nextStringValue(query, buffer))
+                            }
+                            data.add(row)
+                        }
+                        val iterators = POPValues(query, listOf("s", "p", "o"), data).evaluate()
+                        graph.modify(arrayOf(iterators.columns["s"]!!, iterators.columns["p"]!!, iterators.columns["o"]!!), EModifyType.INSERT)
                     } catch (e: Throwable) {
                     }
                     query.commit()

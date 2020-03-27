@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
-class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", ResultSet(query.dictionary), arrayOf(childA, childB)) {
+class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB)) {
     override fun toSparql(): String {
         if (optional)
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
@@ -163,19 +163,15 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         for (iterator in outMap.values) {
 //this is just function pointer assignment. this loop does not calculate anything
             iterator.close = {
-                tmp._close()
-                for (variable in childA.getProvidedVariableNames()) {
-                    childA.columns[variable].close()
+                iterator._close()
+                for (variable in children[0].getProvidedVariableNames()) {
+                    childA.columns[variable]!!.close()
                     outMap[variable].close()
                 }
-                for (variable in childB.getProvidedVariableNames()) {
-                    childB.columns[variable].close()
+                for (variable in children[1].getProvidedVariableNames()) {
+                    childB.columns[variable]!!.close()
                     outMap[variable].close()
                 }
-            }
-            iterator.next = {
-                iterator.onNoMoreElements()
-                iterator.next()
             }
             iterator.onNoMoreElements = {
                 countA = 0

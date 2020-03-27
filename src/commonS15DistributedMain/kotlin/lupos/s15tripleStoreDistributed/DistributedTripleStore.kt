@@ -15,56 +15,28 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s05tripleStore.PersistentStoreLocal
-import lupos.s05tripleStore.POPTripleStoreIteratorBase
+import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
-val uuid = ThreadSafeUuid()
-
-class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
-    @JvmField
-    val nodeNameIterator: Iterator<String>
-    @JvmField
-    var remoteIterator: Iterator<ResultRow>? = null
-    @JvmField
-    val graphNameL: String
-    @JvmField
-    val index: EIndexPattern
-
-    override fun cloneOP() = TripleStoreIteratorGlobal(query, graphNameL, params, index)
-
-    constructor(query: Query, graphName: String, index: EIndexPattern = EIndexPattern.SPO) : super(query, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", ResultSet(query.dictionary), arrayOf()) {
-        this.index = index
-        this.graphNameL = graphName
-        nodeNameIterator = P2P.getKnownClientsCopy().iterator()
-    }
-
-    constructor(query: Query, graphName: String, params: Array<AOPBase>, index: EIndexPattern) : super(query, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", ResultSet(query.dictionary), arrayOf()) {
-        this.index = index
-        this.graphNameL = graphName
-        nodeNameIterator = P2P.getKnownClientsCopy().iterator()
-        this.params = params
-    }
-
+class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern, val nodeNames: List<String>) : POPBase(query, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
+    override fun cloneOP() = TripleStoreIteratorGlobal(query, graphName, params, idx, nodeNames)
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobalFilter").//
             addAttribute("uuid", "" + uuid).//
-            addAttribute("name", graphNameL).//
+            addAttribute("name", graphName).//
             addContent(XMLElement("sparam").addContent(params[0].toXMLElement())).//
             addContent(XMLElement("pparam").addContent(params[1].toXMLElement())).//
             addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
 
     override fun toSparql(): String {
-        if (graphNameL == PersistentStoreLocal.defaultGraphName)
+        if (graphName == PersistentStoreLocal.defaultGraphName)
             return params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "."
-        return "GRAPH <$graphNameL> {" + params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "}."
+        return "GRAPH <$graphName> {" + params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "}."
     }
-
-    override fun getGraphName(): String = Trace.trace({ "TripleStoreIteratorGlobal.getGraphName" }, {
-        return graphNameL
-    })
 
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
@@ -73,36 +45,37 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return tmp.distinct()
     }
 
-    class ResultIteratorImpl(var iterator: ResultIterator) : ResultIterator() {
-    }
-
-    override fun evaluate() = Trace.trace<ResultIterator>({ "TripleStoreIteratorGlobal.evaluate" }, {
-        //column based
-        val iterator = P2P.getKnownClientsCopy().iterator()
-        val res = ResultIteratorImpl(P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate())
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "TripleStoreIteratorGlobal.next" }, {
-                var outbuf: ResultChunk
-                try {
-                    outbuf = res.iterator.next()
-                } catch (e: Throwable) {
-                    if (iterator.hasNext()) {
-                        res.iterator = P2P.execTripleGet(query, resultSet, iterator.next(), graphNameL, params, index).evaluate()
-                    } else {
-                        res.iterator.close()
-                        res.close()
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val outMap = mutableMapOf<String, ColumnIteratorChildIterator>()
+        val variables: List<String>
+        if (idx == EIndexPattern.SPO) {
+            idx.keyIndices.map { require(params[it] is AOPVariable) }
+            variables = idx.keyIndices.map { (params[it] as AOPVariable).name }
+        } else {
+            variables = idx.valueIndices.map { (params[it] as AOPVariable).name }
+            idx.keyIndices.map { require(params[it] is AOPConstant) }
+            idx.valueIndices.map { require(params[it] is AOPVariable) }
+        }
+        val nodeNameIterator = nodeNames.iterator()
+        for (variable in variables) {
+            val tmp = ColumnIteratorChildIterator(ColumnIterator())
+            tmp.onNoMoreElements = {
+                if (nodeNameIterator.hasNext()) {
+                    val nodeName = nodeNameIterator.next()
+                    val row = P2P.execTripleGet(query, nodeName, graphName, params, idx)
+                    for (variable2 in variables) {
+                        outMap[variable2]!!.child = row.columns[variable2]!!
                     }
-                    outbuf = res.next()
+                } else {
+                    for (variable2 in variables) {
+                        outMap[variable2]!!.close()
+                    }
                 }
-                resultFlowProduce({ this@TripleStoreIteratorGlobal }, { outbuf })
-            })
+            }
+            outMap[variable] = tmp
         }
-        res.close = {
-            res.iterator.close()
-            res._close()
-        }
-        return res
-    })
+        return ColumnIteratorRow(outMap)
+    }
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
@@ -116,8 +89,8 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         return c % d
     }
 
-    fun myHashCode(s: Int, p: Int, o: Int, d: Int, index: EIndexPattern): Int = Trace.trace({ "DistributedGraph.myHashCode" }, {
-        when (index) {
+    fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
+        when (idx) {
             EIndexPattern.S -> return myHashCode("" + s, d)
             EIndexPattern.P -> return myHashCode("" + p, d)
             EIndexPattern.O -> return myHashCode("" + o, d)
@@ -126,14 +99,14 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             EIndexPattern.PO -> return myHashCode("" + p + "-" + o, d)
             EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
         }
-    })
+    }
 
-    fun calculateNodeForDataFull(params: Array<ValueDefinition>, index: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
+    fun calculateNodeForDataFull(params: Array<ValueDefinition>, idx: EIndexPattern): String {
         val params = Array(3) { myHashCode("" + params[it].valueToString(), K) }
-        return P2P.getKnownClientsCopy()[myHashCode(params[0], params[1], params[2], P2P.knownClients.size(), index)]
-    })
+        return P2P.knownClients[myHashCode(params[0], params[1], params[2], P2P.knownClients.size, idx)]!!
+    }
 
-    fun calculateNodeForDataMaybe(params: Array<AOPBase>, index: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
+    fun calculateNodeForDataMaybe(params: Array<AOPBase>, idx: EIndexPattern): Set<String> {
         val res = mutableSetOf<String>()
         val arr = Array<IntRange>(3) {
             if (params[it] is AOPConstant) {
@@ -145,47 +118,55 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         for (si in arr[0]) {
             for (pi in arr[1]) {
                 for (oi in arr[2]) {
-                    res.add(P2P.getKnownClientsCopy()[myHashCode(si, pi, oi, P2P.knownClients.size(), index)])
+                    res.add(P2P.knownClients[myHashCode(si, pi, oi, P2P.knownClients.size, idx)]!!)
                 }
             }
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "maybe :: " + res })
         return res
-    })
+    }
 
-    fun addData(t: Array<ValueDefinition>) = Trace.trace({ "DistributedGraph.addData a" }, {
-        EIndexPattern.values().forEach {
-            val node = calculateNodeForDataFull(t, it)
-            P2P.execTripleAdd(query, node, name, t, it)
-        }
-    })
-
-    fun deleteData(t: Array<ValueDefinition>) = Trace.trace({ "DistributedGraph.deleteData" }, {
-        EIndexPattern.values().forEach {
-            for (node in calculateNodeForDataMaybe(Array<AOPBase>(3) { AOPConstant(query, t[it]) }, it)) {
-                P2P.execTripleDelete(query, node, name, t, it)
+    suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
+        require(data.size == 3)
+        val map = mutableMapOf<String, Array<Array<MutableList<Value>>>>()
+        while (true) {
+            val row = Array(3) { ResultSetDictionary.undefValue }
+            for (columnIndex in 0 until 3) {
+                val v = data[columnIndex].next()
+                if (v == null) {
+                    require(columnIndex == 0)
+                    break
+                }
+                row[columnIndex] = v
+            }
+            for (idx in EIndexPattern.values()) {
+                val node = calculateNodeForDataFull(row.map { query.dictionary.getValue(it) }.toTypedArray(), idx)
+                var tmp = map[node]
+                if (tmp == null) {
+                    tmp = Array(EIndexPattern.values().size) { Array(3) { mutableListOf<Value>() } }
+                    map[node] = tmp
+                }
+                for (columnIndex in 0 until 3) {
+                    tmp[idx.ordinal][columnIndex].add(row[columnIndex])
+                }
             }
         }
-    })
-
-    suspend fun addData(iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
-        val vars = arrayOf(iterator.resultSet.createVariable("s"), iterator.resultSet.createVariable("p"), iterator.resultSet.createVariable("o"))
-        val channel = iterator.evaluate()
-        channel.forEach { oldRows ->
-            for (oldRow in oldRows) {
-                val params = Array(3) { iterator.resultSet.getValueObject(oldRow, vars[it]) }
-                addData(params)
+        for ((node, iterator) in map) {
+            for (idx in EIndexPattern.values()) {
+                if (iterator[idx.ordinal][0].size > 0) {
+                    P2P.execTripleModify(query, node, name, Array(3) { ColumnIteratorMultiValue(iterator[idx.ordinal][it]) }, idx, type)
+                }
             }
         }
-    })
+    }
 
-    fun getIterator(index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator c" }, {
-        return TripleStoreIteratorGlobal(query, name, index)
-    })
+    fun getIterator(idx: EIndexPattern): POPBase {
+        return TripleStoreIteratorGlobal(query, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, P2P.knownClients)
+    }
 
-    fun getIterator(params: Array<AOPBase>, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator a" }, {
-        return TripleStoreIteratorGlobal(query, name, params, index)
-    })
+    fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
+        return TripleStoreIteratorGlobal(query, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
+    }
 }
 
 object DistributedTripleStore {
