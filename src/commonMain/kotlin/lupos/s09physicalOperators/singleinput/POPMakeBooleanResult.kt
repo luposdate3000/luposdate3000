@@ -26,28 +26,20 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
     override fun cloneOP() = POPMakeBooleanResult(query, children[0].cloneOP())
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPMakeBooleanResult.evaluate" }, {
-        //row based
-        val variableNew = resultSet.createVariable("?boolean")
-        val res = ResultIterator()
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPMakeBooleanResult.next" }, {
-                val outbuf = ResultChunk(resultSet)
-                val child = children[0].evaluate()
-                var row = resultSet.createResultRow()
-                try {
-                    while (resultFlowConsume({ this@POPMakeBooleanResult }, { children[0] }, { child.next() }).availableRead() == 0) {
-                    }
-                    resultSet.setValue(row, variableNew, ValueBoolean(true).valueToString())
-                } catch (e: Throwable) {
-                    resultSet.setValue(row, variableNew, ValueBoolean(false).valueToString())
-                }
-                child.close()
-                res.close()
-                outbuf.append(row)
-                resultFlowProduce({ this@POPMakeBooleanResult }, { outbuf })
-            })
-        }
-        return res
-    })
+
+override suspend fun evaluate(): ColumnIteratorRow {
+//TODO rows without any column
+val variables =children[0]. getProvidedVariableNames()
+val outMap = mutableMapOf<String, ColumnIterator>()
+        val child = children[0].evaluate()
+val tmp=ColumnIteratorRepeatValue(1,query.dictionary.createValue(ValueBoolean(child.columns[variables[0]].next()!=null)))
+tmp.close={
+tmp._close()
+for(variable in variables){
+child.columns[variable].close()
+}
+}
+outMap["?boolean"]=tmp
+return ColumnIteratorRow(outMap)
+}
 }

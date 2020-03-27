@@ -59,52 +59,9 @@ class POPServiceIRI : POPBase {
     }
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPServiceIRI.evaluate" }, {
-        //row based
-        for (n in getProvidedVariableNames())
-            resultSet.createVariable(n)
-        val channel = Channel<ResultChunk>(CoroutinesHelper.channelType)
-        CoroutinesHelper.run {
-            Trace.trace({ "POPServiceIRI.next" }, {
-                try {
-                    if (constraint == null) {
-                        if (silent) {
-                            val outbuf = ResultChunk(resultSet)
-                            outbuf.append(resultSet.createResultRow())
-                            channel.send(outbuf)
-                        }
-                    } else {
-                        val variables = mutableListOf<Pair<Variable, Variable>>()
-                        for (n in getProvidedVariableNames())
-                            variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
-                        val constraintChannel = constraint.evaluate()
-                        var outbuf = ResultChunk(resultSet)
-                        constraintChannel.forEach { oldRows ->
-                            for (oldRow in oldRows) {
-                                val res = resultSet.createResultRow()
-                                for (n in variables)
-                                    resultSet.setValue(res, n.first, constraint.resultSet.getValue(oldRow, n.second))
-                                if (!outbuf.canAppend()) {
-                                    channel.send(resultFlowProduce({ this@POPServiceIRI }, { outbuf }))
-                                    outbuf = ResultChunk(resultSet)
-                                }
-                                outbuf.append(res)
-                            }
-                        }
-                        channel.send(outbuf)
-                    }
-                    channel.close()
-                } catch (e: Throwable) {
-                    channel.close(e)
-                }
-            })
-        }
-        return ResultIterator(next = {
-            channel.receive()
-        }, close = {
-            channel.close()
-        })
-    })
+override suspend fun evaluate(): ColumnIteratorRow {
+TODO("not implemented")
+}
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPServiceIRI")

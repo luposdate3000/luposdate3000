@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -16,7 +15,8 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
@@ -85,8 +85,13 @@ open class POPValues : POPBase {
                 columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
         }
     }
+    constructor(query: Query, v: List<String>, d: Map<String, List<Value>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
+        variables = v
+        require(variables.size > 0)
+	data=d
+    }
 
-    constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", ResultSet(query.dictionary), arrayOf()) {
+    constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         val tmpVariables = mutableListOf<String>()
         for (name in values.variables)
             tmpVariables.add(name.name)
