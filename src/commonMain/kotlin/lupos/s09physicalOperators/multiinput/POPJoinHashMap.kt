@@ -13,7 +13,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB)) {

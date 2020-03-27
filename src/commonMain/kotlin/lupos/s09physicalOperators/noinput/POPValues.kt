@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s09physicalOperators.POPBase
 
 open class POPValues : POPBase {

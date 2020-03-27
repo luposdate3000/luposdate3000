@@ -13,7 +13,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s15tripleStoreDistributed.DistributedGraph

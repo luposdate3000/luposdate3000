@@ -12,7 +12,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s09physicalOperators.POPBase
 
 class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child)) {

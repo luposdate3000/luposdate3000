@@ -6,7 +6,7 @@ import lupos.s00misc.bit1
 import lupos.s00misc.bit2
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2
 inline fun deserializeInt(page: Page, address: Long) = page.getInt(address)

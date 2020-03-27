@@ -10,7 +10,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.*
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s09physicalOperators.POPBase
 
 object QueryResultToXML {

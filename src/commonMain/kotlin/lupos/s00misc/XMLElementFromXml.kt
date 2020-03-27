@@ -3,7 +3,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")

@@ -8,7 +8,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class ResultSetDictionary {
     @JvmField

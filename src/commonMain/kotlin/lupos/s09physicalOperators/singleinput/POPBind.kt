@@ -15,7 +15,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s09physicalOperators.POPBase
 
 class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPBindID, "POPBind", ResultSet(query.dictionary), arrayOf(child, value)) {

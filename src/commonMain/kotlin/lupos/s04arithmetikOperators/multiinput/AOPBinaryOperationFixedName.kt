@@ -6,7 +6,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 abstract class AOPBinaryOperationFixedName(query: Query, operatorID: EOperatorID,
                                            classname: String,

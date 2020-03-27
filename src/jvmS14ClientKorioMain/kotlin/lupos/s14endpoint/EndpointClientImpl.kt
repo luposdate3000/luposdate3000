@@ -24,7 +24,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase

@@ -12,7 +12,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.iterator.*
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>) {

@@ -5,7 +5,7 @@ import lupos.s01io.buffer.createString
 import lupos.s01io.buffer.Page
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[offset] = this.toByte()

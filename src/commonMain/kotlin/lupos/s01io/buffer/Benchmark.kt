@@ -7,7 +7,7 @@ import lupos.s01io.buffer.getString
 import lupos.s01io.buffer.Page
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class OnePageBenchmark {
     val page: Page = bufferManager.getPage("tmp/test", 0)

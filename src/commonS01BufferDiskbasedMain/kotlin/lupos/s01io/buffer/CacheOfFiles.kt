@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s01io.buffer.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)

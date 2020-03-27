@@ -2,7 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.ResultIterator
+
 
 class ColumnIteratorRow(val columns: Map<String, ColumnIterator>)
 open class ColumnIterator() {

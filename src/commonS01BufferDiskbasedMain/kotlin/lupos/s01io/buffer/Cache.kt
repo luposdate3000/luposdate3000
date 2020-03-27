@@ -3,7 +3,7 @@ package lupos.s01io.buffer
 import kotlin.jvm.JvmField
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 /**
  * This is one element of the doubly linked list.

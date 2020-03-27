@@ -8,7 +8,7 @@ import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {

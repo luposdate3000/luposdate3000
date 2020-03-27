@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID.LogicalOptimizerID) {
     override val classname = "LogicalOptimizer"

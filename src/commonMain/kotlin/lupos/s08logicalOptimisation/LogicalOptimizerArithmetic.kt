@@ -8,7 +8,7 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
 

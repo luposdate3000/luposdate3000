@@ -23,7 +23,7 @@ import lupos.datastructures.b_plus_tree.NotFoundException
 import lupos.io.buffer.bufferManager
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class BPlusTreeTests {
     fun getFilename(testnumber: String = "") = "../tmp/test/test$testnumber"

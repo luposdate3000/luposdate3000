@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 // problems unmap:
 // see e.g.: https://stackoverflow.com/questions/2972986

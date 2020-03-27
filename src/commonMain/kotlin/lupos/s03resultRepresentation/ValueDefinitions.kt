@@ -6,7 +6,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.ResultIterator
+
 
 sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toXMLElement(): XMLElement

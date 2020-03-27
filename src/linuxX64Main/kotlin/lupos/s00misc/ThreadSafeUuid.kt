@@ -3,7 +3,7 @@ package lupos.s00misc
 import kotlin.native.concurrent.AtomicLong
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class ThreadSafeUuid {
     constructor() {

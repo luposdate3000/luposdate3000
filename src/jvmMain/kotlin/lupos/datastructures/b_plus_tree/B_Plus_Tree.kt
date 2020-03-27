@@ -17,7 +17,7 @@ import lupos.s01io.buffer.serializedSizeOfInt
 import lupos.s01io.buffer.serializeInt
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 interface I_B_Plus_Tree<K : Any, V> {
     operator fun get(key: K): V

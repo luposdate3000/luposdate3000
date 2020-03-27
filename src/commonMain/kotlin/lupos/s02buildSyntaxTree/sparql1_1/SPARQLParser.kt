@@ -8,7 +8,7 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 interface Visitor<T> {
     fun visit(node: ASTNode, childrenValues: List<T>): T

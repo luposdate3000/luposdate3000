@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import kotlin.math.abs
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class XMLElement {
     // https://regex101.com

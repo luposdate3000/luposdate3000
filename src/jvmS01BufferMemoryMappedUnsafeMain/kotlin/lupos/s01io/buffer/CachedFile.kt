@@ -7,7 +7,7 @@ import kotlin.jvm.JvmField
 import lupos.s01io.buffer.CachedFile
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 import sun.nio.ch.FileChannelImpl
 
 typealias Page = UnsafePage

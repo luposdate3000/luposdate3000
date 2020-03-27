@@ -18,7 +18,7 @@ import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P

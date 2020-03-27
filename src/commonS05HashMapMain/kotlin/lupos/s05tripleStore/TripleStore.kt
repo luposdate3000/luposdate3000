@@ -18,7 +18,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.ResultIterator
+
 
 class TripleStoreLocal(@JvmField val name: String) {
     class MapKey(@JvmField val data: Array<Value>) {
