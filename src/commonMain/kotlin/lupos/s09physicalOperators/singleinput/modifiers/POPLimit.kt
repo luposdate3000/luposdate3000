@@ -4,8 +4,6 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlowConsume
-import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -13,7 +11,8 @@ import lupos.s03resultRepresentation.ResultChunk
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.*     
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.ResultIterator
@@ -35,7 +34,7 @@ val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         for (variable in variables) {
-            val iterator = child.columns[variable]
+            val iterator = child.columns[variable]!!
             val tmp = ColumnIterator()
             tmp.next = {
                 if (count == limit) {
@@ -49,8 +48,8 @@ val variables = getProvidedVariableNames()
             tmp.close = {
                 tmp._close()
                 for (variable2 in variables) {
-                    child.columns[variable2].close()
-                    outMap[variable2].close()
+                    child.columns[variable2]!!.close()
+                    outMap[variable2]!!.close()
                 }
             }
             outMap[variable] = tmp

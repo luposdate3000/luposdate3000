@@ -4,8 +4,6 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.resultFlowConsume
-import lupos.s00misc.resultFlowProduce
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -14,8 +12,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.ResultIterator
 import lupos.s09physicalOperators.POPBase
 
@@ -44,11 +42,11 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-        var columns = Array(variables.size) { data[variables[it]] }
+        var columns = Array(variables.size) { child.columns[variables[it]] }
 var tmp:Value?=null
         for (i in 0 until offset) {
             for (columnIndex in 0 until columns.size) {
-                tmp = columns[columnIndex].next()
+                tmp = columns[columnIndex]!!.next()
                 if (tmp == null) {
                     break
                 }
@@ -56,9 +54,9 @@ var tmp:Value?=null
         }
 for(variable in variables){
 if(tmp==null){
-child.columns[variable].close()
+child.columns[variable]!!.close()
 }
-outmap[variable]=child.columns[variable]
+outMap[variable]=child.columns[variable]!!
 }
 return ColumnIteratorRow(outMap)
     }
