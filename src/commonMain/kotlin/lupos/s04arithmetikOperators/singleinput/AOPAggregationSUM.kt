@@ -34,7 +34,9 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
 
 override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
 val res=ColumnIteratorAggregate()
-res.addValue={value->
+val child = (children[0] as AOPBase).evaluate(row)
+res.addValue={
+val value=child()
 res.count++
 if(value is ValueError){
 res.value=value

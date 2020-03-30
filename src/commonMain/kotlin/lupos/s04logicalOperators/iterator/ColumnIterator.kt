@@ -25,8 +25,8 @@ open class ColumnIterator() {
 class ColumnIteratorAggregate():ColumnIterator() {
 var value:ValueDefinition=ResultSetDictionary.undefValue2
 var count=0
-var addValue:suspend(ValueDefinition)->Unit=::_addValue
-suspend fun _addValue(value:ValueDefinition){
+var evaluate:suspend()->Unit=::_addValue
+suspend fun _addValue(){
 }
 }
 

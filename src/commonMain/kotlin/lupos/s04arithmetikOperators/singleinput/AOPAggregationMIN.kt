@@ -34,7 +34,9 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
 
 override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
 val res=ColumnIteratorAggregate()
-res.addValue={value->
+val child = (children[0] as AOPBase).evaluate(row)
+res.addValue={
+val value=child()
 if(res.value is ValueUndef || res.value.compareTo(value)>0){
 res.value=value
 }

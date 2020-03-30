@@ -99,6 +99,27 @@ class POPGroup : POPBase {
         return res
     }
 
+
+/*
+override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+*/
+
+override suspend fun evaluate(): ColumnIteratorRow {
+        val variables = getProvidedVariableNames()
+        var count = 0
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        val child = children[0].evaluate()
+        for (variable in variables) {
+            val iterator = child.columns[variable]!!
+            outMap[variable] = tmp
+        }
+        return ColumnIteratorRow(outMap)
+    }
+
+
+
+
     override fun evaluate() = Trace.trace<ResultIterator>({ "POPGroup.evaluate" }, {
         //row based
         val child = children[0].evaluate()
