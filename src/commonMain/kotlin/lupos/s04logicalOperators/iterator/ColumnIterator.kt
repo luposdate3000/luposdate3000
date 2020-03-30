@@ -127,7 +127,7 @@ class ColumnIteratorChildIterator(var child: ColumnIterator) : ColumnIterator() 
 class ColumnIteratorQueue() : ColumnIterator() {
     var tmp: Value? = null
     val queue = mutableListOf<Value>()
-    var onEmptyQueue: suspend () -> Unit = _onEmptyQueue
+    var onEmptyQueue: suspend () -> Unit = ::_onEmptyQueue
     suspend fun _onEmptyQueue() {
     }
 
@@ -136,13 +136,13 @@ class ColumnIteratorQueue() : ColumnIterator() {
             if (queue.size == 0) {
                 onEmptyQueue()
             }
-            var res = null
+            var res:Value = null
             if (queue.size > 0) {
                 res = queue.removeAt(0)
             }
+res
         }
         close = {
-            child.close()
             _close()
         }
     }
@@ -174,16 +174,16 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
     var cacheB: Value? = null
     val queue = mutableListOf<Value>()
     var fastcmp = 0
-    fun calculate(): Int {
+    suspend fun calculate(): Int {
         var res = 0
         if (higherPriority != null) {
             res = higherPriority.calculate()
         }
         if (res == 0) {
-            res = comparator.calculate(cacheA, cacheB)
+            res = comparator.compare(cacheA, cacheB)
             if (res == 0) {
                 if (lowerPriority != null) {
-                    res = lowerPriority.calculate()
+                    res = lowerPriority!!.calculate()
                 } else {
                     if (higherPriority != null)
                         higherPriority.chooseU(res)
@@ -193,48 +193,51 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                 if (higherPriority != null)
                     higherPriority.chooseU(res)
                 if (lowerPriority != null)
-                    lowerPriority.chooseD(res)
+                    lowerPriority!!.chooseD(res)
                 choose(res)
             }
         }
+return res
     }
 
-    fun chooseU(cmp: Int) {
+suspend    fun chooseU(cmp: Int) {
         choose(cmp)
         if (higherPriority != null)
-            higherPriority.chooseU(res)
+            higherPriority.chooseU(cmp)
     }
 
-    fun chooseD(cmp: Int) {
+suspend    fun chooseD(cmp: Int) {
         choose(cmp)
         if (lowerPriority != null)
-            lowerPriority.chooseD(res)
+            lowerPriority!!.chooseD(cmp)
     }
 
-    fun choose(cmp: Int) {
-        if (res == 0)
-            res = 1
+suspend    fun choose(cmp1: Int) {
+var cmp=cmp1
+        if (cmp == 0)
+            cmp = 1
         if (cmp == -1) {
-            queue.add(cacheA)
+            queue.add(cacheA!!)
             cacheA = childA.next()
             if (cacheA == null) {
-                queue.add(cacheB)
+                queue.add(cacheB!!)
                 fastcmp = 1
             }
         } else {
             require(cmp == 1)
-            queue.add(cacheB)
+            queue.add(cacheB!!)
             cacheB = childB.next()
             if (cacheB == null) {
-                queue.add(cacheA)
+                queue.add(cacheA!!)
                 fastcmp = -1
             }
         }
     }
 
     init {
-        cacheA = childA.next()
-        cacheB = childB.next()
+next={
+        cacheA = childA!!.next()
+        cacheB = childB!!.next()
         require(cacheA != null)
         require(cacheB != null)
         next = {
@@ -264,6 +267,8 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
             }
             res
         }
+next()
+}
         close = {
             childA.close()
             childB.close()

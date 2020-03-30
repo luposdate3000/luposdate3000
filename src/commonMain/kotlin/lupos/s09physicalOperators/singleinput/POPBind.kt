@@ -66,7 +66,7 @@ break
                     }
                 }
 if(!done)
-                columnBound.queue.add(expression())
+                columnBound.queue.add(query.dictionary.createValue(expression()))
             }
         }
         return res
