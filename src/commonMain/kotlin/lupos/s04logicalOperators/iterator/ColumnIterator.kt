@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.iterator
+
 import lupos.s03resultRepresentation.*
-
-
 
 class ColumnIteratorRow(val columns: Map<String, ColumnIterator>)
 open class ColumnIterator() {

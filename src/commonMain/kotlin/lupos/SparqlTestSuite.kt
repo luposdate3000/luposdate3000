@@ -1,4 +1,5 @@
 package lupos
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
@@ -8,7 +9,6 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.printAllMicroTest
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
-import lupos.s00misc.updateAllMicroTest
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -25,7 +25,6 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
-
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -38,7 +37,6 @@ import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
 
 class SparqlTestSuite() {
     @JvmField
@@ -376,7 +374,6 @@ class SparqlTestSuite() {
                 query3.commit()
                 val toParse = readFileOrNull(queryFile)!!
                 if (toParse.contains("service", true)) {
-                    updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
                     return false
                 }
@@ -470,7 +467,6 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
-                        updateAllMicroTest(testName, queryFile, false)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
                         return false
                     } else {
@@ -515,34 +511,27 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString() })
                         if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                             if (expectedResult) {
-                                updateAllMicroTest(testName, queryFile, true)
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
                             } else {
-                                updateAllMicroTest(testName, queryFile, false)
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse)" })
                             }
                         } else {
-                            updateAllMicroTest(testName, queryFile, false)
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(RecoverFromXMLOperatorGraph)" })
                             res = false
                         }
                     } else {
                         if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget?.first())) {
                             if (expectedResult) {
-                                updateAllMicroTest(testName, queryFile, true)
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
                             } else {
-                                updateAllMicroTest(testName, queryFile, false)
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Unordered)" })
                             }
                         } else {
                             if (expectedResult) {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
-                                updateAllMicroTest(testName, queryFile, false)
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
                             } else {
-                                updateAllMicroTest(testName, queryFile, true)
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse)" })
                             }
                         }
@@ -551,18 +540,14 @@ class SparqlTestSuite() {
                 } else {
                     if (verifiedOutput) {
                         if (expectedResult) {
-                            updateAllMicroTest(testName, queryFile, true)
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Graph)" })
                         } else {
-                            updateAllMicroTest(testName, queryFile, false)
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Graph)" })
                         }
                     } else {
                         if (expectedResult) {
-                            updateAllMicroTest(testName, queryFile, true)
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Syntax)" })
                         } else {
-                            updateAllMicroTest(testName, queryFile, false)
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Syntax)" })
                         }
                     }
@@ -574,26 +559,21 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.DEBUG, { e })
                     GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
                     GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
-                    updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ParseError)" })
                 } else {
-                    updateAllMicroTest(testName, queryFile, true)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,ParseError)" })
                 }
                 return false
             } catch (e: Throwable) {
                 if (expectedResult) {
-                    updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })
                     GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
                 } else {
-                    updateAllMicroTest(testName, queryFile, true)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,Throwable)" })
                 }
                 return false
             }
         } finally {
-            updateAllMicroTest("invalidxxx", "invalidxxx", false)
             jena.finalize()
         }
     }

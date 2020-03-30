@@ -1,14 +1,13 @@
 package lupos.s04arithmetikOperators.singleinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-impoert lupos.s04logicalOperators.iterator.*
-
 
 class AOPBuildInCallBNODE1(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallBNODE1ID, "AOPBuildInCallBNODE1", arrayOf(child)) {
     override fun toSparql() = "BNODE(" + children[0].toSparql() + ")"
@@ -19,13 +18,12 @@ class AOPBuildInCallBNODE1(query: Query, child: AOPBase) : AOPBase(query, EOpera
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-var res = ValueError()
+            var res: ValueDefinition = ValueError()
             val a = childA()
             res = ValueBnode("" + uuid + a.valueToString())
-        res
+            res
         }
     }
 

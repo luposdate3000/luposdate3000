@@ -1,14 +1,13 @@
 package lupos.s04arithmetikOperators.multiinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-impoert lupos.s04logicalOperators.iterator.*
-
 
 class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPOrID, "AOPOr", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " || " + children[1].toSparql() + ")"
@@ -23,22 +22,19 @@ class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-var res = ValueError()
-            var a: ValueDefinition
-            var b: ValueDefinition
+            var res: ValueDefinition = ValueError()
+            var a: ValueDefinition = ValueError()
+            var b: ValueDefinition = ValueError()
             try {
-                a = ValueBoolean(aVektor.data[i].toBoolean())
+                a = ValueBoolean(childA().toBoolean())
             } catch (e: Throwable) {
-                a = ValueError()
             }
             try {
-                b = ValueBoolean(bVektor.data[i].toBoolean())
+                b = ValueBoolean(childB().toBoolean())
             } catch (e: Throwable) {
-                b = ValueError()
             }
             if (a is ValueBoolean && b is ValueBoolean)
                 res = ValueBoolean(a.value || b.value)
@@ -46,7 +42,7 @@ var res = ValueError()
                 res = b
             else if (b is ValueError && a is ValueBoolean && a.value == true)
                 res = a
-        res
+            res
         }
     }
 

@@ -1,4 +1,5 @@
 package lupos.s12p2p
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -9,14 +10,12 @@ import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
-
 
 object P2P {
     @JvmField

@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
@@ -9,7 +10,6 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
@@ -17,7 +17,6 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreIteratorLocalFilter
 import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
-
 
 val uuid = ThreadSafeUuid()
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter

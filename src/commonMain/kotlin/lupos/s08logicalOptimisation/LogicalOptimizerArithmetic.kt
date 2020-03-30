@@ -1,15 +1,14 @@
 package lupos.s08logicalOptimisation
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
-
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
-
 
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"

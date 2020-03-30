@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -6,13 +7,11 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
-
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-
 
 class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB)) {
     override fun cloneOP() = POPUnion(query, children[0].cloneOP(), children[1].cloneOP())

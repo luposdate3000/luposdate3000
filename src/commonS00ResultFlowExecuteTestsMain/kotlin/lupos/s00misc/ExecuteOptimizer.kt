@@ -1,10 +1,9 @@
 package lupos.s00misc
-import kotlin.jvm.JvmField
 
+import kotlin.jvm.JvmField
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
-
 
 object ExecuteOptimizer {
     @JvmField

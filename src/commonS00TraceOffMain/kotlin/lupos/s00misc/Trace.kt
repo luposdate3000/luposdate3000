@@ -1,8 +1,7 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
-
 import lupos.s04logicalOperators.Query
-
 
 object Trace {
     inline fun <T> trace(name: () -> String, action: () -> T): T {

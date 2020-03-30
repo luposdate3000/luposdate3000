@@ -1,14 +1,13 @@
 package lupos.s04arithmetikOperators.singleinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-impoert lupos.s04logicalOperators.iterator.*
-
 
 class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallDATATYPEID, "AOPBuildInCallDATATYPE", arrayOf(child)) {
     override fun toSparql() = "DATATYPE(" + children[0].toSparql() + ")"
@@ -19,10 +18,9 @@ class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOpe
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-var res = ValueError()
+            var res: ValueDefinition = ValueError()
             val a = childA()
             when (a) {
                 is ValueSimpleLiteral -> res = ValueIri("http://www.w3.org/2001/XMLSchema#string")
@@ -34,7 +32,7 @@ var res = ValueError()
                 is ValueDouble -> res = ValueIri("http://www.w3.org/2001/XMLSchema#double")
                 is ValueInteger -> res = ValueIri("http://www.w3.org/2001/XMLSchema#integer")
             }
-        res
+            res
         }
     }
 

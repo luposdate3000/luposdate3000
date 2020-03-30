@@ -1,8 +1,7 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
-
 import lupos.s04logicalOperators.Query
-
 
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")

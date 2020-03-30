@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-
-
 object SanityCheck {
     inline fun <T> helper(action: () -> T): T? = action()
     inline fun check(value: () -> Boolean) = require(value())

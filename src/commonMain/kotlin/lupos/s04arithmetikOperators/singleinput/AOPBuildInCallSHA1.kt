@@ -1,15 +1,14 @@
 package lupos.s04arithmetikOperators.singleinput
+
 import com.soywiz.krypto.sha1
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-impoert lupos.s04logicalOperators.iterator.*
-
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child)) {
@@ -21,14 +20,13 @@ class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperato
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-var res = ValueError()
+            var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueStringBase)
                 res = ValueSimpleLiteral(a.delimiter, a.content.encodeToByteArray().sha1().toHexString2())
-        res
+            res
         }
     }
 

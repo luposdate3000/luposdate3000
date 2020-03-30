@@ -1,14 +1,13 @@
 package lupos.s04arithmetikOperators.multiinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-impoert lupos.s04logicalOperators.iterator.*
-
 
 class AOPEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPEQID, "AOPEQ", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " = " + children[1].toSparql() + ")"
@@ -23,18 +22,17 @@ class AOPEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-var res = ValueError()
+            var res: ValueDefinition = ValueError()
             val a = childA()
             val b = childB()
             try {
                 res = ValueBoolean(a.compareTo(b) == 0)
             } catch (e: Throwable) {
             }
-        res
+            res
         }
     }
 

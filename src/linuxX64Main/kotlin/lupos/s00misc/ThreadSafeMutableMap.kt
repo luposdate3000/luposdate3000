@@ -1,9 +1,8 @@
 package lupos.s00misc
+
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
-
 import lupos.s04logicalOperators.Query
-
 
 class ThreadSafeMutableMap<k, v>() {
     val mutex = ReadWriteLock()

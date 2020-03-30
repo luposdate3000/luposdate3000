@@ -1,12 +1,11 @@
 package lupos.s04logicalOperators.singleinput.modifiers
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 
 class LOPReduced(query: Query, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPReducedID, "LOPReduced", arrayOf(child)) {
     override fun equals(other: Any?): Boolean {

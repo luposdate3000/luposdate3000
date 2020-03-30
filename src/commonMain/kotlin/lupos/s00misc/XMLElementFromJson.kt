@@ -1,9 +1,8 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
-
 import lupos.s04logicalOperators.Query
-
 
 fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     val res = mutableListOf<XMLElement>()

@@ -1,14 +1,13 @@
 package lupos.s04arithmetikOperators.multiinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-impoert lupos.s04logicalOperators.iterator.*
-
 
 class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
     override fun toSparql() = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
@@ -23,27 +22,29 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        
         val childA = (children[0] as AOPBase).evaluate(row)
+        val childsB = Array(b.children.size) { (b.children[it] as AOPBase).evaluate(row) }
         return {
-var res = ValueError()
+            var res: ValueDefinition = ValueError()
             val a = childA()
-            val b = (children[1] as AOPBase)
             var found = false
-            try {
-                if (b is AOPSet) {
-                    for (c in b.children) {
-                        val tmp = (c as AOPBase).calculate(row)
-                        if (tmp.data[0] == a) {
+            var noError = true
+            if (b is AOPSet) {
+                for (childB in childsB) {
+                    try {
+                        if (childB() == a) {
                             found = true
                             break
                         }
+                    } catch (e: Throwable) {
+                        noError = false
                     }
                 }
-                res = ValueBoolean(!found)
-            } catch (e: Throwable) {
             }
-        res
+            found = !found
+            if (found || noError)
+                res = ValueBoolean(found)
+            res
         }
     }
 

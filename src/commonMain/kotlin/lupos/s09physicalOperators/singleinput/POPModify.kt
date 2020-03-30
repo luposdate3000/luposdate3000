@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -9,7 +10,6 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -18,7 +18,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
 
 class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", arrayOf(child)) {
     val modify = Array<Pair<LOPTriple, EModifyType>>(insert.size + delete.size) {

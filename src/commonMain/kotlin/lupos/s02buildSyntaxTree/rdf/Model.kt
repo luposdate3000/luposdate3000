@@ -1,9 +1,8 @@
 package lupos.s02buildSyntaxTree.rdf
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.ThreadSafeUuid
-
 import lupos.s04logicalOperators.Query
-
 
 abstract class RDFTerm {
     abstract fun toN3String(): String

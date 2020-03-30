@@ -1,11 +1,10 @@
 package lupos.s01io.buffer
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.bit0
 import lupos.s00misc.bit1
 import lupos.s00misc.bit2
-
 import lupos.s04logicalOperators.Query
-
 
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2
 inline fun deserializeInt(page: Page, address: Long) = page.getInt(address)

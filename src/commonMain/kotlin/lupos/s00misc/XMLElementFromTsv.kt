@@ -1,8 +1,7 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
-
 import lupos.s04logicalOperators.Query
-
 
 fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
     val res = mutableListOf<XMLElement>()

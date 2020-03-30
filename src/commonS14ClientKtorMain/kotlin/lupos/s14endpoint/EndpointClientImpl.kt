@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
@@ -27,7 +28,6 @@ import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.*
@@ -36,7 +36,6 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
-
 
 object EndpointClientImpl {
     @JvmField

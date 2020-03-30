@@ -1,10 +1,9 @@
 package lupos.s00misc
+
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
-
 import lupos.s04logicalOperators.Query
-
 
 class File(@JvmField val filename: String) {
     companion object {

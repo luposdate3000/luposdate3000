@@ -1,8 +1,7 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
-
 import lupos.s04logicalOperators.Query
-
 
 enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnChange: Boolean) {
     LogicalOptimizerID(false, true),

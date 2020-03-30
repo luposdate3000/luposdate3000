@@ -1,8 +1,7 @@
 package lupos.datastructures.lsm_tree
+
 import kotlin.jvm.JvmField
-
 import lupos.s04logicalOperators.Query
-
 
 class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -1,10 +1,9 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import lupos.s04arithmetikOperators.AOPBase
-
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 
 inline fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultChunk): ResultChunk {
     val res = action()

@@ -1,10 +1,9 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
-
 import lupos.s04logicalOperators.Query
-
 
 class ThreadSafeMutableSet<T>() {
     val global_values = AtomicReference(mutableSetOf<T>().freeze())

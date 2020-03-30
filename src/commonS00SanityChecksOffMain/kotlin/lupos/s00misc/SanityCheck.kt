@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-
-
 object SanityCheck {
     inline fun <T> helper(action: () -> Unit): T? {
         return null
