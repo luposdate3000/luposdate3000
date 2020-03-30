@@ -1,13 +1,13 @@
 package lupos.s04arithmetikOperators.multiinput
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
+impoert lupos.s04logicalOperators.iterator.*
 
 
 class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
@@ -22,28 +22,29 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
         return true
     }
 
-    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
-        val rVektor = ResultVektorRaw(resultChunk.availableRead())
-        val aVektor = (children[0] as AOPBase).calculate(resultChunk)
-        for (i in 0 until resultChunk.availableRead()) {
-            val a = aVektor.data[i]
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+        
+        val childA = (children[0] as AOPBase).evaluate(row)
+        return {
+var res = ValueError()
+            val a = childA()
             val b = (children[1] as AOPBase)
             var found = false
             try {
                 if (b is AOPSet) {
                     for (c in b.children) {
-                        val tmp = (c as AOPBase).calculate(resultChunk)
+                        val tmp = (c as AOPBase).calculate(row)
                         if (tmp.data[0] == a) {
                             found = true
                             break
                         }
                     }
                 }
-                rVektor.data[i] = ValueBoolean(!found)
+                res = ValueBoolean(!found)
             } catch (e: Throwable) {
             }
+        res
         }
-        return rVektor
     }
 
     override fun cloneOP() = AOPNotIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

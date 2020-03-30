@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
@@ -18,11 +17,11 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.Query
 
+import lupos.s04logicalOperators.Query
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
+
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {

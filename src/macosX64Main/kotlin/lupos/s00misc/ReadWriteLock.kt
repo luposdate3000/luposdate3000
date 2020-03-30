@@ -1,17 +1,16 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.Query
 
+import lupos.s04logicalOperators.Query
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
+
 
 class ReadWriteLock {
     val allowNewReads = cValue<pthread_mutex_t>()

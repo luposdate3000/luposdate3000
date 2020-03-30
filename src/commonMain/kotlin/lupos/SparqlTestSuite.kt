@@ -1,5 +1,4 @@
 package lupos
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
@@ -26,9 +25,8 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.Query
 
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -40,6 +38,7 @@ import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 class SparqlTestSuite() {
     @JvmField

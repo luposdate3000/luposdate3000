@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import lupos.*
 import lupos.s00misc.*
@@ -23,7 +22,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -57,7 +56,6 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPProjection
@@ -86,6 +84,7 @@ import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
+
 
 enum class TestCase(val action: suspend (DynamicByteArray) -> Unit) {
     Sparql(::executeBinaryTest),

@@ -1,13 +1,13 @@
 package lupos.s04arithmetikOperators.multiinput
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
+impoert lupos.s04logicalOperators.iterator.*
 
 
 class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIFID, "AOPBuildInCallIF", arrayOf(child, childA, childB)) {
@@ -18,21 +18,22 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
-        val rVektor = ResultVektorRaw(resultChunk.availableRead())
-        val aVektor = (children[0] as AOPBase).calculate(resultChunk)
-        val bVektor = (children[1] as AOPBase).calculate(resultChunk)
-        val cVektor = (children[2] as AOPBase).calculate(resultChunk)
-        for (i in 0 until resultChunk.availableRead()) {
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+        
+        val childA = (children[0] as AOPBase).evaluate(row)
+        val childB = (children[1] as AOPBase).evaluate(row)
+        val cVektor = (children[2] as AOPBase).calculate(row)
+        return {
+var res = ValueError()
             try {
                 if (aVektor.data[i].toBoolean())
-                    rVektor.data[i] = bVektor.data[i]
+                    res = bVektor.data[i]
                 else
-                    rVektor.data[i] = cVektor.data[i]
+                    res = cVektor.data[i]
             } catch (e: Throwable) {
             }
+        res
         }
-        return rVektor
     }
 
     override fun cloneOP() = AOPBuildInCallIF(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase)

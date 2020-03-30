@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-
 import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
@@ -21,16 +20,16 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.*
 import lupos.s14endpoint.Endpoint
 import lupos.SparqlTestSuite
+
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {

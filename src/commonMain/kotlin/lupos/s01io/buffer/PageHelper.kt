@@ -1,10 +1,9 @@
 package lupos.s01io.buffer
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.bit0
 import lupos.s00misc.bit1
 import lupos.s00misc.bit2
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 

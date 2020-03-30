@@ -1,9 +1,8 @@
 package lupos.s00misc
-
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 
@@ -20,7 +19,7 @@ class File(@JvmField val filename: String) {
     }
 
     fun readAsString() = java.io.File(filename).inputStream().bufferedReader().use { it.readText() }
-suspend    fun walk(action:suspend (String) -> Unit) {
+    suspend fun walk(action: suspend (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))
         }

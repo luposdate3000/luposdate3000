@@ -1,13 +1,13 @@
 package lupos.s04arithmetikOperators.singleinput
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
+impoert lupos.s04logicalOperators.iterator.*
 
 
 class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallIRIID, "AOPBuildInCallIRI", arrayOf(child)) {
@@ -24,22 +24,23 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         return children[0] == other.children[0]
     }
 
-    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
-        val rVektor = ResultVektorRaw(resultChunk.availableRead())
-        val aVektor = (children[0] as AOPBase).calculate(resultChunk)
-        for (i in 0 until resultChunk.availableRead()) {
-            val a = aVektor.data[i]
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+        
+        val childA = (children[0] as AOPBase).evaluate(row)
+        return {
+var res = ValueError()
+            val a = childA()
             if (a is ValueIri)
-                rVektor.data[i] = a
+                res = a
             else if (a is ValueSimpleLiteral || a is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string") {
                 val b = a as ValueStringBase
                 if (prefix != "" && !prefix.endsWith("/"))
-                    rVektor.data[i] = ValueIri(prefix + "/" + b.content)
+                    res = ValueIri(prefix + "/" + b.content)
                 else
-                    rVektor.data[i] = ValueIri(prefix + b.content)
+                    res = ValueIri(prefix + b.content)
             }
+        res
         }
-        return rVektor
     }
 
     override fun cloneOP() = AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)

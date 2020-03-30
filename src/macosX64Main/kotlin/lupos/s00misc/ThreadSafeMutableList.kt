@@ -1,9 +1,8 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 

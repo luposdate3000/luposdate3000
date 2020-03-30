@@ -1,7 +1,6 @@
 package lupos.s14endpoint
-
 import kotlin.jvm.JvmField
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 

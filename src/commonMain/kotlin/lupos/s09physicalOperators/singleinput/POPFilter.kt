@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -11,12 +10,13 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s09physicalOperators.POPBase
+
 
 class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPFilterID, "POPFilter", child.resultSet, arrayOf(child, filter)) {
     override fun toSparql(): String {
@@ -31,78 +31,52 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
     override fun cloneOP() = POPFilter(query, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNames() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPFilter.evaluate" }, {
-        //row based
+    override suspend fun evaluate(): ColumnIteratorRow {
+//TODO not-equal shortcut during evaluation based on integer-ids
+        val variables = getProvidedVariableNames()
+        var count = 0
+        val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-        val expression = children[1] as AOPBase
-        val res = ResultIterator()
-        res.close = {
-            child.close()
-            res._close()
+        val columnsIn = Array(variables.size) { child.columns[variables[it]] }
+        val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
+        for (variableIndex in 0 until variables) {
+            outMap[variables[variableIndex]] = columnsOut[variableIndex]
         }
-        if (expression is AOPConstant) {
-            if (expression.value.toBoolean())
-                return child
-            child.close()
-            return ResultIterator()
-        }
-        if (expression is AOPNEQ && (expression.children[0] is AOPConstant || expression.children[0] is AOPVariable) && (expression.children[1] is AOPConstant || expression.children[1] is AOPVariable)) {
-            SanityCheck.checkFalse({ expression.children[0] is AOPConstant && expression.children[1] is AOPConstant })
-            val childA = expression.children[0]
-            val childB = expression.children[1]
-            if (childA is AOPConstant || childB is AOPConstant) {
-                var constID: Value
-                var variableID: Variable
-                if (childA is AOPConstant) {
-                    constID = resultSet.createValue(childA.value)
-                    variableID = resultSet.createVariable((childB as AOPVariable).name)
-                } else {
-                    constID = resultSet.createValue((childB as AOPConstant).value)
-                    variableID = resultSet.createVariable((childA as AOPVariable).name)
-                }
-                res.next = {
-                    Trace.trace<ResultChunk>({ "POPFilter.next" }, {
-                        val outbuf = ResultChunk(resultSet)
-                        val inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                        for (row in inbuf)
-                            if (constID != resultSet.getValue(row, variableID))
-                                outbuf.append(row)
-                        resultFlowProduce({ this@POPFilter }, { outbuf })
-                    })
-                }
-            } else {
-                val variableIDA = resultSet.createVariable((childA as AOPVariable).name)
-                val variableIDB = resultSet.createVariable((childB as AOPVariable).name)
-                res.next = {
-                    Trace.trace<ResultChunk>({ "POPFilter.next" }, {
-                        val outbuf = ResultChunk(resultSet)
-                        var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                        for (row in inbuf)
-                            if (resultSet.getValue(row, variableIDA) != resultSet.getValue(row, variableIDB))
-                                outbuf.append(row)
-                        resultFlowProduce({ this@POPFilter }, { outbuf })
-                    })
+        val res = ColumnIteratorRow(outMap)
+        val expression = (children[1] as AOPBase).evaluate(res)
+        for (variableIndex in 0 until variables) {
+            columnsOut[variableIndex].onEmptyQueue = {
+                var done = false
+                while (!done) {
+                    for (variableIndex2 in 0 until variables.size) {
+                        columnsOut[variableIndex2].tmp = columnsIn[variableIndex2].next()
+//point each iterator to the current value
+                        if (columnsOut[variableIndex2].tmp == null) {
+                            require(variableIndex2 == 0)
+                            for (variableIndex3 in 0 until variables.size) {
+                                columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]._onEmptyQueue
+                            }
+                            done = true
+                            break
+                        }
+                    }
+                    if (!done) {
+//evaluate
+                        val value = expression()
+                        try {
+                            if (value.toBoolean()) {
+//accept/deny row in each iterator
+                                for (variableIndex2 in 0 until variables.size) {
+                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
+                                }
+                                done = true
+                            }
+                        } catch (e: Throwable) {
+                        }
+                    }
                 }
             }
-            return res
-        }
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPFilter.next" }, {
-                val outbuf = ResultChunk(resultSet)
-                var inbuf = resultFlowConsume({ this@POPFilter }, { children[0] }, { child.next() })
-                val resultVektor = expression.calculate(resultSet, inbuf)
-                var pos = 0
-                for (row in inbuf) {
-                    try {
-                        if (resultVektor.data[pos].toBoolean())
-                            outbuf.append(row)
-                    } catch (e: Throwable) {
-                    }
-                    pos++
-                }
-                resultFlowProduce({ this@POPFilter }, { outbuf })
-            })
         }
         return res
-    })
+    }
 }

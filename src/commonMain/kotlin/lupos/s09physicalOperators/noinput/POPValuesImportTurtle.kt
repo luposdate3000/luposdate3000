@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -28,10 +27,9 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*
@@ -42,6 +40,7 @@ import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 class POPValuesImportTurtle : POPValuesImportBase {
     fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {

@@ -1,16 +1,15 @@
 package lupos.s08logicalOptimisation
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.*
 
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
+
 
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"
@@ -29,7 +28,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
                 val resultRow = resultSet.createResultRow()
                 val resultChunk = ResultChunk(resultSet)
                 resultChunk.skipSize(1)
-                val rVektor = node.calculate(resultChunk)
+                val rVektor = node.calculate(row)
                 res = AOPConstant(query, rVektor.data[0])
                 onChange()
             }

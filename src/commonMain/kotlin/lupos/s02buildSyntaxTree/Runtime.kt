@@ -1,8 +1,7 @@
 package lupos.s02buildSyntaxTree
-
 import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.turtle.EOF
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 

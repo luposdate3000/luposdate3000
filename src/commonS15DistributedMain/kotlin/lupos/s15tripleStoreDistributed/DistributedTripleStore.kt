@@ -1,5 +1,4 @@
 package lupos.s15tripleStoreDistributed
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -14,14 +13,14 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
+
 
 class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern, val nodeNames: List<String>) : POPBase(query, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, graphName, params, idx, nodeNames)

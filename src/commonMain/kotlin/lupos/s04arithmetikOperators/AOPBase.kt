@@ -1,13 +1,13 @@
 package lupos.s04arithmetikOperators
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
+impoert lupos.s04logicalOperators.iterator.*
 
 
 abstract class AOPBase(query: Query,
@@ -15,15 +15,6 @@ abstract class AOPBase(query: Query,
                        classname: String,
                        children: Array<OPBase>) :
         OPBase(query, operatorID, classname, ResultSet(ResultSetDictionary()), children) {
-    abstract fun calculate(resultChunk: ResultVektorRaw)
+abstract fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition 
 }
 
-class ResultVektorRaw(val capacity: Int) {
-    val data = Array<ValueDefinition>(capacity) { ValueError() }
-    fun toString(pos: Int, size: Int): String {
-        val res = StringBuilder()
-        for (i in pos until size)
-            res.append("${data[i].toSparql()}, ")
-        return res.toString()
-    }
-}

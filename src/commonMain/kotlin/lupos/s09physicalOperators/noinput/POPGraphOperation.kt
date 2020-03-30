@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -17,13 +16,13 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 class POPGraphOperation(query: Query,
                         val silent: Boolean,

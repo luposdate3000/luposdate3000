@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
@@ -8,9 +7,10 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
+impoert lupos.s04logicalOperators.iterator.*
 
 
 class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
@@ -37,12 +37,12 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
         return true
     }
 
-    override fun calculate(resultChunk: ResultVektorRaw): ResultVektorRaw {
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val value = ValueInteger(count.get())
-        val rVektor = ResultVektorRaw(resultChunk.availableRead())
+        
         for (i in 0 until resultChunk.availableRead())
-            rVektor.data[i] = value
-        return rVektor
+            res = value
+        res
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow) {

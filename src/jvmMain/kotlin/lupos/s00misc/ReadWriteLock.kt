@@ -1,9 +1,8 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 

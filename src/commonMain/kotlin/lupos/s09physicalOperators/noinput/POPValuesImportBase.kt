@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -11,12 +10,12 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s09physicalOperators.POPBase
+
 
 abstract class POPValuesImportBase(query: Query, variables: List<String>) : POPValues(query, variables, mutableListOf<List<String?>>()) {
     fun cleanString(s: String?): String? = Trace.trace({ "POPValuesImportBase.cleanString" }, {

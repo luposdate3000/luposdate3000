@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import dirent.closedir
 import dirent.opendir
 import dirent.readdir
@@ -8,9 +7,8 @@ import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.Query
 
+import lupos.s04logicalOperators.Query
 import platform.posix.FILE
 import stdio.fclose
 import stdio.fgets
@@ -19,6 +17,7 @@ import stdio.fread
 import stdio.fwrite
 import stdio.luposfprintf
 import unistd.luposSTDINread
+
 
 class File(val filename: String) {
     companion object {

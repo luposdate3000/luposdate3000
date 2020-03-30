@@ -1,10 +1,9 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.Query
 
 

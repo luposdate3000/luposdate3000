@@ -1,5 +1,4 @@
 package lupos.s06buildOperatorGraph
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
@@ -123,7 +122,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -162,7 +161,6 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
@@ -181,6 +179,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.*
+
 
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField

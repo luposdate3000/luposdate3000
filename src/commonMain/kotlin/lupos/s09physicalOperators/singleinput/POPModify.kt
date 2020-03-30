@@ -1,25 +1,24 @@
 package lupos.s09physicalOperators.singleinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.*
-
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", arrayOf(child)) {
     val modify = Array<Pair<LOPTriple, EModifyType>>(insert.size + delete.size) {
@@ -76,7 +75,7 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
                     graphName = action.first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = Array(EModifyType.values().size) {Array(3){ mutableListOf<Value>() }}
+                    data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf<Value>() } }
                 }
                 val target = data[graphName]!![action.second.ordinal]!!
                 loop2@ for (columnIndex in 0 until 3) {
@@ -105,7 +104,6 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
                 }
             }
         }
-        return ColumnIteratorRow(mapOf("?success" to ColumnIteratorRepeatValue(1,query.dictionary.createValue( ValueBoolean(true)))))
+        return ColumnIteratorRow(mapOf("?success" to ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(true)))))
     }
-
 }

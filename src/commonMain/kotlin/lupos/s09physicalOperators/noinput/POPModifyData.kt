@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -12,14 +11,14 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, EOperatorID.POPModifyDataID, "POPModifyData", ResultSet(query.dictionary), arrayOf()) {
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data

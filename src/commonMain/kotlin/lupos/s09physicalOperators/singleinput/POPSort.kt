@@ -1,6 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
-import lupos.s04logicalOperators.iterator.*
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -13,12 +11,13 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 import lupos.s09physicalOperators.POPBase
+
 
 class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
@@ -106,7 +105,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
                     require(variableIndex == 0)
                     break@collectData
                 }
-val                iter = ColumnIteratorRepeatValue(1, next)
+                val iter = ColumnIteratorRepeatValue(1, next)
                 if (targetIterators[variableIndex].size == 0) {
 //previously there was no node with this amount of leaves
                     targetIterators[variableIndex].add(iter)

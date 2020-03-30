@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.iterator
-
 import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 
 
 class ColumnIteratorRow(val columns: Map<String, ColumnIterator>)
@@ -126,7 +125,32 @@ class ColumnIteratorChildIterator(var child: ColumnIterator) : ColumnIterator() 
     }
 }
 
+class ColumnIteratorQueue() : ColumnIterator() {
+    var tmp: Value? = null
+    val queue = mutableListOf<Value>()
+    var onEmptyQueue: suspend () -> Unit = _onEmptyQueue
+    suspend fun _onEmptyQueue() {
+    }
+
+    init {
+        next = {
+            if (queue.size == 0) {
+                onEmptyQueue()
+            }
+            var res = null
+            if (queue.size > 0) {
+                res = queue.removeAt(0)
+            }
+        }
+        close = {
+            child.close()
+            _close()
+        }
+    }
+}
+
 class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
+    //TODO only for single column .... replace with sort-distinct
     var last: Value? = null
 
     init {
@@ -146,12 +170,11 @@ class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
 }
 
 class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIterator, val comparator: Comparator<Value>, val higherPriority: ColumnIteratorMergeSort?, var lowerPriority: ColumnIteratorMergeSort?) : ColumnIterator() {
-//column based sort ... need to propagate sort decision to all other columns to stay synchronized
+    //column based sort ... need to propagate sort decision to all other columns to stay synchronized
     var cacheA: Value? = null
     var cacheB: Value? = null
     val queue = mutableListOf<Value>()
     var fastcmp = 0
-
     fun calculate(): Int {
         var res = 0
         if (higherPriority != null) {
@@ -163,7 +186,6 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                 if (lowerPriority != null) {
                     res = lowerPriority.calculate()
                 } else {
-                    res = 1
                     if (higherPriority != null)
                         higherPriority.chooseU(res)
                     choose(res)
@@ -191,6 +213,8 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
     }
 
     fun choose(cmp: Int) {
+        if (res == 0)
+            res = 1
         if (cmp == -1) {
             queue.add(cacheA)
             cacheA = childA.next()
@@ -212,8 +236,8 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
     init {
         cacheA = childA.next()
         cacheB = childB.next()
-require(cacheA!=null)
-require(cacheB!=null)
+        require(cacheA != null)
+        require(cacheB != null)
         next = {
             var res: Value? = null
             if (queue.size > 0) {

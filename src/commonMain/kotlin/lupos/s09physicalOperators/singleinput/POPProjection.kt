@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -9,13 +8,13 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
-
 import lupos.s09physicalOperators.POPBase
+
 
 class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
     override fun toSparql(): String {
@@ -32,16 +31,15 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     override fun equals(other: Any?): Boolean = other is POPProjection && variables.equals(other.variables) && children[0] == other.children[0]
     override fun getProvidedVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
     override fun getRequiredVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
-
-override suspend fun evaluate(): ColumnIteratorRow {
- val variables = getProvidedVariableNames()
-val child = children[0].evaluate()
-val outMap = mutableMapOf<String, ColumnIterator>()
-for (variable in variables) {
-outMap[variable]=child.columns[variable]!!
-}
-return ColumnIteratorRow(outMap)
-}
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val variables = getProvidedVariableNames()
+        val child = children[0].evaluate()
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        for (variable in variables) {
+            outMap[variable] = child.columns[variable]!!
+        }
+        return ColumnIteratorRow(outMap)
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPProjection")

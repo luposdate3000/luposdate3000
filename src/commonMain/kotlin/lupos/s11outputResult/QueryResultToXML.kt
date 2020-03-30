@@ -1,5 +1,4 @@
 package lupos.s11outputResult
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -7,11 +6,11 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.*
-
 import lupos.s09physicalOperators.POPBase
+
 
 object QueryResultToXML {
     suspend fun toXML(node: POPBase): XMLElement {

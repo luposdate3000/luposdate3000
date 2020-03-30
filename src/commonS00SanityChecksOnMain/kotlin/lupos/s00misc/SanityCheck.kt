@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s04arithmetikOperators.ResultVektorRaw
 
 
 object SanityCheck {

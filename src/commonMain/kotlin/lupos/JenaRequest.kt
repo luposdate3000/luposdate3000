@@ -1,13 +1,12 @@
 package lupos
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.parseFromJson
 import lupos.s00misc.XMLElement
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s04logicalOperators.Query
 
+import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.EndpointClientImpl
+
 
 class ExceptionJenaBug(message: String) : Exception(message)
 class JenaRequest {

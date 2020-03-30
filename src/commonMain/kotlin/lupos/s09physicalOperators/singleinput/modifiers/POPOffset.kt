@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -8,12 +7,12 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.ResultVektorRaw
+
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
-
 import lupos.s09physicalOperators.POPBase
+
 
 class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
