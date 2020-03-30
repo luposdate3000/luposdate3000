@@ -12,21 +12,13 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.ResultVektorRaw
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
 import lupos.s09physicalOperators.POPBase
 
 class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPDistinctID, "POPDistinct", arrayOf(child)) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPDistinct)
-            return false
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
-                return false
-        }
-        return true
-    }
-
+    override fun equals(other: Any?)=other is POPDistinct && children[0]==other.children[0]
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT "))
@@ -35,43 +27,14 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
     }
 
     override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPDistinct.evaluate" }, {
-        //column based
+
+override suspend fun evaluate(): ColumnIteratorRow {
+        val variables = getProvidedVariableNames()
+        val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-        var data: ResultChunk? = null
-        var dataLast: ResultChunk? = null
-        CoroutinesHelper.runBlock {
-            child.forEach { chunk ->
-                val next = resultFlowConsume({ this@POPDistinct }, { children[0] }, { chunk })
-                SanityCheck.checkEQ({ next.prev }, { next })
-                SanityCheck.checkEQ({ next.next }, { next })
-                if (next.availableRead() > 0) {
-                    if (dataLast == null) {
-                        data = next
-                        dataLast = next.prev
-                    } else
-                        dataLast = ResultChunk.append(dataLast!!, next)
-                }
-            }
+        for (variable in variables) {
+            outMap[variable] = ColumnIteratorDistinct(child.columns[variable]!!)
         }
-        if (data == null)
-            return ResultIterator()
-        val fastcomparator = ValueComparatorFast()
-        data = ResultChunk.sort(
-                Array(data!!.columns) { fastcomparator },
-                Array(data!!.columns) { it.toLong() },
-                data!!)
-        val res = ResultIterator()
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPDistinct.next" }, {
-                var result = data!!
-                data = ResultChunk.removeFirst(data!!)
-                if (data == null)
-                    res.close()
-                result.makeDistinct()
-                resultFlowProduce({ this@POPDistinct }, { result })
-            })
-        }
-        return res
-    })
+        return ColumnIteratorRow(outMap)
+    }
 }

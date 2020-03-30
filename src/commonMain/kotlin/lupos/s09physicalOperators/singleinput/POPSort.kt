@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import lupos.s04logicalOperators.iterator.*
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -19,7 +20,7 @@ import lupos.s04logicalOperators.Query
 
 import lupos.s09physicalOperators.POPBase
 
-class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", child.resultSet, arrayOf(child)) {
+class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP() = POPSort(query, sortBy, sortOrder, children[0].cloneOP())
     override fun toSparql(): String {
@@ -46,65 +47,6 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         return res
     }
 
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPSort.evaluate" }, {
-        //column based
-        val child = children[0].evaluate()
-        var data: ResultChunk? = null
-        var dataLast: ResultChunk? = null
-        CoroutinesHelper.runBlock {
-            child.forEach { chunk ->
-                val next = resultFlowConsume({ this@POPSort }, { children[0] }, { chunk })
-                SanityCheck.checkEQ({ next.prev }, { next })
-                SanityCheck.checkEQ({ next.next }, { next })
-                if (next.availableRead() > 0) {
-                    if (dataLast == null) {
-                        data = next
-                        dataLast = next.prev
-                    } else
-                        dataLast = ResultChunk.append(dataLast!!, next)
-                }
-            }
-        }
-        if (data == null)
-            return ResultIterator()
-        val columnOrder = Array(data!!.columns) { it.toLong() }
-        for (v in sortBy.size - 1 downTo 0) {
-            val highestPriority = resultSet.createVariable(sortBy[v].name)
-            var index = 0
-            while (columnOrder[index] != highestPriority)
-                index++
-            for (i in index downTo 1) {
-                columnOrder[i] = columnOrder[i - 1]
-            }
-            columnOrder[0] = highestPriority
-        }
-        val fastcomparator = ValueComparatorFast()
-        val comparator = if (sortOrder)
-            ValueComparatorASC(query)
-        else
-            ValueComparatorDESC(query)
-        data = ResultChunk.sort(
-                Array(data!!.columns) {
-                    if (it <= sortBy.size)
-                        comparator
-                    else
-                        fastcomparator
-                },
-                columnOrder,
-                data!!)
-        val res = ResultIterator()
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPSort.next" }, {
-                var result = data!!
-                data = ResultChunk.removeFirst(data!!)
-                if (data == null)
-                    res.close()
-                resultFlowProduce({ this@POPSort }, { result })
-            })
-        }
-        return res
-    })
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         res.addAttribute("uuid", "" + uuid)
@@ -118,5 +60,128 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             res.addAttribute("order", "DESC")
         res.addContent(childrenToXML())
         return res
+    }
+
+    override suspend fun evaluate(): ColumnIteratorRow {
+        var comparator: Comparator<Value>
+        if (sortOrder)
+            comparator = ValueComparatorASC(query)
+        else
+            comparator = ValueComparatorDESC(query)
+        val fastcomparator = ValueComparatorFast()
+        val variablestmp = getProvidedVariableNames()
+        val variables = Array(variablestmp.size) { variablestmp[it] }
+        for (v in sortBy.size - 1 downTo 0) {
+            val highestPriority = sortBy[v].name
+            var index = 0
+            while (variables[index] != highestPriority)
+                index++
+            for (i in index downTo 1) {
+                variables[i] = variables[i - 1]
+            }
+            variables[0] = highestPriority
+        }
+//variables string array is now sorted by column sort-priority
+        val comparators = Array(variables.size) {
+            if (it < sortBy.size) {
+                comparator
+            } else {
+                fastcomparator
+            }
+        }
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        val child = children[0].evaluate()
+        val iterators = Array(variables.size) { child.columns[variables[it]]!! }
+//TODO leaves should contain more than a single row of data
+        val targetIterators = Array(variables.size) { mutableListOf<ColumnIterator?>() }
+//the array holds intances for every variable
+//the list index sqared is the depth of the merge sort. That means the index squared is the number of "leaves" in the mergesort-tree.
+//the intention is to have a balanced merge-sort tree
+        collectData@ while (true) {
+            var processDone = false
+            for (variableIndex in 0 until variables.size) {
+//insert new single page
+                var next = iterators[variableIndex]!!.next()
+                if (next == null) {
+                    require(variableIndex == 0)
+                    break@collectData
+                }
+val                iter = ColumnIteratorRepeatValue(1, next)
+                if (targetIterators[variableIndex].size == 0) {
+//previously there was no node with this amount of leaves
+                    targetIterators[variableIndex].add(iter)
+                    processDone = true
+                } else if (targetIterators[variableIndex][0] == null) {
+//there was a node with this amount of leaves, but it already is included in a larger tree
+                    targetIterators[variableIndex][0] = iter
+                    processDone = true
+                } else {
+//merge with another node with the same amount of leaves
+                    if (variableIndex > 0) {
+                        targetIterators[variableIndex][0] = ColumnIteratorMergeSort(targetIterators[variableIndex][0]!!, iter, comparators[variableIndex], targetIterators[variableIndex - 1][0]!! as ColumnIteratorMergeSort, null)
+                        (targetIterators[variableIndex - 1][0]!! as ColumnIteratorMergeSort).lowerPriority = targetIterators[variableIndex][0]!! as ColumnIteratorMergeSort
+                    } else {
+                        targetIterators[variableIndex][0] = ColumnIteratorMergeSort(targetIterators[variableIndex][0]!!, iter, comparators[variableIndex], null, null)
+                    }
+                }
+            }
+            if (!processDone) {
+                processMergeTree(variables.size, targetIterators, 1, comparators)
+            }
+        }
+//collect all partial merge-sort-trees to construct an as much as possible ballanced one
+        var index = 1
+        for (variableIndex in 0 until variables.size) {
+            targetIterators[variableIndex].add(null)
+        }
+        var limit = targetIterators[0].size
+        while (index < limit && targetIterators[0][index] == null) {
+            index++
+        }
+        while (index < limit) {
+            if (targetIterators[0][index] == null) {
+                for (variableIndex in 0 until variables.size) {
+                    targetIterators[variableIndex][index] = targetIterators[variableIndex][index - 1]
+                }
+            } else {
+                processMergeTree(variables.size, targetIterators, index, comparators)
+            }
+            index++
+        }
+        for (variableIndex in 0 until variables.size) {
+            outMap[variables[variableIndex]!!] = targetIterators[variableIndex][limit]!!
+        }
+        return ColumnIteratorRow(outMap)
+    }
+
+    fun processMergeTree(variablesSize: Int, targetIterators: Array<MutableList<ColumnIterator?>>, index: Int, comparators: Array<Comparator<Value>>) {
+        var targetIndex = index
+        require(targetIndex > 0)
+        var processDone = false
+        while (!processDone) {
+            for (variableIndex in 0 until variablesSize) {
+                val iter = targetIterators[variableIndex][targetIndex - 1]
+                require(iter != null)
+                if (targetIterators[variableIndex].size == targetIndex) {
+//the first merge-node with this amount of leaves
+                    targetIterators[variableIndex].add(iter)
+                    processDone = true
+                } else if (targetIterators[variableIndex][targetIndex] == null) {
+//there previously was a node with this amount of leaves, but it is already merged somewhere
+                    targetIterators[variableIndex][targetIndex] = iter
+                    processDone = true
+                } else {
+//merge with another node of same size - and continue to merge the result with other larger merge-trees
+                    if (variableIndex > 0) {
+                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter, comparators[variableIndex], targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort, null)
+                        (targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort).lowerPriority = targetIterators[variableIndex][targetIndex]!! as ColumnIteratorMergeSort
+                    } else {
+                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter, comparators[variableIndex], null, null)
+                    }
+                }
+                targetIterators[variableIndex][targetIndex - 1] = null
+            }
+            targetIndex++
+        }
     }
 }
