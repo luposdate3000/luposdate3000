@@ -32,19 +32,21 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        val value = a.get()!!
-        for (i in 0 until resultChunk.availableRead())
-            res = value
-        res
-    }
+override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
+val res=ColumnIteratorAggregate()
+res.addValue={value->
+if(res.value is ValueUndef || res.value.compareTo(value)<0){
+res.value=value
+}
+}
+return res
+}
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow) {
-        val child = children[0] as AOPVariable
-        val variable = resultSet.createVariable(child.name)
-        val b = resultSet.getValueObject(resultRow, variable)
-        if (a.get() is ValueUndef || a.get()!!.compareTo(b) < 0)
-            a.set(b)
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+val tmp=row.columns["#"+uuid]!!as ColumnIteratorAggregate
+return{
+tmp.value
+}
     }
 
     override fun cloneOP() = AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

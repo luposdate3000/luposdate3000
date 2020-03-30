@@ -53,7 +53,9 @@ class SparqlTestSuite() {
                 GlobalLogger.log(ELoggerType.RELEASE, { "  Test: sp2b/$f" })
                 val queryFile = "resources/sp2b/$f.sparql"
                 val resultFile = "resources/sp2b/$f.srj"
+CoroutinesHelper.runBlock{
                 parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+}
             }
         }
         GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace" })
@@ -348,14 +350,17 @@ class SparqlTestSuite() {
         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "services : $services" })
         if (queryFile == null)
             return true
-        val success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
+var success=false
+CoroutinesHelper.runBlock{
+         success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
+}
         return success == expectedResult
     }
 
     @JvmField
     var i = 0
 
-    fun parseSPARQLAndEvaluate(//
+suspend    fun parseSPARQLAndEvaluate(//
             testName: String,//
             expectedResult: Boolean,//
             queryFile: String, //
@@ -385,16 +390,16 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!.first()!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, xmlQueryInput!!)
-                        DistributedTripleStore.getDefaultGraph(query).addData(tmp)
+                        val tmp = POPValuesImportXML(query, xmlQueryInput)
+                        DistributedTripleStore.getDefaultGraph(query).modify(tmp,EModifyType.INSERT)
                     }
                     query.commit()
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first().toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.toPrettyString() })
                     try {
-                        jena.insertDataIntoGraph(null, xmlQueryInput!!.first())
+                        jena.insertDataIntoGraph(null, xmlQueryInput!!)
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
@@ -403,15 +408,15 @@ class SparqlTestSuite() {
                     val inputData = readFileOrNull(it["filename"])
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!.first()!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPValuesImportXML(query, xmlQueryInput!!))
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).modify(POPValuesImportXML(query, xmlQueryInput!!),EModifyType.INSERT)
                     }
                     query.commit()
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.toPrettyString() })
                     try {
-                        jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!.first())
+                        jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!)
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
@@ -420,7 +425,7 @@ class SparqlTestSuite() {
                         val n = s["name"]!!
                         val fn = s["filename"]!!
                         val fc = readFileOrNull(fn)!!
-                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
+//                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                     }
                 val query = Query()
                 var res: Boolean
@@ -460,12 +465,12 @@ class SparqlTestSuite() {
                     val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(EIndexPattern.SPO)
                     tmp.params = arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"))
                     var xmlGraphActual = QueryResultToXML.toXML(tmp)
-                    if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual.first())) {
+                    if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
                         return false
                     } else {
@@ -473,7 +478,7 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
                     }
                     verifiedOutput = true
                 }
@@ -507,8 +512,8 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
                         val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
                         query2.commit()
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString() })
-                        if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
+                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
+                        if (xmlQueryResultRecovered.myEquals(xmlQueryResult)) {
                             if (expectedResult) {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
                             } else {

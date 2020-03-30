@@ -7,6 +7,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s08logicalOptimisation.OptimizerBase
 
@@ -23,20 +24,9 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         var res = node
         if (node is AOPBase && node !is AOPValue) {
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
-                val resultSet = ResultSet(query.dictionary)
-                val resultRow = resultSet.createResultRow()
-                val resultChunk = ResultChunk(resultSet)
-                resultChunk.skipSize(1)
-                val rVektor = node.calculate(row)
-                res = AOPConstant(query, rVektor.data[0])
-                onChange()
-            }
-        }
-        if (node is LOPBind) {
-            val child = node.children[0]
-            val expression = node.children[1]
-            if (expression is AOPVariable && !child.getProvidedVariableNames().contains(expression.name)) {
-                node.children[1] = AOPConstant(query, ValueUndef())
+val outMap = mutableMapOf<String, ColumnIterator>()
+val value=node.evaluate(ColumnIteratorRow(outMap))()
+                res = AOPConstant(query, value)
                 onChange()
             }
         }

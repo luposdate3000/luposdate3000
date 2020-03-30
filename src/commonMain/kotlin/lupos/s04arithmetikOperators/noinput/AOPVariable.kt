@@ -25,7 +25,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
             require(tmp is ColumnIteratorQueue)
             val column = tmp!! as ColumnIteratorQueue
             return {
-                query.dictionary.getValue(column.tmp)
+                query.dictionary.getValue(column.tmp!!)
             }
         }
     }

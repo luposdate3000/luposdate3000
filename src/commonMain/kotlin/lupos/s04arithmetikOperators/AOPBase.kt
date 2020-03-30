@@ -13,6 +13,6 @@ abstract class AOPBase(query: Query,
                        operatorID: EOperatorID,
                        classname: String,
                        children: Array<OPBase>) :
-        OPBase(query, operatorID, classname, ResultSet(ResultSetDictionary()), children) {
+        OPBase(query, operatorID, classname, children) {
     abstract fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition
 }

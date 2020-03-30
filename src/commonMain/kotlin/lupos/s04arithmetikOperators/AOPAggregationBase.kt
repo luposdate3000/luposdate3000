@@ -15,10 +15,5 @@ abstract class AOPAggregationBase(query: Query,
                                   operatorID: EOperatorID,
                                   classname: String,
                                   children: Array<OPBase>) : AOPBase(query, operatorID, classname, children) {
-    @JvmField
-    var a = ThreadSafeMutableAny<ValueDefinition>(ValueUndef())
-    @JvmField
-    var count = ThreadSafeMutableAny(0)
-
-    abstract fun calculate(resultSet: ResultSet, resultRow: ResultRow)
+abstract fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate
 }

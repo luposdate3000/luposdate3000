@@ -2,7 +2,9 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s03resultRepresentation.*
 
-class ColumnIteratorRow(val columns: Map<String, ColumnIterator>)
+class ColumnIteratorRow(val columns: Map<String, ColumnIterator>){
+var count=0
+}
 open class ColumnIterator() {
     var next: suspend () -> Value? = ::_next
     var close: () -> Unit = ::_close
@@ -18,6 +20,14 @@ open class ColumnIterator() {
     }
 
     suspend fun _next(): Value? = null
+}
+
+class ColumnIteratorAggregate():ColumnIterator() {
+var value:ValueDefinition=ResultSetDictionary.undefValue2
+var count=0
+var addValue:suspend(ValueDefinition)->Unit=::_addValue
+suspend fun _addValue(value:ValueDefinition){
+}
 }
 
 class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterator() {
@@ -136,7 +146,7 @@ class ColumnIteratorQueue() : ColumnIterator() {
             if (queue.size == 0) {
                 onEmptyQueue()
             }
-            var res:Value = null
+            var res:Value? = null
             if (queue.size > 0) {
                 res = queue.removeAt(0)
             }

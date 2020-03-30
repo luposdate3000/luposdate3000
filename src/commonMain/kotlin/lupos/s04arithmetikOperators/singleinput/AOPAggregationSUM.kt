@@ -32,27 +32,34 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        val value = a.get()!!
-        for (i in 0 until resultChunk.availableRead())
-            res = value
-        res
-    }
+override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
+val res=ColumnIteratorAggregate()
+res.addValue={value->
+res.count++
+if(value is ValueError){
+res.value=value
+res.addValue=res::_addValue
+}else if(res.value is ValueUndef){
+res.value=value
+}else if(res.value is ValueDouble || value is ValueDouble){
+res.value=ValueDouble(res.value.toDouble()+value.toDouble())
+}else if(res.value is ValueDecimal || value is ValueDecimal){
+res.value=ValueDecimal(res.value.toDouble()+value.toDouble())
+}else if(res.value is ValueInteger || value is ValueInteger){
+res.value=ValueInteger(res.value.toInt()+value.toInt())
+}else{
+res.value=ValueError()
+res.addValue=res::_addValue
+}
+}
+return res
+}
 
-    override fun calculate(resultSet: ResultSet, resultRow: ResultRow) {
-        val child = children[0] as AOPVariable
-        val variable = resultSet.createVariable(child.name)
-        val b = resultSet.getValueObject(resultRow, variable)
-        if (a.get() is ValueUndef)
-            a.set(b)
-        else if (a.get() is ValueDouble || b is ValueDouble)
-            a.set(ValueDouble(a.get()!!.toDouble() + b.toDouble()))
-        else if (a.get() is ValueDecimal || b is ValueDecimal)
-            a.set(ValueDecimal(a.get()!!.toDouble() + b.toDouble()))
-        else if (a.get() is ValueInteger || b is ValueInteger)
-            a.set(ValueInteger(a.get()!!.toInt() + b.toInt()))
-        else
-            a.set(ValueError())
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+val tmp=row.columns["#"+uuid]!!as ColumnIteratorAggregate
+return{
+tmp.value
+}
     }
 
     override fun cloneOP() = AOPAggregationSUM(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

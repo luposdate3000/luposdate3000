@@ -10,18 +10,13 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POPEmptyRow", ResultSet(query.dictionary), arrayOf()) {
+class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POPEmptyRow",  arrayOf()) {
     override fun cloneOP() = POPEmptyRow(query)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
-    override fun evaluate(): ResultIterator {//column based
-        val res = ResultIterator()
-        res.next = {
-            res.close()
-            val outbuffer = ResultChunk(resultSet)
-            outbuffer.skipSize(1)
-            resultFlowProduce({ this@POPEmptyRow }, { outbuffer })
-        }
-        return res
+
+override suspend fun evaluate(): ColumnIteratorRow {
+        val outMap = mutableMapOf<String, ColumnIterator>()
+        return ColumnIteratorRow(outMap,1)
     }
 }
