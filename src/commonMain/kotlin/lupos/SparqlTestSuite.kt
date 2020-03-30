@@ -6,7 +6,6 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
-import lupos.s00misc.printAllMicroTest
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -389,7 +388,7 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, xmlQueryInput!!.first())
+                        val tmp = POPValuesImportXML(query, xmlQueryInput!!)
                         DistributedTripleStore.getDefaultGraph(query).addData(tmp)
                     }
                     query.commit()
@@ -407,7 +406,7 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPValuesImportXML(query, xmlQueryInput!!.first()))
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).addData(POPValuesImportXML(query, xmlQueryInput!!))
                     }
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first().toPrettyString() })
@@ -421,7 +420,7 @@ class SparqlTestSuite() {
                         val n = s["name"]!!
                         val fn = s["filename"]!!
                         val fc = readFileOrNull(fn)!!
-                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
+                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                     }
                 val query = Query()
                 var res: Boolean
@@ -450,7 +449,7 @@ class SparqlTestSuite() {
                 var xmlQueryResult: XMLElement? = null
                 if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
-                    xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
+                    xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                     query.commit()
                 }

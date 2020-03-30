@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPFilterID, "POPFilter", child.resultSet, arrayOf(child, filter)) {
+class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter)) {
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT "))
@@ -38,22 +38,22 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
-        for (variableIndex in 0 until variables) {
+        for (variableIndex in 0 until variables.size) {
             outMap[variables[variableIndex]] = columnsOut[variableIndex]
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(res)
-        for (variableIndex in 0 until variables) {
+        for (variableIndex in 0 until variables.size) {
             columnsOut[variableIndex].onEmptyQueue = {
                 var done = false
                 while (!done) {
                     for (variableIndex2 in 0 until variables.size) {
-                        columnsOut[variableIndex2].tmp = columnsIn[variableIndex2].next()
+                        columnsOut[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
 //point each iterator to the current value
                         if (columnsOut[variableIndex2].tmp == null) {
                             require(variableIndex2 == 0)
                             for (variableIndex3 in 0 until variables.size) {
-                                columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]._onEmptyQueue
+                                columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]::_onEmptyQueue
                             }
                             done = true
                             break
@@ -66,7 +66,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
                             if (value.toBoolean()) {
 //accept/deny row in each iterator
                                 for (variableIndex2 in 0 until variables.size) {
-                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
+                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
                                 }
                                 done = true
                             }

@@ -23,22 +23,21 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
-        val childsB = Array(b.children.size) { (b.children[it] as AOPBase).evaluate(row) }
+        require(children[1] is AOPSet)
+        val childsB = Array(children[1].children.size) { (children[1].children[it] as AOPBase).evaluate(row) }
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
             var found = false
             var noError = true
-            if (b is AOPSet) {
-                for (childB in childsB) {
-                    try {
-                        if (childB() == a) {
-                            found = true
-                            break
-                        }
-                    } catch (e: Throwable) {
-                        noError = false
+            for (childB in childsB) {
+                try {
+                    if (childB() == a) {
+                        found = true
+                        break
                     }
+                } catch (e: Throwable) {
+                    noError = false
                 }
             }
             found = !found

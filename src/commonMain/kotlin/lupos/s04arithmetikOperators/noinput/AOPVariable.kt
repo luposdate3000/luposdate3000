@@ -19,12 +19,14 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         val tmp = row.columns[name]
         if (tmp == null) {
             return {
-                query.dictionary.undefValue2
+                ResultSetDictionary.undefValue2
             }
         } else {
-            val column = tmp!!
+            require(tmp is ColumnIteratorQueue)
+            val column = tmp!! as ColumnIteratorQueue
             return {
                 query.dictionary.getValue(column.tmp)
             }
         }
     }
+}
