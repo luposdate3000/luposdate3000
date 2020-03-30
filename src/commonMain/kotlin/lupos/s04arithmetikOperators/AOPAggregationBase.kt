@@ -15,5 +15,5 @@ abstract class AOPAggregationBase(query: Query,
                                   operatorID: EOperatorID,
                                   classname: String,
                                   children: Array<OPBase>) : AOPBase(query, operatorID, classname, children) {
-abstract fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate
+    abstract fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate
 }

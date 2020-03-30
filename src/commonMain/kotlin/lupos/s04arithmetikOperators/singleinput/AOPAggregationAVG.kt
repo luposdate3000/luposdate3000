@@ -31,42 +31,44 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
-override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
-val res=ColumnIteratorAggregate()
-val child = (children[0] as AOPBase).evaluate(row)
-res.addValue={
-val value=child()
-res.count++
-if(value is ValueError){
-res.value=value
-res.addValue=res::_addValue
-}else if(res.value is ValueUndef){
-res.value=value
-}else if(res.value is ValueDouble || value is ValueDouble){
-res.value=ValueDouble(res.value.toDouble()+value.toDouble())
-}else if(res.value is ValueDecimal || value is ValueDecimal){
-res.value=ValueDecimal(res.value.toDouble()+value.toDouble())
-}else if(res.value is ValueInteger || value is ValueInteger){
-res.value=ValueInteger(res.value.toInt()+value.toInt())
-}else{
-res.value=ValueError()
-res.addValue=res::_addValue
-}
-}
-return res
-}
+    override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate {
+        val res = ColumnIteratorAggregate()
+        val child = (children[0] as AOPBase).evaluate(row)
+        res.evaluate = {
+            val value = child()
+            res.count++
+            if (value is ValueError) {
+                res.value = value
+                res.evaluate = res::_evaluate
+            } else if (res.value is ValueUndef) {
+                res.value = value
+            } else if (res.value is ValueDouble || value is ValueDouble) {
+                res.value = ValueDouble(res.value.toDouble() + value.toDouble())
+            } else if (res.value is ValueDecimal || value is ValueDecimal) {
+                res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
+            } else if (res.value is ValueInteger || value is ValueInteger) {
+                res.value = ValueInteger(res.value.toInt() + value.toInt())
+            } else {
+                res.value = ValueError()
+                res.evaluate = res::_evaluate
+            }
+        }
+        return res
+    }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-val tmp=row.columns["#"+uuid]!!as ColumnIteratorAggregate
-return{
-if(tmp.value is ValueDouble){
-ValueDouble(tmp.value.toDouble()/tmp.count)
-}else if(tmp.value is ValueDecimal){
-ValueDecimal(tmp.value.toDouble()/tmp.count)
-}else if(tmp.value is ValueInteger){
-ValueInteger(tmp.value.toInt()/tmp.count)
-}
-}
+        val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
+        return {
+            if (tmp.value is ValueDouble) {
+                ValueDouble(tmp.value.toDouble() / tmp.count)
+            } else if (tmp.value is ValueDecimal) {
+                ValueDecimal(tmp.value.toDouble() / tmp.count)
+            } else if (tmp.value is ValueInteger) {
+                ValueInteger(tmp.value.toInt() / tmp.count)
+            } else {
+                ValueError()
+            }
+        }
     }
 
     override fun cloneOP() = AOPAggregationAVG(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

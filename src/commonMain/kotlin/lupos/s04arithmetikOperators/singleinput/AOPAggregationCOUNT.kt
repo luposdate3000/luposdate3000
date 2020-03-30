@@ -36,19 +36,19 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
         return true
     }
 
-override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
-val res=ColumnIteratorAggregate()
-res.addValue={
-res.count++
-}
-return res
-}
+    override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate {
+        val res = ColumnIteratorAggregate()
+        res.evaluate = {
+            res.count++
+        }
+        return res
+    }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-val tmp=row.columns["#"+uuid]!!as ColumnIteratorAggregate
-return{
-ValueInteger(tmp.count)
-}
+        val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
+        return {
+            ValueInteger(tmp.count)
+        }
     }
 
     override fun cloneOP() = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

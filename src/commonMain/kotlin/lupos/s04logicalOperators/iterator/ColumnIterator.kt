@@ -2,9 +2,10 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s03resultRepresentation.*
 
-class ColumnIteratorRow(val columns: Map<String, ColumnIterator>){
-var count=0
+class ColumnIteratorRow(val columns: Map<String, ColumnIterator>) {
+    var count = 0
 }
+
 open class ColumnIterator() {
     var next: suspend () -> Value? = ::_next
     var close: () -> Unit = ::_close
@@ -22,12 +23,12 @@ open class ColumnIterator() {
     suspend fun _next(): Value? = null
 }
 
-class ColumnIteratorAggregate():ColumnIterator() {
-var value:ValueDefinition=ResultSetDictionary.undefValue2
-var count=0
-var evaluate:suspend()->Unit=::_addValue
-suspend fun _addValue(){
-}
+class ColumnIteratorAggregate() : ColumnIterator() {
+    var value: ValueDefinition = ResultSetDictionary.undefValue2
+    var count = 0
+    var evaluate: suspend () -> Unit = ::_evaluate
+    suspend fun _evaluate() {
+    }
 }
 
 class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterator() {
@@ -146,11 +147,11 @@ class ColumnIteratorQueue() : ColumnIterator() {
             if (queue.size == 0) {
                 onEmptyQueue()
             }
-            var res:Value? = null
+            var res: Value? = null
             if (queue.size > 0) {
                 res = queue.removeAt(0)
             }
-res
+            res
         }
         close = {
             _close()
@@ -207,23 +208,23 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                 choose(res)
             }
         }
-return res
+        return res
     }
 
-suspend    fun chooseU(cmp: Int) {
+    suspend fun chooseU(cmp: Int) {
         choose(cmp)
         if (higherPriority != null)
             higherPriority.chooseU(cmp)
     }
 
-suspend    fun chooseD(cmp: Int) {
+    suspend fun chooseD(cmp: Int) {
         choose(cmp)
         if (lowerPriority != null)
             lowerPriority!!.chooseD(cmp)
     }
 
-suspend    fun choose(cmp1: Int) {
-var cmp=cmp1
+    suspend fun choose(cmp1: Int) {
+        var cmp = cmp1
         if (cmp == 0)
             cmp = 1
         if (cmp == -1) {
@@ -245,40 +246,40 @@ var cmp=cmp1
     }
 
     init {
-next={
-        cacheA = childA!!.next()
-        cacheB = childB!!.next()
-        require(cacheA != null)
-        require(cacheB != null)
         next = {
-            var res: Value? = null
-            if (queue.size > 0) {
-                res = queue.removeAt(0)
-            }
-            if (res == null) {
-                if (fastcmp != 0) {
-                    if (fastcmp == -1) {
-                        next = {
-                            childA.next()
+            cacheA = childA!!.next()
+            cacheB = childB!!.next()
+            require(cacheA != null)
+            require(cacheB != null)
+            next = {
+                var res: Value? = null
+                if (queue.size > 0) {
+                    res = queue.removeAt(0)
+                }
+                if (res == null) {
+                    if (fastcmp != 0) {
+                        if (fastcmp == -1) {
+                            next = {
+                                childA.next()
+                            }
+                            res = childA.next()
+                        } else {
+                            next = {
+                                childB.next()
+                            }
+                            res = childB.next()
                         }
-                        res = childA.next()
                     } else {
-                        next = {
-                            childB.next()
+                        calculate()
+                        if (queue.size > 0) {
+                            res = queue.removeAt(0)
                         }
-                        res = childB.next()
-                    }
-                } else {
-                    calculate()
-                    if (queue.size > 0) {
-                        res = queue.removeAt(0)
                     }
                 }
+                res
             }
-            res
+            next()
         }
-next()
-}
         close = {
             childA.close()
             childB.close()

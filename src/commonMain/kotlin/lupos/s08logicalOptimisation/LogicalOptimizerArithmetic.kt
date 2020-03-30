@@ -24,8 +24,8 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         var res = node
         if (node is AOPBase && node !is AOPValue) {
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
-val outMap = mutableMapOf<String, ColumnIterator>()
-val value=node.evaluate(ColumnIteratorRow(outMap))()
+                val outMap = mutableMapOf<String, ColumnIterator>()
+                val value = node.evaluate(ColumnIteratorRow(outMap))()
                 res = AOPConstant(query, value)
                 onChange()
             }

@@ -52,7 +52,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         val expression = (children[1] as AOPBase).evaluate(res)
         for (variableIndex in 0 until variables.size) {
             columnsOut[variableIndex].onEmptyQueue = {
-var done=false
+                var done = false
                 for (variableIndex2 in 0 until variables.size) {
                     columnsOut[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
 //point each iterator to the current value
@@ -61,12 +61,12 @@ var done=false
                         for (variableIndex3 in 0 until variables.size) {
                             columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]::_onEmptyQueue
                         }
-			done=true
-break
+                        done = true
+                        break
                     }
                 }
-if(!done)
-                columnBound.queue.add(query.dictionary.createValue(expression()))
+                if (!done)
+                    columnBound.queue.add(query.dictionary.createValue(expression()))
             }
         }
         return res

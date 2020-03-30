@@ -32,36 +32,36 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
-override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
-val res=ColumnIteratorAggregate()
-val child = (children[0] as AOPBase).evaluate(row)
-res.addValue={
-val value=child()
-res.count++
-if(value is ValueError){
-res.value=value
-res.addValue=res::_addValue
-}else if(res.value is ValueUndef){
-res.value=value
-}else if(res.value is ValueDouble || value is ValueDouble){
-res.value=ValueDouble(res.value.toDouble()+value.toDouble())
-}else if(res.value is ValueDecimal || value is ValueDecimal){
-res.value=ValueDecimal(res.value.toDouble()+value.toDouble())
-}else if(res.value is ValueInteger || value is ValueInteger){
-res.value=ValueInteger(res.value.toInt()+value.toInt())
-}else{
-res.value=ValueError()
-res.addValue=res::_addValue
-}
-}
-return res
-}
+    override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate {
+        val res = ColumnIteratorAggregate()
+        val child = (children[0] as AOPBase).evaluate(row)
+        res.evaluate = {
+            val value = child()
+            res.count++
+            if (value is ValueError) {
+                res.value = value
+                res.evaluate = res::_evaluate
+            } else if (res.value is ValueUndef) {
+                res.value = value
+            } else if (res.value is ValueDouble || value is ValueDouble) {
+                res.value = ValueDouble(res.value.toDouble() + value.toDouble())
+            } else if (res.value is ValueDecimal || value is ValueDecimal) {
+                res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
+            } else if (res.value is ValueInteger || value is ValueInteger) {
+                res.value = ValueInteger(res.value.toInt() + value.toInt())
+            } else {
+                res.value = ValueError()
+                res.evaluate = res::_evaluate
+            }
+        }
+        return res
+    }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-val tmp=row.columns["#"+uuid]!!as ColumnIteratorAggregate
-return{
-tmp.value
-}
+        val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
+        return {
+            tmp.value
+        }
     }
 
     override fun cloneOP() = AOPAggregationSUM(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

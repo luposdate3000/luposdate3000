@@ -32,23 +32,23 @@ class AOPAggregationSAMPLE(query: Query, @JvmField val distinct: Boolean, childs
         return true
     }
 
-override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate{
-val res=ColumnIteratorAggregate()
-val child = (children[0] as AOPBase).evaluate(row)
-res.addValue={
-val value=child()
-res.value=value
-res.addValue={
-}
-}
-return res
-}
+    override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate {
+        val res = ColumnIteratorAggregate()
+        val child = (children[0] as AOPBase).evaluate(row)
+        res.evaluate = {
+            val value = child()
+            res.value = value
+            res.evaluate = {
+            }
+        }
+        return res
+    }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-val tmp=row.columns["#"+uuid]!!as ColumnIteratorAggregate
-return{
-tmp.value
-}
+        val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
+        return {
+            tmp.value
+        }
     }
 
     override fun cloneOP() = AOPAggregationSAMPLE(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

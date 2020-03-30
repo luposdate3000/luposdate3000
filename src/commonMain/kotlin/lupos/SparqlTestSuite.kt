@@ -53,9 +53,9 @@ class SparqlTestSuite() {
                 GlobalLogger.log(ELoggerType.RELEASE, { "  Test: sp2b/$f" })
                 val queryFile = "resources/sp2b/$f.sparql"
                 val resultFile = "resources/sp2b/$f.srj"
-CoroutinesHelper.runBlock{
-                parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
-}
+                CoroutinesHelper.runBlock {
+                    parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+                }
             }
         }
         GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace" })
@@ -350,17 +350,17 @@ CoroutinesHelper.runBlock{
         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "services : $services" })
         if (queryFile == null)
             return true
-var success=false
-CoroutinesHelper.runBlock{
-         success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
-}
+        var success = false
+        CoroutinesHelper.runBlock {
+            success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
+        }
         return success == expectedResult
     }
 
     @JvmField
     var i = 0
 
-suspend    fun parseSPARQLAndEvaluate(//
+    suspend fun parseSPARQLAndEvaluate(//
             testName: String,//
             expectedResult: Boolean,//
             queryFile: String, //
@@ -394,7 +394,7 @@ suspend    fun parseSPARQLAndEvaluate(//
                     val query = Query()
                     CoroutinesHelper.runBlock {
                         val tmp = POPValuesImportXML(query, xmlQueryInput)
-                        DistributedTripleStore.getDefaultGraph(query).modify(tmp,EModifyType.INSERT)
+                        DistributedTripleStore.getDefaultGraph(query).modify(tmp, EModifyType.INSERT)
                     }
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.toPrettyString() })
@@ -411,7 +411,7 @@ suspend    fun parseSPARQLAndEvaluate(//
                     var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!.first()!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).modify(POPValuesImportXML(query, xmlQueryInput!!),EModifyType.INSERT)
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).modify(POPValuesImportXML(query, xmlQueryInput!!), EModifyType.INSERT)
                     }
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.toPrettyString() })
