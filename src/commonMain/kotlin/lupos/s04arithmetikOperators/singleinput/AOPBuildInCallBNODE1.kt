@@ -20,10 +20,8 @@ class AOPBuildInCallBNODE1(query: Query, child: AOPBase) : AOPBase(query, EOpera
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
             val a = childA()
-            res = ValueBnode("" + uuid + a.valueToString())
-            res
+            ValueBnode("" + uuid + a.valueToString())
         }
     }
 

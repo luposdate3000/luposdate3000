@@ -33,7 +33,6 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
     override suspend fun evaluate(): ColumnIteratorRow {
 //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = getProvidedVariableNames()
-        var count = 0
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }

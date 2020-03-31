@@ -41,7 +41,7 @@ class POPGraphOperation(query: Query,
             EGraphOperationType.COPY -> res += "COPY"
             EGraphOperationType.MOVE -> res += "MOVE"
             EGraphOperationType.ADD -> res += "ADD"
-            else -> SanityCheck.checkUnreachable()
+
         }
         if (silent)
             res += " SILENT "
@@ -52,7 +52,7 @@ class POPGraphOperation(query: Query,
             EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
             EGraphRefType.NamedGraphRef -> res += "NAMED"
             EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph1iri!! + ">"
-            else -> SanityCheck.checkUnreachable()
+
         }
         if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
             res += " TO "
@@ -61,7 +61,7 @@ class POPGraphOperation(query: Query,
                 EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
                 EGraphRefType.NamedGraphRef -> res += "NAMED"
                 EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph2iri!! + ">"
-                else -> SanityCheck.checkUnreachable()
+
             }
         }
         return res

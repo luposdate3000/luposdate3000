@@ -38,7 +38,6 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
-        var count = 0
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }

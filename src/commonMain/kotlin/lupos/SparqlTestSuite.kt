@@ -390,16 +390,16 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!.first()!!
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!.first()
                     val query = Query()
                     CoroutinesHelper.runBlock {
                         val tmp = POPValuesImportXML(query, xmlQueryInput).evaluate()
                         DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     }
                     query.commit()
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
-                        jena.insertDataIntoGraph(null, xmlQueryInput!!)
+                        jena.insertDataIntoGraph(null, xmlQueryInput)
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
@@ -408,16 +408,16 @@ class SparqlTestSuite() {
                     val inputData = readFileOrNull(it["filename"])
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!.first()!!
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!.first()
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, xmlQueryInput!!).evaluate()
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!, true).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                        val tmp = POPValuesImportXML(query, xmlQueryInput).evaluate()
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     }
                     query.commit()
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {
-                        jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput!!)
+                        jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput)
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
@@ -490,14 +490,14 @@ class SparqlTestSuite() {
                     try {
                         val jenaResult = jena.requestQuery(toParse)
                         println("check jena")
-                        if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!)) {
+                        if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first())) {
                             println(jenaResult.myEqualsUnclean(xmlQueryResult))
-                            println(jenaResult.myEqualsUnclean(xmlQueryTarget!!.first()!!))
-                            println(xmlQueryTarget!!.first()!!.myEqualsUnclean(xmlQueryResult))
+                            println(jenaResult.myEqualsUnclean(xmlQueryTarget.first()))
+                            println(xmlQueryTarget.first().myEqualsUnclean(xmlQueryResult))
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget!!.first()!!.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.first().toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
                             return false
                         }

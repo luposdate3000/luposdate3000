@@ -57,9 +57,9 @@ open class POPValues : POPBase {
                 return false
             var columns1 = Array(variables.size) { data[variables[it]] }
             var columns2 = Array(variables.size) { other.data[variables[it]] }
-            for (v in 0 until variables.size) {
+            for (vIndex in 0 until variables.size) {
                 for (i in 0 until columns1[0]!!.size) {
-                    if (columns1[v]!![i] != columns2[v]!![i])
+                    if (columns1[vIndex]!![i] != columns2[vIndex]!![i])
                         return false
                 }
             }
@@ -116,8 +116,8 @@ open class POPValues : POPBase {
             val tmp = ColumnIteratorMultiValue(data[name]!!)
             tmp.close = {
                 tmp._close()
-                for (name in variables) {
-                    outMap[name]!!.close()
+                for (variable in variables) {
+                    outMap[variable]!!.close()
                 }
             }
             outMap[name] = tmp

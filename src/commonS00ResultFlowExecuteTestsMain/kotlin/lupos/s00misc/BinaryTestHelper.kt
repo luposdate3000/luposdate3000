@@ -390,7 +390,7 @@ suspend fun fromBinaryPOP(query: Query, buffer: DynamicByteArray): POPBase {
             EOperatorID.TripleStoreIteratorGlobalID, EOperatorID.TripleStoreIteratorLocalFilterID, EOperatorID.TripleStoreIteratorLocalID -> {
                 val graphNameTmp = (nextStringValueTyped(query, buffer, ValueEnum.ValueIri))
                 val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-                val graph = DistributedTripleStore.getNamedGraph(query, graphName, true)
+                val graph = DistributedTripleStore.getNamedGraph(query, graphName)
                 val s = fromBinaryValueIriOrBnodeOrVar(query, buffer)
                 val p = fromBinaryValueIriOrVar(query, buffer)
                 val o = fromBinaryAOPConstOrVar(query, buffer)
@@ -611,7 +611,7 @@ suspend fun fromBinaryLOP(query: Query, buffer: DynamicByteArray): LOPBase {
 suspend fun fromBinaryLopTriple(query: Query, buffer: DynamicByteArray): LOPTriple {
     val graphNameTmp = (nextStringValueTyped(query, buffer, ValueEnum.ValueIri))
     val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-    val graph = DistributedTripleStore.getNamedGraph(query, graphName, true)
+    val graph = DistributedTripleStore.getNamedGraph(query, graphName)
     var s = fromBinaryValueIriOrBnodeOrVar(query, buffer)
     var p = fromBinaryValueIriOrVar(query, buffer)
     var o = fromBinaryAOPConstOrVar(query, buffer)
@@ -1006,7 +1006,7 @@ suspend fun executeBinaryTest(buffer: DynamicByteArray) {
                         val backuppos = buffer.pos
                         val graphNameTmp = (nextStringValueTyped(query, buffer, ValueEnum.ValueIri))
                         val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
-                        val graph = DistributedTripleStore.getNamedGraph(query, graphName, true)
+                        val graph = DistributedTripleStore.getNamedGraph(query, graphName)
                         val s = fromBinaryValueIriOrBnodeOrVar(query, buffer)
                         val p = fromBinaryValueIriOrVar(query, buffer)
                         val o = fromBinaryAOPConstOrVar(query, buffer)

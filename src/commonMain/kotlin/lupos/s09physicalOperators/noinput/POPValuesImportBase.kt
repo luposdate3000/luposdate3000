@@ -34,6 +34,6 @@ abstract class POPValuesImportBase(query: Query, variables: List<String>) : POPV
     fun addRow(values: Array<String?>) {
         SanityCheck.checkEQ({ values.size }, { variables.size })
         for (i in 0 until variables.size)
-            data[variables[i]!!]!!.add(query.dictionary.createValue(cleanString(values[i])))
+            data[variables[i]]!!.add(query.dictionary.createValue(cleanString(values[i])))
     }
 }

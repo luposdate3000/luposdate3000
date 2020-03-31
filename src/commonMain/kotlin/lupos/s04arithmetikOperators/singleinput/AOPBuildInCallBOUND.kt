@@ -20,10 +20,8 @@ class AOPBuildInCallBOUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
             val a = childA()
-            res = ValueBoolean(a !is ValueUndef && a !is ValueError)
-            res
+            ValueBoolean(a !is ValueUndef && a !is ValueError)
         }
     }
 

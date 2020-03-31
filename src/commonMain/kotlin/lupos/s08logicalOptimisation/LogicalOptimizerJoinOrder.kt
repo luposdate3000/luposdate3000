@@ -39,7 +39,7 @@ class Plan : Comparable<Plan> {
         if (child != null)
             return child
         val cA = plans[childs!!.first]!!.toOPBase(plans)
-        val cB = plans[childs!!.second]!!.toOPBase(plans)
+        val cB = plans[childs.second]!!.toOPBase(plans)
         return LOPJoin(cA.query, cA, cB, false)
     }
 }

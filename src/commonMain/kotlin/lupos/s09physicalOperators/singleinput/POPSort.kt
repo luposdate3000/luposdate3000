@@ -28,7 +28,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             child = child.children[0]
         SanityCheck.check({ child !is POPSort })
         val sparql = child.toSparql()
-        var res = ""
+        var res :String
         if (sparql.startsWith("{SELECT "))
             res = sparql.substring(0, sparql.length - 1)
         else
@@ -99,7 +99,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             var processDone = false
             for (variableIndex in 0 until variables.size) {
 //insert new single page
-                var next = iterators[variableIndex]!!.next()
+                var next = iterators[variableIndex].next()
                 if (next == null) {
                     require(variableIndex == 0)
                     break@collectData
@@ -147,7 +147,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             index++
         }
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]!!] = targetIterators[variableIndex][limit]!!
+            outMap[variables[variableIndex]] = targetIterators[variableIndex][limit]!!
         }
         return ColumnIteratorRow(outMap)
     }

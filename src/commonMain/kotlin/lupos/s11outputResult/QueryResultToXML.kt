@@ -19,7 +19,7 @@ object QueryResultToXML {
         nodeSparql.addContent(nodeHead)
         val variables = node.getProvidedVariableNames().toTypedArray()
         if (variables.size == 1 && variables[0] == "?boolean") {
-            val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!)!!.valueToString()!!
+            val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!).valueToString()!!
             val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
             SanityCheck.check({ value.endsWith("\"^^<" + datatype + ">") })
             nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
@@ -40,7 +40,7 @@ object QueryResultToXML {
                     if (valueID == null)
                         break@loop
                     if (valueID != ResultSetDictionary.undefValue) {
-                        val value = node.query.dictionary.getValue(valueID)!!.valueToString()
+                        val value = node.query.dictionary.getValue(valueID).valueToString()
                         require(value != null)
                         val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
                         if (value.length > 1) {

@@ -100,8 +100,8 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 
     fun calculateNodeForDataFull(params: Array<ValueDefinition>, idx: EIndexPattern): String {
-        val params = Array(3) { myHashCode("" + params[it].valueToString(), K) }
-        return P2P.knownClients[myHashCode(params[0], params[1], params[2], P2P.knownClients.size, idx)]!!
+        val paramsLocal = Array(3) { myHashCode("" + params[it].valueToString(), K) }
+        return P2P.knownClients[myHashCode(paramsLocal[0], paramsLocal[1], paramsLocal[2], P2P.knownClients.size, idx)]
     }
 
     fun calculateNodeForDataMaybe(params: Array<AOPBase>, idx: EIndexPattern): Set<String> {
@@ -116,7 +116,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         for (si in arr[0]) {
             for (pi in arr[1]) {
                 for (oi in arr[2]) {
-                    res.add(P2P.knownClients[myHashCode(si, pi, oi, P2P.knownClients.size, idx)]!!)
+                    res.add(P2P.knownClients[myHashCode(si, pi, oi, P2P.knownClients.size, idx)])
                 }
             }
         }
@@ -127,13 +127,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         require(data.size == 3)
         val map = mutableMapOf<String, Array<Array<MutableList<Value>>>>()
-        while (true) {
+loop@        while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
                 if (v == null) {
                     require(columnIndex == 0)
-                    break
+                    break@loop
                 }
                 row[columnIndex] = v
             }
@@ -189,7 +189,7 @@ object DistributedTripleStore {
         P2P.execGraphOperation(query, name, EGraphOperationType.CLEAR)
     })
 
-    fun getNamedGraph(query: Query, name: String, create: Boolean = false): DistributedGraph = Trace.trace({ "DistributedTripleStore.getNamedGraph" }, {
+    fun getNamedGraph(query: Query, name: String): DistributedGraph = Trace.trace({ "DistributedTripleStore.getNamedGraph" }, {
         if (!(localStore.getGraphNames(true).contains(name)))
             createGraph(query, name)
         return DistributedGraph(query, name)

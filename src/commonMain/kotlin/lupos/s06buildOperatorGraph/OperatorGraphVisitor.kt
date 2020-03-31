@@ -212,7 +212,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         val res = LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
         if (node.existsValues())
-            return LOPJoin(query, node.values!!.visit(this)!!, res!!, false)
+            return LOPJoin(query, node.values!!.visit(this), res, false)
         return res
     }
 
@@ -293,17 +293,17 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     fun visitConstructBase(child: OPBase, template: Array<ASTNode>): OPBase {
         var result: OPBase? = null
         for (t in template) {
-            val template = t.visit(this)
+            val templateLocal = t.visit(this)
             var tmp: OPBase = child
-            if (template is LOPTriple) {
-                val s = template.children[0] as AOPBase
-                val p = template.children[1] as AOPBase
-                val o = template.children[2] as AOPBase
+            if (templateLocal is LOPTriple) {
+                val s = templateLocal.children[0] as AOPBase
+                val p = templateLocal.children[1] as AOPBase
+                val o = templateLocal.children[2] as AOPBase
                 tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
                 tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
                 tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
             } else
-                throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
+                throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)
             if (result == null)
                 result = tmp

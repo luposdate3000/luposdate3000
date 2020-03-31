@@ -29,9 +29,9 @@ class TripleStoreLocal(@JvmField val name: String) {
 
         override fun equals(other: Any?): Boolean {
             require(other is MapKey)
-            require(data.size == (other as MapKey).data.size)
+            require(data.size == other.data.size)
             for (columnIndex in 0 until data.size) {
-                if (data[columnIndex] != (other as MapKey).data[columnIndex]) {
+                if (data[columnIndex] != other.data[columnIndex]) {
                     return false
                 }
             }
@@ -62,9 +62,9 @@ class TripleStoreLocal(@JvmField val name: String) {
                         } else {
                             val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
                             val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
-                            val tmp = tripleStore[idx.ordinal]!![k]
+                            val tmp = tripleStore[idx.ordinal][k]
                             if (tmp == null) {
-                                tripleStore[idx.ordinal]!![k] = mutableSetOf(v)
+                                tripleStore[idx.ordinal][k] = mutableSetOf(v)
                             } else {
                                 tmp.add(v)
                             }
@@ -80,11 +80,11 @@ class TripleStoreLocal(@JvmField val name: String) {
                         } else {
                             val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
                             val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
-                            val tmp = tripleStore[idx.ordinal]!![k]
+                            val tmp = tripleStore[idx.ordinal][k]
                             if (tmp != null) {
                                 tmp.remove(v)
                                 if (tmp.size == 0)
-                                    tripleStore[idx.ordinal]!!.remove(k)
+                                    tripleStore[idx.ordinal].remove(k)
                             }
                         }
                         pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
@@ -134,7 +134,7 @@ class TripleStoreLocal(@JvmField val name: String) {
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables: List<String>
-        var data: Set<MapKey>? = null
+        var data: Set<MapKey>?
         if (idx == EIndexPattern.SPO) {
             idx.keyIndices.map { require(params[it] is AOPVariable) }
             variables = idx.keyIndices.map { (params[it] as AOPVariable).name }

@@ -247,8 +247,8 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
 
     init {
         next = {
-            cacheA = childA!!.next()
-            cacheB = childB!!.next()
+            cacheA = childA.next()
+            cacheB = childB.next()
             require(cacheA != null)
             require(cacheB != null)
             next = {

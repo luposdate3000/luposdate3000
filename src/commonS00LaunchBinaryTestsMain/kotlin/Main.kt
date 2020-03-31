@@ -26,7 +26,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             k.add(it)
         }
     }
-    val query = Query()
     testDictionaryValue.forEach {
         try {
             val tmp = ValueDefinition(it)
@@ -44,7 +43,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
 //        val testcase = TestCase.ResultVektor
         for (testcase in TestCase.values()) {
             input.pos = pos
-            testcase.action(input!!)
+            testcase.action(input)
         }
     } else if (args.isEmpty()) {
         executeBinaryTests("/opt/tmpfs")

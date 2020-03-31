@@ -62,8 +62,8 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {
-            val graph = DistributedTripleStore.getNamedGraph(query, graph, type == EModifyType.INSERT)
-            graph.modify(Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
+            val graphLocal = DistributedTripleStore.getNamedGraph(query, graph)
+            graphLocal.modify(Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
         val res = ColumnIteratorRow(mutableMapOf<String, ColumnIterator>())
         res.count = 1

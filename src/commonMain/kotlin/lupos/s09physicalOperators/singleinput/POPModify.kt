@@ -69,14 +69,14 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
                 }
                 var graphName: String
                 if (action.first.graphVar) {
-                    graphName = query.dictionary.getValue(row[graphVarIdx]!!).valueToString()!!
+                    graphName = query.dictionary.getValue(row[graphVarIdx]).valueToString()!!
                 } else {
                     graphName = action.first.graph
                 }
                 if (data[graphName] == null) {
                     data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf<Value>() } }
                 }
-                val target = data[graphName]!![action.second.ordinal]!!
+                val target = data[graphName]!![action.second.ordinal]
                 loop2@ for (columnIndex in 0 until 3) {
                     val tmp = action.first.children[columnIndex]
                     if (tmp is AOPConstant) {
@@ -94,9 +94,7 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
             }
         }
         for ((graphName, iterator) in data) {
-            val insert = iterator[EModifyType.INSERT.ordinal]
-            val delete = iterator[EModifyType.DELETE.ordinal]
-            val store = DistributedTripleStore.getNamedGraph(query, graphName, insert[0].size > 0)
+            val store = DistributedTripleStore.getNamedGraph(query, graphName)
             for (type in EModifyType.values()) {
                 if (iterator[type.ordinal][0].size > 0) {
                     store.modify(Array(3) { ColumnIteratorMultiValue(iterator[type.ordinal][it]) }, type)

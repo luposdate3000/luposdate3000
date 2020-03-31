@@ -142,7 +142,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
-        "AOPConstant" -> convertToOPBase(query, node["value"]!!.childs.first()!!, mapping)
+        "AOPConstant" -> convertToOPBase(query, node["value"]!!.childs.first(), mapping)
         "AOPAggregationAVG" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs)

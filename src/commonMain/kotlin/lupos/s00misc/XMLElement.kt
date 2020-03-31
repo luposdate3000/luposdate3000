@@ -214,8 +214,8 @@ class XMLElement {
             res += "/>"
         } else {
             res += ">"
-            for (c in childs)
-                res += c.toString()
+            for (child in childs)
+                res += child.toString()
             res += "${encodeText(c)}</${encodeText(tag)}>"
         }
         return res
@@ -231,8 +231,8 @@ class XMLElement {
         } else {
             if (c.isEmpty()) {
                 res.append(">\n")
-                for (c in childs)
-                    res.append(c.toPrettyString(indention + " "))
+                for (child in childs)
+                    res.append(child.toPrettyString(indention + " "))
                 res.append("${indention}</${encodeText(tag)}>\n")
             } else {
                 res.append(">${c}</${encodeText(tag)}>\n")

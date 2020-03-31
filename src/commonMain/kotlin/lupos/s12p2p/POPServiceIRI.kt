@@ -39,7 +39,6 @@ class POPServiceIRI(query: Query, val serverName: String, val silent: Boolean, v
         val res = XMLElement("POPServiceIRI")
         res.addAttribute("name", serverName)
         res.addAttribute("silent", "" + silent)
-        if (constraint != null)
             res.addContent(constraint.toXMLElement())
         return res
     }
