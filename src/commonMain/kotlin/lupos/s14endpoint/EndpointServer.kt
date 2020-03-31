@@ -116,20 +116,23 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             "/sparql/query" -> {
                 if (isPost) {
                     return process_sparql_query(data).toPrettyString().encodeToByteArray()
-                } else
+                } else {
                     return process_sparql_query(params["query"]!!).toPrettyString().encodeToByteArray()
+                }
             }
             "/import/turtle" -> {
                 if (isPost) {
                     return process_turtle_input(data).toPrettyString().encodeToByteArray()
-                } else
+                } else {
                     return process_turtle_input(params["query"]!!).toPrettyString().encodeToByteArray()
+                }
             }
             "/import/xml" -> {
                 if (isPost) {
                     return process_xml_input(data).toPrettyString().encodeToByteArray()
-                } else
+                } else {
                     return process_xml_input(params["query"]!!).toPrettyString().encodeToByteArray()
+                }
             }
         }
         TODO("unreachable")

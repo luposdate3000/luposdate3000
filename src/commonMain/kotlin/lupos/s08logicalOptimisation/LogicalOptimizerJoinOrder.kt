@@ -53,8 +53,9 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         for (c in node.children) {
             if (c is LOPJoin && !c.optional) {
                 res.addAll(findAllJoinsInChildren(c))
-            } else
+            } else {
                 res.add(c)
+            }
         }
         return res
     }

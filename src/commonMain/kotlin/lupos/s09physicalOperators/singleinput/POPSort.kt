@@ -33,13 +33,15 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         var res: String
         if (sparql.startsWith("{SELECT ")) {
             res = sparql.substring(0, sparql.length - 1)
-        } else
+        } else {
             res = "{SELECT *{" + sparql + "}"
+        }
         res += " ORDER BY "
         if (sortOrder) {
             res += "ASC("
-        } else
+        } else {
             res += "DESC("
+        }
         for (v in variables) {
             res += AOPVariable(query, v).toSparql() + " "
         }
@@ -58,8 +60,9 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         }
         if (sortOrder) {
             res.addAttribute("order", "ASC")
-        } else
+        } else {
             res.addAttribute("order", "DESC")
+        }
         res.addContent(childrenToXML())
         return res
     }
@@ -68,8 +71,9 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         var comparator: Comparator<Value>
         if (sortOrder) {
             comparator = ValueComparatorASC(query)
-        } else
+        } else {
             comparator = ValueComparatorDESC(query)
+        }
         val fastcomparator = ValueComparatorFast()
         val variablestmp = getProvidedVariableNames()
         val variables = Array(variablestmp.size) { variablestmp[it] }

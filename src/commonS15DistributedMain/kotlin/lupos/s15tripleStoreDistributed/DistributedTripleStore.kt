@@ -128,8 +128,9 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             if (params[it] is AOPConstant) {
                 val h = myHashCode("" + (params[it] as AOPConstant).value.valueToString(), K)
                 IntRange(h, h)
-            } else
+            } else {
                 IntRange(0, K)
+            }
         }
         for (si in arr[0]) {
             for (pi in arr[1]) {

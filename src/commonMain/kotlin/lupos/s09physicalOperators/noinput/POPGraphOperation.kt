@@ -57,8 +57,9 @@ class POPGraphOperation(query: Query,
         }
         if (silent) {
             res += " SILENT "
-        } else
+        } else {
             res += " "
+        }
         when (graph1type) {
             EGraphRefType.AllGraphRef -> {
                 res += "ALL"

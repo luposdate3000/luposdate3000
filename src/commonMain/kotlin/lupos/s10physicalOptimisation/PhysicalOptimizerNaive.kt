@@ -86,8 +86,9 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 is LOPGroup -> {
                     if (node.children[1] is POPBind) {
                         res = POPGroup(query, node.by, node.children[1] as POPBind, node.children[0])
-                    } else
+                    } else {
                         res = POPGroup(query, node.by, null, node.children[0])
+                    }
                 }
                 is LOPUnion -> {
                     res = POPUnion(query, node.children[0], node.children[1])

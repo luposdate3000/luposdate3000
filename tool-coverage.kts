@@ -1,7 +1,7 @@
 #!/bin/kscript
 import java.io.File
 
-val separator = "[^a-zA-Z_]"
+val separator = "([^a-zA-Z_\\{]|$|^)"
 
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()

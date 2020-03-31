@@ -60,8 +60,9 @@ object Trace {
         val old = map[key]
         if (old == null) {
             map[key] = Pair(1L, timediff)
-        } else
+        } else {
             map[key] = Pair(old.first + 1L, old.second + timediff)
+        }
     }
 
     fun print() {
@@ -77,15 +78,17 @@ object Trace {
             val u = map2[keys.last()]
             if (u == null) {
                 map2[keys.last()] = Pair(v.first, v.second)
-            } else
+            } else {
                 map2[keys.last()] = Pair(u.first + v.first, u.second + v.second)
+            }
             if (keys.size > 1) {
                 var i = keys[keys.size - 2]
                 val t = map2[i]
                 if (t != null) {
                     map2[i] = Pair(t.first, t.second - v.second)
-                } else
+                } else {
                     map2[i] = Pair(0L, 0.0 - v.second)
+                }
             }
         }
         var total = 0.0

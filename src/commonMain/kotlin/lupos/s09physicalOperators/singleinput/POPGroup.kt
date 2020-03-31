@@ -47,8 +47,9 @@ class POPGroup : POPBase {
                 tmpBindings = POPBind(query, AOPVariable(query, bindings[0].first), bindings[0].second, tmpBindings)
             }
             return POPGroup(query, by, tmpBindings, children[0].cloneOP())
-        } else
+        } else {
             return POPGroup(query, by, null, children[0].cloneOP())
+        }
     }
 
     constructor(query: Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, EOperatorID.POPGroupID, "POPGroup", arrayOf(child)) {
@@ -88,8 +89,9 @@ class POPGroup : POPBase {
         if (!res) {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-            } else
+            } else {
                 throw Exception("$classname undefined Variable")
+            }
         }
     }
 

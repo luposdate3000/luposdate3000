@@ -337,8 +337,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             }
             if (bindings is POPEmptyRow) {
                 POPGroup(query, by, null, child)
-            } else
+            } else {
                 POPGroup(query, by, bindings as POPBind, child)
+            }
         }
         "POPFilter" -> {
             POPFilter(query, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[0], mapping))
