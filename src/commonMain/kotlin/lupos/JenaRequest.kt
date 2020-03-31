@@ -52,19 +52,19 @@ class JenaRequest {
                     val content = child.content
                     val value = when {
                         child.tag == "uri" -> {
-                            "<" + content + ">"
+/*return*/                            "<" + content + ">"
                         }
                         child.tag == "literal" && child.attributes["datatype"] != null -> {
-                            "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                            /*return*/                    "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
                         }
                         child.tag == "literal" && child.attributes["xml:lang"] != null -> {
-                            "\"" + content + "\"@" + child.attributes["xml:lang"]
+                            /*return*/           "\"" + content + "\"@" + child.attributes["xml:lang"]
                         }
                         child.tag == "bnode" -> {
-                            "_:" + content
+/*return*/                            "_:" + content
                         }
                         else -> {
-                            "\"" + content + "\""
+                            /*return*/                  "\"" + content + "\""
                         }
                     }
                     result[name] = value
