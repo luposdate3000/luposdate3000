@@ -438,14 +438,6 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 tmp2 = tmp2.children[0]
             }
             when (tmp2) {
-/*                is LOPMinus -> {
-                    if (members.containsKey(EGroupMember.GMLOPMinus)){
-                        (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
-}
-                    else{
-                        members[EGroupMember.GMLOPMinus] = tmp2
-}
-                }*/
                 is LOPFilter -> {
                     if (members.containsKey(EGroupMember.GMLOPFilter)) {
                         (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)

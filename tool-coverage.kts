@@ -162,9 +162,9 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
             hadCoverageImport = true
         }
         for (i in 0 until line.length) {
-            if (line[i] == '{')
+            if (line[i] == '{' && (i == 0 || (line[i - 1] != '"' && line[i - 1] != '\'')))
                 openBrackets++
-            if (line[i] == '}') {
+            if (line[i] == '}' && (i == 0 || (line[i - 1] != '"' && line[i - 1] != '\''))) {
                 openBrackets--
                 if (openBrackets == openBracketsFunction - 1)
                     openBracketsFunction = Int.MAX_VALUE

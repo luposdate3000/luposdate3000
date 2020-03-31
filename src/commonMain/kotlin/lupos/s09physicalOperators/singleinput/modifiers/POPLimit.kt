@@ -35,13 +35,15 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
             val iterator = child.columns[variable]!!
             val tmp = ColumnIterator()
             tmp.next = {
+                var res: Value?
                 if (count == limit) {
                     tmp.close()
-                    /*return*/            null
+                    res = null
                 } else {
                     count++
-/*return*/                    iterator.next()
+                    res = iterator.next()
                 }
+/*return*/res
             }
             tmp.close = {
                 tmp._close()
