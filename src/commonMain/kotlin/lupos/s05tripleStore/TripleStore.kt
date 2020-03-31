@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeMutableMap
@@ -36,8 +37,9 @@ class PersistentStoreLocal {
 
     fun createGraph(query: Query, name: String): TripleStoreLocal {
         val tmp = stores[name]
-        if (tmp != null)
+        if (tmp != null) {
             throw Exception("PersistentStore.createGraph :: graph[$name] already exist")
+        }
         val tmp2 = TripleStoreLocal(name)
         stores[name] = tmp2
         return tmp2
@@ -45,8 +47,9 @@ class PersistentStoreLocal {
 
     fun dropGraph(query: Query, name: String) {
         SanityCheck.checkNEQ({ name }, { defaultGraphName })
-        if (stores[name] == null)
+        if (stores[name] == null) {
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
+        }
         stores.remove(name)
     }
 
@@ -56,8 +59,9 @@ class PersistentStoreLocal {
 
     fun getNamedGraph(query: Query, name: String, create: Boolean = false): TripleStoreLocal {
         val tmp = stores[name]
-        if (tmp != null || !create)
+        if (tmp != null || !create) {
             return tmp!!
+        }
         return createGraph(query, name)
     }
 

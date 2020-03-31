@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
@@ -11,17 +12,21 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
         var value = child.value
         if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--") && child.range.start >= lastindex) {
             var nodeName = ""
-            if (child.groups[3] != null)
+            if (child.groups[3] != null) {
                 nodeName = child.groups[3]!!.value
-            if (child.groups[7] != null)
+            }
+            if (child.groups[7] != null) {
                 nodeName = child.groups[7]!!.value
+            }
             val childNode = XMLElement(nodeName)
             res.add(childNode)
             var nodeAttributes = ""
-            if (child.groups[4] != null)
+            if (child.groups[4] != null) {
                 nodeAttributes = child.groups[4]!!.value
-            if (child.groups[8] != null)
+            }
+            if (child.groups[8] != null) {
                 nodeAttributes = child.groups[8]!!.value
+            }
             """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
                     if (attrMatch.groups[1]!!.value == "xml:lang") {
@@ -60,7 +65,8 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
             }
         }
     }
-    if (res.isEmpty() && !xml.isEmpty())
+    if (res.isEmpty() && !xml.isEmpty()) {
         return null
+    }
     return res
 }

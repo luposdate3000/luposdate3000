@@ -97,7 +97,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         val iterators = Array(variables.size) { child.columns[variables[it]]!! }
 //TODO leaves should contain more than a single row of data
         val targetIterators = Array(variables.size) { mutableListOf<ColumnIterator?>() }
-//the array holds intances for every variable
+//the array holds intances for_ every variable
 //the list index sqared is the depth of the merge sort. That means the index squared is the number of "leaves" in the mergesort-tree.
 //the intention is to have a balanced merge-sort tree
         collectData@ while (true) {

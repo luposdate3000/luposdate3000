@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
 class ColumnIteratorRow(val columns: Map<String, ColumnIterator>) {
@@ -160,7 +161,7 @@ class ColumnIteratorQueue() : ColumnIterator() {
 }
 
 class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
-    //TODO only for single column .... replace with sort-distinct
+    //TODO only for_ single column .... replace with sort-distinct
     var last: Value? = null
 
     init {
@@ -196,15 +197,18 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                 if (lowerPriority != null) {
                     res = lowerPriority!!.calculate()
                 } else {
-                    if (higherPriority != null)
+                    if (higherPriority != null) {
                         higherPriority.chooseU(res)
+                    }
                     choose(res)
                 }
             } else {
-                if (higherPriority != null)
+                if (higherPriority != null) {
                     higherPriority.chooseU(res)
-                if (lowerPriority != null)
+                }
+                if (lowerPriority != null) {
                     lowerPriority!!.chooseD(res)
+                }
                 choose(res)
             }
         }
@@ -213,20 +217,23 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
 
     suspend fun chooseU(cmp: Int) {
         choose(cmp)
-        if (higherPriority != null)
+        if (higherPriority != null) {
             higherPriority.chooseU(cmp)
+        }
     }
 
     suspend fun chooseD(cmp: Int) {
         choose(cmp)
-        if (lowerPriority != null)
+        if (lowerPriority != null) {
             lowerPriority!!.chooseD(cmp)
+        }
     }
 
     suspend fun choose(cmp1: Int) {
         var cmp = cmp1
-        if (cmp == 0)
+        if (cmp == 0) {
             cmp = 1
+        }
         if (cmp == -1) {
             queue.add(cacheA!!)
             cacheA = childA.next()

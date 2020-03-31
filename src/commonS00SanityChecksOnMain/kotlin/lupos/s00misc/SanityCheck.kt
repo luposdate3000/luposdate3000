@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 object SanityCheck {
     inline fun <T> helper(action: () -> T): T? = action()
     inline fun check(value: () -> Boolean) = require(value())
