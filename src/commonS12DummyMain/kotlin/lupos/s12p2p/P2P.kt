@@ -36,7 +36,7 @@ object P2P {
 
     fun execCommit(query: Query) {
         Endpoint.process_local_commit(query)
-        TODO("stream commit to all nodes in transaction")
+//        TODO("stream commit to all nodes in transaction")
     }
 
     suspend fun execTripleModify(query: Query, node: String, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
