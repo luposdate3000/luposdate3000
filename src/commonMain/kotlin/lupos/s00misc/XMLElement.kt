@@ -126,8 +126,9 @@ class XMLElement {
             return false
         if (tag != other.tag)
             return false
-        if (tag == "bnode")
+        if (tag == "bnode") {
             return true
+        }
 //-->> avoid bugs in JENA
         if (tag == "results") {
             if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result") {

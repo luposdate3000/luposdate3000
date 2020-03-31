@@ -73,11 +73,7 @@ object Trace {
         res += "stack\n"
         val map2 = mutableMapOf<String, Pair<Long, Double>>()
         map.forEach { k, v ->
-            {
-                {
-                }
-                val keys = k.split("-")
-            }
+            val keys = k.split("-")
             val u = map2[keys.last()]
             if (u == null) {
                 map2[keys.last()] = Pair(v.first, v.second)

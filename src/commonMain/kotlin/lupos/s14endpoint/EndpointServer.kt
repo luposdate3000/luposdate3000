@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
@@ -113,21 +114,21 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 Trace.print()
             }
             "/sparql/query" -> {
-                if (isPost)
+                if (isPost) {
                     return process_sparql_query(data).toPrettyString().encodeToByteArray()
-                else
+                } else
                     return process_sparql_query(params["query"]!!).toPrettyString().encodeToByteArray()
             }
             "/import/turtle" -> {
-                if (isPost)
+                if (isPost) {
                     return process_turtle_input(data).toPrettyString().encodeToByteArray()
-                else
+                } else
                     return process_turtle_input(params["query"]!!).toPrettyString().encodeToByteArray()
             }
             "/import/xml" -> {
-                if (isPost)
+                if (isPost) {
                     return process_xml_input(data).toPrettyString().encodeToByteArray()
-                else
+                } else
                     return process_xml_input(params["query"]!!).toPrettyString().encodeToByteArray()
             }
         }

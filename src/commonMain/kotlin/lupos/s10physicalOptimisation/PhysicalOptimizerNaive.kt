@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
@@ -83,9 +84,9 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPOffset(query, node.offset, node.children[0])
                 }
                 is LOPGroup -> {
-                    if (node.children[1] is POPBind)
+                    if (node.children[1] is POPBind) {
                         res = POPGroup(query, node.by, node.children[1] as POPBind, node.children[0])
-                    else
+                    } else
                         res = POPGroup(query, node.by, null, node.children[0])
                 }
                 is LOPUnion -> {
@@ -125,8 +126,9 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
             }
         } finally {
-            if (change)
+            if (change) {
                 onChange()
+            }
         }
         res
     })

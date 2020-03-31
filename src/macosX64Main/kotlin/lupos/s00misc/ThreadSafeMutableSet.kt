@@ -10,7 +10,7 @@ class ThreadSafeMutableSet<T>() {
     val global_values = AtomicReference(mutableSetOf<T>().freeze())
     val mutex = ReadWriteLock()
     inline fun forEach(crossinline action: (T) -> Unit) = mutex.withReadLock {
-        global_values.value.forEach(action) 
+        global_values.value.forEach(action)
     }
 
     inline suspend fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {

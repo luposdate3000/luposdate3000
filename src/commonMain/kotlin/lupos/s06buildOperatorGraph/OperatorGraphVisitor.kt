@@ -993,13 +993,27 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
         when (node.type) {
-            Aggregation.COUNT -> return AOPAggregationCOUNT(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.MIN -> return AOPAggregationMIN(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.MAX -> return AOPAggregationMAX(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.SAMPLE -> return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.AVG -> return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            Aggregation.SUM -> return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
-            else -> SanityCheck.checkUnreachable()
+            Aggregation.COUNT -> {
+                return AOPAggregationCOUNT(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            }
+            Aggregation.MIN -> {
+                return AOPAggregationMIN(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            }
+            Aggregation.MAX -> {
+                return AOPAggregationMAX(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            }
+            Aggregation.SAMPLE -> {
+                return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            }
+            Aggregation.AVG -> {
+                return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            }
+            Aggregation.SUM -> {
+                return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+            }
+            else -> {
+                SanityCheck.checkUnreachable()
+            }
         }
     }
 

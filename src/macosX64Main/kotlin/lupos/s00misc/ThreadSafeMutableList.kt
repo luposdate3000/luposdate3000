@@ -56,7 +56,7 @@ class ThreadSafeMutableList<T>(values: MutableList<T> = mutableListOf<T>()) {
 
     fun forEach(action: (T) -> Unit) {
         mutex.withReadLock {
-            global_values.value.forEach(action) 
+            global_values.value.forEach(action)
         }
     }
 

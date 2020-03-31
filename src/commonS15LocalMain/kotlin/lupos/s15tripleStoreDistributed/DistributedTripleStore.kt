@@ -2,6 +2,7 @@ package lupos.s15tripleStoreDistributed
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -27,8 +28,9 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
-        if (c < 0)
+        if (c < 0) {
             return (-c) % d
+        }
         return c % d
     }
 
@@ -134,8 +136,9 @@ object DistributedTripleStore {
 
     fun getNamedGraph(query: Query, name: String, create: Boolean = false): DistributedGraph {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.getNamedGraph $name 1" })
-        if (create && !(localStore.getGraphNames(true).contains(name)))
+        if (create && !(localStore.getGraphNames(true).contains(name))) {
             createGraph(query, name)
+        }
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.getNamedGraph $name 2" })
         return DistributedGraph(query, name)
     }

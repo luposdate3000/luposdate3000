@@ -5,6 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
@@ -54,9 +55,9 @@ class POPGraphOperation(query: Query,
                 res += "ADD"
             }
         }
-        if (silent)
+        if (silent) {
             res += " SILENT "
-        else
+        } else
             res += " "
         when (graph1type) {
             EGraphRefType.AllGraphRef -> {
@@ -93,23 +94,31 @@ class POPGraphOperation(query: Query,
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is POPGraphOperation)
+        if (other !is POPGraphOperation) {
             return false
-        if (silent != other.silent)
+        }
+        if (silent != other.silent) {
             return false
-        if (graph1iri != other.graph1iri)
+        }
+        if (graph1iri != other.graph1iri) {
             return false
-        if (graph1type != other.graph1type)
+        }
+        if (graph1type != other.graph1type) {
             return false
-        if (graph2iri != other.graph2iri)
+        }
+        if (graph2iri != other.graph2iri) {
             return false
-        if (graph2type != other.graph2type)
+        }
+        if (graph2type != other.graph2type) {
             return false
-        if (action != other.action)
+        }
+        if (action != other.action) {
             return false
+        }
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (!children[i].equals(other.children[i])) {
                 return false
+            }
         }
         return true
     }

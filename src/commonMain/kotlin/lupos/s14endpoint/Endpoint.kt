@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -49,8 +50,9 @@ object Endpoint {
 
     fun process_local_graph_clear_all(query: Query) {
         DistributedTripleStore.localStore.getDefaultGraph(query).clear()
-        for (g in DistributedTripleStore.getGraphNames())
+        for (g in DistributedTripleStore.getGraphNames()) {
             DistributedTripleStore.dropGraph(query, g)
+        }
     }
 
     fun process_local_commit(query: Query) {

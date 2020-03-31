@@ -22,13 +22,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     mapOf(
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
-                    Coverage . statementStart (5)
     ).forEach { (k, v) ->
-        {
-            {
-            }
-            File("resources/$v").forEachLine {
-            }
+        File("resources/$v").forEachLine {
             k.add(it)
         }
     }
@@ -47,7 +42,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val input = lupos.s00misc.File.readStdInAsDynamicByteArray()
     if (input != null) {
         val pos = input.pos
-//        val testcase = TestCase.ResultVektor
         for (testcase in TestCase.values()) {
             input.pos = pos
             testcase.action(input)

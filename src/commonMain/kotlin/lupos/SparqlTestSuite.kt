@@ -211,7 +211,9 @@ class SparqlTestSuite() {
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
                     when {
-                        Dictionary[it.second] is IRI -> queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                        Dictionary[it.second] is IRI -> {
+                            queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                        }
                         Dictionary[it.second] is BlankNode -> {
                             data.s(it.second).forEach {
                                 val iri = (Dictionary[it.first] as IRI).iri
