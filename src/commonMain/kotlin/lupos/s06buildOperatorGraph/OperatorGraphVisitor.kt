@@ -199,9 +199,10 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     fun containsAggregate(node: ASTNode): Boolean {
         if (node is ASTAggregation)
             return true
-        for (c in node.children)
+        for (c in node.children) {
             if (containsAggregate(c))
                 return true
+        }
         return false
     }
 

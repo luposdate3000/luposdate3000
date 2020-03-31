@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.noinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
@@ -37,8 +38,9 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         res += " DATA {"
         for (c in data) {
             SanityCheck.checkFalse({ c.graphVar })
-            if (c.graph == PersistentStoreLocal.defaultGraphName)
+            if (c.graph == PersistentStoreLocal.defaultGraphName) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
+            }
             res += "GRAPH <${c.graph}> {" + c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "}."
         }
         res += "}"
@@ -48,8 +50,9 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
-        for (t in data)
+        for (t in data) {
             res.addContent(t.toXMLElement())
+        }
         return res
     }
 

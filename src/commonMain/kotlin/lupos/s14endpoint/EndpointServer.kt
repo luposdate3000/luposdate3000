@@ -109,7 +109,9 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     */
     suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): ByteArray {
         when (path) {
-            "/stacktrace" -> Trace.print()
+            "/stacktrace" -> {
+                Trace.print()
+            }
             "/sparql/query" -> {
                 if (isPost)
                     return process_sparql_query(data).toPrettyString().encodeToByteArray()

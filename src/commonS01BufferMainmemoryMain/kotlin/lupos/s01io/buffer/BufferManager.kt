@@ -1,7 +1,6 @@
 package lupos.s01io.buffer
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
@@ -27,9 +26,8 @@ class BufferManager {
             return newPage
         } else {
             if (memoryOfFile.size <= number) {
-                /* double the size for each resizing (may avoid often resizing,{
+                /* double the size for each resizing (may avoid often resizing,
 		 * but may reserve additional unneeded space)
-}
 		 */
                 var newSize = memoryOfFile.size.shl(1)
                 while (newSize <= number) {

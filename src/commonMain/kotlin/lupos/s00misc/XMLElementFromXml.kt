@@ -24,23 +24,26 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
                 nodeAttributes = child.groups[8]!!.value
             """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
-                    if (attrMatch.groups[1]!!.value == "xml:lang")
+                    if (attrMatch.groups[1]!!.value == "xml:lang") {
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
-                    else
+                    } else {
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
+                    }
                 }
             }
             """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
-                    if (attrMatch.groups[1]!!.value == "xml:lang")
+                    if (attrMatch.groups[1]!!.value == "xml:lang") {
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
-                    else
+                    } else {
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
+                    }
                 }
             }
             var content = ""
-            if (child.groups[5] != null)
+            if (child.groups[5] != null) {
                 content = child.groups[5]!!.value
+            }
             if (!child.value.endsWith("</${nodeName}>") && !child.value.endsWith("/>")) {
                 val search = "</${nodeName}>"
                 val idx2 = x.indexOf(search, child.range.last)
@@ -49,10 +52,11 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
             }
             if (content != "") {
                 val tmp = parseFromXml(content)
-                if (tmp == null)
+                if (tmp == null) {
                     childNode.addContent(content)
-                else
+                } else {
                     childNode.addContent(tmp)
+                }
             }
         }
     }

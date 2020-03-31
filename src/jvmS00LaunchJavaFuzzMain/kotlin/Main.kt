@@ -21,9 +21,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValue to "DictionaryValue.txt"
                     Coverage . statementStart (5)
     ).forEach { (k, v) ->
-        {
-            java.io.File("resources/$v").forEachLine {
-            }
+        java.io.File("resources/$v").forEachLine {
             k.add(it)
         }
     }
@@ -58,7 +56,6 @@ class FuzzInstance() : AbstractFuzzTarget() {
         val timepointNext = Instant.now()
         val elapsed = Duration.between(timepoint, timepointNext)
         timepoint = timepointNext
-//        println("time between tests :: ${elapsed.toMillis()} milliseconds")
         if (data.size >= 4) {
             val input = DynamicByteArray(data)
             executeBinaryTest(input!!)
@@ -66,7 +63,5 @@ class FuzzInstance() : AbstractFuzzTarget() {
         val timepointNext2 = Instant.now()
         val elapsed2 = Duration.between(timepoint, timepointNext2)
         timepoint = timepointNext2
-//        println("time for tests :: ${elapsed2.toMillis()} milliseconds"){
     }
-}
 }

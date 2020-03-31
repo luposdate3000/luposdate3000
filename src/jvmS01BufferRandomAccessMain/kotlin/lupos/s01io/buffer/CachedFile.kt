@@ -3,7 +3,6 @@ package lupos.s01io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s01io.buffer.ByteArrayPage
 import lupos.s01io.buffer.CachedFile
 import lupos.s04logicalOperators.Query
@@ -15,9 +14,8 @@ inline fun createString(chars: CharArray): String = String(chars)
 // see e.g.: https://stackoverflow.com/questions/2972986
 // furthermore, memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
-// and slides comparing different ways:{
+// and slides comparing different ways:
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
-}
 class CachedFile {
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField

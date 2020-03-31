@@ -40,9 +40,7 @@ class ThreadSafeMutableMap<k, v> {
 
     inline fun forEach(crossinline action: (k, v) -> Unit) = mutex.withReadLock {
         values.forEach { a, b ->
-            {
                 action(a, b)
-            }
         }
     }
 

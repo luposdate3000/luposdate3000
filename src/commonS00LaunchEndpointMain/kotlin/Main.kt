@@ -21,8 +21,12 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     for (a in args) {
         GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
         when (i) {
-            0 -> hostname = a
-            1 -> bootStrapServer = a
+            0 -> {
+                hostname = a
+            }
+            1 -> {
+                bootStrapServer = a
+            }
         }
         i++
     }

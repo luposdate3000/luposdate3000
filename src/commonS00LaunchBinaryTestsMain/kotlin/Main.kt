@@ -25,6 +25,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
                     Coverage . statementStart (5)
     ).forEach { (k, v) ->
         {
+            {
+            }
             File("resources/$v").forEachLine {
             }
             k.add(it)

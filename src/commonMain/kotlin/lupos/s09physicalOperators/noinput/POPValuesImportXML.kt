@@ -26,11 +26,21 @@ class POPValuesImportXML : POPValuesImportBase {
                 val lang = child.attributes["xml:lang"]
                 SanityCheck.checkFalse({ (datatype != null) && (lang != null) })
                 when {
-                    child.tag == "uri" -> row[variables.indexOf(name)] = "<" + content + ">"
-                    child.tag == "literal" && datatype != null -> row[variables.indexOf(name)] = "\"" + content + "\"^^<" + datatype + ">"
-                    child.tag == "literal" && lang != null -> row[variables.indexOf(name)] = "\"" + content + "\"@" + lang
-                    child.tag == "bnode" -> row[variables.indexOf(name)] = "_:" + content
-                    else -> row[variables.indexOf(name)] = "\"" + content + "\""
+                    child.tag == "uri" -> {
+                        row[variables.indexOf(name)] = "<" + content + ">"
+                    }
+                    child.tag == "literal" && datatype != null -> {
+                        row[variables.indexOf(name)] = "\"" + content + "\"^^<" + datatype + ">"
+                    }
+                    child.tag == "literal" && lang != null -> {
+                        row[variables.indexOf(name)] = "\"" + content + "\"@" + lang
+                    }
+                    child.tag == "bnode" -> {
+                        row[variables.indexOf(name)] = "_:" + content
+                    }
+                    else -> {
+                        row[variables.indexOf(name)] = "\"" + content + "\""
+                    }
                 }
             }
             addRow(row)

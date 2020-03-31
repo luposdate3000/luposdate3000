@@ -25,11 +25,8 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     mapOf(
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
-                    Coverage . statementStart (5)
     ).forEach { (k, v) ->
-        {
-            File("resources/$v").forEachLine {
-            }
+        File("resources/$v").forEachLine {
             k.add(it)
         }
     }
@@ -77,8 +74,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         if (counter == 0) {
             if (datasize < 1000) {
                 datasize += 2
-            } else
+            } else {
                 datasize = (datasize * 1.01).toInt() + 1
+            }
             counter = datasize
             println("changed datasize to $datasize for $counter tests") {
             }
@@ -90,19 +88,19 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         try {
             while (true) {
                 try {
+                    for (testcase in TestCase.values()) {
+                        testcase.action(input!!)
+                    }
+                    val timepointNext2 = Instant.now()
+                    val elapsed2 = Duration.between(timepoint, timepointNext2)
+                    timepoint = timepointNext2
+                    if (testnumber % 1000 == 0) {
+                        println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+                    }
+                    break
+                } catch (e: ConnectException) {
+                    e.printStackTrace()
                 }
-                for (testcase in TestCase.values()) {
-                    testcase.action(input!!)
-                }
-                val timepointNext2 = Instant.now()
-                val elapsed2 = Duration.between(timepoint, timepointNext2)
-                timepoint = timepointNext2
-                if (testnumber % 1000 == 0) {
-                    println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
-                }
-                break
-            } catch (e: ConnectException) {
-                e.printStackTrace()
             }
         } catch (e: Throwable) {
             e.printStackTrace()

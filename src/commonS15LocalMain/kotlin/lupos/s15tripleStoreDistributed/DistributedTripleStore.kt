@@ -34,13 +34,27 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
         when (idx) {
-            EIndexPattern.S -> return myHashCode("" + s, d)
-            EIndexPattern.P -> return myHashCode("" + p, d)
-            EIndexPattern.O -> return myHashCode("" + o, d)
-            EIndexPattern.SP -> return myHashCode("" + s + "-" + p, d)
-            EIndexPattern.SO -> return myHashCode("" + s + "-" + o, d)
-            EIndexPattern.PO -> return myHashCode("" + p + "-" + o, d)
-            EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
+            EIndexPattern.S -> {
+                return myHashCode("" + s, d)
+            }
+            EIndexPattern.P -> {
+                return myHashCode("" + p, d)
+            }
+            EIndexPattern.O -> {
+                return myHashCode("" + o, d)
+            }
+            EIndexPattern.SP -> {
+                return myHashCode("" + s + "-" + p, d)
+            }
+            EIndexPattern.SO -> {
+                return myHashCode("" + s + "-" + o, d)
+            }
+            EIndexPattern.PO -> {
+                return myHashCode("" + p + "-" + o, d)
+            }
+            EIndexPattern.SPO -> {
+                return myHashCode("" + s + "-" + p + "-" + o, d)
+            }
         }
     }
 

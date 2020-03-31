@@ -21,7 +21,6 @@ import lupos.datastructures.b_plus_tree.I_B_Plus_Tree_KeyRangeSearch_OnlyKeys
 import lupos.datastructures.b_plus_tree.I_B_Plus_Tree_OnlyKeys
 import lupos.datastructures.b_plus_tree.NotFoundException
 import lupos.io.buffer.bufferManager
-import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class BPlusTreeTests {
@@ -78,12 +77,10 @@ class BPlusTreeTests {
             var i = 100
             do {
                 val result = range()
-                assertEquals(result, if (i <= 2000) i else null) {
-                    i++
-                }
-            } while (result != null){
-                val rangeExceedingLimits = tree.range_search(2 * size, 3 * size)
-            }
+                assertEquals(result, if (i <= 2000) i else null)
+                i++
+            } while (result != null)
+            val rangeExceedingLimits = tree.range_search(2 * size, 3 * size)
             val result = rangeExceedingLimits()
             assertEquals(result, null)
         } catch (e: NotFoundException) {
@@ -105,12 +102,10 @@ class BPlusTreeTests {
             var i = 100
             do {
                 val result = range()
-                assertEquals(result, if (i <= 2000) i else null) {
-                    i++
-                }
-            } while (result != null){
-                assertFailsWith<NotFoundException> { tree.range_search(2 * size, 3 * size) }
-            }
+                assertEquals(result, if (i <= 2000) i else null)
+                i++
+            } while (result != null)
+            assertFailsWith<NotFoundException> { tree.range_search(2 * size, 3 * size) }
         } catch (e: NotFoundException) {
             GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
             fail(e.key.toString() + " not found!")
@@ -221,19 +216,17 @@ class BPlusTreeTests {
         }
         b.generate(size, list.asIterable().iterator())
         try {
-            val range = b.sip_search(100, size) // error for 51712{
+            val range = b.sip_search(100, size) // error for 51712
             var i = 101
-        }
-        do {
-            val result = range(i)
-            GlobalLogger.log(ELoggerType.TEST_DEBUG, { "$i: $result" })
-            i = i * 2
-        } while (result != null){
+            do {
+                val result = range(i)
+                GlobalLogger.log(ELoggerType.TEST_DEBUG, { "$i: $result" })
+                i = i * 2
+            } while (result != null)
         } catch (e: NotFoundException) {
+            GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
+            fail(e.key.toString() + " not found!")
         }
-        GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
-        fail(e.key.toString() + " not found!")
+        // TODO much more rigorously
     }
-    // TODO much more rigorously
-}
 }

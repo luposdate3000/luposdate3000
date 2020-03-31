@@ -52,23 +52,45 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
         var change = true
         try {
             when (node) {
-                is LOPSubGroup -> res = node.children[0]
-                is LOPGraphOperation -> res = POPGraphOperation(query, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
-                is LOPModify -> res = POPModify(query, node.insert, node.delete, node.children[0])
-                is LOPModifyData -> res = POPModifyData(query, node.type, node.data)
-                is LOPProjection -> res = POPProjection(query, node.variables, node.children[0])
-                is LOPMakeBooleanResult -> res = POPMakeBooleanResult(query, node.children[0])
-                is LOPValues -> res = POPValues(query, node)
-                is LOPLimit -> res = POPLimit(query, node.limit, node.children[0])
-                is LOPDistinct -> res = POPDistinct(query, node.children[0])
-                is LOPOffset -> res = POPOffset(query, node.offset, node.children[0])
+                is LOPSubGroup -> {
+                    res = node.children[0]
+                }
+                is LOPGraphOperation -> {
+                    res = POPGraphOperation(query, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
+                }
+                is LOPModify -> {
+                    res = POPModify(query, node.insert, node.delete, node.children[0])
+                }
+                is LOPModifyData -> {
+                    res = POPModifyData(query, node.type, node.data)
+                }
+                is LOPProjection -> {
+                    res = POPProjection(query, node.variables, node.children[0])
+                }
+                is LOPMakeBooleanResult -> {
+                    res = POPMakeBooleanResult(query, node.children[0])
+                }
+                is LOPValues -> {
+                    res = POPValues(query, node)
+                }
+                is LOPLimit -> {
+                    res = POPLimit(query, node.limit, node.children[0])
+                }
+                is LOPDistinct -> {
+                    res = POPDistinct(query, node.children[0])
+                }
+                is LOPOffset -> {
+                    res = POPOffset(query, node.offset, node.children[0])
+                }
                 is LOPGroup -> {
                     if (node.children[1] is POPBind)
                         res = POPGroup(query, node.by, node.children[1] as POPBind, node.children[0])
                     else
                         res = POPGroup(query, node.by, null, node.children[0])
                 }
-                is LOPUnion -> res = POPUnion(query, node.children[0], node.children[1])
+                is LOPUnion -> {
+                    res = POPUnion(query, node.children[0], node.children[1])
+                }
                 is LOPSort -> {
                     if (parent !is LOPSort) {
                         val sortBy = mutableListOf<AOPVariable>()
@@ -83,13 +105,21 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                         change = false
                     }
                 }
-                is LOPFilter -> res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
-                is LOPBind -> res = POPBind(query, node.name, node.children[1] as AOPBase, node.children[0])
-                is LOPJoin -> res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
+                is LOPFilter -> {
+                    res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
+                }
+                is LOPBind -> {
+                    res = POPBind(query, node.name, node.children[1] as AOPBase, node.children[0])
+                }
+                is LOPJoin -> {
+                    res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
+                }
                 is LOPTriple -> {
                     res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)
                 }
-                is OPNothing -> res = POPEmptyRow(query)
+                is OPNothing -> {
+                    res = POPEmptyRow(query)
+                }
                 else -> {
                     change = false
                 }

@@ -59,9 +59,15 @@ object Endpoint {
 
     fun process_local_graph_operation(query: Query, graphName: String, type: EGraphOperationType) {
         when (type) {
-            EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(query, graphName)
-            EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(query, graphName)
-            EGraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(query, graphName)
+            EGraphOperationType.CLEAR -> {
+                DistributedTripleStore.localStore.clearGraph(query, graphName)
+            }
+            EGraphOperationType.CREATE -> {
+                DistributedTripleStore.localStore.createGraph(query, graphName)
+            }
+            EGraphOperationType.DROP -> {
+                DistributedTripleStore.localStore.dropGraph(query, graphName)
+            }
         }
     }
 }

@@ -131,8 +131,12 @@ class POPGraphOperation(query: Query,
                                 DistributedTripleStore.clearGraph(query, name)
                             }
                         }
-                        EGraphRefType.DefaultGraphRef -> DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                        EGraphRefType.IriGraphRef -> DistributedTripleStore.clearGraph(query, graph1iri!!)
+                        EGraphRefType.DefaultGraphRef -> {
+                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                        }
+                        EGraphRefType.IriGraphRef -> {
+                            DistributedTripleStore.clearGraph(query, graph1iri!!)
+                        }
                         EGraphRefType.NamedGraphRef -> {
                             for (name in DistributedTripleStore.getGraphNames()) {
                                 DistributedTripleStore.clearGraph(query, name)
@@ -148,8 +152,12 @@ class POPGraphOperation(query: Query,
                                 DistributedTripleStore.dropGraph(query, name)
                             }
                         }
-                        EGraphRefType.DefaultGraphRef -> DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                        EGraphRefType.IriGraphRef -> DistributedTripleStore.dropGraph(query, graph1iri!!)
+                        EGraphRefType.DefaultGraphRef -> {
+                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                        }
+                        EGraphRefType.IriGraphRef -> {
+                            DistributedTripleStore.dropGraph(query, graph1iri!!)
+                        }
                         EGraphRefType.NamedGraphRef -> {
                             for (name in DistributedTripleStore.getGraphNames(false)) {
                                 DistributedTripleStore.dropGraph(query, name)
@@ -159,7 +167,9 @@ class POPGraphOperation(query: Query,
                 }
                 EGraphOperationType.CREATE -> {
                     when (graph1type) {
-                        EGraphRefType.IriGraphRef -> DistributedTripleStore.createGraph(query, graph1iri!!)
+                        EGraphRefType.IriGraphRef -> {
+                            DistributedTripleStore.createGraph(query, graph1iri!!)
+                        }
                     }
                 }
                 EGraphOperationType.COPY -> {

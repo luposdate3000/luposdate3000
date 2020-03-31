@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
@@ -36,8 +37,9 @@ class Plan : Comparable<Plan> {
 
     override operator fun compareTo(other: Plan) = cost.compareTo(other.cost)
     fun toOPBase(plans: Array<Plan?>): OPBase {
-        if (child != null)
+        if (child != null) {
             return child
+        }
         val cA = plans[childs!!.first]!!.toOPBase(plans)
         val cB = plans[childs.second]!!.toOPBase(plans)
         return LOPJoin(cA.query, cA, cB, false)
@@ -49,9 +51,9 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     fun findAllJoinsInChildren(node: LOPJoin): List<OPBase> {
         val res = mutableListOf<OPBase>()
         for (c in node.children) {
-            if (c is LOPJoin && !c.optional)
+            if (c is LOPJoin && !c.optional) {
                 res.addAll(findAllJoinsInChildren(c))
-            else
+            } else
                 res.add(c)
         }
         return res
@@ -65,8 +67,9 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 if (plans[key] == null) {
                     plans[key] = newPlan
                     optimize(plans, i)
-                } else if (newPlan < plans[key]!!)
+                } else if (newPlan < plans[key]!!) {
                     plans[key] = newPlan
+                }
             }
         }
     }

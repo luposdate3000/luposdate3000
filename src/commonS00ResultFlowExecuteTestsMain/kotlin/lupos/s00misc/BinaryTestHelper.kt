@@ -109,18 +109,42 @@ enum class ValueEnum {
 
 fun ValueToID(v: ValueDefinition): ValueEnum {
     return when (v) {
-        is ValueBnode -> ValueEnum.ValueBoolean
-        is ValueBoolean -> ValueEnum.ValueBoolean
-        is ValueDateTime -> ValueEnum.ValueDateTime
-        is ValueDecimal -> ValueEnum.ValueDecimal
-        is ValueDouble -> ValueEnum.ValueDouble
-        is ValueInteger -> ValueEnum.ValueInteger
-        is ValueIri -> ValueEnum.ValueIri
-        is ValueLanguageTaggedLiteral -> ValueEnum.ValueLanguageTaggedLiteral
-        is ValueSimpleLiteral -> ValueEnum.ValueSimpleLiteral
-        is ValueTypedLiteral -> ValueEnum.ValueTypedLiteral
-        is ValueUndef -> ValueEnum.ValueUndef
-        else -> throw Exception("type error")
+        is ValueBnode -> {
+            ValueEnum.ValueBoolean
+        }
+        is ValueBoolean -> {
+            ValueEnum.ValueBoolean
+        }
+        is ValueDateTime -> {
+            ValueEnum.ValueDateTime
+        }
+        is ValueDecimal -> {
+            ValueEnum.ValueDecimal
+        }
+        is ValueDouble -> {
+            ValueEnum.ValueDouble
+        }
+        is ValueInteger -> {
+            ValueEnum.ValueInteger
+        }
+        is ValueIri -> {
+            ValueEnum.ValueIri
+        }
+        is ValueLanguageTaggedLiteral -> {
+            ValueEnum.ValueLanguageTaggedLiteral
+        }
+        is ValueSimpleLiteral -> {
+            ValueEnum.ValueSimpleLiteral
+        }
+        is ValueTypedLiteral -> {
+            ValueEnum.ValueTypedLiteral
+        }
+        is ValueUndef -> {
+            ValueEnum.ValueUndef
+        }
+        else -> {
+            throw Exception("type error")
+        }
     }
 }
 

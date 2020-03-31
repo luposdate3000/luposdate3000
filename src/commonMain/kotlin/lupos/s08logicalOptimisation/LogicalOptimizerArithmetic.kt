@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s03resultRepresentation.*
@@ -15,8 +16,9 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
     override val classname = "LogicalOptimizerArithmetic"
     fun hasAggregation(node: OPBase): Boolean {
         for (n in node.children) {
-            if (hasAggregation(n))
+            if (hasAggregation(n)) {
                 return true
+            }
         }
         return node is AOPAggregationBase
     }

@@ -17,6 +17,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
@@ -40,11 +41,12 @@ import lupos.SparqlTestSuite
 object EndpointClientImpl {
     @JvmField
     val client = HttpClient() {
-        if (GlobalLogger.enabled.ordinal >= ELoggerType.DEBUG.ordinal)
+        if (GlobalLogger.enabled.ordinal >= ELoggerType.DEBUG.ordinal) {
             install(Logging) {
                 logger = Logger.SIMPLE
                 level = LogLevel.ALL
             }
+        }
     }
 
     fun encodeParam(name: String, value: Any) = listOf(name to ("" + value)).formUrlEncode()

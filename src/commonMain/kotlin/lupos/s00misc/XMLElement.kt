@@ -130,10 +130,12 @@ class XMLElement {
             return true
 //-->> avoid bugs in JENA
         if (tag == "results") {
-            if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result")
+            if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result") {
                 childs.add(XMLElement("result"))
-            if (childs.count() == 1 && other.childs.count() == 0 && childs[0].childs.count() == 0 && childs[0].tag == "result")
+            }
+            if (childs.count() == 1 && other.childs.count() == 0 && childs[0].childs.count() == 0 && childs[0].tag == "result") {
                 other.childs.add(XMLElement("result"))
+            }
         }
 //<<-- avoid bugs in JENA
         if (childs.count() != other.childs.count())
