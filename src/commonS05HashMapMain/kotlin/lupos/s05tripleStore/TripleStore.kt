@@ -106,7 +106,7 @@ class TripleStoreLocal(@JvmField val name: String) {
 
     suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         require(data.size == 3)
-        while (true) {
+        loop@ while (true) {
             var tmp: MutableSet<MapKey>?
             if (type == EModifyType.INSERT) {
                 tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -126,7 +126,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                 val v = data[columnIndex].next()
                 if (v == null) {
                     require(columnIndex == 0)
-                    break
+                    break@loop
                 }
                 k[columnIndex] = v
             }

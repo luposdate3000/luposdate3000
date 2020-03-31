@@ -6,7 +6,7 @@ val separatorB = "([^a-zA-Z_]|$|^)"
 
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()
-val regexFunBracket = ".*\\s*fun\\s+.*\\{\\s*".toRegex()
+val regexFunBracket = "(.*\\s*fun\\s+.*\\{\\s*|.*\\s*init\\s+\\{\\s*)".toRegex()
 val regexWhileLoopBracket = ".*\\s*${separator}while${separator}.*\\{\\s*".toRegex()
 val regexForEachLoopBracket = ".*\\s*${separator}forEach${separator}.*\\{\\s*".toRegex()
 val regexForLoopBracket = ".*\\s*${separator}for${separator}.*\\{\\s*".toRegex()
@@ -112,27 +112,15 @@ for (arg in args) {
         }
     }
 }
-File("src/commonMain/kotlin/lupos/s00misc/CoverageMapGenerated.kt").printWriter().use { out ->
-    out.println("package lupos.s00misc")
-    out.println("val CoverageMapGenerated=mapOf<Int,String>(")
-    var tmp = StringBuilder()
+File("resources/CoverageMapGenerated.txt").printWriter().use { out ->
     coverageMap.forEach { k, v ->
-        tmp.append("$k to \"$v\",\n")
+        out.println("$k:$v")
     }
-    var tmps = tmp.toString()
-    if (tmps.length > 0)
-        out.println(tmps.substring(0, tmps.length - 2))
-    out.println(")")
-    out.println("val CoverageMapWhenCaseGenerated=mapOf<Int,Int>(")
-    tmp = StringBuilder()
+}
+File("resources/CoverageMapWhenCaseGenerated.txt").printWriter().use { out ->
     whenCaseMap.forEach { k, v ->
-        tmp.append("$k to $v,\n")
+        out.println("$k:$v")
     }
-    tmps = tmp.toString()
-    if (tmps.length > 0)
-        out.println(tmps.substring(0, tmps.length - 2))
-    out.println(")")
-
 }
 fun addCoverage(filename: String, lines: List<String>): List<String> {
     val res = mutableListOf<String>()
@@ -145,14 +133,14 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     var openBracketsUnreachable = Int.MAX_VALUE
     lines.forEach {
         val line = it
-        if (regexReturn.matches(line)) {
-            openBracketsUnreachable = openBrackets
-        }
 
         val hadUnreachable = openBracketsUnreachable == openBrackets
         if (!hadUnreachable && res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (whenBrackets[openBrackets - 1] == null)) {
             appendCoverageStatement(filename, counter, res.size)
             res.add("Coverage.statementStart(${counter++})")
+        }
+        if (regexReturn.matches(line)) {
+            openBracketsUnreachable = openBrackets
         }
         if (line.startsWith("package "))
             hadPackage = true

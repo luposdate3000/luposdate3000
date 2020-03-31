@@ -37,12 +37,14 @@ class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterat
 
     init {
         next = {
+            var res: Value?
             if (index == count) {
-                null
+                res = null
             } else {
                 index++
-                value
+                res = value
             }
+/*return*/res
         }
     }
 }
@@ -56,27 +58,31 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
     init {
         require(count > 1)
         next = {
+            var res: Value?
             val tmp = child.next()
             if (tmp == null) {
                 index = 1
                 next = {
+                    var res: Value?
                     if (index2 < data.size) {
-                        data[index2]
+                        res = data[index2]
                     } else {
                         if (index < count) {
                             index++
                             index2 = 0
-                            data[index2]
+                            res = data[index2]
                         } else {
-                            null
+                            res = null
                         }
                     }
+                    /*return*/res
                 }
-                next()
+                res = next()
             } else {
                 data.add(tmp)
-                tmp
+                res = tmp
             }
+/*return*/res
         }
         close = {
             child.close()
@@ -90,11 +96,13 @@ class ColumnIteratorMultiValue(val values: List<Value>) : ColumnIterator() {
 
     init {
         next = {
+            var res: Value?
             if (index == values.size) {
-                null
+                res = null
             } else {
-                values[index++]
+                res = values[index++]
             }
+/*return*/res
         }
     }
 }
@@ -108,7 +116,7 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
             while (res == null && index < childs.size) {
                 res = childs[++index].next()
             }
-            res
+/*return*/            res
         }
         close = {
             for (c in childs) {
@@ -127,7 +135,7 @@ class ColumnIteratorChildIterator(var child: ColumnIterator) : ColumnIterator() 
                 onNoMoreElements()
                 res = child.next()
             }
-            res
+            /*return*/ res
         }
         close = {
             child.close()
@@ -152,7 +160,7 @@ class ColumnIteratorQueue() : ColumnIterator() {
             if (queue.size > 0) {
                 res = queue.removeAt(0)
             }
-            res
+            /*return*/  res
         }
         close = {
             _close()
@@ -171,7 +179,7 @@ class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
                 res = child.next()
             }
             last = res
-            res
+/*return*/            res
         }
         close = {
             child.close()
@@ -267,12 +275,12 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                     if (fastcmp != 0) {
                         if (fastcmp == -1) {
                             next = {
-                                childA.next()
+                                /*return*/    childA.next()
                             }
                             res = childA.next()
                         } else {
                             next = {
-                                childB.next()
+                                /*return*/              childB.next()
                             }
                             res = childB.next()
                         }
@@ -283,9 +291,9 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                         }
                     }
                 }
-                res
+                /*return*/        res
             }
-            next()
+/*return*/            next()
         }
         close = {
             childA.close()

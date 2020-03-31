@@ -19,7 +19,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     mapOf(
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
-                    Coverage . statementStart (5)
     ).forEach { (k, v) ->
         java.io.File("resources/$v").forEachLine {
             k.add(it)

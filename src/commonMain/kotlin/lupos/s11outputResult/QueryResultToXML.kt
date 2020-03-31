@@ -33,48 +33,55 @@ object QueryResultToXML {
                 nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
             }
             val columns = variables.map { child.columns[it] }.toTypedArray()
-            loop@ while (true) {
-                val nodeResult = XMLElement("result")
-                nodeResults.addContent(nodeResult)
-                for (variableIndex in 0 until variables.size) {
-                    val valueID = columns[variableIndex]!!.next()
-                    if (valueID == null) {
-                        break@loop
-                    }
-                    if (valueID != ResultSetDictionary.undefValue) {
-                        val value = node.query.dictionary.getValue(valueID).valueToString()
-                        require(value != null)
-                        val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
-                        if (value.length > 1) {
-                            if (value.startsWith("\"") && !value.endsWith("\"")) {
-                                val idx = value.lastIndexOf("\"^^<")
-                                if (idx >= 0) {
-                                    val data = value.substring(1, idx)
-                                    val type = value.substring(idx + 4, value.length - 1)
-                                    nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
-                                } else {
-                                    val idx2 = value.lastIndexOf("\"@")
-                                    if (idx2 >= 0) {
-                                        val data = value.substring(1, idx2)
-                                        val lang = value.substring(idx2 + 2, value.length)
-                                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
-                                    } else {
-                                        nodeBinding.addContent(XMLElement("literal").addContent(value))
-                                    }
-                                }
-                            } else if (value.startsWith("<") && value.endsWith(">")) {
-                                nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                            } else if (value.startsWith("_:")) {
-                                if (bnodeMap[value] == null) {
-                                    bnodeMap[value] = "" + bnodeMap.keys.size
-                                }
-                                val name = bnodeMap[value]!!
-                                nodeBinding.addContent(XMLElement("bnode").addContent(name))
-                            } else {
-                                nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
-                            }
+            if (variables.size == 0) {
+                for (i in 0 until child.count) {
+                    val nodeResult = XMLElement("result")
+                    nodeResults.addContent(nodeResult)
+                }
+            } else {
+                loop@ while (true) {
+                    val nodeResult = XMLElement("result")
+                    nodeResults.addContent(nodeResult)
+                    for (variableIndex in 0 until variables.size) {
+                        val valueID = columns[variableIndex]!!.next()
+                        if (valueID == null) {
+                            break@loop
                         }
-                        nodeResult.addContent(nodeBinding)
+                        if (valueID != ResultSetDictionary.undefValue) {
+                            val value = node.query.dictionary.getValue(valueID).valueToString()
+                            require(value != null)
+                            val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
+                            if (value.length > 1) {
+                                if (value.startsWith("\"") && !value.endsWith("\"")) {
+                                    val idx = value.lastIndexOf("\"^^<")
+                                    if (idx >= 0) {
+                                        val data = value.substring(1, idx)
+                                        val type = value.substring(idx + 4, value.length - 1)
+                                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
+                                    } else {
+                                        val idx2 = value.lastIndexOf("\"@")
+                                        if (idx2 >= 0) {
+                                            val data = value.substring(1, idx2)
+                                            val lang = value.substring(idx2 + 2, value.length)
+                                            nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                                        } else {
+                                            nodeBinding.addContent(XMLElement("literal").addContent(value))
+                                        }
+                                    }
+                                } else if (value.startsWith("<") && value.endsWith(">")) {
+                                    nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
+                                } else if (value.startsWith("_:")) {
+                                    if (bnodeMap[value] == null) {
+                                        bnodeMap[value] = "" + bnodeMap.keys.size
+                                    }
+                                    val name = bnodeMap[value]!!
+                                    nodeBinding.addContent(XMLElement("bnode").addContent(name))
+                                } else {
+                                    nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+                                }
+                            }
+                            nodeResult.addContent(nodeBinding)
+                        }
                     }
                 }
             }
