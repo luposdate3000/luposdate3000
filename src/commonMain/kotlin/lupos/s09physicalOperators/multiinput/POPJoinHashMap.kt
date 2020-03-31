@@ -85,6 +85,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val columnsOUTB = mutableListOf<ColumnIteratorChildIterator>()//only in childB
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()//join column
         val outMap = mutableMapOf<String, ColumnIteratorChildIterator>()
+        var res: ColumnIteratorRow? = null
         val tmp = mutableListOf<String>()
         var t: ColumnIterator
         tmp.addAll(children[1].getProvidedVariableNames())
@@ -109,7 +110,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             columnsOUTB.add(t)
             columnsINBO.add(childB.columns[name]!!)
         }
-//--- insert second child into hash table
         val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
         val mapWithUndef = mutableMapOf<MapKey, MapRow>()
         var currentKey: Array<Value>? = null
@@ -121,74 +121,85 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         var count: Int
         var countA: Int
         var countB: Int
-        while (true) {
-            count = 0
-            loopB@ while (true) {
-                nextKey = Array(columnsINBJ.size) { ResultSetDictionary.undefValue }
-                nextMap = mapWithoutUndef
-                for (columnIndex in 0 until columnsINBJ.size) {
-                    val value = columnsINBJ[columnIndex].next()
-                    if (value == null) {
-                        nextKey = null
-                        break@loopB
+//---check for empty columns
+        if (columnsOUTJ.size == 0) {
+            if (columnsINAO.size == 0 && columnsINBO.size == 0) {
+                res = ColumnIteratorRow(outMap)
+                res.count = childA.count * childB.count
+            } else {
+                if (columnsINAO.size == 0) {
+//---no columns from a
+                    for (columnIndex in 0 until columnsINBO.size) {
+                        columnsOUTB[columnIndex].child = ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex])
                     }
-                    nextKey!![columnIndex] = value
-                    if (value == ResultSetDictionary.undefValue) {
-                        nextMap = mapWithUndef
+                } else if (columnsINBO.size == 0) {
+//---no columns from b
+                    for (columnIndex in 0 until columnsINAO.size) {
+                        columnsOUTA[columnIndex].child = ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex])
                     }
-                }
-                if (currentKey == null) {
-                    currentKey = nextKey
-                    map = nextMap
-                } else if (nextKey == null || MapKey(nextKey) != MapKey(currentKey)) {
-                    break
-                }
-                count++
-            }
-            if (currentKey == null) {
-                break
-            }
-            key = MapKey(currentKey)
-            oldArr = map[key]
-            if (oldArr == null) {
-                oldArr = MapRow(columnsOUTB.size)
-                map[key] = oldArr
-            }
-            for (columnIndex in 0 until columnsOUTB.size) {
-//TODO dont use kotlin lists here, use pages instead
-                for (j in 0 until count) {
-                    oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
-                }
-            }
-            oldArr.count++
-            currentKey = nextKey
-            map = nextMap
-        }
-//--- iterate first child
-//--- calculate next "cartesian product"
-        for (iterator in outMap.values) {
+                } else {
+//---cartesian product
+//---insert second child into simple list
+                    val data = Array(columnsINBO.size) { mutableListOf<Value>() }
+                    loopC@ while (true) {
+                        for (columnIndex in 0 until columnsINBO.size) {
+                            val value = columnsINBJ[columnIndex].next()
+                            if (value == null) {
+                                break@loopC
+                            }
+                            data[columnIndex].add(value)
+                        }
+                    }
+                    count = data[0].size
+                    if (count > 0 || optional) {
+                        for (iterator in outMap.values) {
 //this is just function pointer assignment. this loop does not calculate anything
-            iterator.close = {
-                iterator._close()
-                for (variable in children[0].getProvidedVariableNames()) {
-                    childA.columns[variable]!!.close()
-                    outMap[variable]!!.close()
+                            iterator.close = {
+                                iterator._close()
+                                for (variable in children[0].getProvidedVariableNames()) {
+                                    childA.columns[variable]!!.close()
+                                    outMap[variable]!!.close()
+                                }
+                                for (variable in children[1].getProvidedVariableNames()) {
+                                    childB.columns[variable]!!.close()
+                                    outMap[variable]!!.close()
+                                }
+                            }
+                            iterator.onNoMoreElements = {
+                                var done = false
+                                for (columnIndex in 0 until columnsINAO.size) {
+                                    val value = columnsINAO[columnIndex].next()
+                                    if (value == null) {
+                                        require(columnIndex == 0)
+                                        done = true
+                                        break
+                                    }
+                                    columnsOUTA[columnIndex].child = ColumnIteratorRepeatValue(count, value)
+                                }
+                                if (!done) {
+                                    for (columnIndex in 0 until columnsINBO.size) {
+                                        columnsOUTB[columnIndex].child = ColumnIteratorMultiValue(data[columnIndex])
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                for (variable in children[1].getProvidedVariableNames()) {
-                    childB.columns[variable]!!.close()
-                    outMap[variable]!!.close()
-                }
+                res = ColumnIteratorRow(outMap)
             }
-            iterator.onNoMoreElements = {
-                countA = 0
-                loopA@ while (true) {
-                    nextKey = Array(columnsINAJ.size) { ResultSetDictionary.undefValue }
+        } else {
+            //---join on at least one column
+//--- insert second child into hash table
+            while (true) {
+                count = 0
+                loopB@ while (true) {
+                    nextKey = Array(columnsINBJ.size) { ResultSetDictionary.undefValue }
                     nextMap = mapWithoutUndef
                     for (columnIndex in 0 until columnsINBJ.size) {
                         val value = columnsINBJ[columnIndex].next()
                         if (value == null) {
                             nextKey = null
-                            break@loopA
+                            break@loopB
                         }
                         nextKey!![columnIndex] = value
                         if (value == ResultSetDictionary.undefValue) {
@@ -196,101 +207,161 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         }
                     }
                     if (currentKey == null) {
-                        map = nextMap
                         currentKey = nextKey
-                    } else if (nextKey == null || MapKey(nextKey!!) != MapKey(currentKey!!)) {
+                        map = nextMap
+                    } else if (nextKey == null || MapKey(nextKey) != MapKey(currentKey)) {
                         break
                     }
-                    countA++
+                    count++
                 }
                 if (currentKey == null) {
-                    iterator.close()
-                } else {
-                    key = MapKey(currentKey!!)
-                    oldArr = MapRow(columnsOUTA.size)
-                    for (columnIndex in 0 until columnsOUTA.size) {
-                        oldArr!!.columns[columnIndex].add(columnsINAO[columnIndex].next()!!)
+                    break
+                }
+                key = MapKey(currentKey)
+                oldArr = map[key]
+                if (oldArr == null) {
+                    oldArr = MapRow(columnsINBO.size)
+                    map[key] = oldArr
+                }
+                oldArr.count += count
+                for (columnIndex in 0 until columnsINBO.size) {
+//TODO dont use kotlin lists here, use pages instead
+                    for (j in 0 until count) {
+                        oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
                     }
-                    var others = mutableListOf<Pair<MapKey, MapRow>>()
+                }
+                currentKey = nextKey
+                map = nextMap
+            }
+//--- iterate first child
+//--- calculate next "cartesian product"
+            for (iterator in outMap.values) {
+//this is just function pointer assignment. this loop does not calculate anything
+                iterator.close = {
+                    iterator._close()
+                    for (variable in children[0].getProvidedVariableNames()) {
+                        childA.columns[variable]!!.close()
+                        outMap[variable]!!.close()
+                    }
+                    for (variable in children[1].getProvidedVariableNames()) {
+                        childB.columns[variable]!!.close()
+                        outMap[variable]!!.close()
+                    }
+                }
+                iterator.onNoMoreElements = {
+                    countA = 0
+                    loopA@ while (true) {
+                        nextKey = Array(columnsINAJ.size) { ResultSetDictionary.undefValue }
+                        nextMap = mapWithoutUndef
+                        for (columnIndex in 0 until columnsINBJ.size) {
+                            val value = columnsINBJ[columnIndex].next()
+                            if (value == null) {
+                                nextKey = null
+                                break@loopA
+                            }
+                            nextKey!![columnIndex] = value
+                            if (value == ResultSetDictionary.undefValue) {
+                                nextMap = mapWithUndef
+                            }
+                        }
+                        if (currentKey == null) {
+                            map = nextMap
+                            currentKey = nextKey
+                        } else if (nextKey == null || MapKey(nextKey!!) != MapKey(currentKey!!)) {
+                            break
+                        }
+                        countA++
+                    }
+                    if (currentKey == null) {
+                        iterator.close()
+                    } else {
+                        key = MapKey(currentKey!!)
+                        oldArr = MapRow(columnsINAO.size)
+                        for (columnIndex in 0 until columnsINAO.size) {
+                            oldArr!!.columns[columnIndex].add(columnsINAO[columnIndex].next()!!)
+                        }
+                        var others = mutableListOf<Pair<MapKey, MapRow>>()
 //search for_join-partners
-                    if (map == mapWithoutUndef) {
-                        val tmp = mapWithoutUndef[key]
-                        if (tmp != null) {
-                            others.add(Pair(key, tmp))
-                        }
-                        for ((k, v) in mapWithUndef) {
-                            if (k.equalsFuzzy(key)) {
-                                others.add(Pair(k, v))
+                        if (map == mapWithoutUndef) {
+                            val tmp = mapWithoutUndef[key]
+                            if (tmp != null) {
+                                others.add(Pair(key, tmp))
+                            }
+                            for ((k, v) in mapWithUndef) {
+                                if (k.equalsFuzzy(key)) {
+                                    others.add(Pair(k, v))
+                                }
+                            }
+                        } else {
+                            for ((k, v) in mapWithoutUndef) {
+                                if (k.equalsFuzzy(key)) {
+                                    others.add(Pair(k, v))
+                                }
+                            }
+                            for ((k, v) in mapWithUndef) {
+                                if (k.equalsFuzzy(key)) {
+                                    others.add(Pair(k, v))
+                                }
                             }
                         }
-                    } else {
-                        for ((k, v) in mapWithoutUndef) {
-                            if (k.equalsFuzzy(key)) {
-                                others.add(Pair(k, v))
-                            }
-                        }
-                        for ((k, v) in mapWithUndef) {
-                            if (k.equalsFuzzy(key)) {
-                                others.add(Pair(k, v))
-                            }
-                        }
-                    }
-                    if (others.size == 0) {
-                        if (optional) {
+                        if (others.size == 0) {
+                            if (optional) {
 //optional clause without match
-                            for (columnIndex in 0 until columnsOUTA.size) {
-                                val list = mutableListOf<Value>()
-                                for (i in 0 until countA) {
-                                    list.add(columnsINAO[columnIndex].next()!!)
+                                for (columnIndex in 0 until columnsINAO.size) {
+                                    val list = mutableListOf<Value>()
+                                    for (i in 0 until countA) {
+                                        list.add(columnsINAO[columnIndex].next()!!)
+                                    }
+                                    columnsOUTA[columnIndex].child = ColumnIteratorMultiValue(list)
                                 }
-                                columnsOUTA[columnIndex].child = ColumnIteratorMultiValue(list)
+                                for (columnIndex in 0 until columnsINBO.size) {
+                                    columnsOUTB[columnIndex].child = ColumnIteratorRepeatValue(countA, ResultSetDictionary.undefValue)
+                                }
+                                for (columnIndex in 0 until columnsOUTJ.size) {
+                                    columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(countA, currentKey!![columnIndex])
+                                }
                             }
-                            for (columnIndex in 0 until columnsOUTB.size) {
-                                columnsOUTB[columnIndex].child = ColumnIteratorRepeatValue(countA, ResultSetDictionary.undefValue)
-                            }
-                            for (columnIndex in 0 until columnsOUTJ.size) {
-                                columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(countA, currentKey!![columnIndex])
-                            }
-                        }
-                    } else {
-                        for (otherIndex in 0 until others.size) {
+                        } else {
+                            for (otherIndex in 0 until others.size) {
 //for_ each match - may contain undefined in the join-columns
-                            countB = others[otherIndex].second.count
-                            count = countA * countB
-                            for (columnIndex in 0 until columnsOUTA.size) {
-                                val iterators = mutableListOf<ColumnIterator>()
-                                for (i in 0 until countA) {
-                                    iterators.add(ColumnIteratorRepeatValue(countB, columnsINAO[columnIndex].next()!!))
+                                countB = others[otherIndex].second.count
+                                count = countA * countB
+                                for (columnIndex in 0 until columnsINAO.size) {
+                                    val iterators = mutableListOf<ColumnIterator>()
+                                    for (i in 0 until countA) {
+                                        iterators.add(ColumnIteratorRepeatValue(countB, columnsINAO[columnIndex].next()!!))
+                                    }
+                                    if (iterators.size == 1) {
+                                        columnsOUTA[columnIndex].child = iterators[0]
+                                    } else {
+                                        columnsOUTA[columnIndex].child = ColumnIteratorMultiIterator(iterators)
+                                    }
                                 }
-                                if (iterators.size == 1) {
-                                    columnsOUTA[columnIndex].child = iterators[0]
-                                } else {
-                                    columnsOUTA[columnIndex].child = ColumnIteratorMultiIterator(iterators)
+                                for (columnIndex in 0 until columnsINBO.size) {
+                                    if (countA == 1) {
+                                        columnsOUTB[columnIndex].child = ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex])
+                                    } else {
+                                        columnsOUTB[columnIndex].child = ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex]))
+                                    }
                                 }
-                            }
-                            for (columnIndex in 0 until columnsOUTB.size) {
-                                if (countA == 1) {
-                                    columnsOUTB[columnIndex].child = ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex])
-                                } else {
-                                    columnsOUTB[columnIndex].child = ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex]))
-                                }
-                            }
 //resolve undefined values in join columns
-                            for (columnIndex in 0 until columnsOUTJ.size) {
-                                if (currentKey!![columnIndex] == ResultSetDictionary.undefValue) {
-                                    columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(count, currentKey!![columnIndex])
-                                } else {
-                                    columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(count, others[otherIndex].first.data[columnIndex])
+                                for (columnIndex in 0 until columnsOUTJ.size) {
+                                    if (currentKey!![columnIndex] == ResultSetDictionary.undefValue) {
+                                        columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(count, currentKey!![columnIndex])
+                                    } else {
+                                        columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(count, others[otherIndex].first.data[columnIndex])
+                                    }
                                 }
                             }
                         }
+                        map = nextMap
+                        currentKey = nextKey
                     }
-                    map = nextMap
-                    currentKey = nextKey
                 }
             }
+            res = ColumnIteratorRow(outMap)
         }
-        return ColumnIteratorRow(outMap)
+        return res!!
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
