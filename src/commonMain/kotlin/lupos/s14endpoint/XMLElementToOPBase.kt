@@ -1,6 +1,7 @@
 package lupos.s14endpoint
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
@@ -65,8 +66,9 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
     val n = mapping[name]
-    if (n != null)
+    if (n != null) {
         return AOPVariable(query, n)
+    }
     return AOPVariable(query, name)
 }
 
@@ -243,33 +245,40 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "AOPAggregationSAMPLE" -> {
             val childs = mutableListOf<AOPBase>()
-            for (c in node["children"]!!.childs)
+            for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
+            }
             AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
-        "AOPConstant" -> convertToOPBase(query, node["value"]!!.childs.first(), mapping)
+        "AOPConstant" -> {
+            convertToOPBase(query, node["value"]!!.childs.first(), mapping)
+        }
         "AOPAggregationAVG" -> {
             val childs = mutableListOf<AOPBase>()
-            for (c in node["children"]!!.childs)
+            for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
+            }
             AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationSUM" -> {
             val childs = mutableListOf<AOPBase>()
-            for (c in node["children"]!!.childs)
+            for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
+            }
             AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationMIN" -> {
             val childs = mutableListOf<AOPBase>()
-            for (c in node["children"]!!.childs)
+            for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
+            }
             AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationMAX" -> {
             val childs = mutableListOf<AOPBase>()
-            for (c in node["children"]!!.childs)
+            for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
+            }
             AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPGT" -> {
@@ -326,9 +335,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             node["bindings"]!!.childs.forEach {
                 bindings = POPBind(query, createAOPVariable(query, mapping, it.attributes["name"]!!), convertToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
             }
-            if (bindings is POPEmptyRow)
+            if (bindings is POPEmptyRow) {
                 POPGroup(query, by, null, child)
-            else
+            } else
                 POPGroup(query, by, bindings as POPBind, child)
         }
         "POPFilter" -> {

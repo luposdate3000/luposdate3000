@@ -3,6 +3,7 @@ package lupos.s15tripleStoreDistributed
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -31,15 +32,17 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
             addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
 
     override fun toSparql(): String {
-        if (graphName == PersistentStoreLocal.defaultGraphName)
+        if (graphName == PersistentStoreLocal.defaultGraphName) {
             return params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "."
+        }
         return "GRAPH <$graphName> {" + params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "}."
     }
 
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
-        for (p in params)
+        for (p in params) {
             tmp.addAll(p.getRequiredVariableNames())
+        }
         return tmp.distinct()
     }
 
@@ -82,20 +85,35 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
-        if (c < 0)
+        if (c < 0) {
             return (-c) % d
+        }
         return c % d
     }
 
     fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
         when (idx) {
-            EIndexPattern.S -> return myHashCode("" + s, d)
-            EIndexPattern.P -> return myHashCode("" + p, d)
-            EIndexPattern.O -> return myHashCode("" + o, d)
-            EIndexPattern.SP -> return myHashCode("" + s + "-" + p, d)
-            EIndexPattern.SO -> return myHashCode("" + s + "-" + o, d)
-            EIndexPattern.PO -> return myHashCode("" + p + "-" + o, d)
-            EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
+            EIndexPattern.S -> {
+                return myHashCode("" + s, d)
+            }
+            EIndexPattern.P -> {
+                return myHashCode("" + p, d)
+            }
+            EIndexPattern.O -> {
+                return myHashCode("" + o, d)
+            }
+            EIndexPattern.SP -> {
+                return myHashCode("" + s + "-" + p, d)
+            }
+            EIndexPattern.SO -> {
+                return myHashCode("" + s + "-" + o, d)
+            }
+            EIndexPattern.PO -> {
+                return myHashCode("" + p + "-" + o, d)
+            }
+            EIndexPattern.SPO -> {
+                return myHashCode("" + s + "-" + p + "-" + o, d)
+            }
         }
     }
 
@@ -190,8 +208,9 @@ object DistributedTripleStore {
     })
 
     fun getNamedGraph(query: Query, name: String): DistributedGraph = Trace.trace({ "DistributedTripleStore.getNamedGraph" }, {
-        if (!(localStore.getGraphNames(true).contains(name)))
+        if (!(localStore.getGraphNames(true).contains(name))) {
             createGraph(query, name)
+        }
         return DistributedGraph(query, name)
     })
 

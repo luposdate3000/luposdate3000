@@ -2,6 +2,7 @@ package lupos
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
@@ -122,12 +123,12 @@ class SparqlTestSuite() {
                     }
                 }
             }
-            // Now look for the tests:
+            // Now look for_ the tests:
             val tests = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries"))
             tests.forEach {
                 // follow list of entries:
                 listMembers(data, it) {
-                    // for printing out the name:
+                    // for_ printing out the name:
                     val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                     name.forEach {
                         GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + (Dictionary[it] as SimpleLiteral).content })
@@ -146,8 +147,9 @@ class SparqlTestSuite() {
     }
 
     private fun readFileOrNull(name: String?): String? {
-        if (name == null)
+        if (name == null) {
             return null
+        }
         return File(name).readAsString()
     }
 
@@ -194,7 +196,9 @@ class SparqlTestSuite() {
                                                 "http://www.w3.org/2000/01/rdf-schema#label" -> {
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
-                                                else -> throw Exception("unknown manifest resultGraphDataBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                else -> {
+                                                    throw Exception("unknown manifest resultGraphDataBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                }
                                             }
                                         }
                                         outputDataGraph.add(graph)
@@ -202,11 +206,15 @@ class SparqlTestSuite() {
                                     "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
                                         GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri })
                                     }
-                                    else -> throw Exception("unknown manifest resultBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                    else -> {
+                                        throw Exception("unknown manifest resultBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                    }
                                 }
                             }
                         }
-                        else -> throw Exception("unknown manifest result : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                        else -> {
+                            throw Exception("unknown manifest result : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                        }
                     }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
@@ -249,11 +257,14 @@ class SparqlTestSuite() {
                                                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
                                                     service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
-                                                else -> throw Exception("unknown manifest serviceData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                else -> {
+                                                    throw Exception("unknown manifest serviceData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                }
                                             }
                                         }
-                                        if (service["filename"] != null)
+                                        if (service["filename"] != null) {
                                             services.add(service)
+                                        }
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
                                         SanityCheck.checkNULL({ queryFile })
@@ -274,16 +285,22 @@ class SparqlTestSuite() {
                                                 "http://www.w3.org/2000/01/rdf-schema#label" -> {
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
-                                                else -> throw Exception("unknown manifest graphData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                else -> {
+                                                    throw Exception("unknown manifest graphData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                }
                                             }
                                         }
                                         inputDataGraph.add(graph)
                                     }
-                                    else -> throw Exception("unknown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                    else -> {
+                                        throw Exception("unknown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                    }
                                 }
                             }
                         }
-                        else -> throw Exception("unknown manifest actionType : " + Dictionary[it.first])
+                        else -> {
+                            throw Exception("unknown manifest actionType : " + Dictionary[it.first])
+                        }
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
@@ -292,7 +309,9 @@ class SparqlTestSuite() {
                     when ((Dictionary[it.second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeUpdateSyntaxTest11" -> expectedResult = false
+                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeUpdateSyntaxTest11" -> {
+                            expectedResult = false
+                        }
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11" -> {
                         }
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11" -> {
@@ -305,8 +324,12 @@ class SparqlTestSuite() {
                         }
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest" -> {
                         }
-                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest11" -> expectedResult = false
-                        else -> throw Exception("unknown manifest type : " + (Dictionary[it.second] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
+                        "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest11" -> {
+                            expectedResult = false
+                        }
+                        else -> {
+                            throw Exception("unknown manifest type : " + (Dictionary[it.second] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
+                        }
                     }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name" -> {
@@ -335,7 +358,9 @@ class SparqlTestSuite() {
                     SanityCheck.checkNULL({ description })
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
-                else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                else -> {
+                    throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                }
             }
         }
         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "testType : $testType" })
@@ -350,8 +375,9 @@ class SparqlTestSuite() {
         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "inputDataFile : $inputDataFile" })
         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "resultFile : $resultFile" })
         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "services : $services" })
-        if (queryFile == null)
+        if (queryFile == null) {
             return true
+        }
         var success = false
         CoroutinesHelper.runBlock {
             success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
@@ -423,13 +449,14 @@ class SparqlTestSuite() {
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
-                if (services != null)
+                if (services != null) {
                     for (s in services) {
                         val n = s["name"]!!
                         val fn = s["filename"]!!
                         val fc = readFileOrNull(fn)!!
 //                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                     }
+                }
                 val query = Query()
                 var res: Boolean
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })

@@ -3,6 +3,7 @@ package lupos.s06buildOperatorGraph
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.SanityCheck
@@ -182,7 +183,7 @@ import lupos.s05tripleStore.*
 
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
-    val queryExecutionStartTime = ValueDateTime() /*required for BuildInCall.NOW */
+    val queryExecutionStartTime = ValueDateTime() /*required for_ BuildInCall.NOW */
 
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
@@ -197,11 +198,13 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     fun containsAggregate(node: ASTNode): Boolean {
-        if (node is ASTAggregation)
+        if (node is ASTAggregation) {
             return true
+        }
         for (c in node.children) {
-            if (containsAggregate(c))
+            if (containsAggregate(c)) {
                 return true
+            }
         }
         return false
     }
@@ -212,8 +215,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         val res = LOPSubGroup(query, visit(node as ASTSelectQuery, childrenValues))
-        if (node.existsValues())
+        if (node.existsValues()) {
             return LOPJoin(query, node.values!!.visit(this), res, false)
+        }
         return res
     }
 
@@ -225,8 +229,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         val result = LOPNOOP(query)
         var bind: LOPBind? = null
         var bindIsAggregate = false
-        if (distinct)
+        if (distinct) {
             result.getLatestChild().setChild(LOPDistinct(query))
+        }
         val projection = LOPProjection(query)
         result.getLatestChild().setChild(projection)
         val allNamesSelect = mutableSetOf<String>()
@@ -235,25 +240,28 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             for (sel in select) {
                 when (sel) {
                     is ASTVar -> {
-                        if (allNamesBind.contains(sel.name))
+                        if (allNamesBind.contains(sel.name)) {
                             throw Exception("projection must not contain same variable as bind and selection ${sel.name}")
+                        }
                         allNamesSelect.add(sel.name)
                         projection.variables.add(AOPVariable(query, sel.name))
                     }
                     is ASTAs -> {
-                        if (allNamesSelect.contains(sel.variable.name))
+                        if (allNamesSelect.contains(sel.variable.name)) {
                             throw Exception("projection must not contain same variable as bind and selection ${sel.variable.name}")
+                        }
                         allNamesBind.add(sel.variable.name)
                         val v = AOPVariable(query, sel.variable.name)
                         projection.variables.add(v)
                         val tmp3 = sel.expression.visit(this) as AOPBase
-                        if (tmp3.getRequiredVariableNamesRecoursive().contains(v.name))
+                        if (tmp3.getRequiredVariableNamesRecoursive().contains(v.name)) {
                             throw Exception("variable must not be recoursively defined $v")
+                        }
                         val tmp2 = LOPBind(query, v, tmp3)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
-                        if (bind != null)
+                        if (bind != null) {
                             bind = mergeLOPBind(bind, tmp2)
-                        else
+                        } else
                             bind = tmp2
                     }
                     else -> {
@@ -266,8 +274,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         result.getLatestChild().setChild(childNode)
         if (select.size == 0) {
             for (s in childNode.getProvidedVariableNames()) {
-                if (!s.startsWith("#"))
+                if (!s.startsWith("#")) {
                     projection.variables.add(AOPVariable(query, s))
+                }
             }
         }
         return LOPSubGroup(query, result)
@@ -306,13 +315,14 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             } else
                 throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)
-            if (result == null)
+            if (result == null) {
                 result = tmp
-            else
+            } else
                 result = LOPUnion(query, result, tmp)
         }
-        if (result == null)
+        if (result == null) {
             return LOPNOOP(query)
+        }
         return LOPDistinct(query, result)
     }
 
@@ -339,9 +349,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     val expression = h.visit(this) as AOPBase
                     val tmpVar = AOPVariable(query, "#f${expression.uuid}")
                     val tmpBind = LOPBind(query, tmpVar, expression)
-                    if (bind != null)
+                    if (bind != null) {
                         bind = mergeLOPBind(bind, tmpBind)
-                    else
+                    } else
                         bind = tmpBind
                     result.getLatestChild().setChild(LOPFilter(query, AOPVariable(query, tmpVar.name)))
                 }
@@ -357,12 +367,13 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         val v = AOPVariable(query, b.variable.name)
                         variables.add(v)
                         val tmp = b.expression.visit(this) as AOPBase
-                        if (tmp.getRequiredVariableNamesRecoursive().contains(v.name))
+                        if (tmp.getRequiredVariableNamesRecoursive().contains(v.name)) {
                             throw Exception("variable must not be recoursively defined $v")
+                        }
                         val tmp2 = LOPBind(query, v, tmp)
-                        if (child != null)
+                        if (child != null) {
                             child = mergeLOPBind(child, tmp2)
-                        else
+                        } else
                             child = tmp2
                     }
                     else -> {
@@ -370,9 +381,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     }
                 }
             }
-            if (child == null)
+            if (child == null) {
                 result.getLatestChild().setChild(LOPGroup(query, variables, bind, LOPNOOP(query)))
-            else
+            } else
                 result.getLatestChild().setChild(LOPGroup(query, variables, bind, child))
         } else {
             if (node.existsHaving()) {
@@ -380,9 +391,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     val expression = h.visit(this) as AOPBase
                     val tmpVar = AOPVariable(query, "#f${expression.uuid}")
                     val tmpBind = LOPBind(query, tmpVar, expression)
-                    if (bind != null)
+                    if (bind != null) {
                         bind = mergeLOPBind(bind, tmpBind)
-                    else
+                    } else
                         bind = tmpBind
                     result.getLatestChild().setChild(LOPFilter(query, AOPVariable(query, tmpVar.name)))
                 }
@@ -421,21 +432,22 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
             when (tmp2) {
 /*                is LOPMinus -> {
-                    if (members.containsKey(EGroupMember.GMLOPMinus))
+                    if (members.containsKey(EGroupMember.GMLOPMinus)){
                         (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
+}
                     else
                         members[EGroupMember.GMLOPMinus] = tmp2
                 }*/
                 is LOPFilter -> {
-                    if (members.containsKey(EGroupMember.GMLOPFilter))
+                    if (members.containsKey(EGroupMember.GMLOPFilter)) {
                         (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
-                    else
+                    } else
                         members[EGroupMember.GMLOPFilter] = tmp2
                 }
                 is LOPProjection -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource))
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
                         members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
-                    else
+                    } else
                         members[EGroupMember.GMLOPDataSource] = tmp2
                 }
                 is LOPBind -> {
@@ -498,8 +510,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
-                else ->
+                else -> {
                     throw UnsupportedOperationException("${classNameToString(this)} EGroupMember ${classNameToString(tmp2)}")
+                }
             }
         }
 /*        if (members.containsKey(EGroupMember.GMLOPMinus)) {
@@ -507,9 +520,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         }
 */
         if (members.containsKey(EGroupMember.GMLOPFilter)) {
-            if (result == null)
+            if (result == null) {
                 result = members[EGroupMember.GMLOPFilter]
-            else
+            } else
                 (result).getLatestChild().setChild(members[EGroupMember.GMLOPFilter]!!)
         }
         var firstJoin: OPBase? = null
@@ -517,17 +530,17 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             firstJoin = members[EGroupMember.GMLOPDataSource]
         }
         if (members.containsKey(EGroupMember.GMLOPOptional)) {
-            if (firstJoin == null)
+            if (firstJoin == null) {
                 firstJoin = LOPOptional(query, members[EGroupMember.GMLOPOptional]!!)
-            else
+            } else
                 firstJoin = LOPJoin(query, firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
         }
         if (firstJoin == null) {
             var bb: LOPBind? = null
             for (b in bind) {
-                if (bb == null)
+                if (bb == null) {
                     bb = b
-                else
+                } else
                     bb = mergeLOPBind(bb, b)
             }
             firstJoin = bb
@@ -537,9 +550,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
         }
         if (firstJoin != null) {
-            if (result == null)
+            if (result == null) {
                 result = firstJoin
-            else
+            } else
                 (result).getLatestChild().setChild(firstJoin)
         }
         return result!!
@@ -565,9 +578,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 }
             }
             if (leftOk != rightOk) {
-                if (leftOk)
+                if (leftOk) {
                     a.children[0] = insertLOPBind(a.children[0], b)
-                else
+                } else
                     return LOPJoin(query, a.children[0], insertLOPBind(a.children[1], b), a.optional)
                 return a
             }
@@ -586,9 +599,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         var lastQuery: OPBase? = null
         for (q in childrenValues) {
             if (q is LOPPrefix) {
-                if (prefix == null)
+                if (prefix == null) {
                     prefix = q
-                else
+                } else
                     prefix.getLatestChild().setChild(q)
             } else if (q is LOPValues) {
                 if (values == null) {
@@ -607,8 +620,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
         }
         if (opbase is LOPNOOP) {
-            if (lastQuery != null)
+            if (lastQuery != null) {
                 opbase = joinValuesAndQuery(values, lastQuery)
+            }
         } else {
             opbase = LOPJoin(query, opbase, joinValuesAndQuery(values, lastQuery!!), false)
         }
@@ -620,10 +634,12 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {
-        if (values == null)
+        if (values == null) {
             return opbase
-        if (opbase !is LOPProjection)
+        }
+        if (opbase !is LOPProjection) {
             return LOPJoin(query, values, opbase, false)
+        }
         var latestProjection = opbase
         var realQuery = opbase
         while (realQuery is LOPProjection) {
@@ -688,9 +704,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null)
+            if (res == null) {
                 res = v as AOPBase
-            else
+            } else
                 res = AOPOr(query, v as AOPBase, res)
         }
         return res!!
@@ -700,9 +716,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null)
+            if (res == null) {
                 res = v as AOPBase
-            else
+            } else
                 res = AOPAnd(query, v as AOPBase, res)
         }
         return res!!
@@ -752,9 +768,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null)
+            if (res == null) {
                 res = v as AOPBase
-            else
+            } else
                 res = AOPAddition(query, v as AOPBase, res)
         }
         return res!!
@@ -764,9 +780,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null)
+            if (res == null) {
                 res = v as AOPBase
-            else
+            } else
                 res = AOPSubtraction(query, v as AOPBase, res)
         }
         return res!!
@@ -776,9 +792,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null)
+            if (res == null) {
                 res = v as AOPBase
-            else
+            } else
                 res = AOPMultiplication(query, v as AOPBase, res)
         }
         return res!!
@@ -788,9 +804,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null)
+            if (res == null) {
                 res = v as AOPBase
-            else
+            } else
                 res = AOPDivision(query, v as AOPBase, res)
         }
         return res!!
@@ -815,8 +831,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.checkEQ({ childrenValues.size }, { 0 })
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
-        if (b.getRequiredVariableNamesRecoursive().contains(a.name))
+        if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
             throw Exception("variable must not be recousively defined $a")
+        }
         return LOPBind(query, a, b)
     }
 
@@ -856,8 +873,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BNODE -> {
-                if (childrenValues.size == 1)
+                if (childrenValues.size == 1) {
                     return AOPBuildInCallBNODE1(query, childrenValues[0] as AOPBase)
+                }
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctions.ABS -> {
@@ -879,8 +897,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             BuiltInFunctions.CONCAT -> {
                 SanityCheck.check({ childrenValues.size > 0 })
                 var res = childrenValues[0] as AOPBase
-                for (i in 1 until childrenValues.size)
+                for (i in 1 until childrenValues.size) {
                     res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
+                }
                 return res
             }
             BuiltInFunctions.STRLEN -> {
@@ -987,7 +1006,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 SanityCheck.checkEQ({ childrenValues.size }, { 1 })
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
-            else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
+            else -> {
+                throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
+            }
         }
     }
 
@@ -1025,16 +1046,18 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
         SanityCheck.checkEQ({ childrenValues.size }, { 1 })
         val child = childrenValues.first() as AOPBase
-        if (containsAggregate(node.children.first()))
+        if (containsAggregate(node.children.first())) {
             throw Exception("Aggregate not allowed here")
+        }
         return LOPFilter(query, child)
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
         SanityCheck.checkEQ({ childrenValues.size }, { 1 })
         val tmp = childrenValues.first() as AOPBase
-        if (tmp is AOPVariable)
+        if (tmp is AOPVariable) {
             return LOPSort(query, node.asc, tmp)
+        }
         val v = AOPVariable(query, "#f${tmp.uuid}")
         return LOPSort(query, node.asc, v, LOPBind(query, v, tmp))
     }
@@ -1055,19 +1078,27 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
         when {
-            node.iriOrVar is ASTIri -> return LOPServiceIRI(query, node.iriOrVar.iri, node.silent, parseGroup(node.children))
-            node.iriOrVar is ASTVar -> return LOPServiceVAR(query, node.iriOrVar.name, node.silent, parseGroup(node.children))
-            else -> throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
+            node.iriOrVar is ASTIri -> {
+                return LOPServiceIRI(query, node.iriOrVar.iri, node.silent, parseGroup(node.children))
+            }
+            node.iriOrVar is ASTVar -> {
+                return LOPServiceVAR(query, node.iriOrVar.name, node.silent, parseGroup(node.children))
+            }
+            else -> {
+                throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
+            }
         }
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
         val variables = mutableListOf<AOPVariable>()
         val values = mutableListOf<AOPValue>()
-        for (v in node.variables)
+        for (v in node.variables) {
             variables.add(v.visit(this) as AOPVariable)
-        for (v in node.children)
+        }
+        for (v in node.children) {
             values.add(v.visit(this) as AOPValue)
+        }
         return LOPValues(query, variables, values)
     }
 
@@ -1078,21 +1109,35 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
         val iri = when (name) {
-            is ASTIri -> name.iri
-            is ASTIriGraphRef -> name.iri
-            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)} $optional")
+            is ASTIri -> {
+                name.iri
+            }
+            is ASTIriGraphRef -> {
+                name.iri
+            }
+            else -> {
+                throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)} $optional")
+            }
         }
         when (node) {
-            is OPNothing -> return node
+            is OPNothing -> {
+                return node
+            }
             is LOPTriple -> {
-                if (!optional || node.graph == PersistentStoreLocal.defaultGraphName)
+                if (!optional || node.graph == PersistentStoreLocal.defaultGraphName) {
                     return LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
-                else
+                } else
                     return node
             }
-            is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name, optional)
-            is LOPJoin -> return LOPJoin(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
-            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} $optional")
+            is LOPFilter -> {
+                node.children[0] = setGraphNameForAllTriples(node.children[0], name, optional)
+            }
+            is LOPJoin -> {
+                return LOPJoin(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
+            }
+            else -> {
+                throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} $optional")
+            }
         }
         return node
     }
@@ -1101,26 +1146,35 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         var res: OPBase = OPNothing(query)
         for (c in childrenValues) {
             val tmp = setGraphNameForAllTriples(c, node.iriOrVar, false)
-            if (res is OPNothing)
+            if (res is OPNothing) {
                 res = tmp
-            else
+            } else
                 res = LOPJoin(query, res, tmp, false)
         }
         return res
     }
 
     fun graphRefToEnum(ref: ASTGraphRef): Pair<EGraphRefType, String?> {
-        if (ref is ASTIriGraphRef)
-            return Pair(EGraphRefType.IriGraphRef, ref.iri)
-        if (ref is ASTNamedIriGraphRef)
-            return Pair(EGraphRefType.IriGraphRef, ref.iri)
-        if (ref is ASTDefaultGraphRef)
-            return Pair(EGraphRefType.DefaultGraphRef, null)
-        if (ref is ASTNamedGraphRef)
-            return Pair(EGraphRefType.NamedGraphRef, null)
-        if (ref is ASTAllGraphRef)
-            return Pair(EGraphRefType.AllGraphRef, null)
-        throw Exception("not reachable")
+        when (ref) {
+            is ASTIriGraphRef -> {
+                return Pair(EGraphRefType.IriGraphRef, ref.iri)
+            }
+            is ASTNamedIriGraphRef -> {
+                return Pair(EGraphRefType.IriGraphRef, ref.iri)
+            }
+            is ASTDefaultGraphRef -> {
+                return Pair(EGraphRefType.DefaultGraphRef, null)
+            }
+            is ASTNamedGraphRef -> {
+                return Pair(EGraphRefType.NamedGraphRef, null)
+            }
+            is ASTAllGraphRef -> {
+                return Pair(EGraphRefType.AllGraphRef, null)
+            }
+            else -> {
+                throw Exception("not reachable")
+            }
+        }
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
@@ -1184,11 +1238,15 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                             c2 is ASTTriple -> {
                                 modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri, true))
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")
+                            else -> {
+                                throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")
+                            }
                         }
                     }
                 }
-                else -> throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c)}")
+                else -> {
+                    throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c)}")
+                }
             }
         }
     }
@@ -1226,9 +1284,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             var tmp: OPBase? = null
             for (c in node.using) {
                 val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c, false)
-                if (tmp == null)
+                if (tmp == null) {
                     tmp = tmp2
-                else
+                } else
                     tmp = LOPUnion(query, tmp, tmp2)
             }
             tmp!!
@@ -1237,10 +1295,12 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         if (iri != null) {
-            for (e in node.insert)
+            for (e in node.insert) {
                 insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
-            for (e in node.delete)
+            }
+            for (e in node.delete) {
                 delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
+            }
             val res = LOPModify(query, insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
             return res
         } else {

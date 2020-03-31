@@ -1,7 +1,7 @@
 #!/bin/kscript
 import java.io.File
 
-val separator = "[^a-zA-Z]"
+val separator = "[^a-zA-Z_]"
 
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()
@@ -216,6 +216,8 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
                     res.add(line)
                     appendCoverageWhenCase(filename, counter, res.size)
                     res.add("Coverage.whenCaseStart(${counter++})")
+                } else {
+                    res.add(line)
                 }
             }
             regexForLoopBracket.matches(line) -> {
@@ -259,6 +261,8 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
                     appendCoverageWhenCase(filename, counter, res.size)
                     res.add("Coverage.whenCaseStart(${counter++})")
                     appendClosingBracket = 2
+                } else {
+                    res.add(line)
                 }
             }
             regexSpace.matches(line) -> {

@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -16,19 +17,23 @@ import lupos.s09physicalOperators.POPBase
 
 class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB)) {
     override fun toSparql(): String {
-        if (optional)
+        if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
+        }
         return children[0].toSparql() + children[1].toSparql()
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is POPJoinHashMap)
+        if (other !is POPJoinHashMap) {
             return false
-        if (optional != other.optional)
+        }
+        if (optional != other.optional) {
             return false
+        }
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (!children[i].equals(other.children[i])) {
                 return false
+            }
         }
         return true
     }
@@ -36,8 +41,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
     class MapKey(@JvmField val data: Array<Value>) {
         override fun hashCode(): Int {
             var res = 0
-            for (i in 0 until data.size)
+            for (i in 0 until data.size) {
                 res += data[i].hashCode()
+            }
             return res
         }
 
@@ -150,8 +156,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             }
             for (columnIndex in 0 until columnsOUTB.size) {
 //TODO dont use kotlin lists here, use pages instead
-                for (j in 0 until count)
+                for (j in 0 until count) {
                     oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
+                }
             }
             oldArr.count++
             currentKey = nextKey
@@ -205,7 +212,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         oldArr!!.columns[columnIndex].add(columnsINAO[columnIndex].next()!!)
                     }
                     var others = mutableListOf<Pair<MapKey, MapRow>>()
-//search for join-partners
+//search for_join-partners
                     if (map == mapWithoutUndef) {
                         val tmp = mapWithoutUndef[key]
                         if (tmp != null) {
@@ -247,7 +254,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         }
                     } else {
                         for (otherIndex in 0 until others.size) {
-//for each match - may contain undefined in the join-columns
+//for_ each match - may contain undefined in the join-columns
                             countB = others[otherIndex].second.count
                             count = countA * countB
                             for (columnIndex in 0 until columnsOUTA.size) {

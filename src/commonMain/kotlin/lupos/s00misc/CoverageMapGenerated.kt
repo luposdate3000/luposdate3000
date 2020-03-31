@@ -1,6 +1,6 @@
 package lupos.s00misc
 
-val CoverageMapGenerated = mapOf(
+val CoverageMapGenerated = mapOf<Int, String>(
 )
-val CoverageMapWhenCaseGenerated = mapOf(
+val CoverageMapWhenCaseGenerated = mapOf<Int, Int>(
 )

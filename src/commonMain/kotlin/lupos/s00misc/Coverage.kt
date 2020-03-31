@@ -32,7 +32,7 @@ object Coverage {
 
     fun whenCaseStart(counter: Int) {
         counters[counter]++
-        counters[CoverageMapWhenGenerated[counter]]++
+        counters[CoverageMapWhenCaseGenerated[counter]!!]++
         if (verbose)
             println("whenCaseStart $counter")
     }
