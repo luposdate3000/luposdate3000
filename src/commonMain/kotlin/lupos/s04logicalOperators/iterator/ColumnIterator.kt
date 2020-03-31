@@ -136,10 +136,12 @@ class ColumnIteratorChildIterator() : ColumnIterator() {
             var res = childs[0].next()
             if (res == null) {
                 childs.removeAt(0)
-                if (childs.size == 0)
+                if (childs.size == 0) {
                     onNoMoreElements()
-                if (childs.size == 0)
+                }
+                if (childs.size == 0) {
                     close()
+                }
                 res = next()
             }
             /*return*/ res

@@ -121,7 +121,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         var count: Int
         var countA: Int
         var countB: Int
-//---check for empty columns
+//---check for_ empty columns
         if (columnsOUTJ.size == 0) {
             if (columnsINAO.size == 0 && columnsINBO.size == 0) {
                 res = ColumnIteratorRow(outMap)

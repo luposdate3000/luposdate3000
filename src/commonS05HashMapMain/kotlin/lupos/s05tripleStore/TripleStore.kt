@@ -106,21 +106,21 @@ class TripleStoreLocal(@JvmField val name: String) {
 
     suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         require(data.size == 3)
-        loop@ while (true) {
-            var tmp: MutableSet<MapKey>?
+        var tmp: MutableSet<MapKey>?
+        if (type == EModifyType.INSERT) {
+            tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+        } else {
+            tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+        }
+        if (tmp == null) {
+            tmp = mutableSetOf<MapKey>()
             if (type == EModifyType.INSERT) {
-                tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+                pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
             } else {
-                tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+                pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
             }
-            if (tmp == null) {
-                tmp = mutableSetOf<MapKey>()
-                if (type == EModifyType.INSERT) {
-                    pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
-                } else {
-                    pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
-                }
-            }
+        }
+        loop@ while (true) {
             val k = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
@@ -128,7 +128,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                     require(columnIndex == 0)
                     break@loop
                 }
-                k[columnIndex] = v
+                k[columnIndex] = dictionary.createValue(query.dictionary.getValue(v))
             }
             tmp.add(MapKey(k))
         }
