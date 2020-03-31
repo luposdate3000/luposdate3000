@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,11 +13,13 @@ import lupos.s04logicalOperators.Query
 class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPAndID, "AOPAnd", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " && " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPAnd)
+        if (other !is AOPAnd) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }
@@ -36,12 +39,13 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
                 b = ValueBoolean(childB().toBoolean())
             } catch (e: Throwable) {
             }
-            if (a is ValueBoolean && b is ValueBoolean)
+            if (a is ValueBoolean && b is ValueBoolean) {
                 res = ValueBoolean(a.value && b.value)
-            else if (a is ValueError && b is ValueBoolean && b.value == false)
+            } else if (a is ValueError && b is ValueBoolean && b.value == false) {
                 res = b
-            else if (b is ValueError && a is ValueBoolean && a.value == false)
+            } else if (b is ValueError && a is ValueBoolean && a.value == false) {
                 res = a
+            }
             res
         }
     }

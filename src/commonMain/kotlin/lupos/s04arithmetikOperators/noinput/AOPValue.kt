@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,20 +13,24 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
     override fun toSparql(): String {
         var res = ""
         res += "("
-        if (children.size > 0)
+        if (children.size > 0) {
             res += children[0].toSparql()
-        for (i in 1 until children.size)
+        }
+        for (i in 1 until children.size) {
             res += "," + children[i].toSparql()
+        }
         res += ")"
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPValue)
+        if (other !is AOPValue) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }

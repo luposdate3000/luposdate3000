@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
@@ -17,8 +18,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
     open fun applyPrefix(prefix: String, iri: String) {
-        for (c in children)
+        for (c in children) {
             c.applyPrefix(prefix, iri)
+        }
     }
 
     open fun childrenToVerifyCount(): Int = children.size
@@ -39,8 +41,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     override fun toString(): String = toXMLElement().toPrettyString()
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
-        for (c in children)
+        for (c in children) {
             res += c.getRequiredVariableNamesRecoursive()
+        }
         return res.distinct()
     }
 
@@ -50,8 +53,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     open fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
-        for (c in children)
+        for (c in children) {
             res.addAll(c.getProvidedVariableNames())
+        }
         return res.distinct()
     }
 
@@ -66,15 +70,17 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
-        if (children.size > 0)
+        if (children.size > 0) {
             res.addContent(childrenToXML())
+        }
         return res
     }
 
     fun childrenToXML(): XMLElement {
         val res = XMLElement("children")
-        for (c in children)
+        for (c in children) {
             res.addContent(c.toXMLElement())
+        }
         return res
     }
 
@@ -94,8 +100,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
-        for (i in 0 until childrenToVerifyCount())
+        for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
+        }
         val res = (additionalProvided + getProvidedVariableNames()).containsAll(getRequiredVariableNames())
         if (!res) {
             if (autocorrect) {
@@ -113,8 +120,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     fun getLatestChild(): OPBase {
-        if (children.isNotEmpty() && children[0].children.isNotEmpty())
+        if (children.isNotEmpty() && children[0].children.isNotEmpty()) {
             return children[0].getLatestChild()
+        }
         return this
     }
 }

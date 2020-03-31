@@ -39,7 +39,7 @@ class JenaRequest {
             query += "GRAPH <$graph> {"
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
-        for (v in data["head"]!!.childs)
+        for (v in data["head"]!!.childs) {
             for (node in data["results"]!!.childs) {
                 val result = mutableMapOf<String, String>()
                 for (v in node.childs) {
@@ -47,16 +47,27 @@ class JenaRequest {
                     val child = v.childs.first()
                     val content = child.content
                     val value = when {
-                        child.tag == "uri" -> "<" + content + ">"
-                        child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                        child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
-                        child.tag == "bnode" -> "_:" + content
-                        else -> "\"" + content + "\""
+                        child.tag == "uri" -> {
+                            "<" + content + ">"
+                        }
+                        child.tag == "literal" && child.attributes["datatype"] != null -> {
+                            "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                        }
+                        child.tag == "literal" && child.attributes["xml:lang"] != null -> {
+                            "\"" + content + "\"@" + child.attributes["xml:lang"]
+                        }
+                        child.tag == "bnode" -> {
+                            "_:" + content
+                        }
+                        else -> {
+                            "\"" + content + "\""
+                        }
                     }
                     result[name] = value
                 }
                 query += result["s"] + " " + result["p"] + " " + result["o"] + ".\n"
             }
+        }
         if (graph != null)
             query += "}\n"
         query += "}"

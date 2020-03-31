@@ -1,6 +1,7 @@
 package lupos.s01io.buffer
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 /**
@@ -48,11 +49,11 @@ class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
         this.after.before = this
     }
 }
-
 /**
  * This replacement strategy returns the number of the least recently used
- * item if the cache is full.
+ * item if the cache is full.{
  */
+}
 class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValue: V, @JvmField val size: Int) {
     @JvmField
     val entries = HashMap<T, CachedEntry<T, V>>(size)
@@ -81,8 +82,9 @@ class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValu
         return leastRecentlyUsed.value
     }
 
-    inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean)
-            : CachedEntry<T, V> {
+    inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean) {
+        : CachedEntry<T, V> {
+        }
         var leastRecentlyUsed = this.dummy.before
         // assume that there is at least one entry (not being the dummy) in the list
         while (negativeCheck(leastRecentlyUsed)) {
@@ -90,8 +92,9 @@ class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValu
             if (leastRecentlyUsed === this.dummy) {
                 throw Error("All pages in the cache are locked, "
                         + "but we need to replace one page"
-                        + "... Plase check the code if unlocking "
-                        + "of pages have been forgotten...")
+                        + "... Plase check the code if unlocking "{
+                    +"of pages have been forgotten...")
+                }
             }
         }
         leastRecentlyUsed.remove()

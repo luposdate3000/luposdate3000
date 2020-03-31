@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -23,20 +24,24 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         val res = XMLElement("LOPProjection")
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)
-        for (v in variables)
+        for (v in variables) {
             vars.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
+        }
         res.addContent(childrenToXML())
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPProjection)
+        if (other !is LOPProjection) {
             return false
-        if (variables != other.variables)
+        }
+        if (variables != other.variables) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }

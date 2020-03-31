@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,11 +13,13 @@ import lupos.s04logicalOperators.Query
 class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPDivisionID, "AOPDivision", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " / " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPDivision)
+        if (other !is AOPDivision) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }
@@ -30,16 +33,19 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
             val b = childB()
             try {
                 if (a is ValueDouble || b is ValueDouble) {
-                    if (b.toDouble() != 0.0)
+                    if (b.toDouble() != 0.0) {
                         res = ValueDouble(a.toDouble() / b.toDouble())
+                    }
                 }
                 if (a is ValueDecimal || b is ValueDecimal) {
-                    if (b.toDouble() != 0.0)
+                    if (b.toDouble() != 0.0) {
                         res = ValueDecimal(a.toDouble() / b.toDouble())
+                    }
                 }
                 if (a is ValueInteger || b is ValueInteger) {
-                    if (b.toInt() != 0)
+                    if (b.toInt() != 0) {
                         res = ValueDecimal(a.toDouble() / b.toDouble())
+                    }
                 }
             } catch (e: Throwable) {
             }

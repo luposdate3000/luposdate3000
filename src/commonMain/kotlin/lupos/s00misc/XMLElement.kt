@@ -10,12 +10,24 @@ class XMLElement {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         fun parseFromAny(data: String, filename: String): List<XMLElement>? {
             when {
-                filename.endsWith(".srx") -> return XMLElement.parseFromXml(data)
-                filename.endsWith(".tsv") -> return XMLElement.parseFromTsv(data)
-                filename.endsWith(".ttl") -> return XMLElement.parseFromTtl(data)
-                filename.endsWith(".nt") -> return XMLElement.parseFromTtl(data)
-                filename.endsWith(".n3") -> return XMLElement.parseFromTtl(data)
-                filename.endsWith(".srj") -> return XMLElement.parseFromJson(data)
+                filename.endsWith(".srx") -> {
+                    return XMLElement.parseFromXml(data)
+                }
+                filename.endsWith(".tsv") -> {
+                    return XMLElement.parseFromTsv(data)
+                }
+                filename.endsWith(".ttl") -> {
+                    return XMLElement.parseFromTtl(data)
+                }
+                filename.endsWith(".nt") -> {
+                    return XMLElement.parseFromTtl(data)
+                }
+                filename.endsWith(".n3") -> {
+                    return XMLElement.parseFromTtl(data)
+                }
+                filename.endsWith(".srj") -> {
+                    return XMLElement.parseFromJson(data)
+                }
                 else -> {
                     throw Exception("data parser :: file type '${filename}' unknown")
                 }

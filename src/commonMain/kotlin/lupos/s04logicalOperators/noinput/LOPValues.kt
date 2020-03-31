@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.noinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -20,20 +21,24 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
         res.addContent(xmlvariables)
         val bindings = XMLElement("LocalBindings")
         res.addContent(bindings)
-        for (v in variables)
+        for (v in variables) {
             xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
+        }
         bindings.addContent(childrenToXML())
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPValues)
+        if (other !is LOPValues) {
             return false
-        if (variables != other.variables)
+        }
+        if (variables != other.variables) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }

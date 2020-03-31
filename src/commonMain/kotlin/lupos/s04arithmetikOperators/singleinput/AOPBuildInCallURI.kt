@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,14 +13,16 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
     override fun toSparql() = "URI(" + children[0].toSparql() + ")"
     override fun applyPrefix(prefix: String, iri: String) {
-        if (prefix == "")
+        if (prefix == "") {
             this.prefix = iri
+        }
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallURI)
+        if (other !is AOPBuildInCallURI) {
             return false
+        }
         return children[0] == other.children[0]
     }
 
@@ -28,14 +31,16 @@ class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
-            if (a is ValueIri)
+            if (a is ValueIri) {
                 res = a
+            }
             if (a is ValueSimpleLiteral || a is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string") {
                 val b = a as ValueStringBase
-                if (prefix != "" && !prefix.endsWith("/"))
+                if (prefix != "" && !prefix.endsWith("/")) {
                     res = ValueIri(prefix + "/" + b.content)
-                else
+                } else {
                     res = ValueIri(prefix + b.content)
+                }
             }
             res
         }

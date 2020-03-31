@@ -25,9 +25,10 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             return false
         if (graphVar != other.graphVar)
             return false
-        for (i in children.indices)
+        for (i in children.indices) {
             if (children[i] != other.children[i])
                 return false
+        }
         return true
     }
 

@@ -4,6 +4,7 @@ import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
@@ -24,8 +25,9 @@ class ReadWriteLock {
         try {
             pthread_mutex_lock(allowNewReads)
             readers.value = (readers.value + 1).freeze()
-            if (readers.value == 1L)
+            if (readers.value == 1L) {
                 pthread_mutex_lock(allowNewWrites)
+            }
         } finally {
             pthread_mutex_unlock(allowNewReads)
         }
@@ -35,8 +37,9 @@ class ReadWriteLock {
         try {
             pthread_mutex_lock(allowNewReads)
             readers.value = (readers.value - 1).freeze()
-            if (readers.value == 0L)
+            if (readers.value == 0L) {
                 pthread_mutex_unlock(allowNewWrites)
+            }
         } finally {
             pthread_mutex_unlock(allowNewReads)
         }

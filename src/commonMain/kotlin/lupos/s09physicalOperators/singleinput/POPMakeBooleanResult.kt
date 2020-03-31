@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.*

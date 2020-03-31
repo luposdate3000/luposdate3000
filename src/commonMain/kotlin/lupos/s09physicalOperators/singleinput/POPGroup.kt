@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
@@ -30,18 +31,21 @@ class POPGroup : POPBase {
     override fun toSparql(): String {
         var res = children[0].toSparql()
         res += " GROUP BY "
-        for (b in by)
+        for (b in by) {
             res += b.toSparql() + " "
-        for ((k, v) in bindings)
+        }
+        for ((k, v) in bindings) {
             res += "(" + v.toSparql() + " AS " + AOPVariable(query, k).toSparql() + ")"
+        }
         return res
     }
 
     override fun cloneOP(): POPGroup {
         if (bindings.size > 0) {
             var tmpBindings = POPBind(query, AOPVariable(query, bindings[0].first), bindings[0].second, OPNothing(query))
-            for (bp in 1 until bindings.size)
+            for (bp in 1 until bindings.size) {
                 tmpBindings = POPBind(query, AOPVariable(query, bindings[0].first), bindings[0].second, tmpBindings)
+            }
             return POPGroup(query, by, tmpBindings, children[0].cloneOP())
         } else
             return POPGroup(query, by, null, children[0].cloneOP())
@@ -61,8 +65,9 @@ class POPGroup : POPBase {
     override fun getProvidedVariableNames() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
         var res = MutableList(by.size) { by[it].name }
-        for (b in bindings)
+        for (b in bindings) {
             res.addAll(b.second.getRequiredVariableNamesRecoursive())
+        }
         return res.distinct()
     }
 
@@ -70,25 +75,29 @@ class POPGroup : POPBase {
         SanityCheck.check({ additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
-        for (v in by)
+        for (v in by) {
             localRequire.add(v.name)
-        for (b in bindings)
+        }
+        for (b in bindings) {
             localRequire += b.second.getRequiredVariableNames()
-        for (c in children)
+        }
+        for (c in children) {
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
+        }
         val res = localProvide.containsAll(localRequire)
         if (!res) {
-            if (autocorrect)
+            if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-            else
+            } else
                 throw Exception("$classname undefined Variable")
         }
     }
 
     fun getAggregations(node: OPBase): MutableList<AOPAggregationBase> {
         var res = mutableListOf<AOPAggregationBase>()
-        for (n in node.children)
+        for (n in node.children) {
             res.addAll(getAggregations(n))
+        }
         if (node is AOPAggregationBase) {
             res.add(node)
         }
@@ -98,13 +107,14 @@ class POPGroup : POPBase {
     class MapKey(@JvmField val data: Array<Value>) {
         override fun hashCode(): Int {
             var res = 0
-            for (i in 0 until data.size)
+            for (i in 0 until data.size) {
                 res += data[i].hashCode()
+            }
             return res
         }
 
         override fun equals(other: Any?): Boolean {
-require(other is MapKey)
+            require(other is MapKey)
             for (i in 0 until data.size) {
                 if (data[i] != other.data[i]) {
                     return false
@@ -114,7 +124,7 @@ require(other is MapKey)
         }
 
         fun equalsFuzzy(other: Any?): Boolean {
-require(other is MapKey)
+            require(other is MapKey)
             for (i in 0 until data.size) {
                 if (data[i] != ResultSetDictionary.undefValue && other.data[i] != ResultSetDictionary.undefValue && data[i] != other.data[i]) {
                     return false
@@ -138,8 +148,9 @@ require(other is MapKey)
         val keyColumns: Array<ColumnIterator> = Array(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
         val valueColumnNames = mutableListOf<String>()
         for (name in localVariables) {
-            if (!keyColumnNames.contains(name))
+            if (!keyColumnNames.contains(name)) {
                 valueColumnNames.add(name)
+            }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
         val map = mutableMapOf<MapKey, MapRow>()
@@ -175,7 +186,6 @@ require(other is MapKey)
                 localRow = MapRow(row, localAggregations, localColumns)
                 map[key] = localRow
             }
-
             for (columnIndex in 0 until valueColumnNames.size) {
                 localRow.columns[columnIndex].tmp = valueColumns[columnIndex].next()
             }
@@ -207,12 +217,14 @@ require(other is MapKey)
         res.addAttribute("uuid", "" + uuid)
         val byxml = XMLElement("by")
         res.addContent(byxml)
-        for (b in by)
+        for (b in by) {
             byxml.addContent(XMLElement("variable").addAttribute("name", b.name))
+        }
         val xmlbindings = XMLElement("bindings")
         res.addContent(xmlbindings)
-        for (b in bindings)
+        for (b in bindings) {
             xmlbindings.addContent(XMLElement("binding").addAttribute("name", b.first).addContent(b.second.toXMLElement()))
+        }
         res.addContent(childrenToXML())
         return res
     }

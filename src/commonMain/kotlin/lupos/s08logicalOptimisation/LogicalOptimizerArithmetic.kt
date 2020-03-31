@@ -14,9 +14,10 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"
     fun hasAggregation(node: OPBase): Boolean {
-        for (n in node.children)
+        for (n in node.children) {
             if (hasAggregation(n))
                 return true
+        }
         return node is AOPAggregationBase
     }
 

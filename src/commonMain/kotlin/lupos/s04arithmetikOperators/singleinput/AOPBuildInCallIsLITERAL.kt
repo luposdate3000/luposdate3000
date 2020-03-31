@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,8 +13,9 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIsLITERALID, "AOPBuildInCallIsLITERAL", arrayOf(child)) {
     override fun toSparql() = "isLiteral(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallIsLITERAL)
+        if (other !is AOPBuildInCallIsLITERAL) {
             return false
+        }
         return children[0] == other.children[0]
     }
 
@@ -22,8 +24,9 @@ class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOp
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
-            if (a !is ValueUndef && a !is ValueError)
+            if (a !is ValueUndef && a !is ValueError) {
                 res = ValueBoolean(a is ValueStringBase || a is ValueDouble || a is ValueBoolean || a is ValueInteger || a is ValueDecimal || a is ValueDateTime)
+            }
             res
         }
     }

@@ -1,5 +1,6 @@
 import lupos.*
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 

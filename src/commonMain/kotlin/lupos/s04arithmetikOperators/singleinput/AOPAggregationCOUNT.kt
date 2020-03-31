@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -16,23 +17,28 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         var res = "COUNT("
-        if (distinct)
+        if (distinct) {
             res += "DISTINCT "
-        if (children.size > 0)
+        }
+        if (children.size > 0) {
             res += children[0].toSparql()
+        }
         res += ")"
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPAggregationCOUNT)
+        if (other !is AOPAggregationCOUNT) {
             return false
-        for (i in children.indices) {
-            if (children[i] != other.children[i])
-                return false
         }
-        if (distinct != other.distinct)
+        for (i in children.indices) {
+            if (children[i] != other.children[i]) {
+                return false
+            }
+        }
+        if (distinct != other.distinct) {
             return false
+        }
         return true
     }
 

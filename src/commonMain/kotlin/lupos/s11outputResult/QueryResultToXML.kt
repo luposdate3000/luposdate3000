@@ -3,6 +3,7 @@ package lupos.s11outputResult
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
@@ -37,8 +38,9 @@ object QueryResultToXML {
                 nodeResults.addContent(nodeResult)
                 for (variableIndex in 0 until variables.size) {
                     val valueID = columns[variableIndex]!!.next()
-                    if (valueID == null)
+                    if (valueID == null) {
                         break@loop
+                    }
                     if (valueID != ResultSetDictionary.undefValue) {
                         val value = node.query.dictionary.getValue(valueID).valueToString()
                         require(value != null)
@@ -56,18 +58,21 @@ object QueryResultToXML {
                                         val data = value.substring(1, idx2)
                                         val lang = value.substring(idx2 + 2, value.length)
                                         nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
-                                    } else
+                                    } else {
                                         nodeBinding.addContent(XMLElement("literal").addContent(value))
+                                    }
                                 }
-                            } else if (value.startsWith("<") && value.endsWith(">"))
+                            } else if (value.startsWith("<") && value.endsWith(">")) {
                                 nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                            else if (value.startsWith("_:")) {
-                                if (bnodeMap[value] == null)
+                            } else if (value.startsWith("_:")) {
+                                if (bnodeMap[value] == null) {
                                     bnodeMap[value] = "" + bnodeMap.keys.size
+                                }
                                 val name = bnodeMap[value]!!
                                 nodeBinding.addContent(XMLElement("bnode").addContent(name))
-                            } else
+                            } else {
                                 nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+                            }
                         }
                         nodeResult.addContent(nodeBinding)
                     }

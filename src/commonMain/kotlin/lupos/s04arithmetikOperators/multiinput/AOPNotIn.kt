@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
@@ -12,11 +13,13 @@ import lupos.s04logicalOperators.Query
 class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
     override fun toSparql() = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPNotIn)
+        if (other !is AOPNotIn) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }
@@ -41,8 +44,9 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
                 }
             }
             found = !found
-            if (found || noError)
+            if (found || noError) {
                 res = ValueBoolean(found)
+            }
             res
         }
     }

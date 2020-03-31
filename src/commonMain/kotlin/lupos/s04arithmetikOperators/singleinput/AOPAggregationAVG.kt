@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
@@ -14,20 +15,24 @@ import lupos.s04logicalOperators.Query
 class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
-        if (distinct)
+        if (distinct) {
             return "AVG(DISTINCT " + children[0].toSparql() + ")"
+        }
         return "AVG(" + children[0].toSparql() + ")"
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPAggregationAVG)
+        if (other !is AOPAggregationAVG) {
             return false
-        for (i in children.indices) {
-            if (children[i] != other.children[i])
-                return false
         }
-        if (distinct != other.distinct)
+        for (i in children.indices) {
+            if (children[i] != other.children[i]) {
+                return false
+            }
+        }
+        if (distinct != other.distinct) {
             return false
+        }
         return true
     }
 

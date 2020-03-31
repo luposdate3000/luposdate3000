@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ThreadSafeMutableList<T>(values: MutableList<T> = mutableListOf<T>()) {
@@ -54,7 +55,8 @@ class ThreadSafeMutableList<T>(values: MutableList<T> = mutableListOf<T>()) {
 
     fun forEach(action: (T) -> Unit) {
         mutex.withReadLock {
-            global_values.value.forEach(action)
+            global_values.value.forEach(action) {
+            }
         }
     }
 

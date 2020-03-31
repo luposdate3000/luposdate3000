@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 @UseExperimental(ExperimentalStdlibApi::class)
@@ -8,8 +9,9 @@ class DynamicByteArray {
     companion object {
         fun intToBool(i: Int) = i == 1
         fun boolToInt(b: Boolean): Int {
-            if (b)
+            if (b) {
                 return 1
+            }
             return 0
         }
     }
@@ -50,8 +52,9 @@ class DynamicByteArray {
     }
 
     fun appendInt(i: Int) {
-        if (pos + 4 >= data.size)
+        if (pos + 4 >= data.size) {
             data += ByteArray(data.size)
+        }
         setInt(i, pos)
         pos += 4
     }
@@ -81,8 +84,9 @@ class DynamicByteArray {
     }
 
     fun appendLong(i: Long) {
-        if (pos + 8 >= data.size)
+        if (pos + 8 >= data.size) {
             data += ByteArray(data.size)
+        }
         setLong(i, pos)
         pos += 8
     }
@@ -107,8 +111,9 @@ class DynamicByteArray {
     fun appendString(s: String) {
         val tmp = s.encodeToByteArray()
         appendInt(tmp.size)
-        while (pos + tmp.size >= data.size)
+        while (pos + tmp.size >= data.size) {
             data += ByteArray(data.size)
+        }
         for (b in tmp) {
             data.set(pos, b)
             pos++

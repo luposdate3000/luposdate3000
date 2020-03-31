@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
@@ -37,8 +38,9 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                             moved = true
                         }
                     }
-                    if (moved)
+                    if (moved) {
                         res = c
+                    }
                 }
             }
         }

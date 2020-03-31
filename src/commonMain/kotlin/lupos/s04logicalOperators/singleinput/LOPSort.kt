@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -14,24 +15,29 @@ class LOPSort(query: Query, @JvmField val asc: Boolean, @JvmField var by: AOPVar
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)
-        if (asc)
+        if (asc) {
             res.addAttribute("order", "ASC")
-        else
+        } else {
             res.addAttribute("order", "DESC")
+        }
         res.addContent(childrenToXML())
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPSort)
+        if (other !is LOPSort) {
             return false
-        if (asc != other.asc)
+        }
+        if (asc != other.asc) {
             return false
-        if (by != other.by)
+        }
+        if (by != other.by) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }

@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,11 +13,13 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallCONCAT(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCONCATID, "AOPBuildInCallCONCAT", arrayOf(child, childB)) {
     override fun toSparql() = "CONCAT(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallCONCAT)
+        if (other !is AOPBuildInCallCONCAT) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }
@@ -28,12 +31,13 @@ class AOPBuildInCallCONCAT(query: Query, child: AOPBase, childB: AOPBase) : AOPB
             var res: ValueDefinition = ValueError()
             val a = childA()
             val b = childB()
-            if (a is ValueLanguageTaggedLiteral && b is ValueLanguageTaggedLiteral && a.language == b.language)
+            if (a is ValueLanguageTaggedLiteral && b is ValueLanguageTaggedLiteral && a.language == b.language) {
                 res = ValueLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
-            else if (a is ValueTypedLiteral && b is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri)
+            } else if (a is ValueTypedLiteral && b is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri) {
                 res = ValueTypedLiteral(a.delimiter, a.content + b.content, a.type_iri)
-            else if (a is ValueStringBase && b is ValueStringBase)
+            } else if (a is ValueStringBase && b is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, a.content + b.content)
+            }
             res
         }
     }

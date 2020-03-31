@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,11 +13,13 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallSTRLANG(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRLANGID, "AOPBuildInCallSTRLANG", arrayOf(child, childB)) {
     override fun toSparql() = "STRLANG(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallSTRLANG)
+        if (other !is AOPBuildInCallSTRLANG) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }
@@ -28,8 +31,9 @@ class AOPBuildInCallSTRLANG(query: Query, child: AOPBase, childB: AOPBase) : AOP
             var res: ValueDefinition = ValueError()
             val a = childA()
             val b = childB()
-            if (a is ValueSimpleLiteral && b is ValueSimpleLiteral)
+            if (a is ValueSimpleLiteral && b is ValueSimpleLiteral) {
                 res = ValueLanguageTaggedLiteral(a.delimiter, a.content, b.content)
+            }
             res
         }
     }

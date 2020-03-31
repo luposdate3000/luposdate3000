@@ -2,6 +2,7 @@ package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -22,8 +23,9 @@ class TripleStoreLocal(@JvmField val name: String) {
     class MapKey(@JvmField val data: Array<Value>) {
         override fun hashCode(): Int {
             var res = 0
-            for (columnIndex in 0 until data.size)
+            for (columnIndex in 0 until data.size) {
                 res += data[columnIndex].hashCode()
+            }
             return res
         }
 
@@ -83,8 +85,9 @@ class TripleStoreLocal(@JvmField val name: String) {
                             val tmp = tripleStore[idx.ordinal][k]
                             if (tmp != null) {
                                 tmp.remove(v)
-                                if (tmp.size == 0)
+                                if (tmp.size == 0) {
                                     tripleStore[idx.ordinal].remove(k)
+                                }
                             }
                         }
                         pendingModificationsDelete[idx.ordinal].remove(query.transactionID)

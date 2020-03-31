@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
@@ -25,30 +26,34 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             onChange()
             val store = DistributedTripleStore.getNamedGraph(query, node.graph)
             var count = 0
-            for (n in node.children)
-                if (n is AOPConstant)
+            for (n in node.children) {
+                if (n is AOPConstant) {
                     count++
+                }
+            }
             require(count <= 3)
             val params = Array<AOPBase>(3) { node.children[it] as AOPBase }
             when (count) {
-                0 -> res = store.getIterator(params, EIndexPattern.SPO)
+                0 -> {
+                    res = store.getIterator(params, EIndexPattern.SPO)
+                }
                 1 -> {
-                    if (node.children[0] is AOPConstant)
+                    if (node.children[0] is AOPConstant) {
                         res = store.getIterator(params, EIndexPattern.S)
-                    else if (node.children[1] is AOPConstant)
+                    } else if (node.children[1] is AOPConstant) {
                         res = store.getIterator(params, EIndexPattern.P)
-                    else {
+                    } else {
                         SanityCheck.check({ node.children[2] is AOPConstant })
                         res = store.getIterator(params, EIndexPattern.O)
                     }
                 }
                 2 -> {
                     SanityCheck.checkEQ({ count }, { 2 })
-                    if (node.children[0] !is AOPConstant)
+                    if (node.children[0] !is AOPConstant) {
                         res = store.getIterator(params, EIndexPattern.PO)
-                    else if (node.children[1] !is AOPConstant)
+                    } else if (node.children[1] !is AOPConstant) {
                         res = store.getIterator(params, EIndexPattern.SO)
-                    else {
+                    } else {
                         SanityCheck.check({ node.children[2] !is AOPConstant })
                         res = store.getIterator(params, EIndexPattern.SP)
                     }

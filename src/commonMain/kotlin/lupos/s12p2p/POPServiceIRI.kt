@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -16,15 +17,19 @@ import lupos.s12p2p.P2P
 
 class POPServiceIRI(query: Query, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf()) {
     override fun equals(other: Any?): Boolean {
-        if (other !is POPServiceIRI)
+        if (other !is POPServiceIRI) {
             return false
-        if (silent != other.silent)
+        }
+        if (silent != other.silent) {
             return false
-        if (serverName != other.serverName)
+        }
+        if (serverName != other.serverName) {
             return false
+        }
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (!children[i].equals(other.children[i])) {
                 return false
+            }
         }
         return true
     }
@@ -39,7 +44,7 @@ class POPServiceIRI(query: Query, val serverName: String, val silent: Boolean, v
         val res = XMLElement("POPServiceIRI")
         res.addAttribute("name", serverName)
         res.addAttribute("silent", "" + silent)
-            res.addContent(constraint.toXMLElement())
+        res.addContent(constraint.toXMLElement())
         return res
     }
 }

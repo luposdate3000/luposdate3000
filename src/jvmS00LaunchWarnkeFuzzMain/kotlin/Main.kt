@@ -9,6 +9,7 @@ import java.time.Instant
 import kotlinx.coroutines.*
 import lupos.*
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.executeBinaryTest
 import lupos.s01io.*
 import lupos.s03resultRepresentation.*
@@ -24,8 +25,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     mapOf(
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
+                    Coverage . statementStart (5)
     ).forEach { (k, v) ->
-        File("resources/$v").forEachLine {
+        {
+            File("resources/$v").forEachLine {
+            }
             k.add(it)
         }
     }
@@ -33,8 +37,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     testDictionaryValue.forEach {
         try {
             val tmp = ValueDefinition(it)
-            if (testDictionaryValueTyped[ValueToID(tmp)] == null)
+            if (testDictionaryValueTyped[ValueToID(tmp)] == null) {
                 testDictionaryValueTyped[ValueToID(tmp)] = ThreadSafeMutableList()
+            }
             testDictionaryValueTyped[ValueToID(tmp)]!!.add(it!!)
         } catch (e: Throwable) {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
@@ -70,31 +75,35 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         testnumber++
         counter--
         if (counter == 0) {
-            if (datasize < 1000)
+            if (datasize < 1000) {
                 datasize += 2
-            else
+            } else
                 datasize = (datasize * 1.01).toInt() + 1
             counter = datasize
-            println("changed datasize to $datasize for $counter tests")
+            println("changed datasize to $datasize for $counter tests") {
+            }
         }
         val bytebuffer = ByteBuffer.allocate(datasize)
         currentSize = fileChannel.read(bytebuffer)
         val data = bytebuffer.array()
         val input = DynamicByteArray(data, currentSize)
         try {
-            while (true)
+            while (true) {
                 try {
-                    for (testcase in TestCase.values())
-                        testcase.action(input!!)
-                    val timepointNext2 = Instant.now()
-                    val elapsed2 = Duration.between(timepoint, timepointNext2)
-                    timepoint = timepointNext2
-                    if (testnumber % 1000 == 0)
-                        println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
-                    break
-                } catch (e: ConnectException) {
-                    e.printStackTrace()
                 }
+                for (testcase in TestCase.values()) {
+                    testcase.action(input!!)
+                }
+                val timepointNext2 = Instant.now()
+                val elapsed2 = Duration.between(timepoint, timepointNext2)
+                timepoint = timepointNext2
+                if (testnumber % 1000 == 0) {
+                    println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+                }
+                break
+            } catch (e: ConnectException) {
+                e.printStackTrace()
+            }
         } catch (e: Throwable) {
             e.printStackTrace()
             lupos.s00misc.File("mnt/crash-${data.hashCode()}-x").write(input)

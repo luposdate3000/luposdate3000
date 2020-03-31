@@ -42,7 +42,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         }
 
         override fun equals(other: Any?): Boolean {
-require(other is MapKey)
+            require(other is MapKey)
             for (i in 0 until data.size) {
                 if (data[i] != other.data[i]) {
                     return false
@@ -52,7 +52,7 @@ require(other is MapKey)
         }
 
         fun equalsFuzzy(other: Any?): Boolean {
-require(other is MapKey)
+            require(other is MapKey)
             for (i in 0 until data.size) {
                 if (data[i] != ResultSetDictionary.undefValue && other.data[i] != ResultSetDictionary.undefValue && data[i] != other.data[i]) {
                     return false

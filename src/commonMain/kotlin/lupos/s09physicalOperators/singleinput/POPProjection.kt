@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -18,8 +19,9 @@ import lupos.s09physicalOperators.POPBase
 class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
     override fun toSparql(): String {
         var res = "{SELECT "
-        for (c in variables)
+        for (c in variables) {
             res += c.toSparql() + " "
+        }
         res += "{"
         res += children[0].toSparql()
         res += "}}"
@@ -45,8 +47,9 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         res.addAttribute("uuid", "" + uuid)
         val vars = XMLElement("variables")
         res.addContent(vars)
-        for (v in variables)
+        for (v in variables) {
             vars.addContent(XMLElement("variable").addAttribute("name", v.name))
+        }
         res.addContent(childrenToXML())
         return res
     }

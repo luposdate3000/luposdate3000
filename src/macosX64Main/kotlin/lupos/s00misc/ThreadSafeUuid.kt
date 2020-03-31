@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicLong
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ThreadSafeUuid {

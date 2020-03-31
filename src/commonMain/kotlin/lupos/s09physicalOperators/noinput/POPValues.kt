@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.noinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
@@ -26,17 +27,19 @@ open class POPValues : POPBase {
     override fun toSparql(): String {
         require(variables.size > 0)
         var res = "VALUES("
-        for (v in variables)
+        for (v in variables) {
             res += v + " "
+        }
         res += ") {"
         var columns = Array(variables.size) { data[variables[it]] }
         for (i in 0 until columns[0]!!.size) {
             res += "("
             for (v in 0 until variables.size) {
-                if (columns[v]!![i] == ResultSetDictionary.undefValue)
+                if (columns[v]!![i] == ResultSetDictionary.undefValue) {
                     res += "UNDEF "
-                else
+                } else {
                     res += query.dictionary.getValue(columns[v]!![i]).valueToString() + " "
+                }
             }
             res += ")"
         }
@@ -45,22 +48,27 @@ open class POPValues : POPBase {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is POPValues)
+        if (other !is POPValues) {
             return false
+        }
         require(variables.size > 0)
-        if (variables.size != other.variables.size)
+        if (variables.size != other.variables.size) {
             return false
+        }
         for (v in variables) {
-            if (!other.variables.contains(v))
+            if (!other.variables.contains(v)) {
                 return false
-            if (data[v]!!.size != other.data[v]!!.size)
+            }
+            if (data[v]!!.size != other.data[v]!!.size) {
                 return false
+            }
             var columns1 = Array(variables.size) { data[variables[it]] }
             var columns2 = Array(variables.size) { other.data[variables[it]] }
             for (vIndex in 0 until variables.size) {
                 for (i in 0 until columns1[0]!!.size) {
-                    if (columns1[vIndex]!![i] != columns2[vIndex]!![i])
+                    if (columns1[vIndex]!![i] != columns2[vIndex]!![i]) {
                         return false
+                    }
                 }
             }
         }
@@ -78,8 +86,9 @@ open class POPValues : POPBase {
             data[variables[variableIndex]] = columns[variableIndex]
         }
         d.forEach {
-            for (variableIndex in 0 until variables.size)
+            for (variableIndex in 0 until variables.size) {
                 columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
+            }
         }
     }
 
@@ -91,8 +100,9 @@ open class POPValues : POPBase {
 
     constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         val tmpVariables = mutableListOf<String>()
-        for (name in values.variables)
+        for (name in values.variables) {
             tmpVariables.add(name.name)
+        }
         variables = tmpVariables
         require(variables.size > 0)
         var columns = Array(variables.size) { mutableListOf<Value>() }
@@ -103,8 +113,9 @@ open class POPValues : POPBase {
         for (v in values.children) {
             SanityCheck.check({ v is AOPValue })
             val it = v.children.iterator()
-            for (variableIndex in 0 until variables.size)
+            for (variableIndex in 0 until variables.size) {
                 columns[variableIndex].add(query.dictionary.createValue((it.next() as AOPConstant).value))
+            }
         }
     }
 
@@ -131,18 +142,20 @@ open class POPValues : POPBase {
         res.addContent(xmlvariables)
         val bindings = XMLElement("bindings")
         res.addContent(bindings)
-        for (variable in variables)
+        for (variable in variables) {
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", variable))
+        }
         var columns = Array(variables.size) { data[variables[it]] }
         for (i in 0 until columns[0]!!.size) {
             val b = XMLElement("binding")
             bindings.addContent(b)
             for (variableIndex in 0 until variables.size) {
                 val value = query.dictionary.getValue(columns[variableIndex]!![i]).valueToString()
-                if (value != null)
+                if (value != null) {
                     b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
-                else
+                } else {
                     b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]))
+                }
             }
         }
         return res

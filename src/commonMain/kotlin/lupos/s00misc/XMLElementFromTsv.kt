@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
@@ -25,8 +26,9 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
             firstLine = false
             continue
         }
-        if (line.isEmpty())
+        if (line.isEmpty()) {
             continue
+        }
         val nodeResult = XMLElement("result")
         nodeResults.addContent(nodeResult)
         val values = line.split("\t")

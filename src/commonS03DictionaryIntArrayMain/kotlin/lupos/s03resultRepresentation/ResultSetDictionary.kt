@@ -2,6 +2,7 @@ package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s03resultRepresentation.*
@@ -26,13 +27,14 @@ class ResultSetDictionary {
     fun createValue(value: String?) = createValue(ValueDefinition(value))
     fun createValue(value: ValueDefinition): Value {
         var res: Value = undefValue
-        if (value is ValueUndef || value is ValueError)
+        if (value is ValueUndef || value is ValueError) {
             return res
+        }
         CoroutinesHelper.runBlockWithLock(mutex, {
             val o = mapSTL[value]
-            if (o != null)
+            if (o != null) {
                 res = o
-            else {
+            } else {
                 val l = mapLTS.size()
                 mapSTL[value] = l
                 mapLTS.add(value)
@@ -43,8 +45,9 @@ class ResultSetDictionary {
     }
 
     fun getValue(value: Value): ValueDefinition {
-        if (value == undefValue)
+        if (value == undefValue) {
             return undefValue2
+        }
         var res: ValueDefinition = undefValue2
         CoroutinesHelper.runBlockWithLock(mutex, {
             res = mapLTS[value]!!

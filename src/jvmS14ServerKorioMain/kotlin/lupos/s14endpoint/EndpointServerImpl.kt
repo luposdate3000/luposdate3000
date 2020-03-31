@@ -31,10 +31,11 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
         var data: ByteArray? = null
         Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler.fetchDataA" }, {
             request.handler { it ->
-                if (data == null)
+                if (data == null) {
                     data = it
-                else
+                } else {
                     data = data!! + it
+                }
             }
             request.endHandler {
                 CoroutinesHelper.runBlock {

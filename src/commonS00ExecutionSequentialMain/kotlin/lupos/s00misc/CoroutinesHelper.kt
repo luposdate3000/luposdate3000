@@ -5,6 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 typealias CoroutinesHelperMutex = Int

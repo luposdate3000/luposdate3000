@@ -2,6 +2,7 @@ package lupos.s04logicalOperators.noinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s04logicalOperators.LOPBase
@@ -17,20 +18,27 @@ class LOPGraphOperation(query: Query,
                         var graph2iri: String? = null
 ) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf()) {
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPGraphOperation)
+        if (other !is LOPGraphOperation) {
             return false
-        if (silent != other.silent)
+        }
+        if (silent != other.silent) {
             return false
-        if (graph1iri != other.graph1iri)
+        }
+        if (graph1iri != other.graph1iri) {
             return false
-        if (graph1type != other.graph1type)
+        }
+        if (graph1type != other.graph1type) {
             return false
-        if (graph2iri != other.graph2iri)
+        }
+        if (graph2iri != other.graph2iri) {
             return false
-        if (graph2type != other.graph2type)
+        }
+        if (graph2type != other.graph2type) {
             return false
-        if (action != other.action)
+        }
+        if (action != other.action) {
             return false
+        }
         return true
     }
 

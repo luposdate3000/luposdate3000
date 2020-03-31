@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ThreadSafeMutableMap<k, v> {
@@ -39,7 +40,9 @@ class ThreadSafeMutableMap<k, v> {
 
     inline fun forEach(crossinline action: (k, v) -> Unit) = mutex.withReadLock {
         values.forEach { a, b ->
-            action(a, b)
+            {
+                action(a, b)
+            }
         }
     }
 

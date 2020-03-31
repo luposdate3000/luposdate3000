@@ -7,6 +7,7 @@ import java.time.Duration
 import java.time.Instant
 import lupos.*
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.executeBinaryTest
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -21,16 +22,20 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     mapOf(
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
+                    Coverage . statementStart (5)
     ).forEach { (k, v) ->
-        File("resources/$v").forEachLine {
+        {
+            File("resources/$v").forEachLine {
+            }
             k.add(it)
         }
     }
     testDictionaryValue.forEach {
         try {
             val tmp = ValueDefinition(it)
-            if (testDictionaryValueTyped[ValueToID(tmp)] == null)
+            if (testDictionaryValueTyped[ValueToID(tmp)] == null) {
                 testDictionaryValueTyped[ValueToID(tmp)] = ThreadSafeMutableList<String?>()
+            }
             testDictionaryValueTyped[ValueToID(tmp)]!!.add(it!!)
         } catch (e: Throwable) {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")

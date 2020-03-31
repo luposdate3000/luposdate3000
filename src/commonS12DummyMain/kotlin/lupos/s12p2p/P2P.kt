@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
@@ -58,9 +59,9 @@ object P2P {
     }
 
     fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        if (node == endpointServer!!.fullname)
+        if (node == endpointServer!!.fullname) {
             return Endpoint.process_local_triple_get(query, graphName, params, idx)
-        else {
+        } else {
             TODO("request triple stream from node network")
         }
     }

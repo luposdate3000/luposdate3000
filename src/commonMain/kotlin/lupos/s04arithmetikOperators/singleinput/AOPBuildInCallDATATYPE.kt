@@ -23,14 +23,30 @@ class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOpe
             var res: ValueDefinition = ValueError()
             val a = childA()
             when (a) {
-                is ValueSimpleLiteral -> res = ValueIri("http://www.w3.org/2001/XMLSchema#string")
-                is ValueLanguageTaggedLiteral -> res = ValueIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
-                is ValueTypedLiteral -> res = ValueIri(a.type_iri)
-                is ValueBoolean -> res = ValueIri("http://www.w3.org/2001/XMLSchema#boolean")
-                is ValueDateTime -> res = ValueIri("http://www.w3.org/2001/XMLSchema#dateTime")
-                is ValueDecimal -> res = ValueIri("http://www.w3.org/2001/XMLSchema#decimal")
-                is ValueDouble -> res = ValueIri("http://www.w3.org/2001/XMLSchema#double")
-                is ValueInteger -> res = ValueIri("http://www.w3.org/2001/XMLSchema#integer")
+                is ValueSimpleLiteral -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#string")
+                }
+                is ValueLanguageTaggedLiteral -> {
+                    res = ValueIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
+                }
+                is ValueTypedLiteral -> {
+                    res = ValueIri(a.type_iri)
+                }
+                is ValueBoolean -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#boolean")
+                }
+                is ValueDateTime -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#dateTime")
+                }
+                is ValueDecimal -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#decimal")
+                }
+                is ValueDouble -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#double")
+                }
+                is ValueInteger -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#integer")
+                }
             }
             res
         }

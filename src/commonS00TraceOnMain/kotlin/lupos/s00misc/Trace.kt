@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 @UseExperimental(kotlin.time.ExperimentalTime::class)
@@ -57,9 +58,9 @@ object Trace {
         SanityCheck.checkEQ({ name }, { tmp!!.first })
         val timediff = tmp!!.second.elapsedNow().toDouble(DurationUnit.SECONDS)
         val old = map[key]
-        if (old == null)
+        if (old == null) {
             map[key] = Pair(1L, timediff)
-        else
+        } else
             map[key] = Pair(old.first + 1L, old.second + timediff)
     }
 
@@ -72,18 +73,20 @@ object Trace {
         res += "stack\n"
         val map2 = mutableMapOf<String, Pair<Long, Double>>()
         map.forEach { k, v ->
-            val keys = k.split("-")
+            {
+                val keys = k.split("-")
+            }
             val u = map2[keys.last()]
-            if (u == null)
+            if (u == null) {
                 map2[keys.last()] = Pair(v.first, v.second)
-            else
+            } else
                 map2[keys.last()] = Pair(u.first + v.first, u.second + v.second)
             if (keys.size > 1) {
                 var i = keys[keys.size - 2]
                 val t = map2[i]
-                if (t != null)
+                if (t != null) {
                     map2[i] = Pair(t.first, t.second - v.second)
-                else
+                } else
                     map2[i] = Pair(0L, 0.0 - v.second)
             }
         }

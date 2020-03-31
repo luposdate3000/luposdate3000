@@ -10,6 +10,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
@@ -46,8 +47,9 @@ object EndpointClientImpl {
                 res = client.request(Http.Method.GET, url)
                 break
             } catch (e: Throwable) {
-                if (i > 100)
+                if (i > 100) {
                     throw e
+                }
                 delay(10)
             }
         }
@@ -64,8 +66,9 @@ object EndpointClientImpl {
                 res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data)))
                 break
             } catch (e: Throwable) {
-                if (i > 100)
+                if (i > 100) {
                     throw e
+                }
                 delay(10)
             }
         }
@@ -82,8 +85,9 @@ object EndpointClientImpl {
                 res = client.request(Http.Method.GET, url)
                 break
             } catch (e: Throwable) {
-                if (i > 100)
+                if (i > 100) {
                     throw e
+                }
                 delay(10)
             }
         }
@@ -100,8 +104,9 @@ object EndpointClientImpl {
                 res = client.request(Http.Method.POST, url, Http.Headers(), AsyncStream(MyDynamicByteArray(data)))
                 break
             } catch (e: Throwable) {
-                if (i > 100)
+                if (i > 100) {
                     throw e
+                }
                 delay(10)
             }
         }
@@ -119,8 +124,9 @@ object EndpointClientImpl {
                 res = client.request(Http.Method.POST, url, Http.Headers(), a)
                 break
             } catch (e: Throwable) {
-                if (i > 100)
+                if (i > 100) {
                     throw e
+                }
                 delay(10)
             }
         }

@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,8 +13,9 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRLENID, "AOPBuildInCallSTRLEN", arrayOf(child)) {
     override fun toSparql() = "STRLEN(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallSTRLEN)
+        if (other !is AOPBuildInCallSTRLEN) {
             return false
+        }
         return children[0] == other.children[0]
     }
 
@@ -22,12 +24,13 @@ class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOpera
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
-            if (a is ValueSimpleLiteral)
+            if (a is ValueSimpleLiteral) {
                 res = ValueInteger(a.content.length)
-            else if (a is ValueTypedLiteral)
+            } else if (a is ValueTypedLiteral) {
                 res = ValueInteger(a.content.length)
-            else if (a is ValueLanguageTaggedLiteral)
+            } else if (a is ValueLanguageTaggedLiteral) {
                 res = ValueInteger(a.content.length)
+            }
             res
         }
     }

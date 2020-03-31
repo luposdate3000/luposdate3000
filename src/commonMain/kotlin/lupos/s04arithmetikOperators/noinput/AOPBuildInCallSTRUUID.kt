@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.noinput
 
 import com.benasher44.uuid.uuid4
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,8 +13,9 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallSTRUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildInCallSTRUUIDID, "AOPBuildInCallSTRUUID", arrayOf()) {
     override fun toSparql() = "STRUUID()"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallSTRUUID)
+        if (other !is AOPBuildInCallSTRUUID) {
             return false
+        }
         return true
     }
 

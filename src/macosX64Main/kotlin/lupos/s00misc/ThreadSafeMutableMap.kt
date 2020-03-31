@@ -3,6 +3,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ThreadSafeMutableMap<k, v>() {
@@ -36,7 +37,9 @@ class ThreadSafeMutableMap<k, v>() {
 
     inline fun forEach(crossinline action: (k, v) -> Unit) = mutex.withReadLock {
         global_values.value.forEach { it ->
-            action(it.key, it.value)
+            {
+                action(it.key, it.value)
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -15,20 +16,24 @@ import lupos.s04logicalOperators.Query
 class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationSUMID, "AOPAggregationSUM", Array(childs.size) { childs[it] }) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
-        if (distinct)
+        if (distinct) {
             return "SUM(DISTINCT " + children[0].toSparql() + ")"
+        }
         return "SUM(" + children[0].toSparql() + ")"
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPAggregationSUM)
+        if (other !is AOPAggregationSUM) {
             return false
-        for (i in children.indices) {
-            if (children[i] != other.children[i])
-                return false
         }
-        if (distinct != other.distinct)
+        for (i in children.indices) {
+            if (children[i] != other.children[i]) {
+                return false
+            }
+        }
+        if (distinct != other.distinct) {
             return false
+        }
         return true
     }
 

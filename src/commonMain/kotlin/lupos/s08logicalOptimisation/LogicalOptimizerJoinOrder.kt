@@ -48,16 +48,17 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     override val classname = "LogicalOptimizerJoinOrder"
     fun findAllJoinsInChildren(node: LOPJoin): List<OPBase> {
         val res = mutableListOf<OPBase>()
-        for (c in node.children)
+        for (c in node.children) {
             if (c is LOPJoin && !c.optional)
                 res.addAll(findAllJoinsInChildren(c))
             else
                 res.add(c)
+        }
         return res
     }
 
     fun optimize(plans: Array<Plan?>, max: Int) {
-        for (i in 1 until max)
+        for (i in 1 until max) {
             if (i and max == 0) {
                 val key = i + max
                 val newPlan = Plan(plans, i, max)
@@ -67,6 +68,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 } else if (newPlan < plans[key]!!)
                     plans[key] = newPlan
             }
+        }
     }
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {

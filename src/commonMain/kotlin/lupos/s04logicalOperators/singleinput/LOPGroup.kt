@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -19,8 +20,9 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
     }
 
     constructor(query: Query, by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(query, by) {
-        if (bindings != null)
+        if (bindings != null) {
             children[1] = bindings
+        }
         children[0] = child
     }
 
@@ -31,8 +33,9 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
         res.addAll(children[1].getRequiredVariableNamesRecoursive())
-        for (b in by)
+        for (b in by) {
             res.addAll(b.getRequiredVariableNames())
+        }
         return res.distinct()
     }
 
@@ -40,8 +43,9 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
         SanityCheck.check({ additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
-        for (v in by)
+        for (v in by) {
             localRequire.add(v.name)
+        }
         localRequire += children[1].getRequiredVariableNames()
         children[0].syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
@@ -58,18 +62,21 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
         val res = XMLElement("LOPGroup")
         val byxml = XMLElement("LocalBy")
         res.addContent(byxml)
-        for (b in by)
+        for (b in by) {
             byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
+        }
         res.addContent(childrenToXML())
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPGroup)
+        if (other !is LOPGroup) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }

@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,8 +13,9 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallCONTAINS(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCONTAINSID, "AOPBuildInCallCONTAINS", arrayOf(child, childB)) {
     override fun toSparql() = "CONTAINS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallCONTAINS)
+        if (other !is AOPBuildInCallCONTAINS) {
             return false
+        }
         return children[0] == other.children[0]
     }
 
@@ -24,8 +26,9 @@ class AOPBuildInCallCONTAINS(query: Query, child: AOPBase, childB: AOPBase) : AO
             var res: ValueDefinition = ValueError()
             val a = childA()
             val b = childB()
-            if (a is ValueStringBase && b is ValueSimpleLiteral)
+            if (a is ValueStringBase && b is ValueSimpleLiteral) {
                 res = ValueBoolean(a.content.contains(b.content))
+            }
             res
         }
     }

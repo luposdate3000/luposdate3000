@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import kotlin.math.abs
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -13,8 +14,9 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child)) {
     override fun toSparql() = "ABS(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallABS)
+        if (other !is AOPBuildInCallABS) {
             return false
+        }
         return children[0] == other.children[0]
     }
 
@@ -23,12 +25,13 @@ class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperator
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
-            if (a is ValueDouble)
+            if (a is ValueDouble) {
                 res = ValueDouble(abs(a.value))
-            else if (a is ValueDecimal)
+            } else if (a is ValueDecimal) {
                 res = ValueDecimal(abs(a.value))
-            else if (a is ValueInteger)
+            } else if (a is ValueInteger) {
                 res = ValueInteger(abs(a.value))
+            }
             res
         }
     }

@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
@@ -17,10 +18,11 @@ class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.
         if (node is LOPJoin) {
             val childA = node.children[0]
             val childB = node.children[1]
-            if (childA is LOPUnion)
+            if (childA is LOPUnion) {
                 res = LOPUnion(query, LOPJoin(query, childA.children[0], childB, node.optional), LOPJoin(query, childA.children[1], childB.cloneOP(), node.optional))
-            else if (childB is LOPUnion)
+            } else if (childB is LOPUnion) {
                 res = LOPUnion(query, LOPJoin(query, childA, childB.children[0], node.optional), LOPJoin(query, childA.cloneOP(), childB.children[1], node.optional))
+            }
         }
         res
     })

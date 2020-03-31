@@ -2,18 +2,21 @@ package lupos.s00misc
 
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ThreadSafeMutableSet<T>() {
     val global_values = AtomicReference(mutableSetOf<T>().freeze())
     val mutex = ReadWriteLock()
     inline fun forEach(crossinline action: (T) -> Unit) = mutex.withReadLock {
-        global_values.value.forEach(action)
+        global_values.value.forEach(action) {
+        }
     }
 
     inline suspend fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {
-        for (v in global_values.value)
+        for (v in global_values.value) {
             action(v)
+        }
     }
 
     fun size(): Int {

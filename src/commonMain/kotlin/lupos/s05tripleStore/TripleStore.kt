@@ -27,8 +27,9 @@ class PersistentStoreLocal {
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
         stores.forEachKey { t ->
-            if (t != defaultGraphName || includeDefault)
+            if (t != defaultGraphName || includeDefault) {
                 res.add(t)
+            }
         }
         return res
     }

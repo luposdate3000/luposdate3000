@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.Query
 
@@ -24,12 +25,13 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     var nodeBinding: XMLElement? = null
     val attributes = mutableMapOf<String, String>()
     val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
-    var lasttokenbracket :Boolean
+    var lasttokenbracket: Boolean
     var thistokenbracket = false
     while (idx < json.length) {
         val token = regexToken.find(json, idx + 1)
-        if (token == null)
+        if (token == null) {
             return res
+        }
         idx = token.range.last
         lasttokenbracket = thistokenbracket
         thistokenbracket = false
@@ -56,8 +58,9 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
             "}", "]" -> {
                 opencounter--
                 if (lasttokenbracket) {
-                    if (lastParent != nodeHead)
+                    if (lastParent != nodeHead) {
                         nodeResults.addContent(XMLElement("result"))
+                    }
                 } else {
                     if (nodeBinding != null) {
                         when (attributes["type"]) {
@@ -70,10 +73,12 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                                 val node = XMLElement("literal")
                                 nodeBinding.addContent(node)
                                 nodeBinding = node
-                                if (attributes["datatype"] != null)
+                                if (attributes["datatype"] != null) {
                                     nodeBinding.addAttribute("datatype", attributes["datatype"]!!)
-                                if (attributes["xml:lang"] != null)
+                                }
+                                if (attributes["xml:lang"] != null) {
                                     nodeBinding.addAttribute("xml:lang", attributes["xml:lang"]!!.toLowerCase())
+                                }
                             }
                         }
                         if (attributes["value"] != null) {
@@ -84,8 +89,9 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                     } else if (nodeResult != null) {
                         nodeResult = null
                     }
-                    if (opencounter == lastParentCounter)
+                    if (opencounter == lastParentCounter) {
                         lastParent = null
+                    }
                 }
             }
             else -> {
@@ -108,13 +114,15 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                 } else {
                     if (token.value == "\"boolean\"") {
                         val token3 = regexToken.find(json, idx + 1)
-                        if (token3 == null)
+                        if (token3 == null) {
                             return res
+                        }
                         SanityCheck.checkEQ({ token3.value }, { ":" })
                         idx = token3.range.last
                         val token2 = regexToken.find(json, idx + 1)
-                        if (token2 == null)
+                        if (token2 == null) {
                             return res
+                        }
                         idx = token2.range.last
                         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
                         res.clear()
@@ -127,18 +135,21 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                 }
                 if (!flag && nodeBinding != null) {
                     val token3 = regexToken.find(json, idx + 1)
-                    if (token3 == null)
+                    if (token3 == null) {
                         return res
+                    }
                     SanityCheck.checkEQ({ token3.value }, { ":" })
                     idx = token3.range.last
                     val token2 = regexToken.find(json, idx + 1)
-                    if (token2 == null)
+                    if (token2 == null) {
                         return res
+                    }
                     idx = token2.range.last
-                    if (token2.value.startsWith("\"") && token2.value.endsWith("\""))
+                    if (token2.value.startsWith("\"") && token2.value.endsWith("\"")) {
                         attributes[token.value.substring(1, token.value.length - 1)] = token2.value.substring(1, token2.value.length - 1)
-                    else
+                    } else {
                         attributes[token.value.substring(1, token.value.length - 1)] = token2.value
+                    }
                 }
             }
         }

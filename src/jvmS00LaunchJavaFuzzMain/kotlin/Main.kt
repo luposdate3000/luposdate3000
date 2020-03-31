@@ -4,6 +4,7 @@ import java.time.Duration
 import java.time.Instant
 import lupos.*
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.executeBinaryTest
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -18,8 +19,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     mapOf(
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
+                    Coverage . statementStart (5)
     ).forEach { (k, v) ->
-        java.io.File("resources/$v").forEachLine {
+        {
+            java.io.File("resources/$v").forEachLine {
+            }
             k.add(it)
         }
     }
@@ -27,8 +31,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     testDictionaryValue.forEach {
         try {
             val tmp = ValueDefinition.create(it)
-            if (testDictionaryValueTyped[ValueToID(tmp)] == null)
+            if (testDictionaryValueTyped[ValueToID(tmp)] == null) {
                 testDictionaryValueTyped[ValueToID(tmp)] = ThreadSafeMutableList()
+            }
             testDictionaryValueTyped[ValueToID(tmp)]!!.add(it!!)
         } catch (e: Throwable) {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
@@ -61,6 +66,7 @@ class FuzzInstance() : AbstractFuzzTarget() {
         val timepointNext2 = Instant.now()
         val elapsed2 = Duration.between(timepoint, timepointNext2)
         timepoint = timepointNext2
-//        println("time for tests :: ${elapsed2.toMillis()} milliseconds")
+//        println("time for tests :: ${elapsed2.toMillis()} milliseconds"){
     }
+}
 }

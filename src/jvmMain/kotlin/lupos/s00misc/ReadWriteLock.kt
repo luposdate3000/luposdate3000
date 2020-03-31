@@ -3,6 +3,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ReadWriteLock {
@@ -16,8 +17,9 @@ class ReadWriteLock {
     suspend fun readLock() {
         try {
             allowNewReads.lock()
-            if (++readers == 1L)
+            if (++readers == 1L) {
                 allowNewWrites.lock()
+            }
         } finally {
             allowNewReads.unlock()
         }
@@ -26,8 +28,9 @@ class ReadWriteLock {
     suspend fun readUnlock() {
         try {
             allowNewReads.lock()
-            if (--readers == 0L)
+            if (--readers == 0L) {
                 allowNewWrites.unlock()
+            }
         } finally {
             allowNewReads.unlock()
         }

@@ -27,8 +27,12 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     override fun toSparql(): String {
         var res = ""
         when (type) {
-            EModifyType.INSERT -> res += "INSERT"
-            EModifyType.DELETE -> res += "DELETE"
+            EModifyType.INSERT -> {
+                res += "INSERT"
+            }
+            EModifyType.DELETE -> {
+                res += "DELETE"
+            }
         }
         res += " DATA {"
         for (c in data) {

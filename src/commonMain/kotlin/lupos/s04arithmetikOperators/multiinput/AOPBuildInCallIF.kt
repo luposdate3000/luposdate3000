@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -12,8 +13,9 @@ import lupos.s04logicalOperators.Query
 class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIFID, "AOPBuildInCallIF", arrayOf(child, childA, childB)) {
     override fun toSparql() = "IF(" + children[0].toSparql() + ", " + children[1].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallIF)
+        if (other !is AOPBuildInCallIF) {
             return false
+        }
         return children[0] == other.children[0]
     }
 
@@ -24,10 +26,11 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
         return {
             var res: ValueDefinition = ValueError()
             try {
-                if (childA().toBoolean())
+                if (childA().toBoolean()) {
                     res = childB()
-                else
+                } else {
                     res = childC()
+                }
             } catch (e: Throwable) {
             }
             res

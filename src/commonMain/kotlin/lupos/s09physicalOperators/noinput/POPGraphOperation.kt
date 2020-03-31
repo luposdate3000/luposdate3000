@@ -17,9 +17,9 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.*
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
@@ -35,33 +35,58 @@ class POPGraphOperation(query: Query,
     override fun toSparql(): String {
         var res = ""
         when (action) {
-            EGraphOperationType.CLEAR -> res += "CLEAR"
-            EGraphOperationType.DROP -> res += "DROP"
-            EGraphOperationType.CREATE -> res += "CREATE"
-            EGraphOperationType.COPY -> res += "COPY"
-            EGraphOperationType.MOVE -> res += "MOVE"
-            EGraphOperationType.ADD -> res += "ADD"
-
+            EGraphOperationType.CLEAR -> {
+                res += "CLEAR"
+            }
+            EGraphOperationType.DROP -> {
+                res += "DROP"
+            }
+            EGraphOperationType.CREATE -> {
+                res += "CREATE"
+            }
+            EGraphOperationType.COPY -> {
+                res += "COPY"
+            }
+            EGraphOperationType.MOVE -> {
+                res += "MOVE"
+            }
+            EGraphOperationType.ADD -> {
+                res += "ADD"
+            }
         }
         if (silent)
             res += " SILENT "
         else
             res += " "
         when (graph1type) {
-            EGraphRefType.AllGraphRef -> res += "ALL"
-            EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
-            EGraphRefType.NamedGraphRef -> res += "NAMED"
-            EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph1iri!! + ">"
-
+            EGraphRefType.AllGraphRef -> {
+                res += "ALL"
+            }
+            EGraphRefType.DefaultGraphRef -> {
+                res += "DEFAULT"
+            }
+            EGraphRefType.NamedGraphRef -> {
+                res += "NAMED"
+            }
+            EGraphRefType.IriGraphRef -> {
+                res += "GRAPH <" + graph1iri!! + ">"
+            }
         }
         if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
             res += " TO "
             when (graph2type) {
-                EGraphRefType.AllGraphRef -> res += "ALL"
-                EGraphRefType.DefaultGraphRef -> res += "DEFAULT"
-                EGraphRefType.NamedGraphRef -> res += "NAMED"
-                EGraphRefType.IriGraphRef -> res += "GRAPH <" + graph2iri!! + ">"
-
+                EGraphRefType.AllGraphRef -> {
+                    res += "ALL"
+                }
+                EGraphRefType.DefaultGraphRef -> {
+                    res += "DEFAULT"
+                }
+                EGraphRefType.NamedGraphRef -> {
+                    res += "NAMED"
+                }
+                EGraphRefType.IriGraphRef -> {
+                    res += "GRAPH <" + graph2iri!! + ">"
+                }
             }
         }
         return res
@@ -90,7 +115,7 @@ class POPGraphOperation(query: Query,
     }
 
     override fun cloneOP() = POPGraphOperation(query, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-suspend     fun copyData(source: DistributedGraph, target: DistributedGraph) {
+    suspend fun copyData(source: DistributedGraph, target: DistributedGraph) {
         val row = source.getIterator(EIndexPattern.SPO).evaluate()
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)

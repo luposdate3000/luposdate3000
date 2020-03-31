@@ -28,7 +28,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             child = child.children[0]
         SanityCheck.check({ child !is POPSort })
         val sparql = child.toSparql()
-        var res :String
+        var res: String
         if (sparql.startsWith("{SELECT "))
             res = sparql.substring(0, sparql.length - 1)
         else
