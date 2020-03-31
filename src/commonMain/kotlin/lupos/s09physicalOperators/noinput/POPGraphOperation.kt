@@ -19,9 +19,10 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.*
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.*
 
 class POPGraphOperation(query: Query,
                         val silent: Boolean,
@@ -89,8 +90,7 @@ class POPGraphOperation(query: Query,
     }
 
     override fun cloneOP() = POPGraphOperation(query, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-
-    fun copyData(source: DistributedGraph, target: DistributedGraph) {
+suspend     fun copyData(source: DistributedGraph, target: DistributedGraph) {
         val row = source.getIterator(EIndexPattern.SPO).evaluate()
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)
@@ -240,13 +240,13 @@ class POPGraphOperation(query: Query,
                     }
                 }
             }
-            val res = ColumnIteratorRow(mutableMapOf<String, ColumnIterator>())
-            res.count = 1
-            return res
         } catch (e: Throwable) {
             if (!silent) {
                 throw e
             }
         }
+        val res = ColumnIteratorRow(mutableMapOf<String, ColumnIterator>())
+        res.count = 1
+        return res
     }
 }

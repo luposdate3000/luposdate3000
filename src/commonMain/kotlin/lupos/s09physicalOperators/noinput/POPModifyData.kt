@@ -12,6 +12,7 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -39,6 +40,7 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         res += "}"
         return res
     }
+
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
@@ -47,24 +49,24 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         return res
     }
 
-override suspend fun evaluate(): ColumnIteratorRow {
-val iteratorDataMap=mutableMapOf<String,Array<MutableList<Value>>>()
-for (t in data){
-for(i in 0 until 3){
-var tmp=iteratorDataMap[t.graph]
-if(tmp==null){
-tmp=Array(3){mutableListOf<Value>()}
-iteratorDataMap[t.graph]=tmp
-}
-tmp[i].add(query.dictionary.createValue((t.children[i] as AOPConstant).value))
-}
-}
-for((graph,iteratorData) in iteratorDataMap){
-val graph=DistributedTripleStore.getNamedGraph(query, t.graph, type == EModifyType.INSERT)
-graph.modify(Array(3){ColumnIteratorMultiValue(iteratorData[it])},type)
-}
-val res= ColumnIteratorRow( mutableMapOf<String, ColumnIterator>())
-res.count=1
-return res
-}
+    override suspend fun evaluate(): ColumnIteratorRow {
+        val iteratorDataMap = mutableMapOf<String, Array<MutableList<Value>>>()
+        for (t in data) {
+            for (i in 0 until 3) {
+                var tmp = iteratorDataMap[t.graph]
+                if (tmp == null) {
+                    tmp = Array(3) { mutableListOf<Value>() }
+                    iteratorDataMap[t.graph] = tmp
+                }
+                tmp[i].add(query.dictionary.createValue((t.children[i] as AOPConstant).value))
+            }
+        }
+        for ((graph, iteratorData) in iteratorDataMap) {
+            val graph = DistributedTripleStore.getNamedGraph(query, graph, type == EModifyType.INSERT)
+            graph.modify(Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
+        }
+        val res = ColumnIteratorRow(mutableMapOf<String, ColumnIterator>())
+        res.count = 1
+        return res
+    }
 }

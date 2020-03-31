@@ -21,7 +21,7 @@ open class POPValues : POPBase {
     @JvmField
     val variables: List<String>
     @JvmField
-    val data: Map<String, List<Value>>
+    val data: Map<String, MutableList<Value>>
 
     override fun toSparql(): String {
         require(variables.size > 0)
@@ -73,7 +73,7 @@ open class POPValues : POPBase {
         variables = v
         require(variables.size > 0)
         var columns = Array(variables.size) { mutableListOf<Value>() }
-        data = mutableMapOf<String, List<Value>>()
+        data = mutableMapOf<String, MutableList<Value>>()
         for (variableIndex in 0 until variables.size) {
             data[variables[variableIndex]] = columns[variableIndex]
         }
@@ -83,7 +83,7 @@ open class POPValues : POPBase {
         }
     }
 
-    constructor(query: Query, v: List<String>, d: Map<String, List<Value>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
+    constructor(query: Query, v: List<String>, d: Map<String, MutableList<Value>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         variables = v
         require(variables.size > 0)
         data = d
@@ -96,7 +96,7 @@ open class POPValues : POPBase {
         variables = tmpVariables
         require(variables.size > 0)
         var columns = Array(variables.size) { mutableListOf<Value>() }
-        data = mutableMapOf<String, List<Value>>()
+        data = mutableMapOf<String, MutableList<Value>>()
         for (variableIndex in 0 until variables.size) {
             data[variables[variableIndex]] = columns[variableIndex]
         }
