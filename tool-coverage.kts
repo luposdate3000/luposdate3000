@@ -2,6 +2,7 @@
 import java.io.File
 
 val separator = "([^a-zA-Z_\\{]|$|^)"
+val separatorB = "([^a-zA-Z_]|$|^)"
 
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()
@@ -11,12 +12,12 @@ val regexForEachLoopBracket = ".*\\s*${separator}forEach${separator}.*\\{\\s*".t
 val regexForLoopBracket = ".*\\s*${separator}for${separator}.*\\{\\s*".toRegex()
 val regexIfBracket = ".*\\s*${separator}(if|else)${separator}.*\\{\\s*".toRegex()
 val regexWhenBracket = ".*\\s*${separator}when${separator}.*\\{\\s*".toRegex()
-val regexWhileLoop = ".*\\s*${separator}while${separator}.*".toRegex()
-val regexForLoop = ".*\\s*${separator}for${separator}.*".toRegex()
-val regexIf = ".*\\s*${separator}(if|else)${separator}.*".toRegex()
+val regexWhileLoop = ".*\\s*${separatorB}while${separatorB}.*".toRegex()
+val regexForLoop = ".*\\s*${separatorB}for${separatorB}.*".toRegex()
+val regexIf = ".*\\s*${separatorB}(if|else)${separatorB}.*".toRegex()
 val regexWhenCaseBracket = ".*\\s*->\\s*\\{.*".toRegex()
 val regexWhenCase = ".*\\s*->.*".toRegex()
-val regexReturn = "\\s*${separator}(return|break|continue|throw)${separator}.*".toRegex()
+val regexReturn = "(\\s*${separatorB}(return|break|continue|throw)${separatorB}.*|.*/\\*return\\*/.*)".toRegex()
 val regexUnreachable = ".*Coverage Unreachable.*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
 

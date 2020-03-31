@@ -125,12 +125,14 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     fun calculateNodeForDataMaybe(params: Array<AOPBase>, idx: EIndexPattern): Set<String> {
         val res = mutableSetOf<String>()
         val arr = Array<IntRange>(3) {
+            var res: IntRange
             if (params[it] is AOPConstant) {
                 val h = myHashCode("" + (params[it] as AOPConstant).value.valueToString(), K)
-                /*return*/ IntRange(h, h)
+                res = IntRange(h, h)
             } else {
-                /*return*/   IntRange(0, K)
+                res = IntRange(0, K)
             }
+/*return*/ res
         }
         for (si in arr[0]) {
             for (pi in arr[1]) {
