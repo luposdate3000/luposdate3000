@@ -25,7 +25,7 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
         if (it < insert.size) {
             Pair(insert[it], EModifyType.INSERT)
         } else {
-            Pair(insert[it - insert.size], EModifyType.DELETE)
+            Pair(delete[it - insert.size], EModifyType.DELETE)
         }
     }
 
@@ -48,7 +48,7 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate()
-        val columns = variables.map { child.columns[it] }
+        val columns = Array(variables.size) { child.columns[variables[it]]!! }
         val row = Array(variables.size) { ResultSetDictionary.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Value>>>>()
         loop@ while (true) {
@@ -89,6 +89,8 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
                                 continue@loop2
                             }
                         }
+                        println(variables)
+                        println((tmp as AOPVariable).name)
                         require(false)
                     }
                 }

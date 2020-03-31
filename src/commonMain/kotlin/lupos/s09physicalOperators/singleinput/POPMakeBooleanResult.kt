@@ -26,7 +26,12 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
         val variables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-        val tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.columns[variables[0]]!!.next() != null)))
+        val tmp: ColumnIteratorRepeatValue
+        if (variables.size > 0) {
+            tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.columns[variables[0]]!!.next() != null)))
+        } else {
+            tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.count > 0)))
+        }
         tmp.close = {
             tmp._close()
             for (variable in variables) {

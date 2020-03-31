@@ -158,7 +158,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             index++
         }
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]] = targetIterators[variableIndex][limit]!!
+            outMap[variables[variableIndex]] = targetIterators[variableIndex][limit - 1]!!
         }
         return ColumnIteratorRow(outMap)
     }

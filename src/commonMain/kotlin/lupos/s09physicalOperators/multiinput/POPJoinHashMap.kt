@@ -143,7 +143,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     val data = Array(columnsINBO.size) { mutableListOf<Value>() }
                     loopC@ while (true) {
                         for (columnIndex in 0 until columnsINBO.size) {
-                            val value = columnsINBJ[columnIndex].next()
+                            val value = columnsINBO[columnIndex].next()
                             if (value == null) {
                                 break@loopC
                             }
