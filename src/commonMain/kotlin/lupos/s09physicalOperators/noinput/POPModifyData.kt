@@ -19,7 +19,7 @@ import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, EOperatorID.POPModifyDataID, "POPModifyData", ResultSet(query.dictionary), arrayOf()) {
+class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, EOperatorID.POPModifyDataID, "POPModifyData", arrayOf()) {
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
     override fun cloneOP() = POPModifyData(query, type, data)
     override fun toSparqlQuery() = toSparql()
@@ -39,29 +39,6 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         res += "}"
         return res
     }
-
-    override fun evaluate() = Trace.trace<ResultIterator>({ "POPModifyData.evaluate" }, {
-        //row based
-        val res = ResultIterator()
-        res.next = {
-            Trace.traceSuspend<ResultChunk>({ "POPModifyData.next" }, {
-                try {
-                    for (t in data)
-                        if (type == EModifyType.INSERT)
-                            DistributedTripleStore.getNamedGraph(query, t.graph, true).addData(Array(3) { (t.children[it] as AOPConstant).value })
-                        else
-                            DistributedTripleStore.getNamedGraph(query, t.graph, false).deleteData(Array(3) { (t.children[it] as AOPConstant).value })
-                } finally {
-                    res.close()
-                }
-                val outbuffer = ResultChunk(resultSet)
-                outbuffer.append(resultSet.createResultRow())
-                resultFlowProduce({ this@POPModifyData }, { outbuffer })
-            })
-        }
-        return res
-    })
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
@@ -69,4 +46,25 @@ class POPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
             res.addContent(t.toXMLElement())
         return res
     }
+
+override suspend fun evaluate(): ColumnIteratorRow {
+val iteratorDataMap=mutableMapOf<String,Array<MutableList<Value>>>()
+for (t in data){
+for(i in 0 until 3){
+var tmp=iteratorDataMap[t.graph]
+if(tmp==null){
+tmp=Array(3){mutableListOf<Value>()}
+iteratorDataMap[t.graph]=tmp
+}
+tmp[i].add(query.dictionary.createValue((t.children[i] as AOPConstant).value))
+}
+}
+for((graph,iteratorData) in iteratorDataMap){
+val graph=DistributedTripleStore.getNamedGraph(query, t.graph, type == EModifyType.INSERT)
+graph.modify(Array(3){ColumnIteratorMultiValue(iteratorData[it])},type)
+}
+val res= ColumnIteratorRow( mutableMapOf<String, ColumnIterator>())
+res.count=1
+return res
+}
 }

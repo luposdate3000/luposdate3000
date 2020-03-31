@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 abstract class POPValuesImportBase(query: Query, variables: List<String>) : POPValues(query, variables, mutableListOf<List<String?>>()) {
-    fun cleanString(s: String?): String? = Trace.trace({ "POPValuesImportBase.cleanString" }, {
+    fun cleanString(s: String?): String? {
         if (s == null)
             return null
         var res = s!!
@@ -29,13 +29,11 @@ abstract class POPValuesImportBase(query: Query, variables: List<String>) : POPV
             res = res.replace(match.value, replacement)
         }
         return res
-    })
+    }
 
     fun addRow(values: Array<String?>) {
         SanityCheck.checkEQ({ values.size }, { variables.size })
-        val row = resultSet.createResultRow()
-        for (i in variables.indices)
-            resultSet.setValue(row, variables[i], cleanString(values[i]))
-        data.add(row)
+        for (i in 0 until variables.size)
+		data[variables[i]].add(query.dictionary.createValue(cleanString(values[i])))
     }
 }

@@ -21,7 +21,7 @@ open class POPValues : POPBase {
     @JvmField
     val variables: List<String>
     @JvmField
-    val data: MutableMap<String, List<Value>>
+    val data: Map<String, List<Value>>
 
     override fun toSparql(): String {
         require(variables.size > 0)
@@ -113,11 +113,11 @@ open class POPValues : POPBase {
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIteratorMultiValue>()
         for (name in variables) {
-            val tmp = ColumnIteratorMultiValue(data[name])
+            val tmp = ColumnIteratorMultiValue(data[name]!!)
             tmp.close = {
                 tmp._close()
                 for (name in variables) {
-                    outMap[name].close()
+                    outMap[name]!!.close()
                 }
             }
             outMap[name] = tmp
@@ -138,7 +138,7 @@ open class POPValues : POPBase {
             val b = XMLElement("binding")
             bindings.addContent(b)
             for (variableIndex in 0 until variables.size) {
-                val value = query.dictionary.getValue(columns[variableIndex][i]).valueToString()
+                val value = query.dictionary.getValue(columns[variableIndex]!![i]).valueToString()
                 if (value != null)
                     b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
                 else
