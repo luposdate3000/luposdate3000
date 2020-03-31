@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
@@ -18,25 +19,31 @@ class LOPModify(query: Query,
         res.addContent(XMLElement("where").addContent(childrenToXML()))
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)
-        for (e in insert)
+        for (e in insert) {
             xmlI.addContent(e.toXMLElement())
+        }
         val xmlD = XMLElement("delete")
         res.addContent(xmlD)
-        for (e in delete)
+        for (e in delete) {
             xmlD.addContent(e.toXMLElement())
+        }
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPModify)
+        if (other !is LOPModify) {
             return false
-        if (insert != other.insert)
+        }
+        if (insert != other.insert) {
             return false
-        if (delete != other.delete)
+        }
+        if (delete != other.delete) {
             return false
+        }
         for (i in children.indices) {
-            if (children[i] != other.children[i])
+            if (children[i] != other.children[i]) {
                 return false
+            }
         }
         return true
     }

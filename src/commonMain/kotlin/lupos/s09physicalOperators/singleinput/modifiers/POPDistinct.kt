@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput.modifiers
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
@@ -19,8 +20,9 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
     override fun equals(other: Any?) = other is POPDistinct && children[0] == other.children[0]
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
-        if (sparql.startsWith("{SELECT "))
+        if (sparql.startsWith("{SELECT ")) {
             return "{SELECT DISTINCT " + sparql.substring("{SELECT ".length, sparql.length)
+        }
         return "{SELECT DISTINCT * {" + sparql + "}}"
     }
 

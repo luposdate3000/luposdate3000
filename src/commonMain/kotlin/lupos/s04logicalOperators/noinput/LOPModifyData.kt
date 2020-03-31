@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.noinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
@@ -12,14 +13,16 @@ class LOPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)
-        for (t in data)
+        for (t in data) {
             res.addContent(t.toXMLElement())
+        }
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is LOPModifyData)
+        if (other !is LOPModifyData) {
             return false
+        }
         return data == other.data
     }
 

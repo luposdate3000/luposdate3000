@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput.modifiers
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -17,8 +18,9 @@ import lupos.s09physicalOperators.POPBase
 class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(query, EOperatorID.POPLimitID, "POPLimit", arrayOf(child)) {
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
-        if (sparql.startsWith("{SELECT "))
+        if (sparql.startsWith("{SELECT ")) {
             return sparql.substring(0, sparql.length - 1) + " LIMIT " + limit + "}"
+        }
         return "{SELECT * {" + sparql + "} LIMIT " + limit + "}"
     }
 

@@ -57,7 +57,30 @@ fun appendCoverageStatement(filename: String, counter: Int, linenumber: Int) {
 
 var coveragemode = CoverageMode.Enable
 for (arg in args) {
-    if (!arg.endsWith("Coverage.kt")) {
+    if (!arg.endsWith("Coverage.kt") &&
+            !arg.endsWith("SPARQLParser.kt") &&
+            !arg.endsWith("SPARQLScanner.kt") &&
+            !arg.endsWith("Benchmark.kt") &&
+            !arg.endsWith("Runtime.kt") &&
+            !arg.endsWith("TurtleParser.kt") &&
+            !arg.endsWith("TurtleParserWithDictionary.kt") &&
+            !arg.endsWith("TurtleParserWithStringTriples.kt") &&
+            !arg.endsWith("TurtleScanner.kt") &&
+            !arg.endsWith("BinaryTestHelper.kt") &&
+            !arg.endsWith("BufferManager.kt") &&
+            !arg.endsWith("BPlusTreeTests.kt") &&
+            !arg.endsWith("B_Plus_Tree.kt") &&
+            !arg.endsWith("B_Plus_Tree_Int_to_Int.kt") &&
+            !arg.endsWith("LSM_Tree.kt") &&
+            !arg.endsWith("Radix_Tree.kt") &&
+            !arg.endsWith("MappedByteBufferPage.kt") &&
+            !arg.endsWith("CachedFile.kt") &&
+            !arg.endsWith("UnsafePage.kt") &&
+            !arg.endsWith("PageHelper.kt") &&
+            !arg.endsWith("Model.kt") &&
+            !arg.endsWith("Cache.kt") &&
+            !arg.endsWith("CacheOfFiles.kt")
+    ) {
         try {
             coveragemode = CoverageMode.valueOf(arg)
         } catch (e: Throwable) {

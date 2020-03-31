@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class ThreadSafeMutableSet<T> {
@@ -14,8 +15,9 @@ class ThreadSafeMutableSet<T> {
     }
 
     suspend inline fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {
-        for (v in values)
+        for (v in values) {
             action(v)
+        }
     }
 
     fun size(): Int {

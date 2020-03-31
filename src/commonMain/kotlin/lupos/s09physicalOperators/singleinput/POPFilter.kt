@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
@@ -20,8 +21,9 @@ import lupos.s09physicalOperators.POPBase
 class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter)) {
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
-        if (sparql.startsWith("{SELECT "))
+        if (sparql.startsWith("{SELECT ")) {
             return "{SELECT * {" + sparql + ". FILTER (" + children[1].toSparql() + ")}}"
+        }
         return "{SELECT * {" + sparql + " FILTER (" + children[1].toSparql() + ")}}"
     }
 

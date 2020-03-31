@@ -23,7 +23,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryVarName to "DictionaryVarName.txt",
             testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
-        File("resources/$v").forEachLine {
+            File("resources/$v").forEachLine {
             k.add(it)
         }
     }

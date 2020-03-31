@@ -3,6 +3,7 @@ package lupos.s00misc
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class File(@JvmField val filename: String) {
@@ -10,8 +11,9 @@ class File(@JvmField val filename: String) {
         fun readStdInAsDynamicByteArray(): DynamicByteArray? {
             System.`in`.use { instream ->
                 val data = instream.readBytes()
-                if (data.size < 4)
+                if (data.size < 4) {
                     return null
+                }
                 return DynamicByteArray(data)
             }
         }

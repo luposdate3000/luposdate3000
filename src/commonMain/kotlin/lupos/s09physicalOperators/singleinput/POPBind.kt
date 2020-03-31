@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
@@ -19,11 +20,13 @@ import lupos.s09physicalOperators.POPBase
 
 class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPBindID, "POPBind", arrayOf(child, value)) {
     override fun toSparql(): String {
-        if (children[1] is AOPConstant && (children[1] as AOPConstant).value is ValueUndef)
+        if (children[1] is AOPConstant && (children[1] as AOPConstant).value is ValueUndef) {
             return children[0].toSparql()
+        }
         var res = "{SELECT "
-        for (v in children[0].getProvidedVariableNames())
+        for (v in children[0].getProvidedVariableNames()) {
             res += AOPVariable(query, v).toSparql() + " "
+        }
         res += "(" + children[1].toSparql() + " as " + name.toSparql() + "){"
         res += children[0].toSparql()
         res += "}}"
@@ -64,8 +67,9 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                         break
                     }
                 }
-                if (!done)
+                if (!done) {
                     columnBound.queue.add(query.dictionary.createValue(expression()))
+                }
             }
         }
         return res

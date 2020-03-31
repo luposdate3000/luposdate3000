@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.Trace
@@ -24,22 +25,24 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
     override fun toSparql(): String {
         val variables = Array(sortBy.size) { sortBy[it].name }
         var child: OPBase = this
-        for (i in 0 until variables.size)
+        for (i in 0 until variables.size) {
             child = child.children[0]
+        }
         SanityCheck.check({ child !is POPSort })
         val sparql = child.toSparql()
         var res: String
-        if (sparql.startsWith("{SELECT "))
+        if (sparql.startsWith("{SELECT ")) {
             res = sparql.substring(0, sparql.length - 1)
-        else
+        } else
             res = "{SELECT *{" + sparql + "}"
         res += " ORDER BY "
-        if (sortOrder)
+        if (sortOrder) {
             res += "ASC("
-        else
+        } else
             res += "DESC("
-        for (v in variables)
+        for (v in variables) {
             res += AOPVariable(query, v).toSparql() + " "
+        }
         res += ")"
         res += "}"
         return res
@@ -50,11 +53,12 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         res.addAttribute("uuid", "" + uuid)
         val sortByXML = XMLElement("by")
         res.addContent(sortByXML)
-        for (v in sortBy)
+        for (v in sortBy) {
             sortByXML.addContent(XMLElement("variable").addAttribute("name", v.name))
-        if (sortOrder)
+        }
+        if (sortOrder) {
             res.addAttribute("order", "ASC")
-        else
+        } else
             res.addAttribute("order", "DESC")
         res.addContent(childrenToXML())
         return res
@@ -62,9 +66,9 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
 
     override suspend fun evaluate(): ColumnIteratorRow {
         var comparator: Comparator<Value>
-        if (sortOrder)
+        if (sortOrder) {
             comparator = ValueComparatorASC(query)
-        else
+        } else
             comparator = ValueComparatorDESC(query)
         val fastcomparator = ValueComparatorFast()
         val variablestmp = getProvidedVariableNames()
@@ -72,8 +76,9 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         for (v in sortBy.size - 1 downTo 0) {
             val highestPriority = sortBy[v].name
             var index = 0
-            while (variables[index] != highestPriority)
+            while (variables[index] != highestPriority) {
                 index++
+            }
             for (i in index downTo 1) {
                 variables[i] = variables[i - 1]
             }
@@ -127,7 +132,7 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
                 processMergeTree(variables.size, targetIterators, 1, comparators)
             }
         }
-//collect all partial merge-sort-trees to construct an as much as possible ballanced one
+        //collect all partial merge-sort-trees to construct an as much as possible ballanced one
         var index = 1
         for (variableIndex in 0 until variables.size) {
             targetIterators[variableIndex].add(null)
