@@ -7,5 +7,4 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)
     SparqlTestSuite().testMain()
-    printAllMicroTest()
 }

@@ -38,7 +38,7 @@ fun presentChoice(options: List<String>): String {
 		all other options are used directly as source folders
 */
 val options = mapOf(
-        "chooseS00Launch" to listOf("commonS00LaunchGenerateTestsMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain"),
+        "chooseS00Launch" to listOf("commonS00LaunchSparqlTestSuiteMain", "commonS00LaunchBinaryTestsMain", "commonS00LaunchEndpointMain", "jvmS00LaunchJavaFuzzMain", "jvmS00LaunchWarnkeFuzzMain"),
         "chooseS00Sanity" to listOf("commonS00SanityChecksOnMain", "commonS00SanityChecksOffMain"),
         "chooseS00ResultFlow" to listOf("commonS00ResultFlowFastMain", "commonS00ResultFlowExecuteTestsMain"),
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
@@ -58,7 +58,7 @@ val conflicts = listOf(
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchGenerateTestsMain", "commonS00ResultFlowExecuteTestsMain")
+        setOf("commonS00LaunchSparqlTestSuiteMain", "commonS00ResultFlowExecuteTestsMain")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
