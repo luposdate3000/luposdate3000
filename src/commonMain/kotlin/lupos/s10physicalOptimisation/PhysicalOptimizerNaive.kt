@@ -131,6 +131,6 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 onChange()
             }
         }
-        res
+/*return*/        res
     })
 }

@@ -17,6 +17,6 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
             onChange()
             res = node.children[0]
         }
-        res
+/*return*/        res
     })
 }

@@ -27,10 +27,8 @@ class AOPNot(query: Query, @JvmField var child: AOPBase) : AOPBase(query, EOpera
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
             val a = childA()
-            res = ValueBoolean(!a.toBoolean())
-            res
+            /*return*/ValueBoolean(!a.toBoolean())
         }
     }
 

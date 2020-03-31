@@ -18,6 +18,6 @@ class LogicalOptimizerRemovePrefix(query: Query) : OptimizerBase(query, EOptimiz
             node.children[0].applyPrefix(node.name, node.iri)
             res = node.children[0]
         }
-        res
+/*return*/        res
     })
 }

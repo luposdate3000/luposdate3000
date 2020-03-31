@@ -72,10 +72,11 @@ object EndpointClientImpl {
 
     suspend fun requestPostString(urlString: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
         SanityCheck.check({ !urlString.startsWith("http://${endpointServer!!.fullname}") })
-        return client.post<String> {
+        val res = client.post<String> {
             url(Url(urlString))
             contentType(ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8))
             body = data
         }
+        return res
     })
 }

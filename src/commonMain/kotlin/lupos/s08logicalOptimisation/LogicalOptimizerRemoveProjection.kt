@@ -26,6 +26,6 @@ class LogicalOptimizerRemoveProjection(query: Query) : OptimizerBase(query, EOpt
                 res = child
             }
         }
-        res
+/*return*/        res
     })
 }

@@ -51,11 +51,11 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
             }
             "\"vars\"", "\"bindings\"", ",", ":" -> {
             }
-            "{", "[" -> {
+            "" + (123.toChar()), "[" -> {
                 opencounter++
                 thistokenbracket = true
             }
-            "}", "]" -> {
+            "" + (125.toChar()), "]" -> {
                 opencounter--
                 if (lasttokenbracket) {
                     if (lastParent != nodeHead) {

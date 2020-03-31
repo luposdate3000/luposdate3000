@@ -1146,11 +1146,13 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return node
             }
             is LOPTriple -> {
+                var res: OPBase
                 if (!optional || node.graph == PersistentStoreLocal.defaultGraphName) {
-                    return LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
+                    res = LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
                 } else {
-                    return node
+                    res = node
                 }
+                return res
             }
             is LOPFilter -> {
                 node.children[0] = setGraphNameForAllTriples(node.children[0], name, optional)

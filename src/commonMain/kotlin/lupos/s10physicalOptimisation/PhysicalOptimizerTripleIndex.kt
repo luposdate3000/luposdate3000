@@ -66,6 +66,6 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 }
             }
         }
-        res
+/*return*/        res
     })
 }

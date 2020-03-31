@@ -37,10 +37,10 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
             tmp.next = {
                 if (count == limit) {
                     tmp.close()
-                    null
+                    /*return*/            null
                 } else {
                     count++
-                    iterator.next()
+/*return*/                    iterator.next()
                 }
             }
             tmp.close = {

@@ -60,10 +60,7 @@ class DynamicByteArray {
     }
 
     fun getInt(p: Int): Int {
-        return ((0xFF and data[p].toInt())) or
-                ((0xFF and data[p + 1].toInt()) shl 8) or
-                ((0xFF and data[p + 2].toInt()) shl 16) or
-                ((0xFF and data[p + 3].toInt()) shl 24)
+        return ((0xFF and data[p].toInt())) or ((0xFF and data[p + 1].toInt()) shl 8) or ((0xFF and data[p + 2].toInt()) shl 16) or ((0xFF and data[p + 3].toInt()) shl 24)
     }
 
     fun getNextInt(): Int {
@@ -92,14 +89,7 @@ class DynamicByteArray {
     }
 
     fun getLong(p: Int): Long {
-        return ((0xFF and data[p].toInt()).toLong()) or
-                ((0xFF and data[p + 1].toInt()).toLong() shl 8) or
-                ((0xFF and data[p + 2].toInt()).toLong() shl 16) or
-                ((0xFF and data[p + 3].toInt()).toLong() shl 24) or
-                ((0xFF and data[p + 4].toInt()).toLong() shl 32) or
-                ((0xFF and data[p + 5].toInt()).toLong() shl 40) or
-                ((0xFF and data[p + 6].toInt()).toLong() shl 48) or
-                ((0xFF and data[p + 7].toInt()).toLong() shl 56)
+        return ((0xFF and data[p].toInt()).toLong()) or ((0xFF and data[p + 1].toInt()).toLong() shl 8) or ((0xFF and data[p + 2].toInt()).toLong() shl 16) or ((0xFF and data[p + 3].toInt()).toLong() shl 24) or ((0xFF and data[p + 4].toInt()).toLong() shl 32) or ((0xFF and data[p + 5].toInt()).toLong() shl 40) or ((0xFF and data[p + 6].toInt()).toLong() shl 48) or ((0xFF and data[p + 7].toInt()).toLong() shl 56)
     }
 
     fun getNextLong(): Long {

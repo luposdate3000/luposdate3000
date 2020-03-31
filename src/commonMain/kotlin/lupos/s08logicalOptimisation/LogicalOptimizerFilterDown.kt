@@ -44,6 +44,6 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                 }
             }
         }
-        res
+/*return*/        res
     })
 }

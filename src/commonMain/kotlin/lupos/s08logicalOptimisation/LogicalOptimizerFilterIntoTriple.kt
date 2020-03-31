@@ -39,6 +39,6 @@ class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(query, EOpt
                 }
             }
         }
-        res
+/*return*/        res
     })
 }
