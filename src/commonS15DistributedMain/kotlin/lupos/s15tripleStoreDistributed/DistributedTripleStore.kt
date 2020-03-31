@@ -59,13 +59,13 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
         }
         val nodeNameIterator = nodeNames.iterator()
         for (variable in variables) {
-            val tmp = ColumnIteratorChildIterator(ColumnIterator())
+            val tmp = ColumnIteratorChildIterator()
             tmp.onNoMoreElements = {
                 if (nodeNameIterator.hasNext()) {
                     val nodeName = nodeNameIterator.next()
                     val row = P2P.execTripleGet(query, nodeName, graphName, params, idx)
                     for (variable2 in variables) {
-                        outMap[variable2]!!.child = row.columns[variable2]!!
+                        outMap[variable2]!!.childs.add(row.columns[variable2]!!)
                     }
                 } else {
                     for (variable2 in variables) {

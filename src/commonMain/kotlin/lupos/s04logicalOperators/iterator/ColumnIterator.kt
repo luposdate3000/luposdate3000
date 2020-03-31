@@ -127,18 +127,27 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
     }
 }
 
-class ColumnIteratorChildIterator(var child: ColumnIterator) : ColumnIterator() {
+class ColumnIteratorChildIterator() : ColumnIterator() {
+    val childs = mutableListOf(ColumnIterator())
+
     init {
         next = {
-            var res = child.next()
+            require(childs.size > 0)
+            var res = childs[0].next()
             if (res == null) {
-                onNoMoreElements()
-                res = child.next()
+                childs.removeAt(0)
+                if (childs.size == 0)
+                    onNoMoreElements()
+                if (childs.size == 0)
+                    close()
+                res = next()
             }
             /*return*/ res
         }
         close = {
-            child.close()
+            for (child in childs) {
+                child.close()
+            }
             _close()
         }
     }

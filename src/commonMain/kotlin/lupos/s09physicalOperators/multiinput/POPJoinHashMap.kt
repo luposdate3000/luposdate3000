@@ -93,19 +93,19 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             if (tmp.contains(name)) {
                 columnsINAJ.add(childA.columns[name]!!)
                 columnsINBJ.add(childB.columns[name]!!)
-                t = ColumnIteratorChildIterator(ColumnIterator())
+                t = ColumnIteratorChildIterator()
                 outMap[name] = t
                 columnsOUTJ.add(t)
                 tmp.remove(name)
             } else {
-                t = ColumnIteratorChildIterator(ColumnIterator())
+                t = ColumnIteratorChildIterator()
                 outMap[name] = t
                 columnsOUTA.add(t)
                 columnsINAO.add(childA.columns[name]!!)
             }
         }
         for (name in tmp) {
-            t = ColumnIteratorChildIterator(ColumnIterator())
+            t = ColumnIteratorChildIterator()
             outMap[name] = t
             columnsOUTB.add(t)
             columnsINBO.add(childB.columns[name]!!)
@@ -130,12 +130,12 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 if (columnsINAO.size == 0) {
 //---no columns from a
                     for (columnIndex in 0 until columnsINBO.size) {
-                        columnsOUTB[columnIndex].child = ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex])
+                        columnsOUTB[columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
                     }
                 } else if (columnsINBO.size == 0) {
 //---no columns from b
                     for (columnIndex in 0 until columnsINAO.size) {
-                        columnsOUTA[columnIndex].child = ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex])
+                        columnsOUTA[columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
                     }
                 } else {
 //---cartesian product
@@ -174,11 +174,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                         done = true
                                         break
                                     }
-                                    columnsOUTA[columnIndex].child = ColumnIteratorRepeatValue(count, value)
+                                    columnsOUTA[columnIndex].childs.add(ColumnIteratorRepeatValue(count, value))
                                 }
                                 if (!done) {
                                     for (columnIndex in 0 until columnsINBO.size) {
-                                        columnsOUTB[columnIndex].child = ColumnIteratorMultiValue(data[columnIndex])
+                                        columnsOUTB[columnIndex].childs.add(ColumnIteratorMultiValue(data[columnIndex]))
                                     }
                                 }
                             }
@@ -312,13 +312,13 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                     for (i in 0 until countA) {
                                         list.add(columnsINAO[columnIndex].next()!!)
                                     }
-                                    columnsOUTA[columnIndex].child = ColumnIteratorMultiValue(list)
+                                    columnsOUTA[columnIndex].childs.add(ColumnIteratorMultiValue(list))
                                 }
                                 for (columnIndex in 0 until columnsINBO.size) {
-                                    columnsOUTB[columnIndex].child = ColumnIteratorRepeatValue(countA, ResultSetDictionary.undefValue)
+                                    columnsOUTB[columnIndex].childs.add(ColumnIteratorRepeatValue(countA, ResultSetDictionary.undefValue))
                                 }
                                 for (columnIndex in 0 until columnsOUTJ.size) {
-                                    columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(countA, currentKey!![columnIndex])
+                                    columnsOUTJ[columnIndex].childs.add(ColumnIteratorRepeatValue(countA, currentKey!![columnIndex]))
                                 }
                             }
                         } else {
@@ -332,24 +332,24 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                         iterators.add(ColumnIteratorRepeatValue(countB, columnsINAO[columnIndex].next()!!))
                                     }
                                     if (iterators.size == 1) {
-                                        columnsOUTA[columnIndex].child = iterators[0]
+                                        columnsOUTA[columnIndex].childs.add(iterators[0])
                                     } else {
-                                        columnsOUTA[columnIndex].child = ColumnIteratorMultiIterator(iterators)
+                                        columnsOUTA[columnIndex].childs.add(ColumnIteratorMultiIterator(iterators))
                                     }
                                 }
                                 for (columnIndex in 0 until columnsINBO.size) {
                                     if (countA == 1) {
-                                        columnsOUTB[columnIndex].child = ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex])
+                                        columnsOUTB[columnIndex].childs.add(ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex]))
                                     } else {
-                                        columnsOUTB[columnIndex].child = ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex]))
+                                        columnsOUTB[columnIndex].childs.add(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(others[otherIndex].second.columns[columnIndex])))
                                     }
                                 }
 //resolve undefined values in join columns
                                 for (columnIndex in 0 until columnsOUTJ.size) {
                                     if (currentKey!![columnIndex] == ResultSetDictionary.undefValue) {
-                                        columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(count, currentKey!![columnIndex])
+                                        columnsOUTJ[columnIndex].childs.add(ColumnIteratorRepeatValue(count, currentKey!![columnIndex]))
                                     } else {
-                                        columnsOUTJ[columnIndex].child = ColumnIteratorRepeatValue(count, others[otherIndex].first.data[columnIndex])
+                                        columnsOUTJ[columnIndex].childs.add(ColumnIteratorRepeatValue(count, others[otherIndex].first.data[columnIndex]))
                                     }
                                 }
                             }
