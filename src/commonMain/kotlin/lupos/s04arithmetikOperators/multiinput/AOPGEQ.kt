@@ -35,7 +35,7 @@ class AOPGEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 res = ValueBoolean(a.compareTo(b) >= 0)
             } catch (e: Throwable) {
             }
-            res
+/*return*/             res
         }
     }
 

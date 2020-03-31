@@ -46,7 +46,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
             if (found || noError) {
                 res = ValueBoolean(found)
             }
-            res
+/*return*/             res
         }
     }
 

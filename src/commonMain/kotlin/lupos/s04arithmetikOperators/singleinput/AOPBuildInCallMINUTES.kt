@@ -27,7 +27,7 @@ class AOPBuildInCallMINUTES(query: Query, child: AOPBase) : AOPBase(query, EOper
             if (a is ValueDateTime) {
                 res = ValueInteger(a.minutes)
             }
-            res
+/*return*/            res
         }
     }
 

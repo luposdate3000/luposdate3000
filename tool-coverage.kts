@@ -144,9 +144,13 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     var openBrackets = 0
     var openBracketsUnreachable = Int.MAX_VALUE
     lines.forEach {
-        val hadUnreachable = openBracketsUnreachable == openBrackets
         val line = it
-        if (!hadUnreachable && res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (!regexReturn.matches(res[res.size - 1])) && (whenBrackets[openBrackets - 1] == null)) {
+        if (regexReturn.matches(line)) {
+            openBracketsUnreachable = openBrackets
+        }
+
+        val hadUnreachable = openBracketsUnreachable == openBrackets
+        if (!hadUnreachable && res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (whenBrackets[openBrackets - 1] == null)) {
             appendCoverageStatement(filename, counter, res.size)
             res.add("Coverage.statementStart(${counter++})")
         }
@@ -161,10 +165,13 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
                 res.add(coverageImport)
             hadCoverageImport = true
         }
+        var withinQuotes = false
         for (i in 0 until line.length) {
-            if (line[i] == '{' && (i == 0 || (line[i - 1] != '"' && line[i - 1] != '\'')))
+            if ((line[i] == '"' || line[i] == '\'') && (i == 0 || line[i - 1] != '\\'))
+                withinQuotes = !withinQuotes
+            if (line[i] == '{' && !withinQuotes)
                 openBrackets++
-            if (line[i] == '}' && (i == 0 || (line[i - 1] != '"' && line[i - 1] != '\''))) {
+            if (line[i] == '}' && !withinQuotes) {
                 openBrackets--
                 if (openBrackets == openBracketsFunction - 1)
                     openBracketsFunction = Int.MAX_VALUE

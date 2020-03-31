@@ -29,7 +29,7 @@ class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperato
             if (a is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, a.content.encodeToByteArray().sha1().toHexString2())
             }
-            res
+/*return*/            res
         }
     }
 

@@ -42,7 +42,7 @@ class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: Stri
                     res = ValueIri(prefix + b.content)
                 }
             }
-            res
+/*return*/            res
         }
     }
 

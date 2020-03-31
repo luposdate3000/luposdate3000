@@ -47,7 +47,7 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
             if (found || noError) {
                 res = ValueBoolean(found)
             }
-            res
+/*return*/             res
         }
     }
 

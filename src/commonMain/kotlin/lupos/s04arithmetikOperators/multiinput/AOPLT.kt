@@ -35,7 +35,7 @@ class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                 res = ValueBoolean(a.compareTo(b) < 0)
             } catch (e: Throwable) {
             }
-            res
+/*return*/             res
         }
     }
 

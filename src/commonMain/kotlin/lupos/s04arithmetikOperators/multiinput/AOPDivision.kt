@@ -49,7 +49,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 }
             } catch (e: Throwable) {
             }
-            res
+/*return*/             res
         }
     }
 

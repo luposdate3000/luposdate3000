@@ -46,7 +46,7 @@ class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
             } else if (b is ValueError && a is ValueBoolean && a.value == true) {
                 res = a
             }
-            res
+/*return*/             res
         }
     }
 

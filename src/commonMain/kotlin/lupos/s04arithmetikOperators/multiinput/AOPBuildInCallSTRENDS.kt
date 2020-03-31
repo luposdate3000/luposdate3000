@@ -29,7 +29,7 @@ class AOPBuildInCallSTRENDS(query: Query, child: AOPBase, childB: AOPBase) : AOP
             if (a is ValueStringBase && b is ValueSimpleLiteral) {
                 res = ValueBoolean(a.content.endsWith(b.content))
             }
-            res
+/*return*/             res
         }
     }
 

@@ -29,7 +29,7 @@ class AOPBuildInCallLANGMATCHES(query: Query, child: AOPBase, childB: AOPBase) :
             if (a is ValueSimpleLiteral && b is ValueSimpleLiteral) {
                 res = ValueBoolean(a.content == b.content)
             }
-            res
+/*return*/             res
         }
     }
 

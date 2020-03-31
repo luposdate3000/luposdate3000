@@ -23,7 +23,7 @@ class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildIn
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         return {
-            ValueBnode("" + uuid + localbnode.next())
+            /*return*/             ValueBnode("" + uuid + localbnode.next())
         }
     }
 

@@ -65,7 +65,7 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
-            tmp.value
+            /*return*/            tmp.value
         }
     }
 

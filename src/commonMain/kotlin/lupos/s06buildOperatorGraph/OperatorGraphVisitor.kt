@@ -1124,10 +1124,10 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
         val iri = when (name) {
             is ASTIri -> {
-                name.iri
+/*return*/                name.iri
             }
             is ASTIriGraphRef -> {
-                name.iri
+/*return*/                name.iri
             }
             else -> {
                 throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)} $optional")
@@ -1297,7 +1297,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
         val child: OPBase = if (node.using.isEmpty()) {
-            parseGroup(node.children)
+/*return*/            parseGroup(node.children)
         } else {
             var tmp: OPBase? = null
             for (c in node.using) {
@@ -1308,7 +1308,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     tmp = LOPUnion(query, tmp, tmp2)
                 }
             }
-            tmp!!
+/*return*/            tmp!!
         }
         val iri = node.iri
         val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()

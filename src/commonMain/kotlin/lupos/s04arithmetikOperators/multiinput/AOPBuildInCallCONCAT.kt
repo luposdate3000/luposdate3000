@@ -38,7 +38,7 @@ class AOPBuildInCallCONCAT(query: Query, child: AOPBase, childB: AOPBase) : AOPB
             } else if (a is ValueStringBase && b is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, a.content + b.content)
             }
-            res
+/*return*/             res
         }
     }
 

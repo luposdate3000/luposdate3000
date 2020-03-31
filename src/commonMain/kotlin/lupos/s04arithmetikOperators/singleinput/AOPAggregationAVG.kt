@@ -64,15 +64,17 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
+            var res: ValueDefinition
             if (tmp.value is ValueDouble) {
-                ValueDouble(tmp.value.toDouble() / tmp.count)
+                res = ValueDouble(tmp.value.toDouble() / tmp.count)
             } else if (tmp.value is ValueDecimal) {
-                ValueDecimal(tmp.value.toDouble() / tmp.count)
+                res = ValueDecimal(tmp.value.toDouble() / tmp.count)
             } else if (tmp.value is ValueInteger) {
-                ValueInteger(tmp.value.toInt() / tmp.count)
+                res = ValueInteger(tmp.value.toInt() / tmp.count)
             } else {
-                ValueError()
+                res = ValueError()
             }
+/*return*/res
         }
     }
 

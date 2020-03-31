@@ -18,16 +18,18 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val tmp = row.columns[name]
+        var res: () -> ValueDefinition
         if (tmp == null) {
-            return {
-                ResultSetDictionary.undefValue2
+            res = {
+                /*return*/      ResultSetDictionary.undefValue2
             }
         } else {
             require(tmp is ColumnIteratorQueue)
             val column = tmp as ColumnIteratorQueue
-            return {
-                query.dictionary.getValue(column.tmp!!)
+            res = {
+                /*return*/                 query.dictionary.getValue(column.tmp!!)
             }
         }
+        return res
     }
 }

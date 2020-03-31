@@ -32,7 +32,7 @@ class AOPBuildInCallSTR(query: Query, child: AOPBase) : AOPBase(query, EOperator
                 val tmp = a.valueToString()!!
                 res = ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.lastIndexOf(tmp.get(0))))
             }
-            res
+/*return*/            res
         }
     }
 

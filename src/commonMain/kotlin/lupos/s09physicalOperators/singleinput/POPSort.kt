@@ -90,11 +90,13 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
         }
 //variables string array is now sorted by column sort-priority
         val comparators = Array(variables.size) {
+            var res: Comparator<Value>
             if (it < sortBy.size) {
-                comparator
+                res = comparator
             } else {
-                fastcomparator
+                res = fastcomparator
             }
+/*return*/res
         }
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()

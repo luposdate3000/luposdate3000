@@ -35,7 +35,7 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                 }
             } catch (e: Throwable) {
             }
-            res
+/*return*/            res
         }
     }
 

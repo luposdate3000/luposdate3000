@@ -27,7 +27,7 @@ class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOp
             if (a !is ValueUndef && a !is ValueError) {
                 res = ValueBoolean(a is ValueStringBase || a is ValueDouble || a is ValueBoolean || a is ValueInteger || a is ValueDecimal || a is ValueDateTime)
             }
-            res
+/*return*/            res
         }
     }
 

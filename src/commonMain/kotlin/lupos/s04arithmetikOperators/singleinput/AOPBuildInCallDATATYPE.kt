@@ -50,7 +50,7 @@ class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOpe
                     res = ValueIri("http://www.w3.org/2001/XMLSchema#integer")
                 }
             }
-            res
+/*return*/            res
         }
     }
 
