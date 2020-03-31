@@ -113,7 +113,7 @@ for (arg in args) {
 }
 File("src/commonMain/kotlin/lupos/s00misc/CoverageMapGenerated.kt").printWriter().use { out ->
     out.println("package lupos.s00misc")
-    out.println("val CoverageMapGenerated=mapOf(")
+    out.println("val CoverageMapGenerated=mapOf<Int,String>(")
     var tmp = StringBuilder()
     coverageMap.forEach { k, v ->
         tmp.append("$k to \"$v\",\n")
@@ -122,7 +122,7 @@ File("src/commonMain/kotlin/lupos/s00misc/CoverageMapGenerated.kt").printWriter(
     if (tmps.length > 0)
         out.println(tmps.substring(0, tmps.length - 2))
     out.println(")")
-    out.println("val CoverageMapWhenCaseGenerated=mapOf(")
+    out.println("val CoverageMapWhenCaseGenerated=mapOf<Int,Int>(")
     tmp = StringBuilder()
     whenCaseMap.forEach { k, v ->
         tmp.append("$k to $v,\n")
@@ -133,8 +133,6 @@ File("src/commonMain/kotlin/lupos/s00misc/CoverageMapGenerated.kt").printWriter(
     out.println(")")
 
 }
-
-
 fun addCoverage(filename: String, lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     var appendClosingBracket = 0
