@@ -108,7 +108,6 @@ require(other is MapKey)
         val mapWithUndef = mutableMapOf<MapKey, MapRow>()
         var currentKey: Array<Value>? = null
         var nextKey: Array<Value>?
-        var containsUndef: Boolean
         var map: MutableMap<MapKey, MapRow> = mapWithUndef
         var nextMap: MutableMap<MapKey, MapRow>
         var key: MapKey
@@ -127,7 +126,7 @@ require(other is MapKey)
                         nextKey = null
                         break@loopB
                     }
-                    nextKey!![columnIndex] = value!!
+                    nextKey!![columnIndex] = value
                     if (value == ResultSetDictionary.undefValue) {
                         nextMap = mapWithUndef
                     }
@@ -152,9 +151,9 @@ require(other is MapKey)
             for (columnIndex in 0 until columnsOUTB.size) {
 //TODO dont use kotlin lists here, use pages instead
                 for (j in 0 until count)
-                    oldArr!!.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
+                    oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
             }
-            oldArr!!.count++
+            oldArr.count++
             currentKey = nextKey
             map = nextMap
         }
@@ -184,7 +183,7 @@ require(other is MapKey)
                             nextKey = null
                             break@loopA
                         }
-                        nextKey!![columnIndex] = value!!
+                        nextKey!![columnIndex] = value
                         if (value == ResultSetDictionary.undefValue) {
                             nextMap = mapWithUndef
                         }

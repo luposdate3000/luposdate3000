@@ -134,7 +134,7 @@ require(other is MapKey)
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
         }
-        val keyColumnNames = Array(by.size) { by[it]!!.name }
+        val keyColumnNames = Array(by.size) { by[it].name }
         val keyColumns: Array<ColumnIterator> = Array(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
         val valueColumnNames = mutableListOf<String>()
         for (name in localVariables) {
@@ -151,7 +151,7 @@ require(other is MapKey)
                     require(columnIndex == 0)
                     break@loop
                 }
-                currentKey[columnIndex] = value!!
+                currentKey[columnIndex] = value
             }
             val key = MapKey(currentKey)
             var localRow = map[key]
@@ -161,10 +161,10 @@ require(other is MapKey)
                 for (columnIndex in 0 until keyColumnNames.size) {
                     val tmp = ColumnIteratorQueue()
                     tmp.tmp = currentKey[columnIndex]
-                    localMap[keyColumnNames[columnIndex]!!] = tmp
+                    localMap[keyColumnNames[columnIndex]] = tmp
                 }
                 for (columnIndex in 0 until valueColumnNames.size) {
-                    localMap[valueColumnNames[columnIndex]!!] = localColumns[columnIndex]
+                    localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
                 }
                 val row = ColumnIteratorRow(localMap)
                 val localAggregations = Array(aggregations.size) {
@@ -175,9 +175,9 @@ require(other is MapKey)
                 localRow = MapRow(row, localAggregations, localColumns)
                 map[key] = localRow
             }
-            require(localRow != null)
+
             for (columnIndex in 0 until valueColumnNames.size) {
-                localRow.columns[columnIndex].tmp = valueColumns[columnIndex]!!.next()
+                localRow.columns[columnIndex].tmp = valueColumns[columnIndex].next()
             }
             for (aggregate in localRow.aggregates) {
                 aggregate.evaluate()
@@ -190,14 +190,14 @@ require(other is MapKey)
                 outKeys[columnIndex].add(k.data[columnIndex])
             }
             for (columnIndex in 0 until bindings.size) {
-                outValues[columnIndex].add(query.dictionary.createValue((bindings[columnIndex].second as AOPBase).evaluate(v.iterators)()))
+                outValues[columnIndex].add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
             }
         }
         for (columnIndex in 0 until keyColumnNames.size) {
-            outMap[keyColumnNames[columnIndex]!!] = ColumnIteratorMultiValue(outKeys[columnIndex]!!)
+            outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
         }
         for (columnIndex in 0 until bindings.size) {
-            outMap[bindings[columnIndex]!!.first] = ColumnIteratorMultiValue(outValues[columnIndex]!!)
+            outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
         }
         return ColumnIteratorRow(outMap)
     }
