@@ -1,5 +1,6 @@
 package lupos.s00misc
 
 val CoverageMapGenerated = mapOf(
-        0 to ""
+)
+val CoverageMapWhenCaseGenerated = mapOf(
 )

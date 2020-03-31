@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import kotlin.math.abs
+import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 class XMLElement {
@@ -53,20 +54,23 @@ class XMLElement {
                             nodeBinding.addContent(XMLElement("literal").addContent(value))
                         }
                     }
-                } else if (value.startsWith("<") && value.endsWith(">"))
+                } else if (value.startsWith("<") && value.endsWith(">")) {
                     nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                else if (value.startsWith("_:"))
+                } else if (value.startsWith("_:")) {
                     nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
-                else if (value.startsWith("\"") && value.endsWith("\""))
+                } else if (value.startsWith("\"") && value.endsWith("\"")) {
                     nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
-                else {
+                } else {
                     val literal = XMLElement("literal").addContent(value)
-                    if ("""[0-9]+""".toRegex().matches(value))
+                    if ("""[0-9]+""".toRegex().matches(value)) {
                         literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer")
-                    if ("""[0-9]*\.[0-9]+""".toRegex().matches(value))
+                    }
+                    if ("""[0-9]*\.[0-9]+""".toRegex().matches(value)) {
                         literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal")
-                    if ("""[0-9]*\.[0-9]+[eE][0-9]+""".toRegex().matches(value))
+                    }
+                    if ("""[0-9]*\.[0-9]+[eE][0-9]+""".toRegex().matches(value)) {
                         literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double")
+                    }
                     nodeBinding.addContent(literal)
                 }
                 nodeResult.addContent(nodeBinding)
@@ -89,47 +93,56 @@ class XMLElement {
 
     operator fun get(key: String): XMLElement? {
         childs.forEach {
-            if (it.tag == key)
+            if (it.tag == key) {
                 return it
+            }
         }
         return null
     }
 
     override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other)
     fun myEquals(other: XMLElement?): Boolean {
-        if (other == null)
+        if (other == null) {
             return false
-        if (tag != other.tag)
+        }
+        if (tag != other.tag) {
             return false
-        if (tag == "bnode")
+        }
+        if (tag == "bnode") {
             return true
+        }
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
-        if (c1 != c2)
+        if (c1 != c2) {
             return false
-        if (childs.count() != other.childs.count())
+        }
+        if (childs.count() != other.childs.count()) {
             return false
-        if (attributes != other.attributes)
+        }
+        if (attributes != other.attributes) {
             return false
+        }
         var i = 0
         for (c in childs) {
             var d = other.childs[i]
-            if (!c.myEquals(d))
+            if (!c.myEquals(d)) {
                 return false
+            }
             i++
         }
         return true
     }
 
     fun myEqualsUnclean(other: XMLElement?): Boolean {
-        if (other == null)
+        if (other == null) {
             return false
-        if (tag != other.tag)
+        }
+        if (tag != other.tag) {
             return false
+        }
         if (tag == "bnode") {
             return true
         }
-//-->> avoid bugs in JENA
         if (tag == "results") {
             if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result") {
                 childs.add(XMLElement("result"))
@@ -139,32 +152,37 @@ class XMLElement {
             }
         }
 //<<-- avoid bugs in JENA
-        if (childs.count() != other.childs.count())
+        if (childs.count() != other.childs.count()) {
             return false
+        }
         if (tag != "sparql") {
-//-->> avoid bugs in JENA
-            if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"] == null)
+            if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"] == null) {
                 other.attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
-            if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"] == null)
+            }
+            if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"] == null) {
                 attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
+            }
 //<<-- avoid bugs in JENA
-            if (attributes != other.attributes)
+            if (attributes != other.attributes) {
                 return false
+            }
         }
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
-//-->> avoid bugs in JENA
         if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer") {
-            if (c1.toInt() != c2.toInt())
+            if (c1.toInt() != c2.toInt()) {
                 return false
+            }
 //<<-- avoid bugs in JENA
         } else if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
             val a = c1.toDouble()
             val b = c2.toDouble()
-            if (abs(a - b) > 0.00001)
+            if (abs(a - b) > 0.00001) {
                 return false
-        } else if (c1 != c2)
+            }
+        } else if (c1 != c2) {
             return false
+        }
         for (c in childs) {
             var found = false
             for (d in other.childs) {
@@ -173,8 +191,9 @@ class XMLElement {
                     break
                 }
             }
-            if (!found)
+            if (!found) {
                 return false
+            }
         }
         return true
     }
@@ -185,22 +204,25 @@ class XMLElement {
     }
 
     fun addContent(content: String): XMLElement {
-        if (!childs.isEmpty())
+        if (!childs.isEmpty()) {
             throw Exception("either content or subchilds must be empty")
+        }
         this.content += decodeText(content)
         return this
     }
 
     fun addContent(childs: Collection<XMLElement>): XMLElement {
-        if (!content.isEmpty())
+        if (!content.isEmpty()) {
             throw Exception("either content or subchilds must be empty")
+        }
         this.childs.addAll(childs)
         return this
     }
 
     fun addContent(child: XMLElement): XMLElement {
-        if (!content.isEmpty())
+        if (!content.isEmpty()) {
             throw Exception("either content or subchilds must be empty")
+        }
         childs.add(child)
         return this
     }
@@ -223,14 +245,16 @@ class XMLElement {
     override fun toString(): String {
         val c = content.replace("^\\s*$".toRegex(), "")
         var res = "<${encodeText(tag)}"
-        for ((k, v) in attributes)
+        for ((k, v) in attributes) {
             res += " ${encodeText(k)}=\"${encodeText(v)}\""
+        }
         if (c.isEmpty() && childs.isEmpty()) {
             res += "/>"
         } else {
             res += ">"
-            for (child in childs)
+            for (child in childs) {
                 res += child.toString()
+            }
             res += "${encodeText(c)}</${encodeText(tag)}>"
         }
         return res
@@ -239,15 +263,17 @@ class XMLElement {
     fun toPrettyString(indention: String): StringBuilder {
         val c = content.replace("^\\s*$".toRegex(), "")
         var res = StringBuilder("${indention}<${encodeText(tag)}")
-        for ((k, v) in attributes)
+        for ((k, v) in attributes) {
             res.append(" ${encodeText(k)}=\"${encodeText(v)}\"")
+        }
         if (c.isEmpty() && childs.isEmpty()) {
             res.append("/>\n")
         } else {
             if (c.isEmpty()) {
                 res.append(">\n")
-                for (child in childs)
+                for (child in childs) {
                     res.append(child.toPrettyString(indention + " "))
+                }
                 res.append("${indention}</${encodeText(tag)}>\n")
             } else {
                 res.append(">${c}</${encodeText(tag)}>\n")
