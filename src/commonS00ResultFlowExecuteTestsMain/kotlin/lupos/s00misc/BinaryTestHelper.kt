@@ -86,7 +86,8 @@ import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
-    Sparql(::executeBinaryTest),
+TripleStore(TripleStoreLocalTest::invoke)
+//    Sparql(::executeBinaryTest),
 //    ResultVektor(ResultVektorTest::invoke),
 //    ResultChunkBase(ResultChunkBaseTest::invoke),
 //    ResultChunk(ResultChunkTest::invoke),

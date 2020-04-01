@@ -53,7 +53,6 @@ class TripleStoreLocal(@JvmField val name: String) {
     val pendingModificationsDelete = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableSet<MapKey>>() }
 
     fun commit(query: Query) {
-        println("commit ${query.transactionID}")
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -100,6 +99,8 @@ class TripleStoreLocal(@JvmField val name: String) {
     fun clear() {
         for (idx in EIndexPattern.values()) {
             tripleStore[idx.ordinal].clear()
+	pendingModificationsInsert[idx.ordinal].clear()
+pendingModificationsDelete[idx.ordinal].clear()
         }
         tripleStoreSPO.clear()
     }
