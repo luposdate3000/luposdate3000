@@ -21,7 +21,7 @@ object POPValuesTest {
         try {
             while (true) {
                 val query = Query()
-                val variableSize = random.nextInt(MAX_VARIABLES)
+                val variableSize = random.nextInt(MAX_VARIABLES - 1) + 1
                 val count = random.nextInt(MAX_COUNT)
                 val allVariables = mutableListOf<String>()
                 for (i in 0 until MAX_VARIABLES) {

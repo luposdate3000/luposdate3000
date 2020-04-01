@@ -100,6 +100,12 @@ object Coverage {
 
     fun statementStart(counter: Int) {
         counters[counter]++
+        if (verbose) {
+            if (veryverbose)
+                println("${CoverageMapGenerated[counter]} statementStart")
+            else
+                println("statementStart $counter")
+        }
     }
 
     override fun toString(): String {

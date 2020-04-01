@@ -9,6 +9,7 @@ class TestRandom(val buffer: DynamicByteArray) {
     }
 
     fun nextInt(maxValue: Int = Int.MAX_VALUE, increment: Boolean = true, positive: Boolean = true): Int {
+        var res = 0
         try {
             val tmp = if (increment) {
                 /*return*/  buffer.getNextInt()
@@ -16,12 +17,14 @@ class TestRandom(val buffer: DynamicByteArray) {
 /*return*/                            buffer.getInt(buffer.pos)
             }
             if (tmp < 0 && positive) {
-                return (-tmp) % maxValue
+                res = (-tmp) % maxValue
+            } else {
+                res = tmp % maxValue
             }
-            return tmp % maxValue
-        } catch (e: Throwable) {
+        } catch (e: ArrayIndexOutOfBoundsException) {
             throw NoMoreRandomException()
         }
+        return res
     }
 
     fun nextBoolean(): Boolean {

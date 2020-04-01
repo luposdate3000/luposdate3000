@@ -95,7 +95,8 @@ enum class TestCase(val action: suspend (TestRandom) -> Unit) {
     EColumnIteratorChildIterator(ColumnIteratorChildIteratorTest::invoke),
     EColumnIteratorQueue(ColumnIteratorQueueTest::invoke),
     EPOPValues(POPValuesTest::invoke),
-    EPOPBind(POPBindTest::invoke)
+    EPOPBind(POPBindTest::invoke),
+    EPOPJoin(POPJoinTest::invoke)
 //    Sparql(::executeBinaryTest),
 }
 

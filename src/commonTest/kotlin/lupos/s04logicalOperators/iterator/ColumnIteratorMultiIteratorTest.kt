@@ -15,7 +15,7 @@ object ColumnIteratorMultiIteratorTest {
     }
 
     suspend fun createIterator(random: TestRandom): Pair<ColumnIterator, List<Value>> {
-        val count = random.nextInt(MAX_COUNT)
+        val count = random.nextInt(MAX_COUNT - 1) + 1
         val data = mutableListOf<Value>()
         val childs = mutableListOf<ColumnIterator>()
         for (i in 0 until count) {

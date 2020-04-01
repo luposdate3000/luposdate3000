@@ -10,26 +10,32 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
     val data = mutableListOf<Value>()
 
     init {
-        require(count > 1)
+        require(count > 0)
         next = {
             var res: Value?
             val tmp = child.next()
             if (tmp == null) {
-                index = 1
-                next = {
-                    var res: Value?
-                    if (index2 < data.size) {
-                        res = data[index2]
-                    } else {
-                        if (index < count) {
-                            index++
-                            index2 = 0
+                if (data.size == 0) {
+                    next = {
+                        /*return*/null
+                    }
+                } else {
+                    index = 1
+                    next = {
+                        var res: Value?
+                        if (index2 < data.size) {
                             res = data[index2]
                         } else {
-                            res = null
+                            if (index < count) {
+                                index++
+                                index2 = 0
+                                res = data[index2]
+                            } else {
+                                res = null
+                            }
                         }
+                        /*return*/res
                     }
-                    /*return*/res
                 }
                 res = next()
             } else {

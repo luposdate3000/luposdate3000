@@ -87,7 +87,9 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             for (testcase in TestCase.values()) {
                 runBlocking {
                     withTimeout(1000, {
+                        val position = input.pos
                         testcase.action(TestRandom(input!!))
+                        input.pos = position
                     })
                 }
             }
@@ -97,7 +99,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             if (testnumber % 1000 == 0) {
                 println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
             }
-            break
         } catch (e: ConnectException) {
             e.printStackTrace()
         } catch (e: Throwable) {
