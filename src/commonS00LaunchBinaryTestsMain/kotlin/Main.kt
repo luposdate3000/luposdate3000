@@ -44,7 +44,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         val pos = input.pos
         for (testcase in TestCase.values()) {
             input.pos = pos
-            testcase.action(input)
+            testcase.action(TestRandom(input))
         }
     } else if (args.isEmpty()) {
         executeBinaryTests("/opt/tmpfs")
