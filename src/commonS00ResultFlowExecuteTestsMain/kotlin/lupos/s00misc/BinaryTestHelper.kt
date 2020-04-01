@@ -87,15 +87,14 @@ import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
-    TripleStore(TripleStoreLocalTest::invoke),
-ColumnIteratorRepeatValue(ColumnIteratorRepeatValueTest::invoke),
-ColumnIteratorMultiValue(ColumnIteratorMultiValueTest::invoke),
-ColumnIteratorRepeatIterator(ColumnIteratorRepeatIteratorTest::invoke)
+    ETripleStore(TripleStoreLocalTest::invoke),
+EColumnIteratorRepeatValue(ColumnIteratorRepeatValueTest::invoke),
+EColumnIteratorMultiValue(ColumnIteratorMultiValueTest::invoke),
+EColumnIteratorRepeatIterator(ColumnIteratorRepeatIteratorTest::invoke),
+EColumnIteratorMultiIterator(ColumnIteratorMultiIteratorTest::invoke),
+EColumnIteratorChildIterator(ColumnIteratorChildIteratorTest::invoke),
+EColumnIteratorQueue(ColumnIteratorQueueTest::invoke)
 //    Sparql(::executeBinaryTest),
-//    ResultVektor(ResultVektorTest::invoke),
-//    ResultChunkBase(ResultChunkBaseTest::invoke),
-//    ResultChunk(ResultChunkTest::invoke),
-//ResultChunkDistinctStore(ResultChunkDistinctStoreTest::invoke)
 }
 
 enum class ValueEnum {

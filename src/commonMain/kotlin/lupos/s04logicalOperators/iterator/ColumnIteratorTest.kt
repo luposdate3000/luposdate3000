@@ -6,5 +6,8 @@ import lupos.s03resultRepresentation.*
 enum class ColumnIteratorTests(val action: suspend (TestRandom) -> Pair<ColumnIterator, List<Value>>) {
     EColumnIteratorRepeatValueTest(ColumnIteratorRepeatValueTest::createIterator),
     EColumnIteratorMultiValueTest(ColumnIteratorMultiValueTest::createIterator),
-    EColumnIteratorRepeatIteratorTest(ColumnIteratorRepeatIteratorTest::createIterator)
+    EColumnIteratorRepeatIteratorTest(ColumnIteratorRepeatIteratorTest::createIterator),
+    EColumnIteratorChildIteratorTest(ColumnIteratorChildIteratorTest::createIterator),
+    EColumnIteratorMultiIteratorTest(ColumnIteratorMultiIteratorTest::createIterator),
+    EColumnIteratorQueueTest(ColumnIteratorQueueTest::createIterator)
 }

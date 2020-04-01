@@ -3,7 +3,8 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 
-object ColumnIteratorRepeatIteratorTest  {
+object ColumnIteratorChildIteratorTest {
+    val MAX_VALUE = 10
     val MAX_COUNT = 10
     val verbose = false
     fun log(value: Any?) {
@@ -11,13 +12,23 @@ object ColumnIteratorRepeatIteratorTest  {
             println(value)
     }
 
-     suspend fun createIterator(random: TestRandom): Pair<ColumnIterator, List<Value>> {
+    suspend fun createIterator(random: TestRandom): Pair<ColumnIterator, List<Value>> {
         val count = random.nextInt(MAX_COUNT)
-val child=ColumnIteratorTests.values()[random.nextInt(ColumnIteratorTests.values().size)](random)
+        val data = mutableListOf<Value>()
+        val childs = mutableListOf<ColumnIterator>()
         for (i in 0 until count) {
+            val child = ColumnIteratorTests.values()[random.nextInt(ColumnIteratorTests.values().size)].action(random)
+            childs.add(child.first)
             data.addAll(child.second)
         }
-        return Pair(ColumnIteratorRepeatIterator(count,child), data)
+        var res = ColumnIteratorChildIterator()
+        res.onNoMoreElements = {
+            if (childs.size > 0) {
+                res.childs.add(childs[0])
+                childs.removeAt(0)
+            }
+        }
+        return Pair(res, data)
     }
 
     suspend fun invoke(random: TestRandom) {
@@ -34,7 +45,3 @@ val child=ColumnIteratorTests.values()[random.nextInt(ColumnIteratorTests.values
         }
     }
 }
-
-
-
-
