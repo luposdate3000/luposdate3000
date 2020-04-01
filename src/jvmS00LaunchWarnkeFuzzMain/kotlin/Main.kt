@@ -42,7 +42,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             testDictionaryValueTyped[ValueEnum.ValueSimpleLiteral]!!.add("\"" + it!! + "\"")
         }
     }
-    var testcase = TestCase.ResultVektor
+    var testcase = TestCase.TripleStore
     var datasize = 16
     if (args.size > 0) {
         JenaRequest.db = args[0]
@@ -78,8 +78,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
                 datasize = (datasize * 1.01).toInt() + 1
             }
             counter = datasize
-            println("changed datasize to $datasize for $counter tests") {
-            }
         }
         val bytebuffer = ByteBuffer.allocate(datasize)
         currentSize = fileChannel.read(bytebuffer)
@@ -89,7 +87,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             while (true) {
                 try {
                     for (testcase in TestCase.values()) {
-                        testcase.action(input!!)
+                        testcase.action(TestRandom(input!!))
                     }
                     val timepointNext2 = Instant.now()
                     val elapsed2 = Duration.between(timepoint, timepointNext2)

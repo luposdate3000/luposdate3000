@@ -120,7 +120,7 @@ object TripleStoreLocalTest {
                 val query = Query()
                 var dataRetrieved = mutableListOf<MapKey>()
 //---SPO
-                var iterator = store.getIterator(query, arrayOf(AOPVariable(query,"v0"), AOPVariable(query,"v1"), AOPVariable(query,"v2")), EIndexPattern.SPO)
+                var iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPVariable(query, "v1"), AOPVariable(query, "v2")), EIndexPattern.SPO)
                 loopSPO@ while (true) {
                     val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                     for (i in 0 until 3) {
@@ -147,9 +147,9 @@ object TripleStoreLocalTest {
                 require(dataRetrieved.size == 0)
 //---SP
                 for (valueInt in 0 until MAX_VALUE) {
-                    iterator = store.getIterator(query, arrayOf(AOPVariable(query,"v0"), AOPVariable(query,"v1"), AOPConstant(query,ValueInteger(valueInt))), EIndexPattern.SP)
+                    iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPVariable(query, "v1"), AOPConstant(query, ValueInteger(valueInt))), EIndexPattern.O)
                     loopSP@ while (true) {
-                        val key = MapKey(Array(2) { ResultSetDictionary.undefValue2 })
+                        val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                         for (i in 0 until 2) {
                             val value = iterator.columns["v$i"]!!.next()
                             if (value == null) {
@@ -161,7 +161,7 @@ object TripleStoreLocalTest {
                         key.data[2] = ValueInteger(valueInt)
                         dataRetrieved.add(key)
                     }
-                    for (key in dataCommited[EIndexPattern.SP.ordinal]) {
+                    for (key in dataCommited[EIndexPattern.O.ordinal]) {
                         var counter = 0
                         for (i in dataRetrieved.size - 1 downTo 0) {
                             if (dataRetrieved[i] == key) {
@@ -177,8 +177,170 @@ object TripleStoreLocalTest {
                     }
                     require(dataRetrieved.size == 0)
                 }
+//---SO
+                for (valueInt in 0 until MAX_VALUE) {
+                    iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v1")), EIndexPattern.P)
+                    loopSO@ while (true) {
+                        val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
+                        for (i in 0 until 2) {
+                            val value = iterator.columns["v$i"]!!.next()
+                            if (value == null) {
+                                require(i == 0)
+                                break@loopSO
+                            }
+                            key.data[i] = query.dictionary.getValue(value)
+                        }
+                        key.data[2] = key.data[1]
+                        key.data[1] = ValueInteger(valueInt)
+                        dataRetrieved.add(key)
+                    }
+                    for (key in dataCommited[EIndexPattern.P.ordinal]) {
+                        var counter = 0
+                        for (i in dataRetrieved.size - 1 downTo 0) {
+                            if (dataRetrieved[i] == key) {
+                                dataRetrieved.removeAt(i)
+                                counter++
+                                require(counter == 1)
+                            }
+                        }
+                        if (key.data[1] == ValueInteger(valueInt))
+                            require(counter == 1)
+                        else
+                            require(counter == 0)
+                    }
+                    require(dataRetrieved.size == 0)
+                }
+//---PO
+                for (valueInt in 0 until MAX_VALUE) {
+                    iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"), AOPVariable(query, "v1")), EIndexPattern.S)
+                    loopPO@ while (true) {
+                        val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
+                        for (i in 0 until 2) {
+                            val value = iterator.columns["v$i"]!!.next()
+                            if (value == null) {
+                                require(i == 0)
+                                break@loopPO
+                            }
+                            key.data[i] = query.dictionary.getValue(value)
+                        }
+                        key.data[2] = key.data[1]
+                        key.data[1] = key.data[0]
+                        key.data[0] = ValueInteger(valueInt)
+                        dataRetrieved.add(key)
+                    }
+                    for (key in dataCommited[EIndexPattern.S.ordinal]) {
+                        var counter = 0
+                        for (i in dataRetrieved.size - 1 downTo 0) {
+                            if (dataRetrieved[i] == key) {
+                                dataRetrieved.removeAt(i)
+                                counter++
+                                require(counter == 1)
+                            }
+                        }
+                        if (key.data[0] == ValueInteger(valueInt))
+                            require(counter == 1)
+                        else
+                            require(counter == 0)
+                    }
+                    require(dataRetrieved.size == 0)
+                }
+//---S
+                for (valueInt in 0 until MAX_VALUE) {
+                    for (valueInt2 in 0 until MAX_VALUE) {
+                        iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.PO)
+                        loopS@ while (true) {
+                            val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
+                            val value = iterator.columns["v0"]!!.next()
+                            if (value == null) {
+                                break@loopS
+                            }
+                            key.data[0] = query.dictionary.getValue(value)
+                            key.data[1] = ValueInteger(valueInt)
+                            key.data[2] = ValueInteger(valueInt2)
+                            dataRetrieved.add(key)
+                        }
+                        for (key in dataCommited[EIndexPattern.PO.ordinal]) {
+                            var counter = 0
+                            for (i in dataRetrieved.size - 1 downTo 0) {
+                                if (dataRetrieved[i] == key) {
+                                    dataRetrieved.removeAt(i)
+                                    counter++
+                                    require(counter == 1)
+                                }
+                            }
+                            if (key.data[1] == ValueInteger(valueInt) && key.data[2] == ValueInteger(valueInt2))
+                                require(counter == 1)
+                            else
+                                require(counter == 0)
+                        }
+                        require(dataRetrieved.size == 0)
+                    }
+                }
+//---P
+                for (valueInt in 0 until MAX_VALUE) {
+                    for (valueInt2 in 0 until MAX_VALUE) {
+                        iterator = store.getIterator(query, arrayOf( AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"),AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.SO)
+                        loopP@ while (true) {
+                            val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
+                            val value = iterator.columns["v0"]!!.next()
+                            if (value == null) {
+                                break@loopP
+                            }
+                            key.data[1] = query.dictionary.getValue(value)
+                            key.data[0] = ValueInteger(valueInt)
+                            key.data[2] = ValueInteger(valueInt2)
+                            dataRetrieved.add(key)
+                        }
+                        for (key in dataCommited[EIndexPattern.SO.ordinal]) {
+                            var counter = 0
+                            for (i in dataRetrieved.size - 1 downTo 0) {
+                                if (dataRetrieved[i] == key) {
+                                    dataRetrieved.removeAt(i)
+                                    counter++
+                                    require(counter == 1)
+                                }
+                            }
+                            if (key.data[0] == ValueInteger(valueInt) && key.data[2] == ValueInteger(valueInt2))
+                                require(counter == 1)
+                            else
+                                require(counter == 0)
+                        }
+                        require(dataRetrieved.size == 0)
+                    }
+                }
+//---O
+                for (valueInt in 0 until MAX_VALUE) {
+                    for (valueInt2 in 0 until MAX_VALUE) {
+                        iterator = store.getIterator(query, arrayOf( AOPConstant(query, ValueInteger(valueInt)),AOPConstant(query, ValueInteger(valueInt2)), AOPVariable(query, "v0")), EIndexPattern.SP)
+                        loopO@ while (true) {
+                            val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
+                            val value = iterator.columns["v0"]!!.next()
+                            if (value == null) {
+                                break@loopO
+                            }
+                            key.data[2] = query.dictionary.getValue(value)
+                            key.data[0] = ValueInteger(valueInt)
+                            key.data[1] = ValueInteger(valueInt2)
+                            dataRetrieved.add(key)
+                        }
+                        for (key in dataCommited[EIndexPattern.SP.ordinal]) {
+                            var counter = 0
+                            for (i in dataRetrieved.size - 1 downTo 0) {
+                                if (dataRetrieved[i] == key) {
+                                    dataRetrieved.removeAt(i)
+                                    counter++
+                                    require(counter == 1)
+                                }
+                            }
+                            if (key.data[0] == ValueInteger(valueInt) && key.data[1] == ValueInteger(valueInt2))
+                                require(counter == 1)
+                            else
+                                require(counter == 0)
+                        }
+                        require(dataRetrieved.size == 0)
+                    }
+                }
 //---
-
             }
         } catch (e: NoMoreRandomException) {
         }
