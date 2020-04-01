@@ -99,8 +99,8 @@ class TripleStoreLocal(@JvmField val name: String) {
     fun clear() {
         for (idx in EIndexPattern.values()) {
             tripleStore[idx.ordinal].clear()
-	pendingModificationsInsert[idx.ordinal].clear()
-pendingModificationsDelete[idx.ordinal].clear()
+            pendingModificationsInsert[idx.ordinal].clear()
+            pendingModificationsDelete[idx.ordinal].clear()
         }
         tripleStoreSPO.clear()
     }

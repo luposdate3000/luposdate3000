@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -18,7 +19,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
-import lupos.s00misc.*
 
 object TripleStoreLocalTest {
     val MAX_VALUE = 10
@@ -43,14 +43,21 @@ object TripleStoreLocalTest {
             }
             return true
         }
+
+        override fun toString(): String {
+            return "" + data.map { (it as ValueInteger).toInt() }
+        }
+    }
+
+    class Entry() {
+        var query = Query()
+        var dataInsert = Array(EIndexPattern.values().size) { mutableSetOf<MapKey>() }
+        var dataDelete = Array(EIndexPattern.values().size) { mutableSetOf<MapKey>() }
     }
 
     suspend fun invoke(random: TestRandom) {
         val store = TripleStoreLocal("the store")
-        val dictionary = ResultSetDictionary()
-        var dataInsert = Array(EIndexPattern.values().size) { mutableSetOf<MapKey>() }
-        var dataDelete = Array(EIndexPattern.values().size) { mutableSetOf<MapKey>() }
-        var queriesToCommit = mutableListOf<Query>()
+        var queriesToCommit = mutableListOf<Entry>()
         var dataCommited = Array(EIndexPattern.values().size) { mutableSetOf<MapKey>() }
         try {
             while (true) {
@@ -58,60 +65,61 @@ object TripleStoreLocalTest {
                 val func = random.nextInt(4, true, true)
                 when (func) {
                     0 -> {/*clear*/
-                        for (d in dataInsert) {
-                            d.clear()
-                        }
-                        for (d in dataDelete) {
-                            d.clear()
-                        }
+                        println("clear")
+                        queriesToCommit.clear()
                         for (d in dataCommited) {
                             d.clear()
                         }
                         store.clear()
                     }
                     1 -> {/*insert*/
-                        val query = Query()
+                        println("insert $idx")
+                        val entry = Entry()
                         val localData = Array(3) { mutableListOf<Value>() }
                         val count = random.nextInt(MAX_COUNT, true, true)
                         for (i in 0 until count) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             for (j in 0 until 3) {
                                 val value = ValueInteger(random.nextInt(MAX_VALUE, true, false))
-                                localData[j].add(query.dictionary.createValue(value))
+                                localData[j].add(entry.query.dictionary.createValue(value))
                                 key.data[j] = value
                             }
-                            dataInsert[idx.ordinal].add(key)
+                            println("insert $idx data: $key")
+                            entry.dataInsert[idx.ordinal].add(key)
                         }
                         val localDataIterator = Array<ColumnIterator>(3) { ColumnIteratorMultiValue(localData[it]) }
-                        store.modify(query, localDataIterator, idx, EModifyType.INSERT)
-                        queriesToCommit.add(query)
+                        store.modify(entry.query, localDataIterator, idx, EModifyType.INSERT)
+                        queriesToCommit.add(entry)
                     }
                     2 -> {/*delete*/
-                        val query = Query()
+                        println("delete $idx")
+                        val entry = Entry()
                         val localData = Array(3) { mutableListOf<Value>() }
                         val count = random.nextInt(MAX_COUNT, true, true)
                         for (i in 0 until count) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             for (j in 0 until 3) {
                                 val value = ValueInteger(random.nextInt(MAX_VALUE, true, false))
-                                localData[j].add(query.dictionary.createValue(value))
+                                localData[j].add(entry.query.dictionary.createValue(value))
                                 key.data[j] = value
                             }
-                            dataDelete[idx.ordinal].add(key)
+                            entry.dataDelete[idx.ordinal].add(key)
+                            println("delete $idx data: $key")
                         }
                         val localDataIterator = Array<ColumnIterator>(3) { ColumnIteratorMultiValue(localData[it]) }
-                        store.modify(query, localDataIterator, idx, EModifyType.DELETE)
-                        queriesToCommit.add(query)
+                        store.modify(entry.query, localDataIterator, idx, EModifyType.DELETE)
+                        queriesToCommit.add(entry)
                     }
                     3 -> {/*commit*/
-                        for (query in queriesToCommit) {
-                            store.commit(query)
-                        }
-                        for (idx2 in EIndexPattern.values()) {
-                            dataCommited[idx2.ordinal].addAll(dataInsert[idx2.ordinal])
-                            dataCommited[idx2.ordinal].removeAll(dataDelete[idx2.ordinal])
-                            dataDelete[idx2.ordinal].clear()
-                            dataInsert[idx2.ordinal].clear()
+                        println("commit")
+                        for (entry in queriesToCommit) {
+                            store.commit(entry.query)
+                            for (idx2 in EIndexPattern.values()) {
+                                println("commit $idx2 add ${entry.dataInsert[idx2.ordinal]}")
+                                println("commit $idx2 remove ${entry.dataDelete[idx2.ordinal]}")
+                                dataCommited[idx2.ordinal].addAll(entry.dataInsert[idx2.ordinal])
+                                dataCommited[idx2.ordinal].removeAll(entry.dataDelete[idx2.ordinal])
+                            }
                         }
                         queriesToCommit.clear()
                     }
@@ -145,7 +153,7 @@ object TripleStoreLocalTest {
                     require(counter == 1)
                 }
                 require(dataRetrieved.size == 0)
-//---SP
+//---O
                 for (valueInt in 0 until MAX_VALUE) {
                     iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPVariable(query, "v1"), AOPConstant(query, ValueInteger(valueInt))), EIndexPattern.O)
                     loopSP@ while (true) {
@@ -177,7 +185,7 @@ object TripleStoreLocalTest {
                     }
                     require(dataRetrieved.size == 0)
                 }
-//---SO
+//---P
                 for (valueInt in 0 until MAX_VALUE) {
                     iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v1")), EIndexPattern.P)
                     loopSO@ while (true) {
@@ -208,9 +216,9 @@ object TripleStoreLocalTest {
                         else
                             require(counter == 0)
                     }
-                    require(dataRetrieved.size == 0)
+                    require(dataRetrieved.size == 0, { "$dataRetrieved ${dataCommited[EIndexPattern.P.ordinal]}" })
                 }
-//---PO
+//---S
                 for (valueInt in 0 until MAX_VALUE) {
                     iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"), AOPVariable(query, "v1")), EIndexPattern.S)
                     loopPO@ while (true) {
@@ -244,7 +252,7 @@ object TripleStoreLocalTest {
                     }
                     require(dataRetrieved.size == 0)
                 }
-//---S
+//---PO
                 for (valueInt in 0 until MAX_VALUE) {
                     for (valueInt2 in 0 until MAX_VALUE) {
                         iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.PO)
@@ -276,10 +284,10 @@ object TripleStoreLocalTest {
                         require(dataRetrieved.size == 0)
                     }
                 }
-//---P
+//---SO
                 for (valueInt in 0 until MAX_VALUE) {
                     for (valueInt2 in 0 until MAX_VALUE) {
-                        iterator = store.getIterator(query, arrayOf( AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"),AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.SO)
+                        iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.SO)
                         loopP@ while (true) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             val value = iterator.columns["v0"]!!.next()
@@ -308,10 +316,10 @@ object TripleStoreLocalTest {
                         require(dataRetrieved.size == 0)
                     }
                 }
-//---O
+//---SP
                 for (valueInt in 0 until MAX_VALUE) {
                     for (valueInt2 in 0 until MAX_VALUE) {
-                        iterator = store.getIterator(query, arrayOf( AOPConstant(query, ValueInteger(valueInt)),AOPConstant(query, ValueInteger(valueInt2)), AOPVariable(query, "v0")), EIndexPattern.SP)
+                        iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2)), AOPVariable(query, "v0")), EIndexPattern.SP)
                         loopO@ while (true) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             val value = iterator.columns["v0"]!!.next()

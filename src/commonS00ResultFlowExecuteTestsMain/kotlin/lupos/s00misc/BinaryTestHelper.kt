@@ -86,9 +86,9 @@ import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
-TripleStore(TripleStoreLocalTest::invoke),
-TripleStore1(TripleStoreLocalTest::invoke),
-TripleStore2(TripleStoreLocalTest::invoke)
+    TripleStore(TripleStoreLocalTest::invoke),
+    TripleStore1(TripleStoreLocalTest::invoke),
+    TripleStore2(TripleStoreLocalTest::invoke)
 //    Sparql(::executeBinaryTest),
 //    ResultVektor(ResultVektorTest::invoke),
 //    ResultChunkBase(ResultChunkBaseTest::invoke),
@@ -163,16 +163,16 @@ val testDictionaryVarName = ThreadSafeMutableList<String?>()
 val testDictionaryValue = ThreadSafeMutableList<String?>()
 val testDictionaryValueTyped = ThreadSafeMutableMap<ValueEnum, ThreadSafeMutableList<String?>>()
 var hadArrayIndexOutOfBoundsException = false
-fun fromBinaryListOfVariables(query: Query, random:TestRandom, count: Int): MutableList<AOPVariable> {
+fun fromBinaryListOfVariables(query: Query, random: TestRandom, count: Int): MutableList<AOPVariable> {
     var res = mutableListOf<AOPVariable>()
     for (i in 0 until count)
         res.add(AOPVariable(query, nextStringVarName(query, random, res)))
     return res
 }
 
-fun nextStringVarName(query: Query, random:TestRandom, exclude: MutableList<AOPVariable> = mutableListOf()): String {
+fun nextStringVarName(query: Query, random: TestRandom, exclude: MutableList<AOPVariable> = mutableListOf()): String {
     while (true) {
-        val v = AOPVariable(query, testDictionaryVarName[random.nextInt( testDictionaryVarName.size())]!!)
+        val v = AOPVariable(query, testDictionaryVarName[random.nextInt(testDictionaryVarName.size())]!!)
         var found = false
         for (c in exclude)
             if (c.name == v.name) {
@@ -184,35 +184,35 @@ fun nextStringVarName(query: Query, random:TestRandom, exclude: MutableList<AOPV
     }
 }
 
-fun nextStringValue(query: Query, random:TestRandom): String {
-    return testDictionaryValue[random.nextInt( testDictionaryValue.size())]!!
+fun nextStringValue(query: Query, random: TestRandom): String {
+    return testDictionaryValue[random.nextInt(testDictionaryValue.size())]!!
 }
 
-fun nextStringValueTyped(query: Query, random:TestRandom, type: ValueEnum): String {
-    val idx = random.nextInt( testDictionaryValue.size())
+fun nextStringValueTyped(query: Query, random: TestRandom, type: ValueEnum): String {
+    val idx = random.nextInt(testDictionaryValue.size())
     val tmp = ValueDefinition(testDictionaryValue[idx])
     if (ValueToID(tmp) == type)
         return testDictionaryValue[idx]!!
     return testDictionaryValueTyped[type]!![idx % testDictionaryValueTyped[type]!!.size()]!!
 }
 
-fun fromBinaryAOPConstOrVar(query: Query, random:TestRandom): AOPBase {
+fun fromBinaryAOPConstOrVar(query: Query, random: TestRandom): AOPBase {
     try {
-        if (random.nextInt( 2) == 0)
-            return AOPVariable(query, testDictionaryVarName[random.nextInt( testDictionaryVarName.size())]!!)
-        return AOPConstant(query, ValueDefinition(testDictionaryValue[random.nextInt( testDictionaryValue.size())]!!))
+        if (random.nextInt(2) == 0)
+            return AOPVariable(query, testDictionaryVarName[random.nextInt(testDictionaryVarName.size())]!!)
+        return AOPConstant(query, ValueDefinition(testDictionaryValue[random.nextInt(testDictionaryValue.size())]!!))
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
         return AOPConstant(query, ValueUndef())
     }
 }
 
-fun fromBinaryValueIriOrVar(query: Query, random:TestRandom): AOPBase {
+fun fromBinaryValueIriOrVar(query: Query, random: TestRandom): AOPBase {
     try {
-        if (random.nextInt( 2) == 0)
-            return AOPVariable(query, testDictionaryVarName[random.nextInt( testDictionaryVarName.size())]!!)
+        if (random.nextInt(2) == 0)
+            return AOPVariable(query, testDictionaryVarName[random.nextInt(testDictionaryVarName.size())]!!)
         val resultSet = testDictionaryValueTyped[ValueEnum.ValueIri]!!
-        return AOPConstant(query, ValueDefinition(resultSet[random.nextInt( resultSet.size())]))
+        return AOPConstant(query, ValueDefinition(resultSet[random.nextInt(resultSet.size())]))
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
         val resultSet = testDictionaryValueTyped[ValueEnum.ValueIri]!!
@@ -220,14 +220,14 @@ fun fromBinaryValueIriOrVar(query: Query, random:TestRandom): AOPBase {
     }
 }
 
-fun fromBinaryValueIriOrBnodeOrVar(query: Query, random:TestRandom): AOPBase {
+fun fromBinaryValueIriOrBnodeOrVar(query: Query, random: TestRandom): AOPBase {
     try {
-        var id = random.nextInt( 3)
+        var id = random.nextInt(3)
         when (id % 3) {
-            0 -> return AOPVariable(query, testDictionaryVarName[random.nextInt( testDictionaryVarName.size())]!!)
+            0 -> return AOPVariable(query, testDictionaryVarName[random.nextInt(testDictionaryVarName.size())]!!)
             1 -> {
                 val resultSet = testDictionaryValueTyped[ValueEnum.ValueIri]!!
-                return AOPConstant(query, ValueDefinition(resultSet[random.nextInt( resultSet.size())]))
+                return AOPConstant(query, ValueDefinition(resultSet[random.nextInt(resultSet.size())]))
             }
             else -> {
                 return AOPBuildInCallBNODE0(query)
@@ -239,9 +239,9 @@ fun fromBinaryValueIriOrBnodeOrVar(query: Query, random:TestRandom): AOPBase {
     }
 }
 
-suspend fun fromBinary(query: Query, random:TestRandom): OPBase {
+suspend fun fromBinary(query: Query, random: TestRandom): OPBase {
     try {
-        var id = random.nextInt( EOperatorID.values().size, false)
+        var id = random.nextInt(EOperatorID.values().size, false)
         val operatorID = EOperatorID.values()[id]
         if (operatorID == EOperatorID.OPNothingID)
             return OPNothing(query)
@@ -257,10 +257,10 @@ suspend fun fromBinary(query: Query, random:TestRandom): OPBase {
     return OPNothing(query)
 }
 
-suspend fun fromBinaryPOPLOP(query: Query, random:TestRandom): OPBase {
+suspend fun fromBinaryPOPLOP(query: Query, random: TestRandom): OPBase {
     try {
         val poploplist = EOperatorIDPOP + EOperatorIDLOP
-        var id = random.nextInt( poploplist.size)
+        var id = random.nextInt(poploplist.size)
         val operatorID = poploplist[id]
         if (operatorID == EOperatorID.OPNothingID)
             return OPNothing(query)
@@ -274,7 +274,7 @@ suspend fun fromBinaryPOPLOP(query: Query, random:TestRandom): OPBase {
     return OPNothing(query)
 }
 
-suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
+suspend fun fromBinaryPOP(query: Query, random: TestRandom): POPBase {
     try {
         var id = random.nextInt()
         if (id < 0)
@@ -292,9 +292,9 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
                 return fromBinaryPOP(query, random)
             }
             EOperatorID.POPModifyDataID -> {
-                val type = EModifyType.values()[random.nextInt( EModifyType.values().size)]
+                val type = EModifyType.values()[random.nextInt(EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
-                val count = random.nextInt( MAX_TRIPLES)
+                val count = random.nextInt(MAX_TRIPLES)
                 for (i in 0 until count)
                     data.add(fromBinaryLopTriple(query, random))
                 throw ExceptionTopLevelOperator(POPModifyData(query, type, data))
@@ -303,10 +303,10 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
                 val child = fromBinaryPOPLOP(query, random)
                 val insert = mutableListOf<LOPTriple>()
                 val delete = mutableListOf<LOPTriple>()
-                val insertCount = random.nextInt( MAX_TRIPLES)
+                val insertCount = random.nextInt(MAX_TRIPLES)
                 for (i in 0 until insertCount)
                     insert.add(fromBinaryLopTriple(query, random))
-                val deleteCount = random.nextInt( MAX_TRIPLES)
+                val deleteCount = random.nextInt(MAX_TRIPLES)
                 for (i in 0 until deleteCount)
                     delete.add(fromBinaryLopTriple(query, random))
                 throw ExceptionTopLevelOperator(POPModify(query, insert, delete, child))
@@ -322,13 +322,13 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
             EOperatorID.POPJoinHashMapID -> {
                 val childA = fromBinaryPOPLOP(query, random)
                 val childB = fromBinaryPOPLOP(query, random)
-                val optional = DynamicByteArray.intToBool(random.nextInt( 2))
+                val optional = DynamicByteArray.intToBool(random.nextInt(2))
                 return POPJoinHashMap(query, childA, childB, optional)
             }
             EOperatorID.POPJoinNestedLoopID -> {
                 val childA = fromBinaryPOPLOP(query, random)
                 val childB = fromBinaryPOPLOP(query, random)
-                val optional = DynamicByteArray.intToBool(random.nextInt( 2))
+                val optional = DynamicByteArray.intToBool(random.nextInt(2))
                 return POPJoinHashMap(query, childA, childB, optional)
             }
             EOperatorID.POPFilterID -> {
@@ -348,7 +348,7 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
             }
             EOperatorID.POPSortID -> {
                 val sortBy = AOPVariable(query, nextStringVarName(query, random))
-                val sortOrder = DynamicByteArray.intToBool(random.nextInt( 2))
+                val sortOrder = DynamicByteArray.intToBool(random.nextInt(2))
                 val child = fromBinaryPOPLOP(query, random)
                 return POPSort(query, arrayOf(sortBy), sortOrder, child)
             }
@@ -358,9 +358,9 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
             }
             EOperatorID.POPGroupID -> {
                 var bindings: POPBind? = null
-                val byCount = random.nextInt( MAX_VARIABLES)
+                val byCount = random.nextInt(MAX_VARIABLES)
                 val by = fromBinaryListOfVariables(query, random, byCount)
-                val bindCount = random.nextInt( MAX_VARIABLES)
+                val bindCount = random.nextInt(MAX_VARIABLES)
                 val tmpList = mutableListOf<AOPVariable>()
                 tmpList.addAll(by)
                 for (i in 0 until bindCount) {
@@ -376,7 +376,7 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
                 return POPGroup(query, by, bindings, child)
             }
             EOperatorID.POPProjectionID -> {
-                val childCount = random.nextInt( MAX_VARIABLES)
+                val childCount = random.nextInt(MAX_VARIABLES)
                 if (childCount == 0)
                     return fromBinaryPOP(query, random)
                 val variables = fromBinaryListOfVariables(query, random, childCount)
@@ -384,22 +384,22 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
                 return POPProjection(query, variables, child)
             }
             EOperatorID.POPLimitID -> {
-                var value = random.nextInt( MAX_LIMIT)
+                var value = random.nextInt(MAX_LIMIT)
                 val child = fromBinaryPOPLOP(query, random)
                 return POPLimit(query, value, child)
             }
             EOperatorID.POPOffsetID -> {
-                var value = random.nextInt( MAX_OFFSET)
+                var value = random.nextInt(MAX_OFFSET)
                 val child = fromBinaryPOPLOP(query, random)
                 return POPOffset(query, value, child)
             }
             EOperatorID.POPGraphOperationID -> {
-                val action = EGraphOperationType.values()[random.nextInt( EGraphOperationType.values().size)]
-                val silent = DynamicByteArray.intToBool(random.nextInt( 2))
-                val graph1type = EGraphRefType.values()[random.nextInt( EGraphRefType.values().size)]
+                val action = EGraphOperationType.values()[random.nextInt(EGraphOperationType.values().size)]
+                val silent = DynamicByteArray.intToBool(random.nextInt(2))
+                val graph1type = EGraphRefType.values()[random.nextInt(EGraphRefType.values().size)]
                 val graph1nameTmp = (nextStringValueTyped(query, random, ValueEnum.ValueIri))
                 val graph1name = graph1nameTmp.substring(1, graph1nameTmp.length - 1)
-                val graph2type = EGraphRefType.values()[random.nextInt( EGraphRefType.values().size)]
+                val graph2type = EGraphRefType.values()[random.nextInt(EGraphRefType.values().size)]
                 val graph2nameTmp = (nextStringValueTyped(query, random, ValueEnum.ValueIri))
                 val graph2name = graph2nameTmp.substring(1, graph2nameTmp.length - 1)
                 throw ExceptionTopLevelOperator(POPGraphOperation(query, silent, graph1type, graph1name, graph2type, graph2name, action))
@@ -411,8 +411,8 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
                 val s = fromBinaryValueIriOrBnodeOrVar(query, random)
                 val p = fromBinaryValueIriOrVar(query, random)
                 val o = fromBinaryAOPConstOrVar(query, random)
-                val idx = EIndexPattern.values()[random.nextInt( EIndexPattern.values().size)]
-                val tripleCount = random.nextInt( MAX_TRIPLES)
+                val idx = EIndexPattern.values()[random.nextInt(EIndexPattern.values().size)]
+                val tripleCount = random.nextInt(MAX_TRIPLES)
                 val data = mutableListOf<List<String?>>()
                 for (i in 0 until tripleCount) {
                     val row = mutableListOf<String?>()
@@ -429,15 +429,15 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
             EOperatorID.POPValuesID -> {
                 val variables = mutableListOf<String>()
                 val values = mutableListOf<List<String?>>()
-                val variableCount = random.nextInt( MAX_VARIABLES)
+                val variableCount = random.nextInt(MAX_VARIABLES)
                 for (i in 0 until variableCount)
                     variables.add(nextStringVarName(query, random))
-                val valuesCount = random.nextInt( MAX_TRIPLES)
+                val valuesCount = random.nextInt(MAX_TRIPLES)
                 for (j in 0 until valuesCount) {
                     val map = mutableListOf<String?>()
                     values.add(map)
                     for (i in 0 until variableCount) {
-                        val isNull = DynamicByteArray.intToBool(random.nextInt( 2))
+                        val isNull = DynamicByteArray.intToBool(random.nextInt(2))
                         if (!isNull)
                             map.add(nextStringValue(query, random))
                         else
@@ -454,7 +454,7 @@ suspend fun fromBinaryPOP(query: Query, random:TestRandom): POPBase {
     }
 }
 
-suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
+suspend fun fromBinaryLOP(query: Query, random: TestRandom): LOPBase {
     try {
         var id = random.nextInt()
         if (id < 0)
@@ -489,11 +489,11 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
             }
             EOperatorID.LOPGroupID -> {
                 var bindings: POPBind? = null
-                val byCount = random.nextInt( MAX_VARIABLES)
+                val byCount = random.nextInt(MAX_VARIABLES)
                 val by = fromBinaryListOfVariables(query, random, byCount)
                 val tmpList = mutableListOf<AOPVariable>()
                 tmpList.addAll(by)
-                val bindCount = random.nextInt( MAX_VARIABLES)
+                val bindCount = random.nextInt(MAX_VARIABLES)
                 for (i in 0 until bindCount) {
                     val name = AOPVariable(query, nextStringVarName(query, random, tmpList))
                     tmpList.add(name)
@@ -518,28 +518,28 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
                 val child = fromBinaryPOPLOP(query, random)
                 val insert = mutableListOf<LOPTriple>()
                 val delete = mutableListOf<LOPTriple>()
-                val insertCount = random.nextInt( MAX_TRIPLES)
+                val insertCount = random.nextInt(MAX_TRIPLES)
                 for (i in 0 until insertCount)
                     insert.add(fromBinaryLopTriple(query, random))
-                val deleteCount = random.nextInt( MAX_TRIPLES)
+                val deleteCount = random.nextInt(MAX_TRIPLES)
                 for (i in 0 until deleteCount)
                     delete.add(fromBinaryLopTriple(query, random))
                 throw ExceptionTopLevelOperator(LOPModify(query, insert, delete, child))
             }
             EOperatorID.LOPModifyDataID -> {
-                val type = EModifyType.values()[random.nextInt( EModifyType.values().size)]
+                val type = EModifyType.values()[random.nextInt(EModifyType.values().size)]
                 val data = mutableListOf<LOPTriple>()
-                val count = random.nextInt( MAX_TRIPLES)
+                val count = random.nextInt(MAX_TRIPLES)
                 for (i in 0 until count)
                     data.add(fromBinaryLopTriple(query, random))
                 throw ExceptionTopLevelOperator(LOPModifyData(query, type, data))
             }
             EOperatorID.LOPGraphOperationID -> {
-                val action = EGraphOperationType.values()[random.nextInt( EGraphOperationType.values().size)]
-                val silent = DynamicByteArray.intToBool(random.nextInt( 2))
-                val graph1type = EGraphRefType.values()[random.nextInt( EGraphRefType.values().size)]
+                val action = EGraphOperationType.values()[random.nextInt(EGraphOperationType.values().size)]
+                val silent = DynamicByteArray.intToBool(random.nextInt(2))
+                val graph1type = EGraphRefType.values()[random.nextInt(EGraphRefType.values().size)]
                 val graph1name = nextStringValueTyped(query, random, ValueEnum.ValueIri)
-                val graph2type = EGraphRefType.values()[random.nextInt( EGraphRefType.values().size)]
+                val graph2type = EGraphRefType.values()[random.nextInt(EGraphRefType.values().size)]
                 val graph2name = nextStringValueTyped(query, random, ValueEnum.ValueIri)
                 throw ExceptionTopLevelOperator(LOPGraphOperation(query, action, silent, graph1type, graph1name, graph2type, graph2name))
             }
@@ -555,7 +555,7 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
             EOperatorID.LOPJoinID -> {
                 val childA = fromBinaryPOPLOP(query, random)
                 val childB = fromBinaryPOPLOP(query, random)
-                val optional = DynamicByteArray.intToBool(random.nextInt( 2))
+                val optional = DynamicByteArray.intToBool(random.nextInt(2))
                 return LOPJoin(query, childA, childB, optional)
             }
             EOperatorID.LOPFilterID -> {
@@ -571,7 +571,7 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
             }
             EOperatorID.LOPSortID -> {
                 val sortBy = AOPVariable(query, nextStringVarName(query, random))
-                val sortOrder = DynamicByteArray.intToBool(random.nextInt( 2))
+                val sortOrder = DynamicByteArray.intToBool(random.nextInt(2))
                 val child = fromBinaryPOPLOP(query, random)
                 return LOPSort(query, sortOrder, sortBy, child)
             }
@@ -580,18 +580,18 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
                 return LOPDistinct(query, child)
             }
             EOperatorID.LOPProjectionID -> {
-                val childCount = random.nextInt( MAX_VARIABLES)
+                val childCount = random.nextInt(MAX_VARIABLES)
                 val variables = fromBinaryListOfVariables(query, random, childCount)
                 val child = fromBinaryPOPLOP(query, random)
                 return LOPProjection(query, variables, child)
             }
             EOperatorID.LOPLimitID -> {
-                var value = random.nextInt( MAX_LIMIT)
+                var value = random.nextInt(MAX_LIMIT)
                 val child = fromBinaryPOPLOP(query, random)
                 return LOPLimit(query, value, child)
             }
             EOperatorID.LOPOffsetID -> {
-                var value = random.nextInt( MAX_OFFSET)
+                var value = random.nextInt(MAX_OFFSET)
                 val child = fromBinaryPOPLOP(query, random)
                 return LOPOffset(query, value, child)
             }
@@ -600,13 +600,13 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
             }
             EOperatorID.LOPValuesID -> {
                 val values = mutableListOf<AOPValue>()
-                val variableCount = random.nextInt( MAX_VARIABLES)
+                val variableCount = random.nextInt(MAX_VARIABLES)
                 val variables = fromBinaryListOfVariables(query, random, variableCount)
-                val valuesCount = random.nextInt( MAX_TRIPLES)
+                val valuesCount = random.nextInt(MAX_TRIPLES)
                 for (j in 0 until valuesCount) {
                     val list = mutableListOf<AOPConstant>()
                     for (i in 0 until variableCount) {
-                        val isNull = DynamicByteArray.intToBool(random.nextInt( 2))
+                        val isNull = DynamicByteArray.intToBool(random.nextInt(2))
                         if (!isNull) {
                             val value = nextStringValue(query, random)
                             list.add(AOPConstant(query, ValueDefinition(value)))
@@ -625,15 +625,15 @@ suspend fun fromBinaryLOP(query: Query, random:TestRandom): LOPBase {
     }
 }
 
-suspend fun fromBinaryLopTriple(query: Query, random:TestRandom): LOPTriple {
+suspend fun fromBinaryLopTriple(query: Query, random: TestRandom): LOPTriple {
     val graphNameTmp = (nextStringValueTyped(query, random, ValueEnum.ValueIri))
     val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
     val graph = DistributedTripleStore.getNamedGraph(query, graphName)
     var s = fromBinaryValueIriOrBnodeOrVar(query, random)
     var p = fromBinaryValueIriOrVar(query, random)
     var o = fromBinaryAOPConstOrVar(query, random)
-    val idx = EIndexPattern.values()[random.nextInt( EIndexPattern.values().size)]
-    val tripleCount = random.nextInt( MAX_TRIPLES)
+    val idx = EIndexPattern.values()[random.nextInt(EIndexPattern.values().size)]
+    val tripleCount = random.nextInt(MAX_TRIPLES)
     val data = mutableListOf<List<String?>>()
     for (i in 0 until tripleCount) {
         val row = mutableListOf<String?>()
@@ -648,7 +648,7 @@ suspend fun fromBinaryLopTriple(query: Query, random:TestRandom): LOPTriple {
     return LOPTriple(query, s, p, o, graphName, false)
 }
 
-fun fromBinaryAOP(query: Query, random:TestRandom): AOPBase {
+fun fromBinaryAOP(query: Query, random: TestRandom): AOPBase {
     try {
         var id = random.nextInt()
         if (id < 0)
@@ -683,14 +683,14 @@ fun fromBinaryAOP(query: Query, random:TestRandom): AOPBase {
                 return AOPMultiplication(query, childA, childB)
             }
             EOperatorID.AOPSetID -> {
-                val childCount = random.nextInt( MAX_SET)
+                val childCount = random.nextInt(MAX_SET)
                 val list = mutableListOf<AOPBase>()
                 for (i in 0 until childCount)
                     list.add(fromBinaryAOP(query, random))
                 return AOPSet(query, list)
             }
             EOperatorID.AOPValueID -> {
-                val childCount = random.nextInt( MAX_SET)
+                val childCount = random.nextInt(MAX_SET)
                 val list = mutableListOf<AOPConstant>()
                 for (i in 0 until childCount) {
                     list.add(AOPConstant(query, ValueDefinition(nextStringValue(query, random))))
@@ -917,38 +917,38 @@ fun fromBinaryAOP(query: Query, random:TestRandom): AOPBase {
                 return AOPConstant(query, ValueDefinition(nextStringValue(query, random)))
             }
             EOperatorID.AOPAggregationCOUNTID -> {
-                val distinct = DynamicByteArray.intToBool(random.nextInt( 2))
-                val count = random.nextInt( 2)
+                val distinct = DynamicByteArray.intToBool(random.nextInt(2))
+                val count = random.nextInt(2)
                 val variables = Array(count) { fromBinaryAOP(query, random) }
                 return AOPAggregationCOUNT(query, distinct, variables)
             }
             EOperatorID.AOPAggregationSAMPLEID -> {
-                val distinct = DynamicByteArray.intToBool(random.nextInt( 2))
-                val count = random.nextInt( 2)
+                val distinct = DynamicByteArray.intToBool(random.nextInt(2))
+                val count = random.nextInt(2)
                 val variables = Array(count) { fromBinaryAOP(query, random) }
                 return AOPAggregationSAMPLE(query, distinct, variables)
             }
             EOperatorID.AOPAggregationSUMID -> {
-                val distinct = DynamicByteArray.intToBool(random.nextInt( 2))
-                val count = random.nextInt( 2)
+                val distinct = DynamicByteArray.intToBool(random.nextInt(2))
+                val count = random.nextInt(2)
                 val variables = Array(count) { fromBinaryAOP(query, random) }
                 return AOPAggregationSUM(query, distinct, variables)
             }
             EOperatorID.AOPAggregationAVGID -> {
-                val distinct = DynamicByteArray.intToBool(random.nextInt( 2))
-                val count = random.nextInt( 2)
+                val distinct = DynamicByteArray.intToBool(random.nextInt(2))
+                val count = random.nextInt(2)
                 val variables = Array(count) { fromBinaryAOP(query, random) }
                 return AOPAggregationAVG(query, distinct, variables)
             }
             EOperatorID.AOPAggregationMINID -> {
-                val distinct = DynamicByteArray.intToBool(random.nextInt( 2))
-                val count = random.nextInt( 2)
+                val distinct = DynamicByteArray.intToBool(random.nextInt(2))
+                val count = random.nextInt(2)
                 val variables = Array(count) { fromBinaryAOP(query, random) }
                 return AOPAggregationMIN(query, distinct, variables)
             }
             EOperatorID.AOPAggregationMAXID -> {
-                val distinct = DynamicByteArray.intToBool(random.nextInt( 2))
-                val count = random.nextInt( 2)
+                val distinct = DynamicByteArray.intToBool(random.nextInt(2))
+                val count = random.nextInt(2)
                 val variables = Array(count) { fromBinaryAOP(query, random) }
                 return AOPAggregationMAX(query, distinct, variables)
             }
@@ -991,7 +991,7 @@ suspend fun executeBinaryTest(filename: String, detailedLog: Boolean) {
     executeBinaryTest(TestRandom(buffer))
 }
 
-suspend fun executeBinaryTest(random:TestRandom) {
+suspend fun executeBinaryTest(random: TestRandom) {
     val query = Query()
     var node1: OPBase = OPNothing(query)
     var node2: OPBase = OPNothing(query)
@@ -1002,10 +1002,10 @@ suspend fun executeBinaryTest(random:TestRandom) {
     val pOptimizer = PhysicalOptimizer(query)
     val dOptimizer = KeyDistributionOptimizer(query)
     try {
-        val optimizerEnabledCount = random.nextInt( EOptimizerID.values().size)
+        val optimizerEnabledCount = random.nextInt(EOptimizerID.values().size)
         ExecuteOptimizer.enabledOptimizers.clear()
         for (o in 0 until optimizerEnabledCount) {
-            val optimizer = EOptimizerID.values()[random.nextInt( EOptimizerID.values().size)]
+            val optimizer = EOptimizerID.values()[random.nextInt(EOptimizerID.values().size)]
             ExecuteOptimizer.enabledOptimizers[optimizer] = true
         }
     } catch (e: Throwable) {
@@ -1014,12 +1014,12 @@ suspend fun executeBinaryTest(random:TestRandom) {
     ExecuteOptimizer.enabledOptimizers.clear()
     var globalSparql = mutableListOf<String>()
     hadArrayIndexOutOfBoundsException = false
-val totalRandomAvailable=random.randomAvailable()
+    val totalRandomAvailable = random.randomAvailable()
     while (!hadArrayIndexOutOfBoundsException) {
         try {
             var node1: OPBase
             try {
-                if (random.randomAvailable()<totalRandomAvailable/2){
+                if (random.randomAvailable() < totalRandomAvailable / 2) {
                     try {
                         val graphNameTmp = (nextStringValueTyped(query, random, ValueEnum.ValueIri))
                         val graphName = graphNameTmp.substring(1, graphNameTmp.length - 1)
@@ -1027,8 +1027,8 @@ val totalRandomAvailable=random.randomAvailable()
                         val s = fromBinaryValueIriOrBnodeOrVar(query, random)
                         val p = fromBinaryValueIriOrVar(query, random)
                         val o = fromBinaryAOPConstOrVar(query, random)
-                        val idx = EIndexPattern.values()[random.nextInt( EIndexPattern.values().size)]
-                        val tripleCount = random.nextInt( MAX_TRIPLES)
+                        val idx = EIndexPattern.values()[random.nextInt(EIndexPattern.values().size)]
+                        val tripleCount = random.nextInt(MAX_TRIPLES)
                         val data = mutableListOf<List<String?>>()
                         for (i in 0 until tripleCount) {
                             val row = mutableListOf<String?>()
