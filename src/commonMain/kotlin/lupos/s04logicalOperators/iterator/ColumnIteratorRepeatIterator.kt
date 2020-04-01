@@ -15,25 +15,28 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
             var res: Value?
             val tmp = child.next()
             if (tmp == null) {
-                if (data.size == 0) {
+                if (data.size == 0 || count == 1) {
+                    println("empty")
                     next = {
+                        println("c $index2 of ${data.size}, ${index} of $count")
                         /*return*/null
                     }
                 } else {
-                    index = 1
+                    index = 2
                     next = {
                         var res: Value?
                         if (index2 < data.size) {
-                            res = data[index2]
+                            res = data[index2++]
                         } else {
                             if (index < count) {
                                 index++
                                 index2 = 0
-                                res = data[index2]
+                                res = data[index2++]
                             } else {
                                 res = null
                             }
                         }
+                        println("a $index2 of ${data.size}, ${index} of $count")
                         /*return*/res
                     }
                 }
@@ -42,6 +45,7 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
                 data.add(tmp)
                 res = tmp
             }
+            println("b ${data.size} of ${data.size}, ${index} of $count")
 /*return*/res
         }
         close = {

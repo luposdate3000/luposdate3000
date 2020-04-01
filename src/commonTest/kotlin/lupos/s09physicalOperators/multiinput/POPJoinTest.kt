@@ -96,6 +96,9 @@ test does not include
                         }
                     }
                 }
+                if (variablesA.size == 0 || variablesB.size == 0) {
+                    continue
+                }
 //---reverse calculate the data for_ the colunmns
                 for (i in 0 until count) {
                     for (variable in variablesJ) {
