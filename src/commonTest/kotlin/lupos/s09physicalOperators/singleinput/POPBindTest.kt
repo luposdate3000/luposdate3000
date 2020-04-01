@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -14,8 +15,9 @@ object POPBindTest {
     val MAX_VALUE = 10
     val verbose = false
     fun log(value: Any?) {
-        if (verbose)
+        if (verbose) {
             println(value)
+        }
     }
 
     suspend fun invoke(random: TestRandom) {

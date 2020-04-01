@@ -26,6 +26,16 @@ object Coverage {
         }
     }
 
+    init {
+        println("init addShutdownHook")
+        Runtime.getRuntime().addShutdownHook(object : Thread() {
+            override fun run() {
+                println("exec addShutdownHook")
+                printToFile()
+            }
+        })
+    }
+
     val counters = Array(CoverageMapGenerated.keys.size) { 0L }
     fun funStart(counter: Int) {
         counters[counter]++
@@ -110,13 +120,5 @@ object Coverage {
         File("mnt/coverage${h}.cov").printWriter { out ->
             out.println(s)
         }
-    }
-
-    init {
-        Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() = runBlocking {
-                printToFile()
-            }
-        })
     }
 }

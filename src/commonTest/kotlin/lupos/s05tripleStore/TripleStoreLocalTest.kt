@@ -25,8 +25,9 @@ object TripleStoreLocalTest {
     val MAX_COUNT = 10
     val verbose = false
     fun log(value: Any?) {
-        if (verbose)
+        if (verbose) {
             println(value)
+        }
     }
 
     class MapKey(@JvmField val data: Array<ValueDefinition>) {
@@ -183,10 +184,11 @@ object TripleStoreLocalTest {
                                 require(counter == 1)
                             }
                         }
-                        if (key.data[2] == ValueInteger(valueInt))
+                        if (key.data[2] == ValueInteger(valueInt)) {
                             require(counter == 1)
-                        else
+                        } else {
                             require(counter == 0)
+                        }
                     }
                     require(dataRetrieved.size == 0)
                 }
@@ -216,10 +218,11 @@ object TripleStoreLocalTest {
                                 require(counter == 1)
                             }
                         }
-                        if (key.data[1] == ValueInteger(valueInt))
+                        if (key.data[1] == ValueInteger(valueInt)) {
                             require(counter == 1)
-                        else
+                        } else {
                             require(counter == 0)
+                        }
                     }
                     require(dataRetrieved.size == 0, { "$dataRetrieved ${dataCommited[EIndexPattern.P.ordinal]}" })
                 }
@@ -250,10 +253,11 @@ object TripleStoreLocalTest {
                                 require(counter == 1)
                             }
                         }
-                        if (key.data[0] == ValueInteger(valueInt))
+                        if (key.data[0] == ValueInteger(valueInt)) {
                             require(counter == 1)
-                        else
+                        } else {
                             require(counter == 0)
+                        }
                     }
                     require(dataRetrieved.size == 0)
                 }
@@ -281,10 +285,11 @@ object TripleStoreLocalTest {
                                     require(counter == 1)
                                 }
                             }
-                            if (key.data[1] == ValueInteger(valueInt) && key.data[2] == ValueInteger(valueInt2))
+                            if (key.data[1] == ValueInteger(valueInt) && key.data[2] == ValueInteger(valueInt2)) {
                                 require(counter == 1)
-                            else
+                            } else {
                                 require(counter == 0)
+                            }
                         }
                         require(dataRetrieved.size == 0)
                     }
@@ -313,10 +318,11 @@ object TripleStoreLocalTest {
                                     require(counter == 1)
                                 }
                             }
-                            if (key.data[0] == ValueInteger(valueInt) && key.data[2] == ValueInteger(valueInt2))
+                            if (key.data[0] == ValueInteger(valueInt) && key.data[2] == ValueInteger(valueInt2)) {
                                 require(counter == 1)
-                            else
+                            } else {
                                 require(counter == 0)
+                            }
                         }
                         require(dataRetrieved.size == 0)
                     }
@@ -345,10 +351,11 @@ object TripleStoreLocalTest {
                                     require(counter == 1)
                                 }
                             }
-                            if (key.data[0] == ValueInteger(valueInt) && key.data[1] == ValueInteger(valueInt2))
+                            if (key.data[0] == ValueInteger(valueInt) && key.data[1] == ValueInteger(valueInt2)) {
                                 require(counter == 1)
-                            else
+                            } else {
                                 require(counter == 0)
+                            }
                         }
                         require(dataRetrieved.size == 0)
                     }

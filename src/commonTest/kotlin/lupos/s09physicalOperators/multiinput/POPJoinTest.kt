@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.multiinput
 
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -14,8 +15,9 @@ object POPJoinTest {
     val MAX_VALUE = 10
     val verbose = false
     fun log(value: Any?) {
-        if (verbose)
+        if (verbose) {
             println(value)
+        }
     }
 
     fun removeDuplicates(variables: List<String>, data: MutableMap<String, MutableList<Value>>, count_: Int) {
@@ -94,7 +96,7 @@ test does not include
                         }
                     }
                 }
-//---reverse calculate the data for the colunmns
+//---reverse calculate the data for_ the colunmns
                 for (i in 0 until count) {
                     for (variable in variablesJ) {
                         dataA[variable]!!.add(data[variable]!![i])

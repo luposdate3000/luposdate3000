@@ -16,9 +16,9 @@ import lupos.s14endpoint.*
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)
-    mapOf(
-            testDictionaryVarName to "DictionaryVarName.txt",
-            testDictionaryValue to "DictionaryValue.txt"
+    mapOf(/*return*/
+/*return*/            testDictionaryVarName to "DictionaryVarName.txt",
+            /*return*/  testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
         java.io.File("resources/$v").forEachLine {
             k.add(it)

@@ -22,9 +22,9 @@ import lupos.s14endpoint.*
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)
-    mapOf(
-            testDictionaryVarName to "DictionaryVarName.txt",
-            testDictionaryValue to "DictionaryValue.txt"
+    mapOf(/*return*/
+/*return*/                    testDictionaryVarName to "DictionaryVarName.txt",
+            /*return*/             testDictionaryValue to "DictionaryValue.txt"
     ).forEach { (k, v) ->
         File("resources/$v").forEachLine {
             k.add(it)
@@ -84,32 +84,25 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         val data = bytebuffer.array()
         val input = DynamicByteArray(data, currentSize)
         try {
-            while (true) {
-                try {
-                    for (testcase in TestCase.values()) {
+            for (testcase in TestCase.values()) {
+                runBlocking {
+                    withTimeout(1000, {
                         testcase.action(TestRandom(input!!))
-                    }
-                    val timepointNext2 = Instant.now()
-                    val elapsed2 = Duration.between(timepoint, timepointNext2)
-                    timepoint = timepointNext2
-                    if (testnumber % 1000 == 0) {
-                        println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
-                    }
-                    break
-                } catch (e: ConnectException) {
-                    e.printStackTrace()
+                    })
                 }
             }
+            val timepointNext2 = Instant.now()
+            val elapsed2 = Duration.between(timepoint, timepointNext2)
+            timepoint = timepointNext2
+            if (testnumber % 1000 == 0) {
+                println("test ${JenaRequest.db} ${currentSize} $testnumber ${elapsed2.toMillis()} milliseconds")
+            }
+            break
+        } catch (e: ConnectException) {
+            e.printStackTrace()
         } catch (e: Throwable) {
             e.printStackTrace()
-            lupos.s00misc.File("mnt/crash-${data.hashCode()}-x").write(input)
-            input.pos = currentSize
             lupos.s00misc.File("mnt/crash-${data.hashCode()}").write(input)
-            if (errors++ > 1000) {
-                runBlocking {
-                    delay(Long.MAX_VALUE)
-                }
-            }
         }
     }
 }

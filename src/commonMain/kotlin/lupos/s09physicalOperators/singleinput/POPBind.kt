@@ -78,7 +78,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                             }
 //point each iterator to the current value
                             columnsOut[variableIndex2].tmp = value
-			columnsOut[variableIndex2].queue.add(value)
+                            columnsOut[variableIndex2].queue.add(value)
                         }
                     }
                     if (!done) {

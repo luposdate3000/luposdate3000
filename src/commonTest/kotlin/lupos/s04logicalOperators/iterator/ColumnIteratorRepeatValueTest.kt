@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
 object ColumnIteratorRepeatValueTest {
@@ -8,8 +9,9 @@ object ColumnIteratorRepeatValueTest {
     val MAX_COUNT = 10
     val verbose = false
     fun log(value: Any?) {
-        if (verbose)
+        if (verbose) {
             println(value)
+        }
     }
 
     suspend fun createIterator(random: TestRandom): Pair<ColumnIterator, List<Value>> {

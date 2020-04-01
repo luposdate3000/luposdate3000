@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.noinput
 
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
@@ -11,8 +12,9 @@ object POPValuesTest {
     val MAX_VALUE = 10
     val verbose = false
     fun log(value: Any?) {
-        if (verbose)
+        if (verbose) {
             println(value)
+        }
     }
 
     suspend fun invoke(random: TestRandom) {
