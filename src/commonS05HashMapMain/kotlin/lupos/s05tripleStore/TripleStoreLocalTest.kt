@@ -23,6 +23,11 @@ import lupos.s04logicalOperators.Query
 object TripleStoreLocalTest {
     val MAX_VALUE = 10
     val MAX_COUNT = 10
+    val verbose = false
+    fun log(value: Any?) {
+        if (verbose)
+            println(value)
+    }
 
     class MapKey(@JvmField val data: Array<ValueDefinition>) {
         override fun hashCode(): Int {
@@ -65,7 +70,7 @@ object TripleStoreLocalTest {
                 val func = random.nextInt(4, true, true)
                 when (func) {
                     0 -> {/*clear*/
-                        println("clear")
+                        log("clear")
                         queriesToCommit.clear()
                         for (d in dataCommited) {
                             d.clear()
@@ -73,7 +78,7 @@ object TripleStoreLocalTest {
                         store.clear()
                     }
                     1 -> {/*insert*/
-                        println("insert $idx")
+                        log("insert $idx")
                         val entry = Entry()
                         val localData = Array(3) { mutableListOf<Value>() }
                         val count = random.nextInt(MAX_COUNT, true, true)
@@ -84,7 +89,7 @@ object TripleStoreLocalTest {
                                 localData[j].add(entry.query.dictionary.createValue(value))
                                 key.data[j] = value
                             }
-                            println("insert $idx data: $key")
+                            log("insert $idx data: $key")
                             entry.dataInsert[idx.ordinal].add(key)
                         }
                         val localDataIterator = Array<ColumnIterator>(3) { ColumnIteratorMultiValue(localData[it]) }
@@ -92,7 +97,7 @@ object TripleStoreLocalTest {
                         queriesToCommit.add(entry)
                     }
                     2 -> {/*delete*/
-                        println("delete $idx")
+                        log("delete $idx")
                         val entry = Entry()
                         val localData = Array(3) { mutableListOf<Value>() }
                         val count = random.nextInt(MAX_COUNT, true, true)
@@ -104,19 +109,19 @@ object TripleStoreLocalTest {
                                 key.data[j] = value
                             }
                             entry.dataDelete[idx.ordinal].add(key)
-                            println("delete $idx data: $key")
+                            log("delete $idx data: $key")
                         }
                         val localDataIterator = Array<ColumnIterator>(3) { ColumnIteratorMultiValue(localData[it]) }
                         store.modify(entry.query, localDataIterator, idx, EModifyType.DELETE)
                         queriesToCommit.add(entry)
                     }
                     3 -> {/*commit*/
-                        println("commit")
+                        log("commit")
                         for (entry in queriesToCommit) {
                             store.commit(entry.query)
                             for (idx2 in EIndexPattern.values()) {
-                                println("commit $idx2 add ${entry.dataInsert[idx2.ordinal]}")
-                                println("commit $idx2 remove ${entry.dataDelete[idx2.ordinal]}")
+                                log("commit $idx2 add ${entry.dataInsert[idx2.ordinal]}")
+                                log("commit $idx2 remove ${entry.dataDelete[idx2.ordinal]}")
                                 dataCommited[idx2.ordinal].addAll(entry.dataInsert[idx2.ordinal])
                                 dataCommited[idx2.ordinal].removeAll(entry.dataDelete[idx2.ordinal])
                             }

@@ -49,6 +49,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.*
@@ -87,8 +88,9 @@ import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
     TripleStore(TripleStoreLocalTest::invoke),
-    TripleStore1(TripleStoreLocalTest::invoke),
-    TripleStore2(TripleStoreLocalTest::invoke)
+ColumnIteratorRepeatValue(ColumnIteratorRepeatValueTest::invoke),
+ColumnIteratorMultiValue(ColumnIteratorMultiValueTest::invoke),
+ColumnIteratorRepeatIterator(ColumnIteratorRepeatIteratorTest::invoke)
 //    Sparql(::executeBinaryTest),
 //    ResultVektor(ResultVektorTest::invoke),
 //    ResultChunkBase(ResultChunkBaseTest::invoke),
