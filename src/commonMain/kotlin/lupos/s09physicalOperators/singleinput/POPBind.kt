@@ -45,30 +45,40 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
+        var boundIndex = -1
         for (variableIndex in 0 until variables.size) {
             outMap[variables[variableIndex]] = columnsOut[variableIndex]
+            if (variables[variableIndex] == name.name) {
+                boundIndex = variableIndex
+            }
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(res)
         if (variables.size == 0) {
+            require(boundIndex == -1)
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
             outMap[name.name] = columnBound
         } else {
+            require(boundIndex != -1)
             val columnBound = ColumnIteratorQueue()
             outMap[name.name] = columnBound
             for (variableIndex in 0 until variables.size) {
                 columnsOut[variableIndex].onEmptyQueue = {
                     var done = false
                     for (variableIndex2 in 0 until variables.size) {
-                        columnsOut[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-//point each iterator to the current value
-                        if (columnsOut[variableIndex2].tmp == null) {
-                            require(variableIndex2 == 0)
-                            for (variableIndex3 in 0 until variables.size) {
-                                columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]::_onEmptyQueue
+                        if (boundIndex != variableIndex2) {
+                            val value = columnsIn[variableIndex2]!!.next()
+                            if (value == null) {
+                                require(variableIndex2 == 0)
+                                for (variableIndex3 in 0 until variables.size) {
+                                    columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]::_onEmptyQueue
+                                }
+                                done = true
+                                break
                             }
-                            done = true
-                            break
+//point each iterator to the current value
+                            columnsOut[variableIndex2].tmp = value
+			columnsOut[variableIndex2].queue.add(value)
                         }
                     }
                     if (!done) {
