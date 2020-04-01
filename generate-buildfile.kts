@@ -67,9 +67,9 @@ val platformPrefix = mapOf(
         "mingw64" to listOf("common")
 )
 val additionalSources = mapOf(
-"commonS00ResultFlowExecuteTestsMain" to listOf(
-"commonTest"
-),
+        "commonS00ResultFlowExecuteTestsMain" to listOf(
+                "commonTest"
+        ),
         "commonS01HeapMain" to listOf(
                 "commonS01BufferMainmemoryMain"
         ),

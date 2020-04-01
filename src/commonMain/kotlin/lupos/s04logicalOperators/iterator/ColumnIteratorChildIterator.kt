@@ -3,7 +3,6 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
-
 class ColumnIteratorChildIterator() : ColumnIterator() {
     val childs = mutableListOf(ColumnIterator())
 
@@ -31,4 +30,3 @@ class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 }
-

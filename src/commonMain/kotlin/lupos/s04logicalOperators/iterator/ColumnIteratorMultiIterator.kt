@@ -22,4 +22,3 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
         }
     }
 }
-

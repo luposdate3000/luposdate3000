@@ -10,4 +10,3 @@ class ColumnIteratorAggregate() : ColumnIterator() {
     suspend fun _evaluate() {
     }
 }
-

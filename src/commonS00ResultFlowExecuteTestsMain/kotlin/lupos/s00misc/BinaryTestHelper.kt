@@ -48,8 +48,8 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.iterator.*
+import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.*
@@ -88,12 +88,14 @@ import lupos.s15tripleStoreDistributed.*
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
     ETripleStore(TripleStoreLocalTest::invoke),
-EColumnIteratorRepeatValue(ColumnIteratorRepeatValueTest::invoke),
-EColumnIteratorMultiValue(ColumnIteratorMultiValueTest::invoke),
-EColumnIteratorRepeatIterator(ColumnIteratorRepeatIteratorTest::invoke),
-EColumnIteratorMultiIterator(ColumnIteratorMultiIteratorTest::invoke),
-EColumnIteratorChildIterator(ColumnIteratorChildIteratorTest::invoke),
-EColumnIteratorQueue(ColumnIteratorQueueTest::invoke)
+    EColumnIteratorRepeatValue(ColumnIteratorRepeatValueTest::invoke),
+    EColumnIteratorMultiValue(ColumnIteratorMultiValueTest::invoke),
+    EColumnIteratorRepeatIterator(ColumnIteratorRepeatIteratorTest::invoke),
+    EColumnIteratorMultiIterator(ColumnIteratorMultiIteratorTest::invoke),
+    EColumnIteratorChildIterator(ColumnIteratorChildIteratorTest::invoke),
+    EColumnIteratorQueue(ColumnIteratorQueueTest::invoke),
+    EPOPValues(POPValuesTest::invoke),
+    EPOPBind(POPBindTest::invoke)
 //    Sparql(::executeBinaryTest),
 }
 
