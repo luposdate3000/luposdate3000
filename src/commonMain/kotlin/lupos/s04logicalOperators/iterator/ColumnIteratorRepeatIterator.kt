@@ -16,9 +16,7 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
             val tmp = child.next()
             if (tmp == null) {
                 if (data.size == 0 || count == 1) {
-                    println("empty")
                     next = {
-                        println("c $index2 of ${data.size}, ${index} of $count")
                         /*return*/null
                     }
                 } else {
@@ -36,7 +34,6 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
                                 res = null
                             }
                         }
-                        println("a $index2 of ${data.size}, ${index} of $count")
                         /*return*/res
                     }
                 }
@@ -45,7 +42,6 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
                 data.add(tmp)
                 res = tmp
             }
-            println("b ${data.size} of ${data.size}, ${index} of $count")
 /*return*/res
         }
         close = {

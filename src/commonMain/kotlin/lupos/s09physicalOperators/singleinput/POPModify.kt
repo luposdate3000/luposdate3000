@@ -89,8 +89,6 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
                                 continue@loop2
                             }
                         }
-                        println(variables)
-                        println((tmp as AOPVariable).name)
                         require(false)
                     }
                 }

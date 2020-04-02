@@ -9,8 +9,8 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterDownID) {
@@ -23,7 +23,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                 val c = node.children[0]
                 if (c.children.size == 1) {
                     val cc = c.children[0]
-                    if (cc.getProvidedVariableNames().containsAll(node.getRequiredVariableNames())) {
+                    if (c !is LOPProjection && cc.getProvidedVariableNames().containsAll(node.getRequiredVariableNames())) {
                         c.children[0] = node
                         node.children[0] = cc
                         onChange()

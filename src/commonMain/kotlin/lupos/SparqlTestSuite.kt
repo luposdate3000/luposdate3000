@@ -518,11 +518,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     try {
                         val jenaResult = jena.requestQuery(toParse)
-                        println("check jena")
                         if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first())) {
-                            println(jenaResult.myEqualsUnclean(xmlQueryResult))
-                            println(jenaResult.myEqualsUnclean(xmlQueryTarget.first()))
-                            println(xmlQueryTarget.first().myEqualsUnclean(xmlQueryResult))
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
@@ -598,6 +594,7 @@ class SparqlTestSuite() {
                 }
                 return false
             } catch (e: Throwable) {
+                println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
                 if (expectedResult) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })
                     GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)

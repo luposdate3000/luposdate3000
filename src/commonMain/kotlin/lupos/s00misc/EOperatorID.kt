@@ -119,9 +119,7 @@ enum class EOperatorID {
     POPTripleStoreIteratorBaseID,
     POPUnionID,
     POPValuesID,
-    TripleStoreIteratorGlobalID,
-    TripleStoreIteratorLocalFilterID,
-    TripleStoreIteratorLocalID
+    TripleStoreIteratorGlobalID
 }
 
 val EOperatorIDLOP = arrayOf(
@@ -171,9 +169,8 @@ val EOperatorIDPOP = arrayOf(
         EOperatorID.POPSortID,
         EOperatorID.POPUnionID,
         EOperatorID.POPValuesID,
-        EOperatorID.TripleStoreIteratorGlobalID,
-        EOperatorID.TripleStoreIteratorLocalFilterID,
-        EOperatorID.TripleStoreIteratorLocalID)
+        EOperatorID.TripleStoreIteratorGlobalID
+)
 val EOperatorIDAOP = arrayOf(EOperatorID.AOPAdditionID,
         EOperatorID.AOPAggregationMINID,
         EOperatorID.AOPAggregationMAXID,
@@ -236,4 +233,5 @@ val EOperatorIDAOP = arrayOf(EOperatorID.AOPAdditionID,
         EOperatorID.AOPSetID,
         EOperatorID.AOPSubtractionID,
         EOperatorID.AOPValueID,
-        EOperatorID.AOPVariableID)
+        EOperatorID.AOPVariableID
+)

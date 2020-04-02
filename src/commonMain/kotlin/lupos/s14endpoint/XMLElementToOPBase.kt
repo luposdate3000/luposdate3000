@@ -384,33 +384,12 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPJoinHashMap" -> {
             return POPJoinHashMap(query, convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
-        "TripleStoreIteratorLocal" -> {
-            val res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(EIndexPattern.SPO)
-            val olduuid = node.attributes["uuid"]
-            mapping["#s" + olduuid] = "#s${res.uuid}"
-            mapping["#p" + olduuid] = "#p${res.uuid}"
-            mapping["#o" + olduuid] = "#o${res.uuid}"
-            return res
-        }
-        "TripleStoreIteratorLocalFilter" -> {
-            val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
-            val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
-            val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
-            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), EIndexPattern.SPO)
-        }
-        "TripleStoreIteratorGlobalFilter" -> {
-            val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
-            val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
-            val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
-            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), EIndexPattern.SPO)
-        }
         "TripleStoreIteratorGlobal" -> {
-            val res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(EIndexPattern.SPO)
-            val olduuid = node.attributes["uuid"]
-            mapping["#s" + olduuid] = "#s${res.uuid}"
-            mapping["#p" + olduuid] = "#p${res.uuid}"
-            mapping["#o" + olduuid] = "#o${res.uuid}"
-            return res
+            val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
+            val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
+            val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
+            val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
+            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx)
         }
         "POPServiceIRI" -> {
             return POPServiceIRI(query, node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))

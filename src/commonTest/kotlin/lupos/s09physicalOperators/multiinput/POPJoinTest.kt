@@ -20,7 +20,7 @@ object POPJoinTest {
         }
     }
 
-    fun removeDuplicates(variables: List<String>, data: MutableMap<String, MutableList<Value>>) {
+    fun removeDuplicates(variables: List<String>, data: MutableMap<String, MutableList<Value>>, keys: List<String>) {
         println("withduplicates = $data")
         var count = 0
         if (variables.size > 0) {
@@ -28,7 +28,7 @@ object POPJoinTest {
         }
         for (i in count - 1 downTo 0) {
             duplicates@ for (j in count - 1 downTo i + 1) {
-                for (variable in variables) {
+                for (variable in keys) {
                     if (data[variable]!![i] != data[variable]!![j]) {
                         continue@duplicates
                     }
@@ -48,6 +48,7 @@ test does not include
  - Undefined values
  - optional
  - rows without join partner
+ - rows with multiple join partners
 */
         try {
             while (true) {
@@ -65,9 +66,6 @@ test does not include
                         data[variable]!!.add(query.dictionary.createValue(ValueInteger(random.nextInt(MAX_VALUE))))
                     }
                 }
-//---eliminate duplicate results to simplify testing
-                removeDuplicates(variables, data)
-                count = data[variables[0]]!!.size
 //---calculate which columns should be joines
                 val variablesJ = mutableListOf<String>()
                 val variablesAO = mutableListOf<String>()
@@ -100,6 +98,9 @@ test does not include
                 if (variablesA.size == 0 || variablesB.size == 0) {
                     continue
                 }
+//---eliminate duplicate results to simplify testing
+                removeDuplicates(variables, data, variablesJ)
+                count = data[variables[0]]!!.size
 //---reverse calculate the data for_ the colunmns
                 for (i in 0 until count) {
                     for (variable in variablesJ) {
@@ -114,8 +115,8 @@ test does not include
                     }
                 }
 //---eliminate duplicates in the source data
-                removeDuplicates(variablesA, dataA)
-                removeDuplicates(variablesB, dataB)
+                removeDuplicates(variablesA, dataA, variablesA)
+                removeDuplicates(variablesB, dataB, variablesB)
                 if (variablesJ.size == 0) {
 //---cartesian product
                     data.clear()

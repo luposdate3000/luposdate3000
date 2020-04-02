@@ -8,6 +8,7 @@ object Coverage {
     var veryverbose = true
     val CoverageMapGenerated = mutableMapOf<Int, String>()
     val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
+    var lastcounter = 0
 
     init {
         var s = File("resources/CoverageMapGenerated.txt").readAsString()
@@ -38,6 +39,7 @@ object Coverage {
 
     val counters = Array(CoverageMapGenerated.keys.size) { 0L }
     fun funStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         if (verbose) {
             if (veryverbose)
@@ -48,6 +50,7 @@ object Coverage {
     }
 
     fun forLoopStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         if (verbose) {
             if (veryverbose)
@@ -58,6 +61,7 @@ object Coverage {
     }
 
     fun forEachLoopStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         if (verbose) {
             if (veryverbose)
@@ -68,6 +72,7 @@ object Coverage {
     }
 
     fun whileLoopStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         if (verbose) {
             if (veryverbose)
@@ -78,6 +83,7 @@ object Coverage {
     }
 
     fun whenCaseStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         counters[CoverageMapWhenCaseGenerated[counter]!!]++
         if (verbose) {
@@ -89,6 +95,7 @@ object Coverage {
     }
 
     fun ifStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         if (verbose) {
             if (veryverbose)
@@ -99,6 +106,7 @@ object Coverage {
     }
 
     fun statementStart(counter: Int) {
+        lastcounter = counter
         counters[counter]++
         if (verbose) {
             if (veryverbose)

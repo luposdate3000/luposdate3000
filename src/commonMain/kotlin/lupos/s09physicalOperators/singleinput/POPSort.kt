@@ -22,6 +22,7 @@ import lupos.s09physicalOperators.POPBase
 class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, EOperatorID.POPSortID, "POPSort", arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP() = POPSort(query, sortBy, sortOrder, children[0].cloneOP())
+    override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {
         val variables = Array(sortBy.size) { sortBy[it].name }
         var child: OPBase = this
@@ -110,7 +111,6 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
 //the list index sqared is the depth of the merge sort. That means the index squared is the number of "leaves" in the mergesort-tree.
 //the intention is to have a balanced merge-sort tree
             collectData@ while (true) {
-                println("collect ${variables.size}")
                 var processDone = false
                 for (variableIndex in 0 until variables.size) {
 //insert new single page
@@ -119,27 +119,21 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
                         require(variableIndex == 0)
                         break@collectData
                     }
-                    println("value:: $next")
                     val iter = ColumnIteratorRepeatValue(1, next)
                     if (targetIterators[variableIndex].size == 0) {
 //previously there was no node with this amount of leaves
-                        println("add a")
                         targetIterators[variableIndex].add(iter)
                         processDone = true
                     } else if (targetIterators[variableIndex][0] == null) {
 //there was a node with this amount of leaves, but it already is included in a larger tree
-                        println("add b")
                         targetIterators[variableIndex][0] = iter
                         processDone = true
                     } else {
 //merge with another node with the same amount of leaves
-                        println("add c")
                         if (variableIndex > 0) {
-                            println("add d")
                             targetIterators[variableIndex][0] = ColumnIteratorMergeSort(targetIterators[variableIndex][0]!!, iter, comparators[variableIndex], targetIterators[variableIndex - 1][0]!! as ColumnIteratorMergeSort, null)
                             (targetIterators[variableIndex - 1][0]!! as ColumnIteratorMergeSort).lowerPriority = targetIterators[variableIndex][0]!! as ColumnIteratorMergeSort
                         } else {
-                            println("add e")
                             targetIterators[variableIndex][0] = ColumnIteratorMergeSort(targetIterators[variableIndex][0]!!, iter, comparators[variableIndex], null, null)
                         }
                     }
@@ -173,7 +167,6 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
                 }
             } else {
                 for (variableIndex in 0 until variables.size) {
-                    println("xxxsort ${targetIterators[variableIndex].size} $limit")
                     outMap[variables[variableIndex]] = targetIterators[variableIndex][limit - 1]!!
                 }
             }
@@ -182,7 +175,6 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
     }
 
     fun processMergeTree(variablesSize: Int, targetIterators: Array<MutableList<ColumnIterator?>>, index: Int, comparators: Array<Comparator<Value>>) {
-        println("merge")
         var targetIndex = index
         require(targetIndex > 0)
         var processDone = false

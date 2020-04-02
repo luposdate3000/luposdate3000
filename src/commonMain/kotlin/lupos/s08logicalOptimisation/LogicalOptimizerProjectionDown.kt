@@ -1,0 +1,80 @@
+package lupos.s08logicalOptimisation
+
+import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
+import lupos.s00misc.EOptimizerID
+import lupos.s00misc.ExecuteOptimizer
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.multiinput.*
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.*
+import lupos.s08logicalOptimisation.OptimizerBase
+
+class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
+    override val classname = "LogicalOptimizerProjectionDown"
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+        var res: OPBase = node
+        if (node is LOPProjection) {
+            val child = node.children[0]
+            when (child) {
+                is LOPUnion -> {
+                    child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                    child.children[1] = LOPProjection(query, node.variables, child.children[1])
+                    res = child
+                    onChange()
+                }
+                is LOPProjection -> {
+                    val variables = mutableListOf<String>()
+                    for (variable in node.variables.map { it.name }) {
+                        if (child.variables.map { it.name }.contains(variable)) {
+                            variables.add(variable)
+                        }
+                    }
+                    res = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                    onChange()
+                }
+                is LOPLimit, is LOPOffset, is LOPSubGroup -> {
+                    child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                    res = child
+                    onChange()
+                }
+                is LOPBind, is LOPFilter, is LOPSort -> {
+                    if (node.variables.map { it.name }.containsAll(child.getRequiredVariableNames())) {
+                        child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                        res = child
+                        onChange()
+                    }
+                }
+                is LOPJoin -> {
+                    val childA = child.children[0]
+                    val childB = child.children[1]
+                    val variablesA = childA.getProvidedVariableNames()
+                    val variablesB = childB.getProvidedVariableNames()
+                    val variablesJ = mutableListOf<String>()
+                    for (variable in variablesA) {
+                        if (variablesB.contains(variable)) {
+                            variablesJ.add(variable)
+                        }
+                    }
+                    if (node.variables.map { it.name }.containsAll(variablesJ)) {
+                        child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                        child.children[1] = LOPProjection(query, node.variables, child.children[1])
+                        res = child
+                        onChange()
+                    }
+                }
+                else -> {
+                }
+            }
+        }
+        if (res != node) {
+            println("LogicalOptimizerProjectionDown ${res.classname}")
+        }
+/*return*/res
+    })
+}

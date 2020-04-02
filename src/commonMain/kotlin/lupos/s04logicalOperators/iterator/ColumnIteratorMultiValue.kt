@@ -9,7 +9,6 @@ class ColumnIteratorMultiValue(val values: List<Value>) : ColumnIterator() {
     init {
         next = {
             var res: Value?
-            println("$index ${values.size}")
             if (index == values.size) {
                 res = null
             } else {

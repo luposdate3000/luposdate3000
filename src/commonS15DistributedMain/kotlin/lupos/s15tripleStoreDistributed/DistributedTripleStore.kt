@@ -24,9 +24,10 @@ import lupos.s12p2p.P2P
 
 class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern, val nodeNames: List<String>) : POPBase(query, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, graphName, params, idx, nodeNames)
-    override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobalFilter").//
+    override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
             addAttribute("uuid", "" + uuid).//
             addAttribute("name", graphName).//
+            addAttribute("idx", "" + idx).//
             addContent(XMLElement("sparam").addContent(params[0].toXMLElement())).//
             addContent(XMLElement("pparam").addContent(params[1].toXMLElement())).//
             addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
@@ -46,11 +47,20 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
         return tmp.distinct()
     }
 
+    init {
+        if (idx == EIndexPattern.SPO) {
+            idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+        } else {
+            idx.keyIndices.map { require(params[it] is AOPConstant) }
+            idx.valueIndices.map { require(params[it] is AOPVariable) }
+        }
+    }
+
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIteratorChildIterator>()
         val variables: List<String>
         if (idx == EIndexPattern.SPO) {
-            idx.keyIndices.map { require(params[it] is AOPVariable) }
+            idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
             variables = idx.keyIndices.map { (params[it] as AOPVariable).name }
         } else {
             variables = idx.valueIndices.map { (params[it] as AOPVariable).name }
@@ -68,9 +78,7 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
                         outMap[variable2]!!.childs.add(row.columns[variable2]!!)
                     }
                 } else {
-                    for (variable2 in variables) {
-                        outMap[variable2]!!.close()
-                    }
+                    tmp.close()
                 }
             }
             outMap[variable] = tmp
@@ -184,6 +192,12 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
+        if (idx == EIndexPattern.SPO) {
+            idx.keyIndices.map { require(params[it] is AOPVariable, { "$name ${idx} ${params.map { it }}" }) }
+        } else {
+            idx.keyIndices.map { require(params[it] is AOPConstant) }
+            idx.valueIndices.map { require(params[it] is AOPVariable) }
+        }
         return TripleStoreIteratorGlobal(query, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
     }
 }
