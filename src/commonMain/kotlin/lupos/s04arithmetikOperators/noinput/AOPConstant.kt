@@ -15,7 +15,7 @@ class AOPConstant(query: Query, val value: ValueDefinition) : AOPBase(query, EOp
     override fun equals(other: Any?): Boolean = other is AOPConstant && toXMLElement() == other.toXMLElement()
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         return {
-            /*return*/             value
+            /*return*/value
         }
     }
 

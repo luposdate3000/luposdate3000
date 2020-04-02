@@ -14,7 +14,7 @@ class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
                 res = child.next()
             }
             last = res
-/*return*/            res
+/*return*/res
         }
         close = {
             child.close()

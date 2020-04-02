@@ -27,7 +27,7 @@ class AOPBuildInCallMONTH(query: Query, child: AOPBase) : AOPBase(query, EOperat
             if (a is ValueDateTime) {
                 res = ValueInteger(a.month)
             }
-/*return*/            res
+/*return*/res
         }
     }
 

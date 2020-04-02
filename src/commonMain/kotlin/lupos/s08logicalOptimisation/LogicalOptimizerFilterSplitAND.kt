@@ -25,6 +25,6 @@ class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query, EOptim
                 res = LOPFilter(query, aopcompare.children[0] as AOPBase, LOPFilter(query, aopcompare.children[1] as AOPBase, child))
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

@@ -33,6 +33,6 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
                 onChange()
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

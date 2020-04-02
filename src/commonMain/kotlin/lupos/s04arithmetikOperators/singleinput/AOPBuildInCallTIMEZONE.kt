@@ -27,7 +27,7 @@ class AOPBuildInCallTIMEZONE(query: Query, child: AOPBase) : AOPBase(query, EOpe
             if (a is ValueDateTime) {
                 res = ValueSimpleLiteral("\"", a.getTimeZone())
             }
-/*return*/            res
+/*return*/res
         }
     }
 

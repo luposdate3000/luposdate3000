@@ -22,6 +22,6 @@ class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimiz
             res = LOPFilter(query, AOPEQ(query, AOPVariable(query, node.name.name), node.children[1] as AOPBase), node.children[0])
             onChange()
         }
-/*return*/        res
+/*return*/res
     })
 }

@@ -95,6 +95,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 }
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

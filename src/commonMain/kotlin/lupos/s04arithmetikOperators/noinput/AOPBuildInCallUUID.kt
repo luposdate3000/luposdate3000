@@ -21,7 +21,7 @@ class AOPBuildInCallUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildInCa
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         return {
-            /*return*/             ValueIri("urn:uuid:" + uuid4())
+            /*return*/ValueIri("urn:uuid:" + uuid4())
         }
     }
 

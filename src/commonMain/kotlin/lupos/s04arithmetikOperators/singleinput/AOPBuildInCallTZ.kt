@@ -27,7 +27,7 @@ class AOPBuildInCallTZ(query: Query, child: AOPBase) : AOPBase(query, EOperatorI
             if (a is ValueDateTime) {
                 res = ValueSimpleLiteral("\"", a.getTZ())
             }
-/*return*/            res
+/*return*/res
         }
     }
 

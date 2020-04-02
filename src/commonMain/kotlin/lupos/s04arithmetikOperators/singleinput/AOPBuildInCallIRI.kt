@@ -41,7 +41,7 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
                     res = ValueIri(prefix + b.content)
                 }
             }
-/*return*/            res
+/*return*/res
         }
     }
 

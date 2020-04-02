@@ -27,7 +27,7 @@ class AOPBuildInCallSECONDS(query: Query, child: AOPBase) : AOPBase(query, EOper
             if (a is ValueDateTime) {
                 res = ValueDecimal(0.0 + a.seconds)
             }
-/*return*/            res
+/*return*/res
         }
     }
 

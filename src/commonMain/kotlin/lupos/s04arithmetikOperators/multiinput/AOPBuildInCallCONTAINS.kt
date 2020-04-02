@@ -29,7 +29,7 @@ class AOPBuildInCallCONTAINS(query: Query, child: AOPBase, childB: AOPBase) : AO
             if (a is ValueStringBase && b is ValueSimpleLiteral) {
                 res = ValueBoolean(a.content.contains(b.content))
             }
-/*return*/             res
+/*return*/res
         }
     }
 

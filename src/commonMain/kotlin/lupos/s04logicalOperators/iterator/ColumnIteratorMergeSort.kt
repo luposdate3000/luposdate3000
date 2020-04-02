@@ -90,12 +90,12 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                     if (fastcmp != 0) {
                         if (fastcmp == -1) {
                             next = {
-                                /*return*/    childA.next()
+                                /*return*/childA.next()
                             }
                             res = childA.next()
                         } else {
                             next = {
-                                /*return*/              childB.next()
+                                /*return*/childB.next()
                             }
                             res = childB.next()
                         }
@@ -106,9 +106,9 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                         }
                     }
                 }
-                /*return*/        res
+                /*return*/res
             }
-/*return*/            next()
+/*return*/next()
         }
         close = {
             childA.close()

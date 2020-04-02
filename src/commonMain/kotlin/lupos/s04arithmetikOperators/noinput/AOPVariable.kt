@@ -21,13 +21,13 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         var res: () -> ValueDefinition
         if (tmp == null) {
             res = {
-                /*return*/      ResultSetDictionary.undefValue2
+                /*return*/ResultSetDictionary.undefValue2
             }
         } else {
             require(tmp is ColumnIteratorQueue)
             val column = tmp as ColumnIteratorQueue
             res = {
-                /*return*/                 query.dictionary.getValue(column.tmp!!)
+                /*return*/query.dictionary.getValue(column.tmp!!)
             }
         }
         return res

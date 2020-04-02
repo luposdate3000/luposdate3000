@@ -23,6 +23,6 @@ class LogicalOptimizerOptional(query: Query) : OptimizerBase(query, EOptimizerID
         if (node is LOPOptional) {
             res = LOPJoin(query, OPNothing(query), node.children[0], true)
         }
-/*return*/        res
+/*return*/res
     })
 }

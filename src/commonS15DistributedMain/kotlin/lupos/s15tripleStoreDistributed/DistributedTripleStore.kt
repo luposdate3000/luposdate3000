@@ -132,7 +132,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             } else {
                 res = IntRange(0, K)
             }
-/*return*/ res
+/*return*/res
         }
         for (si in arr[0]) {
             for (pi in arr[1]) {

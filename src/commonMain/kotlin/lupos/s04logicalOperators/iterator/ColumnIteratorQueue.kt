@@ -19,7 +19,7 @@ class ColumnIteratorQueue() : ColumnIterator() {
             if (queue.size > 0) {
                 res = queue.removeAt(0)
             }
-            /*return*/  res
+            /*return*/res
         }
         close = {
             _close()

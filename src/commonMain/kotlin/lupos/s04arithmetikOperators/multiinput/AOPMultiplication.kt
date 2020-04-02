@@ -41,7 +41,7 @@ class AOPMultiplication(query: Query, childA: AOPBase, childB: AOPBase) : AOPBin
                 }
             } catch (e: Throwable) {
             }
-/*return*/             res
+/*return*/res
         }
     }
 

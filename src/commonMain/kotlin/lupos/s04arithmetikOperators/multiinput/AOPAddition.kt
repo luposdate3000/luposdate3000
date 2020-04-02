@@ -42,7 +42,7 @@ class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 }
             } catch (e: Throwable) {
             }
-/*return*/            res
+/*return*/res
         }
     }
 

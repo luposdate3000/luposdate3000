@@ -21,7 +21,7 @@ class AOPBuildInCallSTRUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildI
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         return {
-            /*return*/             ValueSimpleLiteral("\"", "" + uuid4())
+            /*return*/ValueSimpleLiteral("\"", "" + uuid4())
         }
     }
 

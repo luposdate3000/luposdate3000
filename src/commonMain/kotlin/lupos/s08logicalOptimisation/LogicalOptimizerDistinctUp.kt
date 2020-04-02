@@ -32,6 +32,6 @@ class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizer
                 }
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

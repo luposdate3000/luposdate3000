@@ -29,7 +29,7 @@ class AOPBuildInCallLANG(query: Query, child: AOPBase) : AOPBase(query, EOperato
             } else if (a is ValueStringBase || a is ValueNumeric || a is ValueBoolean || a is ValueDateTime) {
                 res = ValueSimpleLiteral("\"", "")
             }
-/*return*/            res
+/*return*/res
         }
     }
 

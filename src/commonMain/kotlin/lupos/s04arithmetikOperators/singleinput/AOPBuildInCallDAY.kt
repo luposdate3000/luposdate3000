@@ -27,7 +27,7 @@ class AOPBuildInCallDAY(query: Query, child: AOPBase) : AOPBase(query, EOperator
             if (a is ValueDateTime) {
                 res = ValueInteger(a.day)
             }
-/*return*/            res
+/*return*/res
         }
     }
 

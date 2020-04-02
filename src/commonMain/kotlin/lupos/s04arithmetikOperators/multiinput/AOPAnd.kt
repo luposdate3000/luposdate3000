@@ -46,7 +46,7 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
             } else if (b is ValueError && a is ValueBoolean && a.value == false) {
                 res = a
             }
-/*return*/            res
+/*return*/res
         }
     }
 

@@ -29,7 +29,7 @@ class AOPBuildInCallSTRSTARTS(query: Query, child: AOPBase, childB: AOPBase) : A
             if (a is ValueStringBase && b is ValueSimpleLiteral) {
                 res = ValueBoolean(a.content.startsWith(b.content))
             }
-/*return*/             res
+/*return*/res
         }
     }
 

@@ -12,7 +12,7 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
             while (res == null && ++index < childs.size) {
                 res = childs[index].next()
             }
-/*return*/            res
+/*return*/res
         }
         close = {
             for (c in childs) {

@@ -165,7 +165,7 @@ class POPGroup : POPBase {
             val localAggregations = Array(aggregations.size) {
                 val tmp = aggregations[it].createIterator(row)
                 localMap["#" + aggregations[it].uuid] = tmp
-                /*return*/ tmp
+                /*return*/tmp
             }
             val localRow = MapRow(row, localAggregations, localColumns)
             loop2@ while (true) {
@@ -214,7 +214,7 @@ class POPGroup : POPBase {
                     val localAggregations = Array(aggregations.size) {
                         val tmp = aggregations[it].createIterator(row)
                         localMap["#" + aggregations[it].uuid] = tmp
-                        /*return*/ tmp
+                        /*return*/tmp
                     }
                     localRow = MapRow(row, localAggregations, localColumns)
                     map[key] = localRow

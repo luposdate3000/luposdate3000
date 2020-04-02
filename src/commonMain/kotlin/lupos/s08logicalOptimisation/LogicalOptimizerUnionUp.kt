@@ -24,6 +24,6 @@ class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.
                 res = LOPUnion(query, LOPJoin(query, childA, childB.children[0], node.optional), LOPJoin(query, childA.cloneOP(), childB.children[1], node.optional))
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

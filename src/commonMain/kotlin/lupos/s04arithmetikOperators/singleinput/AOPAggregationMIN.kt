@@ -52,7 +52,7 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
-            /*return*/            tmp.value
+            /*return*/tmp.value
         }
     }
 

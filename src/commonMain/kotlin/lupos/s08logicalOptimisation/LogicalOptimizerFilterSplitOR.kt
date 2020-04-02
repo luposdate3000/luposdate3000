@@ -28,6 +28,6 @@ class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimi
                 res = LOPUnion(query, LOPFilter(query, aopcompare.children[0] as AOPBase, child.cloneOP()), LOPFilter(query, aopcompare.children[1] as AOPBase, child.cloneOP()))
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

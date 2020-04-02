@@ -27,7 +27,7 @@ class AOPBuildInCallHOURS(query: Query, child: AOPBase) : AOPBase(query, EOperat
             if (a is ValueDateTime) {
                 res = ValueInteger(a.hours)
             }
-/*return*/            res
+/*return*/res
         }
     }
 

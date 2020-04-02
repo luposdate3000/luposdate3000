@@ -31,7 +31,7 @@ class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOpera
             } else if (a is ValueLanguageTaggedLiteral) {
                 res = ValueInteger(a.content.length)
             }
-/*return*/            res
+/*return*/res
         }
     }
 

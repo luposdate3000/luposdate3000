@@ -12,9 +12,9 @@ class TestRandom(val buffer: DynamicByteArray) {
         var res = 0
         try {
             val tmp = if (increment) {
-                /*return*/  buffer.getNextInt()
+                /*return*/buffer.getNextInt()
             } else {
-/*return*/                            buffer.getInt(buffer.pos)
+/*return*/buffer.getInt(buffer.pos)
             }
             if (tmp < 0 && positive) {
                 res = (-tmp) % maxValue

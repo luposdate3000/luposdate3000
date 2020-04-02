@@ -32,6 +32,6 @@ class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerID
                 }
             }
         }
-/*return*/        res
+/*return*/res
     })
 }

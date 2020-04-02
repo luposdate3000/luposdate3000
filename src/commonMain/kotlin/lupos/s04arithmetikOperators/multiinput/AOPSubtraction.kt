@@ -41,7 +41,7 @@ class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(q
                 }
             } catch (e: Throwable) {
             }
-/*return*/             res
+/*return*/res
         }
     }
 

@@ -32,7 +32,7 @@ class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperator
             } else if (a is ValueInteger) {
                 res = ValueInteger(abs(a.value))
             }
-/*return*/            res
+/*return*/res
         }
     }
 

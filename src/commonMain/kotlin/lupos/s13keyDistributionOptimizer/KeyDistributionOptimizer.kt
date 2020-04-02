@@ -19,6 +19,6 @@ class KeyDistributionOptimizer(query: Query) : OptimizerBase(query, EOptimizerID
             onChange()
             res = POPServiceIRI(query, node.name, node.silent, optimizeInternal(node.children[0], null, onChange) as POPBase)
         }
-/*return*/        res
+/*return*/res
     })
 }

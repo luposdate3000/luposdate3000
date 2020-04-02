@@ -20,7 +20,7 @@ class ColumnIteratorChildIterator() : ColumnIterator() {
                 }
                 res = next()
             }
-            /*return*/ res
+            /*return*/res
         }
         close = {
             for (child in childs) {

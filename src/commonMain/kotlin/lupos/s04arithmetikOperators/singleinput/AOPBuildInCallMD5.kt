@@ -29,7 +29,7 @@ class AOPBuildInCallMD5(query: Query, child: AOPBase) : AOPBase(query, EOperator
             if (a is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, a.content.encodeToByteArray().md5().toHexString1())
             }
-/*return*/            res
+/*return*/res
         }
     }
 

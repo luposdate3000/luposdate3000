@@ -31,7 +31,7 @@ class AOPBuildInCallUCASE(query: Query, child: AOPBase) : AOPBase(query, EOperat
             } else if (a is ValueSimpleLiteral) {
                 res = ValueSimpleLiteral(a.delimiter, a.content.toUpperCase())
             }
-/*return*/            res
+/*return*/res
         }
     }
 
