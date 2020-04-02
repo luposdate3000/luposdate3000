@@ -74,6 +74,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
+        println("obtain child columns")
 //--- obtain child columns
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
@@ -121,6 +122,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         var count: Int
         var countA: Int
         var countB: Int
+        println("check for_ empty columns")
 //---check for_ empty columns
         if (columnsOUTJ.size == 0) {
             if (columnsINAO.size == 0 && columnsINBO.size == 0) {
@@ -128,17 +130,21 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 res.count = childA.count * childB.count
             } else {
                 if (columnsINAO.size == 0) {
+                    println("no columns from a")
 //---no columns from a
                     for (columnIndex in 0 until columnsINBO.size) {
                         columnsOUTB[columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
                     }
                 } else if (columnsINBO.size == 0) {
+                    println("no columns from b")
 //---no columns from b
                     for (columnIndex in 0 until columnsINAO.size) {
                         columnsOUTA[columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
                     }
                 } else {
+                    println("cartesian product")
 //---cartesian product
+                    println("insert second child into simple list")
 //---insert second child into simple list
                     val data = Array(columnsINBO.size) { mutableListOf<Value>() }
                     loopC@ while (true) {
@@ -190,8 +196,13 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         } else {
             //---join on at least one column
 //--- insert second child into hash table
+            println("insert second child into hash table")
             while (true) {
-                count = 0
+                if (currentKey != null) {
+                    count = 1
+                } else {
+                    count = 0
+                }
                 loopB@ while (true) {
                     nextKey = Array(columnsINBJ.size) { ResultSetDictionary.undefValue }
                     nextMap = mapWithoutUndef
@@ -214,31 +225,37 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     }
                     count++
                 }
+                println("currentKey ${currentKey?.map { it }}")
                 if (currentKey == null) {
                     break
                 }
                 key = MapKey(currentKey)
                 oldArr = map[key]
+                println("oldArr get ${oldArr?.count} ${oldArr?.columns?.map { it }}")
                 if (oldArr == null) {
                     oldArr = MapRow(columnsINBO.size)
                     map[key] = oldArr
                 }
                 oldArr.count += count
+                println("increment count in hash table $count ${oldArr.count}")
                 for (columnIndex in 0 until columnsINBO.size) {
 //TODO dont use kotlin lists here, use pages instead
                     for (j in 0 until count) {
                         oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
                     }
                 }
+                println("oldArr set ${oldArr?.count} ${oldArr?.columns?.map { it }}")
                 currentKey = nextKey
                 map = nextMap
             }
+            println("iterate first child")
 //--- iterate first child
 //--- calculate next "cartesian product"
             for (iterator in outMap.values) {
 //this is just function pointer assignment. this loop does not calculate anything
                 iterator.close = {
                     iterator._close()
+                    println("close")
                     for (variable in children[0].getProvidedVariableNames()) {
                         childA.columns[variable]!!.close()
                         outMap[variable]!!.close()
@@ -249,12 +266,17 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     }
                 }
                 iterator.onNoMoreElements = {
-                    countA = 0
+                    println("onNoMoreElements")
+                    if (currentKey == null) {
+                        countA = 0
+                    } else {
+                        countA = 1
+                    }
                     loopA@ while (true) {
                         nextKey = Array(columnsINAJ.size) { ResultSetDictionary.undefValue }
                         nextMap = mapWithoutUndef
-                        for (columnIndex in 0 until columnsINBJ.size) {
-                            val value = columnsINBJ[columnIndex].next()
+                        for (columnIndex in 0 until columnsINAJ.size) {
+                            val value = columnsINAJ[columnIndex].next()
                             if (value == null) {
                                 nextKey = null
                                 break@loopA
@@ -271,7 +293,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             break
                         }
                         countA++
+                        println("countA $countA")
                     }
+                    println("currentKey ${currentKey?.map { it }}")
                     if (currentKey == null) {
                         iterator.close()
                     } else {
@@ -281,9 +305,11 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             oldArr!!.columns[columnIndex].add(columnsINAO[columnIndex].next()!!)
                         }
                         var others = mutableListOf<Pair<MapKey, MapRow>>()
+                        println("search for_join-partners")
 //search for_join-partners
                         if (map == mapWithoutUndef) {
                             val tmp = mapWithoutUndef[key]
+                            println("tmp get ${tmp?.count} ${tmp?.columns?.map { it }}")
                             if (tmp != null) {
                                 others.add(Pair(key, tmp))
                             }
@@ -325,6 +351,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             for (otherIndex in 0 until others.size) {
 //for_ each match - may contain undefined in the join-columns
                                 countB = others[otherIndex].second.count
+                                println("found count $countB")
                                 count = countA * countB
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val iterators = mutableListOf<ColumnIterator>()

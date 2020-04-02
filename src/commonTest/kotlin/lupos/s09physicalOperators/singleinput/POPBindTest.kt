@@ -32,7 +32,9 @@ object POPBindTest {
                 }
                 val data = mutableMapOf<String, MutableList<Value>>()
                 val variables = List(variableSize) {
-                    val tmp = allVariables[random.nextInt(allVariables.size)]
+                    var idx = random.nextInt(allVariables.size)
+                    val tmp = allVariables[idx]
+                    allVariables.removeAt(idx)
                     data[tmp] = mutableListOf<Value>()
 /*return*/tmp
                 }

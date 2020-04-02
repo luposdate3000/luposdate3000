@@ -29,7 +29,9 @@ object POPValuesTest {
                 }
                 val data = mutableMapOf<String, MutableList<Value>>()
                 val variables = List(variableSize) {
-                    val tmp = allVariables[random.nextInt(allVariables.size)]
+                    val idx = random.nextInt(allVariables.size)
+                    val tmp = allVariables[idx]
+                    allVariables.removeAt(idx)
                     data[tmp] = mutableListOf<Value>()
 /*return*/tmp
                 }
@@ -38,12 +40,16 @@ object POPValuesTest {
                         data[variable]!!.add(random.nextInt(MAX_VALUE))
                     }
                 }
+                println(variables)
+                println(data)
                 val iterator = POPValues(query, variables, data).evaluate()
                 for (variable in variables) {
                     for (i in 0 until count) {
+                        println("loop $count $i")
                         val value = iterator.columns[variable]!!.next()
                         require(value == data[variable]!![i])
                     }
+                    println(data[variable]!!)
                     require(iterator.columns[variable]!!.next() == null)
                 }
             }

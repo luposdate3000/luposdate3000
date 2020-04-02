@@ -131,6 +131,12 @@ test does not include
                         dataRetrieved[variableIndex].add(value)
                     }
                 }
+                println(variablesA)
+                println(variablesB)
+                println(data)
+                println(dataA)
+                println(dataB)
+                println(dataRetrieved.map { "${it}\n" })
                 for (i in 0 until count) {
                     var counter = 0
                     next@ for (j in dataRetrieved[0].size - 1 downTo 0) {
@@ -144,6 +150,8 @@ test does not include
                         }
                         counter++
                     }
+                    println(dataRetrieved.map { "${it}\n" })
+                    println("$i $count $counter")
                     require(counter == 1)
                 }
                 require(dataRetrieved[0].size == 0)
