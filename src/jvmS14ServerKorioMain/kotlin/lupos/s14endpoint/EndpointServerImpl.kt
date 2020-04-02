@@ -16,7 +16,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s03resultRepresentation.*
-import lupos.s03resultRepresentation.ResultRepresenationNetwork
+
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
@@ -29,7 +29,7 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
     var server: HttpServer? = null
 
     suspend fun responseBinary(request: HttpServer.Request) {
-        var data: ByteArray? = null
+/*        var data: ByteArray? = null
         Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler.fetchDataA" }, {
             request.handler { it ->
                 if (data == null) {
@@ -53,6 +53,7 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
                 }
             }
         })
+*/
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) = Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler" }, {
@@ -62,7 +63,7 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
         GlobalLogger.log(ELoggerType.DEBUG, { request.path })
         GlobalLogger.log(ELoggerType.DEBUG, { request.method })
         request.replaceHeader("Connection", "close")
-        if (request.path == Endpoint.REQUEST_BINARY[0]) {
+        if (request.path == "/binary") {
             responseBinary(request)
             return
         }

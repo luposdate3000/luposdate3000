@@ -1,0 +1,58 @@
+resources/sp2b/q6.sparql,1000,0,663,10013,66.21
+resources/sp2b/q12a.sparql,1000,0,791,10006,79.05
+resources/sp2b/q12c.sparql,1000,0,786,10007,78.54
+resources/sp2b/q3c.sparql,1000,0,753,10001,75.29
+resources/sp2b/q6.sparql,2000,0,518,10018,51.70
+resources/sp2b/q12a.sparql,2000,0,650,10013,64.91
+resources/sp2b/q12c.sparql,2000,0,845,10006,84.44
+resources/sp2b/q3c.sparql,2000,0,665,10010,66.43
+resources/sp2b/q6.sparql,4000,0,335,10010,33.46
+resources/sp2b/q12a.sparql,4000,0,339,10013,33.85
+resources/sp2b/q12c.sparql,4000,0,844,10011,84.30
+resources/sp2b/q3c.sparql,4000,0,600,10027,59.83
+resources/sp2b/q6.sparql,8000,0,191,10035,19.03
+resources/sp2b/q12a.sparql,8000,0,200,10035,19.93
+resources/sp2b/q12c.sparql,8000,0,818,10011,81.71
+resources/sp2b/q3c.sparql,8000,0,676,10001,67.59
+resources/sp2b/q6.sparql,16000,0,106,10083,10.51
+resources/sp2b/q12a.sparql,16000,0,114,10036,11.35
+resources/sp2b/q12c.sparql,16000,0,843,10005,84.25
+resources/sp2b/q3c.sparql,16000,0,865,10003,86.47
+resources/sp2b/q6.sparql,32000,0,57,10105,5.64
+resources/sp2b/q12a.sparql,32000,0,63,10069,6.25
+resources/sp2b/q12c.sparql,32000,0,798,10003,79.77
+resources/sp2b/q3c.sparql,32000,0,676,10001,67.59
+resources/sp2b/q6.sparql,64000,0,29,10303,2.81
+resources/sp2b/q12a.sparql,64000,0,34,10185,3.33
+resources/sp2b/q12c.sparql,64000,0,813,10006,81.25
+resources/sp2b/q3c.sparql,64000,0,468,10017,46.72
+resources/sp2b/q6.sparql,128000,0,15,10492,1.42
+resources/sp2b/q12a.sparql,128000,0,17,10001,1.69
+resources/sp2b/q12c.sparql,128000,0,771,10015,76.98
+resources/sp2b/q3c.sparql,128000,0,285,10028,28.42
+resources/sp2b/q6.sparql,1000,0,<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="yr"/>
+  <variable name="name"/>
+  <variable name="document"/>
+ </head>
+ <results>
+  <result/>
+ </results>
+</sparql>,98,
+resources/sp2b/q12a.sparql,1000,0,<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head/>
+ <boolean>false</boolean>
+</sparql>,23,
+resources/sp2b/q12c.sparql,1000,0,<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head/>
+ <boolean>false</boolean>
+</sparql>,8,
+resources/sp2b/q3c.sparql,1000,0,<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="article"/>
+ </head>
+ <results>
+  <result/>
+ </results>
+</sparql>,9,

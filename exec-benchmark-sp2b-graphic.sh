@@ -2,8 +2,11 @@
 mkdir tmp
 for query in $(cat benchmark_results/sp2b/luposdate.csv | sed "s/sparql.*/sparql/g" | sort | uniq | sed "s-resources/sp2b/--g")
 do
-cat benchmark_results/sp2b/luposdate.csv | grep $query > tmp/$query.luposdate3000.csv
-cat benchmark_results/sp2b/jena.csv | grep $query > tmp/$query.jena.csv
+for f in $(find benchmark_results/sp2b -name "*.csv")
+do
+target=$(echo $f | sed "s-benchmark_results/sp2b/-tmp/$query.-g")
+cat $f  | grep $query > $target
+done
 
 gnuplot<<EOF
 set terminal png size 800,600
@@ -14,8 +17,10 @@ set key inside right top
 set logscale x
 
 set title "$query"
-plot 'tmp/$query.luposdate3000.csv' using 2:6 title "luposdate3000" with lines, \
- 'tmp/$query.jena.csv' using 2:6 title "jena" with lines
+plot \
+ 'tmp/$query.luposdate.csv' using 2:6 title "luposdate3000 old" with linespoints, \
+ 'tmp/$query.luposdate-3d7007146ee1a6478c1c18aca37a8cdd4f4f29bb.csv' using 2:6 title "luposdate3000 new" with linespoints, \
+ 'tmp/$query.jena.csv' using 2:6 title "jena" with linespoints
 EOF
 
 done
