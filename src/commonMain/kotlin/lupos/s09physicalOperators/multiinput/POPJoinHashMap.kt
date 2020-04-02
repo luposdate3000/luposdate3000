@@ -300,10 +300,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                         iterator.close()
                     } else {
                         key = MapKey(currentKey!!)
-                        oldArr = MapRow(columnsINAO.size)
-                        for (columnIndex in 0 until columnsINAO.size) {
-                            oldArr!!.columns[columnIndex].add(columnsINAO[columnIndex].next()!!)
-                        }
                         var others = mutableListOf<Pair<MapKey, MapRow>>()
                         println("search for_join-partners")
 //search for_join-partners
@@ -348,7 +344,14 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 }
                             }
                         } else {
+                            val cacheIterators = Array(columnsINAO.size) { mutableListOf<Value>() }
+                            for (columnIndex in 0 until columnsINAO.size) {
+                                for (i in 0 until countA) {
+                                    cacheIterators[columnIndex].add(columnsINAO[columnIndex].next()!!)
+                                }
+                            }
                             for (otherIndex in 0 until others.size) {
+                                println("others.size ${others.size}")
 //for_ each match - may contain undefined in the join-columns
                                 countB = others[otherIndex].second.count
                                 println("found count $countB")
@@ -356,7 +359,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val iterators = mutableListOf<ColumnIterator>()
                                     for (i in 0 until countA) {
-                                        iterators.add(ColumnIteratorRepeatValue(countB, columnsINAO[columnIndex].next()!!))
+                                        iterators.add(ColumnIteratorRepeatValue(countB, cacheIterators[columnIndex][i]))
                                     }
                                     if (iterators.size == 1) {
                                         columnsOUTA[columnIndex].childs.add(iterators[0])

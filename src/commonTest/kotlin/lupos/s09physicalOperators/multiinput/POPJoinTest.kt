@@ -20,9 +20,13 @@ object POPJoinTest {
         }
     }
 
-    fun removeDuplicates(variables: List<String>, data: MutableMap<String, MutableList<Value>>, count_: Int) {
-        var count = count_
-        for (i in count - 1 downTo 1) {
+    fun removeDuplicates(variables: List<String>, data: MutableMap<String, MutableList<Value>>) {
+        println("withduplicates = $data")
+        var count = 0
+        if (variables.size > 0) {
+            count = data[variables[0]]!!.size
+        }
+        for (i in count - 1 downTo 0) {
             duplicates@ for (j in count - 1 downTo i + 1) {
                 for (variable in variables) {
                     if (data[variable]!![i] != data[variable]!![j]) {
@@ -35,30 +39,26 @@ object POPJoinTest {
                 count--
             }
         }
+        println("withoutduplicates = $data")
     }
 
     suspend fun invoke(random: TestRandom) {
 /*
 test does not include
  - Undefined values
- - No columns from one/both of the childs
  - optional
+ - rows without join partner
 */
         try {
             while (true) {
                 val query = Query()
 //---generate the result of the merge
                 val variableSize = random.nextInt(MAX_VARIABLES - 1) + 1
-                val count = random.nextInt(MAX_COUNT)
-                val allVariables = mutableListOf<String>()
-                for (i in 0 until MAX_VARIABLES) {
-                    allVariables.add("v$i")
-                }
+                var count = random.nextInt(MAX_COUNT)
                 val data = mutableMapOf<String, MutableList<Value>>()
                 val variables = List(variableSize) {
-                    val tmp = allVariables[random.nextInt(allVariables.size)]
-                    data[tmp] = mutableListOf<Value>()
-/*return*/tmp
+                    data["v$it"] = mutableListOf<Value>()
+/*return*/"v$it"
                 }
                 for (i in 0 until count) {
                     for (variable in variables) {
@@ -66,7 +66,8 @@ test does not include
                     }
                 }
 //---eliminate duplicate results to simplify testing
-                removeDuplicates(variables, data, count)
+                removeDuplicates(variables, data)
+                count = data[variables[0]]!!.size
 //---calculate which columns should be joines
                 val variablesJ = mutableListOf<String>()
                 val variablesAO = mutableListOf<String>()
@@ -113,12 +114,42 @@ test does not include
                     }
                 }
 //---eliminate duplicates in the source data
-                removeDuplicates(variablesA, dataA, count)
-                removeDuplicates(variablesB, dataB, count)
+                removeDuplicates(variablesA, dataA)
+                removeDuplicates(variablesB, dataB)
+                if (variablesJ.size == 0) {
+//---cartesian product
+                    data.clear()
+                    var countA = 0
+                    var countB = 0
+                    for (variable in variablesAO) {
+                        data[variable] = mutableListOf<Value>()
+                        countA = dataA[variable]!!.size
+                    }
+                    for (variable in variablesBO) {
+                        data[variable] = mutableListOf<Value>()
+                        countB = dataB[variable]!!.size
+                    }
+                    for (i in 0 until countA) {
+                        for (j in 0 until countB) {
+                            for (variable in variablesAO) {
+                                data[variable]!!.add(dataA[variable]!![i])
+                            }
+                            for (variable in variablesBO) {
+                                data[variable]!!.add(dataB[variable]!![j])
+                            }
+                        }
+                    }
+                }
+                count = data[variables[0]]!!.size
 //---finally calculate the join and check the result
                 val valuesA = POPValues(query, variablesA, dataA)
                 val valuesB = POPValues(query, variablesB, dataB)
                 val iterator = POPJoinHashMap(query, valuesA, valuesB, false).evaluate()
+                println(variablesA)
+                println(variablesB)
+                println(data)
+                println(dataA)
+                println(dataB)
                 val dataRetrieveIterators = Array(variables.size) { iterator.columns[variables[it]] }
                 val dataRetrieved = Array(variables.size) { mutableListOf<Value>() }
                 loop@ while (true) {
@@ -131,11 +162,6 @@ test does not include
                         dataRetrieved[variableIndex].add(value)
                     }
                 }
-                println(variablesA)
-                println(variablesB)
-                println(data)
-                println(dataA)
-                println(dataB)
                 println(dataRetrieved.map { "${it}\n" })
                 for (i in 0 until count) {
                     var counter = 0
