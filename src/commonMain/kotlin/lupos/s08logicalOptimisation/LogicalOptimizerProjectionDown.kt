@@ -20,6 +20,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPProjection) {
+            val variables = node.variables.map { it.name }
             val child = node.children[0]
             when (child) {
                 is LOPUnion -> {
@@ -30,7 +31,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 }
                 is LOPProjection -> {
                     val variables = mutableListOf<String>()
-                    for (variable in node.variables.map { it.name }) {
+                    for (variable in variables) {
                         if (child.variables.map { it.name }.contains(variable)) {
                             variables.add(variable)
                         }
@@ -43,10 +44,23 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     res = child
                     onChange()
                 }
-                is LOPBind, is LOPFilter, is LOPSort -> {
-                    if (node.variables.map { it.name }.containsAll(child.getRequiredVariableNames())) {
+                is LOPFilter, is LOPSort -> {
+                    if (variables.containsAll(child.getRequiredVariableNames())) {
                         child.children[0] = LOPProjection(query, node.variables, child.children[0])
                         res = child
+                        onChange()
+                    }
+                }
+                is LOPBind -> {
+                    if (variables.contains(child.name.name)) {
+                        if (variables.containsAll(child.getRequiredVariableNames())) {
+                            child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                            res = child
+                            onChange()
+                        }
+                    } else {
+/*bind of unused variable -> no sideeffects -> useless*/
+                        node.children[0] = child.children[0]
                         onChange()
                     }
                 }
@@ -61,7 +75,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             variablesJ.add(variable)
                         }
                     }
-                    if (node.variables.map { it.name }.containsAll(variablesJ)) {
+                    if (variables.containsAll(variablesJ)) {
                         child.children[0] = LOPProjection(query, node.variables, child.children[0])
                         child.children[1] = LOPProjection(query, node.variables, child.children[1])
                         res = child
