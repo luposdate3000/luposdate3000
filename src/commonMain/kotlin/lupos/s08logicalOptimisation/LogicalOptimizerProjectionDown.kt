@@ -19,8 +19,15 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
     override val classname = "LogicalOptimizerProjectionDown"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
+        if (node is LOPMakeBooleanResult) {
+            val child = node.children[0]
+            if (child !is LOPProjection && child.getProvidedVariableNames().size > 0) {
+                node.children[0] = LOPProjection(query, mutableListOf<AOPVariable>(), node.children[0])
+                onChange()
+            }
+        }
         if (node is LOPProjection) {
-            val variables = node.variables.map { it.name }
+            val variables = node.variables.map { it.name }.toMutableList()
             val child = node.children[0]
             when (child) {
                 is LOPUnion -> {
@@ -49,6 +56,13 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         child.children[0] = LOPProjection(query, node.variables, child.children[0])
                         res = child
                         onChange()
+                    } else {
+                        variables.addAll(child.getRequiredVariableNames())
+                        if (!variables.containsAll(child.getProvidedVariableNames())) {
+                            child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                            res = child
+                            onChange()
+                        }
                     }
                 }
                 is LOPBind -> {
@@ -57,9 +71,16 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             child.children[0] = LOPProjection(query, node.variables, child.children[0])
                             res = child
                             onChange()
+                        } else {
+                            variables.addAll(child.getRequiredVariableNames())
+                            if (!variables.containsAll(child.getProvidedVariableNames())) {
+                                child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                                res = child
+                                onChange()
+                            }
                         }
                     } else {
-/*bind of unused variable -> no sideeffects -> useless*/
+                        /*bind of unused variable -> no sideeffects -> useless*/
                         node.children[0] = child.children[0]
                         onChange()
                     }
@@ -76,10 +97,18 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                     }
                     if (variables.containsAll(variablesJ)) {
-                        child.children[0] = LOPProjection(query, node.variables, child.children[0])
-                        child.children[1] = LOPProjection(query, node.variables, child.children[1])
+                        child.children[0] = LOPProjection(query, node.variables, childA)
+                        child.children[1] = LOPProjection(query, node.variables, childB)
                         res = child
                         onChange()
+                    } else {
+                        variables.addAll(variablesJ)
+                        if (!variables.containsAll(childA.getProvidedVariableNames())) {
+                            child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), childA)
+                        }
+                        if (!variables.containsAll(childB.getProvidedVariableNames())) {
+                            child.children[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), childB)
+                        }
                     }
                 }
                 else -> {
