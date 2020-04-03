@@ -56,7 +56,7 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
             if (tmp == null) {
                 child.columns[variable]!!.close()
             }
-            outMap[variable] = child.columns[variable]!!
+            outMap[variable] = ColumnIteratorDebug(uuid, child.columns[variable]!!)
         }
         return ColumnIteratorRow(outMap)
     }

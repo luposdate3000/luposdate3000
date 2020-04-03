@@ -80,7 +80,7 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
                     tmp.close()
                 }
             }
-            outMap[variable] = tmp
+            outMap[variable] = ColumnIteratorDebug(uuid, tmp)
         }
         return ColumnIteratorRow(outMap)
     }

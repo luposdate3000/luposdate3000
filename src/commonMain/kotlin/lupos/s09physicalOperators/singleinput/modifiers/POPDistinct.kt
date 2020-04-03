@@ -31,7 +31,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         for (variable in variables) {
-            outMap[variable] = ColumnIteratorDistinct(child.columns[variable]!!)
+            outMap[variable] = ColumnIteratorDebug(uuid, ColumnIteratorDistinct(child.columns[variable]!!))
         }
         return ColumnIteratorRow(outMap)
     }

@@ -40,7 +40,7 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]] = columnsOut[variableIndex]
+            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, columnsOut[variableIndex])
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(res)

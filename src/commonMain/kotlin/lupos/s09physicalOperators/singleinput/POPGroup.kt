@@ -182,7 +182,7 @@ class POPGroup : POPBase {
             }
             for (columnIndex in 0 until bindings.size) {
                 val value = query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRow.iterators)())
-                outMap[bindings[columnIndex].first] = ColumnIteratorRepeatValue(1, value)
+                outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, ColumnIteratorRepeatValue(1, value))
             }
         } else {
             val map = mutableMapOf<MapKey, MapRow>()
@@ -236,10 +236,10 @@ class POPGroup : POPBase {
                 }
             }
             for (columnIndex in 0 until keyColumnNames.size) {
-                outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
+                outMap[keyColumnNames[columnIndex]] = ColumnIteratorDebug(uuid, ColumnIteratorMultiValue(outKeys[columnIndex]))
             }
             for (columnIndex in 0 until bindings.size) {
-                outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
+                outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, ColumnIteratorMultiValue(outValues[columnIndex]))
             }
         }
         return ColumnIteratorRow(outMap)

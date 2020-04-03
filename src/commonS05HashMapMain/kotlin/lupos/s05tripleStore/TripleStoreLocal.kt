@@ -157,7 +157,7 @@ class TripleStoreLocal(@JvmField val name: String) {
         }
         if (data == null || data.size == 0) {
             for (variable in variables) {
-                outMap[variable] = ColumnIterator()
+                outMap[variable] = ColumnIteratorDebug(uuid, ColumnIterator())
             }
         } else {
             val columns = Array(variables.size) { mutableListOf<Value>() }
@@ -167,7 +167,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                 }
             }
             for (variableIndex in 0 until variables.size) {
-                outMap[variables[variableIndex]] = ColumnIteratorMultiValue(columns[variableIndex])
+                outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, ColumnIteratorMultiValue(columns[variableIndex]))
             }
         }
         return ColumnIteratorRow(outMap)

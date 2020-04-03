@@ -25,7 +25,7 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
         for (variable in variables) {
-            outMap[variable] = ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
+            outMap[variable] = ColumnIteratorDebug(uuid, ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!)))
         }
         return ColumnIteratorRow(outMap)
     }

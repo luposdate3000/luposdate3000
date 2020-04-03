@@ -46,7 +46,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
         var boundIndex = -1
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]] = columnsOut[variableIndex]
+            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, columnsOut[variableIndex])
             if (variables[variableIndex] == name.name) {
                 boundIndex = variableIndex
             }
@@ -56,11 +56,11 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         if (variables.size == 0) {
             require(boundIndex == -1)
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
-            outMap[name.name] = columnBound
+            outMap[name.name] = ColumnIteratorDebug(uuid, columnBound)
         } else {
             require(boundIndex != -1)
             val columnBound = ColumnIteratorQueue()
-            outMap[name.name] = columnBound
+            outMap[name.name] = ColumnIteratorDebug(uuid, columnBound)
             for (variableIndex in 0 until variables.size) {
                 columnsOut[variableIndex].onEmptyQueue = {
                     var done = false

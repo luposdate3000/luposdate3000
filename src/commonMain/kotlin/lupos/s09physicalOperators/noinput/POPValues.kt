@@ -130,7 +130,7 @@ open class POPValues : POPBase {
                     outMap[variable]!!.close()
                 }
             }
-            outMap[name] = tmp
+            outMap[name] = ColumnIteratorDebug(uuid, tmp)
         }
         return ColumnIteratorRow(outMap)
     }

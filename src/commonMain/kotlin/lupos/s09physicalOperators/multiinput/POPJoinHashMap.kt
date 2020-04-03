@@ -100,12 +100,12 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 println("columnsINBJ $name")
                 columnsINBJ.add(childB.columns[name]!!)
                 t = ColumnIteratorChildIterator()
-                outMap[name] = t
+                outMap[name] = ColumnIteratorDebug(uuid, t)
                 columnsOUTJ.add(t)
                 tmp.remove(name)
             } else {
                 t = ColumnIteratorChildIterator()
-                outMap[name] = t
+                outMap[name] = ColumnIteratorDebug(uuid, t)
                 columnsOUTA.add(t)
                 println("columnsINAO $name")
                 columnsINAO.add(childA.columns[name]!!)
@@ -113,7 +113,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         }
         for (name in tmp) {
             t = ColumnIteratorChildIterator()
-            outMap[name] = t
+            outMap[name] = ColumnIteratorDebug(uuid, t)
             columnsOUTB.add(t)
             println("columnsINBO $name")
             columnsINBO.add(childB.columns[name]!!)
@@ -167,11 +167,9 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                                 iterator._close()
                                 for (variable in children[0].getProvidedVariableNames()) {
                                     childA.columns[variable]!!.close()
-                                    outMap[variable]!!.close()
                                 }
                                 for (variable in children[1].getProvidedVariableNames()) {
                                     childB.columns[variable]!!.close()
-                                    outMap[variable]!!.close()
                                 }
                             }
                             iterator.onNoMoreElements = {
