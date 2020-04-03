@@ -36,20 +36,24 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
 //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
+        val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, columnsOut[variableIndex])
+            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsOut[variableIndex])
+            localMap[variables[variableIndex]] = columnsOut[variableIndex]
         }
         val res = ColumnIteratorRow(outMap)
-        val expression = (children[1] as AOPBase).evaluate(res)
+        val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
         for (variableIndex in 0 until variables.size) {
             columnsOut[variableIndex].onEmptyQueue = {
                 var done = false
                 while (!done) {
+                    println("row")
                     for (variableIndex2 in 0 until variables.size) {
                         columnsOut[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                        println("${variables[variableIndex2]} -> ${columnsOut[variableIndex2].tmp}")
 //point each iterator to the current value
                         if (columnsOut[variableIndex2].tmp == null) {
                             require(variableIndex2 == 0)

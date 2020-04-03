@@ -48,7 +48,7 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
                 tmp._close()
                 child.columns[variable]!!.close()
             }
-            outMap[variable] = ColumnIteratorDebug(uuid, tmp)
+            outMap[variable] = ColumnIteratorDebug(uuid, variable, tmp)
         }
         return ColumnIteratorRow(outMap)
     }

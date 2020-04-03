@@ -52,7 +52,7 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         } else {
             for (variable in variables) {
                 require(child.columns[variable] != null, { "$variable $uuid" })
-                outMap[variable] = ColumnIteratorDebug(uuid, child.columns[variable]!!)
+                outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
             }
             return ColumnIteratorRow(outMap)
         }

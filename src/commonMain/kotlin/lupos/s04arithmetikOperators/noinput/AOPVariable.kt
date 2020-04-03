@@ -17,14 +17,14 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun cloneOP() = this
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        val tmp = row.columns[name]
+        var tmp = row.columns[name]
         var res: () -> ValueDefinition
         if (tmp == null) {
             res = {
                 /*return*/ResultSetDictionary.undefValue2
             }
         } else {
-            require(tmp is ColumnIteratorQueue)
+            require(tmp is ColumnIteratorQueue, { "$tmp" })
             val column = tmp as ColumnIteratorQueue
             res = {
                 /*return*/query.dictionary.getValue(column.tmp!!)

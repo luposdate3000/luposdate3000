@@ -87,35 +87,34 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val columnsOUTA = mutableListOf<ColumnIteratorChildIterator>()//only in childA
         val columnsOUTB = mutableListOf<ColumnIteratorChildIterator>()//only in childB
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()//join column
-        val outMap = mutableMapOf<String, ColumnIteratorChildIterator>()
+        val outIterators = mutableListOf<ColumnIteratorChildIterator>()
+        val outMap = mutableMapOf<String, ColumnIterator>()
         var res: ColumnIteratorRow? = null
         val tmp = mutableListOf<String>()
         var t: ColumnIterator
         tmp.addAll(children[1].getProvidedVariableNames())
-        println("start ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()}")
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
-                println("columnsINAJ $name")
                 columnsINAJ.add(childA.columns[name]!!)
-                println("columnsINBJ $name")
                 columnsINBJ.add(childB.columns[name]!!)
                 t = ColumnIteratorChildIterator()
-                outMap[name] = ColumnIteratorDebug(uuid, t)
+                outIterators.add(t)
+                outMap[name] = ColumnIteratorDebug(uuid, name, t)
                 columnsOUTJ.add(t)
                 tmp.remove(name)
             } else {
                 t = ColumnIteratorChildIterator()
-                outMap[name] = ColumnIteratorDebug(uuid, t)
+                outIterators.add(t)
+                outMap[name] = ColumnIteratorDebug(uuid, name, t)
                 columnsOUTA.add(t)
-                println("columnsINAO $name")
                 columnsINAO.add(childA.columns[name]!!)
             }
         }
         for (name in tmp) {
             t = ColumnIteratorChildIterator()
-            outMap[name] = ColumnIteratorDebug(uuid, t)
+            outIterators.add(t)
+            outMap[name] = ColumnIteratorDebug(uuid, name, t)
             columnsOUTB.add(t)
-            println("columnsINBO $name")
             columnsINBO.add(childB.columns[name]!!)
         }
         val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
@@ -161,7 +160,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                     }
                     count = data[0].size
                     if (count > 0 || optional) {
-                        for (iterator in outMap.values) {
+                        for (iterator in outIterators) {
 //this is just function pointer assignment. this loop does not calculate anything
                             iterator.close = {
                                 iterator._close()
@@ -240,7 +239,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                 for (columnIndex in 0 until columnsINBO.size) {
 //TODO dont use kotlin lists here, use pages instead
                     for (j in 0 until count) {
-                        println("$tmpCounterINAO $tmpCounterINAJ $tmpCounterINBO $tmpCounterINBJ $count $uuid")
 //xxx here nullpointer
                         tmpCounterINBO++
                         oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
@@ -251,9 +249,10 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
             }
 //--- iterate first child
 //--- calculate next "cartesian product"
-            for (iterator in outMap.values) {
+            for (iterator in outIterators) {
 //this is just function pointer assignment. this loop does not calculate anything
                 iterator.close = {
+                    println("$uuid close")
                     iterator._close()
                     for (variable in children[0].getProvidedVariableNames()) {
                         childA.columns[variable]!!.close()
@@ -341,7 +340,6 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
                             val cacheIterators = Array(columnsINAO.size) { mutableListOf<Value>() }
                             for (columnIndex in 0 until columnsINAO.size) {
                                 for (i in 0 until countA) {
-                                    println("$tmpCounterINAO $tmpCounterINAJ $tmpCounterINBO $tmpCounterINBJ $count $uuid")
 //xxx here nullpointer
                                     tmpCounterINAO++
                                     cacheIterators[columnIndex].add(columnsINAO[columnIndex].next()!!)

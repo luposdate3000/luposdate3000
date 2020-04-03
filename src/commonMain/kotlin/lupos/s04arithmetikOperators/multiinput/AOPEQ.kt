@@ -28,7 +28,7 @@ class AOPEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
+            var res = ValueBoolean(false)
             val a = childA()
             val b = childB()
             try {

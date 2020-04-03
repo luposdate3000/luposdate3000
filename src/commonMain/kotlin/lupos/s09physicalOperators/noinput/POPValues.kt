@@ -121,7 +121,7 @@ open class POPValues : POPBase {
     override fun getProvidedVariableNames() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
     override suspend fun evaluate(): ColumnIteratorRow {
-        val outMap = mutableMapOf<String, ColumnIteratorMultiValue>()
+        val outMap = mutableMapOf<String, ColumnIterator>()
         for (name in variables) {
             val tmp = ColumnIteratorMultiValue(data[name]!!)
             tmp.close = {
@@ -130,7 +130,7 @@ open class POPValues : POPBase {
                     outMap[variable]!!.close()
                 }
             }
-            outMap[name] = ColumnIteratorDebug(uuid, tmp)
+            outMap[name] = ColumnIteratorDebug(uuid, name, tmp)
         }
         return ColumnIteratorRow(outMap)
     }

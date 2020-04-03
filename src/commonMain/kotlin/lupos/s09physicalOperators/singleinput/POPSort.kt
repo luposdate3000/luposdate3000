@@ -162,11 +162,11 @@ class POPSort(query: Query, @JvmField val sortBy: Array<AOPVariable>, @JvmField 
             }
             if (limit == 1) {
                 for (variableIndex in 0 until variables.size) {
-                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, ColumnIterator())
+                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], ColumnIterator())
                 }
             } else {
                 for (variableIndex in 0 until variables.size) {
-                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, targetIterators[variableIndex][limit - 1]!!)
+                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], targetIterators[variableIndex][limit - 1]!!)
                 }
             }
             return ColumnIteratorRow(outMap)

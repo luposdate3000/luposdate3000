@@ -3,21 +3,44 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
-class ColumnIteratorDebug(val uuid: Long, val child: ColumnIterator) : ColumnIterator() {
+//typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
+//typealias ColumnIteratorDebug = ColumnIteratorDebugCount
+typealias ColumnIteratorDebug = ColumnIteratorDebugFast
+
+class ColumnIteratorDebugVerbose(val uuid: Long, name: String, val child: ColumnIterator) : ColumnIterator() {
     companion object {
-        val counters = mutableMapOf<Long, Int>()
+        val counters = mutableMapOf<Long, MutableMap<String, MutableList<Int>>>()
         fun debug() {
-            println(counters)
+            for ((k, v) in counters) {
+                var count = 0
+                for ((s, t) in v) {
+                    count = t.size
+                }
+                for (key in v.keys) {
+                    println("$k -> $key")
+                }
+                for (i in 0 until count) {
+                    try {
+                        println(v.keys.map { "$k -> ${v[it]!![i]}" })
+                    } catch (e: Throwable) {
+                        println(e.message)
+                    }
+                }
+            }
             counters.clear()
         }
     }
 
     init {
-        counters[uuid] = 0
+        if (counters[uuid] == null) {
+            counters[uuid] = mutableMapOf(name to mutableListOf<Value>())
+        } else {
+            counters[uuid]!![name] = mutableListOf<Value>()
+        }
         next = {
             val res = child.next()
             if (res != null) {
-                counters[uuid] = counters[uuid]!! + 1
+                counters[uuid]!![name]!!.add(res)
             }
             /*return*/res
         }
@@ -26,4 +49,42 @@ class ColumnIteratorDebug(val uuid: Long, val child: ColumnIterator) : ColumnIte
             _close()
         }
     }
+}
+
+class ColumnIteratorDebugCount(val uuid: Long, name: String, val child: ColumnIterator) : ColumnIterator() {
+    companion object {
+        val counters = mutableMapOf<Long, MutableMap<String, Int>>()
+        fun debug() {
+            for ((k, v) in counters) {
+                println("$k -> $v")
+            }
+            counters.clear()
+        }
+    }
+
+    init {
+        if (counters[uuid] == null) {
+            counters[uuid] = mutableMapOf(name to 0)
+        } else {
+            counters[uuid]!![name] = 0
+        }
+        next = {
+            val res = child.next()
+            if (res != null) {
+                counters[uuid]!![name] = counters[uuid]!![name]!! + 1
+            }
+            /*return*/res
+        }
+        close = {
+            child.close()
+            _close()
+        }
+    }
+}
+
+object ColumnIteratorDebugFast {
+    fun debug() {
+    }
+
+    operator fun invoke(uuid: Long, name: String, child: ColumnIterator) = child
 }

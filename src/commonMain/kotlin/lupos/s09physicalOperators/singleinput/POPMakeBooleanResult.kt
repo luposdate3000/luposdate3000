@@ -37,7 +37,7 @@ class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperat
                 child.columns[variable]!!.close()
             }
         }
-        outMap["?boolean"] = ColumnIteratorDebug(uuid, tmp)
+        outMap["?boolean"] = ColumnIteratorDebug(uuid, "?success", tmp)
         return ColumnIteratorRow(outMap)
     }
 }

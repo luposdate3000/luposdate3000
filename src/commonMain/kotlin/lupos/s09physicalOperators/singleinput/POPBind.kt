@@ -41,26 +41,28 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
+        val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
         var boundIndex = -1
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, columnsOut[variableIndex])
+            localMap[variables[variableIndex]] = columnsOut[variableIndex]
+            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsOut[variableIndex])
             if (variables[variableIndex] == name.name) {
                 boundIndex = variableIndex
             }
         }
         val res = ColumnIteratorRow(outMap)
-        val expression = (children[1] as AOPBase).evaluate(res)
-        if (variables.size == 0) {
-            require(boundIndex == -1)
+        val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
+        require(variables.size != 0)
+        if (variables.size == 1) {
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
-            outMap[name.name] = ColumnIteratorDebug(uuid, columnBound)
+            outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
         } else {
             require(boundIndex != -1)
             val columnBound = ColumnIteratorQueue()
-            outMap[name.name] = ColumnIteratorDebug(uuid, columnBound)
+            outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
             for (variableIndex in 0 until variables.size) {
                 columnsOut[variableIndex].onEmptyQueue = {
                     var done = false

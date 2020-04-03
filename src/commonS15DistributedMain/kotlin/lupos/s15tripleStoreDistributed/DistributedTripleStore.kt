@@ -56,7 +56,7 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        val outMap = mutableMapOf<String, ColumnIteratorChildIterator>()
+        val outMap = mutableMapOf<String, ColumnIterator>()
         val variables: List<String>
         if (idx == EIndexPattern.SPO) {
             idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
@@ -67,20 +67,24 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
             idx.valueIndices.map { require(params[it] is AOPVariable) }
         }
         val nodeNameIterator = nodeNames.iterator()
-        for (variable in variables) {
-            val tmp = ColumnIteratorChildIterator()
+        val columns = Array(variables.size) { ColumnIteratorChildIterator() }
+        for (variableIndex in 0 until variables.size) {
+            val tmp = columns[variableIndex]
             tmp.onNoMoreElements = {
                 if (nodeNameIterator.hasNext()) {
                     val nodeName = nodeNameIterator.next()
+                    println("$uuid $nodeName")
                     val row = P2P.execTripleGet(query, nodeName, graphName, params, idx)
-                    for (variable2 in variables) {
-                        outMap[variable2]!!.childs.add(row.columns[variable2]!!)
+                    for (variableIndex2 in 0 until variables.size) {
+                        println("$uuid $nodeName $variableIndex2")
+                        columns[variableIndex2].childs.add(row.columns[variables[variableIndex2]]!!)
                     }
                 } else {
+                    println("$uuid close")
                     tmp.close()
                 }
             }
-            outMap[variable] = ColumnIteratorDebug(uuid, tmp)
+            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], tmp)
         }
         return ColumnIteratorRow(outMap)
     }

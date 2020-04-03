@@ -28,13 +28,14 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
+            var res = ValueBoolean(true)
             val a = childA()
             val b = childB()
             try {
                 res = ValueBoolean(a.compareTo(b) != 0)
             } catch (e: Throwable) {
             }
+            println("AOPNEQ(${childA().valueToString()}, ${childB().valueToString()}) -> ${res.valueToString()} $res")
 /*return*/res
         }
     }

@@ -148,16 +148,18 @@ class TripleStoreLocal(@JvmField val name: String) {
             idx.keyIndices.map { require(params[it] is AOPVariable) }
             variables = idx.keyIndices.map { (params[it] as AOPVariable).name }
             data = tripleStoreSPO
+            println("store SPO -> ${data.size}")
         } else {
             variables = idx.valueIndices.map { (params[it] as AOPVariable).name }
             val key = MapKey(idx.keyIndices.map { dictionary.createValue((params[it] as AOPConstant).value) }.toTypedArray())
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
             data = tripleStore[idx.ordinal][key]
+            println("store $idx ${idx.keyIndices.map { (params[it] as AOPConstant).value.valueToString() }} -> ${data?.size}")
         }
         if (data == null || data.size == 0) {
             for (variable in variables) {
-                outMap[variable] = ColumnIteratorDebug(uuid, ColumnIterator())
+                outMap[variable] = ColumnIteratorDebug(-1L, variable, ColumnIterator())
             }
         } else {
             val columns = Array(variables.size) { mutableListOf<Value>() }
@@ -167,7 +169,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                 }
             }
             for (variableIndex in 0 until variables.size) {
-                outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, ColumnIteratorMultiValue(columns[variableIndex]))
+                outMap[variables[variableIndex]] = ColumnIteratorDebug(-2, variables[variableIndex], ColumnIteratorMultiValue(columns[variableIndex]))
             }
         }
         return ColumnIteratorRow(outMap)
