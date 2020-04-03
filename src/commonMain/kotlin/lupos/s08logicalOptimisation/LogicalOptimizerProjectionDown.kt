@@ -92,18 +92,12 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 }
                 is LOPBind -> {
                     if (variables.contains(child.name.name)) {
-                        variables.remove(child.name.name)
-                        if (variables.containsAll(child.getRequiredVariableNames())) {
-                            child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
-                            println("j :: ${child.children[0].uuid} ${node.uuid} ${node.variables.map { it.name }} $variables")
-                            res = child
-                            onChange()
-                        } else {
+                        if (child.children[0] !is LOPProjection) {
+                            variables.remove(child.name.name)
                             variables.addAll(child.getRequiredVariableNames())
-                            if (!variables.containsAll(child.getProvidedVariableNames())) {
+                            if (!variables.containsAll(child.children[0].getProvidedVariableNames())) {
                                 child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
                                 println("k :: ${child.children[0].uuid} ${node.uuid} ${node.variables.map { it.name }} $variables")
-                                res = child
                                 onChange()
                             }
                         }

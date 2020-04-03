@@ -3,11 +3,11 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
-//typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
-//typealias ColumnIteratorDebug = ColumnIteratorDebugCount
-typealias ColumnIteratorDebug = ColumnIteratorDebugFast
+typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
 
-class ColumnIteratorDebugVerbose(val uuid: Long, name: String, val child: ColumnIterator) : ColumnIterator() {
+//typealias ColumnIteratorDebug = ColumnIteratorDebugCount
+//typealias ColumnIteratorDebug = ColumnIteratorDebugFast
+class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: ColumnIterator) : ColumnIterator() {
     companion object {
         val counters = mutableMapOf<Long, MutableMap<String, MutableList<Int>>>()
         fun debug() {
@@ -41,6 +41,8 @@ class ColumnIteratorDebugVerbose(val uuid: Long, name: String, val child: Column
             val res = child.next()
             if (res != null) {
                 counters[uuid]!![name]!!.add(res)
+            } else {
+                println("$uuid finished $name")
             }
             /*return*/res
         }

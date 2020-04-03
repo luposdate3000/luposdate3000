@@ -36,7 +36,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
     override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
-    override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNames()
+    override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
@@ -55,16 +55,18 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
+        println("POPBind $uuid ${variables.size} $variables")
         require(variables.size != 0)
         if (variables.size == 1) {
+            require(children[0].getProvidedVariableNames().size == 0)
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
             outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
         } else {
             require(boundIndex != -1)
-            val columnBound = ColumnIteratorQueue()
-            outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
             for (variableIndex in 0 until variables.size) {
+                println("POPBind $uuid initialize onEmptyQueue ${variables[variableIndex]}")
                 columnsOut[variableIndex].onEmptyQueue = {
+                    println("POPBind $uuid onEmptyQueue ${variables[variableIndex]}")
                     var done = false
                     for (variableIndex2 in 0 until variables.size) {
                         if (boundIndex != variableIndex2) {
@@ -83,7 +85,7 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
                         }
                     }
                     if (!done) {
-                        columnBound.queue.add(query.dictionary.createValue(expression()))
+                        columnsOut[boundIndex].queue.add(query.dictionary.createValue(expression()))
                     }
                 }
             }

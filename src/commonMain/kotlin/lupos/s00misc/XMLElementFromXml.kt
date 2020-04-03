@@ -5,8 +5,12 @@ import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
 fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
-    var res: XMLElement? = null
+    return XMLElement.parseFromXmlHelper(xml)?.first()
+}
+
+fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
+    val res = mutableListOf<XMLElement>()
     var lastindex = 0
     """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach { child ->
         var value = child.value
@@ -19,7 +23,7 @@ fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
                 nodeName = child.groups[7]!!.value
             }
             val childNode = XMLElement(nodeName)
-            res = childNode
+            res.add(childNode)
             var nodeAttributes = ""
             if (child.groups[4] != null) {
                 nodeAttributes = child.groups[4]!!.value
@@ -56,7 +60,7 @@ fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
                 lastindex = idx2
             }
             if (content != "") {
-                val tmp = parseFromXml(content)
+                val tmp = parseFromXmlHelper(content)
                 if (tmp == null) {
                     childNode.addContent(content)
                 } else {
@@ -64,6 +68,9 @@ fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
                 }
             }
         }
+    }
+    if (res.isEmpty() && !xml.isEmpty()) {
+        return null
     }
     return res
 }

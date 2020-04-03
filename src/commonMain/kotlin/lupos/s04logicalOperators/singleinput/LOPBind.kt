@@ -14,6 +14,7 @@ import lupos.s04logicalOperators.Query
 class LOPBind(query: Query, @JvmField val name: AOPVariable, expression: AOPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPBindID, "LOPBind", arrayOf(child, expression)) {
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + name.name).distinct().toMutableList()
+    override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
     override fun equals(other: Any?): Boolean {
         if (other !is LOPBind) {

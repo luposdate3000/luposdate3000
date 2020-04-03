@@ -35,6 +35,7 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate()
         val outMap = mutableMapOf<String, ColumnIterator>()
+        println("POPProjection $uuid ${variables.size} $variables")
         if (variables.size == 0) {
             val variables2 = children[0].getProvidedVariableNames()
             require(variables2.size > 0)
@@ -46,11 +47,13 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
             while (column.next() != null) {
                 counter++
             }
+            println("POPProjection $uuid counter $counter")
             val res = ColumnIteratorRow(outMap)
             res.count = counter
             return res
         } else {
             for (variable in variables) {
+                println("POPProjection $uuid initialize $variable")
                 require(child.columns[variable] != null, { "$variable $uuid" })
                 outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
             }
