@@ -19,8 +19,8 @@ class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EO
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
-        require(children[0].getProvidedVariableNames().containsAll(variables))
-        require(children[1].getProvidedVariableNames().containsAll(variables))
+        require(children[0].getProvidedVariableNames().containsAll(variables), { "$uuid ${children[0].getProvidedVariableNames()} ${variables}" })
+        require(children[1].getProvidedVariableNames().containsAll(variables), { "$uuid ${children[1].getProvidedVariableNames()} ${variables}" })
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()

@@ -36,6 +36,7 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         val child = children[0].evaluate()
         val outMap = mutableMapOf<String, ColumnIterator>()
         for (variable in variables) {
+            require(child.columns[variable] != null, { "$variable $uuid" })
             outMap[variable] = child.columns[variable]!!
         }
         return ColumnIteratorRow(outMap)

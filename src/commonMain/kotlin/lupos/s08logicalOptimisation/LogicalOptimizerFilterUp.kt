@@ -7,6 +7,7 @@ import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
@@ -17,17 +18,35 @@ class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerID
     override val classname = "LogicalOptimizerFilterUp"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-        if (node !is LOPFilter) {
-            for (i in node.children.indices) {
+        if (node is LOPUnion) {
+            for (i in 0 until 2) {
                 val filter = node.children[i]
                 if (filter is LOPFilter && node.getProvidedVariableNames().containsAll(filter.getRequiredVariableNames())) {
                     val d = filter.children[1] as AOPBase
                     if (d is AOPNEQ && (d.children[0] is AOPVariable || d.children[0] is AOPConstant) && (d.children[1] is AOPVariable || d.children[1] is AOPConstant)) {
-                        node.children[i] = filter.children[0]
-                        filter.children[0] = node
-                        res = filter
-                        onChange()
-                        break
+                        if (node.children[1 - i].getProvidedVariableNames().containsAll(filter.getRequiredVariableNames())) {
+                            node.children[i] = filter.children[0]
+                            filter.children[0] = node
+                            res = filter
+                            onChange()
+                            break
+                        }
+                    }
+                }
+            }
+        } else {
+            if (node !is LOPFilter) {
+                for (i in node.children.indices) {
+                    val filter = node.children[i]
+                    if (filter is LOPFilter && node.getProvidedVariableNames().containsAll(filter.getRequiredVariableNames())) {
+                        val d = filter.children[1] as AOPBase
+                        if (d is AOPNEQ && (d.children[0] is AOPVariable || d.children[0] is AOPConstant) && (d.children[1] is AOPVariable || d.children[1] is AOPConstant)) {
+                            node.children[i] = filter.children[0]
+                            filter.children[0] = node
+                            res = filter
+                            onChange()
+                            break
+                        }
                     }
                 }
             }

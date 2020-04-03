@@ -21,13 +21,12 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPProjection")
+        val res = super.toXMLElement()
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)
         for (v in variables) {
             vars.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
         }
-        res.addContent(childrenToXML())
         return res
     }
 
