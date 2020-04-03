@@ -11,9 +11,12 @@ query=resources/sp2b/q3a.sparql
 p=$(pwd)/benchmark_results/sp2b
 mkdir -p $p
 rm log/queries2
-find resources/sp2b/ -name "*.sparql" > log/queries
+#find resources/sp2b/ -name "*.sparql" > log/queries
+echo "resources/sp2b/q6.sparql" > log/queries
+echo "resources/sp2b/q12a.sparql" >> log/queries
+echo "resources/sp2b/q12c.sparql" >> log/queries
+echo "resources/sp2b/q3c.sparql" >> log/queries
 triplesfile=$p/sp2b-${triples}.n3
-csvfile=$p/luposdate.csv
 (
 	cd /opt/sp2b/bin
 	# t parameter specifies amount of tupels

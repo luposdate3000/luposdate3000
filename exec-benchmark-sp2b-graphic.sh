@@ -15,11 +15,13 @@ set datafile separator ","
 set key inside right top
 
 set logscale x
+set logscale y
 
 set title "$query"
 plot \
  'tmp/$query.luposdate.csv' using 2:6 title "luposdate3000 old" with linespoints, \
  'tmp/$query.luposdate-3d7007146ee1a6478c1c18aca37a8cdd4f4f29bb.csv' using 2:6 title "luposdate3000 new" with linespoints, \
+ 'tmp/$query.luposdate-06484cc07789d8719c6b83ffd1fdab7b9d137043-internal.csv' using 2:6 title "luposdate3000 new-no-curl" with linespoints, \
  'tmp/$query.jena.csv' using 2:6 title "jena" with linespoints
 EOF
 

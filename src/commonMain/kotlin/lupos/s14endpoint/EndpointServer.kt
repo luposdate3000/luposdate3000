@@ -1,9 +1,9 @@
 package lupos.s14endpoint
+
+import kotlin.jvm.JvmField
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
-
-import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +44,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-@UseExperimental(ExperimentalStdlibApi::class,kotlin.time.ExperimentalTime::class)
+@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {
     /*
     incoming requests from outside the database. Distribution algorithms must calculate the intended target nodes.
@@ -79,19 +79,19 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     /*
     incoming sparql benchmark
     */
-    suspend fun process_sparql_benchmark(query: String,timeoutMilliSeconds:Double): XMLElement {
-val timer=MonoClock.markNow()
-var time=0.0
-var counter=0
-while(true){
-counter++
-process_sparql_query(query).toString()
-time=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-if(time*1000.0>timeoutMilliSeconds){
-break
-}
-}
-return XMLElement("benchmark").addAttribute("time",""+time).addAttribute("count",""+counter)
+    suspend fun process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): XMLElement {
+        val timer = MonoClock.markNow()
+        var time = 0.0
+        var counter = 0
+        while (true) {
+            counter++
+            process_sparql_query(query).toString()
+            time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+            if (time * 1000.0 > timeoutMilliSeconds) {
+                break
+            }
+        }
+        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter)
     }
 
     /*
@@ -143,9 +143,9 @@ return XMLElement("benchmark").addAttribute("time",""+time).addAttribute("count"
             }
             "/sparql/benchmark" -> {
                 if (isPost) {
-                    return process_sparql_benchmark(data,params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                    return process_sparql_benchmark(data, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
                 } else {
-                    return process_sparql_benchmark(params["query"]!!,params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                    return process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
                 }
             }
             "/import/turtle" -> {

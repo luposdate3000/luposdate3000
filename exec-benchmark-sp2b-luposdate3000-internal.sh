@@ -18,7 +18,7 @@ echo "resources/sp2b/q6.sparql" > log/queries
 echo "resources/sp2b/q12a.sparql" >> log/queries
 echo "resources/sp2b/q12c.sparql" >> log/queries
 echo "resources/sp2b/q3c.sparql" >> log/queries
-csvfile=$p/luposdate-$(git rev-parse HEAD).csv
+csvfile=$p/luposdate-$(git rev-parse HEAD)-internal.csv
 while true
 do
 triplesfile=$p/sp2b-${triples}.n3
@@ -40,9 +40,10 @@ while read query; do
 echo $res
 c=$(echo $res| sed 's/<benchmark time="//g' | sed 's/" count=".*//g')
 n=$(echo $res| sed 's/.*" count="//g' | sed 's/".*//g')
-echo $c -- $n
-	qps=$(bc <<< "scale=2;$n * 1000 / $c")
-	echo "$query,$triples,$code,$n,$c,${qps}" >> $csvfile
+c1=$(bc <<< "scale=2;$c * 1000")
+echo $n -- $c1
+	qps=$(bc <<< "scale=2;$n / $c")
+	echo "$query,$triples,$code,$n,$c1,${qps}" >> $csvfile
 	if [[ "$code" == "0" ]]
 	then
 		echo $query >> log/queries2
