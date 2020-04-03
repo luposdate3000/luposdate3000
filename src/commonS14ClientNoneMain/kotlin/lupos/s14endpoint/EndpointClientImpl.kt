@@ -9,7 +9,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
@@ -25,23 +25,23 @@ import lupos.SparqlTestSuite
 
 object EndpointClientImpl {
     fun encodeParam(key: String, value: Any) = key + "=" + value
-    suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "P2P.retryRequestBytes" }, {
+    suspend fun requestGetBytes(url: String): ByteArray{
         return ByteArray(0)
-    })
+    }
 
-    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "P2P.retryRequestBytes" }, {
+    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray {
         return ByteArray(0)
-    })
+    }
 
-    suspend fun requestGetString(url: String): String = Trace.trace({ "P2P.retryRequestString" }, {
+    suspend fun requestGetString(url: String): String {
         return ""
-    })
+    }
 
-    suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "P2P.retryRequestString" }, {
+    suspend fun requestPostString(url: String, data: DynamicByteArray): String {
         return ""
-    })
+    }
 
-    suspend fun requestPostString(url: String, data: String): String = Trace.trace({ "P2P.retryRequestString" }, {
+    suspend fun requestPostString(url: String, data: String): String {
         return ""
-    })
+    }
 }

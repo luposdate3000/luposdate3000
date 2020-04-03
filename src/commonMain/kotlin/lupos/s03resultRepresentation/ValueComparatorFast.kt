@@ -6,7 +6,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s01io.*
 import lupos.s03resultRepresentation.*

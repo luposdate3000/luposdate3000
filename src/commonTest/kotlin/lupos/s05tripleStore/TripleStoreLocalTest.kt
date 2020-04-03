@@ -11,7 +11,7 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableSet
-import lupos.s00misc.Trace
+
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value

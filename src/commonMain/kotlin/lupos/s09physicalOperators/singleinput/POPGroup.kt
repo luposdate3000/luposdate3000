@@ -8,7 +8,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Value

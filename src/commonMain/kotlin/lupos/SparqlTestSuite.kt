@@ -8,7 +8,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -59,9 +59,6 @@ class SparqlTestSuite() {
                 }
             }
         }
-        GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace" })
-        Trace.print()
-        GlobalLogger.log(ELoggerType.RELEASE, { "afterTrace" })
     }
 
     private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {

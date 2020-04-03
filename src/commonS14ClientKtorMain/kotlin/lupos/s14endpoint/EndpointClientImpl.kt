@@ -23,7 +23,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
@@ -50,27 +50,27 @@ object EndpointClientImpl {
     }
 
     fun encodeParam(name: String, value: Any) = listOf(name to ("" + value)).formUrlEncode()
-    suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
+    suspend fun requestGetBytes(url: String): ByteArray {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
-    })
+    }
 
-    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPostBytes" }, {
+    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
-    })
+    }
 
-    suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGetString" }, {
+    suspend fun requestGetString(url: String): String {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
-    })
+    }
 
-    suspend fun requestPostString(urlString: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPostString" }, {
+    suspend fun requestPostString(urlString: String, data: DynamicByteArray): String {
         SanityCheck.check({ !urlString.startsWith("http://${endpointServer!!.fullname}") })
         throw Exception("not implemented")
-    })
+    }
 
-    suspend fun requestPostString(urlString: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
+    suspend fun requestPostString(urlString: String, data: String): String {
         SanityCheck.check({ !urlString.startsWith("http://${endpointServer!!.fullname}") })
         val res = client.post<String> {
             url(Url(urlString))
@@ -78,5 +78,5 @@ object EndpointClientImpl {
             body = data
         }
         return res
-    })
+    }
 }

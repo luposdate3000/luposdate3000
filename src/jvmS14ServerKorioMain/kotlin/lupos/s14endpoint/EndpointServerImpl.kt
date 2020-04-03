@@ -29,7 +29,6 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
 
     suspend fun responseBinary(request: HttpServer.Request) {
 /*        var data: ByteArray? = null
-        Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler.fetchDataA" }, {
             request.handler { it ->
                 if (data == null) {
                     data = it
@@ -39,7 +38,6 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
             }
             request.endHandler {
                 CoroutinesHelper.runBlock {
-                    Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler.endA" }, {
                         try {
                             val res = receive(request.path, data!!)
                             request.replaceHeader("Content-Type", "application/x-binary")
@@ -48,14 +46,12 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
                             request.setStatus(404)
                             request.end()
                         }
-                    })
                 }
             }
-        })
 */
     }
 
-    suspend fun myRequestHandler(request: HttpServer.Request) = Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler" }, {
+    suspend fun myRequestHandler(request: HttpServer.Request) {
         GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
         val params = request.getParams
         GlobalLogger.log(ELoggerType.DEBUG, { params })
@@ -69,14 +65,12 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
         request.replaceHeader("Content-Type", "text/html")
         var responseBytes: ByteArray? = null
         var data = ""
-        Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler.fetchDataB" }, {
             request.handler { it ->
                 data += it.decodeToString()
                 GlobalLogger.log(ELoggerType.DEBUG, { data })
             }
             request.endHandler {
                 CoroutinesHelper.runBlock {
-                    Trace.traceSuspend({ "EndpointServerImpl.myRequestHandler.endB" }, {
                         try {
                             val singleParams = mutableMapOf<String, String>()
                             params.forEach { k, v ->
@@ -88,11 +82,9 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
                             request.setStatus(404)
                         }
                         request.end(responseBytes!!)
-                    })
                 }
             }
-        })
-    })
+    }
 
     override suspend fun start() {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)

@@ -15,7 +15,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
@@ -37,7 +37,7 @@ object EndpointClientImpl {
     val client = createHttpClient()
 
     fun encodeParam(key: String, value: Any) = URL.encodeComponent(key) + "=" + URL.encodeComponent("" + value)
-    suspend fun requestGetBytes(url: String): ByteArray = Trace.trace({ "EndpointClientImpl.requestGetBytes" }, {
+    suspend fun requestGetBytes(url: String): ByteArray {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         var i = 0
         var res: HttpClient.Response
@@ -54,9 +54,9 @@ object EndpointClientImpl {
             }
         }
         return res.readAllBytes()
-    })
+    }
 
-    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray = Trace.trace({ "EndpointClientImpl.requestPostBytes" }, {
+    suspend fun requestPostBytes(url: String, data: DynamicByteArray): ByteArray {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         var i = 0
         var res: HttpClient.Response
@@ -73,9 +73,9 @@ object EndpointClientImpl {
             }
         }
         return res.readAllBytes()
-    })
+    }
 
-    suspend fun requestGetString(url: String): String = Trace.trace({ "EndpointClientImpl.requestGetString" }, {
+    suspend fun requestGetString(url: String): String {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         var i = 0
         var res: HttpClient.Response
@@ -92,9 +92,9 @@ object EndpointClientImpl {
             }
         }
         return res.readAllString()
-    })
+    }
 
-    suspend fun requestPostString(url: String, data: DynamicByteArray): String = Trace.trace({ "EndpointClientImpl.requestPostString" }, {
+    suspend fun requestPostString(url: String, data: DynamicByteArray): String {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         var i = 0
         var res: HttpClient.Response
@@ -111,9 +111,9 @@ object EndpointClientImpl {
             }
         }
         return res.readAllString()
-    })
+    }
 
-    suspend fun requestPostString(url: String, data: String): String = Trace.trace({ "EndpointClientImpl.requestPostString2" }, {
+    suspend fun requestPostString(url: String, data: String): String {
         SanityCheck.check({ !url.startsWith("http://${endpointServer!!.fullname}") })
         var res: HttpClient.Response
         var i = 0
@@ -131,7 +131,7 @@ object EndpointClientImpl {
             }
         }
         return res.readAllString()
-    })
+    }
 }
 
 class MyDynamicByteArray : AsyncStreamBase {

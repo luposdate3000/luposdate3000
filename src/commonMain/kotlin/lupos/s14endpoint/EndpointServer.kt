@@ -16,7 +16,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -67,14 +67,14 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     /*
     incoming bulk import
     */
-    suspend fun process_xml_input(data: String): XMLElement = Trace.trace({ "process_xml_input" }, {
+    suspend fun process_xml_input(data: String): XMLElement {
         val query = Query()
         val import = POPValuesImportXML(query, XMLElement.parseFromXml(data)!!.first()).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()
         return XMLElement("success")
-    })
+    }
 
     /*
     incoming sparql benchmark
@@ -132,7 +132,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): ByteArray {
         when (path) {
             "/stacktrace" -> {
-                Trace.print()
             }
             "/sparql/query" -> {
                 if (isPost) {

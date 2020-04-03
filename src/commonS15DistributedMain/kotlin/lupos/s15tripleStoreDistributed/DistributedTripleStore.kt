@@ -10,7 +10,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeUuid
-import lupos.s00misc.Trace
+
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -206,36 +206,36 @@ object DistributedTripleStore {
     @JvmField
     val localStore = PersistentStoreLocal()
 
-    fun getGraphNames(includeDefault: Boolean = false): List<String> = Trace.trace({ "DistributedTripleStore.getGraphNames" }, {
+    fun getGraphNames(includeDefault: Boolean = false): List<String> {
         return localStore.getGraphNames(includeDefault)
-    })
+    }
 
-    fun createGraph(query: Query, name: String): DistributedGraph = Trace.trace({ "DistributedTripleStore.createGraph" }, {
+    fun createGraph(query: Query, name: String): DistributedGraph {
         P2P.execGraphOperation(query, name, EGraphOperationType.CREATE)
         return DistributedGraph(query, name)
-    })
+    }
 
-    fun dropGraph(query: Query, name: String) = Trace.trace({ "DistributedTripleStore.dropGraph" }, {
+    fun dropGraph(query: Query, name: String) {
         P2P.execGraphOperation(query, name, EGraphOperationType.DROP)
-    })
+    }
 
-    fun clearGraph(query: Query, name: String) = Trace.trace({ "DistributedTripleStore.clearGraph" }, {
+    fun clearGraph(query: Query, name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
         P2P.execGraphOperation(query, name, EGraphOperationType.CLEAR)
-    })
+    }
 
-    fun getNamedGraph(query: Query, name: String): DistributedGraph = Trace.trace({ "DistributedTripleStore.getNamedGraph" }, {
+    fun getNamedGraph(query: Query, name: String): DistributedGraph {
         if (!(localStore.getGraphNames(true).contains(name))) {
             createGraph(query, name)
         }
         return DistributedGraph(query, name)
-    })
+    }
 
-    fun getDefaultGraph(query: Query): DistributedGraph = Trace.trace({ "DistributedTripleStore.getDefaultGraph" }, {
+    fun getDefaultGraph(query: Query): DistributedGraph {
         return DistributedGraph(query, PersistentStoreLocal.defaultGraphName)
-    })
+    }
 
-    fun commit(query: Query) = Trace.trace({ "DistributedTripleStore.commit" }, {
+    fun commit(query: Query) {
         P2P.execCommit(query)
-    })
+    }
 }
