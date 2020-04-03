@@ -134,7 +134,6 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                         child.children[0] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), childA)
                         println("l :: ${child.children[0].uuid} ${node.uuid} ${node.variables.map { it.name }} $variables2")
-                        res = child
                         onChange()
                     }
                     if (!variables.containsAll(variablesB)) {
@@ -146,7 +145,6 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                         child.children[1] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), childB)
                         println("m :: ${child.children[1].uuid} ${node.uuid} ${node.variables.map { it.name }} ${variables2}")
-                        res = child
                         onChange()
                     }
                 }

@@ -92,6 +92,7 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
         val tmp = mutableListOf<String>()
         var t: ColumnIterator
         tmp.addAll(children[1].getProvidedVariableNames())
+        println("start ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()}")
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 println("columnsINAJ $name")

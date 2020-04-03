@@ -3,7 +3,7 @@ PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX dc:   <http://purl.org/dc/elements/1.1/>
 
-ASK {
+SELECT * WHERE {
   ?erdoes rdf:type foaf:Person .
   ?erdoes foaf:name "Paul Erdoes"^^xsd:string .
   {
@@ -17,6 +17,10 @@ ASK {
             ?author2!=?erdoes &&
             ?author2!=?author)
   } UNION {
+    {
+	SELECT (1 AS ?author2) (2 AS ?document2)  WHERE {
+        }
+    }
     ?document dc:creator ?erdoes .
     ?document dc:creator ?author .
     ?author foaf:name ?name .

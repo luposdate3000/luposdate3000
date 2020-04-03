@@ -35,11 +35,27 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        for (variable in variables) {
-            require(child.columns[variable] != null, { "$variable $uuid" })
-            outMap[variable] = child.columns[variable]!!
+        if (variables.size == 0) {
+            val variables2 = children[0].getProvidedVariableNames()
+            require(variables2.size > 0)
+            for (variable in variables2) {
+                require(child.columns[variable] != null, { "$variable $uuid" })
+            }
+            var counter = 0
+            val column = child.columns[variables2[0]]!!
+            while (column.next() != null) {
+                counter++
+            }
+            val res = ColumnIteratorRow(outMap)
+            res.count = counter
+            return res
+        } else {
+            for (variable in variables) {
+                require(child.columns[variable] != null, { "$variable $uuid" })
+                outMap[variable] = child.columns[variable]!!
+            }
+            return ColumnIteratorRow(outMap)
         }
-        return ColumnIteratorRow(outMap)
     }
 
     override fun toXMLElement(): XMLElement {

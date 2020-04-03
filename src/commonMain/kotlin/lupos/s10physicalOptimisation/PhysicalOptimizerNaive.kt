@@ -69,7 +69,11 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPProjection(query, node.variables, node.children[0])
                 }
                 is LOPMakeBooleanResult -> {
-                    res = POPMakeBooleanResult(query, node.children[0])
+                    if (node.children[0] is LOPProjection || node.children[0] is POPProjection) {
+                        res = POPMakeBooleanResult(query, node.children[0].children[0])
+                    } else {
+                        res = POPMakeBooleanResult(query, node.children[0])
+                    }
                 }
                 is LOPValues -> {
                     res = POPValues(query, node)
