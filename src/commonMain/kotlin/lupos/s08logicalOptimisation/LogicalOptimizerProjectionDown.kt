@@ -51,7 +51,23 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     res = child
                     onChange()
                 }
-                is LOPFilter, is LOPSort -> {
+                is LOPFilter -> {
+                    if (child.children[0] !is LOPTriple) {
+                        if (variables.containsAll(child.getRequiredVariableNames())) {
+                            child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                            res = child
+                            onChange()
+                        } else {
+                            variables.addAll(child.getRequiredVariableNames())
+                            if (!variables.containsAll(child.children[0].getProvidedVariableNames())) {
+                                child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                                res = child
+                                onChange()
+                            }
+                        }
+                    }
+                }
+                is LOPSort -> {
                     if (variables.containsAll(child.getRequiredVariableNames())) {
                         child.children[0] = LOPProjection(query, node.variables, child.children[0])
                         res = child
@@ -66,18 +82,17 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     }
                 }
                 is LOPBind -> {
-                    if (variables.contains(child.name.name)) {
-                        if (variables.containsAll(child.getRequiredVariableNames())) {
-                            child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                    if (variables.containsAll(child.getRequiredVariableNames()) && variables.contains(child.name.name)) {
+                        child.children[0] = LOPProjection(query, node.variables, child.children[0])
+                        res = child
+                        onChange()
+                    } else {
+                        variables.addAll(child.getRequiredVariableNames())
+                        variables.remove(child.name.name)
+                        if (!variables.containsAll(child.getProvidedVariableNames())) {
+                            child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
                             res = child
                             onChange()
-                        } else {
-                            variables.addAll(child.getRequiredVariableNames())
-                            if (!variables.containsAll(child.getProvidedVariableNames())) {
-                                child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
-                                res = child
-                                onChange()
-                            }
                         }
                     } else {
                         /*bind of unused variable -> no sideeffects -> useless*/

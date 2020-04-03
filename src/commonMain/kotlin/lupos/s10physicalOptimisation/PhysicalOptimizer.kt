@@ -9,6 +9,9 @@ import lupos.s08logicalOptimisation.OptimizerCompoundBase
 class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID.PhysicalOptimizerID) {
     override val classname = "PhysicalOptimizer"
     override val childrenOptimizers = arrayOf(//
-            PhysicalOptimizerTripleIndex(query),//
-            PhysicalOptimizerNaive(query))
+            arrayOf(
+                    PhysicalOptimizerTripleIndex(query),//
+                    PhysicalOptimizerNaive(query)
+            )
+    )
 }
