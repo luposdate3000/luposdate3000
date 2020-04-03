@@ -414,7 +414,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!.first()
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
                         val tmp = POPValuesImportXML(query, xmlQueryInput).evaluate()
@@ -432,7 +432,7 @@ class SparqlTestSuite() {
                     val inputData = readFileOrNull(it["filename"])
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!.first()
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
                         val tmp = POPValuesImportXML(query, xmlQueryInput).evaluate()
@@ -487,14 +487,14 @@ class SparqlTestSuite() {
                 var verifiedOutput = false
                 outputDataGraph.forEach {
                     val outputData = readFileOrNull(it["filename"])
-                    var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
+                    var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
                     val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                     var xmlGraphActual = QueryResultToXML.toXML(tmp)
-                    if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual)) {
+                    if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
                         return false
@@ -502,29 +502,29 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.first().toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
                     }
                     verifiedOutput = true
                 }
                 if (resultData != null && resultDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
-                    var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
+                    var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     try {
                         val jenaResult = jena.requestQuery(toParse)
-                        if (!jenaResult.myEqualsUnclean(xmlQueryTarget!!.first())) {
+                        if (!jenaResult.myEqualsUnclean(xmlQueryTarget)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.first().toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
                             return false
                         }
                     } catch (e: ExceptionJenaBug) {
                     }
-                    res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
+                    res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
                         val query2 = Query()
@@ -545,7 +545,8 @@ class SparqlTestSuite() {
                             res = false
                         }
                     } else {
-                        if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget?.first())) {
+                        println("equalunclean?!? $xmlQueryResult $xmlQueryTarget")
+                        if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget)) {
                             if (expectedResult) {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
                             } else {
@@ -553,7 +554,7 @@ class SparqlTestSuite() {
                             }
                         } else {
                             if (expectedResult) {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
                             } else {

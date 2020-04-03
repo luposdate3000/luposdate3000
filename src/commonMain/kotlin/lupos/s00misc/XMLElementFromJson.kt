@@ -5,16 +5,14 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.Query
 
-fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
-    val res = mutableListOf<XMLElement>()
+fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
-    res.add(nodeSparql)
     val nodeHead = XMLElement("head")
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
     if (!json.contains("results")) {
         nodeSparql.addContent(XMLElement("boolean").addContent("" + (json.contains("true") && !json.contains("false"))))
-        return res
+        return nodeSparql
     }
     nodeSparql.addContent(nodeResults)
     var lastParent: XMLElement? = null
@@ -30,7 +28,7 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
     while (idx < json.length) {
         val token = regexToken.find(json, idx + 1)
         if (token == null) {
-            return res
+            return nodeSparql
         }
         idx = token.range.last
         lasttokenbracket = thistokenbracket
@@ -115,34 +113,32 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                     if (token.value == "\"boolean\"") {
                         val token3 = regexToken.find(json, idx + 1)
                         if (token3 == null) {
-                            return res
+                            return nodeSparql
                         }
                         SanityCheck.checkEQ({ token3.value }, { ":" })
                         idx = token3.range.last
                         val token2 = regexToken.find(json, idx + 1)
                         if (token2 == null) {
-                            return res
+                            return nodeSparql
                         }
                         idx = token2.range.last
                         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
-                        res.clear()
-                        res.add(nodeSparql)
                         val node = XMLElement("boolean").addContent(token2.value)
                         nodeSparql.addContent(nodeHead)
                         nodeSparql.addContent(node)
-                        return res
+                        return nodeSparql
                     }
                 }
                 if (!flag && nodeBinding != null) {
                     val token3 = regexToken.find(json, idx + 1)
                     if (token3 == null) {
-                        return res
+                        return nodeSparql
                     }
                     SanityCheck.checkEQ({ token3.value }, { ":" })
                     idx = token3.range.last
                     val token2 = regexToken.find(json, idx + 1)
                     if (token2 == null) {
-                        return res
+                        return nodeSparql
                     }
                     idx = token2.range.last
                     if (token2.value.startsWith("\"") && token2.value.endsWith("\"")) {
@@ -154,5 +150,5 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
             }
         }
     }
-    return res
+    return nodeSparql
 }

@@ -9,7 +9,7 @@ class XMLElement {
     // https://regex101.com
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        fun parseFromAny(data: String, filename: String): List<XMLElement>? {
+        fun parseFromAny(data: String, filename: String): XMLElement? {
             when {
                 filename.endsWith(".srx") -> {
                     return XMLElement.parseFromXml(data)
@@ -135,24 +135,30 @@ class XMLElement {
 
     fun myEqualsUnclean(other: XMLElement?): Boolean {
         if (other == null) {
+            println("myEqualsUnclean false 1")
             return false
         }
         if (tag != other.tag) {
+            println("myEqualsUnclean false 2 $tag ${other.tag}")
             return false
         }
         if (tag == "bnode") {
+            println("myEqualsUnclean true 3")
             return true
         }
         if (tag == "results") {
             if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result") {
+                println("a ${childs.count()} ${other.childs.count()}")
                 childs.add(XMLElement("result"))
             }
             if (childs.count() == 1 && other.childs.count() == 0 && childs[0].childs.count() == 0 && childs[0].tag == "result") {
+                println("b ${childs.count()} ${other.childs.count()}")
                 other.childs.add(XMLElement("result"))
             }
         }
 //<<-- avoid bugs in JENA
         if (childs.count() != other.childs.count()) {
+            println("myEqualsUnclean false 4 ${childs.count()} ${other.childs.count()}")
             return false
         }
         if (tag != "sparql") {
@@ -164,6 +170,7 @@ class XMLElement {
             }
 //<<-- avoid bugs in JENA
             if (attributes != other.attributes) {
+                println("myEqualsUnclean false 5 ${attributes} ${other.attributes}")
                 return false
             }
         }
@@ -171,6 +178,7 @@ class XMLElement {
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
         if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer") {
             if (c1.toInt() != c2.toInt()) {
+                println("myEqualsUnclean false 6 ${c1} ${c2}")
                 return false
             }
 //<<-- avoid bugs in JENA
@@ -178,23 +186,29 @@ class XMLElement {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001) {
+                println("myEqualsUnclean false 7 ${c1} ${c2}")
                 return false
             }
         } else if (c1 != c2) {
+            println("myEqualsUnclean false 8 ${c1} ${c2}")
             return false
         }
         for (c in childs) {
             var found = false
+            println("search child-->>")
             for (d in other.childs) {
                 if (c.myEqualsUnclean(d)) {
                     found = true
                     break
                 }
             }
+            println("search child<<--")
             if (!found) {
+                println("myEqualsUnclean false 9 $c ${other.childs}")
                 return false
             }
         }
+        println("myEqualsUnclean true 10")
         return true
     }
 

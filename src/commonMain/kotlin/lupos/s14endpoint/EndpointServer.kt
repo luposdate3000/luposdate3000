@@ -68,7 +68,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     */
     suspend fun process_xml_input(data: String): XMLElement {
         val query = Query()
-        val import = POPValuesImportXML(query, XMLElement.parseFromXml(data)!!.first()).evaluate()
+        val import = POPValuesImportXML(query, XMLElement.parseFromXml(data)!!).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()

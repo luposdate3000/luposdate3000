@@ -41,7 +41,6 @@ object QueryResultToXML {
             } else {
                 loop@ while (true) {
                     val nodeResult = XMLElement("result")
-                    nodeResults.addContent(nodeResult)
                     for (variableIndex in 0 until variables.size) {
                         val valueID = columns[variableIndex]!!.next()
                         if (valueID == null) {
@@ -83,6 +82,7 @@ object QueryResultToXML {
                             nodeResult.addContent(nodeBinding)
                         }
                     }
+                    nodeResults.addContent(nodeResult)
                 }
             }
         }

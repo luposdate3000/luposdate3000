@@ -2,7 +2,7 @@
 
 #in seconds
 timeout=120
-triples=20000
+triples=64000
 query=resources/sp2b/q3a.sparql
 
 ./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15DistributedMain
@@ -12,10 +12,15 @@ p=$(pwd)/benchmark_results/sp2b
 mkdir -p $p
 rm log/queries2
 #find resources/sp2b/ -name "*.sparql" > log/queries
-echo "resources/sp2b/q6.sparql" > log/queries
-echo "resources/sp2b/q12a.sparql" >> log/queries
-echo "resources/sp2b/q12c.sparql" >> log/queries
+echo "resources/sp2b/q1.sparql" > log/queries
+echo "resources/sp2b/q3a.sparql" >> log/queries
+echo "resources/sp2b/q3b.sparql" >> log/queries
 echo "resources/sp2b/q3c.sparql" >> log/queries
+echo "resources/sp2b/q6.sparql" >> log/queries
+echo "resources/sp2b/q10.sparql" >> log/queries
+echo "resources/sp2b/q12a.sparql" >> log/queries
+echo "resources/sp2b/q12b.sparql" >> log/queries
+echo "resources/sp2b/q12c.sparql" >> log/queries
 triplesfile=$p/sp2b-${triples}.n3
 (
 	cd /opt/sp2b/bin

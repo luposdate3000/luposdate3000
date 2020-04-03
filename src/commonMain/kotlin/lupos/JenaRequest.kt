@@ -116,7 +116,7 @@ class JenaRequest {
         CoroutinesHelper.runBlock {
             message = EndpointClientImpl.requestPostString("http://localhost:${port}/${db}/query", EndpointClientImpl.encodeParam("query", query))
         }
-        return XMLElement.parseFromJson(message!!)!!.first()
+        return XMLElement.parseFromJson(message!!)!!
     }
 
     fun requestAny(query: String): XMLElement {

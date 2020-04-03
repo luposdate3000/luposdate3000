@@ -4,10 +4,8 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
-fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
-    val res = mutableListOf<XMLElement>()
+fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
-    res.add(nodeSparql)
     val nodeHead = XMLElement("head")
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
@@ -38,5 +36,5 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
             }
         }
     }
-    return res
+    return nodeSparql
 }

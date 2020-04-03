@@ -20,12 +20,18 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreLocal(@JvmField val name: String) {
     class MapKey(@JvmField val data: Array<Value>) {
-        override fun hashCode(): Int {
+        val hashCodeValue: Int
+
+        init {
             var res = 0
             for (columnIndex in 0 until data.size) {
                 res += data[columnIndex].hashCode()
             }
-            return res
+            hashCodeValue = res
+        }
+
+        override fun hashCode(): Int {
+            return hashCodeValue
         }
 
         override fun equals(other: Any?): Boolean {

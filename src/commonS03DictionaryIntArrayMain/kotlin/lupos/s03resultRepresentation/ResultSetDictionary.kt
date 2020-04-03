@@ -9,17 +9,17 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
 class ResultSetDictionary {
-    @JvmField
-    val mapSTL = mutableMapOf<ValueDefinition, Value>()
-    @JvmField
-    val mapLTS = mutableListOf<ValueDefinition>()
-
     companion object {
         @JvmField
-        val undefValue = Int.MAX_VALUE
+        val undefValue = 0
         @JvmField
         val undefValue2 = ValueUndef()
     }
+
+    @JvmField
+    val mapSTL = mutableMapOf<ValueDefinition, Value>(undefValue2 to undefValue)
+    @JvmField
+    val mapLTS = mutableListOf<ValueDefinition>(undefValue2)
 
     fun createValue(value: String?) = createValue(ValueDefinition(value))
     fun createValue(value: ValueDefinition): Value {
@@ -40,9 +40,6 @@ class ResultSetDictionary {
     }
 
     fun getValue(value: Value): ValueDefinition {
-        if (value == undefValue) {
-            return undefValue2
-        }
         return mapLTS[value]!!
     }
 }

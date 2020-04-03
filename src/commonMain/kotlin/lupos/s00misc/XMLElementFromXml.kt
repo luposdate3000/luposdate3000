@@ -4,9 +4,9 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
-fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
+fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
+    var res: XMLElement? = null
     val x = xml.replace("\n", "").replace("\r", "")
-    val res = mutableListOf<XMLElement>()
     var lastindex = 0
     """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach { child ->
         var value = child.value
@@ -19,7 +19,7 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
                 nodeName = child.groups[7]!!.value
             }
             val childNode = XMLElement(nodeName)
-            res.add(childNode)
+            res = childNode
             var nodeAttributes = ""
             if (child.groups[4] != null) {
                 nodeAttributes = child.groups[4]!!.value
@@ -64,9 +64,6 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
                 }
             }
         }
-    }
-    if (res.isEmpty() && !xml.isEmpty()) {
-        return null
     }
     return res
 }
