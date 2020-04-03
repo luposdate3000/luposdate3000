@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
-class POPServiceIRI(query: Query, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf()) {
+class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf()) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPServiceIRI) {
             return false
@@ -34,8 +34,8 @@ class POPServiceIRI(query: Query, val serverName: String, val silent: Boolean, v
         return true
     }
 
-    override fun cloneOP() = POPServiceIRI(query, serverName, silent, constraint)
-    override fun getProvidedVariableNames() = constraint.getProvidedVariableNames().distinct()
+    override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
+    override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
     override suspend fun evaluate(): ColumnIteratorRow {
         TODO("not implemented")
     }

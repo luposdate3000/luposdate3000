@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPValuesImportXML : POPValuesImportBase {
-    constructor(query: Query, data: XMLElement) : super(query, data["head"]!!.childs.map { it.attributes["name"]!! }) {
+    constructor(query: Query, projectedVariables: List<String>, data: XMLElement) : super(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
         SanityCheck.checkEQ({ data.tag }, { "sparql" })
         for (node in data["results"]!!.childs) {

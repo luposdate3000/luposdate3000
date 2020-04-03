@@ -20,7 +20,7 @@ import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, EOperatorID.POPModifyID, "POPModify", arrayOf(child)) {
+class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPModifyID, "POPModify", arrayOf(child)) {
     val modify = Array<Pair<LOPTriple, EModifyType>>(insert.size + delete.size) {
         if (it < insert.size) {
             Pair(insert[it], EModifyType.INSERT)
@@ -31,7 +31,7 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
 
     override fun equals(other: Any?): Boolean = other is POPModify && modify.equals(other.modify) && children[0] == other.children[0]
     override fun toSparqlQuery() = toSparql()
-    override fun getProvidedVariableNames() = listOf<String>()
+    override fun getProvidedVariableNamesInternal() = listOf<String>()
     override fun cloneOP(): POPModify {
         val insert = mutableListOf<LOPTriple>()
         val delete = mutableListOf<LOPTriple>()
@@ -42,7 +42,7 @@ class POPModify(query: Query, insert: List<LOPTriple>, delete: List<LOPTriple>, 
                 delete.add(action.first)
             }
         }
-        return POPModify(query, insert, delete, children[0].cloneOP())
+        return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {

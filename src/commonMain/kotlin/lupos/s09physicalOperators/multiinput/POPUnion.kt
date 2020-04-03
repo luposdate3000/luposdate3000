@@ -13,8 +13,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPUnion(query: Query, childA: OPBase, childB: OPBase) : POPBase(query, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB)) {
-    override fun cloneOP() = POPUnion(query, children[0].cloneOP(), children[1].cloneOP())
+class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB)) {
+    override fun cloneOP() = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(): ColumnIteratorRow {

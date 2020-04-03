@@ -56,7 +56,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     */
     suspend fun process_turtle_input(data: String): XMLElement {
         val query = Query()
-        val import = POPValuesImportTurtle(query, data).evaluate()
+        val import = POPValuesImportTurtle(query, listOf("s", "p", "o"), data).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()
@@ -68,7 +68,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     */
     suspend fun process_xml_input(data: String): XMLElement {
         val query = Query()
-        val import = POPValuesImportXML(query, XMLElement.parseFromXml(data)!!).evaluate()
+        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()

@@ -418,7 +418,7 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, xmlQueryInput).evaluate()
+                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
                         DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     }
                     query.commit()
@@ -436,7 +436,7 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, xmlQueryInput).evaluate()
+                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
                         DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     }
                     query.commit()

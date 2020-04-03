@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPDistinctID, "POPDistinct", arrayOf(child)) {
+class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDistinctID, "POPDistinct", arrayOf(child)) {
     override fun equals(other: Any?) = other is POPDistinct && children[0] == other.children[0]
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
@@ -25,7 +25,7 @@ class POPDistinct(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPD
         return "{SELECT DISTINCT * {" + sparql + "}}"
     }
 
-    override fun cloneOP() = POPDistinct(query, children[0].cloneOP())
+    override fun cloneOP() = POPDistinct(query, projectedVariables, children[0].cloneOP())
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()

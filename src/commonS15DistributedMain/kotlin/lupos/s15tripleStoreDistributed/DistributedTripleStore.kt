@@ -21,8 +21,8 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
-class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern, val nodeNames: List<String>) : POPBase(query, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
-    override fun cloneOP() = TripleStoreIteratorGlobal(query, graphName, params, idx, nodeNames)
+class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern, val nodeNames: List<String>) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
+    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, params, idx, nodeNames)
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
             addAttribute("uuid", "" + uuid).//
             addAttribute("name", graphName).//
@@ -38,7 +38,7 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
         return "GRAPH <$graphName> {" + params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "}."
     }
 
-    override fun getProvidedVariableNames(): List<String> {
+    override fun getProvidedVariableNamesInternal(): List<String> {
         val tmp = mutableListOf<String>()
         for (p in params) {
             tmp.addAll(p.getRequiredVariableNames())
@@ -57,12 +57,10 @@ class TripleStoreIteratorGlobal(query: Query, val graphName: String, val params:
 
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val variables: List<String>
+        val variables = projectedVariables
         if (idx == EIndexPattern.SPO) {
             idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
-            variables = idx.keyIndices.map { (params[it] as AOPVariable).name }
         } else {
-            variables = idx.valueIndices.map { (params[it] as AOPVariable).name }
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
         }
@@ -191,7 +189,8 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 
     fun getIterator(idx: EIndexPattern): POPBase {
-        return TripleStoreIteratorGlobal(query, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, P2P.knownClients)
+        val projectedVariables = listOf<String>("s", "p", "o")
+        return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, P2P.knownClients)
     }
 
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
@@ -201,7 +200,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
         }
-        return TripleStoreIteratorGlobal(query, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
+        val projectedVariables = mutableListOf<String>()
+        idx.valueIndices.map {
+            val tmp = (params[it] as AOPVariable).name
+            if (tmp != "_")
+                projectedVariables.add(tmp)
+        }
+        return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
     }
 }
 

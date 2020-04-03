@@ -45,7 +45,7 @@ class POPValuesImportTurtle : POPValuesImportBase {
         addRow(arrayOf(Dictionary[triple_s]!!.toN3String(), Dictionary[triple_p]!!.toN3String(), Dictionary[triple_o]!!.toN3String()))
     }
 
-    constructor(query: Query, data: String) : super(query, listOf("s", "p", "o")) {
+    constructor(query: Query, projectedVariables: List<String>, data: String) : super(query, projectedVariables, listOf("s", "p", "o")) {
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)

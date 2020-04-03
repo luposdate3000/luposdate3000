@@ -72,9 +72,9 @@ open class POPValues : POPBase {
         return true
     }
 
-    override fun cloneOP() = POPValues(query, variables, data)
+    override fun cloneOP() = POPValues(query, projectedVariables, variables, data)
 
-    constructor(query: Query, v: List<String>, d: MutableList<List<String?>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
+    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         variables = v
         var columns = Array(variables.size) { mutableListOf<Value>() }
         data = mutableMapOf<String, MutableList<Value>>()
@@ -88,12 +88,12 @@ open class POPValues : POPBase {
         }
     }
 
-    constructor(query: Query, v: List<String>, d: Map<String, MutableList<Value>>) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
+    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Value>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         variables = v
         data = d
     }
 
-    constructor(query: Query, values: LOPValues) : super(query, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
+    constructor(query: Query, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf()) {
         val tmpVariables = mutableListOf<String>()
         for (name in values.variables) {
             tmpVariables.add(name.name)
@@ -113,7 +113,7 @@ open class POPValues : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames() = variables.distinct()
+    override fun getProvidedVariableNamesInternal() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()

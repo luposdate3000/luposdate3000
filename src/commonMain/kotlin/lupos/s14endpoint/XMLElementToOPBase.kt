@@ -72,6 +72,14 @@ fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: S
     return AOPVariable(query, name)
 }
 
+fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): List<String> {
+    val res = mutableListOf<String>()
+    for (c in node["projectedVariables"]!!.childs) {
+        res.add(c.attributes["name"]!!)
+    }
+    return res
+}
+
 fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     when (node.tag) {
         "LOPSubGroup" -> {
@@ -309,7 +317,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val xmlby = node["by"]!!
             val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
-            return POPSort(query, sortBy, node.attributes["order"] == "ASC", child)
+            return POPSort(query, createProjectedVariables(query, node, mapping), sortBy, node.attributes["order"] == "ASC", child)
         }
         "POPProjection" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
@@ -317,48 +325,48 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             node["variables"]!!.childs.forEach {
                 variables.add(createAOPVariable(query, mapping, it.attributes["name"]!!))
             }
-            return POPProjection(query, variables, child)
+            return POPProjection(query, createProjectedVariables(query, node, mapping), variables, child)
         }
         "LOPMakeBooleanResult" -> {
             return LOPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMakeBooleanResult" -> {
-            return POPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            return POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val by = mutableListOf<AOPVariable>()
-            var bindings: POPBase = POPEmptyRow(query)
+            var bindings: POPBase = POPEmptyRow(query, listOf<String>())
             node["by"]!!.childs.forEach {
                 by.add(createAOPVariable(query, mapping, it.attributes["name"]!!))
             }
             node["bindings"]!!.childs.forEach {
-                bindings = POPBind(query, createAOPVariable(query, mapping, it.attributes["name"]!!), convertToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
+                bindings = POPBind(query, listOf<String>(), createAOPVariable(query, mapping, it.attributes["name"]!!), convertToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
             }
             var res: OPBase
             if (bindings is POPEmptyRow) {
-                res = POPGroup(query, by, null, child)
+                res = POPGroup(query, createProjectedVariables(query, node, mapping), by, null, child)
             } else {
-                res = POPGroup(query, by, bindings as POPBind, child)
+                res = POPGroup(query, createProjectedVariables(query, node, mapping), by, bindings as POPBind, child)
             }
             return res
         }
         "POPFilter" -> {
-            return POPFilter(query, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            return POPFilter(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPBind" -> {
             val child0 = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val child1 = convertToOPBase(query, node["children"]!!.childs[1], mapping)
-            return POPBind(query, createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
+            return POPBind(query, createProjectedVariables(query, node, mapping), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
         }
         "POPOffset" -> {
-            return POPOffset(query, node.attributes["offset"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            return POPOffset(query, createProjectedVariables(query, node, mapping), node.attributes["offset"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPLimit" -> {
-            return POPLimit(query, node.attributes["limit"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            return POPLimit(query, createProjectedVariables(query, node, mapping), node.attributes["limit"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPDistinct" -> {
-            return POPDistinct(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            return POPDistinct(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPValues" -> {
             val vars = mutableListOf<String>()
@@ -373,16 +381,16 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                 }
                 vals.add(exp.toList())
             }
-            return POPValues(query, vars, vals)
+            return POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
         }
         "POPEmptyRow" -> {
-            return POPEmptyRow(query)
+            return POPEmptyRow(query, createProjectedVariables(query, node, mapping))
         }
         "POPUnion" -> {
-            return POPUnion(query, convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
+            return POPUnion(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
         }
         "POPJoinHashMap" -> {
-            return POPJoinHashMap(query, convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+            return POPJoinHashMap(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "TripleStoreIteratorGlobal" -> {
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
@@ -392,7 +400,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx)
         }
         "POPServiceIRI" -> {
-            return POPServiceIRI(query, node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            return POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         else -> {
             throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")

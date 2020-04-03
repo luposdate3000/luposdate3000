@@ -26,12 +26,13 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
 class POPGraphOperation(query: Query,
+                        projectedVariables: List<String>,
                         val silent: Boolean,
                         var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph1iri: String? = null,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null,
-                        val action: EGraphOperationType) : POPBase(query, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf()) {
+                        val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf()) {
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
@@ -124,7 +125,7 @@ class POPGraphOperation(query: Query,
         return true
     }
 
-    override fun cloneOP() = POPGraphOperation(query, silent, graph1type, graph1iri, graph2type, graph2iri, action)
+    override fun cloneOP() = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
     suspend fun copyData(source: DistributedGraph, target: DistributedGraph) {
         val row = source.getIterator(EIndexPattern.SPO).evaluate()
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)

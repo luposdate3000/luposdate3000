@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s09physicalOperators.POPBase
 
-class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB)) {
+class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB)) {
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
@@ -388,5 +388,5 @@ class POPJoinHashMap(query: Query, childA: OPBase, childB: OPBase, @JvmField val
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinHashMap(query, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

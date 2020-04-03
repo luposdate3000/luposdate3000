@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPEmptyRow(query: Query) : POPBase(query, EOperatorID.POPEmptyRowID, "POPEmptyRow", arrayOf()) {
-    override fun cloneOP() = POPEmptyRow(query)
+class POPEmptyRow(query: Query, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorID.POPEmptyRowID, "POPEmptyRow", arrayOf()) {
+    override fun cloneOP() = POPEmptyRow(query, projectedVariables)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
     override suspend fun evaluate(): ColumnIteratorRow {

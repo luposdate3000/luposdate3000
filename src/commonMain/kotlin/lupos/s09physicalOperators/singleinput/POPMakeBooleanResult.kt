@@ -14,11 +14,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPMakeBooleanResult(query: Query, child: OPBase) : POPBase(query, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child)) {
+class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child)) {
     override fun equals(other: Any?): Boolean = other is POPMakeBooleanResult && children[0] == other.children[0]
     override fun toSparqlQuery() = "ASK{" + children[0].toSparql() + "}"
-    override fun cloneOP() = POPMakeBooleanResult(query, children[0].cloneOP())
-    override fun getProvidedVariableNames() = mutableListOf("?boolean")
+    override fun cloneOP() = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
+    override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
     override suspend fun evaluate(): ColumnIteratorRow {
 //TODO rows without any column

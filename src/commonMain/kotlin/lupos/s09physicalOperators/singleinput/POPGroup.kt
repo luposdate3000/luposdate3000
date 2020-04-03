@@ -41,17 +41,17 @@ class POPGroup : POPBase {
 
     override fun cloneOP(): POPGroup {
         if (bindings.size > 0) {
-            var tmpBindings = POPBind(query, AOPVariable(query, bindings[0].first), bindings[0].second, OPNothing(query))
+            var tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[0].first), bindings[0].second, OPNothing(query))
             for (bp in 1 until bindings.size) {
-                tmpBindings = POPBind(query, AOPVariable(query, bindings[0].first), bindings[0].second, tmpBindings)
+                tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[0].first), bindings[0].second, tmpBindings)
             }
-            return POPGroup(query, by, tmpBindings, children[0].cloneOP())
+            return POPGroup(query, projectedVariables, by, tmpBindings, children[0].cloneOP())
         } else {
-            return POPGroup(query, by, null, children[0].cloneOP())
+            return POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
     }
 
-    constructor(query: Query, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, EOperatorID.POPGroupID, "POPGroup", arrayOf(child)) {
+    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child)) {
         this.by = by
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
@@ -62,7 +62,7 @@ class POPGroup : POPBase {
     }
 
     override fun equals(other: Any?): Boolean = other is POPGroup && by.equals(other.by) && bindings.equals(other.bindings) && children[0] == other.children[0]
-    override fun getProvidedVariableNames() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
+    override fun getProvidedVariableNamesInternal() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
         var res = MutableList(by.size) { by[it].name }
         for (b in bindings) {

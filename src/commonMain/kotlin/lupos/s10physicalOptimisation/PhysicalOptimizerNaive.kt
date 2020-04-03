@@ -28,6 +28,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -52,50 +53,60 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
         var res = node
         var change = true
         try {
+            val projectedVariables: List<String>
+            if (parent is LOPProjection) {
+                projectedVariables = parent.getProvidedVariableNames()
+            } else if (parent is POPProjection) {
+                projectedVariables = parent.getProvidedVariableNamesInternal()
+            } else if (node is POPBase) {
+                projectedVariables = node.getProvidedVariableNamesInternal()
+            } else {
+                projectedVariables = node.getProvidedVariableNames()
+            }
             when (node) {
                 is LOPSubGroup -> {
                     res = node.children[0]
                 }
                 is LOPGraphOperation -> {
-                    res = POPGraphOperation(query, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
+                    res = POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
                 }
                 is LOPModify -> {
-                    res = POPModify(query, node.insert, node.delete, node.children[0])
+                    res = POPModify(query, projectedVariables, node.insert, node.delete, node.children[0])
                 }
                 is LOPModifyData -> {
-                    res = POPModifyData(query, node.type, node.data)
+                    res = POPModifyData(query, projectedVariables, node.type, node.data)
                 }
                 is LOPProjection -> {
-                    res = POPProjection(query, node.variables, node.children[0])
+                    res = POPProjection(query, projectedVariables, node.variables, node.children[0])
                 }
                 is LOPMakeBooleanResult -> {
                     if (node.children[0] is LOPProjection || node.children[0] is POPProjection) {
-                        res = POPMakeBooleanResult(query, node.children[0].children[0])
+                        res = POPMakeBooleanResult(query, projectedVariables, node.children[0].children[0])
                     } else {
-                        res = POPMakeBooleanResult(query, node.children[0])
+                        res = POPMakeBooleanResult(query, projectedVariables, node.children[0])
                     }
                 }
                 is LOPValues -> {
-                    res = POPValues(query, node)
+                    res = POPValues(query, projectedVariables, node)
                 }
                 is LOPLimit -> {
-                    res = POPLimit(query, node.limit, node.children[0])
+                    res = POPLimit(query, projectedVariables, node.limit, node.children[0])
                 }
                 is LOPDistinct -> {
-                    res = POPDistinct(query, node.children[0])
+                    res = POPDistinct(query, projectedVariables, node.children[0])
                 }
                 is LOPOffset -> {
-                    res = POPOffset(query, node.offset, node.children[0])
+                    res = POPOffset(query, projectedVariables, node.offset, node.children[0])
                 }
                 is LOPGroup -> {
                     if (node.children[1] is POPBind) {
-                        res = POPGroup(query, node.by, node.children[1] as POPBind, node.children[0])
+                        res = POPGroup(query, projectedVariables, node.by, node.children[1] as POPBind, node.children[0])
                     } else {
-                        res = POPGroup(query, node.by, null, node.children[0])
+                        res = POPGroup(query, projectedVariables, node.by, null, node.children[0])
                     }
                 }
                 is LOPUnion -> {
-                    res = POPUnion(query, node.children[0], node.children[1])
+                    res = POPUnion(query, projectedVariables, node.children[0], node.children[1])
                 }
                 is LOPSort -> {
                     if (parent !is LOPSort) {
@@ -106,25 +117,25 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                             sortBy.add(child.by)
                             child = child.children[0]
                         }
-                        res = POPSort(query, sortBy.toTypedArray(), node.asc, child)
+                        res = POPSort(query, projectedVariables, sortBy.toTypedArray(), node.asc, child)
                     } else {
                         change = false
                     }
                 }
                 is LOPFilter -> {
-                    res = POPFilter(query, node.children[1] as AOPBase, node.children[0])
+                    res = POPFilter(query, projectedVariables, node.children[1] as AOPBase, node.children[0])
                 }
                 is LOPBind -> {
-                    res = POPBind(query, node.name, node.children[1] as AOPBase, node.children[0])
+                    res = POPBind(query, projectedVariables, node.name, node.children[1] as AOPBase, node.children[0])
                 }
                 is LOPJoin -> {
-                    res = POPJoinHashMap(query, node.children[0], node.children[1], node.optional)
+                    res = POPJoinHashMap(query, projectedVariables, node.children[0], node.children[1], node.optional)
                 }
                 is LOPTriple -> {
                     res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)
                 }
                 is OPNothing -> {
-                    res = POPEmptyRow(query)
+                    res = POPEmptyRow(query, projectedVariables)
                 }
                 else -> {
                     change = false

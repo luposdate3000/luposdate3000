@@ -17,7 +17,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPBindID, "POPBind", arrayOf(child, value)) {
+class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value)) {
     override fun toSparql(): String {
         if (children[1] is AOPConstant && (children[1] as AOPConstant).value is ValueUndef) {
             return children[0].toSparql()
@@ -32,10 +32,10 @@ class POPBind(query: Query, @JvmField val name: AOPVariable, value: AOPBase, chi
         return res
     }
 
-    override fun cloneOP() = POPBind(query, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP() = POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
-    override fun getProvidedVariableNames(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
+    override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
     override suspend fun evaluate(): ColumnIteratorRow {

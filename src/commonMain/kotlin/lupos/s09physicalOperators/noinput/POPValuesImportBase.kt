@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-abstract class POPValuesImportBase(query: Query, variables: List<String>) : POPValues(query, variables, mutableListOf<List<String?>>()) {
+abstract class POPValuesImportBase(query: Query, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf<List<String?>>()) {
     fun cleanString(s: String?): String? {
         if (s == null) {
             return null

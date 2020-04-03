@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(query, EOperatorID.POPLimitID, "POPLimit", arrayOf(child)) {
+class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val limit: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPLimitID, "POPLimit", arrayOf(child)) {
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {
@@ -24,7 +24,7 @@ class POPLimit(query: Query, @JvmField val limit: Int, child: OPBase) : POPBase(
     }
 
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
-    override fun cloneOP() = POPLimit(query, limit, children[0].cloneOP())
+    override fun cloneOP() = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
         var count = 0

@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter)) {
+class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter)) {
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {
@@ -29,8 +29,8 @@ class POPFilter(query: Query, filter: AOPBase, child: OPBase) : POPBase(query, E
 
     override fun equals(other: Any?): Boolean = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
     override fun childrenToVerifyCount() = 1
-    override fun cloneOP() = POPFilter(query, children[1].cloneOP() as AOPBase, children[0].cloneOP())
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames()
+    override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
     override suspend fun evaluate(): ColumnIteratorRow {
 //TODO not-equal shortcut during evaluation based on integer-ids

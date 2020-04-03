@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
+class POPProjection(query: Query, projectedVariables: List<String>, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
     override fun toSparql(): String {
         var res = "{SELECT "
         for (c in variables) {
@@ -27,9 +27,9 @@ class POPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         return res
     }
 
-    override fun cloneOP() = POPProjection(query, variables, children[0].cloneOP())
+    override fun cloneOP() = POPProjection(query, projectedVariables, variables, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPProjection && variables.equals(other.variables) && children[0] == other.children[0]
-    override fun getProvidedVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
+    override fun getProvidedVariableNamesInternal(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
     override fun getRequiredVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()

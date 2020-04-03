@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.POPBase
 
-class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBase(query, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child)) {
+class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val offset: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child)) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset) {
             return false
@@ -37,7 +37,7 @@ class POPOffset(query: Query, @JvmField val offset: Int, child: OPBase) : POPBas
         return "{SELECT * {" + sparql + "} OFFSET " + offset + "}"
     }
 
-    override fun cloneOP() = POPOffset(query, offset, children[0].cloneOP())
+    override fun cloneOP() = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
