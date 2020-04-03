@@ -8,7 +8,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 object ExecuteOptimizer {
     @JvmField
-    val enabledOptimizers = ThreadSafeMutableMap<EOptimizerID, Boolean>()
+    val enabledOptimizers = mutableMapOf<EOptimizerID, Boolean>()
 
     inline fun invoke(crossinline optimizer: () -> OptimizerBase, crossinline node: () -> OPBase, crossinline action: () -> OPBase): OPBase {
         if (optimizer().optimizerID.optional) {

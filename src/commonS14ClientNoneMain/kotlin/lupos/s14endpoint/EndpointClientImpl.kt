@@ -9,7 +9,6 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
@@ -25,7 +24,7 @@ import lupos.SparqlTestSuite
 
 object EndpointClientImpl {
     fun encodeParam(key: String, value: Any) = key + "=" + value
-    suspend fun requestGetBytes(url: String): ByteArray{
+    suspend fun requestGetBytes(url: String): ByteArray {
         return ByteArray(0)
     }
 

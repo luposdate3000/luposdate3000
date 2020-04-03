@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -15,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 class PersistentStoreLocal {
     @JvmField
-    val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
+    val stores = mutableMapOf<String, TripleStoreLocal>()
 
     constructor() {
         stores[defaultGraphName] = TripleStoreLocal(defaultGraphName)
@@ -27,7 +26,7 @@ class PersistentStoreLocal {
 
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
-        stores.forEachKey { t ->
+        stores.keys.forEach { t ->
             if (t != defaultGraphName || includeDefault) {
                 res.add(t)
             }
@@ -70,7 +69,7 @@ class PersistentStoreLocal {
     }
 
     fun commit(query: Query) {
-        stores.forEachValue { v ->
+        stores.values.forEach { v ->
             v.commit(query)
         }
     }

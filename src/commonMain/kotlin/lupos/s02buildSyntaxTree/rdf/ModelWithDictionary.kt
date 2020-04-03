@@ -2,15 +2,14 @@ package lupos.s02buildSyntaxTree.rdf
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
-import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.rdf.RDFTerm
 import lupos.s04logicalOperators.Query
 
 object Dictionary {
     private val max_id = ThreadSafeUuid()
-    private val RDFTerm_to_ID = ThreadSafeMutableMap<String, Long>()
-    private val ID_to_RDFTerm = ThreadSafeMutableMap<Long, RDFTerm>()
+    private val RDFTerm_to_ID = mutableMapOf<String, Long>()
+    private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
     private fun addRDFTerm(term: RDFTerm): Long {
         val result = max_id.next()
         this.RDFTerm_to_ID[term.toN3String()] = result

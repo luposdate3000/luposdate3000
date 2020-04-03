@@ -4,18 +4,15 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.ThreadSafeMutableList
-import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
 class ResultSetDictionary {
     @JvmField
-    val mapSTL = ThreadSafeMutableMap<ValueDefinition, Value>()
+    val mapSTL = mutableMapOf<ValueDefinition, Value>()
     @JvmField
-    val mapLTS = ThreadSafeMutableList<ValueDefinition>()
-    @JvmField
-    val mutex = CoroutinesHelper.createLock()
+    val mapLTS = mutableListOf<ValueDefinition>()
 
     companion object {
         @JvmField
@@ -30,17 +27,15 @@ class ResultSetDictionary {
         if (value is ValueUndef || value is ValueError) {
             return res
         }
-        CoroutinesHelper.runBlockWithLock(mutex, {
-            val o = mapSTL[value]
-            if (o != null) {
-                res = o
-            } else {
-                val l = mapLTS.size()
-                mapSTL[value] = l
-                mapLTS.add(value)
-                res = l
-            }
-        })
+        val o = mapSTL[value]
+        if (o != null) {
+            res = o
+        } else {
+            val l = mapLTS.size
+            mapSTL[value] = l
+            mapLTS.add(value)
+            res = l
+        }
         return res
     }
 
@@ -48,10 +43,6 @@ class ResultSetDictionary {
         if (value == undefValue) {
             return undefValue2
         }
-        var res: ValueDefinition = undefValue2
-        CoroutinesHelper.runBlockWithLock(mutex, {
-            res = mapLTS[value]!!
-        })
-        return res
+        return mapLTS[value]!!
     }
 }

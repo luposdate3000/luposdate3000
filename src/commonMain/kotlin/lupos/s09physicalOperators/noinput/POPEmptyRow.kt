@@ -5,7 +5,6 @@ import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase

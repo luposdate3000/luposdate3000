@@ -8,7 +8,6 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
-
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator

@@ -282,5 +282,5 @@ class XMLElement {
         return res
     }
 
-    fun toPrettyString() =toPrettyString("").toString()
+    fun toPrettyString() = toPrettyString("").toString()
 }

@@ -5,7 +5,6 @@ import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
-
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable

@@ -65,25 +65,25 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
         request.replaceHeader("Content-Type", "text/html")
         var responseBytes: ByteArray? = null
         var data = ""
-            request.handler { it ->
-                data += it.decodeToString()
-                GlobalLogger.log(ELoggerType.DEBUG, { data })
-            }
-            request.endHandler {
-                CoroutinesHelper.runBlock {
-                        try {
-                            val singleParams = mutableMapOf<String, String>()
-                            params.forEach { k, v ->
-                                singleParams[k] = v?.first()
-                            }
-                            responseBytes = receive(request.path, request.method == Http.Method.POST, data, singleParams)
-                        } catch (e: Throwable) {
-                            responseBytes = e.toString().encodeToByteArray()
-                            request.setStatus(404)
-                        }
-                        request.end(responseBytes!!)
+        request.handler { it ->
+            data += it.decodeToString()
+            GlobalLogger.log(ELoggerType.DEBUG, { data })
+        }
+        request.endHandler {
+            CoroutinesHelper.runBlock {
+                try {
+                    val singleParams = mutableMapOf<String, String>()
+                    params.forEach { k, v ->
+                        singleParams[k] = v?.first()
+                    }
+                    responseBytes = receive(request.path, request.method == Http.Method.POST, data, singleParams)
+                } catch (e: Throwable) {
+                    responseBytes = e.toString().encodeToByteArray()
+                    request.setStatus(404)
                 }
+                request.end(responseBytes!!)
             }
+        }
     }
 
     override suspend fun start() {

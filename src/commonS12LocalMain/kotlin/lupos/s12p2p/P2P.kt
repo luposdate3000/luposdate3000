@@ -5,7 +5,6 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ThreadSafeMutableList
-
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.*
@@ -49,7 +48,7 @@ object P2P {
         return Endpoint.process_local_triple_get(query, resultSet, graphName, params, idx)
     }
 
-    fun execTripleDelete(query: Query, node: String, graphName: String, data: Array<AOPBase>, idx: EIndexPattern){
+    fun execTripleDelete(query: Query, node: String, graphName: String, data: Array<AOPBase>, idx: EIndexPattern) {
         Endpoint.process_local_triple_delete(query, graphName, data, idx)
     }
 

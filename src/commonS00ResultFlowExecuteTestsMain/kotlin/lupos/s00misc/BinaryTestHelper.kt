@@ -165,7 +165,7 @@ val MAX_TRIPLES = 100
 val MAX_GRAPH_NAMES = 10
 val testDictionaryVarName = ThreadSafeMutableList<String?>()
 val testDictionaryValue = ThreadSafeMutableList<String?>()
-val testDictionaryValueTyped = ThreadSafeMutableMap<ValueEnum, ThreadSafeMutableList<String?>>()
+val testDictionaryValueTyped = mutableMapOf<ValueEnum, ThreadSafeMutableList<String?>>()
 var hadArrayIndexOutOfBoundsException = false
 fun fromBinaryListOfVariables(query: Query, random: TestRandom, count: Int): MutableList<AOPVariable> {
     var res = mutableListOf<AOPVariable>()
