@@ -47,7 +47,6 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
         val columnsLocal = Array(variablesLocal.size) { ColumnIteratorQueue() }
         var boundIndex = -1
-        var boundIndex2 = -1
         for (variableIndex in 0 until variablesLocal.size) {
             localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
             outMap[variablesLocal[variableIndex]] = ColumnIteratorDebug(uuid, variablesLocal[variableIndex], columnsLocal[variableIndex])
@@ -55,14 +54,9 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                 boundIndex = variableIndex
             }
         }
-        val columnsOutTmp = MutableList(variablesOut.size) {
-            if (variablesOut[it] == name.name) {
-                boundIndex2 = it
-            }
+        val columnsOut = Array(variablesOut.size) {
             localMap[variablesOut[it]] as ColumnIteratorQueue
         }
-        columnsOutTmp.removeAt(boundIndex2)
-        val columnsOut = columnsOutTmp.toTypedArray()
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
         println("POPBind $uuid ${variablesLocal.size} $variablesLocal")
@@ -81,7 +75,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                         if (boundIndex != variableIndex2) {
                             val value = columnsIn[variableIndex2]!!.next()
                             if (value == null) {
-                                require(variableIndex2 == 0)
+                                require(variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1), { "${variablesLocal[variableIndex2]} $variableIndex2 $boundIndex ${name.name} $uuid ${variablesLocal.map { it }}" })
                                 for (variableIndex3 in 0 until variablesLocal.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }
@@ -92,11 +86,11 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                             columnsLocal[variableIndex2].tmp = value
                         }
                     }
-                    for (variableIndex2 in 0 until columnsOut.size) {
-                        columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
-                    }
                     if (!done) {
-                        columnsLocal[boundIndex].queue.add(query.dictionary.createValue(expression()))
+                        columnsLocal[boundIndex].tmp = query.dictionary.createValue(expression())
+                        for (variableIndex2 in 0 until columnsOut.size) {
+                            columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                        }
                     }
                 }
             }

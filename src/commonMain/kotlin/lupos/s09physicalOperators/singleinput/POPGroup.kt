@@ -254,8 +254,7 @@ class POPGroup : POPBase {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPGroup")
-        res.addAttribute("uuid", "" + uuid)
+        val res = super.toXMLElement()
         val byxml = XMLElement("by")
         res.addContent(byxml)
         for (b in by) {
@@ -266,7 +265,6 @@ class POPGroup : POPBase {
         for (b in bindings) {
             xmlbindings.addContent(XMLElement("binding").addAttribute("name", b.first).addContent(b.second.toXMLElement()))
         }
-        res.addContent(childrenToXML())
         return res
     }
 }

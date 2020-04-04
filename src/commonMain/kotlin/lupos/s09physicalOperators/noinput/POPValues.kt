@@ -131,7 +131,7 @@ open class POPValues : POPBase {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPValues")
+        val res = super.toXMLElement()
         val xmlvariables = XMLElement("variables")
         res.addContent(xmlvariables)
         val bindings = XMLElement("bindings")

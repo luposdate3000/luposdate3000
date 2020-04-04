@@ -31,7 +31,24 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
 
     override fun equals(other: Any?): Boolean = other is POPModify && modify.equals(other.modify) && children[0] == other.children[0]
     override fun toSparqlQuery() = toSparql()
-    override fun getProvidedVariableNamesInternal() = listOf<String>()
+    override fun getProvidedVariableNames() = listOf<String>()
+    override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
+    override fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (action in modify) {
+            if (action.first.graphVar) {
+                res.add(action.first.graph)
+            }
+            for (i in 0 until 3) {
+                val tmp = action.first.children[i]
+                if (tmp is AOPVariable) {
+                    res.add(tmp.name)
+                }
+            }
+        }
+        return res.distinct()
+    }
+
     override fun cloneOP(): POPModify {
         val insert = mutableListOf<LOPTriple>()
         val delete = mutableListOf<LOPTriple>()
