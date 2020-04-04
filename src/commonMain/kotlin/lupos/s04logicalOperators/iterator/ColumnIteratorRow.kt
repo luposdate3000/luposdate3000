@@ -26,6 +26,7 @@ class ColumnIteratorRow(val columns: Map<String, ColumnIterator>) {
                         res++
                     }
                 }
+                counter = res
                 return res
             }
         }

@@ -12,7 +12,7 @@ enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnC
     LogicalOptimizerArithmeticID(false, true),
     LogicalOptimizerFilterDownID(true, true),
     LogicalOptimizerProjectionDownID(true, true),
-    LogicalOptimizerFilterUpID(true, true),
+    LogicalOptimizerFilterUpNEQID(true, true),
     LogicalOptimizerFilterIntoTripleID(true, true),
     LogicalOptimizerFilterSplitANDID(true, true),
     LogicalOptimizerFilterSplitORID(true, true),

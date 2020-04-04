@@ -9,10 +9,12 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
     override val classname = "LogicalOptimizer"
     override val childrenOptimizers = arrayOf(//
             arrayOf<OptimizerBase>(
+                    LogicalOptimizerArithmetic(query)//
+            ),
+            arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerRemovePrefix(query),//
                     LogicalOptimizerRemoveNOOP(query),//
-                    LogicalOptimizerArithmetic(query),//
                     LogicalOptimizerDistinctUp(query),//
                     LogicalOptimizerOptional(query),//
                     LogicalOptimizerBindToFilter(query)//
@@ -21,7 +23,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerUnionUp(query),//
                     LogicalOptimizerFilterSplitAND(query),//
                     LogicalOptimizerFilterDown(query),//
-                    LogicalOptimizerFilterUp(query)//
+                    LogicalOptimizerFilterUpNEQ(query)//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerJoinOrder(query)//

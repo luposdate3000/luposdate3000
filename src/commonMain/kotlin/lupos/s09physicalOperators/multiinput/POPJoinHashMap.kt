@@ -144,13 +144,17 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             } else {
                 if (columnsINAO.size == 0) {
 //---no columns from a
-                    for (columnIndex in 0 until columnsINBO.size) {
-                        columnsOUTB[columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
+                    if (childA.count > 0) {
+                        for (columnIndex in 0 until columnsINBO.size) {
+                            columnsOUTB[columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
+                        }
                     }
                 } else if (columnsINBO.size == 0) {
 //---no columns from b
-                    for (columnIndex in 0 until columnsINAO.size) {
-                        columnsOUTA[columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
+                    if (childB.count > 0) {
+                        for (columnIndex in 0 until columnsINAO.size) {
+                            columnsOUTA[columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
+                        }
                     }
                 } else {
 //---cartesian product

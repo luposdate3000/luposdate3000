@@ -477,10 +477,21 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     }
                 }
                 is LOPOptional -> {
+                    var optionalRoot: OPBase = tmp2.children[0]
+                    while (optionalRoot is LOPFilter) {
+                        val child = optionalRoot.children[0]
+                        optionalRoot.children[0] = LOPNOOP(query)
+                        if (members.containsKey(EGroupMember.GMLOPFilter)) {
+                            (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(optionalRoot)
+                        } else {
+                            members[EGroupMember.GMLOPFilter] = optionalRoot
+                        }
+                        optionalRoot = child
+                    }
                     if (members.containsKey(EGroupMember.GMLOPOptional)) {
-                        members[EGroupMember.GMLOPOptional] = LOPJoin(query, members[EGroupMember.GMLOPOptional]!!, tmp2.children[0], true)
+                        members[EGroupMember.GMLOPOptional] = LOPJoin(query, members[EGroupMember.GMLOPOptional]!!, optionalRoot, true)
                     } else {
-                        members[EGroupMember.GMLOPOptional] = tmp2.children[0]
+                        members[EGroupMember.GMLOPOptional] = optionalRoot
                     }
                 }
                 is LOPJoin -> {

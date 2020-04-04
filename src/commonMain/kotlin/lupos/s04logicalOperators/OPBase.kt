@@ -12,7 +12,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
-import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.*
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>) {
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
@@ -84,17 +84,38 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return res
     }
 
+    fun replaceVariableWithUndef(node: OPBase, name: String): OPBase {
+        if (node is AOPVariable && node.name == name) {
+            return AOPConstant(query, ResultSetDictionary.undefValue2)
+        }
+        for (i in 0 until node.children.size) {
+            node.children[i] = replaceVariableWithUndef(node.children[i], name)
+        }
+        return node
+    }
+
     fun syntaxVerifyAllVariableExistsAutocorrect() {
-        for (req in getRequiredVariableNames()) {
+        for (name in getRequiredVariableNames()) {
             var found = false
             for (prov in getProvidedVariableNames()) {
-                if (prov == req) {
+                if (prov == name) {
                     found = true
                     break
                 }
             }
             if (!found) {
-                children[0] = LOPBind(query, AOPVariable(query, req), AOPConstant(query, ValueUndef()), children[0])
+                println("syntaxVerifyAllVariableExistsAutocorrect $classname")
+                if (this is LOPBind || this is LOPFilter) {
+                    children[1] = replaceVariableWithUndef(children[1], name)
+                } else {
+                    require(this is LOPGroup)
+                    children[1] = replaceVariableWithUndef(children[1], name)
+                    by.forEach {
+                        if (it.name == name) {
+                            throw Exception("group by undefined variable $name")
+                        }
+                    }
+                }
             }
         }
     }

@@ -39,25 +39,25 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
         return res.distinct()
     }
 
-    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
-        SanityCheck.check({ additionalProvided.isEmpty() })
-        val localProvide = additionalProvided + children[0].getProvidedVariableNames()
-        val localRequire = mutableListOf<String>()
-        for (v in by) {
-            localRequire.add(v.name)
-        }
-        localRequire += children[1].getRequiredVariableNames()
-        children[0].syntaxVerifyAllVariableExists(localProvide, autocorrect)
-        val res = localProvide.containsAll(localRequire)
-        if (!res) {
-            if (autocorrect) {
-                syntaxVerifyAllVariableExistsAutocorrect()
-            } else {
-                throw Exception("$classname undefined Variable")
+    /*    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
+            SanityCheck.check({ additionalProvided.isEmpty() })
+            val localProvide = additionalProvided + children[0].getProvidedVariableNames()
+            val localRequire = mutableListOf<String>()
+            for (v in by) {
+                localRequire.add(v.name)
+            }
+            localRequire += children[1].getRequiredVariableNames()
+            children[0].syntaxVerifyAllVariableExists(localProvide, autocorrect)
+            val res = localProvide.containsAll(localRequire)
+            if (!res) {
+                if (autocorrect) {
+                    syntaxVerifyAllVariableExistsAutocorrect()
+                } else {
+                    throw Exception("$classname undefined Variable")
+                }
             }
         }
-    }
-
+    */
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPGroup")
         val byxml = XMLElement("LocalBy")
