@@ -121,6 +121,10 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             columnsOUTB.add(t)
             columnsINBO.add(childB.columns[name]!!)
         }
+        var emptyColumnsWithJoin = columnsOUTA.size == 0 && columnsOUTB.size == 0 && columnsOUTJ.size == 0 && columnsOUTJLocal.size != 0
+        if (emptyColumnsWithJoin) {
+            columnsOUTJ.add(0)
+        }
         val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
         val mapWithUndef = mutableMapOf<MapKey, MapRow>()
         var currentKey: Array<Value>? = null
@@ -386,6 +390,11 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                 }
             }
             res = ColumnIteratorRow(outMap)
+            if (emptyColumnsWithJoin) {
+                res.hasNext = {
+                    /*return*/columnsOUTJLocal[0].next() != null
+                }
+            }
         }
         return res!!
     }
