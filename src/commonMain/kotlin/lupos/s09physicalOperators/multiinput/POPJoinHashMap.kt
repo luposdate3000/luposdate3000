@@ -252,7 +252,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             for (iterator in outIterators) {
 //this is just function pointer assignment. this loop does not calculate anything
                 iterator.close = {
-                    println("$uuid close")
+                    //println("$uuid close")
                     iterator._close()
                     for (variable in children[0].getProvidedVariableNames()) {
                         childA.columns[variable]!!.close()

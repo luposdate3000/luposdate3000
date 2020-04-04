@@ -58,6 +58,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = projectedVariables
+        println("TripleStoreIteratorGlobal $uuid $variables")
         if (idx == EIndexPattern.SPO) {
             idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
         } else {
@@ -194,19 +195,28 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
+        val projectedVariables = mutableListOf<String>()
         if (idx == EIndexPattern.SPO) {
             idx.keyIndices.map { require(params[it] is AOPVariable, { "$name ${idx} ${params.map { it }}" }) }
+            idx.keyIndices.map {
+                val tmp = (params[it] as AOPVariable).name
+                if (tmp != "_") {
+                    projectedVariables.add(tmp)
+                }
+            }
         } else {
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
+            idx.valueIndices.map {
+                val tmp = (params[it] as AOPVariable).name
+                if (tmp != "_") {
+                    projectedVariables.add(tmp)
+                }
+            }
         }
-        val projectedVariables = mutableListOf<String>()
-        idx.valueIndices.map {
-            val tmp = (params[it] as AOPVariable).name
-            if (tmp != "_")
-                projectedVariables.add(tmp)
-        }
-        return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
+        val res = TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
+        println("DistributedGraph ${res.uuid} $idx $projectedVariables ${idx.valueIndices.map { (params[it] as AOPVariable).name }}")
+        return res
     }
 }
 

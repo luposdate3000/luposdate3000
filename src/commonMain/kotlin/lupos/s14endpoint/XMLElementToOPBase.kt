@@ -74,6 +74,7 @@ fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: S
 
 fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): List<String> {
     val res = mutableListOf<String>()
+    require(node["projectedVariables"] != null, { node.toPrettyString() })
     for (c in node["projectedVariables"]!!.childs) {
         res.add(c.attributes["name"]!!)
     }

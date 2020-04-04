@@ -39,53 +39,64 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
     override suspend fun evaluate(): ColumnIteratorRow {
-        val variables = getProvidedVariableNames()
+        val variablesOut = getProvidedVariableNames()
+        val variablesLocal = getProvidedVariableNamesInternal()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-        val columnsIn = Array(variables.size) { child.columns[variables[it]] }
-        val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
+        val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
+        val columnsLocal = Array(variablesLocal.size) { ColumnIteratorQueue() }
         var boundIndex = -1
-        for (variableIndex in 0 until variables.size) {
-            localMap[variables[variableIndex]] = columnsOut[variableIndex]
-            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsOut[variableIndex])
-            if (variables[variableIndex] == name.name) {
+        var boundIndex2 = -1
+        for (variableIndex in 0 until variablesLocal.size) {
+            localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
+            outMap[variablesLocal[variableIndex]] = ColumnIteratorDebug(uuid, variablesLocal[variableIndex], columnsLocal[variableIndex])
+            if (variablesLocal[variableIndex] == name.name) {
                 boundIndex = variableIndex
             }
         }
+        val columnsOutTmp = MutableList(variablesOut.size) {
+            if (variablesOut[it] == name.name) {
+                boundIndex2 = it
+            }
+            localMap[variablesOut[it]] as ColumnIteratorQueue
+        }
+        columnsOutTmp.removeAt(boundIndex2)
+        val columnsOut = columnsOutTmp.toTypedArray()
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
-        println("POPBind $uuid ${variables.size} $variables")
-        require(variables.size != 0)
-        if (variables.size == 1) {
-            require(children[0].getProvidedVariableNames().size == 0)
+        println("POPBind $uuid ${variablesLocal.size} $variablesLocal")
+        require(variablesLocal.size != 0)
+        if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
             outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
         } else {
             require(boundIndex != -1)
-            for (variableIndex in 0 until variables.size) {
-                println("POPBind $uuid initialize onEmptyQueue ${variables[variableIndex]}")
-                columnsOut[variableIndex].onEmptyQueue = {
-                    println("POPBind $uuid onEmptyQueue ${variables[variableIndex]}")
+            for (variableIndex in 0 until variablesLocal.size) {
+                println("POPBind $uuid initialize onEmptyQueue ${variablesLocal[variableIndex]}")
+                columnsLocal[variableIndex].onEmptyQueue = {
+                    println("POPBind $uuid onEmptyQueue ${variablesLocal[variableIndex]}")
                     var done = false
-                    for (variableIndex2 in 0 until variables.size) {
+                    for (variableIndex2 in 0 until variablesLocal.size) {
                         if (boundIndex != variableIndex2) {
                             val value = columnsIn[variableIndex2]!!.next()
                             if (value == null) {
                                 require(variableIndex2 == 0)
-                                for (variableIndex3 in 0 until variables.size) {
-                                    columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]::_onEmptyQueue
+                                for (variableIndex3 in 0 until variablesLocal.size) {
+                                    columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }
                                 done = true
                                 break
                             }
 //point each iterator to the current value
-                            columnsOut[variableIndex2].tmp = value
-                            columnsOut[variableIndex2].queue.add(value)
+                            columnsLocal[variableIndex2].tmp = value
                         }
                     }
+                    for (variableIndex2 in 0 until columnsOut.size) {
+                        columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                    }
                     if (!done) {
-                        columnsOut[boundIndex].queue.add(query.dictionary.createValue(expression()))
+                        columnsLocal[boundIndex].queue.add(query.dictionary.createValue(expression()))
                     }
                 }
             }

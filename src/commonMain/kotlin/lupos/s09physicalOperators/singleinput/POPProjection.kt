@@ -35,25 +35,23 @@ class POPProjection(query: Query, projectedVariables: List<String>, @JvmField va
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        println("POPProjection $uuid ${variables.size} $variables")
+        if (variables.containsAll(children[0].getProvidedVariableNames())) {
+            return child
+        }
         if (variables.size == 0) {
             val variables2 = children[0].getProvidedVariableNames()
             require(variables2.size > 0)
             for (variable in variables2) {
                 require(child.columns[variable] != null, { "$variable $uuid" })
             }
-            var counter = 0
             val column = child.columns[variables2[0]]!!
-            while (column.next() != null) {
-                counter++
-            }
-            println("POPProjection $uuid counter $counter")
             val res = ColumnIteratorRow(outMap)
-            res.count = counter
+            res.hasNext = {
+                column.next() != null
+            }
             return res
         } else {
             for (variable in variables) {
-                println("POPProjection $uuid initialize $variable")
                 require(child.columns[variable] != null, { "$variable $uuid" })
                 outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
             }
@@ -62,14 +60,12 @@ class POPProjection(query: Query, projectedVariables: List<String>, @JvmField va
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPProjection")
-        res.addAttribute("uuid", "" + uuid)
+        val res = super.toXMLElement()
         val vars = XMLElement("variables")
         res.addContent(vars)
         for (v in variables) {
             vars.addContent(XMLElement("variable").addAttribute("name", v.name))
         }
-        res.addContent(childrenToXML())
         return res
     }
 }

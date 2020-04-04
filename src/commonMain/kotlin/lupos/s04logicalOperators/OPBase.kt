@@ -108,7 +108,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("${classNameToString(this)} undefined Variable")
+                throw Exception("${classNameToString(this)} undefined Variable ${toXMLElement().toPrettyString()} ${additionalProvided} ${getProvidedVariableNames()} ${getRequiredVariableNames()}")
             }
         }
     }

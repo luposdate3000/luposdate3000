@@ -167,17 +167,25 @@ class POPGroup : POPBase {
                 /*return*/tmp
             }
             val localRow = MapRow(row, localAggregations, localColumns)
-            loop2@ while (true) {
-                for (columnIndex in 0 until valueColumnNames.size) {
-                    val value = valueColumns[columnIndex].next()
-                    if (value == null) {
-                        require(columnIndex == 0)
-                        break@loop2
+            if (valueColumnNames.size == 0) {
+                for (i in 0 until child.count) {
+                    for (aggregate in localRow.aggregates) {
+                        aggregate.evaluate()
                     }
-                    localRow.columns[columnIndex].tmp = value
                 }
-                for (aggregate in localRow.aggregates) {
-                    aggregate.evaluate()
+            } else {
+                loop2@ while (true) {
+                    for (columnIndex in 0 until valueColumnNames.size) {
+                        val value = valueColumns[columnIndex].next()
+                        if (value == null) {
+                            require(columnIndex == 0)
+                            break@loop2
+                        }
+                        localRow.columns[columnIndex].tmp = value
+                    }
+                    for (aggregate in localRow.aggregates) {
+                        aggregate.evaluate()
+                    }
                 }
             }
             for (columnIndex in 0 until bindings.size) {

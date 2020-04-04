@@ -29,7 +29,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
         if (variables.size > 0) {
             tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.columns[variables[0]]!!.next() != null)))
         } else {
-            tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.count > 0)))
+            tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.hasNext())))
         }
         tmp.close = {
             tmp._close()

@@ -34,48 +34,95 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
     override suspend fun evaluate(): ColumnIteratorRow {
 //TODO not-equal shortcut during evaluation based on integer-ids
-        val variables = getProvidedVariableNames()
+        val variables = children[0].getProvidedVariableNames()
+        val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
-        val columnsOut = Array(variables.size) { ColumnIteratorQueue() }
+        val columnsLocal = Array(variables.size) { ColumnIteratorQueue() }
         for (variableIndex in 0 until variables.size) {
-            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsOut[variableIndex])
-            localMap[variables[variableIndex]] = columnsOut[variableIndex]
+            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
+            localMap[variables[variableIndex]] = columnsLocal[variableIndex]
         }
         val res = ColumnIteratorRow(outMap)
-        val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
-        for (variableIndex in 0 until variables.size) {
-            columnsOut[variableIndex].onEmptyQueue = {
-                var done = false
-                while (!done) {
-                    println("row")
-                    for (variableIndex2 in 0 until variables.size) {
-                        columnsOut[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                        println("${variables[variableIndex2]} -> ${columnsOut[variableIndex2].tmp}")
-//point each iterator to the current value
-                        if (columnsOut[variableIndex2].tmp == null) {
-                            require(variableIndex2 == 0)
-                            for (variableIndex3 in 0 until variables.size) {
-                                columnsOut[variableIndex3].onEmptyQueue = columnsOut[variableIndex3]::_onEmptyQueue
-                            }
-                            done = true
-                            break
-                        }
+        val resLocal = ColumnIteratorRow(localMap)
+        val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
+        val expression = (children[1] as AOPBase).evaluate(resLocal)
+        if (variablesOut.size == 0) {
+            if (variables.size == 0) {
+                val value = expression()
+                res.hasNext = {
+                    /*return*/false
+                }
+                try {
+                    if (value.toBoolean()) {
+                        res.hasNext = child.hasNext
                     }
-                    if (!done) {
-//evaluate
-                        val value = expression()
-                        try {
-                            if (value.toBoolean()) {
-//accept/deny row in each iterator
-                                for (variableIndex2 in 0 until variables.size) {
-                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                } catch (e: Throwable) {
+                }
+            } else {
+                res.hasNext = {
+                    var res = false
+                    var done = false
+                    while (!done) {
+                        for (variableIndex2 in 0 until variables.size) {
+                            columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+//point each iterator to the current value
+                            if (columnsLocal[variableIndex2].tmp == null) {
+                                require(variableIndex2 == 0)
+                                for (variableIndex3 in 0 until variables.size) {
+                                    columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }
                                 done = true
+                                break
                             }
-                        } catch (e: Throwable) {
+                        }
+                        if (!done) {
+//evaluate
+                            val value = expression()
+                            try {
+                                if (value.toBoolean()) {
+//accept/deny row in each iterator
+                                    res = true
+                                }
+                            } catch (e: Throwable) {
+                            }
+                        }
+                    }
+/*return*/res
+                }
+            }
+        } else {
+            for (variableIndex in 0 until variables.size) {
+                columnsLocal[variableIndex].onEmptyQueue = {
+                    var done = false
+                    while (!done) {
+                        for (variableIndex2 in 0 until variables.size) {
+                            columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+//point each iterator to the current value
+                            if (columnsLocal[variableIndex2].tmp == null) {
+                                require(variableIndex2 == 0)
+                                for (variableIndex3 in 0 until variables.size) {
+                                    columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
+                                }
+                                done = true
+                                break
+                            }
+                        }
+                        if (!done) {
+//evaluate
+                            val value = expression()
+                            try {
+                                if (value.toBoolean()) {
+//accept/deny row in each iterator
+                                    for (variableIndex2 in 0 until variablesOut.size) {
+                                        columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                                    }
+                                    done = true
+                                }
+                            } catch (e: Throwable) {
+                            }
                         }
                     }
                 }
