@@ -58,7 +58,6 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = projectedVariables
-        println("TripleStoreIteratorGlobal $uuid $variables")
         if (idx == EIndexPattern.SPO) {
             idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
         } else {
@@ -72,14 +71,11 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
             tmp.onNoMoreElements = {
                 if (nodeNameIterator.hasNext()) {
                     val nodeName = nodeNameIterator.next()
-                    println("$uuid $nodeName")
                     val row = P2P.execTripleGet(query, nodeName, graphName, params, idx)
                     for (variableIndex2 in 0 until variables.size) {
-                        println("$uuid $nodeName $variableIndex2")
                         columns[variableIndex2].childs.add(row.columns[variables[variableIndex2]]!!)
                     }
                 } else {
-                    println("$uuid close")
                     tmp.close()
                 }
             }
@@ -215,7 +211,6 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
         }
         val res = TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, calculateNodeForDataMaybe(params, idx).toList())
-        println("DistributedGraph ${res.uuid} $idx $projectedVariables ${idx.valueIndices.map { (params[it] as AOPVariable).name }}")
         return res
     }
 }

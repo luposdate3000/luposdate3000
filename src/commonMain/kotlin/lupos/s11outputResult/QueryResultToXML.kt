@@ -19,7 +19,6 @@ object QueryResultToXML {
         val nodeHead = XMLElement("head")
         nodeSparql.addContent(nodeHead)
         val variables = node.getProvidedVariableNames().toTypedArray()
-        println("QueryResultToXML ${variables.size} ${variables.map { it }}")
         if (variables.size == 1 && variables[0] == "?boolean") {
             val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!).valueToString()!!
             val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
@@ -41,10 +40,8 @@ object QueryResultToXML {
                 }
             } else {
                 loop@ while (true) {
-                    println("QueryResultToXML loop")
                     val nodeResult = XMLElement("result")
                     for (variableIndex in 0 until variables.size) {
-                        println("QueryResultToXML loop ->next .. ${columns[variableIndex]}")
                         val valueID = columns[variableIndex]!!.next()
                         if (valueID == null) {
                             break@loop

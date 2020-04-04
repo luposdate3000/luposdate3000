@@ -546,7 +546,6 @@ class SparqlTestSuite() {
                             res = false
                         }
                     } else {
-                        println("equalunclean?!? $xmlQueryResult $xmlQueryTarget")
                         if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget)) {
                             if (expectedResult) {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })

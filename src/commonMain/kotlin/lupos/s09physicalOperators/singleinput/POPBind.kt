@@ -59,7 +59,6 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
-        println("POPBind $uuid ${variablesLocal.size} $variablesLocal")
         require(variablesLocal.size != 0)
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
@@ -67,9 +66,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         } else {
             require(boundIndex != -1)
             for (variableIndex in 0 until variablesLocal.size) {
-                println("POPBind $uuid initialize onEmptyQueue ${variablesLocal[variableIndex]}")
                 columnsLocal[variableIndex].onEmptyQueue = {
-                    println("POPBind $uuid onEmptyQueue ${variablesLocal[variableIndex]}")
                     var done = false
                     for (variableIndex2 in 0 until variablesLocal.size) {
                         if (boundIndex != variableIndex2) {

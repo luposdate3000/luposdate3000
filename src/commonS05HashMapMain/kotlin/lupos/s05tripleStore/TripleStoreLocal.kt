@@ -148,14 +148,12 @@ class TripleStoreLocal(@JvmField val name: String) {
             idx.keyIndices.map { require(params[it] is AOPVariable) }
             variables = idx.keyIndices.map { (params[it] as AOPVariable).name }
             data = tripleStoreSPO
-            println("store SPO -> ${data.size}")
         } else {
             variables = idx.valueIndices.map { (params[it] as AOPVariable).name }
             val key = MapKey(idx.keyIndices.map { dictionary.createValue((params[it] as AOPConstant).value) }.toTypedArray())
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
             data = tripleStore[idx.ordinal][key]
-            println("store $idx ${idx.keyIndices.map { (params[it] as AOPConstant).value.valueToString() }} -> ${data?.size}")
         }
         if (data == null || data.size == 0) {
             for (variable in variables) {

@@ -35,7 +35,6 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 res = ValueBoolean(a.compareTo(b) != 0)
             } catch (e: Throwable) {
             }
-            println("AOPNEQ(${childA().valueToString()}, ${childB().valueToString()}) -> ${res.valueToString()} $res")
 /*return*/res
         }
     }
