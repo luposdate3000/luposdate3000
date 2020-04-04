@@ -14,10 +14,15 @@ mkdir -p $p
 rm log/queries2
 
 #find resources/sp2b/ -name "*.sparql" > log/queries
-echo "resources/sp2b/q6.sparql" > log/queries
-echo "resources/sp2b/q12a.sparql" >> log/queries
-echo "resources/sp2b/q12c.sparql" >> log/queries
+echo "resources/sp2b/q1.sparql" > log/queries
+echo "resources/sp2b/q3a.sparql" >> log/queries
+echo "resources/sp2b/q3b.sparql" >> log/queries
 echo "resources/sp2b/q3c.sparql" >> log/queries
+echo "resources/sp2b/q6.sparql" >> log/queries
+echo "resources/sp2b/q10.sparql" >> log/queries
+echo "resources/sp2b/q12a.sparql" >> log/queries
+echo "resources/sp2b/q12b.sparql" >> log/queries
+echo "resources/sp2b/q12c.sparql" >> log/queries
 csvfile=$p/luposdate-$(git rev-parse HEAD).csv
 while true
 do
