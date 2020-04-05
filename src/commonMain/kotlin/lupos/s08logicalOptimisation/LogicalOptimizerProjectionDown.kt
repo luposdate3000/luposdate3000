@@ -59,9 +59,8 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             onChange()
                         } else {
                             variables.addAll(child.getRequiredVariableNames())
-                            if (!variables.containsAll(child.children[0].getProvidedVariableNames())) {
+                            if (!variables.containsAll(child.children[0].getProvidedVariableNames()) && child.children[0] !is LOPProjection) {
                                 child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
-                                res = child
                                 onChange()
                             }
                         }
@@ -133,6 +132,9 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 else -> {
                 }
             }
+        }
+        if (res != node) {
+            println("LogicalOptimizerProjectionDown ${node.classname} ${res.classname}")
         }
 /*return*/res
     })
