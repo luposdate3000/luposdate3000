@@ -40,6 +40,6 @@ class ResultSetDictionary {
     }
 
     fun getValue(value: Value): ValueDefinition {
-        return mapLTS[value]!!
+        return mapLTS[value]
     }
 }

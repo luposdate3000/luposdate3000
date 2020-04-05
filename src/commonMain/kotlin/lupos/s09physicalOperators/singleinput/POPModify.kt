@@ -70,7 +70,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         val data = mutableMapOf<String, Array<Array<MutableList<Value>>>>()
         loop@ while (true) {
             for (columnIndex in 0 until variables.size) {
-                val value = columns[columnIndex]!!.next()
+                val value = columns[columnIndex].next()
                 if (value == null) {
                     require(columnIndex == 0)
                     break@loop

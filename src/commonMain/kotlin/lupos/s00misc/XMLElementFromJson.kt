@@ -121,12 +121,11 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                         if (token2 == null) {
                             return nodeSparql
                         }
-                        idx = token2.range.last
-                        val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
+                        val nodeSparql2 = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
                         val node = XMLElement("boolean").addContent(token2.value)
-                        nodeSparql.addContent(nodeHead)
-                        nodeSparql.addContent(node)
-                        return nodeSparql
+                        nodeSparql2.addContent(nodeHead)
+                        nodeSparql2.addContent(node)
+                        return nodeSparql2
                     }
                 }
                 if (!flag && nodeBinding != null) {

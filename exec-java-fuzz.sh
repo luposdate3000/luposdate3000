@@ -1,10 +1,10 @@
 #!/bin/bash
 rm -rf jacoco* log/db* nohup.out run javafuzz donefolder
-#./generate-buildfile.kts jvm jvmS00LaunchJavaFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain benchmarkcommonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
+#./generate-buildfile.kts jvm jvmS00LaunchJavaFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain benchmarkcommonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15LocalMain
 #./tool-gradle-build.sh
 buildfile="build.gradle.kts"
 output1=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")
-./generate-buildfile.kts jvm jvmS00LaunchWarnkeFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain benchmarkcommonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15DistributedMain
+./generate-buildfile.kts jvm jvmS00LaunchWarnkeFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain benchmarkcommonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15LocalMain
 ./tool-gradle-build.sh
 buildfile="build.gradle.kts"
 output2=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")

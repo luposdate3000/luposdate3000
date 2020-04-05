@@ -181,6 +181,9 @@ class POPGraphOperation(query: Query,
                         EGraphRefType.IriGraphRef -> {
                             DistributedTripleStore.createGraph(query, graph1iri!!)
                         }
+                        else -> {
+                            require(false)
+                        }
                     }
                 }
                 EGraphOperationType.COPY -> {
@@ -194,6 +197,9 @@ class POPGraphOperation(query: Query,
                                     val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                     DistributedTripleStore.clearGraph(query, graph2iri!!)
                                     copyData(source, target)
+                                }
+                                else -> {
+                                    require(false)
                                 }
                             }
                         }
@@ -213,7 +219,13 @@ class POPGraphOperation(query: Query,
                                         copyData(source, target)
                                     }
                                 }
+                                else -> {
+                                    require(false)
+                                }
                             }
+                        }
+                        else -> {
+                            require(false)
                         }
                     }
                 }
@@ -229,6 +241,9 @@ class POPGraphOperation(query: Query,
                                     DistributedTripleStore.clearGraph(query, graph2iri!!)
                                     copyData(source, target)
                                     DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                }
+                                else -> {
+                                    require(false)
                                 }
                             }
                         }
@@ -250,7 +265,13 @@ class POPGraphOperation(query: Query,
                                         DistributedTripleStore.clearGraph(query, graph1iri!!)
                                     }
                                 }
+                                else -> {
+                                    require(false)
+                                }
                             }
+                        }
+                        else -> {
+                            require(false)
                         }
                     }
                 }
@@ -264,6 +285,9 @@ class POPGraphOperation(query: Query,
                                     val source = DistributedTripleStore.getDefaultGraph(query)
                                     val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                     copyData(source, target)
+                                }
+                                else -> {
+                                    require(false)
                                 }
                             }
                         }
@@ -281,7 +305,13 @@ class POPGraphOperation(query: Query,
                                         copyData(source, target)
                                     }
                                 }
+                                else -> {
+                                    require(false)
+                                }
                             }
+                        }
+                        else -> {
+                            require(false)
                         }
                     }
                 }

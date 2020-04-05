@@ -174,8 +174,8 @@ class SparqlTestSuite() {
                         }
                         Dictionary[it.second] is BlankNode -> {
                             data.s(it.second).forEach {
-                                val iri = (Dictionary[it.first] as IRI).iri
-                                when (iri) {
+                                val iri2 = (Dictionary[it.first] as IRI).iri
+                                when (iri2) {
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
                                         val graph = mutableMapOf<String, String>()
                                         graph["name"] = ""
@@ -185,8 +185,8 @@ class SparqlTestSuite() {
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(it.second).forEach {
-                                            val iri = (Dictionary[it.first] as IRI).iri
-                                            when (iri) {
+                                            val iri3 = (Dictionary[it.first] as IRI).iri
+                                            when (iri3) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
                                                     graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
@@ -221,8 +221,8 @@ class SparqlTestSuite() {
                         }
                         Dictionary[it.second] is BlankNode -> {
                             data.s(it.second).forEach {
-                                val iri = (Dictionary[it.first] as IRI).iri
-                                when (iri) {
+                                val iri2 = (Dictionary[it.first] as IRI).iri
+                                when (iri2) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
                                         SanityCheck.checkNULL({ inputDataFile })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
@@ -246,8 +246,8 @@ class SparqlTestSuite() {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
                                         val service = mutableMapOf<String, String>()
                                         data.s(it.second).forEach {
-                                            val iri = (Dictionary[it.first] as IRI).iri
-                                            when (iri) {
+                                            val iri3 = (Dictionary[it.first] as IRI).iri
+                                            when (iri3) {
                                                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
                                                     service["name"] = (Dictionary[it.second] as IRI).iri
                                                 }
@@ -274,8 +274,8 @@ class SparqlTestSuite() {
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(it.second).forEach {
-                                            val iri = (Dictionary[it.first] as IRI).iri
-                                            when (iri) {
+                                            val iri3 = (Dictionary[it.first] as IRI).iri
+                                            when (iri3) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
                                                     graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
@@ -430,10 +430,10 @@ class SparqlTestSuite() {
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
-                    val inputData = readFileOrNull(it["filename"])
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
+                    val inputData2 = readFileOrNull(it["filename"])
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData2 })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)!!
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     CoroutinesHelper.runBlock {
                         val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
@@ -511,7 +511,7 @@ class SparqlTestSuite() {
                 if (resultData != null && resultDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget?.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     try {
                         val jenaResult = jena.requestQuery(toParse)
@@ -528,12 +528,12 @@ class SparqlTestSuite() {
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
-                        val query2 = Query()
-                        val popNodeRecovered = XMLElement.convertToOPBase(query2, xmlPOP) as POPBase
+                        val query4 = Query()
+                        val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP) as POPBase
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
                         val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
-                        query2.commit()
+                        query4.commit()
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
                         if (xmlQueryResultRecovered.myEquals(xmlQueryResult)) {
                             if (expectedResult) {
@@ -554,7 +554,7 @@ class SparqlTestSuite() {
                             }
                         } else {
                             if (expectedResult) {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
                             } else {

@@ -1,9 +1,9 @@
 package lupos.s14endpoint
 
 import kotlin.jvm.JvmField
-import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
-import kotlin.time.MonoClock
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -79,8 +79,8 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming sparql benchmark
     */
     suspend fun process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): XMLElement {
-        val timer = MonoClock.markNow()
-        var time = 0.0
+        val timer = Monotonic.markNow()
+        var time: Double
         var counter = 0
         while (true) {
             counter++

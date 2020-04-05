@@ -23,11 +23,10 @@ class JenaRequest {
     }
 
     constructor() {
-        var message: String? = null
         if (dbwascreated) {
             CoroutinesHelper.runBlock {
                 try {
-                    message = EndpointClientImpl.requestPostString("http://localhost:${port}/$/datasets", "dbName=${db}&dbType=mem")
+                    EndpointClientImpl.requestPostString("http://localhost:${port}/$/datasets", "dbName=${db}&dbType=mem")
                 } catch (e: Throwable) {
                 }
             }
@@ -43,34 +42,32 @@ class JenaRequest {
         if (data.tag != "sparql") {
             throw Exception("can only parse sparql xml into an iterator")
         }
-        for (v in data["head"]!!.childs) {
-            for (node in data["results"]!!.childs) {
-                val result = mutableMapOf<String, String>()
-                for (v in node.childs) {
-                    val name = v.attributes["name"]!!
-                    val child = v.childs.first()
-                    val content = child.content
-                    val value = when {
-                        child.tag == "uri" -> {
+        for (node in data["results"]!!.childs) {
+            val result = mutableMapOf<String, String>()
+            for (v in node.childs) {
+                val name = v.attributes["name"]!!
+                val child = v.childs.first()
+                val content = child.content
+                val value = when {
+                    child.tag == "uri" -> {
 /*return*/"<" + content + ">"
-                        }
-                        child.tag == "literal" && child.attributes["datatype"] != null -> {
-                            /*return*/"\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                        }
-                        child.tag == "literal" && child.attributes["xml:lang"] != null -> {
-                            /*return*/"\"" + content + "\"@" + child.attributes["xml:lang"]
-                        }
-                        child.tag == "bnode" -> {
-/*return*/"_:" + content
-                        }
-                        else -> {
-                            /*return*/"\"" + content + "\""
-                        }
                     }
-                    result[name] = value
+                    child.tag == "literal" && child.attributes["datatype"] != null -> {
+                        /*return*/"\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                    }
+                    child.tag == "literal" && child.attributes["xml:lang"] != null -> {
+                        /*return*/"\"" + content + "\"@" + child.attributes["xml:lang"]
+                    }
+                    child.tag == "bnode" -> {
+/*return*/"_:" + content
+                    }
+                    else -> {
+                        /*return*/"\"" + content + "\""
+                    }
                 }
-                query += result["s"] + " " + result["p"] + " " + result["o"] + ".\n"
+                result[name] = value
             }
+            query += result["s"] + " " + result["p"] + " " + result["o"] + ".\n"
         }
         if (graph != null) {
             query += "}\n"
@@ -89,9 +86,8 @@ class JenaRequest {
         if (containsStringDatatypeQueries) {
             throw ExceptionJenaBug("queryWithStringDatatype")
         }
-        var message: String? = null
         CoroutinesHelper.runBlock {
-            message = EndpointClientImpl.requestPostString("http://localhost:${port}/${db}/update", EndpointClientImpl.encodeParam("update", query))
+            EndpointClientImpl.requestPostString("http://localhost:${port}/${db}/update", EndpointClientImpl.encodeParam("update", query))
         }
         return XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("results").addContent(XMLElement("result")))
     }

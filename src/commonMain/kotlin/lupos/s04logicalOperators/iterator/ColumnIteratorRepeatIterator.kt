@@ -22,19 +22,19 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
                 } else {
                     index = 2
                     next = {
-                        var res: Value?
+                        var res2: Value?
                         if (index2 < data.size) {
-                            res = data[index2++]
+                            res2 = data[index2++]
                         } else {
                             if (index < count) {
                                 index++
                                 index2 = 0
-                                res = data[index2++]
+                                res2 = data[index2++]
                             } else {
-                                res = null
+                                res2 = null
                             }
                         }
-                        /*return*/res
+                        /*return*/res2
                     }
                 }
                 res = next()

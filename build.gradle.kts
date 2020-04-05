@@ -29,7 +29,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_jvm_S00LaunchSparqlTestSuite_S00SanityChecksOn_S00ExecutionSequential_S01Heap_S12Dummy_S14ServerNone_jvmS14ClientKtorTarget_S15Distributed")
+project.buildDir = file("build/build_jvm_S00LaunchSparqlTestSuite_S00SanityChecksOn_S00ExecutionSequential_S01Heap_S12Dummy_S14ServerNone_jvmS14ClientKtorTarget_S15Local")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
@@ -58,5 +58,5 @@ sourceSets["main"].java.srcDir("src/commonS05HashMapMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS12DummyMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS14ClientKtorMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS14ServerNoneMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS15DistributedMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS15LocalMain/kotlin")
 sourceSets["main"].java.srcDir("src/jvmMain/kotlin")

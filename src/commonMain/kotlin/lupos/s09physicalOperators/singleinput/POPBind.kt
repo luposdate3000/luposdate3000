@@ -55,7 +55,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
             }
         }
         val columnsOut = Array(variablesOut.size) {
-            localMap[variablesOut[it]] as ColumnIteratorQueue
+            /*return*/            localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))

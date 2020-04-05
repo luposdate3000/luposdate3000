@@ -75,13 +75,13 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             }
             require(count <= 3)
             val params = Array<AOPBase>(3) {
-                var res = node.children[it] as AOPBase
-                if (res is AOPVariable) {
-                    if (!projectedVariables.contains((res as AOPVariable).name)) {
-                        res = AOPVariable(query, "_")
+                var res2 = node.children[it] as AOPBase
+                if (res2 is AOPVariable) {
+                    if (!projectedVariables.contains(res2.name)) {
+                        res2 = AOPVariable(query, "_")
                     }
                 }
-/*return*/res
+/*return*/res2
             }
             when (count) {
                 0 -> {

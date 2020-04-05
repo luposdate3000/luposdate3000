@@ -47,7 +47,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, @JvmField va
             val column = child.columns[variables2[0]]!!
             val res = ColumnIteratorRow(outMap)
             res.hasNext = {
-                column.next() != null
+                /*return*/                column.next() != null
             }
             return res
         } else {

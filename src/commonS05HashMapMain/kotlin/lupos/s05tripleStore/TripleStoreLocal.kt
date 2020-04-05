@@ -75,8 +75,8 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 tmp.add(v)
                             }
                         }
-                        pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                     }
+                    pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
                 if (delete != null) {
@@ -94,8 +94,8 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 }
                             }
                         }
-                        pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                     }
+                    pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                 }
             }
         }

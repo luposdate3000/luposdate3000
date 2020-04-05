@@ -90,7 +90,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         val columnsOUTJ = mutableListOf<Int>()//join column-map
         val outIterators = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        var res: ColumnIteratorRow? = null
+        var res: ColumnIteratorRow?
         val tmp = mutableListOf<String>()
         var t: ColumnIterator
         tmp.addAll(children[1].getProvidedVariableNames())
@@ -308,9 +308,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                         var others = mutableListOf<Pair<MapKey, MapRow>>()
 //search for_join-partners
                         if (map == mapWithoutUndef) {
-                            val tmp = mapWithoutUndef[key]
-                            if (tmp != null) {
-                                others.add(Pair(key, tmp))
+                            val tmp2 = mapWithoutUndef[key]
+                            if (tmp2 != null) {
+                                others.add(Pair(key, tmp2))
                             }
                             for ((k, v) in mapWithUndef) {
                                 if (k.equalsFuzzy(key)) {
@@ -400,7 +400,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                 }
             }
         }
-        return res!!
+        return res
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

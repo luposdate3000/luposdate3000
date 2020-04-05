@@ -63,7 +63,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 }
             } else {
                 res.hasNext = {
-                    var res = false
+                    var res2 = false
                     var done = false
                     while (!done) {
                         for (variableIndex2 in 0 until variables.size) {
@@ -84,13 +84,13 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             try {
                                 if (value.toBoolean()) {
 //accept/deny row in each iterator
-                                    res = true
+                                    res2 = true
                                 }
                             } catch (e: Throwable) {
                             }
                         }
                     }
-/*return*/res
+/*return*/res2
                 }
             }
         } else {

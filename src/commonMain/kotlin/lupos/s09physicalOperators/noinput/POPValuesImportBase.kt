@@ -21,7 +21,7 @@ abstract class POPValuesImportBase(query: Query, projectedVariables: List<String
         if (s == null) {
             return null
         }
-        var res = s!!
+        var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
             if (match == null) {
