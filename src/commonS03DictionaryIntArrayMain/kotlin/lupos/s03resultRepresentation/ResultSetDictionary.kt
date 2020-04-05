@@ -21,8 +21,8 @@ class ResultSetDictionary {
     @JvmField
     val mapLTS = mutableListOf<ValueDefinition>(undefValue2)
 
-    fun createValue(value: String?) = createValue(ValueDefinition(value))
-    fun createValue(value: ValueDefinition): Value {
+    inline fun createValue(value: String?) = createValue(ValueDefinition(value))
+    inline fun createValue(value: ValueDefinition): Value {
         var res: Value = undefValue
         if (value is ValueUndef || value is ValueError) {
             return res
@@ -39,7 +39,7 @@ class ResultSetDictionary {
         return res
     }
 
-    fun getValue(value: Value): ValueDefinition {
+    inline fun getValue(value: Value): ValueDefinition {
         return mapLTS[value]
     }
 }
