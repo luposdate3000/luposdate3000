@@ -56,19 +56,19 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(data: String): XMLElement {
-val query = Query()
+        val query = Query()
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
-val bulk=TripleStoreBulkImport()
+        val bulk = TripleStoreBulkImport()
         TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
             val s = Dictionary[triple_s]!!.toN3String()
             val p = Dictionary[triple_p]!!.toN3String()
             val o = Dictionary[triple_o]!!.toN3String()
-		bulk.insert(s,p,o)
+            bulk.insert(s, p, o)
         }, ltit).turtleDoc()
-DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
-return XMLElement("success")
+        DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
+        return XMLElement("success")
 //old->
 /*        val query = Query()
         val import = POPValuesImportTurtle(query, listOf("s", "p", "o"), data).evaluate()

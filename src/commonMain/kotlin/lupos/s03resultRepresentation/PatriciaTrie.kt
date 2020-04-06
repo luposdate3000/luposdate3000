@@ -78,16 +78,17 @@ class PatriciaTrie {
         return res
     }
 
-fun getDictionaryMapping(dictionary:ResultSetDictionary):Array<Value>{
-val res=Array(nextValue){ResultSetDictionary.undefValue}
-getDictionaryMappingInternal(root,"",dictionary,res)
-return res
-}
+    fun getDictionaryMapping(dictionary: ResultSetDictionary): Array<Value> {
+        val res = Array(nextValue) { ResultSetDictionary.undefValue }
+        getDictionaryMappingInternal(root, "", dictionary, res)
+        return res
+    }
 
-    fun getDictionaryMappingInternal(node: PatriciaTrieNode, prefix: String,dictionary:ResultSetDictionary,mapping:Array<Value>) {
-	mapping[node.value]=dictionary.createValue(ValueDefinition(node.value))
+    fun getDictionaryMappingInternal(node: PatriciaTrieNode, prefix: String, dictionary: ResultSetDictionary, mapping: Array<Value>) {
+        val newPrefix = prefix + node.key
+        mapping[node.value] = dictionary.createValue(ValueDefinition(newPrefix))
         for (child in node.children) {
-            getDictionaryMapping(child, prefix + node.key,dictionary,mapping)
+            getDictionaryMappingInternal(child, newPrefix, dictionary, mapping)
         }
     }
 

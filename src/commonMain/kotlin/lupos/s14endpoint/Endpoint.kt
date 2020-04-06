@@ -1,5 +1,5 @@
 package lupos.s14endpoint
-import lupos.s05tripleStore.*
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -27,6 +27,7 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*
@@ -37,9 +38,10 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object Endpoint {
-suspend fun process_local_triple_import(query:Query,graphName: String,data:TripleStoreBulkImport,idx: EIndexPattern){
-DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(data,idx)
-}
+    suspend fun process_local_triple_import(query: Query, graphName: String, data: TripleStoreBulkImport, idx: EIndexPattern) {
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(data, idx)
+    }
+
     /*
     the distribution algorithm selected this node, therefore all of these functions need to be executed on THIS node, without any further distribution
     */

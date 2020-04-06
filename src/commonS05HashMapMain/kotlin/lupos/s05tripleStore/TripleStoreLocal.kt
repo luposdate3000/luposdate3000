@@ -52,9 +52,7 @@ class TripleStoreLocal(@JvmField val name: String) {
     val dataSOP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//so
     val dataPOS = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//p,po
     val dataOSP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//o
-
-
-    fun getIteratorInternal(data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
+    fun getIteratorInternal(data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size == 3)
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -92,7 +90,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                         iterator.onNoMoreElements = {
                             if (iter.hasNext()) {
                                 val key = iter.next()
-                                val value = tmp[key]
+                                val value = tmp[key]!!
                                 columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
                                 columnsArr[1].childs.add(ColumnIteratorMultiValue(value.toList()))
                             }
@@ -108,14 +106,14 @@ class TripleStoreLocal(@JvmField val name: String) {
             var iter = data.keys.iterator()
             if (iter.hasNext()) {
                 var key1 = iter.next()
-                var value1 = data[key1]
+                var value1 = data[key1]!!
                 var iter2 = value1.keys.iterator()
                 for (iterator in columnsArr) {
                     iterator.onNoMoreElements = {
                         while (true) {
                             if (iter2.hasNext()) {
                                 val key2 = iter2.next()
-                                val value2 = tmp[key2]
+                                val value2 = value1[key2]!!
                                 columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
                                 columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
                                 columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.toList()))
@@ -123,7 +121,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                             } else {
                                 if (iter.hasNext()) {
                                     key1 = iter.next()
-                                    value1 = data[key1]
+                                    value1 = data[key1]!!
                                     iter2 = value1.keys.iterator()
                                 } else {
                                     break
@@ -138,7 +136,7 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        val data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>>
+        val data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>
         val filter = mutableListOf<Value>()
         val projection = Array(3) { "_" }
         val order: Array<Int>
@@ -165,13 +163,13 @@ class TripleStoreLocal(@JvmField val name: String) {
             val param = params[i]
             if (param is AOPConstant) {
                 require(filter.size == idx)
-                filter.add(dictionary.createValue(params.value))
+                filter.add(dictionary.createValue(param.value))
             } else {
                 require(param is AOPVariable)
                 projection[i] = param.name
             }
         }
-        return getIteratorInternal(data, filter.toTypedArray, projection)
+        return getIteratorInternal(data, filter.toTypedArray(), projection)
     }
 
     fun importInternal(data: MutableSet<Int>, store: MutableSet<Value>, map2: Array<Value>) {
@@ -184,26 +182,26 @@ class TripleStoreLocal(@JvmField val name: String) {
     fun importInternal(data: MutableMap<Int, MutableSet<Int>>, store: MutableMap<Value, MutableSet<Value>>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in data.keys) {
             val key = map1[rawKey]
-            val value = data[rawKey]
+            val value = data[rawKey]!!
             var tmp = store[key]
             if (tmp == null) {
                 tmp = mutableSetOf<Value>()
                 store[key] = tmp
             }
-            importInternal(value, tmp, map2)
+            importInternal(value, tmp!!, map2)
         }
     }
 
     fun importInternal(data: MutableList<MutableMap<Int, MutableSet<Int>>>, store: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in 0 until data.size) {
             val key = map0[rawKey]
-            val value = data[rawKey]
+            val value = data[rawKey]!!
             var tmp = store[key]
             if (tmp == null) {
                 tmp = mutableMapOf<Value, MutableSet<Value>>()
                 store[key] = tmp
             }
-            importInternal(value, tmp, map1, map2)
+            importInternal(value, tmp!!, map1, map2)
         }
     }
 
@@ -227,31 +225,29 @@ class TripleStoreLocal(@JvmField val name: String) {
         }
     }
 
-    fun insertInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>) {
+    fun insertInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>) {
         val tmp = data[a]
-        if (a == null) {
-            data[a] = mutableMapOf(b to mutableListOf(c))
+        if (tmp == null) {
+            data[a] = mutableMapOf(b to mutableSetOf(c))
         } else {
             val tmp2 = tmp[b]
             if (tmp2 == null) {
-                tmp2[b] = mutableListOf(c)
+                tmp[b] = mutableSetOf(c)
             } else {
                 tmp2.add(c)
             }
         }
     }
 
-
-    fun removeInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>) {
+    fun removeInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>) {
         val tmp = data[a]
-        if (a != null) {
+        if (tmp != null) {
             val tmp2 = tmp[b]
             if (tmp2 != null) {
                 tmp2.remove(c)
             }
         }
     }
-
 
     @JvmField
     val pendingModificationsInsert = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableSet<MapKey>>() }
@@ -306,12 +302,14 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     fun clear() {
+        dataSPO.clear()
+        dataSOP.clear()
+        dataPOS.clear()
+        dataOSP.clear()
         for (idx in EIndexPattern.values()) {
-            tripleStore[idx.ordinal].clear()
             pendingModificationsInsert[idx.ordinal].clear()
             pendingModificationsDelete[idx.ordinal].clear()
         }
-        tripleStoreSPO.clear()
     }
 
     suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
@@ -352,5 +350,4 @@ class TripleStoreLocal(@JvmField val name: String) {
             tmp.add(MapKey(k))
         }
     }
-
 }
