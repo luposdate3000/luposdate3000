@@ -4,7 +4,7 @@ import kotlinx.coroutines.*
 import lupos.s00misc.File
 
 object Coverage {
-    var verbose = true
+    var verbose = false
     var veryverbose = true
     val CoverageMapGenerated = mutableMapOf<Int, String>()
     val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()

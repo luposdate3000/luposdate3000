@@ -106,4 +106,19 @@ class PatriciaTrie {
         res.append("]")
         return res.toString()
     }
+
+    fun printVerbose(node: PatriciaTrieNode = root, indention: String = ""): String {
+        val res = StringBuilder()
+        res.append(indention + node.key)
+        if (node.value != undefinedValue) {
+            res.append(" = " + node.value)
+        }
+        res.append("\n")
+        if (node.children.size > 0) {
+            for (c in node.children) {
+                res.append(printVerbose(c, indention + " "))
+            }
+        }
+        return res.toString()
+    }
 }

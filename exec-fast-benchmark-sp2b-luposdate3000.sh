@@ -32,7 +32,14 @@ sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
 curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle --header "Content-Type:text/plain" > /dev/null 2>&1
+
+
+
+pkill java
 exit
+
+
+
 curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 a=$(($(date +%s%N)/1000000))
 timeout -s SIGTERM "${timeout}s" curl -X POST --data-binary "@$query" http://localhost:80/sparql/query > /dev/null 2>&1

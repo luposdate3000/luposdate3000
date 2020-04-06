@@ -67,16 +67,11 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             val o = Dictionary[triple_o]!!.toN3String()
             bulk.insert(s, p, o)
         }, ltit).turtleDoc()
+        println(bulk.dictionaryS.printVerbose())
+        println(bulk.dictionaryP.printVerbose())
+        println(bulk.dictionaryO.printVerbose())
         DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
         return XMLElement("success")
-//old->
-/*        val query = Query()
-        val import = POPValuesImportTurtle(query, listOf("s", "p", "o"), data).evaluate()
-        val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
-        query.commit()
-        return XMLElement("success")
-*/
     }
 
     /*

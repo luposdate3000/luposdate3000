@@ -59,8 +59,9 @@ class TripleStoreLocal(@JvmField val name: String) {
         val columns = mutableMapOf<String, ColumnIterator>()
         for (sIndex in 0 until projection.size) {
             val s = projection[sIndex]
-            if (s != "_")
+            if (s != "_") {
                 columns[s] = ColumnIterator()
+            }
         }
         var res = ColumnIteratorRow(columns)
         if (filter.size > 0) {
@@ -85,10 +86,12 @@ class TripleStoreLocal(@JvmField val name: String) {
                     }
                 } else {
                     val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-                    if (projection[0] != "_")
+                    if (projection[0] != "_") {
                         columns[projection[0]] = columnsArr[0]
-                    if (projection[1] != "_")
+                    }
+                    if (projection[1] != "_") {
                         columns[projection[1]] = columnsArr[1]
+                    }
                     var iter = tmp.keys.iterator()
                     for (iterator in columnsArr) {
                         iterator.onNoMoreElements = {
@@ -108,12 +111,15 @@ class TripleStoreLocal(@JvmField val name: String) {
             }
         } else {
             val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-            if (projection[0] != "_")
+            if (projection[0] != "_") {
                 columns[projection[0]] = columnsArr[0]
-            if (projection[1] != "_")
+            }
+            if (projection[1] != "_") {
                 columns[projection[1]] = columnsArr[1]
-            if (projection[2] != "_")
+            }
+            if (projection[2] != "_") {
                 columns[projection[2]] = columnsArr[2]
+            }
             var iter = data.keys.iterator()
             if (iter.hasNext()) {
                 var key1 = iter.next()
