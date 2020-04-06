@@ -48,10 +48,211 @@ class TripleStoreLocal(@JvmField val name: String) {
 
     @JvmField
     val dictionary = ResultSetDictionary()
-    @JvmField
-    val tripleStore = Array(EIndexPattern.values().size) { mutableMapOf<MapKey, MutableSet<MapKey>>() }
-    @JvmField
-    var tripleStoreSPO = mutableSetOf<MapKey>()
+    val dataSPO = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//s,sp,spo
+    val dataSOP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//so
+    val dataPOS = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//p,po
+    val dataOSP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//o
+
+
+    fun getIteratorInternal(data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
+        require(filter.size >= 0 && filter.size <= 3)
+        require(projection.size == 3)
+        val columns = mutableMapOf<String, ColumnIterator>()
+        for (sIndex in 0 until projection.size) {
+            val s = projection[sIndex]
+            if (s != "_") {
+                columns[s] = ColumnIterator()
+            } else {
+                require(sIndex == 0 || projection[sIndex - 1] == "_")
+            }
+        }
+        var res = ColumnIteratorRow(columns)
+        if (filter.size > 0) {
+            val tmp = data[filter[0]]
+            if (tmp != null) {
+                if (filter.size > 1) {
+                    val tmp1 = tmp[filter[1]]
+                    if (tmp1 != null) {
+                        if (filter.size > 2) {
+                            if (tmp1.contains(filter[2])) {
+                                res.count = 1
+                            } else {
+                                res.count = 0
+                            }
+                        } else {
+                            columns[projection[2]] = ColumnIteratorMultiValue(tmp1.toList())
+                        }
+                    }
+                } else {
+                    val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
+                    columns[projection[1]] = columnsArr[0]
+                    columns[projection[2]] = columnsArr[1]
+                    var iter = tmp.keys.iterator()
+                    for (iterator in columnsArr) {
+                        iterator.onNoMoreElements = {
+                            if (iter.hasNext()) {
+                                val key = iter.next()
+                                val value = tmp[key]
+                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
+                                columnsArr[1].childs.add(ColumnIteratorMultiValue(value.toList()))
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
+            columns[projection[0]] = columnsArr[0]
+            columns[projection[1]] = columnsArr[1]
+            columns[projection[2]] = columnsArr[2]
+            var iter = data.keys.iterator()
+            if (iter.hasNext()) {
+                var key1 = iter.next()
+                var value1 = data[key1]
+                var iter2 = value1.keys.iterator()
+                for (iterator in columnsArr) {
+                    iterator.onNoMoreElements = {
+                        while (true) {
+                            if (iter2.hasNext()) {
+                                val key2 = iter2.next()
+                                val value2 = tmp[key2]
+                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
+                                columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
+                                columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.toList()))
+                                break
+                            } else {
+                                if (iter.hasNext()) {
+                                    key1 = iter.next()
+                                    value1 = data[key1]
+                                    iter2 = value1.keys.iterator()
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
+        val data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>>
+        val filter = mutableListOf<Value>()
+        val projection = Array(3) { "_" }
+        val order: Array<Int>
+        when (idx) {
+            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+                data = dataSPO
+                order = arrayOf(0, 1, 2)
+            }
+            EIndexPattern.SO -> {
+                data = dataSOP
+                order = arrayOf(0, 2, 1)
+            }
+            EIndexPattern.P, EIndexPattern.PO -> {
+                data = dataPOS
+                order = arrayOf(1, 2, 0)
+            }
+            EIndexPattern.O -> {
+                data = dataOSP
+                order = arrayOf(2, 0, 1)
+            }
+        }
+        for (idx in 0 until 3) {
+            val i = order[idx]
+            val param = params[i]
+            if (param is AOPConstant) {
+                require(filter.size == idx)
+                filter.add(dictionary.createValue(params.value))
+            } else {
+                require(param is AOPVariable)
+                projection[i] = param.name
+            }
+        }
+        return getIteratorInternal(data, filter.toTypedArray, projection)
+    }
+
+    fun importInternal(data: MutableSet<Int>, store: MutableSet<Value>, map2: Array<Value>) {
+        for (rawKey in data) {
+            val key = map2[rawKey]
+            store.add(key)
+        }
+    }
+
+    fun importInternal(data: MutableMap<Int, MutableSet<Int>>, store: MutableMap<Value, MutableSet<Value>>, map1: Array<Value>, map2: Array<Value>) {
+        for (rawKey in data.keys) {
+            val key = map1[rawKey]
+            val value = data[rawKey]
+            var tmp = store[key]
+            if (tmp == null) {
+                tmp = mutableSetOf<Value>()
+                store[key] = tmp
+            }
+            importInternal(value, tmp, map2)
+        }
+    }
+
+    fun importInternal(data: MutableList<MutableMap<Int, MutableSet<Int>>>, store: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
+        for (rawKey in 0 until data.size) {
+            val key = map0[rawKey]
+            val value = data[rawKey]
+            var tmp = store[key]
+            if (tmp == null) {
+                tmp = mutableMapOf<Value, MutableSet<Value>>()
+                store[key] = tmp
+            }
+            importInternal(value, tmp, map1, map2)
+        }
+    }
+
+    fun import(data: TripleStoreBulkImport, idx: EIndexPattern) {
+        val mapS = data.dictionaryS.getDictionaryMapping(dictionary)
+        val mapP = data.dictionaryP.getDictionaryMapping(dictionary)
+        val mapO = data.dictionaryO.getDictionaryMapping(dictionary)
+        when (idx) {
+            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+                importInternal(data.dataSPO, dataSPO, mapS, mapP, mapO)
+            }
+            EIndexPattern.SO -> {
+                importInternal(data.dataSOP, dataSOP, mapS, mapO, mapP)
+            }
+            EIndexPattern.P, EIndexPattern.PO -> {
+                importInternal(data.dataPOS, dataPOS, mapP, mapO, mapS)
+            }
+            EIndexPattern.O -> {
+                importInternal(data.dataOSP, dataOSP, mapO, mapS, mapP)
+            }
+        }
+    }
+
+    fun insertInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>) {
+        val tmp = data[a]
+        if (a == null) {
+            data[a] = mutableMapOf(b to mutableListOf(c))
+        } else {
+            val tmp2 = tmp[b]
+            if (tmp2 == null) {
+                tmp2[b] = mutableListOf(c)
+            } else {
+                tmp2.add(c)
+            }
+        }
+    }
+
+
+    fun removeInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableList<Value>>>) {
+        val tmp = data[a]
+        if (a != null) {
+            val tmp2 = tmp[b]
+            if (tmp2 != null) {
+                tmp2.remove(c)
+            }
+        }
+    }
+
+
     @JvmField
     val pendingModificationsInsert = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableSet<MapKey>>() }
     @JvmField
@@ -63,16 +264,18 @@ class TripleStoreLocal(@JvmField val name: String) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
                 if (insert != null) {
                     for (row in insert) {
-                        if (idx == EIndexPattern.SPO) {
-                            tripleStoreSPO.add(row)
-                        } else {
-                            val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
-                            val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
-                            val tmp = tripleStore[idx.ordinal][k]
-                            if (tmp == null) {
-                                tripleStore[idx.ordinal][k] = mutableSetOf(v)
-                            } else {
-                                tmp.add(v)
+                        when (idx) {
+                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+                                insertInternal(row.data[0], row.data[1], row.data[2], dataSPO)
+                            }
+                            EIndexPattern.SO -> {
+                                insertInternal(row.data[0], row.data[2], row.data[1], dataSOP)
+                            }
+                            EIndexPattern.P, EIndexPattern.PO -> {
+                                insertInternal(row.data[1], row.data[2], row.data[0], dataPOS)
+                            }
+                            EIndexPattern.O -> {
+                                insertInternal(row.data[2], row.data[1], row.data[0], dataOSP)
                             }
                         }
                     }
@@ -81,17 +284,18 @@ class TripleStoreLocal(@JvmField val name: String) {
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
                 if (delete != null) {
                     for (row in delete) {
-                        if (idx == EIndexPattern.SPO) {
-                            tripleStoreSPO.remove(row)
-                        } else {
-                            val k = MapKey(idx.keyIndices.map { row.data[it] }.toTypedArray())
-                            val v = MapKey(idx.valueIndices.map { row.data[it] }.toTypedArray())
-                            val tmp = tripleStore[idx.ordinal][k]
-                            if (tmp != null) {
-                                tmp.remove(v)
-                                if (tmp.size == 0) {
-                                    tripleStore[idx.ordinal].remove(k)
-                                }
+                        when (idx) {
+                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+                                removeInternal(row.data[0], row.data[1], row.data[2], dataSPO)
+                            }
+                            EIndexPattern.SO -> {
+                                removeInternal(row.data[0], row.data[2], row.data[1], dataSOP)
+                            }
+                            EIndexPattern.P, EIndexPattern.PO -> {
+                                removeInternal(row.data[1], row.data[2], row.data[0], dataPOS)
+                            }
+                            EIndexPattern.O -> {
+                                removeInternal(row.data[2], row.data[1], row.data[0], dataOSP)
                             }
                         }
                     }
@@ -149,36 +353,4 @@ class TripleStoreLocal(@JvmField val name: String) {
         }
     }
 
-    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val variables: List<String>
-        var data: Set<MapKey>?
-        if (idx == EIndexPattern.SPO) {
-            idx.keyIndices.map { require(params[it] is AOPVariable) }
-            variables = idx.keyIndices.map { (params[it] as AOPVariable).name }
-            data = tripleStoreSPO
-        } else {
-            variables = idx.valueIndices.map { (params[it] as AOPVariable).name }
-            val key = MapKey(idx.keyIndices.map { dictionary.createValue((params[it] as AOPConstant).value) }.toTypedArray())
-            idx.keyIndices.map { require(params[it] is AOPConstant) }
-            idx.valueIndices.map { require(params[it] is AOPVariable) }
-            data = tripleStore[idx.ordinal][key]
-        }
-        if (data == null || data.size == 0) {
-            for (variable in variables) {
-                outMap[variable] = ColumnIteratorDebug(-1L, variable, ColumnIterator())
-            }
-        } else {
-            val columns = Array(variables.size) { mutableListOf<Value>() }
-            for (row in data) {
-                for (variableIndex in 0 until variables.size) {
-                    columns[variableIndex].add(query.dictionary.createValue(dictionary.getValue(row.data[variableIndex])))
-                }
-            }
-            for (variableIndex in 0 until variables.size) {
-                outMap[variables[variableIndex]] = ColumnIteratorDebug(-2, variables[variableIndex], ColumnIteratorMultiValue(columns[variableIndex]))
-            }
-        }
-        return ColumnIteratorRow(outMap)
-    }
 }

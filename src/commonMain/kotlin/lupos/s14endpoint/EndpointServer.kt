@@ -32,6 +32,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*
@@ -55,22 +56,27 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(data: String): XMLElement {
+val query = Query()
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
+val bulk=TripleStoreBulkImport()
         TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
             val s = Dictionary[triple_s]!!.toN3String()
             val p = Dictionary[triple_p]!!.toN3String()
             val o = Dictionary[triple_o]!!.toN3String()
-            xxx
+		bulk.insert(s,p,o)
         }, ltit).turtleDoc()
+DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
+return XMLElement("success")
 //old->
-        val query = Query()
+/*        val query = Query()
         val import = POPValuesImportTurtle(query, listOf("s", "p", "o"), data).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()
         return XMLElement("success")
+*/
     }
 
     /*

@@ -1,5 +1,5 @@
 package lupos.s15tripleStoreDistributed
-
+import lupos.s05tripleStore.*
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -62,6 +62,11 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
+suspend fun bulkImport(data:TripleStoreBulkImport){
+for (idx in EIndexPattern.values()) {
+Endpoint.process_local_triple_import(query,name,data,idx)
+}
+}
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         require(data.size == 3)
         val map = Array(EIndexPattern.values().size) { Array(3) { mutableListOf<Value>() } }

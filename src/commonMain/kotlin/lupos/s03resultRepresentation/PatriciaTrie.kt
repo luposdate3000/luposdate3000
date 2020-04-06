@@ -1,29 +1,29 @@
 package lupos.s03resultRepresentation
 
 class PatriciaTrie {
-    val undefinedValue = -1L
-    var nextValue = 0L
+    val undefinedValue = -1
+    var nextValue = 0
     val root: PatriciaTrieNode = PatriciaTrieNode("", undefinedValue)
 
-    class PatriciaTrieNode(var key: String, var value: Long) {
+    class PatriciaTrieNode(var key: String, var value: Int) {
         val children = mutableListOf<PatriciaTrieNode>()
     }
 
-    fun insert(key: String): Long {
+    fun insert(key: String): Int {
         require(key.length > 0, { "d" })
         return walkInternal(key, root, true)
     }
 
-    fun find(key: String): Long {
+    fun find(key: String): Int {
         require(key.length > 0, { "e" })
         return walkInternal(key, root, false)
     }
 
-    fun values(): List<Pair<String, Long>> {
+    fun values(): List<Pair<String, Int>> {
         return valuesInternal(root, "")
     }
 
-    fun walkInternal(key: String, node: PatriciaTrieNode, create: Boolean): Long {
+    fun walkInternal(key: String, node: PatriciaTrieNode, create: Boolean): Int {
         val keyF = key.get(0)
         for (childIndex in 0 until node.children.size) {
             val child = node.children[childIndex]
@@ -67,8 +67,8 @@ class PatriciaTrie {
         }
     }
 
-    fun valuesInternal(node: PatriciaTrieNode, prefix: String): List<Pair<String, Long>> {
-        val res = mutableListOf<Pair<String, Long>>()
+    fun valuesInternal(node: PatriciaTrieNode, prefix: String): List<Pair<String, Int>> {
+        val res = mutableListOf<Pair<String, Int>>()
         if (node.value != undefinedValue) {
             res.add(Pair("${prefix}${node.key}", node.value))
         }
@@ -76,6 +76,19 @@ class PatriciaTrie {
             res.addAll(valuesInternal(child, prefix + node.key))
         }
         return res
+    }
+
+fun getDictionaryMapping(dictionary:ResultSetDictionary):Array<Value>{
+val res=Array(nextValue){ResultSetDictionary.undefValue}
+getDictionaryMappingInternal(root,"",dictionary,res)
+return res
+}
+
+    fun getDictionaryMappingInternal(node: PatriciaTrieNode, prefix: String,dictionary:ResultSetDictionary,mapping:Array<Value>) {
+	mapping[node.value]=dictionary.createValue(ValueDefinition(node.value))
+        for (child in node.children) {
+            getDictionaryMapping(child, prefix + node.key,dictionary,mapping)
+        }
     }
 
     override fun toString(): String {
