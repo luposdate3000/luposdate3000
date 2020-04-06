@@ -37,7 +37,13 @@ pkill java
 sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
+a=$(($(date +%s%N)/1000000))
 curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle --header "Content-Type:text/plain" > /dev/null 2>&1
+code=$?
+b=$(($(date +%s%N)/1000000))
+c=$((b - a))
+qps=$(bc <<< "scale=2; 1000 / $c1")
+echo "load,$triples,$code,1,$c,$qps" >> $csvfile
 curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 while read query; do
 	res=$(timeout -s SIGTERM "${timeout}s" curl -X POST --data-binary "@$query" http://localhost:80/sparql/benchmark?timeout=$timemin)
@@ -48,7 +54,7 @@ n=$(echo $res| sed 's/.*" count="//g' | sed 's/".*//g')
 c1=$(bc <<< "scale=2;$c * 1000")
 echo $n -- $c1
 	qps=$(bc <<< "scale=2;$n / $c")
-	echo "$query,$triples,$code,$n,$c1,${qps}" >> $csvfile
+	echo "$query,$triples,$code,$n,$c1,$qps" >> $csvfile
 	if [[ "$code" == "0" ]]
 	then
 		echo $query >> log/queries2
