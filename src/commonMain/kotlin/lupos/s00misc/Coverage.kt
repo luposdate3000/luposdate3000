@@ -8,7 +8,6 @@ object Coverage {
     var veryverbose = true
     val CoverageMapGenerated = mutableMapOf<Int, String>()
     val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
-    var lastcounter = 0
 
     init {
         var s = File("resources/CoverageMapGenerated.txt").readAsString()
@@ -25,9 +24,6 @@ object Coverage {
             if (row.size == 2)
                 CoverageMapWhenCaseGenerated[row[0].toInt()] = row[1].toInt()
         }
-    }
-
-    init {
         println("init addShutdownHook")
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
@@ -35,8 +31,10 @@ object Coverage {
                 printToFile()
             }
         })
+        CoverageMapGenerated[CoverageMapGenerated.keys.size] = ""
     }
 
+    var lastcounter = CoverageMapGenerated.keys.size - 1
     val counters = Array(CoverageMapGenerated.keys.size) { 0L }
     fun funStart(counter: Int) {
         lastcounter = counter

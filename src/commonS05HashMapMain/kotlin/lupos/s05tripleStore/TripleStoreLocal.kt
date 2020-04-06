@@ -126,6 +126,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                 pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
             }
         }
+        var mapping = mutableMapOf<Value, Value>()
         loop@ while (true) {
             val k = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
@@ -133,8 +134,16 @@ class TripleStoreLocal(@JvmField val name: String) {
                 if (v == null) {
                     require(columnIndex == 0)
                     break@loop
+                } else {
+                    var tmp2 = mapping[v]
+                    if (tmp2 == null) {
+                        tmp2 = dictionary.createValue(query.dictionary.getValue(v))
+                        mapping[v] = tmp2
+                        k[columnIndex] = tmp2
+                    } else {
+                        k[columnIndex] = tmp2
+                    }
                 }
-                k[columnIndex] = dictionary.createValue(query.dictionary.getValue(v))
             }
             tmp.add(MapKey(k))
         }
