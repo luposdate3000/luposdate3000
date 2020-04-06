@@ -133,9 +133,6 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 }
             }
         }
-        if (res != node) {
-            println("LogicalOptimizerProjectionDown ${node.classname} ${res.classname}")
-        }
 /*return*/res
     })
 }

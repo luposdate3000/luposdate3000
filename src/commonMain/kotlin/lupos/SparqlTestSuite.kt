@@ -35,7 +35,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class SparqlTestSuite() {
@@ -416,12 +416,28 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
-                    val query = Query()
-                    CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                        DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                    if (inputDataFileName.endsWith(".ttl")) {
+                        var xmlGraphBulk: XMLElement? = null
+                        CoroutinesHelper.runBlock {
+                            val query = Query()
+                            val bulkData = endpointServer!!.process_turtle_input(inputData)
+                            val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                            xmlGraphBulk = QueryResultToXML.toXML(bulkSelect)
+                        }
+                        if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput)) {
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(BulkImport)" })
+                            return false
+                        }
+                    } else {
+                        val query = Query()
+                        CoroutinesHelper.runBlock {
+                            val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
+                            DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                        }
+                        query.commit()
                     }
-                    query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
                         jena.insertDataIntoGraph(null, xmlQueryInput)

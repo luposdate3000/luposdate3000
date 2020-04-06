@@ -52,17 +52,15 @@ class TripleStoreLocal(@JvmField val name: String) {
     val dataSOP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//so
     val dataPOS = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//p,po
     val dataOSP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//o
-    fun getIteratorInternal(data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
+    fun getIteratorInternal(query: Query, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
-        require(projection.size == 3)
+        require(projection.size + filter.size == 3)
+        var mapping = mutableMapOf<Value, Value>()
         val columns = mutableMapOf<String, ColumnIterator>()
         for (sIndex in 0 until projection.size) {
             val s = projection[sIndex]
-            if (s != "_") {
+            if (s != "_")
                 columns[s] = ColumnIterator()
-            } else {
-                require(sIndex == 0 || projection[sIndex - 1] == "_")
-            }
         }
         var res = ColumnIteratorRow(columns)
         if (filter.size > 0) {
@@ -78,21 +76,31 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 res.count = 0
                             }
                         } else {
-                            columns[projection[2]] = ColumnIteratorMultiValue(tmp1.toList())
+                            if (projection[0] == "_") {
+                                res.count = tmp1.size
+                            } else {
+                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.map { dictionaryMapInternal(it, dictionary, query.dictionary, mapping) })
+                            }
                         }
                     }
                 } else {
                     val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-                    columns[projection[1]] = columnsArr[0]
-                    columns[projection[2]] = columnsArr[1]
+                    if (projection[0] != "_")
+                        columns[projection[0]] = columnsArr[0]
+                    if (projection[1] != "_")
+                        columns[projection[1]] = columnsArr[1]
                     var iter = tmp.keys.iterator()
                     for (iterator in columnsArr) {
                         iterator.onNoMoreElements = {
                             if (iter.hasNext()) {
                                 val key = iter.next()
                                 val value = tmp[key]!!
-                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
-                                columnsArr[1].childs.add(ColumnIteratorMultiValue(value.toList()))
+                                if (projection[0] != "_") {
+                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, dictionaryMapInternal(key, dictionary, query.dictionary, mapping)))
+                                }
+                                if (projection[1] != "_") {
+                                    columnsArr[1].childs.add(ColumnIteratorMultiValue(value.map { dictionaryMapInternal(it, dictionary, query.dictionary, mapping) }))
+                                }
                             }
                         }
                     }
@@ -100,9 +108,12 @@ class TripleStoreLocal(@JvmField val name: String) {
             }
         } else {
             val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-            columns[projection[0]] = columnsArr[0]
-            columns[projection[1]] = columnsArr[1]
-            columns[projection[2]] = columnsArr[2]
+            if (projection[0] != "_")
+                columns[projection[0]] = columnsArr[0]
+            if (projection[1] != "_")
+                columns[projection[1]] = columnsArr[1]
+            if (projection[2] != "_")
+                columns[projection[2]] = columnsArr[2]
             var iter = data.keys.iterator()
             if (iter.hasNext()) {
                 var key1 = iter.next()
@@ -114,9 +125,15 @@ class TripleStoreLocal(@JvmField val name: String) {
                             if (iter2.hasNext()) {
                                 val key2 = iter2.next()
                                 val value2 = value1[key2]!!
-                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
-                                columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
-                                columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.toList()))
+                                if (projection[0] != "_") {
+                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key1, dictionary, query.dictionary, mapping)))
+                                }
+                                if (projection[1] != "_") {
+                                    columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key2, dictionary, query.dictionary, mapping)))
+                                }
+                                if (projection[2] != "_") {
+                                    columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.map { dictionaryMapInternal(it, dictionary, query.dictionary, mapping) }))
+                                }
                                 break
                             } else {
                                 if (iter.hasNext()) {
@@ -138,7 +155,7 @@ class TripleStoreLocal(@JvmField val name: String) {
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
         val data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>
         val filter = mutableListOf<Value>()
-        val projection = Array(3) { "_" }
+        val projection = mutableListOf<String>()
         val order: Array<Int>
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
@@ -158,18 +175,18 @@ class TripleStoreLocal(@JvmField val name: String) {
                 order = arrayOf(2, 0, 1)
             }
         }
-        for (idx in 0 until 3) {
-            val i = order[idx]
+        for (ii in 0 until 3) {
+            val i = order[ii]
             val param = params[i]
             if (param is AOPConstant) {
-                require(filter.size == idx)
+                require(filter.size == ii)
                 filter.add(dictionary.createValue(param.value))
             } else {
                 require(param is AOPVariable)
-                projection[i] = param.name
+                projection.add(param.name)
             }
         }
-        return getIteratorInternal(data, filter.toTypedArray(), projection)
+        return getIteratorInternal(query, data, filter.toTypedArray(), projection.toTypedArray())
     }
 
     fun importInternal(data: MutableSet<Int>, store: MutableSet<Value>, map2: Array<Value>) {
@@ -188,20 +205,20 @@ class TripleStoreLocal(@JvmField val name: String) {
                 tmp = mutableSetOf<Value>()
                 store[key] = tmp
             }
-            importInternal(value, tmp!!, map2)
+            importInternal(value, tmp, map2)
         }
     }
 
     fun importInternal(data: MutableList<MutableMap<Int, MutableSet<Int>>>, store: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in 0 until data.size) {
             val key = map0[rawKey]
-            val value = data[rawKey]!!
+            val value = data[rawKey]
             var tmp = store[key]
             if (tmp == null) {
                 tmp = mutableMapOf<Value, MutableSet<Value>>()
                 store[key] = tmp
             }
-            importInternal(value, tmp!!, map1, map2)
+            importInternal(value, tmp, map1, map2)
         }
     }
 
@@ -271,7 +288,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 insertInternal(row.data[1], row.data[2], row.data[0], dataPOS)
                             }
                             EIndexPattern.O -> {
-                                insertInternal(row.data[2], row.data[1], row.data[0], dataOSP)
+                                insertInternal(row.data[2], row.data[0], row.data[1], dataOSP)
                             }
                         }
                     }
@@ -291,7 +308,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 removeInternal(row.data[1], row.data[2], row.data[0], dataPOS)
                             }
                             EIndexPattern.O -> {
-                                removeInternal(row.data[2], row.data[1], row.data[0], dataOSP)
+                                removeInternal(row.data[2], row.data[0], row.data[1], dataOSP)
                             }
                         }
                     }
@@ -310,6 +327,15 @@ class TripleStoreLocal(@JvmField val name: String) {
             pendingModificationsInsert[idx.ordinal].clear()
             pendingModificationsDelete[idx.ordinal].clear()
         }
+    }
+
+    fun dictionaryMapInternal(value: Value, dictionaryFrom: ResultSetDictionary, dictionaryTo: ResultSetDictionary, mapping: MutableMap<Value, Value>): Value {
+        var tmp = mapping[value]
+        if (tmp == null) {
+            tmp = dictionaryTo.createValue(dictionaryFrom.getValue(value))
+            mapping[value] = tmp
+        }
+        return tmp
     }
 
     suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
@@ -337,14 +363,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                     require(columnIndex == 0)
                     break@loop
                 } else {
-                    var tmp2 = mapping[v]
-                    if (tmp2 == null) {
-                        tmp2 = dictionary.createValue(query.dictionary.getValue(v))
-                        mapping[v] = tmp2
-                        k[columnIndex] = tmp2
-                    } else {
-                        k[columnIndex] = tmp2
-                    }
+                    k[columnIndex] = dictionaryMapInternal(v, query.dictionary, dictionary, mapping)
                 }
             }
             tmp.add(MapKey(k))

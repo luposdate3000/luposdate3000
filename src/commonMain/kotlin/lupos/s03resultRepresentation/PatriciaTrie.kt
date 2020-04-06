@@ -1,5 +1,7 @@
 package lupos.s03resultRepresentation
 
+import lupos.s00misc.Coverage
+
 class PatriciaTrie {
     val undefinedValue = -1
     var nextValue = 0
@@ -86,7 +88,9 @@ class PatriciaTrie {
 
     fun getDictionaryMappingInternal(node: PatriciaTrieNode, prefix: String, dictionary: ResultSetDictionary, mapping: Array<Value>) {
         val newPrefix = prefix + node.key
-        mapping[node.value] = dictionary.createValue(ValueDefinition(newPrefix))
+        if (node.value != undefinedValue) {
+            mapping[node.value] = dictionary.createValue(ValueDefinition(newPrefix))
+        }
         for (child in node.children) {
             getDictionaryMappingInternal(child, newPrefix, dictionary, mapping)
         }

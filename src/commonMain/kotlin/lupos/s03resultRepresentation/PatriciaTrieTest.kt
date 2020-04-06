@@ -1,5 +1,7 @@
 package lupos.s03resultRepresentation
 
+import lupos.s00misc.Coverage
+
 object PatriciaTrieTest {
     operator fun invoke(data: List<String>) {
         val dictionary = PatriciaTrie()

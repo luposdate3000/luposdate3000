@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
 class TripleStoreBulkImport {
@@ -47,11 +48,11 @@ class TripleStoreBulkImport {
         } else {
             tmp.add(si)
         }
-        tmp = dataSPO[si][pi]
+        tmp = dataOSP[oi][si]
         if (tmp == null) {
-            dataSPO[si][pi] = mutableSetOf(oi)
+            dataOSP[oi][si] = mutableSetOf(pi)
         } else {
-            tmp.add(oi)
+            tmp.add(pi)
         }
     }
 }
