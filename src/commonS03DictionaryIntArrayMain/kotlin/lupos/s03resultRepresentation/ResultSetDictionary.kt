@@ -1,8 +1,8 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -23,20 +23,25 @@ class ResultSetDictionary {
 
     inline fun createValue(value: String?) = createValue(ValueDefinition(value))
     inline fun createValue(value: ValueDefinition): Value {
-        var res: Value = undefValue
-        if (value is ValueUndef || value is ValueError) {
+        try {
+            BenchmarkUtils.start(EBenchmark.IMPORT_DICTIONARY_INSERT)
+            var res: Value = undefValue
+            if (value is ValueUndef || value is ValueError) {
+                return res
+            }
+            val o = mapSTL[value]
+            if (o != null) {
+                res = o
+            } else {
+                val l = mapLTS.size
+                mapSTL[value] = l
+                mapLTS.add(value)
+                res = l
+            }
             return res
+        } finally {
+            BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICTIONARY_INSERT)
         }
-        val o = mapSTL[value]
-        if (o != null) {
-            res = o
-        } else {
-            val l = mapLTS.size
-            mapSTL[value] = l
-            mapLTS.add(value)
-            res = l
-        }
-        return res
     }
 
     inline fun getValue(value: Value): ValueDefinition {

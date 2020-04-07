@@ -1,8 +1,8 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -232,6 +232,7 @@ class TripleStoreLocal(@JvmField val name: String) {
         val mapS = data.dictionaryS.getDictionaryMapping(dictionary)
         val mapP = data.dictionaryP.getDictionaryMapping(dictionary)
         val mapO = data.dictionaryO.getDictionaryMapping(dictionary)
+        BenchmarkUtils.start(EBenchmark.IMPORT_TRIPLE_STORE)
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
                 importInternal(data.dataSPO, dataSPO, mapS, mapP, mapO)
@@ -246,6 +247,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                 importInternal(data.dataOSP, dataOSP, mapO, mapS, mapP)
             }
         }
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TRIPLE_STORE)
     }
 
     fun insertInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>) {

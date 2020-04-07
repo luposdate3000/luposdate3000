@@ -1,6 +1,6 @@
 package lupos.s03resultRepresentation
 
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 
 class PatriciaTrie {
     val undefinedValue = -1
@@ -12,8 +12,11 @@ class PatriciaTrie {
     }
 
     fun insert(key: String): Int {
+        BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_INSERT)
         require(key.length > 0, { "d" })
-        return walkInternal(key, root, true)
+        val res = walkInternal(key, root, true)
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_INSERT)
+        return res
     }
 
     fun find(key: String): Int {
@@ -82,7 +85,9 @@ class PatriciaTrie {
 
     fun getDictionaryMapping(dictionary: ResultSetDictionary): Array<Value> {
         val res = Array(nextValue) { ResultSetDictionary.undefValue }
+        BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_MAPPING)
         getDictionaryMappingInternal(root, "", dictionary, res)
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_MAPPING)
         return res
     }
 

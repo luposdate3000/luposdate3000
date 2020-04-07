@@ -56,21 +56,27 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(data: String): XMLElement {
+        BenchmarkUtils.start(EBenchmark.IMPORT_COMPLETE)
         val query = Query()
+        BenchmarkUtils.start(EBenchmark.IMPORT_INIT)
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
         val bulk = TripleStoreBulkImport()
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_INIT)
+        BenchmarkUtils.start(EBenchmark.IMPORT_TURTLE_PARSER)
         TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
             val s = Dictionary[triple_s]!!.toN3String()
             val p = Dictionary[triple_p]!!.toN3String()
             val o = Dictionary[triple_o]!!.toN3String()
             bulk.insert(s, p, o)
         }, ltit).turtleDoc()
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TURTLE_PARSER)
         println(bulk.dictionaryS.printVerbose())
         println(bulk.dictionaryP.printVerbose())
         println(bulk.dictionaryO.printVerbose())
         DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_COMPLETE)
         return XMLElement("success")
     }
 
@@ -90,13 +96,13 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming sparql benchmark
     */
     suspend fun process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): XMLElement {
-        val timer = Monotonic.markNow()
+        BenchmarkUtils.start(EBenchmark.QUERY)
         var time: Double
         var counter = 0
         while (true) {
             counter++
             process_sparql_query(query).toString()
-            time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+            time = BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
             if (time * 1000.0 > timeoutMilliSeconds) {
                 break
             }

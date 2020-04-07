@@ -24,10 +24,8 @@ object Coverage {
             if (row.size == 2)
                 CoverageMapWhenCaseGenerated[row[0].toInt()] = row[1].toInt()
         }
-        println("init addShutdownHook")
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
-                println("exec addShutdownHook")
                 printToFile()
             }
         })
