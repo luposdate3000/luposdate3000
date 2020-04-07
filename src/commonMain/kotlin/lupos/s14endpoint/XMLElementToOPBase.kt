@@ -48,7 +48,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
-import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
@@ -393,6 +393,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPJoinHashMap" -> {
             return POPJoinHashMap(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
+        "POPJoinWithStore" -> {
+            return POPJoinWithStore(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping)as LOPTriple, node.attributes["optional"]!!.toBoolean())
+        }
         "TripleStoreIteratorGlobal" -> {
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
@@ -403,6 +406,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPServiceIRI" -> {
             return POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
+"LOPTriple"->{
+return LOPTriple(query,convertToOPBase(query, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(query, node["children"]!!.childs[1], mapping)as AOPBase,convertToOPBase(query, node["children"]!!.childs[2], mapping)as AOPBase,node.attributes["graph"]!!,node.attributes["graphVar"]!!.toBoolean())
+}
         else -> {
             throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")
         }

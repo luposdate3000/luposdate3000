@@ -193,7 +193,11 @@ done=columnsInBRoot!!.hasNext()
 return ColumnIteratorRow(outMap)
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override fun toXMLElement() :XMLElement{
+val res= super.toXMLElement().addAttribute("optional", "" + optional)
+res["children"]!!.addContent(childB.toXMLElement())
+return res
+}
     override fun cloneOP() = POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP(), optional)
 
 }
