@@ -1,0 +1,1 @@
+measure the time within the database to remove the overhead of curl

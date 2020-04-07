@@ -1,0 +1,1 @@
+merge consekutive filter after the other optimisation-steps
