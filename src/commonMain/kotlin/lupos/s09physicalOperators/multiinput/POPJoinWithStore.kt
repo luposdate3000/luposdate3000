@@ -98,7 +98,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         }
         for (i in 0 until indicesINBJ.size) {
             require(params[indicesINBJ[i]] is AOPVariable)
-            childB.children[i] = AOPConstant(query, ResultSetDictionary.undefValue2)
+            params[indicesINBJ[i]] = AOPConstant(query, ResultSetDictionary.undefValue2)
             count++
         }
         var index: EIndexPattern
