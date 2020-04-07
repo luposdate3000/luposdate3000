@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-import lupos.s15tripleStoreDistributed.*
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -45,31 +45,32 @@ import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
+import lupos.s15tripleStoreDistributed.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
-            val projectedVariables: List<String>
-            if (parent is LOPProjection) {
-                projectedVariables = parent.getProvidedVariableNames()
-            } else if (parent is POPProjection) {
-                projectedVariables = parent.getProvidedVariableNamesInternal()
-            } else if (node is POPBase) {
-                projectedVariables = node.getProvidedVariableNamesInternal()
+        val projectedVariables: List<String>
+        if (parent is LOPProjection) {
+            projectedVariables = parent.getProvidedVariableNames()
+        } else if (parent is POPProjection) {
+            projectedVariables = parent.getProvidedVariableNamesInternal()
+        } else if (node is POPBase) {
+            projectedVariables = node.getProvidedVariableNamesInternal()
+        } else {
+            projectedVariables = node.getProvidedVariableNames()
+        }
+        if (node is LOPJoin) {
+            val childA = node.children[0]
+            val childB = node.children[1]
+            if (childA is TripleStoreIteratorGlobal || childA is LOPTriple) {
+                res = POPJoinHashMap(query, projectedVariables, childB, childA, node.optional)
             } else {
-                projectedVariables = node.getProvidedVariableNames()
+                res = POPJoinHashMap(query, projectedVariables, childA, childB, node.optional)
             }
-		if(node is LOPJoin){
-val childA=node.children[0]
-val childB=node.children[1]
-if(childA is TripleStoreIteratorGlobal || childA is LOPTriple){
-                    res = POPJoinHashMap(query, projectedVariables, childB, childA, node.optional)
-}else{
-                    res = POPJoinHashMap(query, projectedVariables, childA, childB, node.optional)
-}
-                }
+        }
 /*return*/res
     })
 }

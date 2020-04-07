@@ -19,11 +19,11 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
         var res: OPBase = node
         if (node is LOPFilter) {
             val child = node.children[0]
-		if(child is LOPFilter){
-			res=LOPFilter(query,AOPAnd(query,node.children[1]as AOPBase,child.children[1]as AOPBase),child.children[0])
-			onChange()
-		}
-	}
+            if (child is LOPFilter) {
+                res = LOPFilter(query, AOPAnd(query, node.children[1] as AOPBase, child.children[1] as AOPBase), child.children[0])
+                onChange()
+            }
+        }
 /*return*/res
     })
 }

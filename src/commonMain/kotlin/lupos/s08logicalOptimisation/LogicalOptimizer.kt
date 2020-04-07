@@ -21,15 +21,17 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerUnionUp(query),//
-                    LogicalOptimizerFilterSplitAND(query),//
-                    LogicalOptimizerFilterDown(query),//
-                    LogicalOptimizerFilterUpNEQ(query)//
+                    LogicalOptimizerFilterUp(query)//
             ),
-arrayOf<OptimizerBase>(
-//                    LogicalOptimizerFilterMergeAND(query)//
-),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerJoinOrder(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerFilterSplitAND(query),//
+                    LogicalOptimizerFilterDown(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerFilterMergeAND(query)//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerProjectionDown(query),//
