@@ -115,7 +115,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                                 variables2.add(variable)
                             }
                         }
-                        child.children[0] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), childA)
+                        child.children[0] = LOPProjection(query, variables2.distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
                         onChange()
                     }
                     if (!variables.containsAll(variablesB)) {
@@ -125,7 +125,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                                 variables2.add(variable)
                             }
                         }
-                        child.children[1] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), childB)
+                        child.children[1] = LOPProjection(query, variables2.distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
                         onChange()
                     }
                 }

@@ -23,7 +23,7 @@ class StackElement(val name: String) {
         res.append("[")
         res.append(name)
         if (name == "Projection") {
-            res.append("(\\textit{$projectionHelper})")
+            res.append("(\\textit{${projectionHelper}})")
         }
         if (children.size > 0) {
             if (children.size > 1)
@@ -42,13 +42,14 @@ class StackElement(val name: String) {
 val stack = mutableListOf<StackElement>()
 println(inputString.toString())
 
-for (element in inputString.split("<")) {
+for (element2 in inputString.split("<")) {
+val element=element2.replace("TripleStoreIteratorGlobal","LOPTriple")
     when {
-        element == "children>" || element == "/children>" || element == "LocalVariables>" || element == "/LocalVariables>" || element == "LocalVariables/>" -> {
+        element == "children>" || element == "/children>" || element == "LocalVariables>" || element == "/LocalVariables>" || element == "LocalVariables/>"||element=="variables>"||element=="/variables>" -> {
         }
         element.startsWith("/LOP") || element.startsWith("/AOP") || element.startsWith("/POP") -> {
             if (stack.size == 1) {
-                output.append(stack[0].toString())
+                output.append(stack[0].toString().replace("_","\\_"))
             }
             if (stack.size > 1) {
                 stack[1].children.add(stack[0])
@@ -70,6 +71,14 @@ for (element in inputString.split("<")) {
                     stack[0].projectionHelper += ","
                 }
                 stack[0].projectionHelper += element.substring(20, element.length - 3)
+            }
+        }
+element.startsWith("variable") -> {
+            if (stack.size > 0) {
+                if (stack[0].projectionHelper != "") {
+                    stack[0].projectionHelper += ","
+                }
+                stack[0].projectionHelper += element.substring(15, element.length - 3)
             }
         }
         element.startsWith("LOP") || element.startsWith("AOP") || element.startsWith("POP") -> {
