@@ -12,10 +12,10 @@ class PatriciaTrie {
     }
 
     fun insert(key: String): Int {
-        BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_INSERT)
+        //BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_INSERT)
         require(key.length > 0, { "d" })
         val res = walkInternal(key, root, true)
-        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_INSERT)
+        //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_INSERT)
         return res
     }
 
@@ -85,9 +85,9 @@ class PatriciaTrie {
 
     fun getDictionaryMapping(dictionary: ResultSetDictionary): Array<Value> {
         val res = Array(nextValue) { ResultSetDictionary.undefValue }
-        BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_MAPPING)
+        //BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_MAPPING)
         getDictionaryMappingInternal(root, "", dictionary, res)
-        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_MAPPING)
+        //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_MAPPING)
         return res
     }
 

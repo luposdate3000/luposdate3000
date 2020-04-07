@@ -52,37 +52,43 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
-        val params = request.getParams
-        GlobalLogger.log(ELoggerType.DEBUG, { params })
-        GlobalLogger.log(ELoggerType.DEBUG, { request.path })
-        GlobalLogger.log(ELoggerType.DEBUG, { request.method })
-        request.replaceHeader("Connection", "close")
-        if (request.path == "/binary") {
-            responseBinary(request)
-            return
-        }
-        request.replaceHeader("Content-Type", "text/html")
-        var responseBytes: ByteArray? = null
-        var data = ""
-        request.handler { it ->
-            data += it.decodeToString()
-            GlobalLogger.log(ELoggerType.DEBUG, { data })
-        }
-        request.endHandler {
-            CoroutinesHelper.runBlock {
-                try {
-                    val singleParams = mutableMapOf<String, String>()
-                    params.forEach { k, v ->
-                        singleParams[k] = v?.first()
-                    }
-                    responseBytes = receive(request.path, request.method == Http.Method.POST, data, singleParams)
-                } catch (e: Throwable) {
-                    responseBytes = e.toString().encodeToByteArray()
-                    request.setStatus(404)
-                }
-                request.end(responseBytes!!)
+        try {
+//BenchmarkUtils.start(EBenchmark.HTTP)
+            GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
+            val params = request.getParams
+            GlobalLogger.log(ELoggerType.DEBUG, { params })
+            GlobalLogger.log(ELoggerType.DEBUG, { request.path })
+            GlobalLogger.log(ELoggerType.DEBUG, { request.method })
+            request.replaceHeader("Connection", "close")
+            if (request.path == "/binary") {
+                responseBinary(request)
+                return
             }
+            request.replaceHeader("Content-Type", "text/html")
+            var responseBytes: ByteArray? = null
+            var data = StringBuilder()
+            request.handler { it ->
+                //BenchmarkUtils.start(EBenchmark.HTTP_HANDLER)
+                data.append(it.decodeToString())
+//BenchmarkUtils.elapsedSeconds(EBenchmark.HTTP_HANDLER)
+            }
+            request.endHandler {
+                CoroutinesHelper.runBlock {
+                    try {
+                        val singleParams = mutableMapOf<String, String>()
+                        params.forEach { k, v ->
+                            singleParams[k] = v?.first()
+                        }
+                        responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams)
+                    } catch (e: Throwable) {
+                        responseBytes = e.toString().encodeToByteArray()
+                        request.setStatus(404)
+                    }
+                    request.end(responseBytes!!)
+                }
+            }
+        } finally {
+//BenchmarkUtils.elapsedSeconds(EBenchmark.HTTP)
         }
     }
 

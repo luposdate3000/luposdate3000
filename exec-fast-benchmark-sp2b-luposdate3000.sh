@@ -31,7 +31,8 @@ pkill java
 sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
-curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle --header "Content-Type:text/plain" > /dev/null 2>&1
+
+time curl -X POST --data-binary "@${triplesfile}" http://localhost:80/import/turtle --header "Content-Type:text/plain" > log/serverImportTime 2>&1
 
 
 

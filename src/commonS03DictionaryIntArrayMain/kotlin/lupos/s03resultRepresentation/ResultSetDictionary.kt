@@ -24,7 +24,7 @@ class ResultSetDictionary {
     inline fun createValue(value: String?) = createValue(ValueDefinition(value))
     inline fun createValue(value: ValueDefinition): Value {
         try {
-            BenchmarkUtils.start(EBenchmark.IMPORT_DICTIONARY_INSERT)
+            //BenchmarkUtils.start(EBenchmark.IMPORT_DICTIONARY_INSERT)
             var res: Value = undefValue
             if (value is ValueUndef || value is ValueError) {
                 return res
@@ -40,7 +40,7 @@ class ResultSetDictionary {
             }
             return res
         } finally {
-            BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICTIONARY_INSERT)
+            //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICTIONARY_INSERT)
         }
     }
 

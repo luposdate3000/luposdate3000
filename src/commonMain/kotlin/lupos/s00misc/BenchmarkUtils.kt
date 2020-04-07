@@ -5,6 +5,8 @@ import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
 
 enum class EBenchmark {
+    HTTP,//contains all other
+    HTTP_HANDLER,
     QUERY,
     IMPORT_COMPLETE,//contains all other IMPORT_*
     IMPORT_INIT,
@@ -25,7 +27,7 @@ object BenchmarkUtils {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 for (benchmark in EBenchmark.values()) {
-                    println("$benchmark ${results[benchmark.ordinal]}")
+                    println("$benchmark ${counters[benchmark.ordinal]} ${results[benchmark.ordinal]}")
                 }
             }
         })
