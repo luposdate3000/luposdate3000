@@ -10,8 +10,8 @@ class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerI
     override val classname = "PhysicalOptimizer"
     override val childrenOptimizers = arrayOf(//
             arrayOf(
-                    PhysicalOptimizerTripleIndex(query),//
                     PhysicalOptimizerJoinType(query),//
+                    PhysicalOptimizerTripleIndex(query),//
                     PhysicalOptimizerNaive(query)
             )
     )

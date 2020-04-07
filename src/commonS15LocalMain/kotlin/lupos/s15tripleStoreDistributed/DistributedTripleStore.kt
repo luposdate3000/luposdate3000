@@ -103,13 +103,17 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
         val projectedVariables = mutableListOf<String>()
         if (idx == EIndexPattern.SPO) {
-            idx.keyIndices.map { require(params[it] is AOPVariable, { "$name ${idx} ${params.map { it }}" }) }
+if(params[0]is AOPVariable){
+            idx.keyIndices.map { require(params[it] is AOPVariable) }
             idx.keyIndices.map {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {
                     projectedVariables.add(tmp)
                 }
             }
+}else{
+idx.keyIndices.map { require(params[it] is AOPConstant) }
+}
         } else {
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }

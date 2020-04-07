@@ -48,7 +48,11 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 
     init {
         if (idx == EIndexPattern.SPO) {
+if(params[0]is AOPVariable){
             idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+}else{
+            idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
+}
         } else {
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }

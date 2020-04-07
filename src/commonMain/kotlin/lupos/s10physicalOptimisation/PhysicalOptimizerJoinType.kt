@@ -30,7 +30,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
-import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
@@ -65,7 +65,11 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
         if (node is LOPJoin) {
             val childA = node.children[0]
             val childB = node.children[1]
-            if (childA is TripleStoreIteratorGlobal || childA is LOPTriple) {
+            if (childA is LOPTriple) {
+                res = POPJoinWithStore(query, projectedVariables, childB, childA, node.optional)
+}else            if (childB is LOPTriple) {
+                res = POPJoinWithStore(query, projectedVariables, childA, childB, node.optional)
+            } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple) {
                 res = POPJoinHashMap(query, projectedVariables, childB, childA, node.optional)
             } else {
                 res = POPJoinHashMap(query, projectedVariables, childA, childB, node.optional)
