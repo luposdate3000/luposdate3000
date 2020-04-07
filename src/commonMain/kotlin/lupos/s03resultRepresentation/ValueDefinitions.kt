@@ -71,7 +71,18 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     }
 }
 
-class ValueBoolean(@JvmField var value: Boolean) : ValueDefinition() {
+class ValueBoolean(@JvmField var value: Boolean,x:Boolean) : ValueDefinition() {
+companion object{
+val localTrue=ValueBoolean(true,true)
+val localFalse=ValueBoolean(false,true)
+operator fun invoke(value: Boolean):ValueBoolean{
+if(value){
+return localTrue
+}else{
+return localFalse
+}
+}
+}
     override fun toXMLElement() = XMLElement("ValueBnode").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     override fun equals(other: Any?) = (other is ValueBoolean) && value == other.value

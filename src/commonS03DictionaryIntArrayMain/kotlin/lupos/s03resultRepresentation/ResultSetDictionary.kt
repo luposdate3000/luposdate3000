@@ -14,10 +14,23 @@ class ResultSetDictionary {
         val undefValue = 0
         @JvmField
         val undefValue2 = ValueUndef()
+        @JvmField
+        val errorValue = 1
+        @JvmField
+        val errorValue2 = ValueError()
+        @JvmField
+        val booleanTrueValue = 2
+        @JvmField
+        val booleanTrueValue2 = ValueBoolean(true)
+        @JvmField
+        val booleanFalseValue = 3
+        @JvmField
+        val booleanFalseValue2 = ValueBoolean(false)
+
     }
 
     @JvmField
-    val mapSTL = mutableMapOf<ValueDefinition, Value>(undefValue2 to undefValue)
+    val mapSTL = mutableMapOf<ValueDefinition, Value>(undefValue2 to undefValue,errorValue2 to errorValue,booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue)
     @JvmField
     val mapLTS = mutableListOf<ValueDefinition>(undefValue2)
 
@@ -25,10 +38,13 @@ class ResultSetDictionary {
     inline fun createValue(value: ValueDefinition): Value {
         try {
             //BenchmarkUtils.start(EBenchmark.IMPORT_DICTIONARY_INSERT)
-            var res: Value = undefValue
-            if (value is ValueUndef || value is ValueError) {
-                return res
+            var res: Value 
+            if (value is ValueUndef ) {
+                res= undefValue
             }
+else if(value is ValueError){
+res= errorValue
+}else{
             val o = mapSTL[value]
             if (o != null) {
                 res = o
@@ -38,6 +54,7 @@ class ResultSetDictionary {
                 mapLTS.add(value)
                 res = l
             }
+}
             return res
         } finally {
             //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICTIONARY_INSERT)

@@ -24,20 +24,39 @@ class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
         return true
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+  override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
+            var res: ValueDefinition = ResultSetDictionary.errorValue2
             val a = childA()
             val b = childB()
             try {
-                res = ValueBoolean(a.compareTo(b) < 0)
+if(a.compareTo(b) < 0)
+res=ResultSetDictionary.booleanTrueValue2
+else
+res=ResultSetDictionary.booleanFalseValue2
             } catch (e: Throwable) {
             }
 /*return*/res
         }
     }
-
+    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+        val childA = (children[0] as AOPBase).evaluate(row)
+        val childB = (children[1] as AOPBase).evaluate(row)
+        return {
+            var res: Value = ResultSetDictionary.errorValue
+            val a = childA()
+            val b = childB()
+            try {
+if(a.compareTo(b) < 0)
+res=ResultSetDictionary.booleanTrueValue
+else
+res=ResultSetDictionary.booleanFalseValue
+            } catch (e: Throwable) {
+            }
+/*return*/res
+        }
+    }
     override fun cloneOP() = AOPLT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

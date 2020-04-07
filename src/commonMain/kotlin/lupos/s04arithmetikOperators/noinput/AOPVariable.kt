@@ -32,4 +32,20 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         }
         return res
     }
+    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+        var tmp = row.columns[name]
+        var res: () -> Value
+        if (tmp == null) {
+            res = {
+                /*return*/ResultSetDictionary.undefValue
+            }
+        } else {
+            require(tmp is ColumnIteratorQueue, { "$tmp" })
+            val column = tmp
+            res = {
+                /*return*/column.tmp!!
+            }
+        }
+        return res
+    }
 }

@@ -25,26 +25,80 @@ class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
     }
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        val childA = (children[0] as AOPBase).evaluate(row)
-        val childB = (children[1] as AOPBase).evaluate(row)
+        val childA = (children[0] as AOPBase).evaluateID(row)
+        val childB = (children[1] as AOPBase).evaluateID(row)
         return {
-            var res: ValueDefinition = ValueError()
-            var a: ValueDefinition = ValueError()
-            var b: ValueDefinition = ValueError()
-            try {
-                a = ValueBoolean(childA().toBoolean())
-            } catch (e: Throwable) {
+            var res: ValueDefinition = ResultSetDictionary.booleanFalseValue2
+            var a = childA()
+            var b = childB()
+            if (a == ResultSetDictionary.booleanTrueValue || b == ResultSetDictionary.booleanTrueValue) {
+                res = ResultSetDictionary.booleanTrueValue2
+            } else {
+                if (a == ResultSetDictionary.undefValue) {
+                    a = ResultSetDictionary.errorValue
+                } else {
+                    try {
+                        if (query.dictionary.getValue(a).toBoolean())
+                            a = ResultSetDictionary.booleanTrueValue
+                    } catch (e: Throwable) {
+                        a = ResultSetDictionary.errorValue
+                    }
+                }
+                if (a == ResultSetDictionary.booleanTrueValue) {
+                    res = ResultSetDictionary.booleanTrueValue2
+                } else {
+                    if (b != ResultSetDictionary.undefValue) {
+                        try {
+                            if (query.dictionary.getValue(b).toBoolean())
+                                b = ResultSetDictionary.booleanTrueValue
+                        } catch (e: Throwable) {
+                            b = ResultSetDictionary.errorValue
+                        }
+                        if (b == ResultSetDictionary.booleanTrueValue) {
+                            res = ResultSetDictionary.booleanTrueValue2
+                        }
+                    }
+                }
             }
-            try {
-                b = ValueBoolean(childB().toBoolean())
-            } catch (e: Throwable) {
-            }
-            if (a is ValueBoolean && b is ValueBoolean) {
-                res = ValueBoolean(a.value || b.value)
-            } else if (a is ValueError && b is ValueBoolean && b.value == true) {
-                res = b
-            } else if (b is ValueError && a is ValueBoolean && a.value == true) {
-                res = a
+/*return*/res
+        }
+    }
+
+    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+        val childA = (children[0] as AOPBase).evaluateID(row)
+        val childB = (children[1] as AOPBase).evaluateID(row)
+        return {
+            var res: Value = ResultSetDictionary.booleanFalseValue
+            var a = childA()
+            var b = childB()
+            if (a == ResultSetDictionary.booleanTrueValue || b == ResultSetDictionary.booleanTrueValue) {
+                res = ResultSetDictionary.booleanTrueValue
+            } else {
+                if (a == ResultSetDictionary.undefValue) {
+                    a = ResultSetDictionary.errorValue
+                } else {
+                    try {
+                        if (query.dictionary.getValue(a).toBoolean())
+                            a = ResultSetDictionary.booleanTrueValue
+                    } catch (e: Throwable) {
+                        a = ResultSetDictionary.errorValue
+                    }
+                }
+                if (a == ResultSetDictionary.booleanTrueValue) {
+                    res = ResultSetDictionary.booleanTrueValue
+                } else {
+                    if (b != ResultSetDictionary.undefValue) {
+                        try {
+                            if (query.dictionary.getValue(b).toBoolean())
+                                b = ResultSetDictionary.booleanTrueValue
+                        } catch (e: Throwable) {
+                            b = ResultSetDictionary.errorValue
+                        }
+                        if (b == ResultSetDictionary.booleanTrueValue) {
+                            res = ResultSetDictionary.booleanTrueValue
+                        }
+                    }
+                }
             }
 /*return*/res
         }

@@ -15,5 +15,14 @@ abstract class AOPBase(query: Query,
                        classname: String,
                        children: Array<OPBase>) :
         OPBase(query, operatorID, classname, children) {
-    abstract fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition
+    open fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition{
+return {
+/*return*/query.dictionary.getValue(evaluateID(row)())
+}
+}
+    open fun evaluateID(row: ColumnIteratorRow): () -> Value{
+return {
+/*return*/query.dictionary.createValue(evaluate(row)())
+}
+}
 }
