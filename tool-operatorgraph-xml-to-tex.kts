@@ -16,10 +16,6 @@ while (true) {
 }
 
 class StackElement(val name: String) {
-    init {
-        println("StackElement $name")
-    }
-
     var projectionHelper = ""
     val children = mutableListOf<StackElement>()
     override fun toString(): String {
@@ -27,10 +23,8 @@ class StackElement(val name: String) {
         res.append("[")
         res.append(name)
         if (name == "Projection") {
-            res.append("($projectionHelper)")
+            res.append("(\\textit{$projectionHelper})")
         }
-        if (name == "Projection" || name == "Filter")
-            println(name + ":" + children.map { it.name })
         if (children.size > 0) {
             if (children.size > 1)
                 res.append("[")
@@ -75,7 +69,6 @@ for (element in inputString.split("<")) {
                 if (stack[0].projectionHelper != "") {
                     stack[0].projectionHelper += ","
                 }
-                println(element)
                 stack[0].projectionHelper += element.substring(20, element.length - 3)
             }
         }

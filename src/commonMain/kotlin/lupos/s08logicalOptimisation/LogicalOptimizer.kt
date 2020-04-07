@@ -25,6 +25,9 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterUpNEQ(query)//
             ),
+arrayOf<OptimizerBase>(
+//                    LogicalOptimizerFilterMergeAND(query)//
+),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerJoinOrder(query)//
             ),
