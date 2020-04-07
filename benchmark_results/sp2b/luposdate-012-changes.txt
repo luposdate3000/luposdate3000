@@ -1,0 +1,1 @@
+join with triple store, and bind currently known variables before triple-store invokation
