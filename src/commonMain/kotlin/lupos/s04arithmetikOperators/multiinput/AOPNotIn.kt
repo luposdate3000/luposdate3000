@@ -51,5 +51,6 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPNotIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

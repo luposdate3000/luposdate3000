@@ -33,5 +33,6 @@ class AOPBuildInCallSTRENDS(query: Query, child: AOPBase, childB: AOPBase) : AOP
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPBuildInCallSTRENDS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

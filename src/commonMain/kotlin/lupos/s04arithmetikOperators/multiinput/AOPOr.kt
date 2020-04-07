@@ -24,85 +24,99 @@ class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
         return true
     }
 
+    companion object {
+        val truthTable = arrayOf(
+                ResultSetDictionary.booleanTrueValue,//T,T
+                ResultSetDictionary.booleanTrueValue,//T,F
+                ResultSetDictionary.errorValue,//T,E
+                ResultSetDictionary.booleanTrueValue,//F,T
+                ResultSetDictionary.booleanFalseValue,//F,F
+                ResultSetDictionary.errorValue,//F,E
+                ResultSetDictionary.errorValue,//E,T
+                ResultSetDictionary.errorValue,//E,F
+                ResultSetDictionary.errorValue//E,E
+        )
+        val truthTable2 = arrayOf(
+                ResultSetDictionary.booleanTrueValue2,//T,T
+                ResultSetDictionary.booleanTrueValue2,//T,F
+                ResultSetDictionary.errorValue2,//T,E
+                ResultSetDictionary.booleanTrueValue2,//F,T
+                ResultSetDictionary.booleanFalseValue2,//F,F
+                ResultSetDictionary.errorValue2,//F,E
+                ResultSetDictionary.errorValue2,//E,T
+                ResultSetDictionary.errorValue2,//E,F
+                ResultSetDictionary.errorValue2//E,E
+        )
+    }
+
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
-        return {
-            var res: ValueDefinition = ResultSetDictionary.booleanFalseValue2
-            var a = childA()
-            var b = childB()
-            if (a == ResultSetDictionary.booleanTrueValue || b == ResultSetDictionary.booleanTrueValue) {
-                res = ResultSetDictionary.booleanTrueValue2
-            } else {
-                if (a == ResultSetDictionary.undefValue) {
-                    a = ResultSetDictionary.errorValue
-                } else {
-                    try {
-                        if (query.dictionary.getValue(a).toBoolean())
-                            a = ResultSetDictionary.booleanTrueValue
-                    } catch (e: Throwable) {
-                        a = ResultSetDictionary.errorValue
-                    }
+        if ((children[0] as AOPBase).enforcesBooleanOrError()) {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = childA()
+                    val b = childB()
+                    /*return*/truthTable2[a * 3 + b]
                 }
-                if (a == ResultSetDictionary.booleanTrueValue) {
-                    res = ResultSetDictionary.booleanTrueValue2
-                } else {
-                    if (b != ResultSetDictionary.undefValue) {
-                        try {
-                            if (query.dictionary.getValue(b).toBoolean())
-                                b = ResultSetDictionary.booleanTrueValue
-                        } catch (e: Throwable) {
-                            b = ResultSetDictionary.errorValue
-                        }
-                        if (b == ResultSetDictionary.booleanTrueValue) {
-                            res = ResultSetDictionary.booleanTrueValue2
-                        }
-                    }
+            } else {
+                return {
+                    val a = childA()
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable2[a * 3 + b]
                 }
             }
-/*return*/res
+        } else {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = childB()
+                    /*return*/truthTable2[a * 3 + b]
+                }
+            } else {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable2[a * 3 + b]
+                }
+            }
         }
     }
 
     override fun evaluateID(row: ColumnIteratorRow): () -> Value {
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
-        return {
-            var res: Value = ResultSetDictionary.booleanFalseValue
-            var a = childA()
-            var b = childB()
-            if (a == ResultSetDictionary.booleanTrueValue || b == ResultSetDictionary.booleanTrueValue) {
-                res = ResultSetDictionary.booleanTrueValue
-            } else {
-                if (a == ResultSetDictionary.undefValue) {
-                    a = ResultSetDictionary.errorValue
-                } else {
-                    try {
-                        if (query.dictionary.getValue(a).toBoolean())
-                            a = ResultSetDictionary.booleanTrueValue
-                    } catch (e: Throwable) {
-                        a = ResultSetDictionary.errorValue
-                    }
+        if ((children[0] as AOPBase).enforcesBooleanOrError()) {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = childA()
+                    val b = childB()
+                    /*return*/truthTable[a * 3 + b]
                 }
-                if (a == ResultSetDictionary.booleanTrueValue) {
-                    res = ResultSetDictionary.booleanTrueValue
-                } else {
-                    if (b != ResultSetDictionary.undefValue) {
-                        try {
-                            if (query.dictionary.getValue(b).toBoolean())
-                                b = ResultSetDictionary.booleanTrueValue
-                        } catch (e: Throwable) {
-                            b = ResultSetDictionary.errorValue
-                        }
-                        if (b == ResultSetDictionary.booleanTrueValue) {
-                            res = ResultSetDictionary.booleanTrueValue
-                        }
-                    }
+            } else {
+                return {
+                    val a = childA()
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable[a * 3 + b]
                 }
             }
-/*return*/res
+        } else {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = childB()
+                    /*return*/truthTable[a * 3 + b]
+                }
+            } else {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable[a * 3 + b]
+                }
+            }
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPOr(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

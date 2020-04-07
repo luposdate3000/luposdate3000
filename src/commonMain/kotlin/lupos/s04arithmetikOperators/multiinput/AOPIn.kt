@@ -50,5 +50,6 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

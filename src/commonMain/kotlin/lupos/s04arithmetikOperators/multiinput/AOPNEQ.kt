@@ -31,12 +31,13 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
             var res = ResultSetDictionary.booleanTrueValue2
             val a = childA()
             val b = childB()
-            if(a==b){
-res=ResultSetDictionary.booleanFalseValue2
-}
+            if (a == b) {
+                res = ResultSetDictionary.booleanFalseValue2
+            }
 /*return*/res
         }
     }
+
     override fun evaluateID(row: ColumnIteratorRow): () -> Value {
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
@@ -44,11 +45,13 @@ res=ResultSetDictionary.booleanFalseValue2
             var res = ResultSetDictionary.booleanTrueValue
             val a = childA()
             val b = childB()
-            if(a==b){ 
-res=ResultSetDictionary.booleanFalseValue
-}
+            if (a == b) {
+                res = ResultSetDictionary.booleanFalseValue
+            }
 /*return*/res
         }
     }
+
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPNEQ(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

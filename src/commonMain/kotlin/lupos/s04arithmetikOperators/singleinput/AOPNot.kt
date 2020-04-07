@@ -32,5 +32,6 @@ class AOPNot(query: Query, @JvmField var child: AOPBase) : AOPBase(query, EOpera
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPNot(query, children[0].cloneOP() as AOPBase)
 }

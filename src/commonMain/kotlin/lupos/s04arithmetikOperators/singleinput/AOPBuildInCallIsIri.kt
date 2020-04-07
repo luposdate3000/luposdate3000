@@ -31,5 +31,6 @@ class AOPBuildInCallIsIri(query: Query, child: AOPBase) : AOPBase(query, EOperat
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPBuildInCallIsIri(query, children[0].cloneOP() as AOPBase)
 }

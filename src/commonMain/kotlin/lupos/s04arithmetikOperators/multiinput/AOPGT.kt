@@ -24,7 +24,7 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
         return true
     }
 
-  override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
@@ -32,15 +32,16 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
             val a = childA()
             val b = childB()
             try {
-if(a.compareTo(b) > 0)
-res=ResultSetDictionary.booleanTrueValue2
-else
-res=ResultSetDictionary.booleanFalseValue2
+                if (a.compareTo(b) > 0)
+                    res = ResultSetDictionary.booleanTrueValue2
+                else
+                    res = ResultSetDictionary.booleanFalseValue2
             } catch (e: Throwable) {
             }
 /*return*/res
         }
     }
+
     override fun evaluateID(row: ColumnIteratorRow): () -> Value {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
@@ -49,14 +50,16 @@ res=ResultSetDictionary.booleanFalseValue2
             val a = childA()
             val b = childB()
             try {
-if(a.compareTo(b) > 0)
-res=ResultSetDictionary.booleanTrueValue
-else
-res=ResultSetDictionary.booleanFalseValue
+                if (a.compareTo(b) > 0)
+                    res = ResultSetDictionary.booleanTrueValue
+                else
+                    res = ResultSetDictionary.booleanFalseValue
             } catch (e: Throwable) {
             }
 /*return*/res
         }
     }
+
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPGT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

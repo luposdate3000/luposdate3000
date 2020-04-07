@@ -24,31 +24,99 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
         return true
     }
 
+    companion object {
+        val truthTable = arrayOf(
+                ResultSetDictionary.booleanTrueValue,//T,T
+                ResultSetDictionary.booleanFalseValue,//T,F
+                ResultSetDictionary.errorValue,//T,E
+                ResultSetDictionary.booleanFalseValue,//F,T
+                ResultSetDictionary.booleanFalseValue,//F,F
+                ResultSetDictionary.booleanFalseValue,//F,E
+                ResultSetDictionary.errorValue,//E,T
+                ResultSetDictionary.booleanFalseValue,//E,F
+                ResultSetDictionary.errorValue//E,E
+        )
+        val truthTable2 = arrayOf(
+                ResultSetDictionary.booleanTrueValue2,//T,T
+                ResultSetDictionary.booleanFalseValue2,//T,F
+                ResultSetDictionary.errorValue2,//T,E
+                ResultSetDictionary.booleanFalseValue2,//F,T
+                ResultSetDictionary.booleanFalseValue2,//F,F
+                ResultSetDictionary.booleanFalseValue2,//F,E
+                ResultSetDictionary.errorValue2,//E,T
+                ResultSetDictionary.booleanFalseValue2,//E,F
+                ResultSetDictionary.errorValue2//E,E
+        )
+    }
+
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
-        val childA = (children[0] as AOPBase).evaluate(row)
-        val childB = (children[1] as AOPBase).evaluate(row)
-        return {
-            var res: ValueDefinition = ValueError()
-            var a: ValueDefinition = ValueError()
-            var b: ValueDefinition = ValueError()
-            try {
-                a = ValueBoolean(childA().toBoolean())
-            } catch (e: Throwable) {
+        val childA = (children[0] as AOPBase).evaluateID(row)
+        val childB = (children[1] as AOPBase).evaluateID(row)
+        if ((children[0] as AOPBase).enforcesBooleanOrError()) {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = childA()
+                    val b = childB()
+                    /*return*/truthTable2[a * 3 + b]
+                }
+            } else {
+                return {
+                    val a = childA()
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable2[a * 3 + b]
+                }
             }
-            try {
-                b = ValueBoolean(childB().toBoolean())
-            } catch (e: Throwable) {
+        } else {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = childB()
+                    /*return*/truthTable2[a * 3 + b]
+                }
+            } else {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable2[a * 3 + b]
+                }
             }
-            if (a is ValueBoolean && b is ValueBoolean) {
-                res = ValueBoolean(a.value && b.value)
-            } else if (a is ValueError && b is ValueBoolean && b.value == false) {
-                res = b
-            } else if (b is ValueError && a is ValueBoolean && a.value == false) {
-                res = a
-            }
-/*return*/res
         }
     }
 
+    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+        val childA = (children[0] as AOPBase).evaluateID(row)
+        val childB = (children[1] as AOPBase).evaluateID(row)
+        if ((children[0] as AOPBase).enforcesBooleanOrError()) {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = childA()
+                    val b = childB()
+                    /*return*/truthTable[a * 3 + b]
+                }
+            } else {
+                return {
+                    val a = childA()
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable[a * 3 + b]
+                }
+            }
+        } else {
+            if ((children[1] as AOPBase).enforcesBooleanOrError()) {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = childB()
+                    /*return*/truthTable[a * 3 + b]
+                }
+            } else {
+                return {
+                    val a = query.dictionary.toBooleanOrError(childA())
+                    val b = query.dictionary.toBooleanOrError(childB())
+                    /*return*/truthTable[a * 3 + b]
+                }
+            }
+        }
+    }
+
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPAnd(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

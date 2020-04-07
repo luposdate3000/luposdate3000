@@ -33,5 +33,6 @@ class AOPBuildInCallSTRSTARTS(query: Query, child: AOPBase, childB: AOPBase) : A
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPBuildInCallSTRSTARTS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

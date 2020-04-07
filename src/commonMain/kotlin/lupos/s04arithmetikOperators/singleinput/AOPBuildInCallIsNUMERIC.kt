@@ -31,5 +31,6 @@ class AOPBuildInCallIsNUMERIC(query: Query, child: AOPBase) : AOPBase(query, EOp
         }
     }
 
+    override fun enforcesBooleanOrError() = true
     override fun cloneOP() = AOPBuildInCallIsNUMERIC(query, children[0].cloneOP() as AOPBase)
 }
