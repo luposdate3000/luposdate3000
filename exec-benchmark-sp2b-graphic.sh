@@ -19,12 +19,13 @@ set logscale y
 
 set title "$query"
 plot \
- 'tmp/$query.luposdate.csv' using 2:6 title "luposdate3000 old" with linespoints, \
- 'tmp/$query.luposdate-3d7007146ee1a6478c1c18aca37a8cdd4f4f29bb.csv' using 2:6 title "luposdate3000 friday" with linespoints, \
- 'tmp/$query.luposdate-06484cc07789d8719c6b83ffd1fdab7b9d137043-internal.csv' using 2:6 title "luposdate3000 friday-no-curl" with linespoints, \
- 'tmp/$query.luposdate-5bc1cde0ea930aed6208c132d4c21653e0cb2824-internal.csv' using 2:6 title "luposdate3000 monday-no-curl" with linespoints, \
- 'tmp/$query.luposdate-c5a096ef9278d91c9372d567b076d6bef496172d-internal.csv' using 2:6 title "luposdate3000 new-no-curl" with linespoints, \
- 'tmp/$query.jena.csv' using 2:6 title "jena" with linespoints
+ 'tmp/$query.luposdate-001.csv' using 2:6 title "luposdate3000 001--with-curl" with linespoints, \
+ 'tmp/$query.luposdate-002-3d7007146ee1a6478c1c18aca37a8cdd4f4f29bb.csv' using 2:6 title "luposdate3000 002-with-curl" with linespoints, \
+ 'tmp/$query.luposdate-003-06484cc07789d8719c6b83ffd1fdab7b9d137043-internal.csv' using 2:6 title "luposdate3000 003" with linespoints, \
+ 'tmp/$query.luposdate-007-5bc1cde0ea930aed6208c132d4c21653e0cb2824-internal.csv' using 2:6 title "luposdate3000 007" with linespoints, \
+ 'tmp/$query.luposdate-008-c5a096ef9278d91c9372d567b076d6bef496172d-internal.csv' using 2:6 title "luposdate3000 008" with linespoints, \
+ 'tmp/$query.luposdate-009-9bfbbf63581ae66a3a94ea23a07f3ae5c9949e35-internal.csv' using 2:6 title "luposdate3000 009" with linespoints, \
+ 'tmp/$query.jena.csv' using 2:6 title "jena-with-curl" with linespoints
 EOF
 
 done
