@@ -83,24 +83,24 @@ class TripleStoreLocal(@JvmField val name: String) {
                             if (projection[0] == "_") {
                                 res.count = tmp1.size
                             } else {
-                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.toList())
+                                columns[projection[0]] = ColumnIteratorDebug(-1,projection[0],ColumnIteratorMultiValue(tmp1.toList()))
                             }
                         }
                     }
                 } else {
                     val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
                     if (projection[0] != "_") {
-                        columns[projection[0]] = columnsArr[0]
+                        columns[projection[0]] = ColumnIteratorDebug(-2,projection[0],columnsArr[0])
                     }
                     if (projection[1] != "_") {
-                        columns[projection[1]] = columnsArr[1]
+                        columns[projection[1]] = ColumnIteratorDebug(-3,projection[1],columnsArr[1])
                     }
-                    var iter = tmp.keys.iterator()
+                    var iter = tmp.iterator()
                     for (iterator in columnsArr) {
                         iterator.onNoMoreElements = {
                             if (iter.hasNext()) {
                                 val key = iter.next()
-                                val value = tmp[key]!!
+                                val value = iter.value()
                                 if (projection[0] != "_") {
                                     columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
                                 }
@@ -115,25 +115,25 @@ class TripleStoreLocal(@JvmField val name: String) {
         } else {
             val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
             if (projection[0] != "_") {
-                columns[projection[0]] = columnsArr[0]
+                columns[projection[0]] = ColumnIteratorDebug(-4,projection[0],columnsArr[0])
             }
             if (projection[1] != "_") {
-                columns[projection[1]] = columnsArr[1]
+                columns[projection[1]] = ColumnIteratorDebug(-5,projection[1],columnsArr[1])
             }
             if (projection[2] != "_") {
-                columns[projection[2]] = columnsArr[2]
+                columns[projection[2]] = ColumnIteratorDebug(-6,projection[2],columnsArr[2])
             }
-            var iter = data.keys.iterator()
+            var iter = data.iterator()
             if (iter.hasNext()) {
                 var key1 = iter.next()
-                var value1 = data[key1]!!
-                var iter2 = value1.keys.iterator()
+                var value1 = iter.value()
+                var iter2 = value1.iterator()
                 for (iterator in columnsArr) {
                     iterator.onNoMoreElements = {
                         while (true) {
                             if (iter2.hasNext()) {
                                 val key2 = iter2.next()
-                                val value2 = value1[key2]!!
+                                val value2 = iter2.value()
                                 if (projection[0] != "_") {
                                     columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
                                 }
@@ -147,8 +147,8 @@ class TripleStoreLocal(@JvmField val name: String) {
                             } else {
                                 if (iter.hasNext()) {
                                     key1 = iter.next()
-                                    value1 = data[key1]!!
-                                    iter2 = value1.keys.iterator()
+                                    value1 = iter.value()
+                                    iter2 = value1.iterator()
                                 } else {
                                     break
                                 }

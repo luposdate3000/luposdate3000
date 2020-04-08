@@ -35,4 +35,13 @@ class SortedIntMap<T>() {
         keys.clear()
         values.clear()
     }
+
+    inline fun iterator() = SortedIntMapIterator(this)
+}
+
+class SortedIntMapIterator<T>(val data: SortedIntMap<T>) {
+    var index = 0
+    fun hasNext() = index < data.values.size
+    fun next() = data.keys.data[index++]
+    fun value() = data.values[index - 1]
 }

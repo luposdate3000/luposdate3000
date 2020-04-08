@@ -48,10 +48,12 @@ class SortedIntSet() {
                 onCreate(r + 1)
             } else if (data[l] > value) {
                 onCreate(l)
-            } else if (data[l] < value) {
-                onCreate(l + 1)
-            } else {
+            } else if (data[r]>value&&data[l] < value) {
+                onCreate(r)
+            } else if(data[l]==value){
                 onExists(l)
+            }else{
+                onExists(r)
             }
         }
     }
