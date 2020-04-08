@@ -16,7 +16,7 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPValues")
+        val res = XMLElement("LOPValues").addAttribute("uuid", "" + uuid)
         val xmlvariables = XMLElement("LocalVariables")
         res.addContent(xmlvariables)
         val bindings = XMLElement("LocalBindings")

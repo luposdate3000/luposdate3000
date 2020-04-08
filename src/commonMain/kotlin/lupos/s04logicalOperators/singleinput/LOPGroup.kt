@@ -59,13 +59,12 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
         }
     */
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPGroup")
+        val res =super.toXMLElement()
         val byxml = XMLElement("LocalBy")
         res.addContent(byxml)
         for (b in by) {
             byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
         }
-        res.addContent(childrenToXML())
         return res
     }
 

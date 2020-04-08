@@ -15,8 +15,7 @@ class LOPModify(query: Query,
                 child: OPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child)) {
     override fun getProvidedVariableNames() = mutableListOf<String>()
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPModify")
-        res.addContent(XMLElement("where").addContent(childrenToXML()))
+        val res = super.toXMLElement()
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)
         for (e in insert) {
