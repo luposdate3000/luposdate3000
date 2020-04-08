@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 object OperatorGraphToLatex {
     class StackElement(val name: String) {
         var projectionHelper = ""
@@ -12,13 +14,15 @@ object OperatorGraphToLatex {
                 res.append("(\\textit{${projectionHelper}})")
             }
             if (children.size > 0) {
-                if (children.size > 1)
+                if (children.size > 1) {
                     res.append("[")
+                }
                 for (c in children) {
                     res.append(c.toString())
                 }
-                if (children.size > 1)
+                if (children.size > 1) {
                     res.append("]")
+                }
             }
             res.append("]")
             return res.toString()

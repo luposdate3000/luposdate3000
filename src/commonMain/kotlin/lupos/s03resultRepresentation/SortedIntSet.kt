@@ -1,5 +1,7 @@
 package lupos.s03resultRepresentation
 
+import lupos.s00misc.Coverage
+
 class SortedIntSet() {
     var data = mutableListOf<Int>()
     var size: Int = 0
@@ -16,7 +18,6 @@ class SortedIntSet() {
     constructor(value: Int) : this() {
         data.add(value)
     }
-
 
     inline fun internal(value: Int, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {

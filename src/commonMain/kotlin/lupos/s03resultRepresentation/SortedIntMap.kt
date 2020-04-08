@@ -1,5 +1,7 @@
 package lupos.s03resultRepresentation
 
+import lupos.s00misc.Coverage
+
 class SortedIntMap<T>() {
     var keys = SortedIntSet()
     var values = mutableListOf<T>()

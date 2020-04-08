@@ -89,6 +89,7 @@ for (arg in args) {
             !arg.endsWith("PageHelper.kt") &&
             !arg.endsWith("Model.kt") &&
             !arg.endsWith("Cache.kt") &&
+            !arg.endsWith("BenchmarkUtils.kt") &&
             !arg.endsWith("CacheOfFiles.kt")
     ) {
         try {

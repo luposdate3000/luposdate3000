@@ -3,6 +3,7 @@ package lupos.s05tripleStore
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -208,7 +209,7 @@ class TripleStoreLocal(@JvmField val name: String) {
         for (rawKey in data.keys) {
             val key = map1[rawKey]
             val value = data[rawKey]!!
-            var tmp = store.getOrCreate(key,{SortedIntSet()})
+            var tmp = store.getOrCreate(key, { SortedIntSet() })
             importInternal(value, tmp, map2)
         }
     }
@@ -217,7 +218,7 @@ class TripleStoreLocal(@JvmField val name: String) {
         for (rawKey in 0 until data.size) {
             val key = map0[rawKey]
             val value = data[rawKey]
-            var tmp = store.getOrCreate(key,{SortedIntMap<SortedIntSet>()})
+            var tmp = store.getOrCreate(key, { SortedIntMap<SortedIntSet>() })
             importInternal(value, tmp, map1, map2)
         }
     }

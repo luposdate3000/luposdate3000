@@ -32,10 +32,11 @@ class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
             val a = childA()
             val b = childB()
             try {
-                if (a.compareTo(b) < 0)
+                if (a.compareTo(b) < 0) {
                     res = ResultSetDictionary.booleanTrueValue2
-                else
+                } else {
                     res = ResultSetDictionary.booleanFalseValue2
+                }
             } catch (e: Throwable) {
             }
 /*return*/res
@@ -50,10 +51,11 @@ class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
             val a = childA()
             val b = childB()
             try {
-                if (a.compareTo(b) < 0)
+                if (a.compareTo(b) < 0) {
                     res = ResultSetDictionary.booleanTrueValue
-                else
+                } else {
                     res = ResultSetDictionary.booleanFalseValue
+                }
             } catch (e: Throwable) {
             }
 /*return*/res
