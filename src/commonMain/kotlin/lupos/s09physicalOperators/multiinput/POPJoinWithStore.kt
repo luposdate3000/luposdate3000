@@ -61,7 +61,6 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         for (name in childA.getProvidedVariableNames()) {
             val it = ColumnIteratorQueue()
             if (tmp.contains(name)) {
-                columnsINAJ.add(childAv.columns[name]!!)
                 variablINBJ.add(name)
                 for (i in 0 until 3) {
                     val cc = childB.children[i]
@@ -71,12 +70,22 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     }
                 }
                 tmp.remove(name)
-                columnsOUTAJ.add(it)
+                if (projectedVariables.contains(name)) {
+                    columnsOUT.add(it)
+                    columnsINAJ.add(0, childAv.columns[name]!!)
+                    columnsOUTAJ.add(0, it)
+                } else {
+                    columnsINAJ.add(childAv.columns[name]!!)
+                }
             } else {
-                columnsOUTAO.add(it)
-                columnsINAO.add(childAv.columns[name]!!)
+                if (projectedVariables.contains(name)) {
+                    columnsOUT.add(it)
+                    columnsOUTAO.add(0, it)
+                    columnsINAO.add(0, childAv.columns[name]!!)
+                } else {
+                    columnsINAO.add(childAv.columns[name]!!)
+                }
             }
-            columnsOUT.add(it)
             outMap[name] = it
         }
         for (name in tmp) {
@@ -126,7 +135,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
         }
         require(indicesINBJ.size > 0)
-	var columnsInBRoot:ColumnIteratorRow?=null
+        var columnsInBRoot: ColumnIteratorRow? = null
         val columnsInB = Array(variablINBO.size) { ColumnIterator() }
         for (i in 0 until columnsINAO.size) {
             valuesAO[i] = columnsINAO[i].next()
@@ -146,24 +155,24 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 column.onEmptyQueue = {
                     loopA@ while (true) {
                         var done = true
-if(variablINBO.size==0){
-done=columnsInBRoot!!.hasNext()
-}else{
-                        loopB@ for (i in 0 until variablINBO.size) {
-                            val value = columnsInB[i].next()
-                            if (value == null) {
-                                require(i == 0)
-                                done = false
-                                break@loopB
+                        if (variablINBO.size == 0) {
+                            done = columnsInBRoot!!.hasNext()
+                        } else {
+                            loopB@ for (i in 0 until variablINBO.size) {
+                                val value = columnsInB[i].next()
+                                if (value == null) {
+                                    require(i == 0)
+                                    done = false
+                                    break@loopB
+                                }
+                                columnsOUTB[i].queue.add(value)
                             }
-                            columnsOUTB[i].queue.add(value)
                         }
-}
                         if (done) {
-                            for (i in 0 until columnsINAO.size) {
+                            for (i in 0 until columnsOUTAO.size) {
                                 columnsOUTAO[i].queue.add(valuesAO[i]!!)
                             }
-                            for (i in 0 until columnsINAJ.size) {
+                            for (i in 0 until columnsOUTAJ.size) {
                                 columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
                             }
                             break@loopA
@@ -190,14 +199,15 @@ done=columnsInBRoot!!.hasNext()
                 }
             }
         }
-return ColumnIteratorRow(outMap)
+        return ColumnIteratorRow(outMap)
     }
 
-    override fun toXMLElement() :XMLElement{
-val res= super.toXMLElement().addAttribute("optional", "" + optional)
-res["children"]!!.addContent(childB.toXMLElement())
-return res
-}
+    override fun toXMLElement(): XMLElement {
+        val res = super.toXMLElement().addAttribute("optional", "" + optional)
+        res["children"]!!.addContent(childB.toXMLElement())
+        return res
+    }
+
     override fun cloneOP() = POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP(), optional)
 
 }
