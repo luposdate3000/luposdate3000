@@ -95,7 +95,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             columnsOUT.add(it)
             outMap[name] = it
         }
-require(variablINBO.size>0)
+        require(variablINBO.size > 0)
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
         val valuesAO = Array<Value?>(columnsINAO.size) { null }
         val valuesAJ = Array<Value?>(columnsINAJ.size) { null }

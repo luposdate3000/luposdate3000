@@ -5,40 +5,30 @@ class SortedIntSet() {
     var size: Int = 0
         get() = data.size
 
+    inline fun clear() {
+        data.clear()
+    }
+
+    fun iterator(): Iterator<Int> {
+        return data.iterator()
+    }
+
     constructor(value: Int) : this() {
         data.add(value)
     }
 
-    inline fun contains(value: Int): Boolean {
-        if (data.size == 0) {
-            return false
-        } else if (data.size == 1) {
-            return data[0] == value
-        } else {
-            var l = 0
-            var r = data.size - 1
-            while (r - l > 1) {
-                var m = (r + l) / 2
-                if (data[m] < value) {
-                    l = m
-                } else if (data[m] > value) {
-                    r = m
-                } else {
-                    return true
-                }
-            }
-            return data[l] == value || data[r] == value
-        }
-    }
 
-    inline fun add(value: Int) {
+    inline fun internal(value: Int, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
-            data.add(value)
+            onCreate(0)
         } else if (data.size == 1) {
-            if (data[0] < value)
-                data.add(value)
-            else if (data[0] > value)
-                data.add(0, value)
+            if (data[0] < value) {
+                onCreate(1)
+            } else if (data[0] > value) {
+                onCreate(0)
+            } else {
+                onExists(0)
+            }
         } else {
             var l = 0
             var r = data.size - 1
@@ -49,43 +39,53 @@ class SortedIntSet() {
                 } else if (data[m] > value) {
                     r = m
                 } else {
+                    onExists(m)
                     return
                 }
             }
             if (data[r] < value) {
-                data.add(r + 1, value)
+                onCreate(r + 1)
             } else if (data[l] > value) {
-                data.add(l, value)
+                onCreate(l)
             } else if (data[l] < value) {
-                data.add(l + 1, value)
+                onCreate(l + 1)
+            } else {
+                onExists(l)
             }
         }
     }
 
-    inline fun remove(value: Int) {
-        if (data.size == 1) {
-            if (data[0] == value) {
-                data.removeAt(0)
-            }
-        } else if (data.size > 1) {
-            var l = 0
-            var r = data.size - 1
-            while (r - l > 1) {
-                var m = (r + l) / 2
-                if (data[m] < value) {
-                    l = m
-                } else if (data[m] > value) {
-                    r = m
-                } else {
-                    data.removeAt(m)
-                    return
-                }
-            }
-            if (data[l] == value)
-                data.removeAt(l)
-            else if (data[r] == value)
-                data.removeAt(r)
-        }
+    inline fun remove(value: Int, crossinline onExists: (it: Int) -> Unit = {}) {
+        internal(value, {
+        }, {
+            onExists(it)
+            data.removeAt(it)
+        })
+    }
+
+    inline fun contains(value: Int): Boolean {
+        var res = false
+        internal(value, {
+        }, {
+            res = true
+        })
+        return res
+    }
+
+    inline fun find(value: Int, crossinline onExists: (it: Int) -> Unit) {
+        internal(value, {
+        }, {
+            onExists(it)
+        })
+    }
+
+    inline fun add(value: Int, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+        internal(value, {
+            data.add(it, value)
+            onCreate(it)
+        }, {
+            onExists(it)
+        })
     }
 
     inline fun toList(): List<Int> {
