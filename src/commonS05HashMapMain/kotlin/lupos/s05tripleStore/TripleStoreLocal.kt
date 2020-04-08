@@ -58,7 +58,6 @@ class TripleStoreLocal(@JvmField val name: String) {
     fun getIteratorInternal(query: Query, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
-        var mapping = mutableMapOf<Value, Value>()
         val columns = mutableMapOf<String, ColumnIterator>()
         for (sIndex in 0 until projection.size) {
             val s = projection[sIndex]
@@ -83,7 +82,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                             if (projection[0] == "_") {
                                 res.count = tmp1.size
                             } else {
-                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.map { dictionaryMapInternal(it, nodeGlobalDictionary, query.dictionary, mapping) })
+                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.toList())
                             }
                         }
                     }
@@ -102,10 +101,10 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 val key = iter.next()
                                 val value = tmp[key]!!
                                 if (projection[0] != "_") {
-                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, dictionaryMapInternal(key, nodeGlobalDictionary, query.dictionary, mapping)))
+                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
                                 }
                                 if (projection[1] != "_") {
-                                    columnsArr[1].childs.add(ColumnIteratorMultiValue(value.map { dictionaryMapInternal(it, nodeGlobalDictionary, query.dictionary, mapping) }))
+                                    columnsArr[1].childs.add(ColumnIteratorMultiValue(value.toList()))
                                 }
                             }
                         }
@@ -135,13 +134,13 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 val key2 = iter2.next()
                                 val value2 = value1[key2]!!
                                 if (projection[0] != "_") {
-                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key1, nodeGlobalDictionary, query.dictionary, mapping)))
+                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
                                 }
                                 if (projection[1] != "_") {
-                                    columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key2, nodeGlobalDictionary, query.dictionary, mapping)))
+                                    columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
                                 }
                                 if (projection[2] != "_") {
-                                    columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.map { dictionaryMapInternal(it, nodeGlobalDictionary, query.dictionary, mapping) }))
+                                    columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.toList()))
                                 }
                                 break
                             } else {
@@ -340,15 +339,6 @@ class TripleStoreLocal(@JvmField val name: String) {
         }
     }
 
-    fun dictionaryMapInternal(value: Value, dictionaryFrom: ResultSetDictionary, dictionaryTo: ResultSetDictionary, mapping: MutableMap<Value, Value>): Value {
-        var tmp = mapping[value]
-        if (tmp == null) {
-            tmp = dictionaryTo.createValue(dictionaryFrom.getValue(value))
-            mapping[value] = tmp
-        }
-        return tmp
-    }
-
     suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         require(data.size == 3)
         var tmp: MutableSet<MapKey>?
@@ -365,7 +355,6 @@ class TripleStoreLocal(@JvmField val name: String) {
                 pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
             }
         }
-        var mapping = mutableMapOf<Value, Value>()
         loop@ while (true) {
             val k = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
@@ -374,7 +363,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                     require(columnIndex == 0)
                     break@loop
                 } else {
-                    k[columnIndex] = dictionaryMapInternal(v, query.dictionary, nodeGlobalDictionary, mapping)
+                    k[columnIndex] = query.dictionary.valueToGlobal(v)
                 }
             }
             tmp.add(MapKey(k))

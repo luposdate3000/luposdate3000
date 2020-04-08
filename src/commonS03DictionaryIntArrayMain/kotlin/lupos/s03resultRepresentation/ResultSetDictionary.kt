@@ -97,4 +97,11 @@ res=-res
             return nodeGlobalDictionary.mapLTS[value]
         }
     }
+inline fun valueToGlobal(value:Value):Value{
+if(value>=0){
+return value
+}else{
+return nodeGlobalDictionary.createValue(getValue(value))
+}
+}
 }
