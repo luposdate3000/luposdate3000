@@ -8,7 +8,9 @@ import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.Query
 
-class ResultSetDictionary {
+val nodeGlobalDictionary = ResultSetDictionary(true)
+
+class ResultSetDictionary(val global: Boolean = false) {
     companion object {
         @JvmField
         val booleanTrueValue = 0//required by truth-tables
@@ -30,7 +32,7 @@ class ResultSetDictionary {
 
     inline fun toBooleanOrError(value: Value): Value {
         var res: Value = errorValue
-        if (value < undefValue) {
+        if (value < undefValue && value >= 0) {
             res = value
         } else {
             try {
@@ -48,35 +50,51 @@ class ResultSetDictionary {
     @JvmField
     val mapSTL = mutableMapOf<ValueDefinition, Value>(undefValue2 to undefValue, errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue)
     @JvmField
-    val mapLTS = mutableListOf<ValueDefinition>(booleanTrueValue2,booleanFalseValue2,errorValue2,undefValue2)
+    val mapLTS = mutableListOf<ValueDefinition>(booleanTrueValue2, booleanFalseValue2, errorValue2, undefValue2)
 
     inline fun createValue(value: String?) = createValue(ValueDefinition(value))
-    inline fun createValue(value: ValueDefinition): Value {
-        try {
-            //BenchmarkUtils.start(EBenchmark.IMPORT_DICTIONARY_INSERT)
-            var res: Value
-            if (value is ValueUndef) {
-                res = undefValue
-            } else if (value is ValueError) {
-                res = errorValue
+    inline fun checkValue(value: ValueDefinition): Value? {
+        var res: Value?
+        if (value is ValueUndef) {
+            res = undefValue
+        } else if (value is ValueError) {
+            res = errorValue
+        } else {
+            if (global) {
+                    res = mapSTL[value]
             } else {
-                val o = mapSTL[value]
-                if (o != null) {
-                    res = o
-                } else {
-                    val l = mapLTS.size
-                    mapSTL[value] = l
-                    mapLTS.add(value)
-                    res = l
+                res = nodeGlobalDictionary.mapSTL[value]
+                if (res == null) {
+                    res = mapSTL[value]
+			if(res!=null){
+res=-res
+}
                 }
             }
-            return res
-        } finally {
-            //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICTIONARY_INSERT)
         }
+        return res
+    }
+
+    inline fun createValue(value: ValueDefinition): Value {
+        var res = checkValue(value)
+        if (res == null) {
+            val l = mapLTS.size
+            mapSTL[value] = l
+            mapLTS.add(value)
+            if (global) {
+                res = l
+            } else {
+                res = -l
+            }
+        }
+        return res!!
     }
 
     inline fun getValue(value: Value): ValueDefinition {
-        return mapLTS[value]
+        if (value < 0) {
+            return mapLTS[-value]
+        } else {
+            return nodeGlobalDictionary.mapLTS[value]
+        }
     }
 }

@@ -47,8 +47,6 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     @JvmField
-    val dictionary = ResultSetDictionary()
-    @JvmField
     val dataSPO = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//s,sp,spo
     @JvmField
     val dataSOP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//so
@@ -85,7 +83,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                             if (projection[0] == "_") {
                                 res.count = tmp1.size
                             } else {
-                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.map { dictionaryMapInternal(it, dictionary, query.dictionary, mapping) })
+                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.map { dictionaryMapInternal(it, nodeGlobalDictionary, query.dictionary, mapping) })
                             }
                         }
                     }
@@ -104,10 +102,10 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 val key = iter.next()
                                 val value = tmp[key]!!
                                 if (projection[0] != "_") {
-                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, dictionaryMapInternal(key, dictionary, query.dictionary, mapping)))
+                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, dictionaryMapInternal(key, nodeGlobalDictionary, query.dictionary, mapping)))
                                 }
                                 if (projection[1] != "_") {
-                                    columnsArr[1].childs.add(ColumnIteratorMultiValue(value.map { dictionaryMapInternal(it, dictionary, query.dictionary, mapping) }))
+                                    columnsArr[1].childs.add(ColumnIteratorMultiValue(value.map { dictionaryMapInternal(it, nodeGlobalDictionary, query.dictionary, mapping) }))
                                 }
                             }
                         }
@@ -137,13 +135,13 @@ class TripleStoreLocal(@JvmField val name: String) {
                                 val key2 = iter2.next()
                                 val value2 = value1[key2]!!
                                 if (projection[0] != "_") {
-                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key1, dictionary, query.dictionary, mapping)))
+                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key1, nodeGlobalDictionary, query.dictionary, mapping)))
                                 }
                                 if (projection[1] != "_") {
-                                    columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key2, dictionary, query.dictionary, mapping)))
+                                    columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, dictionaryMapInternal(key2, nodeGlobalDictionary, query.dictionary, mapping)))
                                 }
                                 if (projection[2] != "_") {
-                                    columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.map { dictionaryMapInternal(it, dictionary, query.dictionary, mapping) }))
+                                    columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.map { dictionaryMapInternal(it, nodeGlobalDictionary, query.dictionary, mapping) }))
                                 }
                                 break
                             } else {
@@ -191,7 +189,7 @@ class TripleStoreLocal(@JvmField val name: String) {
             val param = params[i]
             if (param is AOPConstant) {
                 require(filter.size == ii)
-                filter.add(dictionary.createValue(param.value))
+                filter.add(nodeGlobalDictionary.createValue(param.value))
             } else {
                 require(param is AOPVariable)
                 projection.add(param.name)
@@ -234,9 +232,9 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     fun import(data: TripleStoreBulkImport, idx: EIndexPattern) {
-        val mapS = data.dictionaryS.getDictionaryMapping(dictionary)
-        val mapP = data.dictionaryP.getDictionaryMapping(dictionary)
-        val mapO = data.dictionaryO.getDictionaryMapping(dictionary)
+        val mapS = data.dictionaryS.getDictionaryMapping(nodeGlobalDictionary)
+        val mapP = data.dictionaryP.getDictionaryMapping(nodeGlobalDictionary)
+        val mapO = data.dictionaryO.getDictionaryMapping(nodeGlobalDictionary)
         //BenchmarkUtils.start(EBenchmark.IMPORT_TRIPLE_STORE)
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
@@ -376,7 +374,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                     require(columnIndex == 0)
                     break@loop
                 } else {
-                    k[columnIndex] = dictionaryMapInternal(v, query.dictionary, dictionary, mapping)
+                    k[columnIndex] = dictionaryMapInternal(v, query.dictionary, nodeGlobalDictionary, mapping)
                 }
             }
             tmp.add(MapKey(k))
