@@ -17,6 +17,8 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             res.addAll(c.getRequiredVariableNames())
         }
 	res.remove("_")
+	res.remove("_")
+	res.remove("_")
         return res.distinct()
     }
 

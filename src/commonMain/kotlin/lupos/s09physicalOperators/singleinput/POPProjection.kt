@@ -15,11 +15,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPProjection(query: Query, projectedVariables: List<String>, @JvmField val variables: MutableList<AOPVariable>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
+class POPProjection(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child)) {
     override fun toSparql(): String {
         var res = "{SELECT "
-        for (c in variables) {
-            res += c.toSparql() + " "
+        for (c in projectedVariables) {
+            res += AOPVariable(query,c).toSparql() + " "
         }
         res += "{"
         res += children[0].toSparql()
@@ -27,10 +27,10 @@ class POPProjection(query: Query, projectedVariables: List<String>, @JvmField va
         return res
     }
 
-    override fun cloneOP() = POPProjection(query, projectedVariables, variables, children[0].cloneOP())
-    override fun equals(other: Any?): Boolean = other is POPProjection && variables.equals(other.variables) && children[0] == other.children[0]
-    override fun getProvidedVariableNamesInternal(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
-    override fun getRequiredVariableNames(): List<String> = MutableList(variables.size) { variables[it].name }.distinct()
+    override fun cloneOP() = POPProjection(query, projectedVariables, children[0].cloneOP())
+    override fun equals(other: Any?): Boolean = other is POPProjection && projectedVariables.equals(other.projectedVariables) && children[0] == other.children[0]
+    override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
+    override fun getRequiredVariableNames(): List<String> = projectedVariables
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate()
@@ -57,15 +57,5 @@ class POPProjection(query: Query, projectedVariables: List<String>, @JvmField va
             }
             return ColumnIteratorRow(outMap)
         }
-    }
-
-    override fun toXMLElement(): XMLElement {
-        val res = super.toXMLElement()
-        val vars = XMLElement("variables")
-        res.addContent(vars)
-        for (v in variables) {
-            vars.addContent(XMLElement("variable").addAttribute("name", v.name))
-        }
-        return res
     }
 }

@@ -43,6 +43,9 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
         for (p in params) {
             tmp.addAll(p.getRequiredVariableNames())
         }
+tmp.remove("_")
+tmp.remove("_")
+tmp.remove("_")
         return tmp.distinct()
     }
 

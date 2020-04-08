@@ -322,11 +322,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "POPProjection" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
-            val variables = mutableListOf<AOPVariable>()
-            node["variables"]!!.childs.forEach {
-                variables.add(createAOPVariable(query, mapping, it.attributes["name"]!!))
-            }
-            return POPProjection(query, createProjectedVariables(query, node, mapping), variables, child)
+            return POPProjection(query, createProjectedVariables(query, node, mapping), child)
         }
         "LOPMakeBooleanResult" -> {
             return LOPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
