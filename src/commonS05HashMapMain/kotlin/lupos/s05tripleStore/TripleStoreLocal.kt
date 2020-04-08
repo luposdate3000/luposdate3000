@@ -83,17 +83,17 @@ class TripleStoreLocal(@JvmField val name: String) {
                             if (projection[0] == "_") {
                                 res.count = tmp1.size
                             } else {
-                                columns[projection[0]] = ColumnIteratorDebug(-1,projection[0],ColumnIteratorMultiValue(tmp1.toList()))
+                                columns[projection[0]] = ColumnIteratorDebug(-1, projection[0], ColumnIteratorMultiValue(tmp1.toList()))
                             }
                         }
                     }
                 } else {
                     val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
                     if (projection[0] != "_") {
-                        columns[projection[0]] = ColumnIteratorDebug(-2,projection[0],columnsArr[0])
+                        columns[projection[0]] = ColumnIteratorDebug(-2, projection[0], columnsArr[0])
                     }
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-3,projection[1],columnsArr[1])
+                        columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], columnsArr[1])
                     }
                     var iter = tmp.iterator()
                     for (iterator in columnsArr) {
@@ -115,13 +115,13 @@ class TripleStoreLocal(@JvmField val name: String) {
         } else {
             val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
             if (projection[0] != "_") {
-                columns[projection[0]] = ColumnIteratorDebug(-4,projection[0],columnsArr[0])
+                columns[projection[0]] = ColumnIteratorDebug(-4, projection[0], columnsArr[0])
             }
             if (projection[1] != "_") {
-                columns[projection[1]] = ColumnIteratorDebug(-5,projection[1],columnsArr[1])
+                columns[projection[1]] = ColumnIteratorDebug(-5, projection[1], columnsArr[1])
             }
             if (projection[2] != "_") {
-                columns[projection[2]] = ColumnIteratorDebug(-6,projection[2],columnsArr[2])
+                columns[projection[2]] = ColumnIteratorDebug(-6, projection[2], columnsArr[2])
             }
             var iter = data.iterator()
             if (iter.hasNext()) {
