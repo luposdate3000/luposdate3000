@@ -61,14 +61,14 @@ class ResultSetDictionary(val global: Boolean = false) {
             res = errorValue
         } else {
             if (global) {
-                    res = mapSTL[value]
+                res = mapSTL[value]
             } else {
                 res = nodeGlobalDictionary.mapSTL[value]
                 if (res == null) {
                     res = mapSTL[value]
-			if(res!=null){
-res=-res
-}
+                    if (res != null) {
+                        res = -res
+                    }
                 }
             }
         }
@@ -97,11 +97,12 @@ res=-res
             return nodeGlobalDictionary.mapLTS[value]
         }
     }
-inline fun valueToGlobal(value:Value):Value{
-if(value>=0){
-return value
-}else{
-return nodeGlobalDictionary.createValue(getValue(value))
-}
-}
+
+    inline fun valueToGlobal(value: Value): Value {
+        if (value >= 0) {
+            return value
+        } else {
+            return nodeGlobalDictionary.createValue(getValue(value))
+        }
+    }
 }

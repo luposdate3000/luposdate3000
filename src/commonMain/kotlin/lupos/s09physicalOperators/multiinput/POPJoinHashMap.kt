@@ -98,7 +98,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             if (tmp.contains(name)) {
                 columnsINAJ.add(childA.columns[name]!!)
                 columnsINBJ.add(childB.columns[name]!!)
-                    t = ColumnIteratorChildIterator()
+                t = ColumnIteratorChildIterator()
                 if (projectedVariables.contains(name)) {
                     outMap[name] = ColumnIteratorDebug(uuid, name, t)
                     outIterators.add(t)

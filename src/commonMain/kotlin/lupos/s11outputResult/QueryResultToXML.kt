@@ -46,9 +46,9 @@ object QueryResultToXML {
                         if (valueID == null) {
                             break@loop
                         }
-                        if (valueID != ResultSetDictionary.undefValue) {
+                        if (valueID != ResultSetDictionary.undefValue && valueID != ResultSetDictionary.errorValue) {
                             val value = node.query.dictionary.getValue(valueID).valueToString()
-                            require(value != null)
+                            require(value != null, { "QueryResultToXML unexpected null" })
                             val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
                             if (value.length > 1) {
                                 if (value.startsWith("\"") && !value.endsWith("\"")) {

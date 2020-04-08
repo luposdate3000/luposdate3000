@@ -19,7 +19,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
     override fun toSparql(): String {
         var res = "{SELECT "
         for (c in projectedVariables) {
-            res += AOPVariable(query,c).toSparql() + " "
+            res += AOPVariable(query, c).toSparql() + " "
         }
         res += "{"
         res += children[0].toSparql()

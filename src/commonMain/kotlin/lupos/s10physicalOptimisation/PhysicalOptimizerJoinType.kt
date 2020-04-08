@@ -29,8 +29,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.*
-import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.*
+import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
@@ -65,16 +65,39 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
         if (node is LOPJoin) {
             val childA = node.children[0]
             val childB = node.children[1]
-            if (childA is LOPTriple) {
-                res = POPJoinWithStore(query, projectedVariables, childB, childA, node.optional)
-}else            if (childB is LOPTriple) {
-                res = POPJoinWithStore(query, projectedVariables, childA, childB, node.optional)
-            } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple) {
-                res = POPJoinHashMap(query, projectedVariables, childB, childA, node.optional)
+            var variablesJ = mutableListOf<String>()
+            var variablesA = mutableListOf<String>()
+            var variablesB = mutableListOf<String>()
+            variablesA.addAll(childA.getProvidedVariableNames())
+            variablesB.addAll(childB.getProvidedVariableNames())
+            for (name in childA.getProvidedVariableNames()) {
+                if (variablesB.contains(name)) {
+                    variablesA.remove(name)
+                    variablesB.remove(name)
+                    variablesJ.add(name)
+                }
+            }
+            if (variablesJ.size == 0) {
+                /*cartesian product*/
+                res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
+            } else if (node.optional) {
+                if (childA is TripleStoreIteratorGlobal || childA is LOPTriple) {
+                    res = POPJoinHashMap(query, projectedVariables, childB, childA, true)
+                } else {
+                    res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
+                }
             } else {
-                res = POPJoinHashMap(query, projectedVariables, childA, childB, node.optional)
+                if (childA is LOPTriple && variablesA.size>0) {
+                    res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
+                } else if (childB is LOPTriple&&variablesB.size>0) {
+                    res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
+                } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple) {
+                    res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
+                } else {
+                    res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
+                }
             }
         }
-/*return*/res
-    })
+/*return*/ res
+})
 }

@@ -47,15 +47,15 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     @JvmField
-    val dataSPO = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//s,sp,spo
+    val dataSPO = mutableMapOf<Value, MutableMap<Value, SortedIntSet>>()//s,sp,spo
     @JvmField
-    val dataSOP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//so
+    val dataSOP = mutableMapOf<Value, MutableMap<Value, SortedIntSet>>()//so
     @JvmField
-    val dataPOS = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//p,po
+    val dataPOS = mutableMapOf<Value, MutableMap<Value, SortedIntSet>>()//p,po
     @JvmField
-    val dataOSP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//o
+    val dataOSP = mutableMapOf<Value, MutableMap<Value, SortedIntSet>>()//o
 
-    fun getIteratorInternal(query: Query, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
+    fun getIteratorInternal(query: Query, data: MutableMap<Value, MutableMap<Value, SortedIntSet>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -161,7 +161,7 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        val data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>
+        val data: MutableMap<Value, MutableMap<Value, SortedIntSet>>
         val filter = mutableListOf<Value>()
         val projection = mutableListOf<String>()
         val order: Array<Int>
@@ -197,33 +197,33 @@ class TripleStoreLocal(@JvmField val name: String) {
         return getIteratorInternal(query, data, filter.toTypedArray(), projection.toTypedArray())
     }
 
-    fun importInternal(data: MutableSet<Int>, store: MutableSet<Value>, map2: Array<Value>) {
+    fun importInternal(data: MutableSet<Int>, store: SortedIntSet, map2: Array<Value>) {
         for (rawKey in data) {
             val key = map2[rawKey]
             store.add(key)
         }
     }
 
-    fun importInternal(data: MutableMap<Int, MutableSet<Int>>, store: MutableMap<Value, MutableSet<Value>>, map1: Array<Value>, map2: Array<Value>) {
+    fun importInternal(data: MutableMap<Int, MutableSet<Int>>, store: MutableMap<Value, SortedIntSet>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in data.keys) {
             val key = map1[rawKey]
             val value = data[rawKey]!!
             var tmp = store[key]
             if (tmp == null) {
-                tmp = mutableSetOf<Value>()
+                tmp = SortedIntSet()
                 store[key] = tmp
             }
             importInternal(value, tmp, map2)
         }
     }
 
-    fun importInternal(data: MutableList<MutableMap<Int, MutableSet<Int>>>, store: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
+    fun importInternal(data: MutableList<MutableMap<Int, MutableSet<Int>>>, store: MutableMap<Value, MutableMap<Value, SortedIntSet>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in 0 until data.size) {
             val key = map0[rawKey]
             val value = data[rawKey]
             var tmp = store[key]
             if (tmp == null) {
-                tmp = mutableMapOf<Value, MutableSet<Value>>()
+                tmp = mutableMapOf<Value, SortedIntSet>()
                 store[key] = tmp
             }
             importInternal(value, tmp, map1, map2)
@@ -252,21 +252,21 @@ class TripleStoreLocal(@JvmField val name: String) {
         //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TRIPLE_STORE)
     }
 
-    fun insertInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>) {
+    fun insertInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, SortedIntSet>>) {
         val tmp = data[a]
         if (tmp == null) {
-            data[a] = mutableMapOf(b to mutableSetOf(c))
+            data[a] = mutableMapOf(b to SortedIntSet(c))
         } else {
             val tmp2 = tmp[b]
             if (tmp2 == null) {
-                tmp[b] = mutableSetOf(c)
+                tmp[b] = SortedIntSet(c)
             } else {
                 tmp2.add(c)
             }
         }
     }
 
-    fun removeInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>) {
+    fun removeInternal(a: Value, b: Value, c: Value, data: MutableMap<Value, MutableMap<Value, SortedIntSet>>) {
         val tmp = data[a]
         if (tmp != null) {
             val tmp2 = tmp[b]

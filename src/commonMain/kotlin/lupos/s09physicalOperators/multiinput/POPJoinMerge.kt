@@ -38,6 +38,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
+require(!optional, { "POPJoinMerge optional" })
 //setup columns
         val child = Array(2) { children[it].evaluate() }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }

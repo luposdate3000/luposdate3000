@@ -1,8 +1,5 @@
 package lupos.s09physicalOperators.multiinput
 
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.*
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -13,10 +10,13 @@ import lupos.s00misc.XMLElement
 import lupos.s01io.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA)) {
     override fun toSparql(): String {
@@ -42,7 +42,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        require(!optional)
+        require(!optional, { "POPJoinWithStore optional" })
         require(!childB.graphVar)
         val childAv = children[0].evaluate()
         val childA = children[0]
@@ -95,6 +95,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             columnsOUT.add(it)
             outMap[name] = it
         }
+require(variablINBO.size>0)
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
         val valuesAO = Array<Value?>(columnsINAO.size) { null }
         val valuesAJ = Array<Value?>(columnsINAJ.size) { null }
@@ -111,10 +112,9 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             count++
         }
         var index: EIndexPattern
-        require(count > 0)
-        if (count == 3) {
-            index = EIndexPattern.SPO
-        } else if (count == 1) {
+        require(count > 0, { "POPJoinWithStore do not bind all 3 variables" })
+        require(count < 3, { "POPJoinWithStore no cartesian product" })
+        if (count == 1) {
             if (params[0] is AOPConstant) {
                 index = EIndexPattern.S
             } else if (params[1] is AOPConstant) {
@@ -209,5 +209,4 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override fun cloneOP() = POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP(), optional)
-
 }

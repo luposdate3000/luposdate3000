@@ -470,7 +470,7 @@ class SparqlTestSuite() {
 //                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                     }
                 }
-val testName2="[^a-zA-Z0-9]".toRegex().replace(testName,"-")
+                val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
                 val query = Query()
                 var res: Boolean
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
@@ -484,28 +484,28 @@ val testName2="[^a-zA-Z0-9]".toRegex().replace(testName,"-")
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { ast_node })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph" })
                 val lop_node = ast_node.visit(OperatorGraphVisitor(query))
-File("log/${testName2}-Logical-Operator-Graph.tex").printWriter{
-it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(),testName2))
-}
+                File("log/${testName2}-Logical-Operator-Graph.tex").printWriter {
+                    it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
+                }
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph optimized" })
                 val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
-File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriter{
-it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(),testName2))
-}
+                File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriter {
+                    it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
+                }
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node2.toXMLElement().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Physical Operator Graph" })
                 val pop_optimizer = PhysicalOptimizer(query)
                 val pop_node = pop_optimizer.optimizeCall(lop_node2)
-File("log/${testName2}-Physical-Operator-Graph.tex").printWriter{
-it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(),testName2))
-}
+                File("log/${testName2}-Physical-Operator-Graph.tex").printWriter {
+                    it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
+                }
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
                 val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node) as POPBase
-File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter{
-it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(),testName2))
-}
+                File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter {
+                    it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
+                }
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_distributed_node })
                 var xmlQueryResult: XMLElement? = null
                 if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {

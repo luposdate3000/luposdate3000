@@ -180,7 +180,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
         while (!processDone) {
             for (variableIndex in 0 until variablesSize) {
                 val iter = targetIterators[variableIndex][targetIndex - 1]
-                require(iter != null)
+                require(iter != null, { "POPSort" })
                 if (targetIterators[variableIndex].size == targetIndex) {
 //the first merge-node with this amount of leaves
                     targetIterators[variableIndex].add(iter)

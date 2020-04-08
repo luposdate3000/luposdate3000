@@ -45,19 +45,19 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
         for (p in params) {
             tmp.addAll(p.getRequiredVariableNames())
         }
-tmp.remove("_")
-tmp.remove("_")
-tmp.remove("_")
+        tmp.remove("_")
+        tmp.remove("_")
+        tmp.remove("_")
         return tmp.distinct()
     }
 
     init {
         if (idx == EIndexPattern.SPO) {
-if(params[0]is AOPVariable){
-            idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
-}else{
-            idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
-}
+            if (params[0] is AOPVariable) {
+                idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+            } else {
+                idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
+            }
         } else {
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
@@ -110,20 +110,20 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
         val projectedVariables = mutableListOf<String>()
         if (idx == EIndexPattern.SPO) {
-if(params[0]is AOPVariable){
-            idx.keyIndices.map { require(params[it] is AOPVariable,{"$idx ${params.map{it}}"}) }
-            idx.keyIndices.map {
-                val tmp = (params[it] as AOPVariable).name
-                if (tmp != "_") {
-                    projectedVariables.add(tmp)
+            if (params[0] is AOPVariable) {
+                idx.keyIndices.map { require(params[it] is AOPVariable, { "$idx ${params.map { it }}" }) }
+                idx.keyIndices.map {
+                    val tmp = (params[it] as AOPVariable).name
+                    if (tmp != "_") {
+                        projectedVariables.add(tmp)
+                    }
                 }
+            } else {
+                idx.keyIndices.map { require(params[it] is AOPConstant, { "$idx ${params.map { it }}" }) }
             }
-}else{
-idx.keyIndices.map { require(params[it] is AOPConstant,{"$idx ${params.map{it}}"}) }
-}
         } else {
-            idx.keyIndices.map { require(params[it] is AOPConstant ,{"$idx ${params.map{it}}"})}
-            idx.valueIndices.map { require(params[it] is AOPVariable,{"$idx ${params.map{it}}"}) }
+            idx.keyIndices.map { require(params[it] is AOPConstant, { "$idx ${params.map { it }}" }) }
+            idx.valueIndices.map { require(params[it] is AOPVariable, { "$idx ${params.map { it }}" }) }
             idx.valueIndices.map {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {

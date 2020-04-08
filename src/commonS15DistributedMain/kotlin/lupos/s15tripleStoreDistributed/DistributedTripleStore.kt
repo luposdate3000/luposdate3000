@@ -43,19 +43,19 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
         for (p in params) {
             tmp.addAll(p.getRequiredVariableNames())
         }
-tmp.remove("_")
-tmp.remove("_")
-tmp.remove("_")
+        tmp.remove("_")
+        tmp.remove("_")
+        tmp.remove("_")
         return tmp.distinct()
     }
 
     init {
         if (idx == EIndexPattern.SPO) {
-if(params[0]is AOPVariable){
-            idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
-}else{
-            idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
-}
+            if (params[0] is AOPVariable) {
+                idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+            } else {
+                idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
+            }
         } else {
             idx.keyIndices.map { require(params[it] is AOPConstant) }
             idx.valueIndices.map { require(params[it] is AOPVariable) }
