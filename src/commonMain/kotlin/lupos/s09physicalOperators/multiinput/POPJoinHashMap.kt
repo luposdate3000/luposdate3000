@@ -92,16 +92,16 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         val outMap = mutableMapOf<String, ColumnIterator>()
         var res: ColumnIteratorRow?
         val tmp = mutableListOf<String>()
-        var t: ColumnIterator
+        var t: ColumnIteratorChildIterator
         tmp.addAll(children[1].getProvidedVariableNames())
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 columnsINAJ.add(childA.columns[name]!!)
                 columnsINBJ.add(childB.columns[name]!!)
-                t = ColumnIteratorChildIterator()
-                outIterators.add(t)
-                outMap[name] = ColumnIteratorDebug(uuid, name, t)
+                    t = ColumnIteratorChildIterator()
                 if (projectedVariables.contains(name)) {
+                    outMap[name] = ColumnIteratorDebug(uuid, name, t)
+                    outIterators.add(t)
                     columnsOUTJ.add(columnsOUTJLocal.size)
                 }
                 columnsOUTJLocal.add(t)
@@ -380,7 +380,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 }
 //resolve undefined values in join columns
                                 for (columnIndex in columnsOUTJ) {
-                                    if (currentKey!![columnIndex] == ResultSetDictionary.undefValue) {
+                                    if (currentKey!![columnIndex] != ResultSetDictionary.undefValue) {
                                         columnsOUTJLocal[columnIndex].childs.add(ColumnIteratorRepeatValue(count, currentKey!![columnIndex]))
                                     } else {
                                         columnsOUTJLocal[columnIndex].childs.add(ColumnIteratorRepeatValue(count, others[otherIndex].first.data[columnIndex]))

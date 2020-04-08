@@ -25,12 +25,15 @@ object OperatorGraphToLatex {
         }
     }
 
-    operator fun invoke(inputString: String) :String{
+    operator fun invoke(inputString: String,caption:String?=null) :String{
         val output = StringBuilder()
         output.append("\\documentclass[tikz,border=10pt]{standalone}\n")
         output.append("\\usepackage{forest}\n")
         output.append("\\begin{document}\n")
         output.append("\\begin{forest}\n")
+if(caption!=null){
+output.append("[$caption")
+}
         val stack = mutableListOf<StackElement>()
         for (element2 in inputString.split("<")) {
             val element = element2.replace("TripleStoreIteratorGlobal", "LOPTriple")
@@ -77,6 +80,9 @@ object OperatorGraphToLatex {
                 else -> {}
             }
         }
+if(caption!=null){
+output.append("]")
+}
         output.append("\n")
         output.append("\\end{forest}\n")
         output.append("\\end{document}\n")
