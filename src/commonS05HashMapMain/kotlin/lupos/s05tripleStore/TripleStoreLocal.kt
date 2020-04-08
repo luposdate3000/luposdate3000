@@ -48,10 +48,15 @@ class TripleStoreLocal(@JvmField val name: String) {
 
     @JvmField
     val dictionary = ResultSetDictionary()
+    @JvmField
     val dataSPO = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//s,sp,spo
+    @JvmField
     val dataSOP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//so
+    @JvmField
     val dataPOS = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//p,po
+    @JvmField
     val dataOSP = mutableMapOf<Value, MutableMap<Value, MutableSet<Value>>>()//o
+
     fun getIteratorInternal(query: Query, data: MutableMap<Value, MutableMap<Value, MutableSet<Value>>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
