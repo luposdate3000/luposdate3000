@@ -131,9 +131,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 val childA = children[0]
                 val childB = children[1]
                 val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-                for (child in 0 until 2) {
                     var provided = getProvidedVariableNames()
-                    for (x in childB.getPossibleSortPriorities()) {
+                for (child in 0 until 2) {
+                    for (x in children[child].getPossibleSortPriorities()) {
                         val tmp = mutableListOf<String>()
                         var countOnJoin = 0
                         for (v in x) {

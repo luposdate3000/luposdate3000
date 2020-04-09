@@ -79,12 +79,27 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         require(columnsINJ[0].size > 0)
         require(columnsINJ[0].size == columnsINJ[1].size)
+var emptyColumnsWithJoin = columnsOUT[0].size == 0 && columnsOUT[1].size == 0 && columnsOUTJ.size == 0
+if(emptyColumnsWithJoin){
+println("POPJoinMerge emptyColumnsWithJoin")
+t = ColumnIteratorChildIterator()
+outIterators.add(t)
+columnsOUTJ.add(t)
+}
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
+println("${key.map{it.map{it}}}")
         val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
         var done = findNextKey(key, columnsINJ, columnsINO)
+println("${key.map{it.map{it}}}")
+if(emptyColumnsWithJoin)
+println("POPJoinMerge $done")
         if (!done) {
             for (iterator in outIterators) {
+if(emptyColumnsWithJoin)
+println("POPJoinMerge init")
                 iterator.onNoMoreElements = {
+if(emptyColumnsWithJoin)
+println("POPJoinMerge onnomore")
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
@@ -92,7 +107,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                     findNextKey(key, columnsINJ, columnsINO)
-                    var count = countA * countB
                     if (key[0][0] == null || key[1][0] == null) {
                         for (iterator2 in outIterators) {
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
@@ -102,7 +116,14 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
             }
         }
-        return ColumnIteratorRow(outMap)
+        val res= ColumnIteratorRow(outMap)
+if(emptyColumnsWithJoin){
+ res.hasNext = {
+println("POPJoinMerge hasNext??")
+                    /*return*/columnsOUTJ[0].next() != null
+                }
+}
+return res
     }
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Value>>): Int {
         var count = 0
@@ -132,6 +153,7 @@ done=false
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]!!
                     val b = key[1][i]!!
+println("$i $a $b")
                     if (a < b) {
                         for (j in 0 until columnsINO[0].size) {
                             columnsINO[0][j].next()

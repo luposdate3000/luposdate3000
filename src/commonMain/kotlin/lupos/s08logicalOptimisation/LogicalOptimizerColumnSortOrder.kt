@@ -32,12 +32,14 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                     maxSize = x.size
                 }
             }
+if(maxSize>0){
             for (x in node.sortPriorities) {
                 if (x.size == maxSize) {
                     node.selectSortPriority(x)
                     break
                 }
             }
+}
         }
 /*return*/res
     })
