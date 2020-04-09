@@ -81,25 +81,17 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         require(columnsINJ[0].size == columnsINJ[1].size)
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
-println("1 ${key.map{it.map{it}}} ${keyCopy.map{it}}")
         var done = findNextKey(key, columnsINJ, columnsINO)
-println("2 ${key.map{it.map{it}}} ${keyCopy.map{it}}")
         if (!done) {
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
-println("3 ${keyCopy.map{it}}")
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
-println("4 ${keyCopy.map{it}}")
                     val data = Array(2) { Array(columnsINO.size) { mutableListOf<Value>() } }
-println("5 ${key.map{it.map{it}}}")
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
-println("6 ${key.map{it.map{it}}}")
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-println("7 ${key.map{it.map{it}}}")
                     findNextKey(key, columnsINJ, columnsINO)
-println("8 ${key.map{it.map{it}}}")
                     var count = countA * countB
                     if (key[0][0] == null || key[1][0] == null) {
                         for (iterator2 in outIterators) {
