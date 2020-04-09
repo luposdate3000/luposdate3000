@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -7,6 +6,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -52,7 +52,7 @@ class POPGroup : POPBase {
         }
     }
 
-    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child),ESortPriority.PREVENT_ANY) {
+    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
         this.by = by
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {

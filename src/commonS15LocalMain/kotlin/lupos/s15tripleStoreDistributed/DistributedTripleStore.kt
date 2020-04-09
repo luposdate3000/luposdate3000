@@ -1,5 +1,4 @@
 package lupos.s15tripleStoreDistributed
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -9,6 +8,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
@@ -24,13 +24,13 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
-class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3){params[it]},ESortPriority.ANY_PROVIDED_VARIABLE) {
-
-    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3){children[it]as AOPBase}, idx)
+class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
+    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
             addAttribute("uuid", "" + uuid).//
             addAttribute("name", graphName).//
             addAttribute("idx", "" + idx).//
+            addAttribute("possibleSort", getPossibleSortPriorities().toString()).//
             addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
             addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
             addContent(XMLElement("oparam").addContent(children[2].toXMLElement()))
@@ -67,7 +67,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        return Endpoint.process_local_triple_get(query, graphName, Array(3){children[it]as AOPBase}, idx)
+        return Endpoint.process_local_triple_get(query, graphName, Array(3) { children[it] as AOPBase }, idx)
     }
 }
 

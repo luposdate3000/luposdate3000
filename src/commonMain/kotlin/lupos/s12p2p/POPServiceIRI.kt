@@ -1,5 +1,4 @@
 package lupos.s12p2p
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -7,6 +6,7 @@ import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 
-class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf(),ESortPriority.PREVENT_ANY) {
+class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPServiceIRI) {
             return false

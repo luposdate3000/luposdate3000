@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.*
@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child),ESortPriority.PREVENT_ANY) {
+class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?): Boolean = other is POPMakeBooleanResult && children[0] == other.children[0]
     override fun toSparqlQuery() = "ASK{" + children[0].toSparql() + "}"
     override fun cloneOP() = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())

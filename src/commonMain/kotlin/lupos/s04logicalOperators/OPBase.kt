@@ -2,49 +2,49 @@ package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
-import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.singleinput.*
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
-
     fun getPossibleSortPriorities(): List<List<String>> {
-println(classname)
+/*possibilities for next operator*/
+        println(classname + uuid + ": " + getProvidedVariableNames())
         val res = mutableListOf<List<String>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {
                 val provided = getProvidedVariableNames()
-when(provided.size){
-1->{
-res.add(provided)
-}
-2->{
-res.add(provided)
-res.add(listOf(provided[1],provided[0]))
-}
-3->{
-res.add(provided)
-res.add(listOf(provided[0],provided[2],provided[1]))
-res.add(listOf(provided[1],provided[0],provided[2]))
-res.add(listOf(provided[1],provided[2],provided[0]))
-res.add(listOf(provided[2],provided[0],provided[1]))
-res.add(listOf(provided[2],provided[1],provided[0]))
-}
-else->{
-require(provided.size==0)
-}
-}
+                when (provided.size) {
+                    1 -> {
+                        res.add(provided)
+                    }
+                    2 -> {
+                        res.add(provided)
+                        res.add(listOf(provided[1], provided[0]))
+                    }
+                    3 -> {
+                        res.add(provided)
+                        res.add(listOf(provided[0], provided[2], provided[1]))
+                        res.add(listOf(provided[1], provided[0], provided[2]))
+                        res.add(listOf(provided[1], provided[2], provided[0]))
+                        res.add(listOf(provided[2], provided[0], provided[1]))
+                        res.add(listOf(provided[2], provided[1], provided[0]))
+                    }
+                    else -> {
+                        require(provided.size == 0)
+                    }
+                }
             }
             ESortPriority.SAME_AS_CHILD, ESortPriority.BIND -> {
                 val provided = getProvidedVariableNames()
@@ -66,8 +66,8 @@ require(provided.size==0)
 //TODO sort
             }
             ESortPriority.JOIN -> {
-val childA=children[0]
-val childB=children[1]
+                val childA = children[0]
+                val childB = children[1]
                 val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
                 for (child in 0 until 2) {
                     var provided = getProvidedVariableNames()
@@ -158,13 +158,7 @@ val childB=children[1]
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
-//res.addAttribute("possibleSort", getPossibleSortPriorities().toString())
-try{
-println("$uuid ${getPossibleSortPriorities().toString()}")
-}catch(e:Throwable){
-println(uuid)
-e.printStackTrace()
-}
+        res.addAttribute("possibleSort", getPossibleSortPriorities().toString())
         if (children.size > 0) {
             res.addContent(childrenToXML())
         }

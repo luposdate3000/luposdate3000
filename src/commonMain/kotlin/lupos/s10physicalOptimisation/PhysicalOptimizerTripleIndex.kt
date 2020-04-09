@@ -70,11 +70,11 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             val params = Array<AOPBase>(3) {
                 var res2 = node.children[it] as AOPBase
                 if (res2 is AOPVariable) {
-			require(projectedVariables.contains(res2.name)||res2.name=="_")
+                    require(projectedVariables.contains(res2.name) || res2.name == "_")
                 }
 /*return*/res2
             }
-res = store.getIterator(params, LOPTriple.getIntex(node.children))
+            res = store.getIterator(params, LOPTriple.getIntex(node.children))
         }
 /*return*/res
     })

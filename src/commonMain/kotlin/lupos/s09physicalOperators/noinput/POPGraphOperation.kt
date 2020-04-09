@@ -32,7 +32,7 @@ class POPGraphOperation(query: Query,
                         var graph1iri: String? = null,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null,
-                        val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(),ESortPriority.PREVENT_ANY) {
+                        val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""

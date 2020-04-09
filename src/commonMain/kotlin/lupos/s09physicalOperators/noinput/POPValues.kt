@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -75,7 +75,7 @@ open class POPValues : POPBase {
 
     override fun cloneOP() = POPValues(query, projectedVariables, variables, data)
 
-    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(),ESortPriority.PREVENT_ANY) {
+    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         var columns = Array(variables.size) { mutableListOf<Value>() }
         data = mutableMapOf<String, MutableList<Value>>()
@@ -89,12 +89,12 @@ open class POPValues : POPBase {
         }
     }
 
-    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Value>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(),ESortPriority.PREVENT_ANY) {
+    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Value>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
     }
 
-    constructor(query: Query, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(),ESortPriority.PREVENT_ANY) {
+    constructor(query: Query, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         val tmpVariables = mutableListOf<String>()
         for (name in values.variables) {
             tmpVariables.add(name.name)

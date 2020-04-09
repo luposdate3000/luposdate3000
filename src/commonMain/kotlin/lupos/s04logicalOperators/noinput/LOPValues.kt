@@ -1,9 +1,9 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorID.LOPValuesID, "LOPValues", Array(values.size) { values[it] },ESortPriority.PREVENT_ANY) {
+class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorID.LOPValuesID, "LOPValues", Array(values.size) { values[it] }, ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }

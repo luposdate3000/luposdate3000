@@ -1,10 +1,9 @@
 package lupos.s04logicalOperators.noinput
 
-import lupos.s00misc.ESortPriority
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
@@ -48,7 +47,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
 
     companion object {
         fun getIntex(children: Array<OPBase>): EIndexPattern {
-var res=EIndexPattern.SPO
+            var res = EIndexPattern.SPO
             var count = 0
             for (n in children) {
                 if (n is AOPConstant) {
@@ -81,7 +80,7 @@ var res=EIndexPattern.SPO
                     res = EIndexPattern.SPO
                 }
             }
-return res
+            return res
         }
     }
 }

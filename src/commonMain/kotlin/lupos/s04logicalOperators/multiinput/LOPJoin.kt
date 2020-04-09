@@ -1,10 +1,9 @@
 package lupos.s04logicalOperators.multiinput
 
-import lupos.s00misc.ESortPriority
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query

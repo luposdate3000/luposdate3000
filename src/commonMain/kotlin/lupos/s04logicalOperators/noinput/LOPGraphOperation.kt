@@ -16,7 +16,7 @@ class LOPGraphOperation(query: Query,
                         var graph1iri: String? = null,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null
-) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf(),ESortPriority.PREVENT_ANY) {
+) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation) {
             return false

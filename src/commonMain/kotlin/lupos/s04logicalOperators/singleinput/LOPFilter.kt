@@ -1,16 +1,16 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPFilter(query: Query, filter: AOPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter),ESortPriority.SAME_AS_CHILD) {
+class LOPFilter(query: Query, filter: AOPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
     override fun childrenToVerifyCount() = 1
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames().distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
