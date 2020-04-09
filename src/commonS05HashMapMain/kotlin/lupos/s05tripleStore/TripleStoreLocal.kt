@@ -314,7 +314,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                             EIndexPattern.P_1 -> {
                                 insertInternal(row.data[1], row.data[0], row.data[2], dataPSO)
                             }
-                            EIndexPattern.O_0 -> {
+                            EIndexPattern.O_1 -> {
                                 insertInternal(row.data[2], row.data[1], row.data[0], dataOPS)
                             }
                         }
@@ -340,7 +340,7 @@ class TripleStoreLocal(@JvmField val name: String) {
                             EIndexPattern.P_1 -> {
                                 removeInternal(row.data[1], row.data[0], row.data[2], dataPSO)
                             }
-                            EIndexPattern.O_0 -> {
+                            EIndexPattern.O_1 -> {
                                 removeInternal(row.data[2], row.data[1], row.data[0], dataOPS)
                             }
                         }

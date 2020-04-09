@@ -115,31 +115,31 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         require(count > 0, { "POPJoinWithStore do not bind all 3 variables" })
         require(count < 3, { "POPJoinWithStore no cartesian product" })
         if (count == 1) {
-            if (children[0] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (children[1] as AOPVariable).name == childB.mySortPriority[0])
+            if (params[0] is AOPConstant) {
+                if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0])
                     index = EIndexPattern.S_0
                 else
                     index = EIndexPattern.S_1
-            } else if (children[1] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (children[0] as AOPVariable).name == childB.mySortPriority[0])
+            } else if (params[1] is AOPConstant) {
+                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0])
                     index = EIndexPattern.P_0
                 else
                     index = EIndexPattern.P_1
             } else {
-                require(children[2] is AOPConstant)
-                if (childB.mySortPriority.size == 0 || (children[0] as AOPVariable).name == childB.mySortPriority[0])
+                require(params[2] is AOPConstant)
+                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0])
                     index = EIndexPattern.O_0
                 else
                     index = EIndexPattern.O_1
             }
         } else {
             require(count == 2)
-            if (children[0] !is AOPConstant) {
+            if (params[0] is AOPVariable) {
                 index = EIndexPattern.PO
-            } else if (children[1] !is AOPConstant) {
+            } else if (params[1] is AOPVariable) {
                 index = EIndexPattern.SO
             } else {
-                require(children[2] !is AOPConstant)
+                require(params[2] is AOPVariable)
                 index = EIndexPattern.SP
             }
         }
