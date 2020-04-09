@@ -30,7 +30,9 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
             addAttribute("uuid", "" + uuid).//
             addAttribute("name", graphName).//
             addAttribute("idx", "" + idx).//
-            addAttribute("possibleSort", getPossibleSortPriorities().toString()).//
+            addAttribute("providedVariables", getProvidedVariableNames().toString()).//
+            addAttribute("providedSort", getPossibleSortPriorities().toString()).//
+            addAttribute("selectedSort", mySortPriority.toString()).//
             addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
             addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
             addContent(XMLElement("oparam").addContent(children[2].toXMLElement()))

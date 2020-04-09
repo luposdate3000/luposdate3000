@@ -36,7 +36,10 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             arrayOf<OptimizerBase>(
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
-                    LogicalOptimizerFilterIntoTriple(query)
+                    LogicalOptimizerFilterIntoTriple(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerColumnSortOrder(query)//
             )
     )
 }

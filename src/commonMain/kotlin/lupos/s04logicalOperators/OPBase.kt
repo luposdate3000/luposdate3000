@@ -10,6 +10,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.multiinput.*
@@ -18,9 +19,68 @@ import lupos.s04logicalOperators.singleinput.*
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
+    var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for parent)
+    var mySortPriority = mutableListOf<String>()
+    fun selectSortPriority(priority: List<String>) {
+        var tmp = mutableListOf<List<String>>()
+        for (x in sortPriorities) {
+            var size = x.size
+            if (priority.size < size) {
+                size = priority.size
+            }
+            var t = mutableListOf<String>()
+            for (i in 0 until size) {
+                if (x[i] == priority[i]) {
+                    t.add(x[i])
+                } else {
+                    break
+                }
+            }
+            if (t.size == size && size < x.size) {
+                for (i in size until x.size) {
+                    t.add(x[i])
+                }
+            }
+            if (t.size > 0 && !tmp.contains(t)) {
+                tmp.add(t)
+            }
+        }
+        if (tmp.size == 1) {
+            for (c in children) {
+                c.selectSortPriority(tmp[0])
+            }
+mySortPriority.clear()
+            for (c in children) {
+                for (p in c.sortPriorities) {
+                    if (p.size > mySortPriority.size) {
+                        mySortPriority.clear()
+                        mySortPriority.addAll(p)
+                    }
+                }
+            }
+            for (c in children) {
+                c.selectSortPriority(mySortPriority)
+            }
+
+        }
+        sortPriorities = tmp
+    }
+
+    fun initializeSortPriorities(onChange: () -> Unit): Boolean {
+        if (sortPriorities.size == 0) {
+            sortPriorities.addAll(getPossibleSortPriorities())
+            if (sortPriorities.size > 0) {
+                onChange()
+                if (sortPriorities.size == 1) {
+                    selectSortPriority(sortPriorities[0])
+                }
+            }
+        }
+        return sortPriorities.size <= 1
+    }
+
     fun getPossibleSortPriorities(): List<List<String>> {
 /*possibilities for next operator*/
-        println(classname + uuid + ": " + getProvidedVariableNames())
         val res = mutableListOf<List<String>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {
@@ -158,7 +218,12 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("possibleSort", getPossibleSortPriorities().toString())
+        if (this !is AOPBase) {
+            res.addAttribute("providedVariables", getProvidedVariableNames().toString())
+            res.addAttribute("providedSort", getPossibleSortPriorities().toString())
+            res.addAttribute("filteredSort", sortPriorities.toString())
+            res.addAttribute("selectedSort", mySortPriority.toString())
+        }
         if (children.size > 0) {
             res.addContent(childrenToXML())
         }
