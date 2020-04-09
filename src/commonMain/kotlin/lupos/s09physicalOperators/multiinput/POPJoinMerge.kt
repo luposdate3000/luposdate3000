@@ -133,8 +133,9 @@ require(keyCopy[0]!=null)
         return count
     }
     inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
-        var done = false
+        var done = true
         if (key[0][0] != null && key[1][0] != null) {
+done=false
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]!!
