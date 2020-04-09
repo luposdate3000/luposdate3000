@@ -101,28 +101,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
                     }
-                    require(count > 0)
-                    for (columnIndex in 0 until columnsINO[0].size) {
-                        val iterators = mutableListOf<ColumnIterator>()
-                        for (i in 0 until countA) {
-                            iterators.add(ColumnIteratorRepeatValue(countB, data[0][columnIndex][i]))
-                        }
-                        if (iterators.size == 1) {
-                            columnsOUT[0][columnIndex].childs.add(iterators[0])
-                        } else {
-                            columnsOUT[0][columnIndex].childs.add(ColumnIteratorMultiIterator(iterators))
-                        }
-                    }
-                    for (columnIndex in 0 until columnsINO[1].size) {
-                        if (countA == 1) {
-                            columnsOUT[1][columnIndex].childs.add(ColumnIteratorMultiValue(data[1][columnIndex]))
-                        } else {
-                            columnsOUT[1][columnIndex].childs.add(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(data[1][columnIndex])))
-                        }
-                    }
-                    for (columnIndex in 0 until columnsOUTJ.size) {
-                        columnsOUTJ[columnIndex].childs.add(ColumnIteratorRepeatValue(count, keyCopy[columnIndex]!!))
-                    }
+POPJoin.crossProduct(data,keyCopy,columnsOUT,columnsOUTJ,countA,countB)
                 }
             }
         }

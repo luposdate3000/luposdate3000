@@ -64,9 +64,6 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 projectedVariables = node.getProvidedVariableNames()
             }
             when (node) {
-                is LOPSubGroup -> {
-                    res = node.children[0]
-                }
                 is LOPGraphOperation -> {
                     res = POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
                 }
@@ -143,6 +140,8 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
             }
         } finally {
             if (change) {
+res.mySortPriority=node.mySortPriority
+res.sortPriorities=node.sortPriorities
                 onChange()
             }
         }
