@@ -20,13 +20,34 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     abstract fun cloneOP(): OPBase
 
     fun getPossibleSortPriorities(): List<List<String>> {
+println(classname)
         val res = mutableListOf<List<String>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {
-
+                val provided = getProvidedVariableNames()
+when(provided.size){
+1->{
+res.add(provided)
+}
+2->{
+res.add(provided)
+res.add(listOf(provided[1],provided[0]))
+}
+3->{
+res.add(provided)
+res.add(listOf(provided[0],provided[2],provided[1]))
+res.add(listOf(provided[1],provided[0],provided[2]))
+res.add(listOf(provided[1],provided[2],provided[0]))
+res.add(listOf(provided[2],provided[0],provided[1]))
+res.add(listOf(provided[2],provided[1],provided[0]))
+}
+else->{
+require(provided.size==0)
+}
+}
             }
             ESortPriority.SAME_AS_CHILD, ESortPriority.BIND -> {
-                var provided = getProvidedVariableNames()
+                val provided = getProvidedVariableNames()
                 for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<String>()
                     for (v in x) {
@@ -41,14 +62,16 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     }
                 }
             }
-            ESortPriority.PREVENT_ANY,ESortPriority.SORT -> {
+            ESortPriority.PREVENT_ANY, ESortPriority.SORT -> {
 //TODO sort
             }
             ESortPriority.JOIN -> {
-                val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
+val childA=children[0]
+val childB=children[1]
+                val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
                 for (child in 0 until 2) {
                     var provided = getProvidedVariableNames()
-                    for (x in children[1].getPossibleSortPriorities()) {
+                    for (x in childB.getPossibleSortPriorities()) {
                         val tmp = mutableListOf<String>()
                         var countOnJoin = 0
                         for (v in x) {
@@ -135,6 +158,13 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
+//res.addAttribute("possibleSort", getPossibleSortPriorities().toString())
+try{
+println("$uuid ${getPossibleSortPriorities().toString()}")
+}catch(e:Throwable){
+println(uuid)
+e.printStackTrace()
+}
         if (children.size > 0) {
             res.addContent(childrenToXML())
         }

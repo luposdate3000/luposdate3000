@@ -67,54 +67,14 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             }
             onChange()
             val store = DistributedTripleStore.getNamedGraph(query, node.graph)
-            var count = 0
-            for (n in node.children) {
-                if (n is AOPConstant) {
-                    count++
-                }
-            }
-            require(count <= 3)
             val params = Array<AOPBase>(3) {
                 var res2 = node.children[it] as AOPBase
                 if (res2 is AOPVariable) {
-                    if (!projectedVariables.contains(res2.name)) {
-                        res2 = AOPVariable(query, "_")
-                    }
+			require(projectedVariables.contains(res2.name)||res2.name=="_")
                 }
 /*return*/res2
             }
-            when (count) {
-                0 -> {
-                    res = store.getIterator(params, EIndexPattern.SPO)
-                }
-                1 -> {
-                    if (node.children[0] is AOPConstant) {
-                        res = store.getIterator(params, EIndexPattern.S)
-                    } else if (node.children[1] is AOPConstant) {
-                        res = store.getIterator(params, EIndexPattern.P)
-                    } else {
-                        SanityCheck.check({ node.children[2] is AOPConstant })
-                        res = store.getIterator(params, EIndexPattern.O)
-                    }
-                }
-                2 -> {
-                    SanityCheck.checkEQ({ count }, { 2 })
-                    if (node.children[0] !is AOPConstant) {
-                        res = store.getIterator(params, EIndexPattern.PO)
-                    } else if (node.children[1] !is AOPConstant) {
-                        res = store.getIterator(params, EIndexPattern.SO)
-                    } else {
-                        SanityCheck.check({ node.children[2] !is AOPConstant })
-                        res = store.getIterator(params, EIndexPattern.SP)
-                    }
-                }
-                else -> {
-                    require(count == 3)
-                    params[1] = AOPVariable(query, "generated${node.uuid}")
-                    val tmp = store.getIterator(params, EIndexPattern.SO)
-                    res = POPFilter(query, projectedVariables, AOPEQ(query, node.children[1] as AOPBase, params[1]), tmp)
-                }
-            }
+res = store.getIterator(params, LOPTriple.getIntex(node.children))
         }
 /*return*/res
     })

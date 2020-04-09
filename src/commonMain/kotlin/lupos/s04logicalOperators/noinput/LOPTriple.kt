@@ -1,15 +1,17 @@
 package lupos.s04logicalOperators.noinput
+
 import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o),ESortPriority.ANY_PROVIDED_VARIABLE) {
+class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames() = listOf<String>()
     override fun getProvidedVariableNames(): List<String> {
@@ -43,4 +45,43 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
     }
 
     override fun cloneOP() = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
+
+    companion object {
+        fun getIntex(children: Array<OPBase>): EIndexPattern {
+var res=EIndexPattern.SPO
+            var count = 0
+            for (n in children) {
+                if (n is AOPConstant) {
+                    count++
+                }
+            }
+            when (count) {
+                1 -> {
+                    if (children[0] is AOPConstant) {
+                        res = EIndexPattern.S
+                    } else if (children[1] is AOPConstant) {
+                        res = EIndexPattern.P
+                    } else {
+                        require(children[2] is AOPConstant)
+                        res = EIndexPattern.O
+                    }
+                }
+                2 -> {
+                    if (children[0] !is AOPConstant) {
+                        res = EIndexPattern.PO
+                    } else if (children[1] !is AOPConstant) {
+                        res = EIndexPattern.SO
+                    } else {
+                        require(children[2] !is AOPConstant)
+                        res = EIndexPattern.SP
+                    }
+                }
+                else -> {
+                    require(count == 3 || count == 0)
+                    res = EIndexPattern.SPO
+                }
+            }
+return res
+        }
+    }
 }
