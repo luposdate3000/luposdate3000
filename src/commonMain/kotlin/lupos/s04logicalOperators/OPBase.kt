@@ -21,6 +21,38 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     abstract fun cloneOP(): OPBase
     var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<String>()
+
+    fun addToPrefixFreeList(data: List<String>, target: MutableList<List<String>>) {
+        if (data.size > 0) {
+            if (!target.contains(data)) {
+                var needToAdd = true
+                loop@ for (c in target) {
+                    var size = data.size
+                    if (c.size < size) {
+                        size = c.size
+                    }
+                    var idx = 0
+                    while (idx < size) {
+                        if (data[idx] != c[idx]) {
+                            continue@loop
+                        }
+                        idx++
+                    }
+                    if (idx == c.size) {
+                        target.remove(c)
+                    } else {
+                        require(idx == data.size)
+                        needToAdd = false
+                    }
+                    break@loop
+                }
+                if (needToAdd) {
+                    target.add(data)
+                }
+            }
+        }
+    }
+
     fun selectSortPriority(priority: List<String>) {
         var tmp = mutableListOf<List<String>>()
         for (x in sortPriorities) {
@@ -41,9 +73,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     t.add(x[i])
                 }
             }
-            if (t.size > 0 && !tmp.contains(t)) {
-                tmp.add(t)
-            }
+            addToPrefixFreeList(t, tmp)
         }
         if (tmp.size == 1) {
             for (c in children) {
@@ -119,9 +149,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                             break
                         }
                     }
-                    if (tmp.size > 0 && !res.contains(tmp)) {
-                        res.add(tmp)
-                    }
+                    addToPrefixFreeList(tmp, res)
                 }
             }
             ESortPriority.PREVENT_ANY, ESortPriority.SORT -> {
@@ -131,7 +159,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 val childA = children[0]
                 val childB = children[1]
                 val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-                    var provided = getProvidedVariableNames()
+                var provided = getProvidedVariableNames()
                 for (child in 0 until 2) {
                     for (x in children[child].getPossibleSortPriorities()) {
                         val tmp = mutableListOf<String>()
@@ -148,9 +176,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                                 break
                             }
                         }
-                        if (tmp.size > 0 && !res.contains(tmp)) {
-                            res.add(tmp)
-                        }
+                        addToPrefixFreeList(tmp, res)
                     }
                 }
             }
@@ -159,7 +185,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 for (x in children[0].getPossibleSortPriorities()) {
                     if (tmp.contains(x)) {
                         require(getProvidedVariableNames().containsAll(x))
-                        res.add(x)
+                        addToPrefixFreeList(x, res)
                     }
                 }
             }

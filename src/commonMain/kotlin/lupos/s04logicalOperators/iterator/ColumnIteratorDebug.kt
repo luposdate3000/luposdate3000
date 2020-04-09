@@ -3,8 +3,8 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
-typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
-//typealias ColumnIteratorDebug = ColumnIteratorDebugCount
+//typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
+typealias ColumnIteratorDebug = ColumnIteratorDebugCount
 //typealias ColumnIteratorDebug = ColumnIteratorDebugFast
 
 class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: ColumnIterator) : ColumnIterator() {
