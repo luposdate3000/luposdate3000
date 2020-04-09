@@ -21,7 +21,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     abstract fun cloneOP(): OPBase
     var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<String>()
-
     fun selectSortPriority(priority: List<String>) {
         var tmp = mutableListOf<List<String>>()
         for (x in sortPriorities) {

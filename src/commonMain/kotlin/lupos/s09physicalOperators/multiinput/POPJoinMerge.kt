@@ -85,7 +85,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         require(columnsINJ[0].size == columnsINJ[1].size)
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
-        val done = findNextKey(key, columnsINJ, columnsINO)
+        var done = findNextKey(key, columnsINJ, columnsINO)
         if (!done) {
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
@@ -95,6 +95,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                     val data = Array(2) { Array(columnsINO.size) { mutableListOf<Value>() } }
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+                    findNextKey(key, columnsINJ, columnsINO)
                     var count = countA * countB
                     if (key[0][0] == null || key[1][0] == null) {
                         for (iterator2 in outIterators) {
