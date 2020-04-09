@@ -1,4 +1,5 @@
 package lupos.s10physicalOptimisation
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -46,6 +47,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
@@ -75,7 +77,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
                     }
                 } else {
-                    if (node.mySortPriority.size > 0) {
+                    if (node.mySortPriority.size >= columns[0].size) {
                         if (childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                             res = POPJoinMerge(query, projectedVariables, childA, childB, false)
                         } else {

@@ -21,7 +21,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     abstract fun cloneOP(): OPBase
     var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<String>()
-
     fun addToPrefixFreeList(data: List<String>, target: MutableList<List<String>>) {
         if (data.size > 0) {
             if (!target.contains(data)) {
@@ -156,6 +155,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 //TODO sort
             }
             ESortPriority.JOIN -> {
+                val resTmp = Array(2) { mutableListOf<List<String>>() }
                 val childA = children[0]
                 val childB = children[1]
                 val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
@@ -176,7 +176,28 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                                 break
                             }
                         }
-                        addToPrefixFreeList(tmp, res)
+                        addToPrefixFreeList(tmp, resTmp[child])
+                    }
+                }
+                for (child in 0 until 2) {
+//it is required, that both join-inputs are sorted by the same join columns in the same order - if all join columns are equally sorted, than allow any additional sort by one of the children
+                    for (i in 0 until resTmp[child].size) {
+                        loop@ for (j in 0 until resTmp[1 - child].size) {
+                            var s = columns[0].size
+                            if (s > resTmp[child][i].size) {
+                                s = resTmp[child][i].size
+                            }
+                            if (s > resTmp[1 - child][j].size) {
+                                s = resTmp[1 - child][j].size
+                            }
+                            for (k in 0 until s) {
+                                if (resTmp[1 - child][j][k] != resTmp[child][i][k]) {
+                                    continue@loop
+                                }
+                            }
+                            addToPrefixFreeList(resTmp[child][i], res)
+                            break
+                        }
                     }
                 }
             }

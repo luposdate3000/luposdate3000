@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -12,6 +13,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s09physicalOperators.POPBase
+
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun toSparql(): String {
         if (optional) {
@@ -19,6 +21,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return children[0].toSparql() + children[1].toSparql()
     }
+
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinMerge) {
             return false
@@ -33,6 +36,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return true
     }
+
     override suspend fun evaluate(): ColumnIteratorRow {
         require(!optional, { "POPJoinMerge optional" })
 //setup columns
@@ -79,27 +83,27 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         require(columnsINJ[0].size > 0)
         require(columnsINJ[0].size == columnsINJ[1].size)
-var emptyColumnsWithJoin = columnsOUT[0].size == 0 && columnsOUT[1].size == 0 && columnsOUTJ.size == 0
-if(emptyColumnsWithJoin){
-println("POPJoinMerge emptyColumnsWithJoin")
-t = ColumnIteratorChildIterator()
-outIterators.add(t)
-columnsOUTJ.add(t)
-}
+        var emptyColumnsWithJoin = columnsOUT[0].size == 0 && columnsOUT[1].size == 0 && columnsOUTJ.size == 0
+        if (emptyColumnsWithJoin) {
+            println("POPJoinMerge emptyColumnsWithJoin")
+            t = ColumnIteratorChildIterator()
+            outIterators.add(t)
+            columnsOUTJ.add(t)
+        }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
-println("${key.map{it.map{it}}}")
+        println("${key.map { it.map { it } }}")
         val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
         var done = findNextKey(key, columnsINJ, columnsINO)
-println("${key.map{it.map{it}}}")
-if(emptyColumnsWithJoin)
-println("POPJoinMerge $done")
+        println("${key.map { it.map { it } }}")
+        if (emptyColumnsWithJoin)
+            println("POPJoinMerge $done")
         if (!done) {
             for (iterator in outIterators) {
-if(emptyColumnsWithJoin)
-println("POPJoinMerge init")
+                if (emptyColumnsWithJoin)
+                    println("POPJoinMerge init")
                 iterator.onNoMoreElements = {
-if(emptyColumnsWithJoin)
-println("POPJoinMerge onnomore")
+                    if (emptyColumnsWithJoin)
+                        println("POPJoinMerge onnomore")
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
@@ -116,18 +120,19 @@ println("POPJoinMerge onnomore")
                 }
             }
         }
-        val res= ColumnIteratorRow(outMap)
-if(emptyColumnsWithJoin){
- res.hasNext = {
-println("POPJoinMerge hasNext??")
-                    /*return*/columnsOUTJ[0].next() != null
-                }
-}
-return res
+        val res = ColumnIteratorRow(outMap)
+        if (emptyColumnsWithJoin) {
+            res.hasNext = {
+                println("POPJoinMerge hasNext??")
+                /*return*/columnsOUTJ[0].next() != null
+            }
+        }
+        return res
     }
+
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Value>>): Int {
         var count = 0
-require(keyCopy[0]!=null)
+        require(keyCopy[0] != null)
         loop@ while (true) {
             count++
             for (i in 0 until columnsINO.size) {
@@ -145,15 +150,16 @@ require(keyCopy[0]!=null)
         }
         return count
     }
+
     inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
         if (key[0][0] != null && key[1][0] != null) {
-done=false
+            done = false
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]!!
                     val b = key[1][i]!!
-println("$i $a $b")
+                    println("$i $a $b")
                     if (a < b) {
                         for (j in 0 until columnsINO[0].size) {
                             columnsINO[0][j].next()
@@ -189,6 +195,7 @@ println("$i $a $b")
         }
         return done
     }
+
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }
