@@ -33,6 +33,8 @@ triplesfile=$p/sp2b-${triples}.n3
 	./sp2b_gen -t $triples > /dev/null 2>&1
 )
 cat /opt/sp2b/bin/sp2b.n3 | sed "s/\.$/ ./g" > "$triplesfile"
+size=$(du -sb $triplesfile | sed -E "s/([0-9]+).*/\1/g")
+echo $triples $size $(bc <<< "scale=4; $size / $triples")
 pkill java
 sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
@@ -54,7 +56,11 @@ n=$(echo $res| sed 's/.*" count="//g' | sed 's/".*//g')
 c1=$(bc <<< "scale=2;$c * 1000")
 echo $n -- $c1
 	qps=$(bc <<< "scale=2;$n / $c")
-	echo "$query,$triples,$code,$n,$c1,$qps" >> $csvfile
+# code -> return code
+# c1   -> time used in seconds
+# qps  -> query per second
+# size -> raw uncompressed triple size
+	echo "$query,$triples,$code,$n,$c1,$qps,$size" >> $csvfile
 	if [[ "$code" == "0" ]]
 	then
 		echo $query >> log/queries2
@@ -65,4 +71,8 @@ echo $n -- $c1
 done < log/queries
 mv log/queries2 log/queries
 triples=$(($triples * 2))
+if [[ $triples -le 0 ]]
+then
+break
+fi
 done
