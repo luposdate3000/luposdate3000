@@ -24,27 +24,27 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
-class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf(),ESortPriority.ANY_PROVIDED_VARIABLE) {
+class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3){params[it]},ESortPriority.ANY_PROVIDED_VARIABLE) {
 
-    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, params, idx)
+    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3){children[it]as AOPBase}, idx)
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
             addAttribute("uuid", "" + uuid).//
             addAttribute("name", graphName).//
             addAttribute("idx", "" + idx).//
-            addContent(XMLElement("sparam").addContent(params[0].toXMLElement())).//
-            addContent(XMLElement("pparam").addContent(params[1].toXMLElement())).//
-            addContent(XMLElement("oparam").addContent(params[2].toXMLElement()))
+            addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
+            addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
+            addContent(XMLElement("oparam").addContent(children[2].toXMLElement()))
 
     override fun toSparql(): String {
         if (graphName == PersistentStoreLocal.defaultGraphName) {
-            return params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "."
+            return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
         }
-        return "GRAPH <$graphName> {" + params[0].toSparql() + " " + params[1].toSparql() + " " + params[2].toSparql() + "}."
+        return "GRAPH <$graphName> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
 
     override fun getProvidedVariableNamesInternal(): List<String> {
         val tmp = mutableListOf<String>()
-        for (p in params) {
+        for (p in children) {
             tmp.addAll(p.getRequiredVariableNames())
         }
         tmp.remove("_")
@@ -55,19 +55,19 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 
     init {
         if (idx == EIndexPattern.SPO) {
-            if (params[0] is AOPVariable) {
-                idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+            if (children[0] is AOPVariable) {
+                idx.keyIndices.map { require(children[it] is AOPVariable, { "$graphName ${idx} ${children.map { it }}" }) }
             } else {
-                idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
+                idx.keyIndices.map { require(children[it] is AOPConstant, { "$graphName ${idx} ${children.map { it }}" }) }
             }
         } else {
-            idx.keyIndices.map { require(params[it] is AOPConstant) }
-            idx.valueIndices.map { require(params[it] is AOPVariable) }
+            idx.keyIndices.map { require(children[it] is AOPConstant) }
+            idx.valueIndices.map { require(children[it] is AOPVariable) }
         }
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        return Endpoint.process_local_triple_get(query, graphName, params, idx)
+        return Endpoint.process_local_triple_get(query, graphName, Array(3){children[it]as AOPBase}, idx)
     }
 }
 
