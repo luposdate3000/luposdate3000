@@ -116,21 +116,24 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         require(count < 3, { "POPJoinWithStore no cartesian product" })
         if (count == 1) {
             if (params[0] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0])
+                if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0]) {
                     index = EIndexPattern.S_0
-                else
+                } else {
                     index = EIndexPattern.S_1
+                }
             } else if (params[1] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0])
+                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
                     index = EIndexPattern.P_0
-                else
+                } else {
                     index = EIndexPattern.P_1
+                }
             } else {
                 require(params[2] is AOPConstant)
-                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0])
+                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
                     index = EIndexPattern.O_0
-                else
+                } else {
                     index = EIndexPattern.O_1
+                }
             }
         } else {
             require(count == 2)

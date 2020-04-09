@@ -19,8 +19,9 @@ import lupos.s04logicalOperators.singleinput.*
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
-    var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for parent)
+    var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<String>()
+
     fun selectSortPriority(priority: List<String>) {
         var tmp = mutableListOf<List<String>>()
         for (x in sortPriorities) {
@@ -82,7 +83,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     fun getPossibleSortPriorities(): List<List<String>> {
-/*possibilities for next operator*/
+/*possibilities for_ next operator*/
         val res = mutableListOf<List<String>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {

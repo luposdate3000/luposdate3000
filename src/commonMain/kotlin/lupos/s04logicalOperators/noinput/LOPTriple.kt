@@ -2,6 +2,7 @@ package lupos.s04logicalOperators.noinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04arithmetikOperators.AOPBase
@@ -57,21 +58,24 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             when (count) {
                 1 -> {
                     if (children[0] is AOPConstant) {
-                        if (sortPriority.size == 0 || (children[1] as AOPVariable).name == sortPriority[0])
+                        if (sortPriority.size == 0 || (children[1] as AOPVariable).name == sortPriority[0]) {
                             res = EIndexPattern.S_0
-                        else
+                        } else {
                             res = EIndexPattern.S_1
+                        }
                     } else if (children[1] is AOPConstant) {
-                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0])
+                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0]) {
                             res = EIndexPattern.P_0
-                        else
+                        } else {
                             res = EIndexPattern.P_1
+                        }
                     } else {
                         require(children[2] is AOPConstant)
-                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0])
+                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0]) {
                             res = EIndexPattern.O_0
-                        else
+                        } else {
                             res = EIndexPattern.O_1
+                        }
                     }
                 }
                 2 -> {

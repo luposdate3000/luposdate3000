@@ -101,7 +101,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
                     }
-POPJoin.crossProduct(data,keyCopy,columnsOUT,columnsOUTJ,countA,countB)
+                    POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                 }
             }
         }

@@ -140,8 +140,8 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
             }
         } finally {
             if (change) {
-res.mySortPriority=node.mySortPriority
-res.sortPriorities=node.sortPriorities
+                res.mySortPriority = node.mySortPriority
+                res.sortPriorities = node.sortPriorities
                 onChange()
             }
         }

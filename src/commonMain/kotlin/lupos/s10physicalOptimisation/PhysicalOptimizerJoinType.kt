@@ -71,7 +71,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                 res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
             } else {
                 if (node.optional) {
-                    if ((childA is TripleStoreIteratorGlobal || childA is LOPTriple)&&childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
+                    if ((childA is TripleStoreIteratorGlobal || childA is LOPTriple) && childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                         res = POPJoinHashMap(query, projectedVariables, childB, childA, true)
                     } else {
                         res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
@@ -83,11 +83,11 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         } else {
                             res = POPJoinMerge(query, projectedVariables, childB, childA, false)
                         }
-                    } else if (childA is LOPTriple && columns[1].size > 0&&childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
+                    } else if (childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                         res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
-                    } else if (childB is LOPTriple && columns[2].size > 0&&childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
+                    } else if (childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                         res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
-                    } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple&&childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
+                    } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                         res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
                     } else {
                         res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
