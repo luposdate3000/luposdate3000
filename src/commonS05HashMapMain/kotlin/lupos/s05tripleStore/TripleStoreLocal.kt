@@ -48,13 +48,17 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     @JvmField
-    val dataSPO = SortedIntMap<SortedIntMap<SortedIntSet>>()//s,sp,spo
+    val dataSPO = SortedIntMap<SortedIntMap<SortedIntSet>>()//s_0,sp,spo
     @JvmField
-    val dataSOP = SortedIntMap<SortedIntMap<SortedIntSet>>()//so
+    val dataSOP = SortedIntMap<SortedIntMap<SortedIntSet>>()//s_1,so
     @JvmField
-    val dataPOS = SortedIntMap<SortedIntMap<SortedIntSet>>()//p,po
+    val dataPOS = SortedIntMap<SortedIntMap<SortedIntSet>>()//p_0,po
     @JvmField
-    val dataOSP = SortedIntMap<SortedIntMap<SortedIntSet>>()//o
+    val dataPSO = SortedIntMap<SortedIntMap<SortedIntSet>>()//p_1
+    @JvmField
+    val dataOSP = SortedIntMap<SortedIntMap<SortedIntSet>>()//o_0
+    @JvmField
+    val dataOPS = SortedIntMap<SortedIntMap<SortedIntSet>>()//o_1
 
     fun getIteratorInternal(query: Query, data: SortedIntMap<SortedIntMap<SortedIntSet>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
@@ -167,21 +171,29 @@ class TripleStoreLocal(@JvmField val name: String) {
         val projection = mutableListOf<String>()
         val order: Array<Int>
         when (idx) {
-            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
                 data = dataSPO
                 order = arrayOf(0, 1, 2)
             }
-            EIndexPattern.SO -> {
+            EIndexPattern.SO, EIndexPattern.S_1 -> {
                 data = dataSOP
                 order = arrayOf(0, 2, 1)
             }
-            EIndexPattern.P, EIndexPattern.PO -> {
+            EIndexPattern.P_0, EIndexPattern.PO -> {
                 data = dataPOS
                 order = arrayOf(1, 2, 0)
             }
-            EIndexPattern.O -> {
+            EIndexPattern.O_0 -> {
                 data = dataOSP
                 order = arrayOf(2, 0, 1)
+            }
+            EIndexPattern.P_1 -> {
+                data = dataPSO
+                order = arrayOf(1, 0, 2)
+            }
+            EIndexPattern.O_1 -> {
+                data = dataOPS
+                order = arrayOf(2, 1, 0)
             }
         }
         for (ii in 0 until 3) {
@@ -229,17 +241,23 @@ class TripleStoreLocal(@JvmField val name: String) {
         val mapO = data.dictionaryO.getDictionaryMapping(nodeGlobalDictionary)
         //BenchmarkUtils.start(EBenchmark.IMPORT_TRIPLE_STORE)
         when (idx) {
-            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
                 importInternal(data.dataSPO, dataSPO, mapS, mapP, mapO)
             }
-            EIndexPattern.SO -> {
+            EIndexPattern.SO, EIndexPattern.S_1 -> {
                 importInternal(data.dataSOP, dataSOP, mapS, mapO, mapP)
             }
-            EIndexPattern.P, EIndexPattern.PO -> {
+            EIndexPattern.P_0, EIndexPattern.PO -> {
                 importInternal(data.dataPOS, dataPOS, mapP, mapO, mapS)
             }
-            EIndexPattern.O -> {
+            EIndexPattern.O_0 -> {
                 importInternal(data.dataOSP, dataOSP, mapO, mapS, mapP)
+            }
+            EIndexPattern.P_1 -> {
+                importInternal(data.dataPSO, dataPSO, mapP, mapS, mapO)
+            }
+            EIndexPattern.O_1 -> {
+                importInternal(data.dataOPS, dataOPS, mapO, mapP, mapS)
             }
         }
         //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TRIPLE_STORE)
@@ -281,17 +299,23 @@ class TripleStoreLocal(@JvmField val name: String) {
                 if (insert != null) {
                     for (row in insert) {
                         when (idx) {
-                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
                                 insertInternal(row.data[0], row.data[1], row.data[2], dataSPO)
                             }
-                            EIndexPattern.SO -> {
+                            EIndexPattern.SO, EIndexPattern.S_1 -> {
                                 insertInternal(row.data[0], row.data[2], row.data[1], dataSOP)
                             }
-                            EIndexPattern.P, EIndexPattern.PO -> {
+                            EIndexPattern.P_0, EIndexPattern.PO -> {
                                 insertInternal(row.data[1], row.data[2], row.data[0], dataPOS)
                             }
-                            EIndexPattern.O -> {
+                            EIndexPattern.O_0 -> {
                                 insertInternal(row.data[2], row.data[0], row.data[1], dataOSP)
+                            }
+                            EIndexPattern.P_1 -> {
+                                insertInternal(row.data[1], row.data[0], row.data[2], dataPSO)
+                            }
+                            EIndexPattern.O_0 -> {
+                                insertInternal(row.data[2], row.data[1], row.data[0], dataOPS)
                             }
                         }
                     }
@@ -301,17 +325,23 @@ class TripleStoreLocal(@JvmField val name: String) {
                 if (delete != null) {
                     for (row in delete) {
                         when (idx) {
-                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S -> {
+                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
                                 removeInternal(row.data[0], row.data[1], row.data[2], dataSPO)
                             }
-                            EIndexPattern.SO -> {
+                            EIndexPattern.SO, EIndexPattern.S_1 -> {
                                 removeInternal(row.data[0], row.data[2], row.data[1], dataSOP)
                             }
-                            EIndexPattern.P, EIndexPattern.PO -> {
+                            EIndexPattern.P_0, EIndexPattern.PO -> {
                                 removeInternal(row.data[1], row.data[2], row.data[0], dataPOS)
                             }
-                            EIndexPattern.O -> {
+                            EIndexPattern.O_0 -> {
                                 removeInternal(row.data[2], row.data[0], row.data[1], dataOSP)
+                            }
+                            EIndexPattern.P_1 -> {
+                                removeInternal(row.data[1], row.data[0], row.data[2], dataPSO)
+                            }
+                            EIndexPattern.O_0 -> {
+                                removeInternal(row.data[2], row.data[1], row.data[0], dataOPS)
                             }
                         }
                     }
@@ -325,7 +355,9 @@ class TripleStoreLocal(@JvmField val name: String) {
         dataSPO.clear()
         dataSOP.clear()
         dataPOS.clear()
+        dataPSO.clear()
         dataOSP.clear()
+        dataOPS.clear()
         for (idx in EIndexPattern.values()) {
             pendingModificationsInsert[idx.ordinal].clear()
             pendingModificationsDelete[idx.ordinal].clear()

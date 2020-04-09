@@ -46,7 +46,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
     override fun cloneOP() = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
 
     companion object {
-        fun getIntex(children: Array<OPBase>): EIndexPattern {
+        fun getIntex(children: Array<OPBase>, sortPriority: List<String>): EIndexPattern {
             var res = EIndexPattern.SPO
             var count = 0
             for (n in children) {
@@ -57,12 +57,21 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             when (count) {
                 1 -> {
                     if (children[0] is AOPConstant) {
-                        res = EIndexPattern.S
+                        if (sortPriority.size == 0 || (children[1] as AOPVariable).name == sortPriority[0])
+                            res = EIndexPattern.S_0
+                        else
+                            res = EIndexPattern.S_1
                     } else if (children[1] is AOPConstant) {
-                        res = EIndexPattern.P
+                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0])
+                            res = EIndexPattern.P_0
+                        else
+                            res = EIndexPattern.P_1
                     } else {
                         require(children[2] is AOPConstant)
-                        res = EIndexPattern.O
+                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0])
+                            res = EIndexPattern.O_0
+                        else
+                            res = EIndexPattern.O_1
                     }
                 }
                 2 -> {

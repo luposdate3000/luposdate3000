@@ -49,7 +49,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             for (c in children) {
                 c.selectSortPriority(tmp[0])
             }
-mySortPriority.clear()
+            mySortPriority.clear()
             for (c in children) {
                 for (p in c.sortPriorities) {
                     if (p.size > mySortPriority.size) {
@@ -61,7 +61,9 @@ mySortPriority.clear()
             for (c in children) {
                 c.selectSortPriority(mySortPriority)
             }
-
+            if (mySortPriority.size == 0) {
+                mySortPriority.addAll(tmp[0])
+            }
         }
         sortPriorities = tmp
     }

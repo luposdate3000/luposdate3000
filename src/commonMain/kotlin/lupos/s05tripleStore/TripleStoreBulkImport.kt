@@ -7,10 +7,12 @@ class TripleStoreBulkImport {
     val dictionaryS = PatriciaTrie()
     val dictionaryP = PatriciaTrie()
     val dictionaryO = PatriciaTrie()
-    val dataSPO = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//s,sp,spo
-    val dataSOP = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//so
-    val dataPOS = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//p,po
-    val dataOSP = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//o
+    val dataSPO = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//s0,sp,spo
+    val dataSOP = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//so,s1
+    val dataPOS = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//p0,po
+    val dataOSP = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//o0
+    val dataPSO = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//p1
+    val dataOPS = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//o1
     fun insert(s: String, p: String, o: String) {
         val si = dictionaryS.insert(s)
         val pi = dictionaryP.insert(p)
@@ -25,9 +27,11 @@ class TripleStoreBulkImport {
         }
         if (pi == dataPOS.size) {
             dataPOS.add(mutableMapOf<Int, MutableSet<Int>>())
+            dataPSO.add(mutableMapOf<Int, MutableSet<Int>>())
         }
         if (oi == dataOSP.size) {
             dataOSP.add(mutableMapOf<Int, MutableSet<Int>>())
+            dataOPS.add(mutableMapOf<Int, MutableSet<Int>>())
         }
         var tmp: MutableSet<Int>?
         tmp = dataSOP[si][oi]
@@ -53,6 +57,18 @@ class TripleStoreBulkImport {
             dataOSP[oi][si] = mutableSetOf(pi)
         } else {
             tmp.add(pi)
+        }
+        tmp = dataOPS[oi][pi]
+        if (tmp == null) {
+            dataOPS[oi][pi] = mutableSetOf(si)
+        } else {
+            tmp.add(si)
+        }
+        tmp = dataPSO[pi][si]
+        if (tmp == null) {
+            dataPSO[pi][si] = mutableSetOf(oi)
+        } else {
+            tmp.add(oi)
         }
     }
 }

@@ -74,7 +74,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 }
 /*return*/res2
             }
-            res = store.getIterator(params, LOPTriple.getIntex(node.children))
+            res = store.getIterator(params, LOPTriple.getIntex(node.children, node.mySortPriority))
         }
 /*return*/res
     })
