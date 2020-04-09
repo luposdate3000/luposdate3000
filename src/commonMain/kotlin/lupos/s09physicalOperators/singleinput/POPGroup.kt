@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -51,7 +52,7 @@ class POPGroup : POPBase {
         }
     }
 
-    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child)) {
+    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child),ESortPriority.PREVENT_ANY) {
         this.by = by
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {

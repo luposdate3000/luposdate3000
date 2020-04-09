@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -9,7 +10,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPServiceVAR(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, constraint: OPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPServiceVARID, "LOPServiceVAR", arrayOf(child, constraint)) {
+class LOPServiceVAR(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, constraint: OPBase, child: OPBase = OPNothing(query)) : LOPBase(query, EOperatorID.LOPServiceVARID, "LOPServiceVAR", arrayOf(child, constraint),ESortPriority.PREVENT_ANY) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent).addContent(XMLElement("constraint").addContent(children[1].toXMLElement()))
     override fun equals(other: Any?): Boolean {
         if (other !is LOPServiceVAR) {

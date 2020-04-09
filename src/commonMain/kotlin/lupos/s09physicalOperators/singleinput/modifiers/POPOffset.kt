@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -13,7 +14,7 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.POPBase
 
-class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val offset: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child)) {
+class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val offset: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child),ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?): Boolean {
         if (other !is POPOffset) {
             return false

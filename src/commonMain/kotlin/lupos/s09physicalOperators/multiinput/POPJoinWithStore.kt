@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA)) {
+class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA),ESortPriority.JOIN) {
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + childB.toSparql() + "}"
@@ -145,7 +145,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         }
         if ((valuesAO.size > 0 && valuesAO[0] != null) || (valuesAJ.size > 0 && valuesAJ[0] != null)) {
             for (i in 0 until indicesINBJ.size) {
-                params[indicesINBJ[i]!!] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!)!!)
+                params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
             }
             columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
             for (i in 0 until variablINBO.size) {

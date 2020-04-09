@@ -7,16 +7,46 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.ThreadSafeUuid
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.singleinput.*
 
-abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>) {
+abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>,val sortPriority:ESortPriority) {
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
+
+
+val sortPriorityInternal=mutableListOf<String>()
+ fun getSortPriority():List<String>{
+when(sortPriority){
+ESortPriority.ANY_PROVIDED_VARIABLE->{
+return sortPriorityInternal
+}
+}
+throw Exception("not implemented $sortPriority")
+}
+ fun canAddSortPriority(name:String):Boolean{
+ when(sortPriority){
+ESortPriority.ANY_PROVIDED_VARIABLE->{
+return sortPriorityInternal.contains(name)||getProvidedVariableNames().contains(name)
+}
+}
+throw Exception("not implemented $sortPriority")
+}
+ fun addSortPriority(name:String){
+when(sortPriority){
+ESortPriority.ANY_PROVIDED_VARIABLE->{
+if(!sortPriorityInternal.contains(name)){
+sortPriorityInternal.add(name)
+}
+}
+}
+throw Exception("not implemented $sortPriority")
+}
+
     open fun applyPrefix(prefix: String, iri: String) {
         for (c in children) {
             c.applyPrefix(prefix, iri)

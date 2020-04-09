@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -12,7 +13,7 @@ import lupos.s04logicalOperators.Query
 class LOPModify(query: Query,
                 @JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
                 @JvmField val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
-                child: OPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child)) {
+                child: OPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child),ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames() = mutableListOf<String>()
     override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()

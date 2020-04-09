@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -7,7 +8,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPServiceIRI(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, child: OPBase) : LOPBase(query, EOperatorID.LOPServiceIRIID, "LOPServiceIRI", arrayOf(child)) {
+class LOPServiceIRI(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, child: OPBase) : LOPBase(query, EOperatorID.LOPServiceIRIID, "LOPServiceIRI", arrayOf(child),ESortPriority.PREVENT_ANY) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent)
     override fun equals(other: Any?): Boolean {
         if (other !is LOPServiceIRI) {

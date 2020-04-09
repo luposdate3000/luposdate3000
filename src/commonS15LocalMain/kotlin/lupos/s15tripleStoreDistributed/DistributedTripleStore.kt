@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+import lupos.s00misc.ESortPriority
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
@@ -23,7 +24,8 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.*
 
-class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
+class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf(),ESortPriority.ANY_PROVIDED_VARIABLE) {
+
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, params, idx)
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
             addAttribute("uuid", "" + uuid).//
