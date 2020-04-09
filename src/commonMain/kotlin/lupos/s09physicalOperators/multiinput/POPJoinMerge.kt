@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
@@ -13,7 +12,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s09physicalOperators.POPBase
-
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun toSparql(): String {
         if (optional) {
@@ -21,7 +19,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return children[0].toSparql() + children[1].toSparql()
     }
-
     override fun equals(other: Any?): Boolean {
         if (other !is POPJoinMerge) {
             return false
@@ -36,7 +33,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return true
     }
-
     override suspend fun evaluate(): ColumnIteratorRow {
         require(!optional, { "POPJoinMerge optional" })
 //setup columns
@@ -85,17 +81,25 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         require(columnsINJ[0].size == columnsINJ[1].size)
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
+println("1 ${key.map{it.map{it}}} ${keyCopy.map{it}}")
         var done = findNextKey(key, columnsINJ, columnsINO)
+println("2 ${key.map{it.map{it}}} ${keyCopy.map{it}}")
         if (!done) {
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
+println("3 ${keyCopy.map{it}}")
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
+println("4 ${keyCopy.map{it}}")
                     val data = Array(2) { Array(columnsINO.size) { mutableListOf<Value>() } }
+println("5 ${key.map{it.map{it}}}")
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
+println("6 ${key.map{it.map{it}}}")
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+println("7 ${key.map{it.map{it}}}")
                     findNextKey(key, columnsINJ, columnsINO)
+println("8 ${key.map{it.map{it}}}")
                     var count = countA * countB
                     if (key[0][0] == null || key[1][0] == null) {
                         for (iterator2 in outIterators) {
@@ -108,9 +112,9 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return ColumnIteratorRow(outMap)
     }
-
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Value>>): Int {
         var count = 0
+require(keyCopy[0]!=null)
         loop@ while (true) {
             count++
             for (i in 0 until columnsINO.size) {
@@ -128,7 +132,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return count
     }
-
     inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = false
         if (key[0][0] != null && key[1][0] != null) {
@@ -157,7 +160,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
                             require(key[1][j] != ResultSetDictionary.undefValue)
-                            done = key[0][j] == null
+                            done = key[1][j] == null
                             if (done) {
                                 require(j == 0)
                                 break@loop
@@ -171,7 +174,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return done
     }
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

@@ -19,7 +19,7 @@ object POPJoin {
 /*result ordered by first child*/
         val count = countA * countB
         require(count > 0)
-        for (columnIndex in 0 until dataO[0].size) {
+        for (columnIndex in 0 until outO[0].size) {
             val iterators = mutableListOf<ColumnIterator>()
             for (i in 0 until countA) {
                 iterators.add(ColumnIteratorRepeatValue(countB, dataO[0][columnIndex][i]))
@@ -30,14 +30,14 @@ object POPJoin {
                 outO[0][columnIndex].childs.add(ColumnIteratorMultiIterator(iterators))
             }
         }
-        for (columnIndex in 0 until dataO[1].size) {
+        for (columnIndex in 0 until outO[1].size) {
             if (countA == 1) {
                 outO[1][columnIndex].childs.add(ColumnIteratorMultiValue(dataO[1][columnIndex]))
             } else {
                 outO[1][columnIndex].childs.add(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(dataO[1][columnIndex])))
             }
         }
-        for (columnIndex in 0 until dataJ.size) {
+        for (columnIndex in 0 until outJ.size) {
             outJ[columnIndex].childs.add(ColumnIteratorRepeatValue(count, dataJ[columnIndex]!!))
         }
     }
