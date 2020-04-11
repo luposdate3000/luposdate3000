@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #in milliseconds
-timemin=1000
+timemin=60000
 #in seconds
-timeout=10
+timeout=300
 triples=1000
 
 ./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain jvmS00WrapperJenaOnMain
@@ -31,7 +31,7 @@ sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
 a=$(($(date +%s%N)/1000000))
-curl -X GET http://localhost:80/jena/turtle?query="$filename" --header "Content-Type:text/plain" > /dev/null 2>&1
+curl -X GET http://localhost:80/jena/turtle?query="$triplesfile" --header "Content-Type:text/plain" > /dev/null 2>&1
 code=$?
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))
@@ -64,6 +64,7 @@ echo $n -- $c1
 	curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 	echo "$query"
 done < log/queries
+exit
 mv log/queries2 log/queries
 triples=$(($triples * 2))
 if [[ $triples -le 0 ]]

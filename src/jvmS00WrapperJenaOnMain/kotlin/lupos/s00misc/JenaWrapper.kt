@@ -22,11 +22,24 @@ object JenaWrapper {
     fun execQuery(queryString: String): String {
         var res = ""
         try {
-            val qexec = QueryExecutionFactory.create(queryString, dataset)
-            val results = qexec.execSelect()
-            val stream = ByteArrayOutputStream()
-            ResultSetFormatter.outputAsXML(stream, results)
-            res = String(stream.toByteArray())
+            val query = QueryFactory.create(queryString)
+            val qexec = QueryExecutionFactory.create(query, dataset)
+            if (query.isSelectType()) {
+                val results = qexec.execSelect()
+                val stream = ByteArrayOutputStream()
+                ResultSetFormatter.outputAsXML(stream, results)
+                res = String(stream.toByteArray())
+            } else if (query.isAskType()) {
+                res = "" + qexec.execAsk()
+            } else if (query.isConstructType()) {
+                val resultModel = qexec.execConstruct()
+                qexec.close()
+            } else if (query.isDescribeType()) {
+                val resultModel = qexec.execDescribe()
+                qexec.close()
+            } else if (query.isJsonType()) {
+            } else if (query.isConstructQuad()) {
+            }
         } catch (e: Throwable) {
             e.printStackTrace()
         }
