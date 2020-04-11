@@ -48,7 +48,8 @@ val options = mapOf(
         "chooseS12" to listOf("commonS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
         "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
-        "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain")
+        "chooseS15" to listOf("commonS15LocalMain", "commonS15DistributedMain"),
+        "jenaWrapper" to listOf("jvmS00WrapperJenaOnMain", "commonS00WrapperJenaOffMain")
 )
 val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
@@ -111,6 +112,10 @@ val ktorVersion = presentChoice(listOf("1.3.1"))
 val kotlinVersion = presentChoice(listOf("1.3.70"))
 val platform = presentChoice(platformPrefix.keys.toList())
 val dependencies = mapOf(
+        "jvmS00WrapperJenaOnMain" to listOf(
+                "org.apache.jena:jena-core:3.14.0",
+                "org.apache.jena:jena-arq:3.14.0"
+        ),
         "commonMain" to listOf(
                 "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
                 "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",

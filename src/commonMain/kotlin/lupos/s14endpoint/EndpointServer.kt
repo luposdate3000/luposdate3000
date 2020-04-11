@@ -108,6 +108,32 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     }
 
     /*
+    incoming sparql benchmark for jena db compare
+    */
+    suspend fun jena_process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): XMLElement {
+        BenchmarkUtils.start(EBenchmark.QUERY)
+        var time: Double
+        var counter = 0
+        while (true) {
+            counter++
+            JenaWrapper.execQuery(query)
+            time = BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
+            if (time * 1000.0 > timeoutMilliSeconds) {
+                break
+            }
+        }
+        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter)
+    }
+
+    /*
+    incoming bulk import
+    */
+    suspend fun jena_process_turtle_input(filename: String): XMLElement {
+        JenaWrapper.loadFromFile(filename)
+        return XMLElement("success")
+    }
+
+    /*
     incoming sparql
     */
     suspend fun process_sparql_query(query: String): XMLElement {
@@ -158,6 +184,20 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     return process_sparql_benchmark(data, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
                 } else {
                     return process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                }
+            }
+            "/jena/benchmark" -> {
+                if (isPost) {
+                    return jena_process_sparql_benchmark(data, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                } else {
+                    return jena_process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                }
+            }
+            "/jena/turtle" -> {
+                if (isPost) {
+                    return jena_process_turtle_input(data).toPrettyString().encodeToByteArray()
+                } else {
+                    return jena_process_turtle_input(params["query"]!!).toPrettyString().encodeToByteArray()
                 }
             }
             "/import/turtle" -> {
