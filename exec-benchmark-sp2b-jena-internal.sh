@@ -64,7 +64,6 @@ echo $n -- $c1
 	curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 	echo "$query"
 done < log/queries
-exit
 mv log/queries2 log/queries
 triples=$(($triples * 2))
 if [[ $triples -le 0 ]]

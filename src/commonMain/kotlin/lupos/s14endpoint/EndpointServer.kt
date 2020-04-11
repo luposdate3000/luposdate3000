@@ -117,7 +117,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         while (true) {
             counter++
             val str = JenaWrapper.execQuery(query)
-            println("resultlength=" + str.length)
             time = BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
             if (time * 1000.0 > timeoutMilliSeconds) {
                 break
