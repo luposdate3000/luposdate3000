@@ -118,6 +118,9 @@ fun finishChunk() {
         }
         out!!.close()
     }
+for (i in 0 until 3) {
+            lastTriple[i] = ""
+        }
     outsize = 0
 }
 
