@@ -21,14 +21,28 @@ while (line2 != null) {
         var column = 0
         var start = column
         while (column < line.length) {
-            while (column < line.length && line[column] == ' ') {
-                column++
+            loop@ while (column < line.length) {
+                when (line[column]) {
+                    ' ', '\n', '\t', '\r' -> {
+                        column++
+                    }
+                    '#' -> {
+                        column = line.length
+                    }
+                    else -> {
+                        break@loop
+                    }
+                }
             }
             start = column
             var qouteCount = 0
             loop@ while (column < line.length) {
                 when (line[column]) {
-                    '"' -> qouteCount++
+                    '"' -> {
+                        if (column == 0 || line[column - 1] != '\\') {
+                            qouteCount++
+                        }
+                    }
                     '<' -> {
                         if (qouteCount % 2 == 0) {
                             qouteCount++
@@ -118,9 +132,9 @@ fun finishChunk() {
         }
         out!!.close()
     }
-for (i in 0 until 3) {
-            lastTriple[i] = ""
-        }
+    for (i in 0 until 3) {
+        lastTriple[i] = ""
+    }
     outsize = 0
 }
 
