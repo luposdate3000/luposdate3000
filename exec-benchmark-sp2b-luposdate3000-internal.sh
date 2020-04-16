@@ -45,7 +45,7 @@ code=$?
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
-echo "resources/sp2b/load.sparql,$triples,$code,1,$c,$qps" >> $csvfile
+echo "resources/sp2b/load.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
 curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 while read query; do
 	res=$(timeout -s SIGTERM "${timeout}s" curl -X POST --data-binary "@$query" http://localhost:80/sparql/benchmark?timeout=$timemin)
@@ -63,7 +63,10 @@ echo $n -- $c1
 	echo "$query,$triples,$code,$n,$c1,$qps,$size" >> $csvfile
 	if [[ "$code" == "0" ]]
 	then
-		echo $query >> log/queries2
+		if [[ "$n" -gt "1" ]]
+		then
+			echo $query >> log/queries2
+		fi
 	fi
 	echo $f >> log/server
 	curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
