@@ -1,7 +1,7 @@
 #!/bin/kscript
 import java.io.*
 
-var compress = false
+var compress = true
 var folderName = args[0]
 var line2 = readLine()
 var chunk = 0
@@ -81,6 +81,7 @@ while (line2 != null) {
     line2 = readLine()
 }
 finishChunk()
+
 fun writeTriple() {
     if (compress) {
         finishTriple = true
