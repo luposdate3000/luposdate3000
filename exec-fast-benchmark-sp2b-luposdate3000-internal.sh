@@ -85,7 +85,7 @@ echo "q12a"
 
 echo "q12b"
 #curl -X POST --data-binary "ASK { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . { ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author2 . ?author2 <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes && ?document2!=?document && ?author2!=?erdoes && ?author2!=?author) } UNION { ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?author <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes) }}" http://localhost:80/sparql/query
-#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?author <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes) }" http://localhost:80/sparql/query
+curl -X POST --data-binary "SELECT * WHERE { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?author <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes) }" http://localhost:80/sparql/query
 #echo "-> 1"
 #curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author2 . ?author2 <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes && ?document2!=?document && ?author2!=?erdoes && ?author2!=?author) }" http://localhost:80/sparql/query
 #echo "-> 0"
@@ -95,34 +95,34 @@ echo "q12c"
 #echo "-> 0"
 
 
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 ?2 <http://localhost/persons/Paul_Erdoes> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 ?2 <http://localhost/persons/Paul_Erdoes> . }" http://localhost:80/sparql/query
 #a 211
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://purl.org/dc/elements/1.1/creator> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://purl.org/dc/elements/1.1/creator> ?v2 . }" http://localhost:80/sparql/query
 #b 2327
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://purl.org/dc/elements/1.1/title> \"Journal 1 (1940)\"^^<http://www.w3.org/2001/XMLSchema#string> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://purl.org/dc/elements/1.1/title> \"Journal 1 (1940)\"^^<http://www.w3.org/2001/XMLSchema#string> . }" http://localhost:80/sparql/query
 #c 1
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://purl.org/dc/terms/issued> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://purl.org/dc/terms/issued> ?v2 . }" http://localhost:80/sparql/query
 #d 435
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://swrc.ontoware.org/ontology#isbn> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://swrc.ontoware.org/ontology#isbn> ?v2 . }" http://localhost:80/sparql/query
 #e 10
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://swrc.ontoware.org/ontology#month> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://swrc.ontoware.org/ontology#month> ?v2 . }" http://localhost:80/sparql/query
 #f 11
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://swrc.ontoware.org/ontology#pages> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://swrc.ontoware.org/ontology#pages> ?v2 . }" http://localhost:80/sparql/query
 #g 1674
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Article> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Article> . }" http://localhost:80/sparql/query
 #h 1426
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Inproceedings> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Inproceedings> . }" http://localhost:80/sparql/query
 #i 361
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Journal> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Journal> . }" http://localhost:80/sparql/query
 #j 39
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person>. }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person>. }" http://localhost:80/sparql/query
 #k 1453
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?v2 . }" http://localhost:80/sparql/query
 #l 3322
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://xmlns.com/foaf/0.1/Document> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://xmlns.com/foaf/0.1/Document> . }" http://localhost:80/sparql/query
 #m 9
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . }" http://localhost:80/sparql/query
 #o 1
-curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://xmlns.com/foaf/0.1/name> ?v2 . }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://xmlns.com/foaf/0.1/name> ?v2 . }" http://localhost:80/sparql/query
 #p 1453
 

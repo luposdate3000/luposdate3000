@@ -53,7 +53,6 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         val columnsOUTB = mutableListOf<ColumnIteratorQueue>()
         val columnsOUT = mutableListOf<ColumnIteratorQueue>()
         val variablINBO = mutableListOf<String>()
-        val variablINBJ = mutableListOf<String>()
         val indicesINBJ = mutableListOf<Int>()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
@@ -61,7 +60,6 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         for (name in childA.getProvidedVariableNames()) {
             val it = ColumnIteratorQueue()
             if (tmp.contains(name)) {
-                variablINBJ.add(name)
                 for (i in 0 until 3) {
                     val cc = childB.children[i]
                     if (cc is AOPVariable && cc.name == name) {
@@ -78,13 +76,9 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     columnsINAJ.add(childAv.columns[name]!!)
                 }
             } else {
-                if (projectedVariables.contains(name)) {
-                    columnsOUT.add(it)
-                    columnsOUTAO.add(0, it)
-                    columnsINAO.add(0, childAv.columns[name]!!)
-                } else {
-                    columnsINAO.add(childAv.columns[name]!!)
-                }
+                columnsOUT.add(it)
+                columnsOUTAO.add(0, it)
+                columnsINAO.add(0, childAv.columns[name]!!)
             }
             outMap[name] = it
         }
@@ -147,6 +141,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
         }
         require(indicesINBJ.size > 0)
+        require(valuesAJ.size == indicesINBJ.size)
         var columnsInBRoot: ColumnIteratorRow? = null
         val columnsInB = Array(variablINBO.size) { ColumnIterator() }
         for (i in 0 until columnsINAO.size) {
@@ -155,7 +150,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         for (i in 0 until columnsINAJ.size) {
             valuesAJ[i] = columnsINAJ[i].next()
         }
-        if ((valuesAO.size > 0 && valuesAO[0] != null) || (valuesAJ.size > 0 && valuesAJ[0] != null)) {
+        if (valuesAJ[0] != null) {
+//there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
             }
@@ -165,18 +161,16 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
             for (column in columnsOUT) {
                 column.onEmptyQueue = {
+try{
                     loopA@ while (true) {
                         var done = true
-                        if (variablINBO.size == 0) {
-                            done = columnsInBRoot!!.hasNext()
-                        } else {
-                            loopB@ for (i in 0 until variablINBO.size) {
-                                val value = columnsInB[i].next()
-                                if (value == null) {
-                                    require(i == 0)
-                                    done = false
-                                    break@loopB
-                                }
+                        loopB@ for (i in 0 until variablINBO.size) {
+                            val value = columnsInB[i].next()
+                            if (value == null) {
+                                require(i == 0)
+                                done = false
+                                break@loopB
+                            } else {
                                 columnsOUTB[i].queue.add(value)
                             }
                         }
@@ -195,7 +189,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                             for (i in 0 until columnsINAJ.size) {
                                 valuesAJ[i] = columnsINAJ[i].next()
                             }
-                            if ((valuesAO.size > 0 && valuesAO[0] != null) || (valuesAJ.size > 0 && valuesAJ[0] != null)) {
+                            if (valuesAJ[0] != null) {
                                 for (i in 0 until indicesINBJ.size) {
                                     params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
                                 }
@@ -207,7 +201,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 break@loopA
                             }
                         }
-                    }
+}
+}catch(e:Throwable){
+e.printStackTrace()
+}
                 }
             }
         }

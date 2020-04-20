@@ -19,22 +19,15 @@ class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPFilter) {
-            println("XXXa")
             val filter = node.children[1]
             if (filter is AOPEQ) {
-                println("XXXb")
                 val v1 = filter.children[0]
                 val v2 = filter.children[1]
                 if (v1 is AOPVariable && v2 is AOPVariable) {
-                    println("XXXc")
                     node.replaceVariableWithAnother(node, v1.name, v2.name)
                     res = LOPBind(query, v1, v2, node.children[0])
                     onChange()
-                } else {
-                    println("XXX - ${v1.classname} ${v2.classname}")
                 }
-            } else {
-                println("XXX - ${filter.classname}")
             }
         }
 /*return*/res

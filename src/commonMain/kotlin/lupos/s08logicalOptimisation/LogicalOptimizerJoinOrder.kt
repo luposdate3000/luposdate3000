@@ -14,28 +14,58 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class Plan : Comparable<Plan> {
     val child: OPBase?
     val childs: Pair<Int, Int>?
-    val variables: Set<String>
+    val variables: Array<Int>
+    val columns: Int
+    val depth: Int
     val cost: Int
 
-    constructor(child: OPBase) {
+    constructor(child: OPBase, variables: Array<Int>, allVariables: List<Int>) {
         this.child = child
         childs = null
-        this.variables = mutableSetOf<String>()
-        variables.addAll(child.getProvidedVariableNames())
-        cost = variables.size
+        depth = 1
+        this.variables = variables
+        var c = 0
+        for (i in 0 until variables.size) {
+            if (allVariables[i] > variables[i] && variables[i] > 0) {
+                c++
+            }
+        }
+        columns = c
+        cost = columns
     }
 
     inline fun sqr(i: Int) = i * i
 
-    constructor(plans: Array<Plan?>, childA: Int, childB: Int) {
+    constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
         child = null
         childs = Pair(childA, childB)
-        variables = plans[childA]!!.variables + plans[childB]!!.variables
-//        cost = variables.size-(plans[childA]!!.variables.intersect(plans[childB]!!.variables)).size
-        cost = sqr(plans[childA]!!.variables.size) + sqr(plans[childB]!!.variables.size)
+        val va = plans[childA]!!.variables
+        val vb = plans[childB]!!.variables
+        if (plans[childA]!!.depth < plans[childB]!!.depth) {
+            depth = plans[childB]!!.depth + 1
+        } else {
+            depth = plans[childA]!!.depth + 1
+        }
+        this.variables = Array(allVariables.size) { va[it] + vb[it] }
+        var c = 0
+        for (i in 0 until variables.size) {
+            val t = va[i] + vb[i]
+            if (allVariables[i] > t && t > 0) {
+                c++
+            }
+        }
+        columns = c
+        cost = sqr(plans[childA]!!.columns) + sqr(plans[childB]!!.columns)
     }
 
-    override operator fun compareTo(other: Plan) = cost.compareTo(other.cost)
+    override operator fun compareTo(other: Plan): Int {
+        var res = cost.compareTo(other.cost)
+        if (res == 0) {
+            res = -depth.compareTo(other.depth)
+        }
+        return res
+    }
+
     fun toOPBase(plans: Array<Plan?>): OPBase {
         if (child != null) {
             return child
@@ -60,16 +90,18 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    fun optimize(plans: Array<Plan?>, max: Int) {
-        for (i in 1 until max) {
-            if (i and max == 0) {
-                val key = i + max
-                val newPlan = Plan(plans, i, max)
-                if (plans[key] == null) {
-                    plans[key] = newPlan
-                    optimize(plans, i)
-                } else if (newPlan < plans[key]!!) {
-                    plans[key] = newPlan
+    fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
+        val targetInv = target.inv()
+        for (a in 1 until target) {
+            if (a and targetInv == 0) {
+                val b = target - a
+                if (b != 0) {
+                    val newPlan = Plan(plans, a, b, variables)
+                    if (plans[target] == null) {
+                        plans[target] = newPlan
+                    } else if (newPlan < plans[target]!!) {
+                        plans[target] = newPlan
+                    }
                 }
             }
         }
@@ -80,12 +112,43 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             val allChilds = findAllJoinsInChildren(node)
             if (allChilds.size > 2 && allChilds.size < 30) {
+                val allVariables = mutableListOf<String>()
+                val allVariablesCounters = mutableListOf<Int>()
                 val plans = arrayOfNulls<Plan?>(1 shl allChilds.size)
                 var key = 1
                 for (i in allChilds.indices) {
-                    plans[key] = Plan(allChilds[i])
-                    optimize(plans, key)
+                    val tmp = allChilds[i].getProvidedVariableNames()
+                    for (t in tmp) {
+                        if (!allVariables.contains(t)) {
+                            allVariables.add(t)
+                            allVariablesCounters.add(1)
+                        } else {
+                            for (j in allVariables.indices) {
+                                if (allVariables[j] == t) {
+                                    allVariablesCounters[j]++
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+                for (i in allChilds.indices) {
+                    val variables = Array(allVariables.size) { 0 }
+                    val tmp = allChilds[i].getProvidedVariableNames()
+                    for (t in tmp) {
+                        require(allVariables.contains(t))
+                        for (j in allVariables.indices) {
+                            if (allVariables[j] == t) {
+                                variables[j]++
+                                break
+                            }
+                        }
+                    }
+                    plans[key] = Plan(allChilds[i], variables, allVariablesCounters)
                     key *= 2
+                }
+                for (i in 1 until plans.size) {
+                    optimize(plans, i, allVariablesCounters)
                 }
                 val bestPlan = plans[plans.size - 1]!!
                 val result = bestPlan.toOPBase(plans)

@@ -121,8 +121,10 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             columnsOUTB.add(t)
             columnsINBO.add(childB.columns[name]!!)
         }
+println("XXX $uuid ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} ${projectedVariables} ${columnsOUTA.size} ${columnsOUTB.size} ${columnsOUTJ.size} ${columnsOUTJLocal.size}")
         var emptyColumnsWithJoin = columnsOUTA.size == 0 && columnsOUTB.size == 0 && columnsOUTJ.size == 0 && columnsOUTJLocal.size != 0
         if (emptyColumnsWithJoin) {
+println("emptyColumnsWithJoin")
             columnsOUTJ.add(0)
         }
         val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
