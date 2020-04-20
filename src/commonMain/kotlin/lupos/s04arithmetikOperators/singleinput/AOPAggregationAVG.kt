@@ -52,7 +52,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
             } else if (res.value is ValueDecimal || value is ValueDecimal) {
                 res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
             } else if (res.value is ValueInteger || value is ValueInteger) {
-                res.value = ValueInteger(res.value.toInt() + value.toInt())
+                res.value = ValueDecimal(0.0 + (res.value.toInt() + value.toInt()))
             } else {
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
@@ -69,8 +69,6 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                 res = ValueDouble(tmp.value.toDouble() / tmp.count)
             } else if (tmp.value is ValueDecimal) {
                 res = ValueDecimal(tmp.value.toDouble() / tmp.count)
-            } else if (tmp.value is ValueInteger) {
-                res = ValueInteger(tmp.value.toInt() / tmp.count)
             } else {
                 res = ValueError()
             }
