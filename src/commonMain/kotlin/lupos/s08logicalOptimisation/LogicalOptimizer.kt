@@ -9,11 +9,13 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
     override val classname = "LogicalOptimizer"
     override val childrenOptimizers = arrayOf(//
             arrayOf<OptimizerBase>(
+                    LogicalOptimizerRemovePrefix(query)//
+            ),
+            arrayOf<OptimizerBase>(
                     LogicalOptimizerArithmetic(query)//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveProjection(query),//
-                    LogicalOptimizerRemovePrefix(query),//
                     LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerDistinctUp(query),//
                     LogicalOptimizerOptional(query),//
