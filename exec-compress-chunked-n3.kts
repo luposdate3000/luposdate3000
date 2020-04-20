@@ -12,6 +12,7 @@ var currentTriple = Array<String>(3) { "" }
 var lastTriple = Array<String>(3) { "" }
 var nextType = 0 /* 0:S,1:P,2:O*/
 var finishTriple = false
+var countTriples = 0L
 while (line2 != null) {
     val line = line2!!
     if (line.startsWith("@prefix")) {
@@ -95,8 +96,9 @@ while (line2 != null) {
     line2 = readLine()
 }
 finishChunk()
-
+println(countTriples)
 fun writeTriple() {
+    countTriples++
     if (compress) {
         finishTriple = true
         if (lastTriple[0] == "") {

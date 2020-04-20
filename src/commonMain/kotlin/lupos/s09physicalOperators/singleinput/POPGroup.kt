@@ -62,6 +62,11 @@ class POPGroup : POPBase {
         this.bindings = this.bindings.asReversed()
     }
 
+    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
+        this.by = by
+        this.bindings = bindings.toMutableList()
+    }
+
     override fun equals(other: Any?): Boolean = other is POPGroup && by.equals(other.by) && bindings.equals(other.bindings) && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
@@ -73,6 +78,7 @@ class POPGroup : POPBase {
     }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
+        children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         SanityCheck.check({ additionalProvided.isEmpty() })
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
@@ -80,15 +86,29 @@ class POPGroup : POPBase {
             localRequire.add(v.name)
         }
         for (b in bindings) {
-            localRequire += b.second.getRequiredVariableNames()
+            localRequire += b.second.getRequiredVariableNamesRecoursive()
         }
-        for (c in children) {
-            c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
-        }
-        val res = localProvide.containsAll(localRequire)
-        if (!res) {
+        if (!localProvide.containsAll(localRequire)) {
             if (autocorrect) {
-                syntaxVerifyAllVariableExistsAutocorrect()
+                for (name in localRequire) {
+                    var found = false
+                    for (prov in localProvide) {
+                        if (prov == name) {
+                            found = true
+                            break
+                        }
+                    }
+                    if (!found) {
+                        for (b in by) {
+                            if (b.name == name) {
+                                throw Exception("undefined GROUP BY column >$name<")
+                            }
+                        }
+                        for (b in bindings.indices) {
+                            bindings[b] = Pair(bindings[b].first, replaceVariableWithUndef(bindings[b].second, name) as AOPBase)
+                        }
+                    }
+                }
             } else {
                 throw Exception("$classname undefined Variable")
             }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-triples=1000
+triples=1024
 while true
 do
 	triplesfolder=/mnt/sp2b-testdata/${triples}
@@ -11,11 +11,15 @@ do
 		./sp2b_gen -t $triples > /dev/null 2>&1
 	)
 	size=$(du -sb /opt/sp2b/bin/sp2b.n3 | sed -E "s/([0-9]+).*/\1/g")
-	cat /opt/sp2b/bin/sp2b.n3 | ./exec-compress-chunked-n3.kts $triplesfolder
-	echo "$triples Triples - $size Bytes"
-
+	count=$(cat /opt/sp2b/bin/sp2b.n3 | ./exec-compress-chunked-n3.kts $triplesfolder)
+	compressed=$(du -sb $triplesfolder | sed 's/\t.*//g')
+	echo "$triples,$count,$size,$compressed">>/mnt/sp2b-testdata/stat.csv
 	triples=$(($triples * 2))
 	if [[ $triples -le 0 ]]
+	then
+		break
+	fi
+	if [[ $triples -ge 1000000000 ]]
 	then
 		break
 	fi

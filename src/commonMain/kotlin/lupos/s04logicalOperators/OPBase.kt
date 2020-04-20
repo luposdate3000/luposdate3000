@@ -308,17 +308,8 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             }
             if (!found) {
                 println("syntaxVerifyAllVariableExistsAutocorrect $classname")
-                if (this is LOPBind || this is LOPFilter) {
-                    children[1] = replaceVariableWithUndef(children[1], name)
-                } else {
-                    require(this is LOPGroup)
-                    children[1] = replaceVariableWithUndef(children[1], name)
-                    by.forEach {
-                        if (it.name == name) {
-                            throw Exception("group by undefined variable $name")
-                        }
-                    }
-                }
+                require(this is LOPBind || this is LOPFilter)
+                children[1] = replaceVariableWithUndef(children[1], name)
             }
         }
     }
