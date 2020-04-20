@@ -4,7 +4,7 @@
 timemin=60000
 #in seconds
 timeout=300
-triples=1000
+triples=1024
 
 ./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain jvmS00WrapperJenaOnMain
 ./tool-gradle-build.sh
@@ -17,21 +17,17 @@ find resources/sp2b/ -name "*.sparql" > log/queries
 csvfile=$p/jena-internal.csv
 while true
 do
-triplesfile=$p/sp2b-${triples}.n3
-(
-	cd /opt/sp2b/bin
-	# t parameter specifies amount of tupels
-	./sp2b_gen -t $triples > /dev/null 2>&1
-)
-cat /opt/sp2b/bin/sp2b.n3 | sed "s/\.$/ ./g" > "$triplesfile"
-size=$(du -sb $triplesfile | sed -E "s/([0-9]+).*/\1/g")
-echo $triples $size $(bc <<< "scale=4; $size / $triples")
+triplesfolder=/mnt/sp2b-testdata/${triples}
+size=$(du -sb $triplesfolder | sed 's/\t.*//g')
 pkill java
 sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
 a=$(($(date +%s%N)/1000000))
-curl -X GET http://localhost:80/jena/turtle?query="$triplesfile" --header "Content-Type:text/plain" > /dev/null 2>&1
+for f in $(find $triplesfolder/*.n3)
+do
+curl -X GET http://localhost:80/jena/turtle?query="$f" --header "Content-Type:text/plain" > /dev/null 2>&1
+done
 code=$?
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))
