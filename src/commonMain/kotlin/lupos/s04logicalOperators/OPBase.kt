@@ -297,6 +297,16 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return node
     }
 
+    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
+        if (node is AOPVariable && node.name == name) {
+            return AOPVariable(query, name2)
+        }
+        for (i in 0 until node.children.size) {
+            node.children[i] = replaceVariableWithAnother(node.children[i], name, name2)
+        }
+        return node
+    }
+
     fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (name in getRequiredVariableNames()) {
             var found = false

@@ -136,7 +136,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     /*
     incoming sparql
     */
-    suspend fun process_sparql_query(query: String): XMLElement {
+    suspend fun process_sparql_query(query: String, logOperatorGraph: Boolean = false): XMLElement {
         val q = Query()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
         GlobalLogger.log(ELoggerType.DEBUG, { query })
@@ -160,8 +160,37 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node) as POPBase
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
+        if (logOperatorGraph) {
+            println("----------")
+            println(query)
+            println(">>>>>>>>>>")
+            println(pop_distributed_node.toXMLElement().toString())
+            println("<<<<<<<<<<")
+            println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
+        }
+        val res = QueryResultToXML.toXML(pop_distributed_node)
         q.commit()
-        return QueryResultToXML.toXML(pop_distributed_node)
+        return res
+    }
+
+    /*
+    incoming sparql
+    */
+    suspend fun process_sparql_query_operator(query: String, logOperatorGraph: Boolean = false): XMLElement {
+        val q = Query()
+        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!) as POPBase
+        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
+        if (logOperatorGraph) {
+            println("----------")
+            println(query)
+            println(">>>>>>>>>>")
+            println(pop_node.toXMLElement().toString())
+            println("<<<<<<<<<<")
+            println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
+        }
+        val res = QueryResultToXML.toXML(pop_node)
+        q.commit()
+        return res
     }
 
     abstract suspend fun start()
@@ -174,9 +203,16 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             "/sparql/query" -> {
                 if (isPost) {
-                    return process_sparql_query(data).toPrettyString().encodeToByteArray()
+                    return process_sparql_query(data, true).toPrettyString().encodeToByteArray()
                 } else {
-                    return process_sparql_query(params["query"]!!).toPrettyString().encodeToByteArray()
+                    return process_sparql_query(params["query"]!!, true).toPrettyString().encodeToByteArray()
+                }
+            }
+            "/sparql/operator" -> {
+                if (isPost) {
+                    return process_sparql_query_operator(data, true).toPrettyString().encodeToByteArray()
+                } else {
+                    return process_sparql_query_operator(params["query"]!!, true).toPrettyString().encodeToByteArray()
                 }
             }
             "/sparql/benchmark" -> {
