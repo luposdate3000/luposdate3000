@@ -95,15 +95,15 @@ class TripleStoreLocal(@JvmField val name: String) {
             val size0 = it.readInt()
             for (i0 in 0 until size0) {
                 val key0 = it.readInt()
-                val tmp0 = data.getOrCreate(key0, { SortedIntMap<SortedIntSet>() })
+                val tmp0 = data.appendAssumeSorted(key0, SortedIntMap<SortedIntSet>())
                 val size1 = it.readInt()
                 for (i1 in 0 until size1) {
                     val key1 = it.readInt()
-                    val tmp1 = tmp0.getOrCreate(key1, { SortedIntSet() })
+                    val tmp1 = tmp0.appendAssumeSorted(key1, SortedIntSet())
                     val size2 = it.readInt()
                     for (i2 in 0 until size2) {
                         val key2 = it.readInt()
-                        tmp1.add(key2)
+                        tmp1.appendAssumeSorted(key2)
                     }
                 }
             }

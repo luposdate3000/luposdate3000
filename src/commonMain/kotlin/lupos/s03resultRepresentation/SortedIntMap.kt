@@ -31,6 +31,12 @@ class SortedIntMap<T>() {
         return value!!
     }
 
+fun appendAssumeSorted(key:Int,value:T):T{
+keys.add(key)
+values.add(value)
+return value
+}
+
     fun clear() {
         keys.clear()
         values.clear()

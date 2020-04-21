@@ -14,7 +14,11 @@ enum class EBenchmark {
     IMPORT_DICTIONARY_INSERT,
     IMPORT_PATRICIA_INSERT,
     IMPORT_PATRICIA_MAPPING,//contains IMPORT_DICTIONARY_INSERT
-    IMPORT_TRIPLE_STORE
+    IMPORT_TRIPLE_STORE,
+	LOAD_DICTIONARY,
+	LOAD_TRIPLE_STORE,
+	SAVE_DICTIONARY,
+	SAVE_TRIPLE_STORE
 }
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)

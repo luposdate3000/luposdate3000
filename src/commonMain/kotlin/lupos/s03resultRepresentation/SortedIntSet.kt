@@ -19,6 +19,10 @@ class SortedIntSet() {
         data.add(value)
     }
 
+fun appendAssumeSorted(value:Int){
+data.add(value)
+}
+
     inline fun internal(value: Int, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
             onCreate(0)
