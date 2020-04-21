@@ -35,8 +35,12 @@ sleep 3
 a=$(($(date +%s%N)/1000000))
 for f in $(find $triplesfolder/*.n3)
 do
-curl -X POST --data-binary "@$f" http://localhost:80/import/turtle --header "Content-Type:text/plain" > /dev/null 2>&1
+curl -X POST --data-binary "@$f" http://localhost:80/import/turtle --header "Content-Type:text/plain"
 done
+mkdir -p $triplesfolder/data
+curl -X POST --data-binary "$triplesfolder/data" http://localhost:80/persistence/store --header "Content-Type:text/plain"
+exit
+
 code=$?
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))

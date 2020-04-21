@@ -106,4 +106,22 @@ class ResultSetDictionary(val global: Boolean = false) {
             return nodeGlobalDictionary.createValue(getValue(value))
         }
     }
+
+    fun safeToFile(filename: String) {
+        File(filename).printWriter { out ->
+            var idx = 0
+            for (line in mapLTS) {
+                if (idx > 3) {
+                    out.println(line.valueToString())
+                }
+                idx++
+            }
+        }
+    }
+
+    fun loadFromFile(filename: String) {
+        File(filename).forEachLine {
+            createValue(ValueDefinition(it))
+        }
+    }
 }

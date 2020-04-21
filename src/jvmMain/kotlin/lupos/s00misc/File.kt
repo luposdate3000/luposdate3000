@@ -1,6 +1,10 @@
 package lupos.s00misc
 
 import java.io.BufferedReader
+import java.io.DataInputStream
+import java.io.DataOutputStream
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -44,5 +48,28 @@ class File(@JvmField val filename: String) {
 
     fun printWriter(action: (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
         action(it)
+    }
+
+    fun forEachLine(action: (String) -> Unit) = java.io.File(filename).forEachLine { action(it) }
+    fun dataOutputStream(action: (java.io.DataOutputStream) -> Unit) {
+        val fos = FileOutputStream(filename);
+        var dos: DataOutputStream? = null
+        try {
+            dos = DataOutputStream(fos)
+            action(dos!!)
+        } finally {
+            dos?.close()
+        }
+    }
+
+    fun dataInputStream(action: (java.io.DataInputStream) -> Unit) {
+        val fis = FileInputStream(filename);
+        var dis: DataInputStream? = null
+        try {
+            dis = DataInputStream(fis)
+            action(dis!!)
+        } finally {
+            dis?.close()
+        }
     }
 }

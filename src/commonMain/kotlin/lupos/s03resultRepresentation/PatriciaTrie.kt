@@ -53,10 +53,12 @@ class PatriciaTrie {
                         var newNode: PatriciaTrieNode
                         if (commonKey.length == key.length) {
                             newNode = intermediateNode
+                            require(intermediateNode.value == undefinedValue)
+                            intermediateNode.value = nextValue++
                         } else {
                             newNode = PatriciaTrieNode(key.substring(commonKey.length, key.length), nextValue++)
+                            intermediateNode.children.add(newNode)
                         }
-                        intermediateNode.children.add(newNode)
                         return newNode.value
                     } else {
                         return undefinedValue

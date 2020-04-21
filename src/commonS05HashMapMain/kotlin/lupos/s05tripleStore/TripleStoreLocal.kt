@@ -60,6 +60,65 @@ class TripleStoreLocal(@JvmField val name: String) {
     @JvmField
     val dataOPS = SortedIntMap<SortedIntMap<SortedIntSet>>()//o_1
 
+    fun safeToFolderInternal(data: SortedIntMap<SortedIntMap<SortedIntSet>>, filename: String) {
+        File(filename).dataOutputStream { out ->
+            out.writeInt(data.values.size)
+            var iterator0 = data.iterator()
+            while (iterator0.hasNext()) {
+                out.writeInt(iterator0.next())
+                var value0 = iterator0.value()
+                out.writeInt(value0.values.size)
+                var iterator1 = value0.iterator()
+                while (iterator1.hasNext()) {
+                    out.writeInt(iterator1.next())
+                    var value1 = iterator1.value()
+                    out.writeInt(value1.data.size)
+                    for (i in value1.data) {
+                        out.writeInt(i)
+                    }
+                }
+            }
+        }
+    }
+
+    fun safeToFolder(foldername: String) {
+        safeToFolderInternal(dataSPO, foldername + "SPO.bin")
+        safeToFolderInternal(dataSOP, foldername + "SOP.bin")
+        safeToFolderInternal(dataPOS, foldername + "POS.bin")
+        safeToFolderInternal(dataPSO, foldername + "PSO.bin")
+        safeToFolderInternal(dataOSP, foldername + "OSP.bin")
+        safeToFolderInternal(dataOPS, foldername + "OPS.bin")
+    }
+
+    fun loadFromFolderInternal(data: SortedIntMap<SortedIntMap<SortedIntSet>>, filename: String) {
+        File(filename).dataInputStream { it ->
+            val size0 = it.readInt()
+            for (i0 in 0 until size0) {
+                val key0 = it.readInt()
+                val tmp0 = data.getOrCreate(key0, { SortedIntMap<SortedIntSet>() })
+                val size1 = it.readInt()
+                for (i1 in 0 until size1) {
+                    val key1 = it.readInt()
+                    val tmp1 = tmp0.getOrCreate(key1, { SortedIntSet() })
+                    val size2 = it.readInt()
+                    for (i2 in 0 until size2) {
+                        val key2 = it.readInt()
+                        tmp1.add(key2)
+                    }
+                }
+            }
+        }
+    }
+
+    fun loadFromFolder(foldername: String) {
+        loadFromFolderInternal(dataSPO, foldername + "SPO.bin")
+        loadFromFolderInternal(dataSOP, foldername + "SOP.bin")
+        loadFromFolderInternal(dataPOS, foldername + "POS.bin")
+        loadFromFolderInternal(dataPSO, foldername + "PSO.bin")
+        loadFromFolderInternal(dataOSP, foldername + "OSP.bin")
+        loadFromFolderInternal(dataOPS, foldername + "OPS.bin")
+    }
+
     fun getIteratorInternal(query: Query, data: SortedIntMap<SortedIntMap<SortedIntSet>>, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)

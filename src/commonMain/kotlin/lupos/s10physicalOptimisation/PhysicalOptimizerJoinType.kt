@@ -77,7 +77,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
                     }
                 } else {
-/*                    if (node.mySortPriority.size >= columns[0].size) {
+                    if (node.mySortPriority.size >= columns[0].size) {
                         if (childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                             res = POPJoinMerge(query, projectedVariables, childA, childB, false)
                         } else {
@@ -87,7 +87,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
                     } else if (childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                         res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
-                    } else*/ if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
+                    } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                         res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
                     } else {
                         res = POPJoinHashMap(query, projectedVariables, childA, childB, false)

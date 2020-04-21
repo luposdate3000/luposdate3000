@@ -56,25 +56,32 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(data: String): XMLElement {
-        //BenchmarkUtils.start(EBenchmark.IMPORT_COMPLETE)
-        val query = Query()
-        //BenchmarkUtils.start(EBenchmark.IMPORT_INIT)
-        val lcit = LexerCharIterator(data)
-        val tit = TurtleScanner(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val bulk = TripleStoreBulkImport()
-        //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_INIT)
-        //BenchmarkUtils.start(EBenchmark.IMPORT_TURTLE_PARSER)
-        TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
-            val s = Dictionary[triple_s]!!.toN3String()
-            val p = Dictionary[triple_p]!!.toN3String()
-            val o = Dictionary[triple_o]!!.toN3String()
-            bulk.insert(s, p, o)
-        }, ltit).turtleDoc()
-        //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TURTLE_PARSER)
-        DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
-        //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_COMPLETE)
-        return XMLElement("success")
+        try {
+            //BenchmarkUtils.start(EBenchmark.IMPORT_COMPLETE)
+            val query = Query()
+            //BenchmarkUtils.start(EBenchmark.IMPORT_INIT)
+            val lcit = LexerCharIterator(data)
+            val tit = TurtleScanner(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            val bulk = TripleStoreBulkImport()
+            //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_INIT)
+            //BenchmarkUtils.start(EBenchmark.IMPORT_TURTLE_PARSER)
+            var counter = 0
+            TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
+                val s = Dictionary[triple_s]!!.toN3String()
+                val p = Dictionary[triple_p]!!.toN3String()
+                val o = Dictionary[triple_o]!!.toN3String()
+                bulk.insert(s, p, o)
+                counter++
+            }, ltit).turtleDoc()
+            //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TURTLE_PARSER)
+            DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
+            //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_COMPLETE)
+            return XMLElement("success + $counter")
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            throw e
+        }
     }
 
     /*
@@ -249,6 +256,31 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 } else {
                     return process_xml_input(params["query"]!!).toPrettyString().encodeToByteArray()
                 }
+            }
+            "/persistence/store" -> {
+                nodeGlobalDictionary.safeToFile(data + "/dictionary.txt")
+                val stores = DistributedTripleStore.localStore.stores
+                var idx = 0
+                File(data + "/stores.txt").printWriter { out ->
+                    stores.keys.forEach { name ->
+                        val store = stores[name]!!
+                        store.safeToFolder(data + "/$idx")
+                        out.println(name)
+                        idx++
+                    }
+                }
+                return XMLElement("success").toPrettyString().encodeToByteArray()
+            }
+            "/persistence/load" -> {
+                nodeGlobalDictionary.loadFromFile(data + "/dictionary.txt")
+                val stores = DistributedTripleStore.localStore.stores
+                var idx = 0
+                File(data + "/stores.txt").forEachLine { name ->
+                    val store = stores[name]!!
+                    store.loadFromFolder(data + "/$idx")
+                    idx++
+                }
+                return XMLElement("success").toPrettyString().encodeToByteArray()
             }
         }
         TODO("unreachable")

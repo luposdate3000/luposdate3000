@@ -16,13 +16,11 @@ class Plan : Comparable<Plan> {
     val childs: Pair<Int, Int>?
     val variables: Array<Int>
     val columns: Int
-    val depth: Int
     val cost: Int
 
     constructor(child: OPBase, variables: Array<Int>, allVariables: List<Int>) {
         this.child = child
         childs = null
-        depth = 1
         this.variables = variables
         var c = 0
         for (i in 0 until variables.size) {
@@ -41,11 +39,6 @@ class Plan : Comparable<Plan> {
         childs = Pair(childA, childB)
         val va = plans[childA]!!.variables
         val vb = plans[childB]!!.variables
-        if (plans[childA]!!.depth < plans[childB]!!.depth) {
-            depth = plans[childB]!!.depth + 1
-        } else {
-            depth = plans[childA]!!.depth + 1
-        }
         this.variables = Array(allVariables.size) { va[it] + vb[it] }
         var c = 0
         for (i in 0 until variables.size) {
@@ -60,9 +53,6 @@ class Plan : Comparable<Plan> {
 
     override operator fun compareTo(other: Plan): Int {
         var res = cost.compareTo(other.cost)
-        if (res == 0) {
-            res = -depth.compareTo(other.depth)
-        }
         return res
     }
 
