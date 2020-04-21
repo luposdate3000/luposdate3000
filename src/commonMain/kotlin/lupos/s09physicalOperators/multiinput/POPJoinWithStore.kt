@@ -161,50 +161,50 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
             for (column in columnsOUT) {
                 column.onEmptyQueue = {
-try{
-                    loopA@ while (true) {
-                        var done = true
-                        loopB@ for (i in 0 until variablINBO.size) {
-                            val value = columnsInB[i].next()
-                            if (value == null) {
-                                require(i == 0)
-                                done = false
-                                break@loopB
-                            } else {
-                                columnsOUTB[i].queue.add(value)
-                            }
-                        }
-                        if (done) {
-                            for (i in 0 until columnsOUTAO.size) {
-                                columnsOUTAO[i].queue.add(valuesAO[i]!!)
-                            }
-                            for (i in 0 until columnsOUTAJ.size) {
-                                columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
-                            }
-                            break@loopA
-                        } else {
-                            for (i in 0 until columnsINAO.size) {
-                                valuesAO[i] = columnsINAO[i].next()
-                            }
-                            for (i in 0 until columnsINAJ.size) {
-                                valuesAJ[i] = columnsINAJ[i].next()
-                            }
-                            if (valuesAJ[0] != null) {
-                                for (i in 0 until indicesINBJ.size) {
-                                    params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
+                    try {
+                        loopA@ while (true) {
+                            var done = true
+                            loopB@ for (i in 0 until variablINBO.size) {
+                                val value = columnsInB[i].next()
+                                if (value == null) {
+                                    require(i == 0)
+                                    done = false
+                                    break@loopB
+                                } else {
+                                    columnsOUTB[i].queue.add(value)
                                 }
-                                columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
-                                for (i in 0 until variablINBO.size) {
-                                    columnsInB[i] = columnsInBRoot!!.columns[variablINBO[i]]!!
+                            }
+                            if (done) {
+                                for (i in 0 until columnsOUTAO.size) {
+                                    columnsOUTAO[i].queue.add(valuesAO[i]!!)
                                 }
-                            } else {
+                                for (i in 0 until columnsOUTAJ.size) {
+                                    columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
+                                }
                                 break@loopA
+                            } else {
+                                for (i in 0 until columnsINAO.size) {
+                                    valuesAO[i] = columnsINAO[i].next()
+                                }
+                                for (i in 0 until columnsINAJ.size) {
+                                    valuesAJ[i] = columnsINAJ[i].next()
+                                }
+                                if (valuesAJ[0] != null) {
+                                    for (i in 0 until indicesINBJ.size) {
+                                        params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
+                                    }
+                                    columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
+                                    for (i in 0 until variablINBO.size) {
+                                        columnsInB[i] = columnsInBRoot!!.columns[variablINBO[i]]!!
+                                    }
+                                } else {
+                                    break@loopA
+                                }
                             }
                         }
-}
-}catch(e:Throwable){
-e.printStackTrace()
-}
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }

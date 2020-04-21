@@ -395,7 +395,6 @@ class SparqlTestSuite() {
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
-        val jena = JenaRequest()
         try {
             try {
                 val query3 = Query()
@@ -440,7 +439,7 @@ class SparqlTestSuite() {
                     }
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
-                        jena.insertDataIntoGraph(null, xmlQueryInput)
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
@@ -458,7 +457,7 @@ class SparqlTestSuite() {
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {
-                        jena.insertDataIntoGraph(it["name"]!!, xmlQueryInput)
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                     } catch (e: ExceptionJenaBug) {
                     }
                 }
@@ -543,10 +542,12 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     try {
-                        val jenaResult = jena.requestQuery(toParse)
-                        if (!jenaResult.myEqualsUnclean(xmlQueryTarget)) {
+                        val jenaResult = JenaWrapper.execQuery(toParse)
+                        val jenaXML = XMLElement.parseFromXml(jenaResult)
+                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaResult.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
@@ -631,7 +632,7 @@ class SparqlTestSuite() {
             }
         } finally {
             ColumnIteratorDebug.debug()
-            jena.finalize()
+            JenaWrapper.dropAll()
         }
     }
 }

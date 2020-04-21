@@ -9,13 +9,17 @@ class ColumnIteratorChildIterator() : ColumnIterator() {
 
     init {
         next = {
-            require(childs.size > 0)
-            var res = childs[0].next()
-            if (res == null) {
-                childs.removeAt(0)
-                if (childs.size == 0) {
-                    onNoMoreElements()
+            var res: Value? = null
+            while (childs.size > 0) {
+                res = childs[0].next()
+                if (res == null) {
+                    childs.removeAt(0)
+                } else {
+                    break
                 }
+            }
+            if (res == null) {
+                onNoMoreElements()
                 if (childs.size == 0) {
                     close()
                 }

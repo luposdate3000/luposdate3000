@@ -1,3 +1,5 @@
+package lupos.s00misc
+
 object JenaWrapper {
     fun dropAll() {
     }
@@ -11,6 +13,9 @@ object JenaWrapper {
     }
 
     fun loadFromFile(fileName: String) {
+    }
+
+    fun loadFromFile(fileName: String, graph: String) {
     }
 
     fun execQueryFile(fileName: String) {
