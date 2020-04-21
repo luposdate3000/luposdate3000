@@ -114,10 +114,8 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             outO[1].add(t)
             columnsINBO.add(childB.columns[name]!!)
         }
-        println("XXX $uuid $uuid ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} ${projectedVariables} ${outO[0].size} ${outO[1].size}")
         var emptyColumnsWithJoin = outO[0].size == 0 && outO[1].size == 0 && outJ.size == 0 && columnsINAJ.size != 0
         if (emptyColumnsWithJoin) {
-            println("XXX $uuid emptyColumnsWithJoin")
             t = ColumnIteratorChildIterator()
             outJ.add(t)
             outIterators.add(t)
@@ -134,7 +132,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         var countA: Int
         var countB: Int
 //---check for_ empty columns
-        if (outJ.size == 0) {
+        if (columnsINAJ.size == 0) {
             if (columnsINAO.size == 0 && columnsINBO.size == 0) {
                 res = ColumnIteratorRow(outMap)
                 res.count = childA.count * childB.count
@@ -204,7 +202,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         } else {
             //---join on at least one column
 //--- insert second child into hash table
-            println("XXX $uuid hashjoin")
             while (true) {
                 if (currentKey != null) {
                     count = 1
@@ -243,7 +240,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     map[key] = oldArr
                 }
                 oldArr.count += count
-                println("XXX $uuid insert ${currentKey.map { it }} ${oldArr.count} $count")
                 for (columnIndex in 0 until columnsINBO.size) {
 //TODO dont use kotlin lists here, use pages instead
                     for (j in 0 until count) {
@@ -267,7 +263,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     }
                 }
                 iterator.onNoMoreElements = {
-                    println("XXX $uuid onNoMoreElements")
                     var done = false
                     while (!done) {
                         if (currentKey == null) {
@@ -281,7 +276,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                             for (columnIndex in 0 until columnsINAJ.size) {
                                 val value = columnsINAJ[columnIndex].next()
                                 if (value == null) {
-                                    println("XXX $uuid next-null")
                                     require(columnIndex == 0)
                                     nextKey = null
                                     break@loopA
@@ -291,7 +285,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                     nextMap = mapWithUndef
                                 }
                             }
-                            println("XXX $uuid nextKey ${nextKey?.map { it }}")
                             if (currentKey == null) {
                                 map = nextMap
                                 currentKey = nextKey
@@ -300,7 +293,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                             }
                             countA++
                         }
-                        println("XXX $uuid currentKey ${currentKey?.map { it }}")
                         if (currentKey == null) {
                             done = true
                             iterator.close()
@@ -337,7 +329,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 }
                             }
                             if (others.size == 0) {
-                                println("XXX $uuid retrinon ${currentKey?.map { it }} 0 0")
                                 if (optional) {
 //optional clause without match
                                     done = true
@@ -372,7 +363,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             res = ColumnIteratorRow(outMap)
             if (emptyColumnsWithJoin) {
                 res.hasNext = {
-                    println("XXX $uuid hasNext call")
                     /*return*/outJ[0].next() != null
                 }
             }

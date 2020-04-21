@@ -32,7 +32,7 @@ object JenaWrapper {
                 ResultSetFormatter.outputAsXML(stream, results)
                 res = String(stream.toByteArray())
             } else if (query.isAskType()) {
-                val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head").addContent(XMLElement("boolean").addContent("" + qexec.execAsk())))
+                val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("boolean").addContent("" + qexec.execAsk()))
                 res = nodeSparql.toPrettyString()
             } else if (query.isConstructType()) {
                 val resultModel = qexec.execConstruct()
