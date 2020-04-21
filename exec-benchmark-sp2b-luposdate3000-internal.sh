@@ -38,15 +38,20 @@ do
 curl -X POST --data-binary "@$f" http://localhost:80/import/turtle --header "Content-Type:text/plain"
 done
 mkdir -p $triplesfolder/data
-curl -X POST --data-binary "$triplesfolder/data" http://localhost:80/persistence/store --header "Content-Type:text/plain"
-exit
-
 code=$?
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
 echo "resources/sp2b/load.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
-curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
+a=$(($(date +%s%N)/1000000))
+curl -X POST --data-binary "$triplesfolder/data" http://localhost:80/persistence/store --header "Content-Type:text/plain"
+b=$(($(date +%s%N)/1000000))
+c=$((b - a))
+qps=$(bc <<< "scale=2; 1000 / $c")
+echo "resources/sp2b/persistence-save.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
+
+
+
 while read query; do
 	res=$(timeout -s SIGTERM "${timeout}s" curl -X POST --data-binary "@$query" http://localhost:80/sparql/benchmark?timeout=$timemin)
 	code=$?
@@ -69,7 +74,6 @@ echo $n -- $c1
 		fi
 	fi
 	echo $f >> log/server
-	curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 	echo "$query"
 done < log/queries
 mv log/queries2 log/queries
