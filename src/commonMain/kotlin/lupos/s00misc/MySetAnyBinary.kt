@@ -12,7 +12,7 @@ class MySetAnyBinary<T:Comparable<T>> {
         data.clear()
     }
 
-    fun iterator(): Iterator<T> {
+operator    fun iterator(): Iterator<T> {
         return data.iterator()
     }
 

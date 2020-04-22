@@ -73,7 +73,7 @@ class TripleStoreIndex_Map2List : TripleStoreIndex {
         return res
     }
 
-    override fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
+    override fun import(dataImport: MutableList<MyMapInt< MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
         for (key0 in 0 until dataImport.size) {
 	    val value0=dataImport[key0]
             var key=map0[key0].toLong() shl 32

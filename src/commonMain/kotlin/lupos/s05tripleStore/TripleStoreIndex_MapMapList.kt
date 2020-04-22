@@ -169,14 +169,14 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         return res
     }
 
-    fun importInternal(dataImport: MutableSet<Int>, store: MySetInt, map2: MyListValue) {
+    fun importInternal(dataImport: MySetInt, store: MySetInt, map2: MyListValue) {
         for (rawKey in dataImport) {
             val key = map2[rawKey]
             store.add(key)
         }
     }
 
-    fun importInternal(dataImport: MutableMap<Int, MutableSet<Int>>, store: MyMapInt<MySetInt>, map1: MyListValue, map2: MyListValue) {
+    fun importInternal(dataImport: MyMapInt< MySetInt>, store: MyMapInt<MySetInt>, map1: MyListValue, map2: MyListValue) {
         for (rawKey in dataImport.keys) {
             val key = map1[rawKey]
             val value = dataImport[rawKey]!!
@@ -185,7 +185,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         }
     }
 
-    override fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
+    override fun import(dataImport: MutableList<MyMapInt< MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
         for (rawKey in 0 until dataImport.size) {
             val key = map0[rawKey]
             val value = dataImport[rawKey]
