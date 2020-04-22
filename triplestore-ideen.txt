@@ -1,0 +1,130 @@
+assuming dictionary mapping all values to int
+assuming datatype "List" is ordered by its values
+NOT assuming dictionary value-to-int-mapping is ordered by its values
+
+Triple Store Data Layout Ideas:
+option 1:
+ - SPO,SOP,POS,PSO,OPS,OSP
+ - each Map<Int,Map<Int,List<Int>>>
+ - advantages:
+   - all indices use the same internal-structure
+ - disadvantages:
+   - huge amount of lists contain only 1 element (especially for OSP index)
+   - hard to apply page based storage, because of many 1-Element-Lists
+
+option 2:
+ - SPO,SOP,POS,PSO,OPS,OSP
+ - for each index:
+   - List<Int>
+    - e.g. for SPO List contains only O
+      - similar to option 1, but concatenated to a single List
+    - some kind of Array-List, or page-based Structure
+   - Map<Int,Map<Int,Pointer>>
+    - Pointer pointing to offset in the List
+    - Must use pageid+relative-offset, to prevent too many changes due to insertion at front of list
+ - advantages:
+   - just 1 List, filled with a huge amount of Elements
+   - all indices use the same internal-structure
+   - List can be easily stored on pages without consuming too much memory
+   - swapping out unneded data possible
+ - disadvantages:
+   - Map-Structure contains many Maps with just a few Elements
+   - Array-List-Chunks require a list of back reference to the Pointers pointing to them, to be able to update these on modification
+
+option 3:
+ - SPO
+   - List<Pair<Int,List<Pair<Int,List<Int>>>>> (similar to compression in Turtle) 
+   - used for querying the whole data
+ - SP-O,PO-S,SO-P
+   - Map<Pair<Int,Int>,List<Int>> (e.g. Map[SP]=listOf(O1,O2,..))
+     - multi-component keys
+       - could be encoded as a "Long" instead of Int-Pair
+     - only a single map required (per index)
+     - mostly used index during query processing
+     - dont care ordering of keys, only list need to be sorted
+ - S-PO,S-OP,P-OS,P-SO,O-SP,O-PS
+   - Map<Int,List<Pair<Int,List<Int>>>>
+     - only a single map
+     - dont care ordering of keys
+ 
+ - advantages:
+   - less "Maps" than option 1 and 2
+ - disadvantages:
+   - data is stored 10 times due to additional sort orders
+   - complex source-code because different data structures for the different indices
+   - huge amount of Lists contain only 1 Element (e.g. SO-P Index)
+
+option 4:
+ - as option 3
+ - S-PO,S-OP,P-OS,P-SO,O-SP,O-PS Index:
+  - can reuse map twice (e.g. S-PO and S-OP can share a single Map - containing both sort orders)
+ - advantages:
+   - less allocated Maps
+
+option 5:
+ - as option 3
+ - List<Pair<Int,List<Pair<Int,List<Int>>>>> is used to "visualize" the compression.
+   - In the code this could be a single List annotated with Metadata
+ - List<Pair<Int,List<Int>>> is used to "visualize" the compression.
+   - In the code this could be a single List annotated with Metadata
+ - advantages:
+   - less allocated Lists
+
+option 6:
+  - as option 3
+ 
+  - with changes from option 4
+  - with changes from option 5
+  - combines the advantages from option 4 and 5
+  - disadvantages:
+    - complex source-code because different data structures for the different indices
+      - data is stored 10 times due to additional sort orders
+
+option 7:
+ - as option 6, but use Pointers to Lists (for SP-O,PO-S,SO-P Indices) as defined in option 2
+ - advantages:
+   - reduced amount of Lists AND Maps
+     - much more memory friendly
+   - swapping possible
+ 
+ - disadvantages:
+   - Array-List-Chunks require a list of back reference to the Pointers pointing to them, to be able to update these on modification
+   - all from option 3
+
+Map Implementations:
+ - performance "evaluation" if applied to Triple-Store-Option 1
+ - option 1:
+   - Map=BinaryTreeMap, ordered by keys
+   - advantages:
+     - ordered -> can apply merge-join immediately
+     - only allocates required space - no "empty" allcations contained
+   - performance (only result selection, not result iteration)
+     - query index with 2 keys(e.g. SP -> O) in O(log(#S)+log(#P))
+     - query index with 1 keys(e.g. S -> PO) in O(log(#S))
+     - query everything in O(1), because tree can be traversed in-order
+     - insertion O(log(#S)+log(#P))
+ 
+ - option 2:
+   - Map=HashMap
+   - performance (only result selection, not result iteration)
+     - query index with 2 keys(e.g. SP -> O) in O(1)
+     - query index with 1 keys(e.g. S -> PO) in O(1+#P), time requirement for sorting the "P" to gain a sorted output
+     - query everything in O(#S*#P), time requirement for sorting the "S", and than the "P" to gain a sorted output
+     - insertion in O(1)
+   - advantages:
+     - fast query if the 2key-index is used
+   - disadvantages:
+     - slow because of missing order in the hash table if just 1 or 0 keys index is used
+     - even small hash-tables require "a lot" of initial memory
+ - option 3
+   - Map=B+Tree
+   - performance (only result selection, not result iteration)
+     - query index with 2 keys(e.g. SP -> O) in O(log(#S)+log(#P))
+     - query index with 1 keys(e.g. S -> PO) in O(log(#S))
+     - query everything in O(1), because tree can be traversed in-order
+     - insertion O(log(#S)+log(#P))
+   - advantages:
+     - ordered -> can apply merge-join immediately
+   - disadvantages:
+ 
+     - each tree node allocates b "empty-key-slots" -> wasteful if there are just a few entries

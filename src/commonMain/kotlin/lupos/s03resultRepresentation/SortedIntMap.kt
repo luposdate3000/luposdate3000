@@ -3,6 +3,14 @@ package lupos.s03resultRepresentation
 import lupos.s00misc.Coverage
 
 class SortedIntMap<T>() {
+    companion object {
+        var instanceCounter = 0
+    }
+
+    init {
+        instanceCounter++
+    }
+
     var keys = SortedIntSet()
     var values = mutableListOf<T>()
 
@@ -31,11 +39,11 @@ class SortedIntMap<T>() {
         return value!!
     }
 
-fun appendAssumeSorted(key:Int,value:T):T{
-keys.add(key)
-values.add(value)
-return value
-}
+    fun appendAssumeSorted(key: Int, value: T): T {
+        keys.add(key)
+        values.add(value)
+        return value
+    }
 
     fun clear() {
         keys.clear()
