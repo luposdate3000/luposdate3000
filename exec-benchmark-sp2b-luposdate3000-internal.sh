@@ -33,6 +33,8 @@ sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
 
+if true
+then
 
 a=$(($(date +%s%N)/1000000))
 curl -X POST --data-binary "$triplesfolder/data" http://localhost:80/persistence/load --header "Content-Type:text/plain"
@@ -40,8 +42,8 @@ b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
 echo "resources/sp2b/persistence-load.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
-triples=$(($triples * 2))
-continue
+
+else
 
 a=$(($(date +%s%N)/1000000))
 for f in $(find $triplesfolder/*.n3)
@@ -54,13 +56,12 @@ b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
 echo "resources/sp2b/load.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
-a=$(($(date +%s%N)/1000000))
 curl -X POST --data-binary "$triplesfolder/data" http://localhost:80/persistence/store --header "Content-Type:text/plain"
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
-echo "resources/sp2b/persistence-save.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
-
+echo "resources/sp2b/persistence-store.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
+fi
 
 
 while read query; do
