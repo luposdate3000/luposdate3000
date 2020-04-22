@@ -60,7 +60,7 @@ curl -X POST --data-binary "$triplesfolder/data" http://localhost:80/persistence
 b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
-echo "resources/sp2b/persistence-store.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
+echo "resources/sp2b/persistence-save.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
 fi
 
 

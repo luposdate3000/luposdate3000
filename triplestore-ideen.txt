@@ -98,6 +98,7 @@ Map Implementations:
    - advantages:
      - ordered -> can apply merge-join immediately
      - only allocates required space - no "empty" allcations contained
+     - prefix-search possible
    - performance (only result selection, not result iteration)
      - query index with 2 keys(e.g. SP -> O) in O(log(#S)+log(#P))
      - query index with 1 keys(e.g. S -> PO) in O(log(#S))
@@ -114,8 +115,10 @@ Map Implementations:
    - advantages:
      - fast query if the 2key-index is used
    - disadvantages:
+     - no prefix search possible
      - slow because of missing order in the hash table if just 1 or 0 keys index is used
      - even small hash-tables require "a lot" of initial memory
+
  - option 3
    - Map=B+Tree
    - performance (only result selection, not result iteration)
@@ -124,7 +127,21 @@ Map Implementations:
      - query everything in O(1), because tree can be traversed in-order
      - insertion O(log(#S)+log(#P))
    - advantages:
+     - prefix-search possible
      - ordered -> can apply merge-join immediately
-   - disadvantages:
- 
+   - disadvantages: 
      - each tree node allocates b "empty-key-slots" -> wasteful if there are just a few entries
+
+ - option 4
+   - Map=Radix-Tree
+
+ - option 5
+   - Map=Patricia-Trie (splitting bitwise)
+   - effectively a binary tree using prefixes
+
+ - option 6
+   - Map=Patricia-Trie (splitting bytewise)
+   - can use multiple node types
+     - for large amount of children use array for children, using the current byte directly as index
+     - for small amount of children use binary tree for children
+
