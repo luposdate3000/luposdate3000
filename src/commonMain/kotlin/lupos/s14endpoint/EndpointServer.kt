@@ -288,7 +288,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     idx++
                 }
                 var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_TRIPLE_STORE)
-                return XMLElement("success $timeDict $timeStore ${SortedIntMap.instanceCounter} ${SortedIntSet.instanceCounter}").toPrettyString().encodeToByteArray()
+                return XMLElement("success $timeDict $timeStore").toPrettyString().encodeToByteArray()
             }
         }
         TODO("unreachable")

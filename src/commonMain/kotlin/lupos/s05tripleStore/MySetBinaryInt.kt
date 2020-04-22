@@ -1,8 +1,8 @@
-package lupos.s03resultRepresentation
+package lupos.s05tripleStore
 
 import lupos.s00misc.Coverage
 
-class SortedIntSet() {
+class MySetBinaryInt{
     companion object {
         var instanceCounter = 0
     }
@@ -22,7 +22,8 @@ class SortedIntSet() {
     fun iterator(): Iterator<Int> {
         return data.iterator()
     }
-
+constructor(){
+}
     constructor(value: Int) : this() {
         data.add(value)
     }

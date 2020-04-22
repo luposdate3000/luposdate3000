@@ -19,18 +19,8 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
-interface TripleStoreIndex {
-    fun safeToFolder(filename: String)
-    fun loadFromFolder(filename: String)
-    fun getIterator(query: Query, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow
-    fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>)
-    fun insert(a: Value, b: Value, c: Value)
-    fun remove(a: Value, b: Value, c: Value)
-    fun clear()
-}
-
 class TripleStoreIndex_MapMapList : TripleStoreIndex {
-    val data = SortedIntMap<SortedIntMap<SortedIntSet>>()
+    val data = MyMapInt<MyMapInt<MySetInt>>()
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.values.size)
@@ -57,11 +47,11 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
             val size0 = it.readInt()
             for (i0 in 0 until size0) {
                 val key0 = it.readInt()
-                val tmp0 = data.appendAssumeSorted(key0, SortedIntMap<SortedIntSet>())
+                val tmp0 = data.appendAssumeSorted(key0, MyMapInt<MySetInt>())
                 val size1 = it.readInt()
                 for (i1 in 0 until size1) {
                     val key1 = it.readInt()
-                    val tmp1 = tmp0.appendAssumeSorted(key1, SortedIntSet())
+                    val tmp1 = tmp0.appendAssumeSorted(key1, MySetInt())
                     val size2 = it.readInt()
                     for (i2 in 0 until size2) {
                         val key2 = it.readInt()
@@ -177,18 +167,18 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         return res
     }
 
-    fun importInternal(dataImport: MutableSet<Int>, store: SortedIntSet, map2: Array<Value>) {
+    fun importInternal(dataImport: MutableSet<Int>, store: MySetInt, map2: Array<Value>) {
         for (rawKey in dataImport) {
             val key = map2[rawKey]
             store.add(key)
         }
     }
 
-    fun importInternal(dataImport: MutableMap<Int, MutableSet<Int>>, store: SortedIntMap<SortedIntSet>, map1: Array<Value>, map2: Array<Value>) {
+    fun importInternal(dataImport: MutableMap<Int, MutableSet<Int>>, store: MyMapInt<MySetInt>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in dataImport.keys) {
             val key = map1[rawKey]
             val value = dataImport[rawKey]!!
-            var tmp = store.getOrCreate(key, { SortedIntSet() })
+            var tmp = store.getOrCreate(key, { MySetInt() })
             importInternal(value, tmp, map2)
         }
     }
@@ -197,7 +187,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         for (rawKey in 0 until dataImport.size) {
             val key = map0[rawKey]
             val value = dataImport[rawKey]
-            var tmp = data.getOrCreate(key, { SortedIntMap<SortedIntSet>() })
+            var tmp = data.getOrCreate(key, { MyMapInt<MySetInt>() })
             importInternal(value, tmp, map1, map2)
         }
     }
@@ -205,11 +195,11 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     override fun insert(a: Value, b: Value, c: Value) {
         val tmp = data[a]
         if (tmp == null) {
-            data[a] = SortedIntMap(b to SortedIntSet(c))
+            data[a] = MyMapInt(b to MySetInt(c))
         } else {
             val tmp2 = tmp[b]
             if (tmp2 == null) {
-                tmp[b] = SortedIntSet(c)
+                tmp[b] = MySetInt(c)
             } else {
                 tmp2.add(c)
             }
