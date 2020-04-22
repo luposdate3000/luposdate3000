@@ -86,15 +86,15 @@ class PatriciaTrie {
         return res
     }
 
-    fun getDictionaryMapping(dictionary: ResultSetDictionary): Array<Value> {
-        val res = Array(nextValue) { ResultSetDictionary.undefValue }
+    fun getDictionaryMapping(dictionary: ResultSetDictionary): MyListValue {
+        val res = MyListValue(nextValue) { ResultSetDictionary.undefValue }
         //BenchmarkUtils.start(EBenchmark.IMPORT_PATRICIA_MAPPING)
         getDictionaryMappingInternal(root, "", dictionary, res)
         //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_PATRICIA_MAPPING)
         return res
     }
 
-    fun getDictionaryMappingInternal(node: PatriciaTrieNode, prefix: String, dictionary: ResultSetDictionary, mapping: Array<Value>) {
+    fun getDictionaryMappingInternal(node: PatriciaTrieNode, prefix: String, dictionary: ResultSetDictionary, mapping: MyListValue) {
         val newPrefix = prefix + node.key
         if (node.value != undefinedValue) {
             mapping[node.value] = dictionary.createValue(ValueDefinition(newPrefix))

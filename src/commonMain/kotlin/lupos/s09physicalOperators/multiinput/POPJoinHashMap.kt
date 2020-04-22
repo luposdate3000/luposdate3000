@@ -68,7 +68,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
     }
 
     class MapRow(columns: Int) {
-        val columns = Array(columns) { mutableListOf<Value>() }
+        val columns = Array(columns) { MyListValue() }
         var count = 0
     }
 
@@ -154,7 +154,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                 } else {
 //---cartesian product
 //---insert second child into simple list
-                    val data = Array(columnsINBO.size) { mutableListOf<Value>() }
+                    val data = Array(columnsINBO.size) { MyListValue() }
                     loopC@ while (true) {
                         for (columnIndex in 0 until columnsINBO.size) {
                             val value = columnsINBO[columnIndex].next()
@@ -322,7 +322,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                     }
                                 }
                             }
-                            val dataOA = Array(columnsINAO.size) { mutableListOf<Value>() }
+                            val dataOA = Array(columnsINAO.size) { MyListValue() }
                             for (columnIndex in 0 until columnsINAO.size) {
                                 for (i in 0 until countA) {
                                     dataOA[columnIndex].add(columnsINAO[columnIndex].next()!!)
@@ -334,7 +334,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                     done = true
                                     countB = 1
                                     val dataJ: Array<Value?> = Array(outJ.size) { currentKey!![it] }
-                                    val dataO: Array<Array<MutableList<Value>>> = arrayOf(dataOA, Array(outO[1].size) { mutableListOf(ResultSetDictionary.undefValue) })
+                                    val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, Array(outO[1].size) { MyListValue(ResultSetDictionary.undefValue) })
                                     POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)
                                 }
                             } else {
@@ -350,7 +350,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                         }
 /*return*/res2
                                     }
-                                    val dataO: Array<Array<MutableList<Value>>> = arrayOf(dataOA, others[otherIndex].second.columns)
+                                    val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, others[otherIndex].second.columns)
                                     POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)
                                 }
                             }

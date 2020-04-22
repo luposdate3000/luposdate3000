@@ -22,8 +22,8 @@ import lupos.s04logicalOperators.Query
 interface TripleStoreIndex {
     fun safeToFolder(filename: String)
     fun loadFromFolder(filename: String)
-    fun getIterator(query: Query, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow
-    fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>)
+    fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow
+    fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: MyListValue, map1: MyListValue, map2: MyListValue)
     fun insert(a: Value, b: Value, c: Value)
     fun remove(a: Value, b: Value, c: Value)
     fun clear()

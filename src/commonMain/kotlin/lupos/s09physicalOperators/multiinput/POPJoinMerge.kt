@@ -98,7 +98,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
-                    val data = Array(2) { Array(columnsINO.size) { mutableListOf<Value>() } }
+                    val data = Array(2) { Array(columnsINO.size) { MyListValue() } }
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                     findNextKey(key, columnsINJ, columnsINO)
@@ -120,7 +120,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return res
     }
 
-    inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Value>>): Int {
+    inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
         require(keyCopy[0] != null)
         loop@ while (true) {

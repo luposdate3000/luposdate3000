@@ -1,9 +1,10 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
+import lupos.s05tripleStore.*
 
-class ColumnIteratorMultiValue(val values: List<Value>) : ColumnIterator() {
+class ColumnIteratorMultiValue(val values: MyListValue) : ColumnIterator() {
     var index = 0
 
     init {

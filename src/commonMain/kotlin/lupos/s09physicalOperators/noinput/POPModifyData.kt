@@ -2,8 +2,8 @@ package lupos.s09physicalOperators.noinput
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -57,12 +57,12 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        val iteratorDataMap = mutableMapOf<String, Array<MutableList<Value>>>()
+        val iteratorDataMap = mutableMapOf<String, Array<MyListValue>>()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array(3) { mutableListOf<Value>() }
+                    tmp = Array(3) { MyListValue() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add(query.dictionary.createValue((t.children[i] as AOPConstant).value))

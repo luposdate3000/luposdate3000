@@ -2,6 +2,7 @@ package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
@@ -254,8 +255,8 @@ class POPGroup : POPBase {
                     aggregate.evaluate()
                 }
             }
-            val outKeys = Array(keyColumnNames.size) { mutableListOf<Value>() }
-            val outValues = Array(bindings.size) { mutableListOf<Value>() }
+            val outKeys = Array(keyColumnNames.size) { MyListValue() }
+            val outValues = Array(bindings.size) { MyListValue() }
             for ((k, v) in map) {
                 for (columnIndex in 0 until keyColumnNames.size) {
                     outKeys[columnIndex].add(k.data[columnIndex])

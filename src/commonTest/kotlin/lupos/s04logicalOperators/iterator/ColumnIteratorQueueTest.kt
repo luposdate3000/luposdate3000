@@ -14,10 +14,10 @@ object ColumnIteratorQueueTest {
         }
     }
 
-    suspend fun createIterator(random: TestRandom): Pair<ColumnIterator, List<Value>> {
+    suspend fun createIterator(random: TestRandom): Pair<ColumnIterator, MyListValue> {
         val count = random.nextInt(MAX_COUNT)
-        val data = mutableListOf<Value>()
-        val data2 = mutableListOf<Value>()
+        val data = MyListValue()
+        val data2 = MyListValue()
         for (i in 0 until count) {
             val value = random.nextInt(MAX_VALUE)
             data.add(value)

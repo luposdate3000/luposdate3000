@@ -48,11 +48,11 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     @JvmField
-    var data= arrayOf<TripleStoreIndex>()
+    var data = arrayOf<TripleStoreIndex>()
     @JvmField
-    var order= arrayOf<Array<Int>>()
+    var order = arrayOf<Array<Int>>()
     @JvmField
-    var dataDistinct= arrayOf<Pair<String, TripleStoreIndex>>()
+    var dataDistinct = arrayOf<Pair<String, TripleStoreIndex>>()
 
     fun safeToFolder(foldername: String) {
         dataDistinct.forEach {
@@ -67,7 +67,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        val filter = mutableListOf<Value>()
+        val filter = MyListValue()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
             val i = order[idx.ordinal][ii]
@@ -80,7 +80,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 projection.add(param.name)
             }
         }
-        return data[idx.ordinal].getIterator(query, filter.toTypedArray(), projection.toTypedArray())
+        return data[idx.ordinal].getIterator(query, filter, projection.toTypedArray())
     }
 
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {

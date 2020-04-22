@@ -4,15 +4,25 @@ import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
 class TripleStoreBulkImport {
+    @JvmField
     val dictionaryS = PatriciaTrie()
+    @JvmField
     val dictionaryP = PatriciaTrie()
+    @JvmField
     val dictionaryO = PatriciaTrie()
+    @JvmField
     val dataSPO = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//s0,sp,spo
+    @JvmField
     val dataSOP = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//so,s1
+    @JvmField
     val dataPOS = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//p0,po
+    @JvmField
     val dataOSP = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//o0
+    @JvmField
     val dataPSO = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//p1
+    @JvmField
     val dataOPS = mutableListOf<MutableMap<Int, MutableSet<Int>>>()//o1
+
     fun insert(s: String, p: String, o: String) {
         val si = dictionaryS.insert(s)
         val pi = dictionaryP.insert(p)

@@ -19,9 +19,8 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
-class TripleStoreLocal(name: String):TripleStoreLocalBase(name) {
-
- init {
+class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
+    init {
         dataDistinct = arrayOf(
                 Pair("SPO", TripleStoreIndex_MapMapList()),
                 Pair("SOP", TripleStoreIndex_MapMapList()),

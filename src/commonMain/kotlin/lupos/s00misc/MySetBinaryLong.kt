@@ -1,16 +1,9 @@
-package lupos.s05tripleStore
+package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetBinaryLong{
-    companion object {
-        var instanceCounter = 0
-    }
-
-    init {
-        instanceCounter++
-    }
-
+class MySetBinaryLong {
+    @JvmField
     var data = mutableListOf<Long>()
     var size: Int = 0
         get() = data.size
@@ -22,8 +15,10 @@ class MySetBinaryLong{
     fun iterator(): Iterator<Long> {
         return data.iterator()
     }
-constructor(){
-}
+
+    constructor() {
+    }
+
     constructor(value: Long) : this() {
         data.add(value)
     }

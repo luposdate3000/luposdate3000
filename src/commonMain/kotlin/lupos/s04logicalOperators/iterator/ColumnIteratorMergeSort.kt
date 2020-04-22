@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
@@ -7,7 +8,7 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
     //column based sort ... need to propagate sort decision to all other columns to stay synchronized
     var cacheA: Value? = null
     var cacheB: Value? = null
-    val queue = mutableListOf<Value>()
+    val queue = MyListValue()
     var fastcmp = 0
     suspend fun calculate(): Int {
         var res = 0

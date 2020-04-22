@@ -2,8 +2,8 @@ package lupos.s09physicalOperators.noinput
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
@@ -22,7 +22,7 @@ open class POPValues : POPBase {
     @JvmField
     val variables: List<String>
     @JvmField
-    val data: Map<String, MutableList<Value>>
+    val data: Map<String, MyListValue>
 
     override fun toSparql(): String {
         var res = "VALUES("
@@ -77,8 +77,8 @@ open class POPValues : POPBase {
 
     constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
-        var columns = Array(variables.size) { mutableListOf<Value>() }
-        data = mutableMapOf<String, MutableList<Value>>()
+        var columns = Array(variables.size) { MyListValue() }
+        data = mutableMapOf<String, MyListValue>()
         for (variableIndex in 0 until variables.size) {
             data[variables[variableIndex]] = columns[variableIndex]
         }
@@ -89,7 +89,7 @@ open class POPValues : POPBase {
         }
     }
 
-    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Value>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MyListValue>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
     }
@@ -100,8 +100,8 @@ open class POPValues : POPBase {
             tmpVariables.add(name.name)
         }
         variables = tmpVariables
-        var columns = Array(variables.size) { mutableListOf<Value>() }
-        data = mutableMapOf<String, MutableList<Value>>()
+        var columns = Array(variables.size) { MyListValue() }
+        data = mutableMapOf<String, MyListValue>()
         for (variableIndex in 0 until variables.size) {
             data[variables[variableIndex]] = columns[variableIndex]
         }

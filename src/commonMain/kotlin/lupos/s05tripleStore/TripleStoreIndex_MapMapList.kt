@@ -20,7 +20,9 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_MapMapList : TripleStoreIndex {
+    @JvmField
     val data = MyMapInt<MyMapInt<MySetInt>>()
+
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.values.size)
@@ -62,7 +64,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         }
     }
 
-    override fun getIterator(query: Query, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -167,14 +169,14 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         return res
     }
 
-    fun importInternal(dataImport: MutableSet<Int>, store: MySetInt, map2: Array<Value>) {
+    fun importInternal(dataImport: MutableSet<Int>, store: MySetInt, map2: MyListValue) {
         for (rawKey in dataImport) {
             val key = map2[rawKey]
             store.add(key)
         }
     }
 
-    fun importInternal(dataImport: MutableMap<Int, MutableSet<Int>>, store: MyMapInt<MySetInt>, map1: Array<Value>, map2: Array<Value>) {
+    fun importInternal(dataImport: MutableMap<Int, MutableSet<Int>>, store: MyMapInt<MySetInt>, map1: MyListValue, map2: MyListValue) {
         for (rawKey in dataImport.keys) {
             val key = map1[rawKey]
             val value = dataImport[rawKey]!!
@@ -183,7 +185,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         }
     }
 
-    override fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
+    override fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
         for (rawKey in 0 until dataImport.size) {
             val key = map0[rawKey]
             val value = dataImport[rawKey]

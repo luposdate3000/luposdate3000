@@ -82,7 +82,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         require(data.size == 3)
-        val map = Array(EIndexPattern.values().size) { Array(3) { mutableListOf<Value>() } }
+        val map = Array(EIndexPattern.values().size) { Array(3) { MyListValue() } }
         loop@ while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {

@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 
 //typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
@@ -9,7 +9,7 @@ typealias ColumnIteratorDebug = ColumnIteratorDebugFast
 
 class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: ColumnIterator) : ColumnIterator() {
     companion object {
-        val counters = mutableMapOf<Long, MutableMap<String, MutableList<Int>>>()
+        val counters = mutableMapOf<Long, MutableMap<String, MyListValue>>()
         fun debug() {
             for ((k, v) in counters) {
                 var count = 0
@@ -33,9 +33,9 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
 
     init {
         if (counters[uuid] == null) {
-            counters[uuid] = mutableMapOf(name to mutableListOf<Value>())
+            counters[uuid] = mutableMapOf(name to MyListValue())
         } else {
-            counters[uuid]!![name] = mutableListOf<Value>()
+            counters[uuid]!![name] = MyListValue()
         }
         next = {
             val res = child.next()

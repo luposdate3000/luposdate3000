@@ -27,12 +27,12 @@ object POPValuesTest {
                 for (i in 0 until MAX_VARIABLES) {
                     allVariables.add("v$i")
                 }
-                val data = mutableMapOf<String, MutableList<Value>>()
+                val data = mutableMapOf<String, MyListValue>()
                 val variables = List(variableSize) {
                     val idx = random.nextInt(allVariables.size)
                     val tmp = allVariables[idx]
                     allVariables.removeAt(idx)
-                    data[tmp] = mutableListOf<Value>()
+                    data[tmp] = MyListValue()
 /*return*/tmp
                 }
                 for (i in 0 until count) {

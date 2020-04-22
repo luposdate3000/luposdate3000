@@ -80,7 +80,7 @@ object TripleStoreLocalTest {
                     1 -> {/*insert*/
                         log("insert $idx")
                         val entry = Entry()
-                        val localData = Array(3) { mutableListOf<Value>() }
+                        val localData = Array(3) { MyListValue() }
                         val count = random.nextInt(MAX_COUNT, true, true)
                         for (i in 0 until count) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
@@ -99,7 +99,7 @@ object TripleStoreLocalTest {
                     2 -> {/*delete*/
                         log("delete $idx")
                         val entry = Entry()
-                        val localData = Array(3) { mutableListOf<Value>() }
+                        val localData = Array(3) { MyListValue() }
                         val count = random.nextInt(MAX_COUNT, true, true)
                         for (i in 0 until count) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })

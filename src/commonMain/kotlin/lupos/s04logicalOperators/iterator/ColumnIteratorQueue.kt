@@ -1,11 +1,12 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
 class ColumnIteratorQueue() : ColumnIterator() {
     var tmp: Value? = null
-    val queue = mutableListOf<Value>()
+    val queue = MyListValue()
     var onEmptyQueue: suspend () -> Unit = ::_onEmptyQueue
     suspend fun _onEmptyQueue() {
     }

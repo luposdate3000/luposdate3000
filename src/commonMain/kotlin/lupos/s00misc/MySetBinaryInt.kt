@@ -1,17 +1,10 @@
-package lupos.s05tripleStore
+package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetBinaryInt{
-    companion object {
-        var instanceCounter = 0
-    }
-
-    init {
-        instanceCounter++
-    }
-
-    var data = mutableListOf<Int>()
+class MySetBinaryInt {
+    @JvmField
+    var data = MyListInt()
     var size: Int = 0
         get() = data.size
 
@@ -22,8 +15,10 @@ class MySetBinaryInt{
     fun iterator(): Iterator<Int> {
         return data.iterator()
     }
-constructor(){
-}
+
+    constructor() {
+    }
+
     constructor(value: Int) : this() {
         data.add(value)
     }
@@ -104,7 +99,7 @@ constructor(){
         })
     }
 
-    inline fun toList(): List<Int> {
+    inline fun toList(): MyListInt {
         return data
     }
 }

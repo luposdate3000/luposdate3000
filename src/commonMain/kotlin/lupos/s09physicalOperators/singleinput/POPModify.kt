@@ -67,7 +67,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         val child = children[0].evaluate()
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         val row = Array(variables.size) { ResultSetDictionary.undefValue }
-        val data = mutableMapOf<String, Array<Array<MutableList<Value>>>>()
+        val data = mutableMapOf<String, Array<Array<MyListValue>>>()
         loop@ while (true) {
             for (columnIndex in 0 until variables.size) {
                 val value = columns[columnIndex].next()
@@ -92,7 +92,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                     graphName = action.first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf<Value>() } }
+                    data[graphName] = Array(EModifyType.values().size) { Array(3) { MyListValue() } }
                 }
                 val target = data[graphName]!![action.second.ordinal]
                 loop2@ for (columnIndex in 0 until 3) {

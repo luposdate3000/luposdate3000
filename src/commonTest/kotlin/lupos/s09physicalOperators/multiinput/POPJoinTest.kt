@@ -20,7 +20,7 @@ object POPJoinTest {
         }
     }
 
-    fun removeDuplicates(variables: List<String>, data: MutableMap<String, MutableList<Value>>, keys: List<String>) {
+    fun removeDuplicates(variables: List<String>, data: MutableMap<String, MyListValue>, keys: List<String>) {
         println("withduplicates = $data")
         var count = 0
         if (variables.size > 0) {
@@ -56,9 +56,9 @@ test does not include
 //---generate the result of the merge
                 val variableSize = random.nextInt(MAX_VARIABLES - 1) + 1
                 var count = random.nextInt(MAX_COUNT)
-                val data = mutableMapOf<String, MutableList<Value>>()
+                val data = mutableMapOf<String, MyListValue>()
                 val variables = List(variableSize) {
-                    data["v$it"] = mutableListOf<Value>()
+                    data["v$it"] = MyListValue()
 /*return*/"v$it"
                 }
                 for (i in 0 until count) {
@@ -72,26 +72,26 @@ test does not include
                 val variablesBO = mutableListOf<String>()
                 val variablesA = mutableListOf<String>()
                 val variablesB = mutableListOf<String>()
-                val dataA = mutableMapOf<String, MutableList<Value>>()
-                val dataB = mutableMapOf<String, MutableList<Value>>()
+                val dataA = mutableMapOf<String, MyListValue>()
+                val dataB = mutableMapOf<String, MyListValue>()
                 for (variable in variables) {
                     when (random.nextInt(3)) {
                         0 -> {
                             variablesA.add(variable)
                             variablesAO.add(variable)
-                            dataA[variable] = mutableListOf<Value>()
+                            dataA[variable] = MyListValue()
                         }
                         1 -> {
                             variablesB.add(variable)
                             variablesBO.add(variable)
-                            dataB[variable] = mutableListOf<Value>()
+                            dataB[variable] = MyListValue()
                         }
                         else -> {
                             variablesA.add(variable)
                             variablesB.add(variable)
                             variablesJ.add(variable)
-                            dataA[variable] = mutableListOf<Value>()
-                            dataB[variable] = mutableListOf<Value>()
+                            dataA[variable] = MyListValue()
+                            dataB[variable] = MyListValue()
                         }
                     }
                 }
@@ -123,11 +123,11 @@ test does not include
                     var countA = 0
                     var countB = 0
                     for (variable in variablesAO) {
-                        data[variable] = mutableListOf<Value>()
+                        data[variable] = MyListValue()
                         countA = dataA[variable]!!.size
                     }
                     for (variable in variablesBO) {
-                        data[variable] = mutableListOf<Value>()
+                        data[variable] = MyListValue()
                         countB = dataB[variable]!!.size
                     }
                     for (i in 0 until countA) {
@@ -152,7 +152,7 @@ test does not include
                 println(dataA)
                 println(dataB)
                 val dataRetrieveIterators = Array(variables.size) { iterator.columns[variables[it]] }
-                val dataRetrieved = Array(variables.size) { mutableListOf<Value>() }
+                val dataRetrieved = Array(variables.size) { MyListValue() }
                 loop@ while (true) {
                     for (variableIndex in 0 until variables.size) {
                         val value = dataRetrieveIterators[variableIndex]!!.next()

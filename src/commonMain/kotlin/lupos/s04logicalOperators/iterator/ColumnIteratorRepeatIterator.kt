@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
 
@@ -7,7 +8,7 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
     var index = 0
     var index2 = 0
     //TODO use pages instead
-    val data = mutableListOf<Value>()
+    val data = MyListValue()
 
     init {
         require(count > 0)
