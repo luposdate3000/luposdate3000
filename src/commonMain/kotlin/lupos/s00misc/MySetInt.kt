@@ -1,3 +1,3 @@
 package lupos.s00misc
 
-typealias MySetInt = MySetBinaryInt
+typealias MySetInt = MySetIntBinary

@@ -2,28 +2,28 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MyMapBinaryInt<T>() {
+class MyMapAny<K:Comparable<K>,V>() {
     @JvmField
-    var keys = MySetInt()
+    var keys = MySetAny<K>()
     @JvmField
-    var values = mutableListOf<T>()
+    var values = MyListAny<V>()
 
-    constructor(data: Pair<Int, T>) : this() {
+    constructor(data: Pair<K,V>) : this() {
         set(data.first, data.second)
     }
 
-    inline operator fun get(key: Int): T? {
-        var res: T? = null
+    inline operator fun get(key: K): V? {
+        var res: V? = null
         keys.find(key, { res = values[it] })
         return res
     }
 
-    inline operator fun set(key: Int, value: T) {
+    inline operator fun set(key: K, value: V) {
         keys.add(key, { values.add(it, value) }, { values[it] = value })
     }
 
-    inline fun getOrCreate(key: Int, crossinline onCreate: () -> T): T {
-        var value: T? = null
+    inline fun getOrCreate(key: K, crossinline onCreate: () -> V): V {
+        var value: V? = null
         keys.add(key, {
             value = onCreate()
             values.add(it, value!!)
@@ -33,7 +33,7 @@ class MyMapBinaryInt<T>() {
         return value!!
     }
 
-    fun appendAssumeSorted(key: Int, value: T): T {
+    fun appendAssumeSorted(key: K, value: V): V {
         keys.add(key)
         values.add(value)
         return value
@@ -44,8 +44,8 @@ class MyMapBinaryInt<T>() {
         values.clear()
     }
 
-    inline fun iterator() = MyMapBinaryIntIterator(this)
-    class MyMapBinaryIntIterator<T>(val data: MyMapBinaryInt<T>) {
+    inline fun iterator() = MyMapAnyIterator(this)
+    class MyMapAnyIterator<K:Comparable<K>,V>(val data: MyMapAny<K,V>) {
         var index = 0
         fun hasNext() = index < data.values.size
         fun next() = data.keys.data[index++]

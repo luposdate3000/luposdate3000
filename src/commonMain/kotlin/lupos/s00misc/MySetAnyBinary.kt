@@ -2,9 +2,9 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetBinaryInt {
+class MySetAnyBinary<T:Comparable<T>> {
     @JvmField
-    var data = MyListInt()
+    var data = mutableListOf<T>()
     var size: Int = 0
         get() = data.size
 
@@ -12,22 +12,22 @@ class MySetBinaryInt {
         data.clear()
     }
 
-    fun iterator(): Iterator<Int> {
+    fun iterator(): Iterator<T> {
         return data.iterator()
     }
 
     constructor() {
     }
 
-    constructor(value: Int) : this() {
+    constructor(value: T) : this() {
         data.add(value)
     }
 
-    fun appendAssumeSorted(value: Int) {
+    fun appendAssumeSorted(value: T) {
         data.add(value)
     }
 
-    inline fun internal(value: Int, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+    inline fun internal(value: T, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
             onCreate(0)
         } else if (data.size == 1) {
@@ -66,7 +66,7 @@ class MySetBinaryInt {
         }
     }
 
-    inline fun remove(value: Int, crossinline onExists: (it: Int) -> Unit = {}) {
+    inline fun remove(value: T, crossinline onExists: (it: Int) -> Unit = {}) {
         internal(value, {
         }, {
             onExists(it)
@@ -74,7 +74,7 @@ class MySetBinaryInt {
         })
     }
 
-    inline fun contains(value: Int): Boolean {
+    inline fun contains(value: T): Boolean {
         var res = false
         internal(value, {
         }, {
@@ -83,14 +83,14 @@ class MySetBinaryInt {
         return res
     }
 
-    inline fun find(value: Int, crossinline onExists: (it: Int) -> Unit) {
+    inline fun find(value: T, crossinline onExists: (it: Int) -> Unit) {
         internal(value, {
         }, {
             onExists(it)
         })
     }
 
-    inline fun add(value: Int, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+    inline fun add(value: T, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         internal(value, {
             data.add(it, value)
             onCreate(it)
@@ -99,7 +99,7 @@ class MySetBinaryInt {
         })
     }
 
-    inline fun toList(): MyListInt {
+    inline fun toList(): List<T> {
         return data
     }
 }

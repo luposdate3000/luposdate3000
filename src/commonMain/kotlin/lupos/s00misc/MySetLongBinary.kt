@@ -2,9 +2,9 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetBinaryLong {
+class MySetLongBinary {
     @JvmField
-    var data = mutableListOf<Long>()
+    var data = MyListLong()
     var size: Int = 0
         get() = data.size
 
@@ -99,7 +99,7 @@ class MySetBinaryLong {
         })
     }
 
-    inline fun toList(): List<Long> {
+    inline fun toList(): MyListLong {
         return data
     }
 }

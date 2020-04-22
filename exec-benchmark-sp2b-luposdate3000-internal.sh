@@ -4,7 +4,7 @@
 timemin=10000
 #in seconds
 timeout=120
-triples=1024
+triples=2097152
 
 ./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain commonS00WrapperJenaOffMain
 ./tool-gradle-build.sh
@@ -33,7 +33,7 @@ sleep 3
 (./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
 
-if true
+if false
 then
 
 a=$(($(date +%s%N)/1000000))
@@ -61,6 +61,8 @@ b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
 echo "resources/sp2b/persistence-save.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
+triples=$(($triples * 2))
+continue
 fi
 
 
