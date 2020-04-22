@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -18,9 +19,19 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
-class TripleStoreIndex_MapMapList {
+interface TripleStoreIndex {
+    fun safeToFolder(filename: String)
+    fun loadFromFolder(filename: String)
+    fun getIterator(query: Query, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow
+    fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>)
+    fun insert(a: Value, b: Value, c: Value)
+    fun remove(a: Value, b: Value, c: Value)
+    fun clear()
+}
+
+class TripleStoreIndex_MapMapList : TripleStoreIndex {
     val data = SortedIntMap<SortedIntMap<SortedIntSet>>()
-    fun safeToFolder(filename: String) {
+    override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.values.size)
             var iterator0 = data.iterator()
@@ -41,7 +52,7 @@ class TripleStoreIndex_MapMapList {
         }
     }
 
-    fun loadFromFolder(filename: String) {
+    override fun loadFromFolder(filename: String) {
         File(filename).dataInputStream { it ->
             val size0 = it.readInt()
             for (i0 in 0 until size0) {
@@ -61,7 +72,7 @@ class TripleStoreIndex_MapMapList {
         }
     }
 
-    fun getIterator(query: Query, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: Array<Value>, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -182,7 +193,7 @@ class TripleStoreIndex_MapMapList {
         }
     }
 
-    fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
+    override fun import(dataImport: MutableList<MutableMap<Int, MutableSet<Int>>>, map0: Array<Value>, map1: Array<Value>, map2: Array<Value>) {
         for (rawKey in 0 until dataImport.size) {
             val key = map0[rawKey]
             val value = dataImport[rawKey]
@@ -191,7 +202,7 @@ class TripleStoreIndex_MapMapList {
         }
     }
 
-    fun insert(a: Value, b: Value, c: Value) {
+    override fun insert(a: Value, b: Value, c: Value) {
         val tmp = data[a]
         if (tmp == null) {
             data[a] = SortedIntMap(b to SortedIntSet(c))
@@ -205,7 +216,7 @@ class TripleStoreIndex_MapMapList {
         }
     }
 
-    fun remove(a: Value, b: Value, c: Value) {
+    override fun remove(a: Value, b: Value, c: Value) {
         val tmp = data[a]
         if (tmp != null) {
             val tmp2 = tmp[b]
@@ -215,7 +226,7 @@ class TripleStoreIndex_MapMapList {
         }
     }
 
-    fun clear() {
+    override fun clear() {
         data.clear()
     }
 }

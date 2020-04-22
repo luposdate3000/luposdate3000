@@ -20,13 +20,13 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
 class TripleStoreLocal(@JvmField val name: String) {
-    class MapKey(@JvmField val data: Array<Value>) {
+    class MapKey(@JvmField val key: Array<Value>) {
         val hashCodeValue: Int
 
         init {
             var res = 0
-            for (columnIndex in 0 until data.size) {
-                res += data[columnIndex].hashCode()
+            for (columnIndex in 0 until key.size) {
+                res += key[columnIndex].hashCode()
             }
             hashCodeValue = res
         }
@@ -37,9 +37,9 @@ class TripleStoreLocal(@JvmField val name: String) {
 
         override fun equals(other: Any?): Boolean {
             require(other is MapKey)
-            require(data.size == other.data.size)
-            for (columnIndex in 0 until data.size) {
-                if (data[columnIndex] != other.data[columnIndex]) {
+            require(key.size == other.key.size)
+            for (columnIndex in 0 until key.size) {
+                if (key[columnIndex] != other.key[columnIndex]) {
                     return false
                 }
             }
@@ -48,69 +48,86 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     @JvmField
-    val dataSPO = TripleStoreIndex_MapMapList()//s_0,sp,spo
-    @JvmField
-    val dataSOP = TripleStoreIndex_MapMapList()//s_1,so
-    @JvmField
-    val dataPOS = TripleStoreIndex_MapMapList()//p_0,po
-    @JvmField
-    val dataPSO = TripleStoreIndex_MapMapList()//p_1
-    @JvmField
-    val dataOSP = TripleStoreIndex_MapMapList()//o_0
-    @JvmField
-    val dataOPS = TripleStoreIndex_MapMapList()//o_1
+    val data: Array<TripleStoreIndex>
+    val order: Array<Array<Int>>
+    val dataDistinct: Array<Pair<String, TripleStoreIndex>>
+
+    init {
+        dataDistinct = arrayOf(
+                Pair("SPO", TripleStoreIndex_MapMapList()),
+                Pair("SOP", TripleStoreIndex_MapMapList()),
+                Pair("POS", TripleStoreIndex_MapMapList()),
+                Pair("PSO", TripleStoreIndex_MapMapList()),
+                Pair("OSP", TripleStoreIndex_MapMapList()),
+                Pair("OPS", TripleStoreIndex_MapMapList())
+        )
+        data = Array(EIndexPattern.values().size) {
+            val res: TripleStoreIndex
+            when (EIndexPattern.values()[it]) {
+                EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
+                    res = dataDistinct[0].second
+                }
+                EIndexPattern.SO, EIndexPattern.S_1 -> {
+                    res = dataDistinct[1].second
+                }
+                EIndexPattern.P_0, EIndexPattern.PO -> {
+                    res = dataDistinct[2].second
+                }
+                EIndexPattern.O_0 -> {
+                    res = dataDistinct[3].second
+                }
+                EIndexPattern.P_1 -> {
+                    res = dataDistinct[4].second
+                }
+                EIndexPattern.O_1 -> {
+                    res = dataDistinct[5].second
+                }
+            }
+/*return*/res
+        }
+        order = Array(EIndexPattern.values().size) {
+            val res: Array<Int>
+            when (EIndexPattern.values()[it]) {
+                EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
+                    res = arrayOf(0, 1, 2)
+                }
+                EIndexPattern.SO, EIndexPattern.S_1 -> {
+                    res = arrayOf(0, 2, 1)
+                }
+                EIndexPattern.P_0, EIndexPattern.PO -> {
+                    res = arrayOf(1, 2, 0)
+                }
+                EIndexPattern.O_0 -> {
+                    res = arrayOf(2, 0, 1)
+                }
+                EIndexPattern.P_1 -> {
+                    res = arrayOf(1, 0, 2)
+                }
+                EIndexPattern.O_1 -> {
+                    res = arrayOf(2, 1, 0)
+                }
+            }
+/*return*/res
+        }
+    }
 
     fun safeToFolder(foldername: String) {
-        dataSPO.safeToFolder(foldername + "SPO.bin")
-        dataSOP.safeToFolder(foldername + "SOP.bin")
-        dataPOS.safeToFolder(foldername + "POS.bin")
-        dataPSO.safeToFolder(foldername + "PSO.bin")
-        dataOSP.safeToFolder(foldername + "OSP.bin")
-        dataOPS.safeToFolder(foldername + "OPS.bin")
+        dataDistinct.forEach {
+            it.second.safeToFolder(foldername + it.first + ".bin")
+        }
     }
 
     fun loadFromFolder(foldername: String) {
-        dataSPO.loadFromFolder(foldername + "SPO.bin")
-        dataSOP.loadFromFolder(foldername + "SOP.bin")
-        dataPOS.loadFromFolder(foldername + "POS.bin")
-        dataPSO.loadFromFolder(foldername + "PSO.bin")
-        dataOSP.loadFromFolder(foldername + "OSP.bin")
-        dataOPS.loadFromFolder(foldername + "OPS.bin")
+        dataDistinct.forEach {
+            it.second.loadFromFolder(foldername + it.first + ".bin")
+        }
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        val data: TripleStoreIndex_MapMapList
         val filter = mutableListOf<Value>()
         val projection = mutableListOf<String>()
-        val order: Array<Int>
-        when (idx) {
-            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                data = dataSPO
-                order = arrayOf(0, 1, 2)
-            }
-            EIndexPattern.SO, EIndexPattern.S_1 -> {
-                data = dataSOP
-                order = arrayOf(0, 2, 1)
-            }
-            EIndexPattern.P_0, EIndexPattern.PO -> {
-                data = dataPOS
-                order = arrayOf(1, 2, 0)
-            }
-            EIndexPattern.O_0 -> {
-                data = dataOSP
-                order = arrayOf(2, 0, 1)
-            }
-            EIndexPattern.P_1 -> {
-                data = dataPSO
-                order = arrayOf(1, 0, 2)
-            }
-            EIndexPattern.O_1 -> {
-                data = dataOPS
-                order = arrayOf(2, 1, 0)
-            }
-        }
         for (ii in 0 until 3) {
-            val i = order[ii]
+            val i = order[idx.ordinal][ii]
             val param = params[i]
             if (param is AOPConstant) {
                 require(filter.size == ii)
@@ -120,35 +137,35 @@ class TripleStoreLocal(@JvmField val name: String) {
                 projection.add(param.name)
             }
         }
-        return data.getIterator(query, filter.toTypedArray(), projection.toTypedArray())
+        return data[idx.ordinal].getIterator(query, filter.toTypedArray(), projection.toTypedArray())
     }
 
-    fun import(data: TripleStoreBulkImport, idx: EIndexPattern) {
-        val mapS = data.dictionaryS.getDictionaryMapping(nodeGlobalDictionary)
-        val mapP = data.dictionaryP.getDictionaryMapping(nodeGlobalDictionary)
-        val mapO = data.dictionaryO.getDictionaryMapping(nodeGlobalDictionary)
-        //BenchmarkUtils.start(EBenchmark.IMPORT_TRIPLE_STORE)
+    fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
+        val map = arrayOf(
+                dataImport.dictionaryS.getDictionaryMapping(nodeGlobalDictionary),
+                dataImport.dictionaryP.getDictionaryMapping(nodeGlobalDictionary),
+                dataImport.dictionaryO.getDictionaryMapping(nodeGlobalDictionary)
+        )
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                dataSPO.import(data.dataSPO, mapS, mapP, mapO)
+                data[idx.ordinal].import(dataImport.dataSPO, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.SO, EIndexPattern.S_1 -> {
-                dataSOP.import(data.dataSOP, mapS, mapO, mapP)
+                data[idx.ordinal].import(dataImport.dataSOP, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.P_0, EIndexPattern.PO -> {
-                dataPOS.import(data.dataPOS, mapP, mapO, mapS)
+                data[idx.ordinal].import(dataImport.dataPOS, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.O_0 -> {
-                dataOSP.import(data.dataOSP, mapO, mapS, mapP)
+                data[idx.ordinal].import(dataImport.dataOSP, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.P_1 -> {
-                dataPSO.import(data.dataPSO, mapP, mapS, mapO)
+                data[idx.ordinal].import(dataImport.dataPSO, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.O_1 -> {
-                dataOPS.import(data.dataOPS, mapO, mapP, mapS)
+                data[idx.ordinal].import(dataImport.dataOPS, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
         }
-        //BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TRIPLE_STORE)
     }
 
     @JvmField
@@ -162,52 +179,14 @@ class TripleStoreLocal(@JvmField val name: String) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
                 if (insert != null) {
                     for (row in insert) {
-                        when (idx) {
-                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                                dataSPO.insert(row.data[0], row.data[1], row.data[2])
-                            }
-                            EIndexPattern.SO, EIndexPattern.S_1 -> {
-                                dataSOP.insert(row.data[0], row.data[2], row.data[1])
-                            }
-                            EIndexPattern.P_0, EIndexPattern.PO -> {
-                                dataPOS.insert(row.data[1], row.data[2], row.data[0])
-                            }
-                            EIndexPattern.O_0 -> {
-                                dataOSP.insert(row.data[2], row.data[0], row.data[1])
-                            }
-                            EIndexPattern.P_1 -> {
-                                dataPSO.insert(row.data[1], row.data[0], row.data[2])
-                            }
-                            EIndexPattern.O_1 -> {
-                                dataOPS.insert(row.data[2], row.data[1], row.data[0])
-                            }
-                        }
+                        data[idx.ordinal].insert(row.key[order[idx.ordinal][0]], row.key[order[idx.ordinal][1]], row.key[order[idx.ordinal][2]])
                     }
                     pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
                 if (delete != null) {
                     for (row in delete) {
-                        when (idx) {
-                            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                                dataSPO.remove(row.data[0], row.data[1], row.data[2])
-                            }
-                            EIndexPattern.SO, EIndexPattern.S_1 -> {
-                                dataSOP.remove(row.data[0], row.data[2], row.data[1])
-                            }
-                            EIndexPattern.P_0, EIndexPattern.PO -> {
-                                dataPOS.remove(row.data[1], row.data[2], row.data[0])
-                            }
-                            EIndexPattern.O_0 -> {
-                                dataOSP.remove(row.data[2], row.data[0], row.data[1])
-                            }
-                            EIndexPattern.P_1 -> {
-                                dataPSO.remove(row.data[1], row.data[0], row.data[2])
-                            }
-                            EIndexPattern.O_1 -> {
-                                dataOPS.remove(row.data[2], row.data[1], row.data[0])
-                            }
-                        }
+                        data[idx.ordinal].remove(row.key[order[idx.ordinal][0]], row.key[order[idx.ordinal][1]], row.key[order[idx.ordinal][2]])
                     }
                     pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                 }
@@ -216,20 +195,17 @@ class TripleStoreLocal(@JvmField val name: String) {
     }
 
     fun clear() {
-        dataSPO.clear()
-        dataSOP.clear()
-        dataPOS.clear()
-        dataPSO.clear()
-        dataOSP.clear()
-        dataOPS.clear()
+        dataDistinct.forEach {
+            it.second.clear()
+        }
         for (idx in EIndexPattern.values()) {
             pendingModificationsInsert[idx.ordinal].clear()
             pendingModificationsDelete[idx.ordinal].clear()
         }
     }
 
-    suspend fun modify(query: Query, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
-        require(data.size == 3)
+    suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+        require(dataModify.size == 3)
         var tmp: MutableSet<MapKey>?
         if (type == EModifyType.INSERT) {
             tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -247,7 +223,7 @@ class TripleStoreLocal(@JvmField val name: String) {
         loop@ while (true) {
             val k = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
-                val v = data[columnIndex].next()
+                val v = dataModify[columnIndex].next()
                 if (v == null) {
                     require(columnIndex == 0)
                     break@loop
