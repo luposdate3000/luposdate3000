@@ -2,13 +2,13 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MyMapAny<K:Comparable<K>,V>() {
+class MyMapAny<K : Comparable<K>, V>() {
     @JvmField
     var keys = MySetAny<K>()
     @JvmField
     var values = MyListAny<V>()
 
-    constructor(data: Pair<K,V>) : this() {
+    constructor(data: Pair<K, V>) : this() {
         set(data.first, data.second)
     }
 
@@ -45,7 +45,7 @@ class MyMapAny<K:Comparable<K>,V>() {
     }
 
     inline fun iterator() = MyMapAnyIterator(this)
-    class MyMapAnyIterator<K:Comparable<K>,V>(val data: MyMapAny<K,V>) {
+    class MyMapAnyIterator<K : Comparable<K>, V>(val data: MyMapAny<K, V>) {
         var index = 0
         fun hasNext() = index < data.values.size
         fun next() = data.keys.data[index++]

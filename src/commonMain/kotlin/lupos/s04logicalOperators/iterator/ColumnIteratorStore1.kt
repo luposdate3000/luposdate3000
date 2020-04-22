@@ -4,9 +4,9 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s05tripleStore.*
 
-class ColumnIteratorMultiValue(val values: MyListValue) : ColumnIterator() {
-    var index = 0
-    val end = values.size
+class ColumnIteratorStore1(val values: MyListValue, start: Int) : ColumnIterator() {
+    var index = start + 1
+    val end = start + values[start]
 
     init {
         next = {

@@ -12,7 +12,7 @@ class MySetLongBinary {
         data.clear()
     }
 
-operator    fun iterator(): Iterator<Long> {
+    operator fun iterator(): Iterator<Long> {
         return data.iterator()
     }
 

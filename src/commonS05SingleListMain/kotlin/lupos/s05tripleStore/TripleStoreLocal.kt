@@ -22,12 +22,12 @@ import lupos.s04logicalOperators.Query
 class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
     init {
         dataDistinct = arrayOf(
-                Pair("SPO", TripleStoreIndex_MapMapList()),
-                Pair("SOP", TripleStoreIndex_MapMapList()),
-                Pair("POS", TripleStoreIndex_MapMapList()),
-                Pair("PSO", TripleStoreIndex_MapMapList()),
-                Pair("OSP", TripleStoreIndex_MapMapList()),
-                Pair("OPS", TripleStoreIndex_MapMapList())
+                Pair("SPO", TripleStoreIndex_SingleList()),
+                Pair("SOP", TripleStoreIndex_SingleList()),
+                Pair("POS", TripleStoreIndex_SingleList()),
+                Pair("PSO", TripleStoreIndex_SingleList()),
+                Pair("OSP", TripleStoreIndex_SingleList()),
+                Pair("OPS", TripleStoreIndex_SingleList())
         )
         data = Array(EIndexPattern.values().size) {
             val res: TripleStoreIndex

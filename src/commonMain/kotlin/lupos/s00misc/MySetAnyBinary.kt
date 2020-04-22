@@ -2,7 +2,7 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetAnyBinary<T:Comparable<T>> {
+class MySetAnyBinary<T : Comparable<T>> {
     @JvmField
     var data = mutableListOf<T>()
     var size: Int = 0
@@ -12,7 +12,7 @@ class MySetAnyBinary<T:Comparable<T>> {
         data.clear()
     }
 
-operator    fun iterator(): Iterator<T> {
+    operator fun iterator(): Iterator<T> {
         return data.iterator()
     }
 

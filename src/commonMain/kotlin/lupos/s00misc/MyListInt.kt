@@ -28,7 +28,7 @@ class MyListInt {
     }
 
     fun add(value: Int) {
-        if (size+1 >= capacity) {
+        if (size + 1 >= capacity) {
             capacity = capacity * 2
             val tmp = IntArray(capacity)
             data.copyInto(tmp)
@@ -39,7 +39,6 @@ class MyListInt {
 
     inline operator fun get(key: Int) = data.get(key)
     inline operator fun set(idx: Int, key: Int) = data.set(idx, key)
-
     fun removeAt(idx: Int): Int {
         val res = data[idx]
         require(idx < size)
@@ -51,7 +50,7 @@ class MyListInt {
     }
 
     fun add(idx: Int, value: Int) {
-        if (size+1 >= capacity) {
+        if (size + 1 >= capacity) {
             capacity = capacity * 2
             val tmp = IntArray(capacity)
             data.copyInto(tmp)

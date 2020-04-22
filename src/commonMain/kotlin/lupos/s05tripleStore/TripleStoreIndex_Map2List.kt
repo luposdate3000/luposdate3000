@@ -20,6 +20,9 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_Map2List : TripleStoreIndex {
+    /*
+    only for queries like SP -> List<O>
+    */
     @JvmField
     val data = MyMapLong<MySetInt>()
 
@@ -55,47 +58,47 @@ class TripleStoreIndex_Map2List : TripleStoreIndex {
 
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
-	require(projection.size==1)
+        require(projection.size == 1)
         require(filter.size == 2)
         val columns = mutableMapOf<String, ColumnIterator>()
-            if (projection[0] != "_") {
-                columns[projection[0]] = ColumnIterator()
-            }
+        if (projection[0] != "_") {
+            columns[projection[0]] = ColumnIterator()
+        }
         var res = ColumnIteratorRow(columns)
-        val tmp = data[(filter[0].toLong() shl 32)+filter[1]]
+        val tmp = data[(filter[0].toLong() shl 32) + filter[1]]
         if (tmp != null) {
-                if (projection[0] == "_") {
-                    res.count = tmp.size
-                } else {
-                    columns[projection[0]] = ColumnIteratorDebug(-1, projection[0], ColumnIteratorMultiValue(tmp.toList()))
-                }
+            if (projection[0] == "_") {
+                res.count = tmp.size
+            } else {
+                columns[projection[0]] = ColumnIteratorDebug(-1, projection[0], ColumnIteratorMultiValue(tmp.toList()))
+            }
         }
         return res
     }
 
-    override fun import(dataImport: MutableList<MyMapInt< MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
+    override fun import(dataImport: MutableList<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
         for (key0 in 0 until dataImport.size) {
-	    val value0=dataImport[key0]
-            var key=map0[key0].toLong() shl 32
-            for(key1 in value0.keys){
-		val value1=value0[key1]!!
-                val tmp=data.getOrCreate(key+map1[key1], { MySetInt() })
-		for(key2 in value1){
-			tmp.add(map2[key2])
-		}
-	    }
+            val value0 = dataImport[key0]
+            var key = map0[key0].toLong() shl 32
+            for (key1 in value0.keys) {
+                val value1 = value0[key1]!!
+                val tmp = data.getOrCreate(key + map1[key1], { MySetInt() })
+                for (key2 in value1) {
+                    tmp.add(map2[key2])
+                }
+            }
         }
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
-val tmp=data.getOrCreate((a.toLong() shl 32)+b, { MySetInt() })
-tmp.add(c)
+        val tmp = data.getOrCreate((a.toLong() shl 32) + b, { MySetInt() })
+        tmp.add(c)
     }
 
     override fun remove(a: Value, b: Value, c: Value) {
-        val tmp = data[(a.toLong() shl 32)+b]
+        val tmp = data[(a.toLong() shl 32) + b]
         if (tmp != null) {
-                tmp.remove(c)
+            tmp.remove(c)
         }
     }
 

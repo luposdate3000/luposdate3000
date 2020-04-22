@@ -28,7 +28,7 @@ class MyListLong {
     }
 
     fun add(value: Long) {
-        if (size+1 >= capacity) {
+        if (size + 1 >= capacity) {
             capacity = capacity * 2
             val tmp = LongArray(capacity)
             data.copyInto(tmp)
@@ -39,7 +39,6 @@ class MyListLong {
 
     inline operator fun get(idx: Int) = data.get(idx)
     inline operator fun set(idx: Int, value: Long) = data.set(idx, value)
-
     fun removeAt(idx: Int): Long {
         val res = data[idx]
         require(idx < size)
@@ -51,7 +50,7 @@ class MyListLong {
     }
 
     fun add(idx: Int, value: Long) {
-        if (size+1 >= capacity) {
+        if (size + 1 >= capacity) {
             capacity = capacity * 2
             val tmp = LongArray(capacity)
             data.copyInto(tmp)

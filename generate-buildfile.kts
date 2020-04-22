@@ -44,7 +44,7 @@ val options = mapOf(
         "chooseS00Execution" to listOf("commonS00ExecutionSequentialMain", "commonS00ExecutionParallelMain"),
         "commonS01Buffer" to listOf("commonS01HeapMain", "jvmS01BufferMemoryMappedMain", "jvmS01BufferMemoryMappedUnsafeMain", "jvmS01BufferRandomAccessMain", "jvmS01BufferUnsafeMain"),
         "chooseS03" to listOf("commonS03DictionaryIntArrayMain"),
-        "chooseS05" to listOf("commonS05MapMapListMain"),
+        "chooseS05" to listOf("commonS05MapMapListMain", "commonS05SingleListMain"),
         "chooseS12" to listOf("commonS12DummyMain", "commonS12LocalMain"),
         "chooseS14Server" to listOf("jvmS14ServerKorioMain", "commonS14ServerNoneMain"),
         "chooseS14Client" to listOf("jvmS14ClientKorioMain", "commonS14ClientNoneMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),

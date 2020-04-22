@@ -1,6 +1,6 @@
 #!/bin/bash
 #for i in $(ps -aux | grep "java " | sed "s/root *//g" | sed "s/ .*//g"); do kill $i;done
-./generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain commonS01HeapMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15LocalMain jvmS00WrapperJenaOnMain
+./generate-buildfile.kts jvm commonS00LaunchBinaryTestsMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain commonS01HeapMain commonS05MapMapListMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15LocalMain jvmS00WrapperJenaOnMain
 ./tool-gradle-build.sh
 port="3030"
 /opt/apache-jena-fuseki-3.14.0/fuseki-server --port=$port > /dev/null 2>&1 &

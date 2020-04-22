@@ -12,7 +12,7 @@ class MySetIntBinary {
         data.clear()
     }
 
-operator    fun iterator(): Iterator<Int> {
+    operator fun iterator(): Iterator<Int> {
         return data.iterator()
     }
 
