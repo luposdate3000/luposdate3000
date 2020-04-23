@@ -111,7 +111,50 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun import(dataImport: MutableList<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
-        require(false)
+val tmp=MyListInt()
+val tmpindex = MyMapInt<MyMapInt<Int>>()
+tmp.add(dataImport.size)
+	for (key0 in 0 until dataImport.size) {
+            val value0 = dataImport[key0]
+tmp.add(map0[key0])
+var tmp0=MyMapInt<Int>()
+tmpindex[map0[key0]]=tmp0
+tmp.add(value0.size)
+            for (key1 in value0.keys) {
+                val value1 = value0[key1]!!
+tmp.add(map1[key1])
+tmp0[map1[key1]]=tmp.size
+tmp.add(value1.size)
+                for (key2 in value1) {
+tmp.add(map2[key2])
+                }
+            }
+        }
+val iterator0=tmpindex.iterator()
+data.add(tmpindex.size)
+while(iterator0.hasNext()){
+val key0=iterator0.next()
+data.add(key0)
+var value0=iterator0.value()
+val iterator1=value0.iterator()
+data.add(value0.size)
+while(iterator1.hasNext()){
+val key1=iterator1.next()
+data.add(key1)
+var value2=iterator1.value()
+var count=tmp[value2]
+data.add(count)
+var tmpdata=MySetInt()
+for(i in value2+1 until value2+1+count){
+tmpdata.add(tmp[i])
+}
+var iterator2=tmpdata.iterator()
+while(iterator2.hasNext()){
+data.add(iterator2.next())
+}
+}
+}
+
     }
 
     override fun insert(a: Value, b: Value, c: Value) {

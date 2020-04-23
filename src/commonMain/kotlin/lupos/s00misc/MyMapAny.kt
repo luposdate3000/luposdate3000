@@ -7,7 +7,8 @@ class MyMapAny<K : Comparable<K>, V>() {
     var keys = MySetAny<K>()
     @JvmField
     var values = MyListAny<V>()
-
+var size: Int = 0
+        get() = keys.size
     constructor(data: Pair<K, V>) : this() {
         set(data.first, data.second)
     }

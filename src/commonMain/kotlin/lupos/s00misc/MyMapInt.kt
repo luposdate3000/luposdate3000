@@ -7,7 +7,8 @@ class MyMapInt<T>() {
     var keys = MySetInt()
     @JvmField
     var values = mutableListOf<T>()
-
+var size: Int = 0
+        get() = keys.size
     constructor(data: Pair<Int, T>) : this() {
         set(data.first, data.second)
     }
