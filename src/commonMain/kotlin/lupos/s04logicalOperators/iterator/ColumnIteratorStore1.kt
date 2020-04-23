@@ -23,7 +23,7 @@ class ColumnIteratorStore1(val values: MyListValue, start: Int) : ColumnIterator
                 e.printStackTrace()
                 throw e
             }
-println("__A $res res")
+            println("__A $res res")
 /*return*/res
         }
     }

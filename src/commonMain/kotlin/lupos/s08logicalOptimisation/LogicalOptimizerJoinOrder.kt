@@ -14,11 +14,11 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class Plan : Comparable<Plan> {
     val child: OPBase?
     val childs: Pair<Int, Int>?
-    val variables: MyListInt
+    val variables: Array<Int>
     val columns: Int
     val cost: Int
 
-    constructor(child: OPBase, variables: MyListInt, allVariables: MyListInt) {
+    constructor(child: OPBase, variables: Array<Int>, allVariables: List<Int>) {
         this.child = child
         childs = null
         this.variables = variables
@@ -34,12 +34,12 @@ class Plan : Comparable<Plan> {
 
     inline fun sqr(i: Int) = i * i
 
-    constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: MyListInt) {
+    constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
         child = null
         childs = Pair(childA, childB)
         val va = plans[childA]!!.variables
         val vb = plans[childB]!!.variables
-        this.variables = MyListInt(allVariables.size) { va[it] + vb[it] }
+        this.variables = Array(allVariables.size) { va[it] + vb[it] }
         var c = 0
         for (i in 0 until variables.size) {
             val t = va[i] + vb[i]
@@ -80,7 +80,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    fun optimize(plans: Array<Plan?>, target: Int, variables: MyListInt) {
+    fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
             if (a and targetInv == 0) {
@@ -103,7 +103,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             val allChilds = findAllJoinsInChildren(node)
             if (allChilds.size > 2 && allChilds.size < 30) {
                 val allVariables = mutableListOf<String>()
-                val allVariablesCounters = MyListInt()
+                val allVariablesCounters = mutableListOf<Int>()
                 val plans = arrayOfNulls<Plan?>(1 shl allChilds.size)
                 var key = 1
                 for (i in allChilds.indices) {
@@ -123,7 +123,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                     }
                 }
                 for (i in allChilds.indices) {
-                    val variables = MyListInt(allVariables.size) { 0 }
+                    val variables = Array(allVariables.size) { 0 }
                     val tmp = allChilds[i].getProvidedVariableNames()
                     for (t in tmp) {
                         require(allVariables.contains(t))

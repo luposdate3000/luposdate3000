@@ -80,7 +80,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 projection.add(param.name)
             }
         }
-println("getIterator $idx ${params.map{it.toSparql()}} $projection")
+        println("getIterator $idx ${params.map { it.toSparql() }} $projection")
         println("WWW $idx")
         return data[idx.ordinal].getIterator(query, filter, projection.toTypedArray())
     }
