@@ -80,7 +80,7 @@ echo $n -- $c1
 	echo "$query,$triples,$code,$n,$c1,$qps,$size" >> $csvfile
 	if [[ "$code" == "0" ]]
 	then
-		if [[ "$n" -gt "1" ]]
+		if [[ "$n" -gt "9" ]]
 		then
 			echo $query >> log/queries2
 		fi
