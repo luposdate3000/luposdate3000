@@ -53,7 +53,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         val columnsOUTB = mutableListOf<ColumnIteratorQueue>()
         val columnsOUT = mutableListOf<ColumnIteratorQueue>()
         val variablINBO = mutableListOf<String>()
-        val indicesINBJ = mutableListOf<Int>()
+        val indicesINBJ = MyListInt()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(childB.getProvidedVariableNames())

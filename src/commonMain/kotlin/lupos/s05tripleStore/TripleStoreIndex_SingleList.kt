@@ -23,9 +23,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     @JvmField
     val data = MyListInt()
     @JvmField
-    val index1 = MyMapInt<Int>()
+    val index1 = MyMapIntInt()
     @JvmField
-    val index2 = MyMapLong<Int>()
+    val index2 = MyMapLongInt()
 
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
@@ -128,12 +128,12 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     override fun import(dataImport: MutableList<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
         if (data.size == 0) {
             val tmp = MyListInt()
-            val tmpindex = MyMapInt<MyMapInt<Int>>()
+            val tmpindex = MyMapInt<MyMapIntInt>()
             tmp.add(dataImport.size)
             for (key0 in 0 until dataImport.size) {
                 val value0 = dataImport[key0]
                 tmp.add(map0[key0])
-                var tmp0 = MyMapInt<Int>()
+                var tmp0 = MyMapIntInt()
                 tmpindex[map0[key0]] = tmp0
                 tmp.add(value0.size)
                 for (key1 in value0.keys) {

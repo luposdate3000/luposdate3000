@@ -6,8 +6,8 @@ import lupos.s00misc.File
 object Coverage {
     var verbose = true
     var veryverbose = true
-    val CoverageMapGenerated = mutableMapOf<Int, String>()
-    val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
+    val CoverageMapGenerated = MyMapInt< String>()
+    val CoverageMapWhenCaseGenerated = MyMapIntInt()
 
     init {
         var s = File("resources/CoverageMapGenerated.txt").readAsString()
