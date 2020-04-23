@@ -11,9 +11,13 @@ class ColumnIteratorStore2a(val values: MyListValue, start: Int) : ColumnIterato
     var value = values[index - 2]
 
     init {
+        println("_AA ${index - 3} c1")
+        println("_AA ${index - 2} v1")
+        println("_AA ${index - 1} c2")
         counterSecondary = values[index - 3] - 1
         counterTerniary = values[index - 1] - 1
         next = {
+            println("_AA ${index} v2")
             var res: Value? = value
             index++
             if (counterTerniary == 0) {
@@ -21,7 +25,9 @@ class ColumnIteratorStore2a(val values: MyListValue, start: Int) : ColumnIterato
                     close()
                 } else {
                     counterSecondary--
+                    println("_AA ${index} v1")
                     value = values[index]
+                    println("_AA ${index + 1} c2")
                     counterTerniary = values[index + 1] - 1
                     index += 2
                 }
