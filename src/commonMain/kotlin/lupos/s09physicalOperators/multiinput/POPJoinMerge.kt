@@ -90,15 +90,16 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             columnsOUTJ.add(t)
         }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
-        val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (!done) {
+            val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
+BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
-                    val data = Array(2) { Array(columnsINO.size) { MyListValue() } }
+                    val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                     findNextKey(key, columnsINJ, columnsINO)
@@ -107,7 +108,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
                     }
+BenchmarkUtils.start(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
+BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
+BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                 }
             }
         }
@@ -122,6 +126,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
+BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         require(keyCopy[0] != null)
         loop@ while (true) {
             count++
@@ -138,11 +143,13 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
             }
         }
+BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         return count
     }
 
     inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
+BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NEXT_KEY)
         if (key[0][0] != null && key[1][0] != null) {
             done = false
             loop@ while (true) {
@@ -182,6 +189,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 break@loop
             }
         }
+BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NEXT_KEY)
         return done
     }
 

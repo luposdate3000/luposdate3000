@@ -121,21 +121,26 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         BenchmarkUtils.start(EBenchmark.QUERY)
         var time: Double
         var counter = 0
+var res=XMLElement("")
         while (true) {
             counter++
             val str = JenaWrapper.execQuery(query)
+println("thequeryis "+query)
+println(str)
+res=XMLElement.parseFromXml(str)!!
             time = BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
             if (time * 1000.0 > timeoutMilliSeconds) {
                 break
             }
         }
-        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter)
+return res
     }
 
     /*
     incoming bulk import
     */
     suspend fun jena_process_turtle_input(filename: String): XMLElement {
+println("thedatais "+filename)
         JenaWrapper.loadFromFile(filename)
         return XMLElement("success")
     }
@@ -144,18 +149,25 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming sparql
     */
     suspend fun process_sparql_query(query: String, logOperatorGraph: Boolean = false): XMLElement {
+BenchmarkUtils.start(EBenchmark.QUERY)
+BenchmarkUtils.start(EBenchmark.QUERY_GENERATE)
         val q = Query()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
         GlobalLogger.log(ELoggerType.DEBUG, { query })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
+BenchmarkUtils.start(EBenchmark.QUERY_STRING2AST)
         val lcit = LexerCharIterator(query)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_STRING2AST)
+BenchmarkUtils.start(EBenchmark.QUERY_AST2OPERATOR)
         GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
         val lop_node = ast_node.visit(OperatorGraphVisitor(q))
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_AST2OPERATOR)
+BenchmarkUtils.start(EBenchmark.QUERY_OPTIMIZE)
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
         val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
@@ -175,8 +187,11 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_OPTIMIZE)
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_GENERATE)
         val res = QueryResultToXML.toXML(pop_distributed_node)
         q.commit()
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
         return res
     }
 

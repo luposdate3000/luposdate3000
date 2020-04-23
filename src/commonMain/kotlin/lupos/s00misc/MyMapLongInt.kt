@@ -1,3 +1,4 @@
 package lupos.s00misc
 
-typealias MyMapLongInt = MyMapLongIntHash
+typealias MyMapLongInt = MyMapLongIntBinaryTree
+//typealias MyMapLongInt = MyMapLongIntHash

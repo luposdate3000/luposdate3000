@@ -14,7 +14,10 @@ import lupos.s09physicalOperators.POPBase
 
 object QueryResultToXML {
     suspend fun toXML(node: POPBase): XMLElement {
+BenchmarkUtils.start(EBenchmark.QUERY_EVALUATE_INIT)
         val child = node.evaluate()
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_EVALUATE_INIT)
+BenchmarkUtils.start(EBenchmark.QUERY_ITERATE_RESULTS)
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         val nodeHead = XMLElement("head")
         nodeSparql.addContent(nodeHead)
@@ -81,11 +84,13 @@ object QueryResultToXML {
                             }
                             nodeResult.addContent(nodeBinding)
                         }
+
                     }
                     nodeResults.addContent(nodeResult)
                 }
             }
         }
+BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_ITERATE_RESULTS)
         return nodeSparql
     }
 }

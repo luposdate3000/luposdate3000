@@ -30,10 +30,10 @@ triplesfolder=/mnt/sp2b-testdata/${triples}
 size=$(du -sb $triplesfolder | sed 's/\t.*//g')
 pkill java
 sleep 3
-(./build/executable 127.0.0.1 > log/server 2>&1)&
+(./build/executable 127.0.0.1 > log/server${triples} 2>&1)&
 sleep 3
 
-if false
+if true
 then
 
 a=$(($(date +%s%N)/1000000))

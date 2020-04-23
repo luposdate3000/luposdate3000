@@ -10,12 +10,14 @@ class ColumnIteratorStore1(val values: MyListValue, start: Int) : ColumnIterator
 
     init {
         next = {
+BenchmarkUtils.start(EBenchmark.STORE_NEXT1)
             var res: Value?
             if (index == end) {
                 res = null
             } else {
                 res = values[index++]
             }
+BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_NEXT1)
 /*return*/res
         }
     }

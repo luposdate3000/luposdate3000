@@ -24,6 +24,7 @@ plot \
  'tmp/$query.luposdate-016-b2841382ba6cfa5475c773f699e58c3937e14c35-internal.csv' using 2:6 title "luposdate3000 016" with linespoints, \
  'tmp/$query.luposdate-017-b3be67fb75117794500a208aa3b5c700e411b994-internal.csv' using 2:6 title "luposdate3000 017" with linespoints, \
  'tmp/$query.luposdate-018-b1a45f6b37e27080045b19ade26f5a2b81230e62-internal.csv' using 2:6 title "luposdate3000 018" with linespoints, \
+ 'tmp/$query.luposdate-019-8204bc00cda151a2226cec68c59a70f18536c80f-internal.csv' using 2:6 title "luposdate3000 019" with linespoints, \
  'tmp/$query.jena-internal.csv' using 2:6 title "jena" with linespoints
 EOF
 

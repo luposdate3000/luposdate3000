@@ -8,7 +8,7 @@ class MyMapLongIntHash() {
     val bucket_mask=bucket_count-1
 
     var buckets = Array(bucket_count){MyMapLongIntBinaryTree()}
-    fun hashFunction(key:Long):Int= key.toInt() and bucket_mask
+    fun hashFunction(key:Long):Int= (key.toInt()+(key shr 32).toInt()) and bucket_mask
 
     var size: Int = 0
 get()={

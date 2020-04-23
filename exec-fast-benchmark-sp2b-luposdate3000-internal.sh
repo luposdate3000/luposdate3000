@@ -4,9 +4,9 @@
 timemin=0
 #in seconds
 timeout=120
-triples=16384
+triples=262144
 
-./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS05MapMapListMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain commonS00WrapperJenaOffMain
+./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS05SingleListMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain commonS00WrapperJenaOffMain
 ./tool-gradle-build.sh
 
 p=$(pwd)/benchmark_results/sp2b
@@ -40,11 +40,10 @@ b=$(($(date +%s%N)/1000000))
 c=$((b - a))
 qps=$(bc <<< "scale=2; 1000 / $c")
 echo "resources/sp2b/load.sparql,$triples,$code,1,$c,$qps,$size" >> $csvfile
-curl -X POST http://localhost:80/stacktrace > /dev/null 2>&1
 while read query; do
 	echo "----------"
 	echo $query
-	curl -X POST --data-binary "@$query" http://localhost:80/sparql/query > /dev/null 2>&1
+#	curl -X POST --data-binary "@$query" http://localhost:80/sparql/query > /dev/null 2>&1
 done < log/queries
 
 echo "q1"
@@ -55,6 +54,7 @@ echo "q1"
 #echo "-> 1"
 
 echo "q3a"
+curl -X POST --data-binary "@resources/sp2b/q3a.sparql" http://localhost:80/sparql/benchmark?timeout=0
 #curl -X POST --data-binary "SELECT ?article WHERE { ?article <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Article> . ?article <http://swrc.ontoware.org/ontology#pages> ?value .}" http://localhost:80/sparql/query
 #curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?article <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Article> . ?article <http://swrc.ontoware.org/ontology#pages> ?value .}" http://localhost:80/sparql/query
 #echo "-> 1"
@@ -85,7 +85,7 @@ echo "q12a"
 
 echo "q12b"
 #curl -X POST --data-binary "ASK { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . { ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author2 . ?author2 <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes && ?document2!=?document && ?author2!=?erdoes && ?author2!=?author) } UNION { ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?author <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes) }}" http://localhost:80/sparql/query
-curl -X POST --data-binary "SELECT * WHERE { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?author <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes) }" http://localhost:80/sparql/query
+#curl -X POST --data-binary "SELECT * WHERE { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?author <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes) }" http://localhost:80/sparql/query
 #echo "-> 1"
 #curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?erdoes <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> . ?erdoes <http://xmlns.com/foaf/0.1/name> \"Paul Erdoes\"^^<http://www.w3.org/2001/XMLSchema#string> . ?document <http://purl.org/dc/elements/1.1/creator> ?erdoes . ?document <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author . ?document2 <http://purl.org/dc/elements/1.1/creator> ?author2 . ?author2 <http://xmlns.com/foaf/0.1/name> ?name . FILTER (?author!=?erdoes && ?document2!=?document && ?author2!=?erdoes && ?author2!=?author) }" http://localhost:80/sparql/query
 #echo "-> 0"
@@ -126,3 +126,4 @@ echo "q12c"
 #curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?v1 <http://xmlns.com/foaf/0.1/name> ?v2 . }" http://localhost:80/sparql/query
 #p 1453
 
+pkill java
