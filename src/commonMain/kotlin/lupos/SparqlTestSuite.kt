@@ -415,7 +415,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
-                    if (inputDataFileName.endsWith(".ttl")) {
+                    if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         var xmlGraphBulk: XMLElement? = null
                         CoroutinesHelper.runBlock {
                             val query = Query()

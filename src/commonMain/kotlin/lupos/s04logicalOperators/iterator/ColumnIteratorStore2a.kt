@@ -5,25 +5,28 @@ import lupos.s03resultRepresentation.*
 import lupos.s05tripleStore.*
 
 class ColumnIteratorStore2a(val values: MyListValue, start: Int) : ColumnIterator() {
-    var counterPrimary = values[start]
-    var index = start + 1
-    var counterSecondary = values[index + 1]
+    var counterSecondary: Int
+    var counterTerniary: Int
+    var index = start + 3
+    var value = values[index - 2]
 
     init {
+        counterSecondary = values[index - 3] - 1
+        counterTerniary = values[index - 1] - 1
         next = {
-            var res: Value?
-            if (counterSecondary > 0) {
-                counterSecondary--
-                res = values[index]
-            } else {
-                if (counterPrimary > 0) {
-                    counterPrimary--
-                    index += values[index + 1] + 1
-                    counterSecondary = values[index + 1]
-                    res = values[index]
+            var res: Value? = value
+            index++
+            if (counterTerniary == 0) {
+                if (counterSecondary == 0) {
+                    close()
                 } else {
-                    res = null
+                    counterSecondary--
+                    value = values[index]
+                    counterTerniary = values[index + 1] - 1
+                    index += 2
                 }
+            } else {
+                counterTerniary--
             }
 /*return*/res
         }

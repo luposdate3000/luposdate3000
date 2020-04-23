@@ -5,37 +5,43 @@ import lupos.s03resultRepresentation.*
 import lupos.s05tripleStore.*
 
 class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
-    var counterPrimary = values[0]
-    var index = 1
-    var counterSecondary = values[index + 1]
-    var counterTerniary = values[index + 3]
+    var counterPrimary: Int
+    var counterSecondary: Int
+    var counterTerniary: Int
+    var index = 5
 
     init {
-        index += 4
-        next = {
-            var res: Value?
-            if (counterTerniary > 0) {
-                counterTerniary--
-                res = values[index++]
-            } else {
-                if (counterSecondary > 0) {
-                    counterSecondary--
-                    counterTerniary = values[index + 1] - 1
-                    index += 2
-                    res = values[index++]
-                } else {
-                    if (counterPrimary > 0) {
-                        counterPrimary--
-                        counterSecondary = values[index + 1]
-                        counterTerniary = values[index + 3] - 1
-                        index += 4
-                        res = values[index++]
+        if (values.size > 4) {
+            counterPrimary = values[0] - 1
+            counterSecondary = values[2] - 1
+            counterTerniary = values[4] - 1
+            next = {
+                var res: Value? = values[index]
+                index++
+                if (counterTerniary == 0) {
+                    if (counterSecondary == 0) {
+                        if (counterPrimary == 0) {
+                            close()
+                        } else {
+                            counterPrimary--
+                            counterSecondary = values[index + 1] - 1
+                            counterTerniary = values[index + 3] - 1
+                            index += 4
+                        }
                     } else {
-                        res = null
+                        counterSecondary--
+                        counterTerniary = values[index + 1] - 1
+                        index += 2
                     }
+                } else {
+                    counterTerniary--
                 }
-            }
 /*return*/res
+            }
+        } else {
+            counterPrimary = 0
+            counterSecondary = 0
+            counterTerniary = 0
         }
     }
 }

@@ -80,6 +80,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 projection.add(param.name)
             }
         }
+println("WWW $idx")
         return data[idx.ordinal].getIterator(query, filter, projection.toTypedArray())
     }
 
@@ -89,6 +90,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 dataImport.dictionaryP.getDictionaryMapping(nodeGlobalDictionary),
                 dataImport.dictionaryO.getDictionaryMapping(nodeGlobalDictionary)
         )
+println("XXX $idx")
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
                 data[idx.ordinal].import(dataImport.dataSPO, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
