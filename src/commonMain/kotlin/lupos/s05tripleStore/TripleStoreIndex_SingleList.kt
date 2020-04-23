@@ -64,7 +64,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
-BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
+//BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
@@ -123,7 +123,7 @@ BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
                 require(projection[2] == "_")
             }
         }
-BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_GET_ITERATOR)
+//BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_GET_ITERATOR)
         return res
     }
 

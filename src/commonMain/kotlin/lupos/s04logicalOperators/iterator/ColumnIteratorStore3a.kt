@@ -17,7 +17,7 @@ class ColumnIteratorStore3a(val values: MyListValue) : ColumnIterator() {
             counterSecondary = values[2] - 1
             counterTerniary = values[4] - 1
             next = {
-BenchmarkUtils.start(EBenchmark.STORE_NEXT3a)
+//BenchmarkUtils.start(EBenchmark.STORE_NEXT3a)
                 var res: Value? = value
                 index++
                 if (counterTerniary == 0) {
@@ -39,7 +39,7 @@ BenchmarkUtils.start(EBenchmark.STORE_NEXT3a)
                 } else {
                     counterTerniary--
                 }
-BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_NEXT3a)
+//BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_NEXT3a)
 /*return*/res
             }
         } else {

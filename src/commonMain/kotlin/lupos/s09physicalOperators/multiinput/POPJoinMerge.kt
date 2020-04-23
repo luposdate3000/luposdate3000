@@ -95,7 +95,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
-BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
+//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
@@ -108,10 +108,10 @@ BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
                     }
-BenchmarkUtils.start(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
+//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
-BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
-BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
+//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
+//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                 }
             }
         }
@@ -126,7 +126,7 @@ BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
 
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
-BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
+//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         require(keyCopy[0] != null)
         loop@ while (true) {
             count++
@@ -143,13 +143,13 @@ BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
                 }
             }
         }
-BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
+//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         return count
     }
 
     inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
-BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NEXT_KEY)
+//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NEXT_KEY)
         if (key[0][0] != null && key[1][0] != null) {
             done = false
             loop@ while (true) {
@@ -189,7 +189,7 @@ BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NEXT_KEY)
                 break@loop
             }
         }
-BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NEXT_KEY)
+//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NEXT_KEY)
         return done
     }
 
