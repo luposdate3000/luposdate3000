@@ -9,21 +9,13 @@ class ColumnIteratorStore1(val values: MyListValue, start: Int) : ColumnIterator
     val end = start + values[start] + 1
 
     init {
-        println("__A ${index - 1} c2")
         next = {
             var res: Value?
-            try {
-                if (index == end) {
-                    res = null
-                } else {
-                    println("__A ${index} v2")
-                    res = values[index++]
-                }
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                throw e
+            if (index == end) {
+                res = null
+            } else {
+                res = values[index++]
             }
-            println("__A $res res")
 /*return*/res
         }
     }

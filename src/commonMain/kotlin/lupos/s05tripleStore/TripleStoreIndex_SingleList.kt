@@ -147,24 +147,19 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 }
             }
             val iterator0 = tmpindex.iterator()
-            println("XXX ${data.size} c0")
             data.add(tmpindex.size)
             while (iterator0.hasNext()) {
                 val key0 = iterator0.next()
                 var value0 = iterator0.value()
                 val iterator1 = value0.iterator()
-                println("XXX ${data.size} v0")
                 data.add(key0)
                 index1[key0] = data.size
-                println("XXX ${data.size} c1")
                 data.add(value0.size)
                 while (iterator1.hasNext()) {
                     val key1 = iterator1.next()
                     var value2 = iterator1.value()
-                    println("XXX ${data.size} v1")
                     data.add(key1)
                     index2[(key0.toLong() shl 32) + key1] = data.size
-                    println("XXX ${data.size} c2")
                     var count = tmp[value2]
                     data.add(count)
                     var tmpdata = MySetInt()
@@ -174,66 +169,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                     var iterator2 = tmpdata.iterator()
                     while (iterator2.hasNext()) {
                         val key2 = iterator2.next()
-                        println("XXX ${data.size} v2")
                         data.add(key2)
-                    }
-                }
-            }
-            CoroutinesHelper.runBlock {
-                val it3a = ColumnIteratorStore3a(data)
-                val it3b = ColumnIteratorStore3b(data)
-                val it3c = ColumnIteratorStore3c(data)
-                while (true) {
-                    val value = it3a.next()
-                    if (value == null) {
-                        break
-                    }
-                    println("val" + value)
-                }
-                while (true) {
-                    val value = it3b.next()
-                    if (value == null) {
-                        break
-                    }
-                    println("val" + value)
-                }
-                while (true) {
-                    val value = it3c.next()
-                    if (value == null) {
-                        break
-                    }
-                    println("val" + value)
-                }
-                var it1 = index1.iterator()
-                while (it1.hasNext()) {
-                    it1.next()
-                    val it2a = ColumnIteratorStore2a(data, it1.value())
-                    val it2b = ColumnIteratorStore2b(data, it1.value())
-                    while (true) {
-                        val value = it2a.next()
-                        if (value == null) {
-                            break
-                        }
-                        println("val" + value)
-                    }
-                    while (true) {
-                        val value = it2b.next()
-                        if (value == null) {
-                            break
-                        }
-                        println("val" + value)
-                    }
-                }
-                var it2 = index2.iterator()
-                while (it2.hasNext()) {
-                    it2.next()
-                    val it1a = ColumnIteratorStore1(data, it2.value())
-                    while (true) {
-                        val value = it1a.next()
-                        if (value == null) {
-                            break
-                        }
-                        println("val" + value)
                     }
                 }
             }
