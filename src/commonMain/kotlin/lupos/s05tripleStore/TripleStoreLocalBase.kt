@@ -80,6 +80,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 projection.add(param.name)
             }
         }
+println("getIterator $idx ${params.map{it.toSparql()}} ${order[idx.ordinal].map{it}} ${filter.data.map{nodeGlobalDictionary.getValue(it)}} $projection")
         println("WWW $idx")
         return data[idx.ordinal].getIterator(query, filter, projection.toTypedArray())
     }
@@ -98,13 +99,13 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             EIndexPattern.SO, EIndexPattern.S_1 -> {
                 data[idx.ordinal].import(dataImport.dataSOP, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
-            EIndexPattern.P_0, EIndexPattern.PO -> {
+            EIndexPattern.P_1, EIndexPattern.PO -> {
                 data[idx.ordinal].import(dataImport.dataPOS, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.O_0 -> {
                 data[idx.ordinal].import(dataImport.dataOSP, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
-            EIndexPattern.P_1 -> {
+            EIndexPattern.P_0 -> {
                 data[idx.ordinal].import(dataImport.dataPSO, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
             }
             EIndexPattern.O_1 -> {

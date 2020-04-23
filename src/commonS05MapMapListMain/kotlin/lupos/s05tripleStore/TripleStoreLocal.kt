@@ -38,10 +38,10 @@ class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
                 EIndexPattern.SO, EIndexPattern.S_1 -> {
                     res = dataDistinct[1].second
                 }
-                EIndexPattern.P_0, EIndexPattern.PO -> {
+                EIndexPattern.P_1, EIndexPattern.PO -> {
                     res = dataDistinct[2].second
                 }
-                EIndexPattern.P_1 -> {
+                EIndexPattern.P_0 -> {
                     res = dataDistinct[3].second
                 }
                 EIndexPattern.O_0 -> {
@@ -62,10 +62,10 @@ class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
                 EIndexPattern.SO, EIndexPattern.S_1 -> {
                     res = arrayOf(0, 2, 1)
                 }
-                EIndexPattern.P_0, EIndexPattern.PO -> {
+                EIndexPattern.P_1, EIndexPattern.PO -> {
                     res = arrayOf(1, 2, 0)
                 }
-                EIndexPattern.P_1 -> {
+                EIndexPattern.P_0 -> {
                     res = arrayOf(1, 0, 2)
                 }
                 EIndexPattern.O_0 -> {

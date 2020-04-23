@@ -32,6 +32,7 @@ class ColumnIteratorStore2b(val values: MyListValue, start: Int) : ColumnIterato
             } else {
                 counterTerniary--
             }
+println("_BB $res res")
 /*return*/res
         }
     }

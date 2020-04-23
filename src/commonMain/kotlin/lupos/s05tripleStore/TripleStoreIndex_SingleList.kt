@@ -98,21 +98,28 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             if (idx != null) {
                 if (projection[0] != "_") {
                     columns[projection[0]] = ColumnIteratorDebug(-2, projection[0], ColumnIteratorStore2a(data, idx))
-                }
-                if (projection[1] != "_") {
-                    columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], ColumnIteratorStore2b(data, idx))
+                    if (projection[1] != "_") {
+                        columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], ColumnIteratorStore2b(data, idx))
+                    }
+                } else {
+                    require(projection[1] == "_")
                 }
             }
         } else {
             require(filter.size == 0)
             if (projection[0] != "_") {
-                columns[projection[0]] = ColumnIteratorDebug(-2, projection[0], ColumnIteratorStore3a(data))
-            }
-            if (projection[1] != "_") {
-                columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], ColumnIteratorStore3b(data))
-            }
-            if (projection[2] != "_") {
-                columns[projection[2]] = ColumnIteratorDebug(-3, projection[2], ColumnIteratorStore3c(data))
+                columns[projection[0]] = ColumnIteratorDebug(-4, projection[0], ColumnIteratorStore3a(data))
+                if (projection[1] != "_") {
+                    columns[projection[1]] = ColumnIteratorDebug(-5, projection[1], ColumnIteratorStore3b(data))
+                    if (projection[2] != "_") {
+                        columns[projection[2]] = ColumnIteratorDebug(-6, projection[2], ColumnIteratorStore3c(data))
+                    }
+                } else {
+                    require(projection[2] == "_")
+                }
+            } else {
+                require(projection[1] == "_")
+                require(projection[2] == "_")
             }
         }
         return res
