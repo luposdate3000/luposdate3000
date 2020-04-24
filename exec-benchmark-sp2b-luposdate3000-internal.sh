@@ -6,7 +6,7 @@ timemin=10
 timeout=120
 triples=1024
 
-./generate-buildfile.kts jvm commonS00LaunchBenchmarkMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS05MapMapListMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain commonS00WrapperJenaOffMain
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MapMapList Dummy Korio none Local Off
 ./tool-gradle-build.sh
 
 p=$(pwd)/benchmark_results/sp2b
