@@ -78,10 +78,10 @@ fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): Choo
                 if (input != null) {
                     if (options.map { it.label }.contains(input)) {
                         for (o in options) {
-                            if (o.label == input){
+                            if (o.label == input) {
                                 allChoicesString += "_${o.label}"
                                 return o
-}
+                            }
                         }
                         require(false)
                     }
@@ -182,11 +182,11 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("Count", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugCount")),
                 ChooseableOptionTypeAlias("Verbose", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugVerbose"))
         ),
-ChooseableGroup("Default Result Format")to listOf(
-ChooseableOptionTypeAlias("XML","lupos.s11outputResult",listOf("QueryResultToString" to "QueryResultToXMLString")),
-ChooseableOptionTypeAlias("Empty","lupos.s11outputResult",listOf("QueryResultToString" to "QueryResultToEmptyString")),
-ChooseableOptionTypeAlias("EmptyWithDictionary","lupos.s11outputResult",listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
-)
+        ChooseableGroup("Default Result Format") to listOf(
+                ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToXMLString")),
+                ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyString")),
+                ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
+        )
 )
 val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),

@@ -263,47 +263,49 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 }
             }
             "/persistence/store" -> {
-return process_persistence_store(data).encodeToByteArray()
+                return process_persistence_store(data).encodeToByteArray()
             }
             "/persistence/load" -> {
-return process_persistence_load(data).encodeToByteArray()
+                return process_persistence_load(data).encodeToByteArray()
             }
         }
         TODO("unreachable")
     }
-fun process_persistence_store(foldername:String):String{
-BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
-                nodeGlobalDictionary.safeToFile(foldername + "/dictionary.txt")
-                var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_DICTIONARY)
-                BenchmarkUtils.start(EBenchmark.SAVE_TRIPLE_STORE)
-                val stores = DistributedTripleStore.localStore.stores
-                var idx = 0
-                File(foldername + "/stores.txt").printWriter { out ->
-                    stores.keys.forEach { name ->
-                        val store = stores[name]!!
-                        store.safeToFolder(foldername + "/$idx")
-                        out.println(name)
-                        idx++
-                    }
-                }
-                var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_TRIPLE_STORE)
-                return XMLElement("success $timeDict $timeStore").toString()
-}
-fun process_persistence_load(foldername:String):String{
-BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
-                nodeGlobalDictionary.loadFromFile(foldername + "/dictionary.txt")
-                var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_DICTIONARY)
-                BenchmarkUtils.start(EBenchmark.LOAD_TRIPLE_STORE)
-                val stores = DistributedTripleStore.localStore.stores
-                var idx = 0
-                File(foldername + "/stores.txt").forEachLine { name ->
-                    val store = stores[name]!!
-                    store.loadFromFolder(foldername + "/$idx")
-                    idx++
-                }
-                var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_TRIPLE_STORE)
-                return XMLElement("success $timeDict $timeStore").toString()
-}
+
+    fun process_persistence_store(foldername: String): String {
+        BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
+        nodeGlobalDictionary.safeToFile(foldername + "/dictionary.txt")
+        var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_DICTIONARY)
+        BenchmarkUtils.start(EBenchmark.SAVE_TRIPLE_STORE)
+        val stores = DistributedTripleStore.localStore.stores
+        var idx = 0
+        File(foldername + "/stores.txt").printWriter { out ->
+            stores.keys.forEach { name ->
+                val store = stores[name]!!
+                store.safeToFolder(foldername + "/$idx")
+                out.println(name)
+                idx++
+            }
+        }
+        var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_TRIPLE_STORE)
+        return XMLElement("success $timeDict $timeStore").toString()
+    }
+
+    fun process_persistence_load(foldername: String): String {
+        BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
+        nodeGlobalDictionary.loadFromFile(foldername + "/dictionary.txt")
+        var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_DICTIONARY)
+        BenchmarkUtils.start(EBenchmark.LOAD_TRIPLE_STORE)
+        val stores = DistributedTripleStore.localStore.stores
+        var idx = 0
+        File(foldername + "/stores.txt").forEachLine { name ->
+            val store = stores[name]!!
+            store.loadFromFolder(foldername + "/$idx")
+            idx++
+        }
+        var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_TRIPLE_STORE)
+        return XMLElement("success $timeDict $timeStore").toString()
+    }
 }
 
 var endpointServer: EndpointServer? = null

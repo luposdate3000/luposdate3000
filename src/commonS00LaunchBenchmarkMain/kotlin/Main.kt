@@ -15,7 +15,6 @@ enum class Datasource {
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)
-
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2].split(";")
@@ -41,7 +40,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             endpointServer!!.process_persistence_store(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             println("resources/sp2b/persistence-store.sparql,$numberOfTriples,0,1,${time * 1000.0}2,${1.0 / time2},$originalTripleSize")
-
         }
     }
     for (queryFile in queryFiles) {
@@ -51,12 +49,12 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         var counter = 0
         while (true) {
             counter++
-endpointServer!!.            process_sparql_query(query).toString()
+            endpointServer!!.process_sparql_query(query).toString()
             time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             if (time > minimumTime) {
                 break
             }
         }
-        println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter/time},$originalTripleSize")
+        println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
     }
 }

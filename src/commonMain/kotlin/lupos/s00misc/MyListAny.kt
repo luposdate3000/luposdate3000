@@ -9,11 +9,11 @@ class MyListAny<T> {
     var data: Array<Any?>
 
     constructor() {
-        data = Array<Any?>(capacity){null}
+        data = Array<Any?>(capacity) { null }
     }
 
     constructor(value: T) {
-        data = Array<Any?>(capacity){null}
+        data = Array<Any?>(capacity) { null }
         data[size++] = value
     }
 
@@ -30,7 +30,7 @@ class MyListAny<T> {
     fun add(value: T) {
         if (size + 1 >= capacity) {
             capacity = capacity * 2
-            val tmp = Array<Any?>(capacity){null}
+            val tmp = Array<Any?>(capacity) { null }
             data.copyInto(tmp)
             data = tmp
         }
@@ -52,7 +52,7 @@ class MyListAny<T> {
     fun add(idx: Int, value: T) {
         if (size + 1 >= capacity) {
             capacity = capacity * 2
-            val tmp = Array<Any?>(capacity){null}
+            val tmp = Array<Any?>(capacity) { null }
             data.copyInto(tmp)
             data = tmp
         }
