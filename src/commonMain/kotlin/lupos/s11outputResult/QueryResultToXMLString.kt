@@ -27,7 +27,8 @@ object QueryResultToXMLString {
                 res.append(" </boolean>\n")
                 child.columns["?boolean"]!!.close()
             } else {
-                val bnodeMap = mutableMapOf<String, String>()
+                val bnodeMap = MyMapIntInt()
+                var bnodeMapSize = 0
                 val columns = variables.map { child.columns[it] }.toTypedArray()
                 if (variables.size == 0) {
                     res.append(" <head/>\n  <results>\n")
@@ -52,53 +53,90 @@ object QueryResultToXMLString {
                             if (variableIndex == 0) {
                                 res.append("  <result>\n")
                             }
-                            if (valueID != ResultSetDictionary.undefValue && valueID != ResultSetDictionary.errorValue) {
-                                val value = node.query.dictionary.getValue(valueID).valueToString()
-                                require(value != null, { "QueryResultToXML unexpected null" })
-                                res.append("   <binding name=\"")
-                                res.append(variables[variableIndex])
-                                res.append("\">\n")
-                                if (value.length > 1) {
-                                    if (value.startsWith("\"") && !value.endsWith("\"")) {
-                                        val idx = value.lastIndexOf("\"^^<")
-                                        if (idx >= 0) {
-                                            res.append("    <literal datatype=\"")
-                                            res.append(value.substring(idx + 4, value.length - 1))
-                                            res.append("\">")
-                                            res.append(value.substring(1, idx))
-                                            res.append("</literal>\n")
-                                        } else {
-                                            val idx2 = value.lastIndexOf("\"@")
-                                            if (idx2 >= 0) {
-                                                res.append("    <literal xml:lang=\"")
-                                                res.append(value.substring(idx2 + 2, value.length))
-                                                res.append("\">")
-                                                res.append(value.substring(1, idx2))
-                                                res.append("</literal>\n")
-                                            } else {
-                                                res.append("    <literal>")
-                                                res.append(value)
-                                                res.append("</literal>\n")
-                                            }
-                                        }
-                                    } else if (value.startsWith("<") && value.endsWith(">")) {
-                                        res.append("    <uri>")
-                                        res.append(value.substring(1, value.length - 1))
-                                        res.append("</uri>\n")
-                                    } else if (value.startsWith("_:")) {
-                                        if (bnodeMap[value] == null) {
-                                            bnodeMap[value] = "" + bnodeMap.keys.size
-                                        }
-                                        res.append("    <bnode>")
-                                        res.append(bnodeMap[value]!!)
-                                        res.append("</bnode>\n")
-                                    } else {
-                                        res.append("    <literal>")
-                                        res.append(value.substring(1, value.length - 1))
-                                        res.append("</literal>\n")
-                                    }
+                            val value = node.query.dictionary.getValue(valueID)
+                            when (value) {
+                                is ValueBnode -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <bnode>")
+                                    res.append(bnodeMap.getOrCreate(valueID, { bnodeMapSize++ }))
+                                    res.append("</bnode>\n   </binding>\n")
                                 }
-                                res.append("   </binding>\n")
+                                is ValueBoolean -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal>")
+                                    res.append(value.value)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueLanguageTaggedLiteral -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal xml:lang=\"")
+                                    res.append(value.language)
+                                    res.append("\">")
+                                    res.append(value.content)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueSimpleLiteral -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal>")
+                                    res.append(value.content)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueTypedLiteral -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal datatype=\"")
+                                    res.append(value.type_iri)
+                                    res.append("\">")
+                                    res.append(value.content)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueDecimal -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal>")
+                                    res.append(value.value)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueDouble -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal>")
+                                    res.append(value.value)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueInteger -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal>")
+                                    res.append(value.value)
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueIri -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <uri>")
+                                    res.append(value.iri)
+                                    res.append("</uri>\n   </binding>\n")
+                                }
+                                is ValueDateTime -> {
+                                    res.append("   <binding name=\"")
+                                    res.append(variables[variableIndex])
+                                    res.append("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">")
+                                    if (value.timezoneHours == -1 && value.timezoneMinutes == -1) {
+                                        res.append("${value.year.toString().padStart(4, '0')}-${value.month.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}T${value.hours.toString().padStart(2, '0')}:${value.minutes.toString().padStart(2, '0')}:${value.seconds.toString().padStart(2, '0')}")
+                                    } else if (value.timezoneHours == 0 && value.timezoneMinutes == 0) {
+                                        res.append("${value.year.toString().padStart(4, '0')}-${value.month.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}T${value.hours.toString().padStart(2, '0')}:${value.minutes.toString().padStart(2, '0')}:${value.seconds.toString().padStart(2, '0')}Z")
+                                    } else {
+                                        res.append("${value.year.toString().padStart(4, '0')}-${value.month.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}T${value.hours.toString().padStart(2, '0')}:${value.minutes.toString().padStart(2, '0')}:${value.seconds.toString().padStart(2, '0')}-${value.timezoneHours.toString().padStart(2, '0')}:${value.timezoneMinutes.toString().padStart(2, '0')}")
+                                    }
+                                    res.append("</literal>\n   </binding>\n")
+                                }
+                                is ValueUndef, is ValueError -> {
+                                }
                             }
                         }
                         res.append("  <result/>\n")

@@ -6,7 +6,7 @@ class MyMapLongBinaryTree<T>() {
     @JvmField
     var keys = MySetLong()
     @JvmField
-    var values = mutableListOf<T>()
+    var values = MyListAny<T>()
     var size: Int = 0
         get() = keys.size
 

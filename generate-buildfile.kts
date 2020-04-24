@@ -181,7 +181,12 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("None", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugFast")),
                 ChooseableOptionTypeAlias("Count", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugCount")),
                 ChooseableOptionTypeAlias("Verbose", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugVerbose"))
-        )
+        ),
+ChooseableGroup("Default Result Format")to listOf(
+ChooseableOptionTypeAlias("XML","lupos.s11outputResult",listOf("QueryResultToString" to "QueryResultToXMLString")),
+ChooseableOptionTypeAlias("Empty","lupos.s11outputResult",listOf("QueryResultToString" to "QueryResultToEmptyString")),
+ChooseableOptionTypeAlias("EmptyWithDictionary","lupos.s11outputResult",listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
+)
 )
 val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),

@@ -51,7 +51,13 @@ class ResultSetDictionary(val global: Boolean = false) {
     @JvmField
     val mapSTL = mutableMapOf<ValueDefinition, Value>(undefValue2 to undefValue, errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue)
     @JvmField
-    val mapLTS = mutableListOf<ValueDefinition>(booleanTrueValue2, booleanFalseValue2, errorValue2, undefValue2)
+    val mapLTS = MyListAny<ValueDefinition>()
+init{
+mapLTS.add(booleanTrueValue2)
+mapLTS.add(booleanFalseValue2)
+mapLTS.add(errorValue2)
+mapLTS.add(undefValue2)
+}
 
     inline fun createValue(value: String?) = createValue(ValueDefinition(value))
     inline fun checkValue(value: ValueDefinition): Value? {

@@ -1,0 +1,106 @@
+package lupos.s00misc
+
+class MyMapStringIntPatriciaTrie(){
+class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
+        val children = mutableListOf<MyMapStringIntPatriciaTrieNode>()
+    }
+
+    var size: Int = 0
+
+    var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode("", null)
+
+    constructor(data: Pair<String, Int>) : this() {
+        set(data.first, data.second)
+    }
+
+    fun walkInternal(key: String, node: MyMapStringIntPatriciaTrieNode, onCreate:()->Int?,onUpdate:(MyMapStringIntPatriciaTrieNode)->Unit): Int? {
+        val keyF = key.get(0)
+        for (childIndex in 0 until node.children.size) {
+            val child = node.children[childIndex]
+            val childF = child.key.get(0)
+            if (keyF == childF) {
+                val commonKey = key.commonPrefixWith(child.key)
+                if (child.key.length == key.length && commonKey.length == key.length) {
+                    if (child.value == null){
+                        child.value = onCreate()
+if(child.value!=null){
+size++
+}
+                    }else{
+			onUpdate(child)
+		    }
+                    return child.value
+                } else if (commonKey.length == child.key.length) {
+                    return walkInternal(key.substring(commonKey.length, key.length), child, onCreate,onUpdate)
+                } else {
+val value=onCreate()
+                    if (value!=null) {
+size++
+                        val intermediateNode = MyMapStringIntPatriciaTrieNode(commonKey, null)
+                        child.key = child.key.substring(commonKey.length, child.key.length)
+                        intermediateNode.children.add(child)
+                        node.children.remove(child)
+                        node.children.add(intermediateNode)
+                        var newNode: MyMapStringIntPatriciaTrieNode
+                        if (commonKey.length == key.length) {
+                            newNode = intermediateNode
+                            intermediateNode.value = value
+                        } else {
+                            newNode = MyMapStringIntPatriciaTrieNode(key.substring(commonKey.length, key.length), value)
+                            intermediateNode.children.add(newNode)
+                        }
+                        return newNode.value
+                    } else {
+                        return null
+                    }
+                }
+            }
+        }
+val value=onCreate()
+        if (value!=null) {
+size++
+            val newNode = MyMapStringIntPatriciaTrieNode(key, value)
+            node.children.add(newNode)
+            return newNode.value
+        } else {
+            return null
+        }
+    }
+
+    inline operator fun get(key: String)=walkInternal(key,root,{null},{})
+
+    inline operator fun set(key: String, value: Int) {
+walkInternal(key,root,{value},{it.value=value})
+    }
+
+    inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
+        var value: Int? = null
+walkInternal(key,root,{
+value=onCreate()
+/*return*/value
+},{value=it.value})
+        return value!!
+    }
+
+    fun appendAssumeSorted(key: String, value: Int): Int {
+set(key,value)
+return value
+    }
+
+    fun clear() {
+root=MyMapStringIntPatriciaTrieNode("", null)
+    }
+
+fun forEachInternal(prefix:String,node:MyMapStringIntPatriciaTrieNode,action:(String,Int)->Unit){
+val nextPrefix=prefix+node.key
+if(node.value!=null){
+action(nextPrefix,node.value!!)
+}
+for(c in node.children){
+forEachInternal(nextPrefix,c,action)
+}
+}
+
+fun forEach(action:(String,Int)->Unit)=forEachInternal("",root,action)
+
+}

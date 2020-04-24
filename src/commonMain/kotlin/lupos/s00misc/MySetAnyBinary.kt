@@ -4,7 +4,7 @@ import lupos.s00misc.Coverage
 
 class MySetAnyBinary<T : Comparable<T>> {
     @JvmField
-    var data = mutableListOf<T>()
+    var data = MyListAny<T>()
     var size: Int = 0
         get() = data.size
 
@@ -99,7 +99,7 @@ class MySetAnyBinary<T : Comparable<T>> {
         })
     }
 
-    inline fun toList(): List<T> {
+    inline fun toList(): MyListAny<T> {
         return data
     }
 }

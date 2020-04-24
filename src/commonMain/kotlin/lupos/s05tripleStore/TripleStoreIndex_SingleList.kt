@@ -127,7 +127,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         return res
     }
 
-    override fun import(dataImport: MutableList<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
+    override fun import(dataImport: MyListAny<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
         if (data.size == 0) {
             val tmp = MyListInt()
             val tmpindex = MyMapInt<MyMapIntInt>()

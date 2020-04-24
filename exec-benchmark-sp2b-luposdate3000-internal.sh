@@ -8,15 +8,21 @@ triples=1024
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
 
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MapMapList Dummy Korio None Local Off BinaryTree None
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MapMapList Dummy Korio None Local Off BinaryTree None Empty
 ./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/MapMap_BinaryTree.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off BinaryTree None
+ln -s $(readlink -f build/executable) log/benchtmp/MapMap_BinaryTree_Empty.x
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off BinaryTree None Empty
 ./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/Single_BinaryTree.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None
+ln -s $(readlink -f build/executable) log/benchtmp/Single_BinaryTree_Empty.x
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None Empty
 ./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap.x
+ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_Empty.x
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None EmptyWithDictionary
+./tool-gradle-build.sh
+ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_EmptyWithDictionary.x
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None XML
+./tool-gradle-build.sh
+ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_XML.x
 
 
 p=$(pwd)/benchmark_results/sp2b
@@ -37,7 +43,6 @@ for version in "MapMap_BinaryTree" "Single_BinaryTree" "Single_HashMap"
 do
 	cp log/queries log/benchtmp/$version.queries
 done
-csvfile=$p/luposdate-$(git rev-parse HEAD)-internal.csv
 while true
 do
 	triplesfolder=/mnt/sp2b-testdata/${triples}
@@ -50,7 +55,7 @@ do
 		else
 			./log/benchtmp/$version.x IMPORT "$triplesfolder/data" $(find $triplesfolder/*.n3 | paste -s -d ';') $(paste -s -d ';' log/benchtmp/$version.queries) 10 $triples $size > log/benchtmp/x
 		fi
-		cat log/benchtmp/x | grep "sparql,$triples," | sed "s/\$/,$version/g" >> $csvfile
+		cat log/benchtmp/x | grep "sparql,$triples," >> $p/luposdate-$version-$(git rev-parse HEAD)-internal.csv
 		cat log/benchtmp/x | grep "sparql,1024," | grep -v "sparql,1024,0,.," | sed "s/,.*//" > log/benchtmp/$version.queries
 	done
 	triples=$(($triples * 2))

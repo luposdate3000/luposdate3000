@@ -11,17 +11,17 @@ class TripleStoreBulkImport {
     @JvmField
     val dictionaryO = PatriciaTrie()
     @JvmField
-    val dataSPO = mutableListOf<MyMapInt<MySetInt>>()
+    val dataSPO = MyListAny<MyMapInt<MySetInt>>()
     @JvmField
-    val dataSOP = mutableListOf<MyMapInt<MySetInt>>()
+    val dataSOP = MyListAny<MyMapInt<MySetInt>>()
     @JvmField
-    val dataPOS = mutableListOf<MyMapInt<MySetInt>>()
+    val dataPOS = MyListAny<MyMapInt<MySetInt>>()
     @JvmField
-    val dataOSP = mutableListOf<MyMapInt<MySetInt>>()
+    val dataOSP = MyListAny<MyMapInt<MySetInt>>()
     @JvmField
-    val dataPSO = mutableListOf<MyMapInt<MySetInt>>()
+    val dataPSO = MyListAny<MyMapInt<MySetInt>>()
     @JvmField
-    val dataOPS = mutableListOf<MyMapInt<MySetInt>>()
+    val dataOPS = MyListAny<MyMapInt<MySetInt>>()
 
     fun insert(s: String, p: String, o: String) {
         val si = dictionaryS.insert(s)
