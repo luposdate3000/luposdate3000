@@ -29,7 +29,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_jvm_Benchmark_Off_Fast_Sequential_Heap_MapMapList_Dummy_Korio_none_Local_Off")
+project.buildDir = file("build/build_jvm_Benchmark_Off_Fast_Sequential_Heap_MapMapList_Dummy_Korio_None_Local_Off_BinaryTree_None")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
@@ -48,6 +48,7 @@ sourceSets["main"].java.srcDir("src/commonS00LaunchBenchmarkMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00ResultFlowFastMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00SanityChecksOffMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00WrapperJenaOffMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS05MapMapListMain/kotlin")

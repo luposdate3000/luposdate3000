@@ -38,7 +38,7 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
             if (res != null) {
                 counters[uuid]!![name]!!.add(res)
             } else {
-//                println("$uuid finished $name")
+                println("$uuid finished $name")
             }
             /*return*/res
         }

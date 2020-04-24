@@ -50,8 +50,9 @@ class ChooseableOptionDirectory(label: String, val directory: String) : Chooseab
 
     override fun toString() = "Directory($internalID)"
 }
-class ChooseableOptionTypeAlias(label: String,val package:String,val definedClass:String,val usedClass:String) : ChooseableOption(label, package+definedClass+usedClass) {
-    override fun toString() = "Symbolic($internalID)"
+
+class ChooseableOptionTypeAlias(label: String, val pkg: String, val aliasList: List<Pair<String, String>>) : ChooseableOption(label, "common" + pkg + aliasList) {
+    override fun toString() = "TypeAlias($internalID)"
 }
 
 class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
@@ -63,6 +64,7 @@ class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
 var allChoicesString = ""
 var choicesCount = 0
 fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
+    println(group.name)
     when (options.size) {
         0 -> throw Exception("script error")
         1 -> return options[0]
@@ -75,20 +77,20 @@ fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): Choo
                     readLine()
                 if (input != null) {
                     if (options.map { it.label }.contains(input)) {
-                        allChoicesString += "_$input"
                         for (o in options) {
-                            if (o.label == input)
+                            if (o.label == input){
+                                allChoicesString += "_${o.label}"
                                 return o
+}
                         }
                         require(false)
                     }
                     try {
                         val i = input.toInt()
                         if (i < options.size) {
-                            allChoicesString += "_${options[i]}"
+                            allChoicesString += "_${options[i].label}"
                             return options[i]
-                        } else
-                            throw Exception("")
+                        }
                     } catch (e: Throwable) {
                     }
                 }
@@ -138,11 +140,11 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Server implementation") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS14ServerKorioMain"),
-                ChooseableOptionDirectory("none", "commonS14ServerNoneMain")
+                ChooseableOptionDirectory("None", "commonS14ServerNoneMain")
         ),
         ChooseableGroup("Client implementation") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS14ClientKorioMain"),
-                ChooseableOptionDirectory("none", "commonS14ClientNoneMain"),
+                ChooseableOptionDirectory("None", "commonS14ClientNoneMain"),
                 ChooseableOptionSymbolic("Ktor", "jvmS14ClientKtorTarget"),
                 ChooseableOptionSymbolic("Ktor", "nativeS14ClientKtorTarget")
         ),
@@ -153,6 +155,32 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Include Jena Wrapper") to listOf(
                 ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
                 ChooseableOptionDirectory("Off", "commonS00WrapperJenaOffMain")
+        ),
+        ChooseableGroup("Set Implementation") to listOf(
+                ChooseableOptionTypeAlias("BinaryTree", "lupos.s00misc", listOf(
+                        "MySetAny<T>" to "MySetAnyBinary<T>",
+                        "MySetLong" to "MySetLongBinary",
+                        "MySetInt" to "MySetIntBinary"
+                ))
+        ),
+        ChooseableGroup("Map Implementation") to listOf(
+                ChooseableOptionTypeAlias("BinaryTree", "lupos.s00misc", listOf(
+                        "MyMapInt<T>" to "MyMapIntBinaryTree<T>",
+                        "MyMapLong<T>" to "MyMapLongBinaryTree<T>",
+                        "MyMapLongInt" to "MyMapLongIntBinaryTree",
+                        "MyMapIntInt" to "MyMapIntIntBinaryTree"
+                )),
+                ChooseableOptionTypeAlias("HashMap", "lupos.s00misc", listOf(
+                        "MyMapInt<T>" to "MyMapIntBinaryTree<T>",
+                        "MyMapLong<T>" to "MyMapLongBinaryTree<T>",
+                        "MyMapLongInt" to "MyMapLongIntHash",
+                        "MyMapIntInt" to "MyMapIntIntBinaryTree"
+                ))
+        ),
+        ChooseableGroup("Iterator Debug verbosity") to listOf(
+                ChooseableOptionTypeAlias("None", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugFast")),
+                ChooseableOptionTypeAlias("Count", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugCount")),
+                ChooseableOptionTypeAlias("Verbose", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugVerbose"))
         )
 )
 val conflicts = listOf(
@@ -312,7 +340,6 @@ fun addAdditionalSources() {
 println("result choices :: ")
 for (option in allChoosenOptions.sorted())
     println(option)
-println("build.gradle :: ")
 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
 
 File("build.gradle.kts").printWriter().use { out ->
@@ -402,4 +429,28 @@ kotlin {
 try {
     File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
 } catch (e: FileAlreadyExistsException) {
+}
+File("src/commonConfig").deleteRecursively()
+val configFilesContent = mutableMapOf<String, StringBuilder>()
+for (option in allChoosenOptions) {
+    if (option is ChooseableOptionTypeAlias) {
+        var f = configFilesContent[option.pkg]
+        if (f == null) {
+            f = StringBuilder()
+            f!!.append("package ${option.pkg}\n")
+            f!!.append("/* this File is autogenerated by generate-buildfile.kts */\n")
+            f!!.append("/* DO NOT MODIFY DIRECTLY */\n")
+            configFilesContent[option.pkg] = f!!
+        }
+        val fc = f!!
+        for (alias in option.aliasList) {
+            fc.append("typealias ${alias.first} = ${alias.second}\n")
+        }
+    }
+}
+for ((k, v) in configFilesContent) {
+    File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
+    File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
+        out.print(v.toString())
+    }
 }
