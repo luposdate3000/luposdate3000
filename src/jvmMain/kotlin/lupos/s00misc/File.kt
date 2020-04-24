@@ -1,5 +1,6 @@
 package lupos.s00misc
-
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
 import java.io.BufferedReader
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -22,6 +23,7 @@ class File(@JvmField val filename: String) {
             }
         }
     }
+fun length()=java.io.File(filename).length()
 
     fun readAsString() = java.io.File(filename).inputStream().bufferedReader().use { it.readText() }
     suspend fun walk(action: suspend (String) -> Unit) {
@@ -52,10 +54,11 @@ class File(@JvmField val filename: String) {
 
     fun forEachLine(action: (String) -> Unit) = java.io.File(filename).forEachLine { action(it) }
     fun dataOutputStream(action: (java.io.DataOutputStream) -> Unit) {
-        val fos = FileOutputStream(filename);
         var dos: DataOutputStream? = null
         try {
-            dos = DataOutputStream(fos)
+            val fos = FileOutputStream(filename);
+            val bos=BufferedOutputStream(fos)
+            dos = DataOutputStream(bos)
             action(dos!!)
         } finally {
             dos?.close()
@@ -63,10 +66,11 @@ class File(@JvmField val filename: String) {
     }
 
     fun dataInputStream(action: (java.io.DataInputStream) -> Unit) {
-        val fis = FileInputStream(filename);
-        var dis: DataInputStream? = null
+	var dis:DataInputStream?=null
         try {
-            dis = DataInputStream(fis)
+            val fis = FileInputStream(filename)
+            val bis=BufferedInputStream(fis)
+            dis = DataInputStream(bis)
             action(dis!!)
         } finally {
             dis?.close()

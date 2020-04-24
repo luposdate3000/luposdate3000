@@ -1,5 +1,8 @@
 package lupos.s05tripleStore
 
+import kotlin.time.DurationUnit
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource.Monotonic
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -19,9 +22,10 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
+@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 class TripleStoreIndex_SingleList : TripleStoreIndex {
     @JvmField
-    val data = MyListInt()
+    var data = MyListInt()
     @JvmField
     val index1 = MyMapIntInt()
     @JvmField
@@ -36,29 +40,28 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun loadFromFolder(filename: String) {
+        var timer = Monotonic.markNow()
         require(data.size == 0)
-        File(filename).dataInputStream { it ->
-            val size0 = it.readInt()
-            data.add(size0)
-            for (i0 in 0 until size0) {
-                val key0 = it.readInt()
-                val size1 = it.readInt()
-                data.add(key0)
-                index1[key0] = data.size
-                data.add(size1)
-                for (i1 in 0 until size1) {
-                    val key1 = it.readInt()
-                    val size2 = it.readInt()
-                    data.add(key1)
-                    index2[(key0.toLong() shl 32) + key1] = data.size
-                    data.add(size2)
-                    for (i2 in 0 until size2) {
-                        val key2 = it.readInt()
-                        data.add(key2)
-                    }
-                }
+        val capacity = (File(filename).length() / 4).toInt()
+        println("$capacity")
+        File(filename).dataInputStream { fis ->
+            data = MyListInt(capacity, { fis.readInt() })
+        }
+        println("TripleStoreIndex_SingleList.loadFromFolder FileToIntArray ${timer.elapsedNow().toDouble(DurationUnit.SECONDS)}")
+        timer = Monotonic.markNow()
+        var idx = 0
+        val size0 = data[idx++]
+        for (i0 in 0 until size0) {
+            val key0 = data[idx++]
+            index1[key0] = idx
+            val size1 = data[idx++]
+            for (i1 in 0 until size1) {
+                val key1 = data[idx++]
+                index2[(key0.toLong() shl 32) + key1] = idx
+                idx += data[idx] + 1
             }
         }
+        println("TripleStoreIndex_SingleList.loadFromFolder Build Index ${timer.elapsedNow().toDouble(DurationUnit.SECONDS)}")
     }
 
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
