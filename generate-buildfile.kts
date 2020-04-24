@@ -1,7 +1,6 @@
 #!/bin/kscript
 import java.io.File
 
-
 abstract class ChooseableOption(val label: String, val internalID: String) : Comparable<ChooseableOption> {
     companion object {
         val mapLabel = mutableMapOf<String, ChooseableOption>()
@@ -22,15 +21,38 @@ abstract class ChooseableOption(val label: String, val internalID: String) : Com
 
     override fun equals(other: Any?) = other is ChooseableOption && internalID == other.internalID
     override fun hashCode() = internalID.hashCode()
-    override operator fun compareTo(other: ChooseableOption) = internalID.compareTo(other.internalID)
+    override operator fun compareTo(other: ChooseableOption): Int {
+        var tmp = this::class.qualifiedName!!.compareTo(other::class.qualifiedName!!)
+        if (tmp != 0)
+            return tmp
+        return internalID.compareTo(other.internalID)
+    }
 }
 
-class ChooseableOptionSymbolic(label: String, internalID: String) : ChooseableOption(label, internalID)
+class ChooseableOptionSimple(label: String) : ChooseableOption(label, label) {
+    override fun toString() = "Simple($internalID)"
+}
+
+class ChooseableOptionCInterop(directory: String) : ChooseableOption(directory, directory) {
+    override fun toString() = "CInterop($internalID)"
+}
+
+class ChooseableOptionDependency(url: String) : ChooseableOption(url, url) {
+    override fun toString() = "Dependency($internalID)"
+}
+
+class ChooseableOptionSymbolic(label: String, internalID: String) : ChooseableOption(label, internalID) {
+    override fun toString() = "Symbolic($internalID)"
+}
+
 class ChooseableOptionDirectory(label: String, val directory: String) : ChooseableOption(label, directory) {
     constructor(directory: String) : this(directory, directory)
-}
 
-class ChooseableOptionSimple(label: String) : ChooseableOption(label, label)
+    override fun toString() = "Directory($internalID)"
+}
+class ChooseableOptionTypeAlias(label: String,val package:String,val definedClass:String,val usedClass:String) : ChooseableOption(label, package+definedClass+usedClass) {
+    override fun toString() = "Symbolic($internalID)"
+}
 
 class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
     override fun equals(other: Any?) = other is ChooseableGroup && name == other.name
@@ -75,10 +97,6 @@ fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): Choo
     }
 }
 
-/*
-	options ending with Target are just Symbolic helpers to manage dependencies
-		all other options are used directly as source folders
-*/
 val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Launch Type") to listOf(
                 ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
@@ -151,116 +169,102 @@ val platformPrefix = mapOf(
         "macosX64" to listOf("common", "macosX64", "native"),
         "mingw64" to listOf("common")
 )
-val additionalSources = mapOf(
-        ChooseableOption("commonS00ResultFlowExecuteTestsMain") to listOf(
-                ChooseableOption("commonTest")
-        ),
-        ChooseableOption("commonS01HeapMain") to listOf(
-                ChooseableOption("commonS01BufferMainmemoryMain")
-        ),
-        ChooseableOption("jvmS01BufferMemoryMappedMain") to listOf(
-                ChooseableOption("commonS01BufferDiskbasedMain")
-        ),
-        ChooseableOption("jvmS01BufferMemoryMappedUnsafeMain") to listOf(
-                ChooseableOption("commonS01BufferDiskbasedMain"),
-                ChooseableOption("jvmS01BufferUnsafeHelperMain")
-        ),
-        ChooseableOption("jvmS01BufferUnsafeMain") to listOf(
-                ChooseableOption("commonS01BufferMainmemoryMain"),
-                ChooseableOption("jvmS01BufferUnsafeHelperMain")
-        ),
-        ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
-                ChooseableOption("commonS01BufferDiskbasedMain")
-        ),
-        ChooseableOption("linuxX64Main") to listOf(
-                ChooseableOption("nativeMain")
-        ),
-        ChooseableOption("macosX64Main") to listOf(
-                ChooseableOption("nativeMain")
-        ),
-        ChooseableOption("commonS00LaunchBinaryTestsMain") to listOf(
-                ChooseableOption("commonS00ResultFlowExecuteTestsMain")
-        ),
-        ChooseableOption("jvmS00LaunchJavaFuzzMain") to listOf(
-                ChooseableOption("commonS00ResultFlowExecuteTestsMain")
-        ),
-        ChooseableOption("jvmS00LaunchWarnkeFuzzMain") to listOf(
-                ChooseableOption("commonS00ResultFlowExecuteTestsMain")
-        ),
-        ChooseableOption("jvmS14ClientKtorTarget") to listOf(
-                ChooseableOption("commonS14ClientKtorMain")
-        ),
-        ChooseableOption("nativeS14ClientKtorTarget") to listOf(
-                ChooseableOption("commonS14ClientKtorMain")
-        )
-)
 val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.1"))).label
 val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"))).label
 val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
-val dependencies = mapOf(
-        ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
-                "org.apache.jena:jena-core:3.14.0",
-                "org.apache.jena:jena-arq:3.14.0"
-        ),
+
+val additionalSources = mapOf(
+/*if the key is choosen, automatically add all dependent things*/
         ChooseableOption("commonMain") to listOf(
-                "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
-                "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
-                "com.benasher44:uuid:0.0.7",
-                "com.soywiz.korlibs.krypto:krypto:1.9.1"
+                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
+                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
+                ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
+                ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
         ),
-        ChooseableOption("jvmMain") to listOf(
-                "com.soywiz.korlibs.klock:klock:1.7.0",
-                "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-                "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+        ChooseableOption("commonS00ResultFlowExecuteTestsMain") to listOf(
+                ChooseableOptionDirectory("commonTest")
         ),
-        ChooseableOption("jvmS00LaunchJavaFuzzMain") to listOf(
-                "dev.fuzzit.javafuzz:core:1.22",
-                "org.jacoco:org.jacoco.agent:0.8.5:runtime"
+        ChooseableOption("commonS00LaunchBinaryTestsMain") to listOf(
+                ChooseableOptionDirectory("commonS00ResultFlowExecuteTestsMain")
         ),
-        ChooseableOption("nativeMain") to listOf(
-                "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"
-        ),
-        ChooseableOption("jvmS14ServerKorioMain") to listOf(
-                "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
-        ),
-        ChooseableOption("jvmS14ClientKorioMain") to listOf(
-                "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
-        ),
-        ChooseableOption("jvmS14ClientKtorTarget") to listOf(
-                "io.ktor:ktor-client-logging-jvm:$ktorVersion",
-                "io.ktor:ktor-client-core-jvm:$ktorVersion"
-        ),
-        ChooseableOption("nativeS14ClientKtorTarget") to listOf(
-                "io.ktor:ktor-client-core-native:$ktorVersion",
-                "io.ktor:ktor-client-logging-native:$ktorVersion"
+        ChooseableOption("commonS01HeapMain") to listOf(
+                ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
         ),
         ChooseableOption("commonS14ClientKtorMain") to listOf(
-                "io.ktor:ktor-client-core:$ktorVersion",
-                "io.ktor:ktor-client-cio:$ktorVersion",
-                "io.ktor:ktor-client-logging:$ktorVersion",
-                "org.slf4j:slf4j-nop:1.7.25"
+                ChooseableOptionDependency("io.ktor:ktor-client-core:$ktorVersion"),
+                ChooseableOptionDependency("io.ktor:ktor-client-cio:$ktorVersion"),
+                ChooseableOptionDependency("io.ktor:ktor-client-logging:$ktorVersion"),
+                ChooseableOptionDependency("org.slf4j:slf4j-nop:1.7.25")
+        ),
+        ChooseableOption("jvmMain") to listOf(
+                ChooseableOptionDependency("com.soywiz.korlibs.klock:klock:1.7.0"),
+                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
+                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
+                ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+        ),
+        ChooseableOption("jvmS00LaunchJavaFuzzMain") to listOf(
+                ChooseableOptionDependency("dev.fuzzit.javafuzz:core:1.22"),
+                ChooseableOptionDependency("org.jacoco:org.jacoco.agent:0.8.5:runtime"),
+                ChooseableOptionDirectory("commonS00ResultFlowExecuteTestsMain")
+        ),
+        ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
+                ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
+                ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
+        ),
+        ChooseableOption("jvmS00LaunchWarnkeFuzzMain") to listOf(
+                ChooseableOptionDirectory("commonS00ResultFlowExecuteTestsMain")
+        ),
+        ChooseableOption("jvmS01BufferMemoryMappedMain") to listOf(
+                ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
+        ),
+        ChooseableOption("jvmS01BufferMemoryMappedUnsafeMain") to listOf(
+                ChooseableOptionDirectory("commonS01BufferDiskbasedMain"),
+                ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
+        ),
+        ChooseableOption("jvmS01BufferUnsafeMain") to listOf(
+                ChooseableOptionDirectory("commonS01BufferMainmemoryMain"),
+                ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
+        ),
+        ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
+                ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
+        ),
+        ChooseableOption("jvmS14ClientKtorTarget") to listOf(
+                ChooseableOptionDirectory("commonS14ClientKtorMain"),
+                ChooseableOptionDependency("io.ktor:ktor-client-logging-jvm:$ktorVersion"),
+                ChooseableOptionDependency("io.ktor:ktor-client-core-jvm:$ktorVersion")
+        ),
+        ChooseableOption("jvmS14ServerKorioMain") to listOf(
+                ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
+        ),
+        ChooseableOption("jvmS14ClientKorioMain") to listOf(
+                ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
         ),
         ChooseableOption("linuxX64Main") to listOf(
-                "com.soywiz.korlibs.klock:klock-linuxx64:1.8.7"
+                ChooseableOptionDirectory("nativeMain"),
+                ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
         ),
         ChooseableOption("macosX64Main") to listOf(
-                "com.soywiz.korlibs.klock:klock-macosx64:1.8.9"
-        )
-)
-val cinterops = mapOf(
+                ChooseableOptionDirectory("nativeMain"),
+                ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
+        ),
         ChooseableOption("nativeMain") to listOf(
-                "dirent",
-                "stdio",
-                "unistd"
+                ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"),
+                ChooseableOptionCInterop("dirent"),
+                ChooseableOptionCInterop("stdio"),
+                ChooseableOptionCInterop("unistd")
+        ),
+        ChooseableOption("nativeS14ClientKtorTarget") to listOf(
+                ChooseableOptionDirectory("commonS14ClientKtorMain"),
+                ChooseableOptionDependency("io.ktor:ktor-client-core-native:$ktorVersion"),
+                ChooseableOptionDependency("io.ktor:ktor-client-logging-native:$ktorVersion")
         )
 )
-val sourceFolders = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
-sourceFolders.add(ChooseableOptionDirectory("${platform}Main"))
+val allChoosenOptions = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
+allChoosenOptions.add(ChooseableOptionDirectory("${platform}Main"))
 for ((k, choices) in options) {
     var alreadyChoosen = false
     for (choice in choices)
-        if (sourceFolders.contains(choice)) {
+        if (allChoosenOptions.contains(choice)) {
             alreadyChoosen = true
             break
         }
@@ -275,15 +279,15 @@ for ((k, choices) in options) {
                 }
             for (conflict in conflicts)
                 if (conflict.contains(choice.internalID))
-                    for (sourceFolder in sourceFolders)
-                        if (conflict.contains(sourceFolder.internalID)) {
+                    for (option in allChoosenOptions)
+                        if (conflict.contains(option.internalID)) {
                             ok = false
                         }
             if (ok)
                 remainingChoices.add(choice)
         }
         val choice = presentChoice(k, remainingChoices)
-        sourceFolders.add(choice)
+        allChoosenOptions.add(choice)
         addAdditionalSources()
     }
 }
@@ -291,12 +295,12 @@ fun addAdditionalSources() {
     var changed = true
     while (changed) {
         changed = false
-        for (sourceFolder in sourceFolders) {
-            val additionalSource = additionalSources[sourceFolder]
+        for (option in allChoosenOptions) {
+            val additionalSource = additionalSources[option]
             if (additionalSource != null)
                 for (s in additionalSource)
-                    if (!sourceFolders.contains(s)) {
-                        sourceFolders.add(s)
+                    if (!allChoosenOptions.contains(s)) {
+                        allChoosenOptions.add(s)
                         changed = true
                     }
             if (changed)
@@ -305,18 +309,9 @@ fun addAdditionalSources() {
     }
 }
 
-val sourceDependencies = mutableSetOf<String>()
-for (sourceFolder in sourceFolders) {
-    val dependency = dependencies[sourceFolder]
-    if (dependency != null)
-        sourceDependencies.addAll(dependency)
-}
-println("result sourceFolders :: ")
-for (sourceFolder in sourceFolders.sorted())
-    println(sourceFolder.internalID)
-println("result dependencies:: ")
-for (sourceDependency in sourceDependencies.sorted())
-    println(sourceDependency)
+println("result choices :: ")
+for (option in allChoosenOptions.sorted())
+    println(option)
 println("build.gradle :: ")
 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
 
@@ -356,12 +351,13 @@ repositories {
 }
 project.buildDir = file("build/build$allChoicesString")
 dependencies {""")
-            for (sourceDependency in sourceDependencies.sorted())
-                out.println("    implementation(\"$sourceDependency\")")
+            for (option in allChoosenOptions.sorted())
+                if (option is ChooseableOptionDependency)
+                    out.println("    implementation(\"${option.internalID}\")")
             out.println("""}""")
-            for (sourceFolder in sourceFolders.sorted())
-                if (sourceFolder is ChooseableOptionDirectory)
-                    out.println("sourceSets[\"main\"].java.srcDir(\"src/${sourceFolder.internalID}/kotlin\")")
+            for (option in allChoosenOptions.sorted())
+                if (option is ChooseableOptionDirectory)
+                    out.println("sourceSets[\"main\"].java.srcDir(\"src/${option.internalID}/kotlin\")")
         }
         else -> {
             out.println("""plugins {
@@ -379,26 +375,25 @@ kotlin {
     project.buildDir = file("build/build$allChoicesString")
     ${platform}("${platform}") {
         val main by compilations.getting""")
-            for (sourceFolder in sourceFolders.sorted()) {
-                val interop = cinterops[sourceFolder]
-                if (interop != null)
-                    for (i in interop.sorted())
-                        out.println("        val $i by main.cinterops.creating")
+            for (option in allChoosenOptions.sorted()) {
+                if (option is ChooseableOptionCInterop)
+                    out.println("        val ${option.internalID} by main.cinterops.creating")
             }
             out.println("""        binaries {
             executable()
         }
     }
     sourceSets["commonMain"].dependencies {""")
-            for (sourceDependency in sourceDependencies.sorted())
-                out.println("        implementation(\"$sourceDependency\")")
+            for (option in allChoosenOptions.sorted())
+                if (option is ChooseableOptionDependency)
+                    out.println("        implementation(\"${option.internalID}\")")
             out.println("""    }""")
-            for (sourceFolder in sourceFolders.sorted())
-                if (sourceFolder is ChooseableOptionDirectory) {
-                    if (sourceFolder.internalID.startsWith("common"))
-                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/${sourceFolder.internalID}/kotlin\")")
+            for (option in allChoosenOptions.sorted())
+                if (option is ChooseableOptionDirectory) {
+                    if (option.internalID.startsWith("common"))
+                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
                     else
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/${sourceFolder.internalID}/kotlin\")")
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
                 }
             out.println("""}""")
         }
