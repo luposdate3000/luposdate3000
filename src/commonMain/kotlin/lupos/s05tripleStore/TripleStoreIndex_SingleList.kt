@@ -1,8 +1,5 @@
 package lupos.s05tripleStore
 
-import kotlin.time.DurationUnit
-import kotlin.time.TimeMark
-import kotlin.time.TimeSource.Monotonic
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -22,7 +19,6 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
-@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 class TripleStoreIndex_SingleList : TripleStoreIndex {
     @JvmField
     var data = MyListInt()
@@ -40,15 +36,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun loadFromFolder(filename: String) {
-        var timer = Monotonic.markNow()
         require(data.size == 0)
         val capacity = (File(filename).length() / 4).toInt()
-        println("$capacity")
         File(filename).dataInputStream { fis ->
             data = MyListInt(capacity, { fis.readInt() })
         }
-        println("TripleStoreIndex_SingleList.loadFromFolder FileToIntArray ${timer.elapsedNow().toDouble(DurationUnit.SECONDS)}")
-        timer = Monotonic.markNow()
         var idx = 0
         val size0 = data[idx++]
         for (i0 in 0 until size0) {
@@ -61,7 +53,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 idx += data[idx] + 1
             }
         }
-        println("TripleStoreIndex_SingleList.loadFromFolder Build Index ${timer.elapsedNow().toDouble(DurationUnit.SECONDS)}")
     }
 
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {

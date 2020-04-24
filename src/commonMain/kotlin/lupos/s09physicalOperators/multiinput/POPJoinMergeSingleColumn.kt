@@ -57,9 +57,9 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                 if (counter == 0) {
                     var done = false
                     var change = true
-                    while (change) {
+                    loop@ while (change) {
                         change=false
-                        loop@ for (i in 0 until 2) {
+                        for (i in 0 until 2) {
                             while (head[i]!! < head[1 - i]!!) {
                                 change = true
                                 head[i] = child[i].next()
