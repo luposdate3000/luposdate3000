@@ -29,7 +29,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_jvm_Benchmark_Off_Fast_Sequential_Heap_SingleList_Dummy_Korio_None_Local_Off_HashMap_None_XML")
+project.buildDir = file("build/build_jvm_Benchmark_Off_Fast_Sequential_Heap_SingleList_Dummy_Korio_None_Local_Off_BinaryTree_None_Empty")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")

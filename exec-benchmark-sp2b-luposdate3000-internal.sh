@@ -39,7 +39,7 @@ echo "resources/sp2b/q10.sparql" >> log/queries
 echo "resources/sp2b/q12a.sparql" >> log/queries
 echo "resources/sp2b/q12b.sparql" >> log/queries
 echo "resources/sp2b/q12c.sparql" >> log/queries
-for version in "MapMap_BinaryTree" "Single_BinaryTree" "Single_HashMap"
+for version in "MapMap_BinaryTree_Empty" "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML"
 do
 	cp log/queries log/benchtmp/$version.queries
 done
@@ -47,16 +47,20 @@ while true
 do
 	triplesfolder=/mnt/sp2b-testdata/${triples}
 	size=$(du -sbc ${triplesfolder}/*.n3 | grep total | sed 's/\t.*//g')
-	for version in "MapMap_BinaryTree" "Single_BinaryTree" "Single_HashMap"
+	for version in "MapMap_BinaryTree_Empty" "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML"
 	do
-		if true
+		queries=$(paste -s -d ';' log/benchtmp/$version.queries)
+		if [ -n "$queries" ]
 		then
-			./log/benchtmp/$version.x LOAD "$triplesfolder/data" "" $(paste -s -d ';' log/benchtmp/$version.queries) 10 $triples $size > log/benchtmp/x
-		else
-			./log/benchtmp/$version.x IMPORT "$triplesfolder/data" $(find $triplesfolder/*.n3 | paste -s -d ';') $(paste -s -d ';' log/benchtmp/$version.queries) 10 $triples $size > log/benchtmp/x
+			if true
+			then
+				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" > log/benchtmp/x
+			else
+				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" > log/benchtmp/x
+			fi
+			cat log/benchtmp/x | grep "sparql,$triples," >> $p/luposdate-$version-$(git rev-parse HEAD)-internal.csv
+			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.queries
 		fi
-		cat log/benchtmp/x | grep "sparql,$triples," >> $p/luposdate-$version-$(git rev-parse HEAD)-internal.csv
-		cat log/benchtmp/x | grep "sparql,1024," | grep -v "sparql,1024,0,.," | sed "s/,.*//" > log/benchtmp/$version.queries
 	done
 	triples=$(($triples * 2))
 	if [[ $triples -le 0 ]]
@@ -64,4 +68,4 @@ do
 		break
 	fi
 done
-rm benchtmp
+rm -rf log/benchtmp
