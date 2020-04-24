@@ -32,7 +32,7 @@ import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.QueryResultToXML
+import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.*
@@ -421,7 +421,7 @@ class SparqlTestSuite() {
                             val query = Query()
                             val bulkData = endpointServer!!.process_turtle_input(inputData)
                             val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                            xmlGraphBulk = QueryResultToXML.toXML(bulkSelect)
+                            xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         }
                         if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
@@ -509,7 +509,7 @@ class SparqlTestSuite() {
                 var xmlQueryResult: XMLElement? = null
                 if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
-                    xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
+                    xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                     query.commit()
                 }
@@ -518,7 +518,7 @@ class SparqlTestSuite() {
                     val outputData = readFileOrNull(it["filename"])
                     var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
                     val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                    var xmlGraphActual = QueryResultToXML.toXML(tmp)
+                    var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                     if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
@@ -562,7 +562,7 @@ class SparqlTestSuite() {
                         val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP) as POPBase
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
-                        val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
+                        val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
                         query4.commit()
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
                         if (xmlQueryResultRecovered.myEquals(xmlQueryResult)) {

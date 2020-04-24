@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 
-object QueryResultToXML {
+object QueryResultToXMLElement {
     suspend fun toXML(node: POPBase): XMLElement {
 //BenchmarkUtils.start(EBenchmark.QUERY_EVALUATE_INIT)
         val child = node.evaluate()
@@ -84,7 +84,6 @@ object QueryResultToXML {
                             }
                             nodeResult.addContent(nodeBinding)
                         }
-
                     }
                     nodeResults.addContent(nodeResult)
                 }

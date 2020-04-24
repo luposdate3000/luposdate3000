@@ -38,7 +38,7 @@ import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.QueryResultToXML
+import lupos.s11outputResult.*
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
@@ -55,51 +55,46 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     /*
     incoming bulk import
     */
-    suspend fun process_turtle_input(data: String): XMLElement {
-        try {
-            BenchmarkUtils.start(EBenchmark.IMPORT_COMPLETE)
-            val query = Query()
-            BenchmarkUtils.start(EBenchmark.IMPORT_INIT)
-            val lcit = LexerCharIterator(data)
-            val tit = TurtleScanner(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            val bulk = TripleStoreBulkImport()
-            val timeInit = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_INIT)
-            BenchmarkUtils.start(EBenchmark.IMPORT_TURTLE_PARSER)
-            var counter = 0
-            TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
-                val s = Dictionary[triple_s]!!.toN3String()
-                val p = Dictionary[triple_p]!!.toN3String()
-                val o = Dictionary[triple_o]!!.toN3String()
-                bulk.insert(s, p, o)
-                counter++
-            }, ltit).turtleDoc()
-            val timeParser = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TURTLE_PARSER)
-            DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
-            val timeComplete = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_COMPLETE)
-            return XMLElement("success $counter $timeInit $timeParser $timeComplete")
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            throw e
-        }
+    suspend fun process_turtle_input(data: String): String {
+        BenchmarkUtils.start(EBenchmark.IMPORT_COMPLETE)
+        val query = Query()
+        BenchmarkUtils.start(EBenchmark.IMPORT_INIT)
+        val lcit = LexerCharIterator(data)
+        val tit = TurtleScanner(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val bulk = TripleStoreBulkImport()
+        val timeInit = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_INIT)
+        BenchmarkUtils.start(EBenchmark.IMPORT_TURTLE_PARSER)
+        var counter = 0
+        TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
+            val s = Dictionary[triple_s]!!.toN3String()
+            val p = Dictionary[triple_p]!!.toN3String()
+            val o = Dictionary[triple_o]!!.toN3String()
+            bulk.insert(s, p, o)
+            counter++
+        }, ltit).turtleDoc()
+        val timeParser = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TURTLE_PARSER)
+        DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
+        val timeComplete = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_COMPLETE)
+        return XMLElement("success $counter $timeInit $timeParser $timeComplete").toString()
     }
 
     /*
     incoming bulk import
     */
-    suspend fun process_xml_input(data: String): XMLElement {
+    suspend fun process_xml_input(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()
-        return XMLElement("success")
+        return XMLElement("success").toString()
     }
 
     /*
     incoming sparql benchmark
     */
-    suspend fun process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): XMLElement {
+    suspend fun process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): String {
         BenchmarkUtils.start(EBenchmark.QUERY)
         var time: Double
         var counter = 0
@@ -111,13 +106,13 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 break
             }
         }
-        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter)
+        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter).toString()
     }
 
     /*
     incoming sparql benchmark for jena db compare
     */
-    suspend fun jena_process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): XMLElement {
+    suspend fun jena_process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): String {
         BenchmarkUtils.start(EBenchmark.QUERY)
         var time: Double
         var counter = 0
@@ -129,21 +124,21 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 break
             }
         }
-        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter)
+        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter).toString()
     }
 
     /*
     incoming bulk import
     */
-    suspend fun jena_process_turtle_input(filename: String): XMLElement {
+    suspend fun jena_process_turtle_input(filename: String): String {
         JenaWrapper.loadFromFile(filename)
-        return XMLElement("success")
+        return XMLElement("success").toString()
     }
 
     /*
     incoming sparql
     */
-    suspend fun process_sparql_query(query: String, logOperatorGraph: Boolean = false): XMLElement {
+    suspend fun process_sparql_query(query: String, logOperatorGraph: Boolean = false): String {
 //BenchmarkUtils.start(EBenchmark.QUERY)
 //BenchmarkUtils.start(EBenchmark.QUERY_GENERATE)
         val q = Query()
@@ -184,7 +179,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         }
 //BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_OPTIMIZE)
 //BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_GENERATE)
-        val res = QueryResultToXML.toXML(pop_distributed_node)
+        val res = QueryResultToXMLString(pop_distributed_node)
         q.commit()
 //BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
         return res
@@ -193,7 +188,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     /*
     incoming sparql
     */
-    suspend fun process_sparql_query_operator(query: String, logOperatorGraph: Boolean = false): XMLElement {
+    suspend fun process_sparql_query_operator(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!) as POPBase
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
@@ -205,7 +200,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
         }
-        val res = QueryResultToXML.toXML(pop_node)
+        val res = QueryResultToXMLString(pop_node)
         q.commit()
         return res
     }
@@ -220,89 +215,95 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             "/sparql/query" -> {
                 if (isPost) {
-                    return process_sparql_query(data, true).toPrettyString().encodeToByteArray()
+                    return process_sparql_query(data, true).encodeToByteArray()
                 } else {
-                    return process_sparql_query(params["query"]!!, true).toPrettyString().encodeToByteArray()
+                    return process_sparql_query(params["query"]!!, true).encodeToByteArray()
                 }
             }
             "/sparql/operator" -> {
                 if (isPost) {
-                    return process_sparql_query_operator(data, true).toPrettyString().encodeToByteArray()
+                    return process_sparql_query_operator(data, true).encodeToByteArray()
                 } else {
-                    return process_sparql_query_operator(params["query"]!!, true).toPrettyString().encodeToByteArray()
+                    return process_sparql_query_operator(params["query"]!!, true).encodeToByteArray()
                 }
             }
             "/sparql/benchmark" -> {
                 if (isPost) {
-                    return process_sparql_benchmark(data, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                    return process_sparql_benchmark(data, params["timeout"]!!.toDouble()).encodeToByteArray()
                 } else {
-                    return process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                    return process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).encodeToByteArray()
                 }
             }
             "/jena/benchmark" -> {
                 if (isPost) {
-                    return jena_process_sparql_benchmark(data, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                    return jena_process_sparql_benchmark(data, params["timeout"]!!.toDouble()).encodeToByteArray()
                 } else {
-                    return jena_process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).toPrettyString().encodeToByteArray()
+                    return jena_process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).encodeToByteArray()
                 }
             }
             "/jena/turtle" -> {
                 if (isPost) {
-                    return jena_process_turtle_input(data).toPrettyString().encodeToByteArray()
+                    return jena_process_turtle_input(data).encodeToByteArray()
                 } else {
-                    return jena_process_turtle_input(params["query"]!!).toPrettyString().encodeToByteArray()
+                    return jena_process_turtle_input(params["query"]!!).encodeToByteArray()
                 }
             }
             "/import/turtle" -> {
                 if (isPost) {
-                    return process_turtle_input(data).toPrettyString().encodeToByteArray()
+                    return process_turtle_input(data).encodeToByteArray()
                 } else {
-                    return process_turtle_input(params["query"]!!).toPrettyString().encodeToByteArray()
+                    return process_turtle_input(params["query"]!!).encodeToByteArray()
                 }
             }
             "/import/xml" -> {
                 if (isPost) {
-                    return process_xml_input(data).toPrettyString().encodeToByteArray()
+                    return process_xml_input(data).encodeToByteArray()
                 } else {
-                    return process_xml_input(params["query"]!!).toPrettyString().encodeToByteArray()
+                    return process_xml_input(params["query"]!!).encodeToByteArray()
                 }
             }
             "/persistence/store" -> {
-                BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
-                nodeGlobalDictionary.safeToFile(data + "/dictionary.txt")
+return process_persistence_store(data).encodeToByteArray()
+            }
+            "/persistence/load" -> {
+return process_persistence_load(data).encodeToByteArray()
+            }
+        }
+        TODO("unreachable")
+    }
+fun process_persistence_store(foldername:String):String{
+BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
+                nodeGlobalDictionary.safeToFile(foldername + "/dictionary.txt")
                 var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_DICTIONARY)
                 BenchmarkUtils.start(EBenchmark.SAVE_TRIPLE_STORE)
                 val stores = DistributedTripleStore.localStore.stores
                 var idx = 0
-                File(data + "/stores.txt").printWriter { out ->
+                File(foldername + "/stores.txt").printWriter { out ->
                     stores.keys.forEach { name ->
                         val store = stores[name]!!
-                        store.safeToFolder(data + "/$idx")
+                        store.safeToFolder(foldername + "/$idx")
                         out.println(name)
                         idx++
                     }
                 }
                 var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_TRIPLE_STORE)
-                return XMLElement("success $timeDict $timeStore").toPrettyString().encodeToByteArray()
-            }
-            "/persistence/load" -> {
-                BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
-                nodeGlobalDictionary.loadFromFile(data + "/dictionary.txt")
+                return XMLElement("success $timeDict $timeStore").toString()
+}
+fun process_persistence_load(foldername:String):String{
+BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
+                nodeGlobalDictionary.loadFromFile(foldername + "/dictionary.txt")
                 var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_DICTIONARY)
                 BenchmarkUtils.start(EBenchmark.LOAD_TRIPLE_STORE)
                 val stores = DistributedTripleStore.localStore.stores
                 var idx = 0
-                File(data + "/stores.txt").forEachLine { name ->
+                File(foldername + "/stores.txt").forEachLine { name ->
                     val store = stores[name]!!
-                    store.loadFromFolder(data + "/$idx")
+                    store.loadFromFolder(foldername + "/$idx")
                     idx++
                 }
                 var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_TRIPLE_STORE)
-                return XMLElement("success $timeDict $timeStore").toPrettyString().encodeToByteArray()
-            }
-        }
-        TODO("unreachable")
-    }
+                return XMLElement("success $timeDict $timeStore").toString()
+}
 }
 
 var endpointServer: EndpointServer? = null

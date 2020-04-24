@@ -54,7 +54,7 @@ echo "q1"
 #echo "-> 1"
 
 echo "q3a"
-curl -X POST --data-binary "@resources/sp2b/q3a.sparql" http://localhost:80/sparql/benchmark?timeout=0
+curl -X POST --data-binary "@resources/sp2b/q3a.sparql" http://localhost:80/sparql/query > x
 #curl -X POST --data-binary "SELECT ?article WHERE { ?article <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Article> . ?article <http://swrc.ontoware.org/ontology#pages> ?value .}" http://localhost:80/sparql/query
 #curl -X POST --data-binary "SELECT (COUNT(*) AS ?c) WHERE { ?article <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://localhost/vocabulary/bench/Article> . ?article <http://swrc.ontoware.org/ontology#pages> ?value .}" http://localhost:80/sparql/query
 #echo "-> 1"

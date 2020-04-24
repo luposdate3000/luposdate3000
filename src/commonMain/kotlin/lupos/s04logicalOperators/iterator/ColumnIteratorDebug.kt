@@ -3,10 +3,6 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 
-//typealias ColumnIteratorDebug = ColumnIteratorDebugVerbose
-//typealias ColumnIteratorDebug = ColumnIteratorDebugCount
-typealias ColumnIteratorDebug = ColumnIteratorDebugFast
-
 class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: ColumnIterator) : ColumnIterator() {
     companion object {
         val counters = mutableMapOf<Long, MutableMap<String, MyListValue>>()

@@ -95,7 +95,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
-//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
+                    //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
