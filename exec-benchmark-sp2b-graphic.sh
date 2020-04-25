@@ -22,8 +22,11 @@ plot \
  'tmp/$query.luposdate-016-b2841382ba6cfa5475c773f699e58c3937e14c35-internal.csv' using 2:6 title "luposdate3000 016" with linespoints, \
  'tmp/$query.luposdate-017-b3be67fb75117794500a208aa3b5c700e411b994-internal.csv' using 2:6 title "luposdate3000 017" with linespoints, \
  'tmp/$query.luposdate-018-b1a45f6b37e27080045b19ade26f5a2b81230e62-internal.csv' using 2:6 title "luposdate3000 018" with linespoints, \
- 'tmp/$query.luposdate-019-singleListStore-BinaryMap-84f35c1d57e87ae229e18248dd70c778cc4de18d-internal.csv' using 2:6 title "lupos mapAndList 019" with linespoints, \
- 'tmp/$query.luposdate-019-mapMapListStore-BinaryMap-1a9252769ec6dcbb4a4855c9b87399bb71a4eb05-internal.csv' using 2:6 title "lupos mapMapList 019" with linespoints, \
+ 'tmp/$query.luposdate-021-MapMap_BinaryTree_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021MapMap" with linespoints, \
+ 'tmp/$query.luposdate-021-Single_BinaryTree_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleBinary" with linespoints, \
+ 'tmp/$query.luposdate-021-Single_HashMap_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashEmpty" with linespoints, \
+ 'tmp/$query.luposdate-021-Single_HashMap_EmptyWithDictionary-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashDict" with linespoints, \
+ 'tmp/$query.luposdate-021-Single_HashMap_XML-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashXml" with linespoints, \
  'tmp/$query.jena-internal.csv' using 2:6 title "jena" with linespoints
 EOF
 
