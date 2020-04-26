@@ -83,7 +83,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                                 childB.getProvidedVariableNames().size == 1 &&
                                 childA.getProvidedVariableNames()[0] == projectedVariables[0] &&
                                 childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
-				res = POPJoinMergeSingleColumn(query, projectedVariables, childA, childB, false)
+                            res = POPJoinMergeSingleColumn(query, projectedVariables, childA, childB, false)
                         } else if (childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                             res = POPJoinMerge(query, projectedVariables, childA, childB, false)
                         } else {

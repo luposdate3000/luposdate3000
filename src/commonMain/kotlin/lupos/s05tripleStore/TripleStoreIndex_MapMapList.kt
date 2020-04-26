@@ -26,15 +26,15 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.values.size)
-            var iterator0 = data.iterator()
+            val iterator0 = data.iterator()
             while (iterator0.hasNext()) {
                 out.writeInt(iterator0.next())
-                var value0 = iterator0.value()
+                val value0 = iterator0.value()
                 out.writeInt(value0.values.size)
-                var iterator1 = value0.iterator()
+                val iterator1 = value0.iterator()
                 while (iterator1.hasNext()) {
                     out.writeInt(iterator1.next())
-                    var value1 = iterator1.value()
+                    val value1 = iterator1.value()
                     out.writeInt(value1.data.size)
                     for (i in value1.data) {
                         out.writeInt(i)
@@ -169,28 +169,19 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         return res
     }
 
-    fun importInternal(dataImport: MySetInt, store: MySetInt, map2: MyListValue) {
-        for (rawKey in dataImport) {
-            val key = map2[rawKey]
-            store.add(key)
-        }
-    }
-
-    fun importInternal(dataImport: MyMapInt<MySetInt>, store: MyMapInt<MySetInt>, map1: MyListValue, map2: MyListValue) {
-        for (rawKey in dataImport.keys) {
-            val key = map1[rawKey]
-            val value = dataImport[rawKey]!!
-            var tmp = store.getOrCreate(key, { MySetInt() })
-            importInternal(value, tmp, map2)
-        }
-    }
-
-    override fun import(dataImport: MyListAny<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue) {
-        for (rawKey in 0 until dataImport.size) {
-            val key = map0[rawKey]
-            val value = dataImport[rawKey]
-            var tmp = data.getOrCreate(key, { MyMapInt<MySetInt>() })
-            importInternal(value, tmp, map1, map2)
+    override fun import(dataImport: MyMapLong<MySetInt>) {
+        val iterator = dataImport.iterator()
+        while (iterator.hasNext()) {
+            val key = iterator.next()
+            val value = iterator.value()
+            val s = (key shr 32).toInt()
+            val p = key.toInt()
+            val tmpS = data.getOrCreate(s, { MyMapInt<MySetInt>() })
+            val tmpP = tmpS.getOrCreate(p, { MySetInt() })
+            val oiterator = value.iterator()
+            while (oiterator.hasNext()) {
+                tmpP.add(oiterator.next())
+            }
         }
     }
 

@@ -5,80 +5,29 @@ import lupos.s03resultRepresentation.*
 
 class TripleStoreBulkImport {
     @JvmField
-    val dictionaryS = PatriciaTrie()
+    val dictionary = MyMapStringIntPatriciaTrie()
     @JvmField
-    val dictionaryP = PatriciaTrie()
+    val dataSPO = MyMapLong<MySetInt>()
     @JvmField
-    val dictionaryO = PatriciaTrie()
+    val dataSOP = MyMapLong<MySetInt>()
     @JvmField
-    val dataSPO = MyListAny<MyMapInt<MySetInt>>()
+    val dataPOS = MyMapLong<MySetInt>()
     @JvmField
-    val dataSOP = MyListAny<MyMapInt<MySetInt>>()
+    val dataOSP = MyMapLong<MySetInt>()
     @JvmField
-    val dataPOS = MyListAny<MyMapInt<MySetInt>>()
+    val dataPSO = MyMapLong<MySetInt>()
     @JvmField
-    val dataOSP = MyListAny<MyMapInt<MySetInt>>()
-    @JvmField
-    val dataPSO = MyListAny<MyMapInt<MySetInt>>()
-    @JvmField
-    val dataOPS = MyListAny<MyMapInt<MySetInt>>()
+    val dataOPS = MyMapLong<MySetInt>()
 
     fun insert(s: String, p: String, o: String) {
-        val si = dictionaryS.insert(s)
-        val pi = dictionaryP.insert(p)
-        val oi = dictionaryO.insert(o)
-        require(dataSOP.size == dataSPO.size)
-        require(si <= dataSOP.size)
-        require(pi <= dataPOS.size)
-        require(oi <= dataOSP.size)
-        if (si == dataSOP.size) {
-            dataSOP.add(MyMapInt<MySetInt>())
-            dataSPO.add(MyMapInt<MySetInt>())
-        }
-        if (pi == dataPOS.size) {
-            dataPOS.add(MyMapInt<MySetInt>())
-            dataPSO.add(MyMapInt<MySetInt>())
-        }
-        if (oi == dataOSP.size) {
-            dataOSP.add(MyMapInt<MySetInt>())
-            dataOPS.add(MyMapInt<MySetInt>())
-        }
-        var tmp: MySetInt?
-        tmp = dataSOP[si][oi]
-        if (tmp == null) {
-            dataSOP[si][oi] = MySetInt(pi)
-        } else {
-            tmp.add(pi)
-        }
-        tmp = dataSPO[si][pi]
-        if (tmp == null) {
-            dataSPO[si][pi] = MySetInt(oi)
-        } else {
-            tmp.add(oi)
-        }
-        tmp = dataPOS[pi][oi]
-        if (tmp == null) {
-            dataPOS[pi][oi] = MySetInt(si)
-        } else {
-            tmp.add(si)
-        }
-        tmp = dataOSP[oi][si]
-        if (tmp == null) {
-            dataOSP[oi][si] = MySetInt(pi)
-        } else {
-            tmp.add(pi)
-        }
-        tmp = dataOPS[oi][pi]
-        if (tmp == null) {
-            dataOPS[oi][pi] = MySetInt(si)
-        } else {
-            tmp.add(si)
-        }
-        tmp = dataPSO[pi][si]
-        if (tmp == null) {
-            dataPSO[pi][si] = MySetInt(oi)
-        } else {
-            tmp.add(oi)
-        }
+        val si = dictionary.getOrCreate(s, { nodeGlobalDictionary.createValue(ValueDefinition(s)) })
+        val pi = dictionary.getOrCreate(p, { nodeGlobalDictionary.createValue(ValueDefinition(p)) })
+        val oi = dictionary.getOrCreate(o, { nodeGlobalDictionary.createValue(ValueDefinition(o)) })
+        dataSPO.getOrCreate((si.toLong() shl 32) + pi, { MySetInt() }).add(oi, {}, {})
+        dataSOP.getOrCreate((si.toLong() shl 32) + oi, { MySetInt() }).add(pi, {}, {})
+        dataPOS.getOrCreate((pi.toLong() shl 32) + oi, { MySetInt() }).add(si, {}, {})
+        dataPSO.getOrCreate((pi.toLong() shl 32) + si, { MySetInt() }).add(oi, {}, {})
+        dataOPS.getOrCreate((oi.toLong() shl 32) + pi, { MySetInt() }).add(si, {}, {})
+        dataOSP.getOrCreate((oi.toLong() shl 32) + si, { MySetInt() }).add(pi, {}, {})
     }
 }

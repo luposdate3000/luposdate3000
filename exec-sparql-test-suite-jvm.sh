@@ -1,7 +1,6 @@
 pkill java
 port="3030"
-/opt/apache-jena-fuseki-3.14.0/fuseki-server --port=$port > /dev/null 2>&1 &
-./generate-buildfile.kts jvm SparqlTestSuite On Fast Sequential Heap MapMapList Dummy Korio None Local On BinaryTree None Empty
+./generate-buildfile.kts jvm SparqlTestSuite On Fast Sequential Heap SingleList Dummy Korio None Local On BinaryTree None Empty
 ./tool-gradle-build.sh
 curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets
 function execJvm

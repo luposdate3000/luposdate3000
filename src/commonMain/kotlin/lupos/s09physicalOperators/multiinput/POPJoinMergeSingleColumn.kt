@@ -58,7 +58,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                     var done = false
                     var change = true
                     loop@ while (change) {
-                        change=false
+                        change = false
                         for (i in 0 until 2) {
                             while (head[i]!! < head[1 - i]!!) {
                                 change = true
@@ -89,7 +89,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                 iterator.next = {
                                     if (counter == 0) {
                                         iterator.close()
-                                        value=null
+                                        value = null
                                     } else {
                                         counter--
                                     }

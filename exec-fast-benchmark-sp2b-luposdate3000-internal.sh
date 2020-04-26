@@ -6,8 +6,27 @@ timemin=0
 timeout=120
 triples=262144
 
-./generate-buildfile.kts jvm commonS00LaunchEndpointMain commonS00SanityChecksOffMain commonS00ResultFlowFastMain commonS00ExecutionSequentialMain commonS01HeapMain commonS05SingleListMain commonS03DictionaryIntArrayMain commonS12DummyMain jvmS14ServerKorioMain commonS14ClientNoneMain commonS15LocalMain commonS00WrapperJenaOffMain
+./generate-buildfile.kts jvm Endpoint Off Fast Sequential Heap SingleList Dummy Korio None Local Off BinaryTree None Empty
 ./tool-gradle-build.sh
+
+
+
+
+pkill java
+sleep 3
+(./build/executable 127.0.0.1)&
+sleep 3
+
+curl -X POST --data-binary "@/mnt/sp2b-testdata/$triples/data0.n3" http://localhost:80/import/turtle --header "Content-Type:text/plain"
+#jmap -dump:live,file=dump 9997
+#visualvm
+
+wait
+exit
+
+
+
+
 
 p=$(pwd)/benchmark_results/sp2b
 mkdir -p $p

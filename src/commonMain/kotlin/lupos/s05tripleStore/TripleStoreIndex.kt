@@ -23,7 +23,7 @@ interface TripleStoreIndex {
     fun safeToFolder(filename: String)
     fun loadFromFolder(filename: String)
     fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow
-    fun import(dataImport: MyListAny<MyMapInt<MySetInt>>, map0: MyListValue, map1: MyListValue, map2: MyListValue)
+    fun import(dataImport: MyMapLong<MySetInt>)
     fun insert(a: Value, b: Value, c: Value)
     fun remove(a: Value, b: Value, c: Value)
     fun clear()

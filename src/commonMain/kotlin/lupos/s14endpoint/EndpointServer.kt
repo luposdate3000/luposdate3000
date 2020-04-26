@@ -56,27 +56,31 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(data: String): String {
-        BenchmarkUtils.start(EBenchmark.IMPORT_COMPLETE)
         val query = Query()
-        BenchmarkUtils.start(EBenchmark.IMPORT_INIT)
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
-        val bulk = TripleStoreBulkImport()
-        val timeInit = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_INIT)
-        BenchmarkUtils.start(EBenchmark.IMPORT_TURTLE_PARSER)
+        var bulk = TripleStoreBulkImport()
         var counter = 0
+        var counter2 = 0
+        var store = DistributedTripleStore.getDefaultGraph(query)
         TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
             val s = Dictionary[triple_s]!!.toN3String()
             val p = Dictionary[triple_p]!!.toN3String()
             val o = Dictionary[triple_o]!!.toN3String()
             bulk.insert(s, p, o)
             counter++
+            counter2++
+            if (counter2 == 10) {
+                counter2 = 0
+                CoroutinesHelper.runBlock {
+                    store.bulkImport(bulk)
+                }
+                bulk = TripleStoreBulkImport()
+            }
         }, ltit).turtleDoc()
-        val timeParser = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_TURTLE_PARSER)
-        DistributedTripleStore.getDefaultGraph(query).bulkImport(bulk)
-        val timeComplete = BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_COMPLETE)
-        return XMLElement("success $counter $timeInit $timeParser $timeComplete").toString()
+        store.bulkImport(bulk)
+        return XMLElement("success $counter").toString()
     }
 
     /*
@@ -292,9 +296,11 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     }
 
     fun process_persistence_load(foldername: String): String {
+        MemoryStatistics.print("before load")
         BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
         nodeGlobalDictionary.loadFromFile(foldername + "/dictionary.txt")
         var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_DICTIONARY)
+        MemoryStatistics.print("after load dictionary")
         BenchmarkUtils.start(EBenchmark.LOAD_TRIPLE_STORE)
         val stores = DistributedTripleStore.localStore.stores
         var idx = 0
@@ -304,6 +310,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             idx++
         }
         var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_TRIPLE_STORE)
+        MemoryStatistics.print("after load triplestore")
         return XMLElement("success $timeDict $timeStore").toString()
     }
 }

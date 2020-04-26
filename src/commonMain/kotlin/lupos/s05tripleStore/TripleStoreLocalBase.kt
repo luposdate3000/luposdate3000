@@ -84,29 +84,24 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
-        val map = arrayOf(
-                dataImport.dictionaryS.getDictionaryMapping(nodeGlobalDictionary),
-                dataImport.dictionaryP.getDictionaryMapping(nodeGlobalDictionary),
-                dataImport.dictionaryO.getDictionaryMapping(nodeGlobalDictionary)
-        )
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                data[idx.ordinal].import(dataImport.dataSPO, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
+                data[idx.ordinal].import(dataImport.dataSPO)
             }
             EIndexPattern.SO, EIndexPattern.S_1 -> {
-                data[idx.ordinal].import(dataImport.dataSOP, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
+                data[idx.ordinal].import(dataImport.dataSOP)
             }
             EIndexPattern.P_1, EIndexPattern.PO -> {
-                data[idx.ordinal].import(dataImport.dataPOS, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
+                data[idx.ordinal].import(dataImport.dataPOS)
             }
             EIndexPattern.O_0 -> {
-                data[idx.ordinal].import(dataImport.dataOSP, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
+                data[idx.ordinal].import(dataImport.dataOSP)
             }
             EIndexPattern.P_0 -> {
-                data[idx.ordinal].import(dataImport.dataPSO, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
+                data[idx.ordinal].import(dataImport.dataPSO)
             }
             EIndexPattern.O_1 -> {
-                data[idx.ordinal].import(dataImport.dataOPS, map[order[idx.ordinal][0]], map[order[idx.ordinal][1]], map[order[idx.ordinal][2]])
+                data[idx.ordinal].import(dataImport.dataOPS)
             }
         }
     }

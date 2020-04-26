@@ -3,7 +3,7 @@
 #in seconds
 timemin=10
 
-triples=1024
+triples=4194304
 
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
@@ -48,11 +48,12 @@ do
 	triplesfolder=/mnt/sp2b-testdata/${triples}
 	size=$(du -sbc ${triplesfolder}/*.n3 | grep total | sed 's/\t.*//g')
 	i=0
-	for version in "MapMap_BinaryTree_Empty" "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML"
+	for version in "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML" "MapMap_BinaryTree_Empty"
 	do
 		queries=$(paste -s -d ';' log/benchtmp/$version.queries)
 		if [ -n "$queries" ]
 		then
+			export JAVA_OPTS="-Xmx30g"
 			if [ $i -eq 0 ]
 			then
 				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" > log/benchtmp/x

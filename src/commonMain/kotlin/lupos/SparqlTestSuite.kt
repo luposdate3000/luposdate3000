@@ -438,10 +438,7 @@ class SparqlTestSuite() {
                         query.commit()
                     }
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
-                    try {
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-                    } catch (e: ExceptionJenaBug) {
-                    }
+                    JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -456,10 +453,7 @@ class SparqlTestSuite() {
                     }
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
-                    try {
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-                    } catch (e: ExceptionJenaBug) {
-                    }
+                    JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                 }
                 if (services != null) {
                     for (s in services) {
@@ -541,19 +535,16 @@ class SparqlTestSuite() {
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
-                    try {
-                        val jenaResult = JenaWrapper.execQuery(toParse)
-                        val jenaXML = XMLElement.parseFromXml(jenaResult)
-                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
-                            return false
-                        }
-                    } catch (e: ExceptionJenaBug) {
+                    val jenaResult = JenaWrapper.execQuery(toParse)
+                    val jenaXML = XMLElement.parseFromXml(jenaResult)
+                    if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
+                        return false
                     }
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                     if (res) {
