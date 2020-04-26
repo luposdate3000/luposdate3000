@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -18,7 +17,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
-
 class TripleStoreIndex_SingleList : TripleStoreIndex {
     @JvmField
     var data = MyListInt()
@@ -26,7 +24,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     val index1 = MyMapIntInt()
     @JvmField
     val index2 = MyMapLongInt()
-
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
             for (i in 0 until data.size) {
@@ -34,7 +31,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             }
         }
     }
-
     fun rebuildMap() {
         index1.clear()
         index2.clear()
@@ -51,7 +47,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             }
         }
     }
-
     override fun loadFromFolder(filename: String) {
         require(data.size == 0)
         val capacity = (File(filename).length() / 4).toInt()
@@ -60,7 +55,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         }
         rebuildMap()
     }
-
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
         require(filter.size >= 0 && filter.size <= 3)
         require(projection.size + filter.size == 3)
@@ -126,7 +120,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
 //BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_GET_ITERATOR)
         return res
     }
-
     fun mergeInternal(data1: MyListInt, data2: MyListInt): MyListInt {
         var data = MyListInt()
         CoroutinesHelper.runBlock {
@@ -160,7 +153,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 loop@ while (head[0][0] != null || head[1][0] != null) {
                     for (pos in 0 until 3) {
                         for (cmp in 0 until 2) {
-                            if (head[1 - cmp][pos] == null || head[cmp][pos]!! < head[1 - cmp][pos]!!) {
+                            if (head[cmp][pos] != null && (head[1 - cmp][pos] == null || head[cmp][pos]!! < head[1 - cmp][pos]!!)) {
                                 var hadChange = false
                                 for (i in 0 until 3) {
                                     if (hadChange) {
@@ -196,7 +189,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         }
         return data
     }
-
     override fun import(dataImport: MyMapLong<MySetInt>) {
         val data1 = MyListInt()
         val iterator = dataImport.iterator()
@@ -249,15 +241,12 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             rebuildMap()
         }
     }
-
     override fun insert(a: Value, b: Value, c: Value) {
         require(false)
     }
-
     override fun remove(a: Value, b: Value, c: Value) {
         require(false)
     }
-
     override fun clear() {
         data.clear()
         index1.clear()

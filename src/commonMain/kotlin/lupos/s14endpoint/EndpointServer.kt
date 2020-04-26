@@ -71,7 +71,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             bulk.insert(s, p, o)
             counter++
             counter2++
-            if (counter2 == 10) {
+            if (counter2 == 100000) {
                 counter2 = 0
                 CoroutinesHelper.runBlock {
                     store.bulkImport(bulk)
