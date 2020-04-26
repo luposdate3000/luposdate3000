@@ -60,6 +60,21 @@ class ResultSetDictionary(val global: Boolean = false) {
         mapLTS.add(undefValue2)
     }
 
+    var bNodeCounter = 0
+    inline fun createNewBNode(): Value {
+        return createValue(ValueBnode("" + bNodeCounter++))
+    }
+
+    inline fun createIri(iri: String): Value {
+println("createIri::"+iri)
+        return createValue("<" + iri + ">")
+    }
+
+    inline fun createOther(data: String): Value {
+println("createOther::"+data)
+        return createValue(data)
+    }
+
     inline fun createValue(value: String?) = createValue(ValueDefinition(value))
     inline fun checkValue(value: ValueDefinition): Value? {
         var res: Value?

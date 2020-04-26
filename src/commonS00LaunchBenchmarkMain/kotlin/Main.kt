@@ -17,7 +17,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     P2P.start(null)
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
-    val datasourceFiles = args[2].split(";")
+    val datasourceFiles = args[2]
     val queryFiles = args[3].split(";")
     val minimumTime = args[4].toDouble()
     val numberOfTriples = args[5].toLong()
@@ -31,9 +31,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         }
         Datasource.IMPORT -> {
             val timer = Monotonic.markNow()
-            for (fileName in datasourceFiles) {
-                endpointServer!!.process_turtle_input(File(fileName).readAsString())
-            }
+            endpointServer!!.process_turtle_input(datasourceFiles)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             println("resources/sp2b/persistence-import.sparql,$numberOfTriples,0,1,${time * 1000.0},${1.0 / time},$originalTripleSize")
             val timer2 = Monotonic.markNow()

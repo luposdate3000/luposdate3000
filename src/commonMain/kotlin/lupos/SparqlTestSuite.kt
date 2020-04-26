@@ -419,7 +419,7 @@ class SparqlTestSuite() {
                         var xmlGraphBulk: XMLElement? = null
                         CoroutinesHelper.runBlock {
                             val query = Query()
-                            val bulkData = endpointServer!!.process_turtle_input(inputData)
+                            val bulkData = endpointServer!!.process_turtle_input(inputDataFileName)
                             val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                             xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         }

@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.*
 
 class TripleStoreBulkImport {
     @JvmField
-    val dictionary = MyMapStringIntPatriciaTrie()
+    val dictionaryBNode = MyMapStringIntPatriciaTrie()
     @JvmField
     val dataSPO = MyMapLong<MySetInt>()
     @JvmField
@@ -19,10 +19,7 @@ class TripleStoreBulkImport {
     @JvmField
     val dataOPS = MyMapLong<MySetInt>()
 
-    fun insert(s: String, p: String, o: String) {
-        val si = dictionary.getOrCreate(s, { nodeGlobalDictionary.createValue(ValueDefinition(s)) })
-        val pi = dictionary.getOrCreate(p, { nodeGlobalDictionary.createValue(ValueDefinition(p)) })
-        val oi = dictionary.getOrCreate(o, { nodeGlobalDictionary.createValue(ValueDefinition(o)) })
+    fun insert(si: Value, pi: Value, oi: Value) {
         dataSPO.getOrCreate((si.toLong() shl 32) + pi, { MySetInt() }).add(oi, {}, {})
         dataSOP.getOrCreate((si.toLong() shl 32) + oi, { MySetInt() }).add(pi, {}, {})
         dataPOS.getOrCreate((pi.toLong() shl 32) + oi, { MySetInt() }).add(si, {}, {})

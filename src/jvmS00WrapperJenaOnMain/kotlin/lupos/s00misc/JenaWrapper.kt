@@ -49,14 +49,20 @@ object JenaWrapper {
         return res
     }
 
-    fun loadFromFile(fileName: String, graph: String) {
-        val updateString = "load <file://${fileName}> INTO GRAPH $graph"
-        JenaWrapper.updateQuery(updateString)
+    fun loadFromFile(fileNames: String, graph: String) {
+        val updateString = StringBuilder()
+        for (fileName in fileNames.split(";")) {
+            updateString.append("load <file://${fileName}> INTO GRAPH $graph ;")
+        }
+        JenaWrapper.updateQuery(updateString.toString())
     }
 
-    fun loadFromFile(fileName: String) {
-        val updateString = "load <file://${fileName}>"
-        JenaWrapper.updateQuery(updateString)
+    fun loadFromFile(fileNames: String) {
+        val updateString = StringBuilder()
+        for (fileName in fileNames.split(";")) {
+            updateString.append("load <file://${fileName}> ;")
+        }
+        JenaWrapper.updateQuery(updateString.toString())
     }
 
     fun execQueryFile(fileName: String) {

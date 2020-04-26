@@ -52,33 +52,257 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     @JvmField
     val fullname = hostname + ":" + port
 
+    fun skipToLineEnd(data: String, idx: Int): Int {
+        val tmp = data.indexOf('\n', idx)
+        if (tmp < idx) {
+            return data.length
+        } else {
+            return tmp
+        }
+    }
+
+    fun skipAllSepatators(data: String, idx: Int): Int {
+        var column = idx
+        loop@ while (column < data.length) {
+            when (data[column]) {
+                ' ', '\n', '\t', '\r', '\u0085', '\u2028', '\u2029' -> {
+                    column++
+                }
+                '#' -> {
+                    column = skipToLineEnd(data, column)
+                }
+                else -> {
+                    break@loop
+                }
+            }
+        }
+        return column
+    }
+
+    fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport) {
+        var withinGeneratedOBnode = false
+        val data = File(fileName).readAsString()
+        try {
+            var nextType = 0 /* 0:S,1:P,2:O*/
+            val currentTriple = Array(3) { 0 }
+            var prefixes = mutableMapOf<String, String>()
+            var column = skipAllSepatators(data, 0)
+            while (column < data.length) {
+                if (data.startsWith("@prefix", column)) {
+                    column = skipAllSepatators(data, column + "@prefix".length)
+                    var t = data.indexOf(':', column)
+                    require(t >= column)
+                    val key = data.substring(column, t)
+                    column = skipAllSepatators(data, t + 1)
+                    require(data[column] == '<')
+                    column++
+                    t = data.indexOf('>', column)
+                    require(t > column)
+                    var value = data.substring(column, t)
+                    column = skipAllSepatators(data, t + 1)
+                    require(data[column] == '.')
+                    column++
+                    prefixes[key] = value
+                } else if (data.startsWith("@base", column)) {
+                    column = skipAllSepatators(data, column + "@base".length)
+                    require(data[column] == '<')
+                    column++
+                    var t = data.indexOf('>', column)
+                    require(t > column)
+                    var value = data.substring(column, t)
+                    column = skipAllSepatators(data, t + 1)
+                    require(data[column] == '.')
+                    column++
+                    prefixes[""] = value
+                } else {
+                    var start = column
+                    var qouteCount = 0
+                    loop@ while (column < data.length) {
+                        when (data[column]) {
+                            '"' -> {
+                                if (column == 0 || data[column - 1] != '\\') {
+                                    qouteCount++
+                                }
+                            }
+                            '<' -> {
+                                if (qouteCount % 2 == 0) {
+                                    qouteCount++
+                                }
+                            }
+                            '>' -> {
+                                if (qouteCount % 2 == 1) {
+                                    qouteCount++
+                                }
+                            }
+                            ' ', '\n', '\t' -> {
+                                if (qouteCount % 2 == 0) {
+                                    break@loop
+                                }
+                            }
+                            '.', ',', ';' -> {
+                                if (qouteCount % 2 == 0 && nextType == 2) {
+                                    break@loop
+                                }
+                            }
+                        }
+                        column++
+                    }
+                    when (data[start]) {
+                        '[' -> {
+                            withinGeneratedOBnode = true
+                            require(nextType == 2)
+                            currentTriple[2] = nodeGlobalDictionary.createNewBNode()
+                            bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
+                            currentTriple[0] = currentTriple[2]
+                            nextType = 0
+                        }
+                        'a' -> {
+                            require(column == start + 1)
+                            currentTriple[nextType] = nodeGlobalDictionary.createIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+                        }
+                        '_' -> {
+                            currentTriple[nextType] = bulk.dictionaryBNode.getOrCreate(data.substring(start, column), { nodeGlobalDictionary.createNewBNode() })
+                        }
+                        '<' -> {
+                            currentTriple[nextType] = nodeGlobalDictionary.createIri(data.substring(start + 1, column - 1))
+                        }
+                        ':' -> {
+                            val value = prefixes[""]
+                            require(value != null)
+                            currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(start + 1, column))
+                        }
+                        '"' -> {
+                            var ttt = data.indexOf("\"@", start + 1)
+                            if (data[column - 1] == '"' || data[column - 1] == '>' || (ttt < column && ttt > start + 1)) {
+                                currentTriple[nextType] = nodeGlobalDictionary.createOther(data.substring(start, column))
+                            } else {
+                                var tt = data.indexOf("^^", start)
+                                while (true) {
+                                    val t = data.indexOf("^^", tt)
+                                    if (t > tt && t < column) {
+                                        tt = t
+                                    } else {
+                                        break
+                                    }
+                                }
+                                val t = data.indexOf(":", tt)
+                                var key = data.substring(tt + 2, t)
+                                var value = prefixes[key]
+                                if (value != null) {
+                                    currentTriple[nextType] = nodeGlobalDictionary.createOther(data.substring(start, tt + 2) + "<" + value + data.substring(t + 1, column) + ">")
+                                } else {
+                                    throw Exception("unknown Prefix for '${data.substring(start, column)}'")
+                                }
+                            }
+                        }
+                        else -> {
+                            var t = data.indexOf(':', start)
+                            if (t > start && t < column) {
+                                var key = data.substring(start, t)
+                                var value = prefixes[key]
+                                if (value != null) {
+                                    currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(t + 1, column))
+                                } else {
+                                    throw Exception("unknown Prefix for '${data.substring(start, column)}'")
+                                }
+                            } else if (data.startsWith("true", start)) {
+                                nodeGlobalDictionary.createOther("\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                            } else if (data.startsWith("false", start)) {
+                                nodeGlobalDictionary.createOther("\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                            } else {
+                                var containsDot = false
+                                var containsExponent = false
+                                var isNumeric = true
+                                tmp@ for (i in start until column) {
+                                    when (data[i]) {
+                                        '.' -> {
+                                            containsDot = true
+                                        }
+                                        'e', 'E' -> {
+                                            containsExponent = true
+                                        }
+                                        in '0'..'9', '-', '+' -> {
+                                        }
+                                        else -> {
+                                            isNumeric = false
+                                            break@tmp
+                                        }
+                                    }
+                                }
+                                if (isNumeric) {
+                                    if (containsExponent) {
+                                        nodeGlobalDictionary.createOther("\"" + data.substring(t, column) + "\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    } else if (containsDot) {
+                                        nodeGlobalDictionary.createOther("\"" + data.substring(t, column) + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    } else {
+                                        nodeGlobalDictionary.createOther("\"" + data.substring(t, column) + "\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    }
+                                } else {
+                                    var l = start - 10
+                                    var r = column + 10
+                                    if (l < 0)
+                                        l = 0
+                                    if (r > data.length)
+                                        r = data.length
+                                    throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
+                                }
+                            }
+                        }
+                    }
+                    if (nextType == 2) {
+                        bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
+                        while (column < data.length && data[column] == ' ') {
+                            column++
+                        }
+                        if (withinGeneratedOBnode) {
+                            if (data[column] == ']') {
+                                withinGeneratedOBnode = false
+                                column = skipAllSepatators(data, column + 1)
+                            } else {
+                                require(data[column] != '.')
+                            }
+                        }
+                        when (data[column]) {
+                            '.' -> {
+                                nextType = 0
+                            }
+                            ';' -> {
+                                nextType = 1
+                            }
+                            ',' -> {
+                                nextType = 2
+                            }
+                            else -> {
+                                require(false)
+                            }
+                        }
+                        column++
+                    } else {
+                        nextType++
+                    }
+                }
+                column = skipAllSepatators(data, column)
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            throw e
+        }
+    }
+
     /*
     incoming bulk import
     */
-    suspend fun process_turtle_input(data: String): String {
+    suspend fun process_turtle_input(fileNames: String): String {
         val query = Query()
-        val lcit = LexerCharIterator(data)
-        val tit = TurtleScanner(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
         var bulk = TripleStoreBulkImport()
         var counter = 0
-        var counter2 = 0
         var store = DistributedTripleStore.getDefaultGraph(query)
-        TurtleParserWithDictionary({ triple_s, triple_p, triple_o ->
-            val s = Dictionary[triple_s]!!.toN3String()
-            val p = Dictionary[triple_p]!!.toN3String()
-            val o = Dictionary[triple_o]!!.toN3String()
-            bulk.insert(s, p, o)
-            counter++
-            counter2++
-            if (counter2 == 100000) {
-                counter2 = 0
-                CoroutinesHelper.runBlock {
-                    store.bulkImport(bulk)
-                }
-                bulk = TripleStoreBulkImport()
-            }
-        }, ltit).turtleDoc()
+        for (fileName in fileNames.split(";")) {
+            iterateTurtleData(fileName, bulk)
+        }
+//        println("ready")
+//        Thread.sleep(20000)
+//        println("not ready")
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()
     }
@@ -134,8 +358,8 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     /*
     incoming bulk import
     */
-    suspend fun jena_process_turtle_input(filename: String): String {
-        JenaWrapper.loadFromFile(filename)
+    suspend fun jena_process_turtle_input(filenames: String): String {
+        JenaWrapper.loadFromFile(filenames)
         return XMLElement("success").toString()
     }
 
