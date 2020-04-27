@@ -17,21 +17,21 @@ class ResultSetDictionary(val global: Boolean = false) {
 
 /*to most bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
 
-	val mask1=0x40000000.toInt()/*first 2 bit*/
-	val mask3=0x30000000.toInt()/*first 4 bit*/
-	val mask5=0x3C000000.toInt()/*first 6 bit*/
-val filter3=0x0FFFFFFF.toInt()
-val filter5=0x03FFFFFF.toInt()
+        val mask1 = 0x40000000.toInt()/*first 2 bit*/
+        val mask3 = 0x30000000.toInt()/*first 4 bit*/
+        val mask5 = 0x3C000000.toInt()/*first 6 bit*/
+        val filter3 = 0x0FFFFFFF.toInt()
+        val filter5 = 0x03FFFFFF.toInt()
 
-        val flaggedValueLocalIri = 0x00000000.toInt()/*first 4 bit*/
-        val flaggedValueLocalBnode = 0x10000000.toInt()/*first 4 bit*/
+        val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
+        val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
         val flaggedValueLocalInt = 0x30000000.toInt()/*first 6 bit*/
         val flaggedValueLocalDecimal = 0x36000000.toInt()/*first 6 bit*/
         val flaggedValueLocalDouble = 0x38000000.toInt()/*first 6 bit*/
         val flaggedValueLocalLangTagged = 0x3C00000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalIri = 0x40000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalBnode = 0x50000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalInt = 0x70000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalDecimal = 0x76000000.toInt()/*first 6 bit*/
@@ -39,13 +39,13 @@ val filter5=0x03FFFFFF.toInt()
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
 
         @JvmField
-        val booleanTrueValue = (flaggedValueGlobalBnode or 0x00000000.toInt())/*lowest 4 values*/
+        val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt())/*lowest 4 values*/ /*required to be 0 for thruth table loopups*/
         @JvmField
-        val booleanFalseValue = (flaggedValueGlobalBnode or 0x00000001.toInt())/*lowest 4 values*/
+        val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt())/*lowest 4 values*/ /*required to be 1 for thruth table loopups*/
         @JvmField
-        val errorValue = (flaggedValueGlobalBnode or 0x00000010.toInt())/*lowest 4 values*/
+        val errorValue = (flaggedValueLocalBnode or 0x00000010.toInt())/*lowest 4 values*/ /*required to be 2 for thruth table loopups*/
         @JvmField
-        val undefValue = (flaggedValueGlobalBnode or 0x00000011.toInt())/*lowest 4 values*/
+        val undefValue = (flaggedValueLocalBnode or 0x00000011.toInt())/*lowest 4 values*/
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
         @JvmField
@@ -294,6 +294,7 @@ val filter5=0x03FFFFFF.toInt()
     }
 
     fun getValue(value: Value): ValueDefinition {
+        println("${value.toString(16)} ${(value and mask1).toString(16)} ${(value and mask3).toString(16)} ${(value and mask5).toString(16)} ${(value and filter3).toString(16)} ${(value and filter5).toString(16)} ${(value and mask1) == mask1} ${nodeGlobalDictionary.iriList.size} ${iriList.size}")
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -305,7 +306,23 @@ val filter5=0x03FFFFFF.toInt()
         if (bit3 == flaggedValueLocalIri) {
             res = ValueIri(dict.iriList[value and filter3]!!)
         } else if (bit3 == flaggedValueLocalBnode) {
-            res = ValueBnode("" + value)
+            when (value) {
+                0 -> {
+                    res = booleanTrueValue2
+                }
+                1 -> {
+                    res = booleanFalseValue2
+                }
+                2 -> {
+                    res = errorValue2
+                }
+                3 -> {
+                    res = undefValue2
+                }
+                else -> {
+                    res = ValueBnode("" + value)
+                }
+            }
         } else if (bit3 == flaggedValueLocalTyped) {
             val tmp = dict.typedList[value and filter3]!!
             var idx = tmp.indexOf(">")

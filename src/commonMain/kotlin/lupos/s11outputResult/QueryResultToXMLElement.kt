@@ -25,6 +25,7 @@ object QueryResultToXMLElement {
         if (variables.size == 1 && variables[0] == "?boolean") {
             val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!).valueToString()!!
             val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
+println(value)
             SanityCheck.check({ value.endsWith("\"^^<" + datatype + ">") })
             nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
             child.columns["?boolean"]!!.close()
