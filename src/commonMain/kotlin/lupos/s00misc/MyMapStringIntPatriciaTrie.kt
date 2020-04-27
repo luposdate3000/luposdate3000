@@ -133,7 +133,7 @@ class MyMapStringIntPatriciaTrie() {
         }
     }
 
-    fun readFromFile(filename: String) {
+    fun loadFromFile(filename: String) {
         var queueNode = MyListAny<MyMapStringIntPatriciaTrieNode>()
         var queueCount = MyListInt()
         File(filename).dataInputStream { fis ->

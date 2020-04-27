@@ -14,15 +14,12 @@ val nodeGlobalDictionary = ResultSetDictionary(true)
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
-
-/*to most bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
-
+        /*to most bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
         val mask1 = 0x40000000.toInt()/*first 2 bit*/
         val mask3 = 0x30000000.toInt()/*first 4 bit*/
         val mask5 = 0x3C000000.toInt()/*first 6 bit*/
         val filter3 = 0x0FFFFFFF.toInt()
         val filter5 = 0x03FFFFFF.toInt()
-
         val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
@@ -37,7 +34,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueGlobalDecimal = 0x76000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
-
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt())/*lowest 4 values*/ /*required to be 0 for thruth table loopups*/
         @JvmField
@@ -357,16 +353,50 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun safeToFolder(folderName: String) {
-    }
-
-    fun loadFromFolder(folderName: String) {
-/*        bNodeCounter.XXX
+        File(folderName + "bnode.count").dataOutputStream { out ->
+            out.writeInt(bNodeCounter)
+        }
         iriMap.safeToFile(folderName + "iri.map")
         langTaggedMap.safeToFile(folderName + "langTagged.map")
         typedMap.safeToFile(folderName + "typed.map")
         doubleMap.safeToFile(folderName + "double.map")
         decimalMap.safeToFile(folderName + "decimal.map")
         intMap.safeToFile(folderName + "int.map")
-*/
+    }
+
+    fun loadFromFolder(folderName: String) {
+        File(folderName + "bnode.count").dataInputStream { fis ->
+            bNodeCounter = fis.readInt()
+        }
+        iriMap.loadFromFile(folderName + "iri.map")
+        langTaggedMap.loadFromFile(folderName + "langTagged.map")
+        typedMap.loadFromFile(folderName + "typed.map")
+        doubleMap.loadFromFile(folderName + "double.map")
+        decimalMap.loadFromFile(folderName + "decimal.map")
+        intMap.loadFromFile(folderName + "int.map")
+        iriList.reserve(iriMap.size)
+        iriMap.forEach { k, v ->
+            iriList[v] = k
+        }
+        langTaggedList.reserve(langTaggedMap.size)
+        langTaggedMap.forEach { k, v ->
+            langTaggedList[v] = k
+        }
+        typedList.reserve(typedMap.size)
+        typedMap.forEach { k, v ->
+            typedList[v] = k
+        }
+        doubleList.reserve(doubleMap.size)
+        doubleMap.forEach { k, v ->
+            doubleList[v] = k
+        }
+        decimalList.reserve(decimalMap.size)
+        decimalMap.forEach { k, v ->
+            decimalList[v] = k
+        }
+        intList.reserve(intMap.size)
+        intMap.forEach { k, v ->
+            intList[v] = k
+        }
     }
 }

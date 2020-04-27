@@ -29,10 +29,7 @@ class MyListAny<T> {
 
     fun add(value: T) {
         if (size + 1 >= capacity) {
-            capacity = capacity * 2
-            val tmp = Array<Any?>(capacity) { null }
-            data.copyInto(tmp)
-            data = tmp
+            reserve(capacity * 2)
         }
         data[size++] = value
     }
@@ -59,12 +56,18 @@ class MyListAny<T> {
         return res as T
     }
 
-    fun add(idx: Int, value: T) {
-        if (size + 1 >= capacity) {
-            capacity = capacity * 2
+    inline fun reserve(capacity: Int) {
+        if (this.capacity < capacity) {
+            this.capacity = capacity
             val tmp = Array<Any?>(capacity) { null }
             data.copyInto(tmp)
             data = tmp
+        }
+    }
+
+    fun add(idx: Int, value: T) {
+        if (size + 1 >= capacity) {
+            reserve(capacity * 2)
         }
         if (idx < size) {
             size++

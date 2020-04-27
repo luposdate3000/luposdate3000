@@ -1,6 +1,6 @@
-/* Substitutions :: VALUE */
 package lupos.s00misc
 
+/* Substitutions :: VALUE */
 class MyListVALUE {
     @JvmField
     var size = 0
@@ -8,6 +8,15 @@ class MyListVALUE {
     var capacity = 10
     @JvmField
     var data: VALUEArray
+
+    inline fun reserve(capacity: Int) {
+        if (this.capacity < capacity) {
+            this.capacity = capacity
+            val tmp = VALUEArray(capacity)
+            data.copyInto(tmp)
+            data = tmp
+        }
+    }
 
     constructor() {
         data = VALUEArray(capacity)
@@ -30,10 +39,7 @@ class MyListVALUE {
 
     fun add(value: VALUE) {
         if (size + 1 >= capacity) {
-            capacity = capacity * 2
-            val tmp = VALUEArray(capacity)
-            data.copyInto(tmp)
-            data = tmp
+            reserve(capacity * 2)
         }
         data[size++] = value
     }
@@ -52,10 +58,7 @@ class MyListVALUE {
 
     fun add(idx: Int, value: VALUE) {
         if (size + 1 >= capacity) {
-            capacity = capacity * 2
-            val tmp = VALUEArray(capacity)
-            data.copyInto(tmp)
-            data = tmp
+            reserve(capacity * 2)
         }
         if (idx < size) {
             size++

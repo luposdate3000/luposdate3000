@@ -1,8 +1,8 @@
-/* Substitutions :: KEY,VALUE */
 package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
+/* Substitutions :: KEY,VALUE */
 class MyMapKEYVALUEBinaryTree() {
     @JvmField
     var keys = MySetKEY()
@@ -10,6 +10,11 @@ class MyMapKEYVALUEBinaryTree() {
     var values = MyListVALUE()
     var size: Int = 0
         get() = keys.size
+
+    inline fun reserve(capacity: Int) {
+        keys.reserve(capacity)
+        values.reserve(capacity)
+    }
 
     constructor(data: Pair<KEY, VALUE>) : this() {
         set(data.first, data.second)
@@ -48,6 +53,12 @@ class MyMapKEYVALUEBinaryTree() {
     }
 
     inline fun iterator() = MyMapKEYVALUEBinaryTreeIterator(this)
+    inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
+        for (i in 0 until values.size) {
+            action(keys.data[i], values[i])
+        }
+    }
+
     class MyMapKEYVALUEBinaryTreeIterator(val data: MyMapKEYVALUEBinaryTree) {
         var index = 0
         fun hasNext() = index < data.values.size
@@ -67,7 +78,7 @@ class MyMapKEYVALUEBinaryTree() {
         }
     }
 
-    fun readFromFile(filename: String) {
+    fun loadFromFile(filename: String) {
         File(filename).dataInputStream { fis ->
             var size = fis.readInt()
             for (i in 0 until size) {

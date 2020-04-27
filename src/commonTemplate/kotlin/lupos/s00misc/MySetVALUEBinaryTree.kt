@@ -1,8 +1,8 @@
-/* Substitutions :: VALUE */
 package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
+/* Substitutions :: VALUE */
 class MySetVALUEBinaryTree {
     @JvmField
     var data = MyListVALUE()
@@ -26,6 +26,10 @@ class MySetVALUEBinaryTree {
 
     fun appendAssumeSorted(value: VALUE) {
         data.add(value)
+    }
+
+    inline fun reserve(capacity: Int) {
+        data.reserve(capacity)
     }
 
     inline fun internal(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
