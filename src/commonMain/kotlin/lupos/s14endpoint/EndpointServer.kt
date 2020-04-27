@@ -189,7 +189,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 var key = data.substring(tt + 2, t)
                                 var value = prefixes[key]
                                 if (value != null) {
-                                    currentTriple[nextType] = nodeGlobalDictionary.createTyped(data.substring(start + 1, tt + 1), value + data.substring(t + 1, column))
+                                    currentTriple[nextType] = nodeGlobalDictionary.createTyped(data.substring(start + 1, tt -1), value + data.substring(t + 1, column))
                                 } else {
                                     throw Exception("unknown Prefix for '${data.substring(start, column)}'")
                                 }
