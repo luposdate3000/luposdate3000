@@ -101,20 +101,19 @@ fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): Choo
 class PrecompileTemplate(val pkg:String,val sourceClass:String,val replacements:List<Pair<String,String>>)
 
 val templates=listOf(
+	PrecompileTemplate("lupos.s00misc","MyListVALUE",listOf("VALUE" to "Int")),
+	PrecompileTemplate("lupos.s00misc","MyListVALUE",listOf("VALUE" to "Long")),
+	PrecompileTemplate("lupos.s00misc","MyListVALUE",listOf("VALUE" to "Double")),
+	PrecompileTemplate("lupos.s00misc","MySetVALUEBinaryTree",listOf("VALUE" to "Int")),
+	PrecompileTemplate("lupos.s00misc","MySetVALUEBinaryTree",listOf("VALUE" to "Long")),
+	PrecompileTemplate("lupos.s00misc","MySetVALUEBinaryTree",listOf("VALUE" to "Double")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Int","VALUE" to "Int")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Int","VALUE" to "UInt")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Int","VALUE" to "Long")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Int","VALUE" to "Double")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "UInt","VALUE" to "Int")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "UInt","VALUE" to "UInt")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "UInt","VALUE" to "Long")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "UInt","VALUE" to "Double")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Long","VALUE" to "Int")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Long","VALUE" to "UInt")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Long","VALUE" to "Long")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Long","VALUE" to "Double")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Double","VALUE" to "Int")),
-	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Double","VALUE" to "UInt")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Double","VALUE" to "Long")),
 	PrecompileTemplate("lupos.s00misc","MyMapKEYVALUEBinaryTree",listOf("KEY" to "Double","VALUE" to "Double"))
 )
@@ -179,10 +178,10 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Set Implementation") to listOf(
                 ChooseableOptionTypeAlias("BinaryTree", "lupos.s00misc", listOf(
-                        "MySetAny<T>" to "MySetAnyBinary<T>",
-                        "MySetLong" to "MySetLongBinary",
-                        "MySetInt" to "MySetIntBinary",
-                        "MySetDouble" to "MySetDoubleBinary"
+                        "MySetAny<T>" to "MySetAnyBinaryTree<T>",
+                        "MySetLong" to "MySetLongBinaryTree",
+                        "MySetInt" to "MySetIntBinaryTree",
+                        "MySetDouble" to "MySetDoubleBinaryTree"
                 ))
         ),
         ChooseableGroup("Map Implementation") to listOf(

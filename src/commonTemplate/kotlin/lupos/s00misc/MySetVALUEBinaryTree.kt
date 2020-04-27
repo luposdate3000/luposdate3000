@@ -1,10 +1,11 @@
+/* Substitutions :: VALUE */
 package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetDoubleBinary {
+class MySetVALUEBinaryTree {
     @JvmField
-    var data = MyListDouble()
+    var data = MyListVALUE()
     var size: Int = 0
         get() = data.size
 
@@ -12,22 +13,22 @@ class MySetDoubleBinary {
         data.clear()
     }
 
-    operator fun iterator(): Iterator<Double> {
+    operator fun iterator(): Iterator<VALUE> {
         return data.iterator()
     }
 
     constructor() {
     }
 
-    constructor(value: Double) : this() {
+    constructor(value: VALUE) : this() {
         data.add(value)
     }
 
-    fun appendAssumeSorted(value: Double) {
+    fun appendAssumeSorted(value: VALUE) {
         data.add(value)
     }
 
-    inline fun internal(value: Double, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+    inline fun internal(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
             onCreate(0)
         } else if (data.size == 1) {
@@ -66,7 +67,7 @@ class MySetDoubleBinary {
         }
     }
 
-    inline fun remove(value: Double, crossinline onExists: (it: Int) -> Unit = {}) {
+    inline fun remove(value: VALUE, crossinline onExists: (it: Int) -> Unit = {}) {
         internal(value, {
         }, {
             onExists(it)
@@ -74,7 +75,7 @@ class MySetDoubleBinary {
         })
     }
 
-    inline fun contains(value: Double): Boolean {
+    inline fun contains(value: VALUE): Boolean {
         var res = false
         internal(value, {
         }, {
@@ -83,14 +84,14 @@ class MySetDoubleBinary {
         return res
     }
 
-    inline fun find(value: Double, crossinline onExists: (it: Int) -> Unit) {
+    inline fun find(value: VALUE, crossinline onExists: (it: Int) -> Unit) {
         internal(value, {
         }, {
             onExists(it)
         })
     }
 
-    inline fun add(value: Double, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+    inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         internal(value, {
             data.add(it, value)
             onCreate(it)
@@ -99,7 +100,7 @@ class MySetDoubleBinary {
         })
     }
 
-    inline fun toList(): MyListDouble {
+    inline fun toList(): MyListVALUE {
         return data
     }
 }

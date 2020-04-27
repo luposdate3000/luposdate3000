@@ -1,36 +1,37 @@
+/* Substitutions :: VALUE */
 package lupos.s00misc
 
-class MyListLong {
+class MyListVALUE {
     @JvmField
     var size = 0
     @JvmField
     var capacity = 10
     @JvmField
-    var data: LongArray
+    var data: VALUEArray
 
     constructor() {
-        data = LongArray(capacity)
+        data = VALUEArray(capacity)
     }
 
-    constructor(value: Long) {
-        data = LongArray(capacity)
+    constructor(value: VALUE) {
+        data = VALUEArray(capacity)
         data[size++] = value
     }
 
-    constructor(initialCapacity: Int, init: (Int) -> Long) {
+    constructor(initialCapacity: Int, init: (Int) -> VALUE) {
         capacity = initialCapacity
         size = capacity
-        data = LongArray(capacity) { init(it) }
+        data = VALUEArray(capacity) { init(it) }
     }
 
     fun clear() {
         size = 0
     }
 
-    fun add(value: Long) {
+    fun add(value: VALUE) {
         if (size + 1 >= capacity) {
             capacity = capacity * 2
-            val tmp = LongArray(capacity)
+            val tmp = VALUEArray(capacity)
             data.copyInto(tmp)
             data = tmp
         }
@@ -38,8 +39,8 @@ class MyListLong {
     }
 
     inline operator fun get(idx: Int) = data.get(idx)
-    inline operator fun set(idx: Int, value: Long) = data.set(idx, value)
-    fun removeAt(idx: Int): Long {
+    inline operator fun set(idx: Int, key: VALUE) = data.set(idx, key)
+    fun removeAt(idx: Int): VALUE {
         val res = data[idx]
         require(idx < size)
         for (i in idx until size) {
@@ -49,10 +50,10 @@ class MyListLong {
         return res
     }
 
-    fun add(idx: Int, value: Long) {
+    fun add(idx: Int, value: VALUE) {
         if (size + 1 >= capacity) {
             capacity = capacity * 2
-            val tmp = LongArray(capacity)
+            val tmp = VALUEArray(capacity)
             data.copyInto(tmp)
             data = tmp
         }
@@ -67,8 +68,8 @@ class MyListLong {
         }
     }
 
-    inline operator fun iterator() = MyListLongIterator(this)
-    class MyListLongIterator(@JvmField val data: MyListLong) : Iterator<Long> {
+    inline operator fun iterator() = MyListVALUEIterator(this)
+    class MyListVALUEIterator(@JvmField val data: MyListVALUE) : Iterator<VALUE> {
         var index = 0
         override fun hasNext() = index < data.size
         override fun next() = data.data[index++]
