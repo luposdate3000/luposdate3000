@@ -4,10 +4,10 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-/* Substitutions :: Long,Double */
+/* Substitutions :: Long,Double,,,,,Long,Double */
 class MyMapLongDoubleBinaryTree() {
     @JvmField
-    var keys = MySetLong()
+    var keys = MySetLongBinaryTree()
     @JvmField
     var values = MyListDouble()
     var size: Int = 0
@@ -69,6 +69,7 @@ class MyMapLongDoubleBinaryTree() {
     }
 
     fun safeToFile(filename: String) {
+
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
             for (i in 0 until size) {
@@ -78,9 +79,11 @@ class MyMapLongDoubleBinaryTree() {
                 out.writeDouble(values[i])
             }
         }
+
     }
 
     fun loadFromFile(filename: String) {
+
         File(filename).dataInputStream { fis ->
             var size = fis.readInt()
             for (i in 0 until size) {
@@ -90,5 +93,6 @@ class MyMapLongDoubleBinaryTree() {
                 values.add(fis.readDouble())
             }
         }
+
     }
 }

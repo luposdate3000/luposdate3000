@@ -2,7 +2,7 @@ package lupos.s00misc
 
 class MyMapStringIntPatriciaTrie() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
-        val children = MyListAny<MyMapStringIntPatriciaTrieNode>()
+        val children = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
     }
 
     var size: Int = 0
@@ -101,7 +101,7 @@ class MyMapStringIntPatriciaTrie() {
 
     fun forEach(action: (String, Int) -> Unit) = forEachInternal("", root, action)
     fun safeToFile(filename: String) {
-        var queue = MyListAny<MyMapStringIntPatriciaTrieNode>()
+        var queue = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
         File(filename).dataOutputStream { out ->
             out.writeShort(root.children.size)
             if (root.value != null) {
@@ -134,7 +134,7 @@ class MyMapStringIntPatriciaTrie() {
     }
 
     fun loadFromFile(filename: String) {
-        var queueNode = MyListAny<MyMapStringIntPatriciaTrieNode>()
+        var queueNode = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
         var queueCount = MyListInt()
         File(filename).dataInputStream { fis ->
             val len = fis.readShort()

@@ -1,36 +1,36 @@
 package lupos.s00misc
 
-/* Substitutions :: VALUE */
-class MyListVALUE {
+/* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
+class MyListVALUEGDEF {
     @JvmField
     var size = 0
     @JvmField
     var capacity = 10
     @JvmField
-    var data: VALUEArray
+    var data: ARRAYTYPE
 
     inline fun reserve(capacity: Int) {
         if (this.capacity < capacity) {
             this.capacity = capacity
-            val tmp = VALUEArray(capacity)
+            val tmp = ARRAYTYPE(capacity)ARRAYINITIALIZER
             data.copyInto(tmp)
             data = tmp
         }
     }
 
     constructor() {
-        data = VALUEArray(capacity)
+        data = ARRAYTYPE(capacity)ARRAYINITIALIZER
     }
 
     constructor(value: VALUE) {
-        data = VALUEArray(capacity)
+        data = ARRAYTYPE(capacity)ARRAYINITIALIZER
         data[size++] = value
     }
 
     constructor(initialCapacity: Int, init: (Int) -> VALUE) {
         capacity = initialCapacity
         size = capacity
-        data = VALUEArray(capacity) { init(it) }
+        data = ARRAYTYPE(capacity) { init(it) }
     }
 
     fun clear() {
@@ -44,8 +44,19 @@ class MyListVALUE {
         data[size++] = value
     }
 
-    inline operator fun get(idx: Int) = data.get(idx)
+    inline operator fun get(idx: Int) = data.get(idx) as VALUE
     inline operator fun set(idx: Int, key: VALUE) = data.set(idx, key)
+
+fun remove (value:VALUE):Boolean{
+for(idx in 0 until size){
+if(data[idx]==value){
+removeAt(idx)
+return true
+}
+}
+return false
+}
+
     fun removeAt(idx: Int): VALUE {
         val res = data[idx]
         require(idx < size)
@@ -53,7 +64,7 @@ class MyListVALUE {
             data[i] = data[i + 1]
         }
         size--
-        return res
+        return res as VALUE
     }
 
     fun add(idx: Int, value: VALUE) {
@@ -72,9 +83,9 @@ class MyListVALUE {
     }
 
     inline operator fun iterator() = MyListVALUEIterator(this)
-    class MyListVALUEIterator(@JvmField val data: MyListVALUE) : Iterator<VALUE> {
+    class MyListVALUEIteratorGDEF(@JvmField val data: MyListVALUEGUSE) : Iterator<VALUE> {
         var index = 0
         override fun hasNext() = index < data.size
-        override fun next() = data.data[index++]
+        override fun next() = data.data[index++] as VALUE
     }
 }

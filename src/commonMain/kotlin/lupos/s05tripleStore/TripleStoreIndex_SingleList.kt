@@ -197,7 +197,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         return data
     }
 
-    override fun import(dataImport: MyMapLong<MySetInt>) {
+    override fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val data1 = MyListInt()
         val iterator = dataImport.iterator()
         if (iterator.hasNext()) {

@@ -7,17 +7,17 @@ class TripleStoreBulkImport {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
     @JvmField
-    val dataSPO = MyMapLong<MySetInt>()
+    val dataSPO = MyMapLongGeneric<MySetInt>()
     @JvmField
-    val dataSOP = MyMapLong<MySetInt>()
+    val dataSOP = MyMapLongGeneric<MySetInt>()
     @JvmField
-    val dataPOS = MyMapLong<MySetInt>()
+    val dataPOS = MyMapLongGeneric<MySetInt>()
     @JvmField
-    val dataOSP = MyMapLong<MySetInt>()
+    val dataOSP = MyMapLongGeneric<MySetInt>()
     @JvmField
-    val dataPSO = MyMapLong<MySetInt>()
+    val dataPSO = MyMapLongGeneric<MySetInt>()
     @JvmField
-    val dataOPS = MyMapLong<MySetInt>()
+    val dataOPS = MyMapLongGeneric<MySetInt>()
 
     fun insert(si: Value, pi: Value, oi: Value) {
         dataSPO.getOrCreate((si.toLong() shl 32) + pi, { MySetInt() }).add(oi, {}, {})

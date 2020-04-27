@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_MapMapList : TripleStoreIndex {
     @JvmField
-    val data = MyMapInt<MyMapInt<MySetInt>>()
+    val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
 
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
@@ -49,7 +49,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
             val size0 = it.readInt()
             for (i0 in 0 until size0) {
                 val key0 = it.readInt()
-                val tmp0 = data.appendAssumeSorted(key0, MyMapInt<MySetInt>())
+                val tmp0 = data.appendAssumeSorted(key0, MyMapIntGeneric<MySetInt>())
                 val size1 = it.readInt()
                 for (i1 in 0 until size1) {
                     val key1 = it.readInt()
@@ -169,14 +169,14 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         return res
     }
 
-    override fun import(dataImport: MyMapLong<MySetInt>) {
+    override fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val iterator = dataImport.iterator()
         while (iterator.hasNext()) {
             val key = iterator.next()
             val value = iterator.value()
             val s = (key shr 32).toInt()
             val p = key.toInt()
-            val tmpS = data.getOrCreate(s, { MyMapInt<MySetInt>() })
+            val tmpS = data.getOrCreate(s, { MyMapIntGeneric<MySetInt>() })
             val tmpP = tmpS.getOrCreate(p, { MySetInt() })
             val oiterator = value.iterator()
             while (oiterator.hasNext()) {
@@ -188,7 +188,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     override fun insert(a: Value, b: Value, c: Value) {
         val tmp = data[a]
         if (tmp == null) {
-            data[a] = MyMapInt(b to MySetInt(c))
+            data[a] = MyMapIntGeneric(b to MySetInt(c))
         } else {
             val tmp2 = tmp[b]
             if (tmp2 == null) {

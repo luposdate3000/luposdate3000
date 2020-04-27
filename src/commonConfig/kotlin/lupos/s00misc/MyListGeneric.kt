@@ -2,54 +2,54 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-/* Substitutions :: Int,,,IntArray, */
-class MyListInt {
+/* Substitutions :: Generic,<Generic>,<Generic>,Array<Any?>,{null} */
+class MyListGeneric<Generic> {
     @JvmField
     var size = 0
     @JvmField
     var capacity = 10
     @JvmField
-    var data: IntArray
+    var data: Array<Any?>
 
     inline fun reserve(capacity: Int) {
         if (this.capacity < capacity) {
             this.capacity = capacity
-            val tmp = IntArray(capacity)
+            val tmp = Array<Any?>(capacity){null}
             data.copyInto(tmp)
             data = tmp
         }
     }
 
     constructor() {
-        data = IntArray(capacity)
+        data = Array<Any?>(capacity){null}
     }
 
-    constructor(value: Int) {
-        data = IntArray(capacity)
+    constructor(value: Generic) {
+        data = Array<Any?>(capacity){null}
         data[size++] = value
     }
 
-    constructor(initialCapacity: Int, init: (Int) -> Int) {
+    constructor(initialCapacity: Int, init: (Int) -> Generic) {
         capacity = initialCapacity
         size = capacity
-        data = IntArray(capacity) { init(it) }
+        data = Array<Any?>(capacity) { init(it) }
     }
 
     fun clear() {
         size = 0
     }
 
-    fun add(value: Int) {
+    fun add(value: Generic) {
         if (size + 1 >= capacity) {
             reserve(capacity * 2)
         }
         data[size++] = value
     }
 
-    inline operator fun get(idx: Int) = data.get(idx) as Int
-    inline operator fun set(idx: Int, key: Int) = data.set(idx, key)
+    inline operator fun get(idx: Int) = data.get(idx) as Generic
+    inline operator fun set(idx: Int, key: Generic) = data.set(idx, key)
 
-fun remove (value:Int):Boolean{
+fun remove (value:Generic):Boolean{
 for(idx in 0 until size){
 if(data[idx]==value){
 removeAt(idx)
@@ -59,17 +59,17 @@ return true
 return false
 }
 
-    fun removeAt(idx: Int): Int {
+    fun removeAt(idx: Int): Generic {
         val res = data[idx]
         require(idx < size)
         for (i in idx until size) {
             data[i] = data[i + 1]
         }
         size--
-        return res as Int
+        return res as Generic
     }
 
-    fun add(idx: Int, value: Int) {
+    fun add(idx: Int, value: Generic) {
         if (size + 1 >= capacity) {
             reserve(capacity * 2)
         }
@@ -84,10 +84,10 @@ return false
         }
     }
 
-    inline operator fun iterator() = MyListIntIterator(this)
-    class MyListIntIterator(@JvmField val data: MyListInt) : Iterator<Int> {
+    inline operator fun iterator() = MyListGenericIterator(this)
+    class MyListGenericIterator<Generic>(@JvmField val data: MyListGeneric<Generic>) : Iterator<Generic> {
         var index = 0
         override fun hasNext() = index < data.size
-        override fun next() = data.data[index++] as Int
+        override fun next() = data.data[index++] as Generic
     }
 }

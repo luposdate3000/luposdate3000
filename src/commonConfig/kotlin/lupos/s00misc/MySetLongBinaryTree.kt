@@ -4,7 +4,7 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-/* Substitutions :: Long */
+/* Substitutions :: Long,, */
 class MySetLongBinaryTree {
     @JvmField
     var data = MyListLong()

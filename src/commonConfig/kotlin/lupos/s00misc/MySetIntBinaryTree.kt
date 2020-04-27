@@ -4,7 +4,7 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-/* Substitutions :: Int */
+/* Substitutions :: Int,, */
 class MySetIntBinaryTree {
     @JvmField
     var data = MyListInt()

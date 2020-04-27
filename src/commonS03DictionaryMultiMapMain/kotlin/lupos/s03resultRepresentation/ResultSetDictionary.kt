@@ -80,7 +80,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     val iriMap = MyMapStringIntPatriciaTrie()
-    val iriList = MyListAny<String>()
+    val iriList = MyListGeneric<String>()
     fun createIri(iri: String): Value {
         if (global) {
             return iriMap.getOrCreate(iri, {
@@ -103,7 +103,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     val langTaggedMap = MyMapStringIntPatriciaTrie()
-    val langTaggedList = MyListAny<String>()
+    val langTaggedList = MyListGeneric<String>()
     fun createLangTagged(content: String, lang: String): Value {
         val key = lang + "@" + content
         if (global) {
@@ -127,7 +127,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     val typedMap = MyMapStringIntPatriciaTrie()
-    val typedList = MyListAny<String>()
+    val typedList = MyListGeneric<String>()
     fun createTyped(content: String, type: String): Value {
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {

@@ -6,7 +6,7 @@ import lupos.s00misc.File
 object Coverage {
     var verbose = true
     var veryverbose = true
-    val CoverageMapGenerated = MyMapInt<String>()
+    val CoverageMapGenerated = MyMapIntGeneric<String>()
     val CoverageMapWhenCaseGenerated = MyMapIntInt()
 
     init {

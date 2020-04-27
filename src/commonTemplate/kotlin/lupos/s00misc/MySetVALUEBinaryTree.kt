@@ -2,10 +2,10 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-/* Substitutions :: VALUE */
-class MySetVALUEBinaryTree {
+/* Substitutions :: VALUE,GDEF,GUSE */
+class MySetVALUEBinaryTreeGDEF {
     @JvmField
-    var data = MyListVALUE()
+    var data = MyListVALUEGUSE()
     var size: Int = 0
         get() = data.size
 
@@ -104,7 +104,7 @@ class MySetVALUEBinaryTree {
         })
     }
 
-    inline fun toList(): MyListVALUE {
+    inline fun toList(): MyListVALUEGUSE {
         return data
     }
 }

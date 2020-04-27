@@ -2,7 +2,7 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-/* Substitutions :: Long */
+/* Substitutions :: Long,,,LongArray, */
 class MyListLong {
     @JvmField
     var size = 0
@@ -46,8 +46,19 @@ class MyListLong {
         data[size++] = value
     }
 
-    inline operator fun get(idx: Int) = data.get(idx)
+    inline operator fun get(idx: Int) = data.get(idx) as Long
     inline operator fun set(idx: Int, key: Long) = data.set(idx, key)
+
+fun remove (value:Long):Boolean{
+for(idx in 0 until size){
+if(data[idx]==value){
+removeAt(idx)
+return true
+}
+}
+return false
+}
+
     fun removeAt(idx: Int): Long {
         val res = data[idx]
         require(idx < size)
@@ -55,7 +66,7 @@ class MyListLong {
             data[i] = data[i + 1]
         }
         size--
-        return res
+        return res as Long
     }
 
     fun add(idx: Int, value: Long) {
@@ -77,6 +88,6 @@ class MyListLong {
     class MyListLongIterator(@JvmField val data: MyListLong) : Iterator<Long> {
         var index = 0
         override fun hasNext() = index < data.size
-        override fun next() = data.data[index++]
+        override fun next() = data.data[index++] as Long
     }
 }

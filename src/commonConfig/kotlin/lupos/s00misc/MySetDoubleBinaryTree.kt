@@ -4,7 +4,7 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-/* Substitutions :: Double */
+/* Substitutions :: Double,, */
 class MySetDoubleBinaryTree {
     @JvmField
     var data = MyListDouble()

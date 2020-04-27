@@ -2,7 +2,7 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-/* Substitutions :: Double */
+/* Substitutions :: Double,,,DoubleArray, */
 class MyListDouble {
     @JvmField
     var size = 0
@@ -46,8 +46,19 @@ class MyListDouble {
         data[size++] = value
     }
 
-    inline operator fun get(idx: Int) = data.get(idx)
+    inline operator fun get(idx: Int) = data.get(idx) as Double
     inline operator fun set(idx: Int, key: Double) = data.set(idx, key)
+
+fun remove (value:Double):Boolean{
+for(idx in 0 until size){
+if(data[idx]==value){
+removeAt(idx)
+return true
+}
+}
+return false
+}
+
     fun removeAt(idx: Int): Double {
         val res = data[idx]
         require(idx < size)
@@ -55,7 +66,7 @@ class MyListDouble {
             data[i] = data[i + 1]
         }
         size--
-        return res
+        return res as Double
     }
 
     fun add(idx: Int, value: Double) {
@@ -77,6 +88,6 @@ class MyListDouble {
     class MyListDoubleIterator(@JvmField val data: MyListDouble) : Iterator<Double> {
         var index = 0
         override fun hasNext() = index < data.size
-        override fun next() = data.data[index++]
+        override fun next() = data.data[index++] as Double
     }
 }

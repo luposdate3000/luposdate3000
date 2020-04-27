@@ -2,12 +2,12 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-/* Substitutions :: KEY,VALUE */
-class MyMapKEYVALUEBinaryTree() {
+/* Substitutions :: KEY,VALUE,GDEF,GUSEKV,GUSEK,GUSEV,KNAME,VNAME */
+class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     @JvmField
-    var keys = MySetKEY()
+    var keys = MySetKNAMEBinaryTreeGUSEK()
     @JvmField
-    var values = MyListVALUE()
+    var values = MyListVNAMEGUSEV()
     var size: Int = 0
         get() = keys.size
 
@@ -52,14 +52,14 @@ class MyMapKEYVALUEBinaryTree() {
         values.clear()
     }
 
-    inline fun iterator() = MyMapKEYVALUEBinaryTreeIterator(this)
+    inline fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
     inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
         for (i in 0 until values.size) {
             action(keys.data[i], values[i])
         }
     }
 
-    class MyMapKEYVALUEBinaryTreeIterator(val data: MyMapKEYVALUEBinaryTree) {
+    class MyMapKNAMEVNAMEBinaryTreeIteratorGDEF(val data: MyMapKNAMEVNAMEBinaryTreeGUSEKV) {
         var index = 0
         fun hasNext() = index < data.values.size
         fun next() = data.keys.data[index++]
@@ -67,6 +67,7 @@ class MyMapKEYVALUEBinaryTree() {
     }
 
     fun safeToFile(filename: String) {
+IOSTART
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
             for (i in 0 until size) {
@@ -76,9 +77,11 @@ class MyMapKEYVALUEBinaryTree() {
                 out.writeVALUE(values[i])
             }
         }
+IOEND
     }
 
     fun loadFromFile(filename: String) {
+IOSTART
         File(filename).dataInputStream { fis ->
             var size = fis.readInt()
             for (i in 0 until size) {
@@ -88,5 +91,6 @@ class MyMapKEYVALUEBinaryTree() {
                 values.add(fis.readVALUE())
             }
         }
+IOEND
     }
 }
