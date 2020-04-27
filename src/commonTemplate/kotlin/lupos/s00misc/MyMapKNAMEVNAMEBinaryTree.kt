@@ -67,7 +67,7 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     }
 
     fun safeToFile(filename: String) {
-IOSTART
+        IOSTART
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
             for (i in 0 until size) {
@@ -77,11 +77,11 @@ IOSTART
                 out.writeVALUE(values[i])
             }
         }
-IOEND
+        IOEND
     }
 
     fun loadFromFile(filename: String) {
-IOSTART
+        IOSTART
         File(filename).dataInputStream { fis ->
             var size = fis.readInt()
             for (i in 0 until size) {
@@ -91,6 +91,6 @@ IOSTART
                 values.add(fis.readVALUE())
             }
         }
-IOEND
+        IOEND
     }
 }

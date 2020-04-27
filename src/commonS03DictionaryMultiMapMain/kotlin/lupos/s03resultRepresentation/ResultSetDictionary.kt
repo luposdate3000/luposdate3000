@@ -86,7 +86,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             return iriMap.getOrCreate(iri, {
                 val idx = iriList.size
                 iriList.add(iri)
-/*return*/ (flaggedValueGlobalIri or idx.toInt())
+                /*return*/ (flaggedValueGlobalIri or idx.toInt())
             })
         } else {
             var tmp = nodeGlobalDictionary.iriMap[iri]
@@ -96,7 +96,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 return iriMap.getOrCreate(iri, {
                     val idx = iriList.size
                     iriList.add(iri)
-/*return*/(flaggedValueLocalIri or idx.toInt())
+                    /*return*/(flaggedValueLocalIri or idx.toInt())
                 })
             }
         }
@@ -110,7 +110,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             return langTaggedMap.getOrCreate(key, {
                 val idx = langTaggedList.size
                 langTaggedList.add(key)
-/*return*/ (flaggedValueGlobalLangTagged or idx.toInt())
+                /*return*/ (flaggedValueGlobalLangTagged or idx.toInt())
             })
         } else {
             var tmp = nodeGlobalDictionary.langTaggedMap[key]
@@ -120,7 +120,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 return langTaggedMap.getOrCreate(key, {
                     val idx = langTaggedList.size
                     langTaggedList.add(key)
-/*return*/(flaggedValueLocalLangTagged or idx.toInt())
+                    /*return*/(flaggedValueLocalLangTagged or idx.toInt())
                 })
             }
         }
@@ -152,7 +152,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                     return typedMap.getOrCreate(key, {
                         val idx = typedList.size
                         typedList.add(key)
-/*return*/ (flaggedValueGlobalTyped or idx.toInt())
+                        /*return*/ (flaggedValueGlobalTyped or idx.toInt())
                     })
                 } else {
                     var tmp = nodeGlobalDictionary.typedMap[key]
@@ -177,7 +177,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             return doubleMap.getOrCreate(value, {
                 val idx = doubleList.size
                 doubleList.add(value)
-/*return*/ (flaggedValueGlobalDouble or idx.toInt())
+                /*return*/ (flaggedValueGlobalDouble or idx.toInt())
             })
         } else {
             val tmp = nodeGlobalDictionary.doubleMap[value]
@@ -187,7 +187,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 return doubleMap.getOrCreate(value, {
                     val idx = doubleList.size
                     doubleList.add(value)
-/*return*/ (flaggedValueLocalDouble or idx.toInt())
+                    /*return*/ (flaggedValueLocalDouble or idx.toInt())
                 })
             }
         }
@@ -200,7 +200,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             return decimalMap.getOrCreate(value, {
                 val idx = decimalList.size
                 decimalList.add(value)
-/*return*/ (flaggedValueGlobalDecimal or idx.toInt())
+                /*return*/ (flaggedValueGlobalDecimal or idx.toInt())
             })
         } else {
             val tmp = nodeGlobalDictionary.decimalMap[value]
@@ -210,7 +210,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 return decimalMap.getOrCreate(value, {
                     val idx = decimalList.size
                     decimalList.add(value)
-/*return*/ (flaggedValueLocalDecimal or idx.toInt())
+                    /*return*/ (flaggedValueLocalDecimal or idx.toInt())
                 })
             }
         }
@@ -223,7 +223,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             return intMap.getOrCreate(value, {
                 val idx = intList.size
                 intList.add(value)
-/*return*/             (flaggedValueGlobalInt or idx.toInt())
+                /*return*/(flaggedValueGlobalInt or idx.toInt())
             })
         } else {
             val tmp = nodeGlobalDictionary.intMap[value]
@@ -233,7 +233,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 return intMap.getOrCreate(value, {
                     val idx = intList.size
                     intList.add(value)
-/*return*/(flaggedValueLocalInt or idx.toInt())
+                    /*return*/(flaggedValueLocalInt or idx.toInt())
                 })
             }
         }

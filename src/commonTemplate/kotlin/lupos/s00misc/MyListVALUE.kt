@@ -12,19 +12,19 @@ class MyListVALUEGDEF {
     inline fun reserve(capacity: Int) {
         if (this.capacity < capacity) {
             this.capacity = capacity
-            val tmp = ARRAYTYPE(capacity)ARRAYINITIALIZER
-            data.copyInto(tmp)
+            val tmp = ARRAYTYPE(capacity) ARRAYINITIALIZER
+                    data.copyInto(tmp)
             data = tmp
         }
     }
 
     constructor() {
-        data = ARRAYTYPE(capacity)ARRAYINITIALIZER
+        data = ARRAYTYPE(capacity) ARRAYINITIALIZER
     }
 
     constructor(value: VALUE) {
-        data = ARRAYTYPE(capacity)ARRAYINITIALIZER
-        data[size++] = value
+        data = ARRAYTYPE(capacity) ARRAYINITIALIZER
+                data[size++] = value
     }
 
     constructor(initialCapacity: Int, init: (Int) -> VALUE) {
@@ -46,16 +46,15 @@ class MyListVALUEGDEF {
 
     inline operator fun get(idx: Int) = data.get(idx) as VALUE
     inline operator fun set(idx: Int, key: VALUE) = data.set(idx, key)
-
-fun remove (value:VALUE):Boolean{
-for(idx in 0 until size){
-if(data[idx]==value){
-removeAt(idx)
-return true
-}
-}
-return false
-}
+    fun remove(value: VALUE): Boolean {
+        for (idx in 0 until size) {
+            if (data[idx] == value) {
+                removeAt(idx)
+                return true
+            }
+        }
+        return false
+    }
 
     fun removeAt(idx: Int): VALUE {
         val res = data[idx]

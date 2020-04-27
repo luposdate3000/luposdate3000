@@ -101,26 +101,26 @@ fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): Choo
 class PrecompileTemplate(val pkg: String, val sourceClass: String, val replacements: List<Pair<String, String>>)
 
 val templates = listOf(
-        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int","GDEF" to "","GUSE" to "","ARRAYTYPE" to "IntArray","ARRAYINITIALIZER" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long","GDEF" to "","GUSE" to "","ARRAYTYPE" to "LongArray","ARRAYINITIALIZER" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Double","GDEF" to "","GUSE" to "","ARRAYTYPE" to "DoubleArray","ARRAYINITIALIZER" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Generic","GDEF" to "<Generic>","GUSE" to "<Generic>","ARRAYTYPE" to "Array<Any?>","ARRAYINITIALIZER" to "{null}")),
-        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Int","GDEF" to "","GUSE" to "")),
-        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Long","GDEF" to "","GUSE" to "")),
-        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Double","GDEF" to "","GUSE" to "")),
-        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Generic","GDEF" to "<Generic : Comparable<Generic>>","GUSE" to "<Generic>")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Int","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Int", "VNAME" to "Int","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Long","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Int", "VNAME" to "Long","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Double","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Int", "VNAME" to "Double","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Int","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Long", "VNAME" to "Int","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Long","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Long", "VNAME" to "Long","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Double","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Long", "VNAME" to "Double","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Int","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Double", "VNAME" to "Int","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Long","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Double", "VNAME" to "Long","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Double","GDEF" to "","GUSEKV" to "", "GUSEK" to "", "GUSEV" to "","KNAME" to "Double", "VNAME" to "Double","IOSTART" to "","IOEND" to "")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "GenericK", "VALUE" to "GenericV","GDEF" to "<GenericK : Comparable<GenericK>, GenericV>","GUSEKV" to "<GenericK, GenericV>", "GUSEK" to "<GenericK>", "GUSEV" to "<GenericV>","KNAME" to "Generic","VNAME" to "Generic","IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic","GDEF" to "<Generic>","GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>","KNAME" to "Int","VNAME" to "Generic","IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic","GDEF" to "<Generic>","GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>","KNAME" to "Long","VNAME" to "Generic","IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"))
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Generic", "GDEF" to "<Generic>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Double", "GDEF" to "", "GUSE" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Int", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Long", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Double", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Int", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Long", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Double", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Int", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Long", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Double", "IOSTART" to "", "IOEND" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "GenericK", "VALUE" to "GenericV", "GDEF" to "<GenericK : Comparable<GenericK>, GenericV>", "GUSEKV" to "<GenericK, GenericV>", "GUSEK" to "<GenericK>", "GUSEV" to "<GenericV>", "KNAME" to "Generic", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"))
 )
 
 val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
@@ -494,7 +494,7 @@ for (template in templates) {
     var targetClass = template.sourceClass
     for (replacement in template.replacements) {
         targetClass = targetClass.replace(replacement.first.toRegex(), replacement.second)
-	fileContent=replacement.first.toRegex(RegexOption.DOT_MATCHES_ALL).replace(fileContent,replacement.second)
+        fileContent = replacement.first.toRegex(RegexOption.DOT_MATCHES_ALL).replace(fileContent, replacement.second)
     }
     val targetFile = File("src/commonConfig/kotlin/" + template.pkg.replace(".", "/") + "/" + targetClass + ".kt")
     targetFile.printWriter().use {
