@@ -48,34 +48,35 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    @JvmField
-    val mapSTL = mutableMapOf<ValueDefinition, Value>(undefValue2 to undefValue, errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue)
-    @JvmField
-    val mapLTS = MyListAny<ValueDefinition>()
-
-    init {
-        mapLTS.add(booleanTrueValue2)
-        mapLTS.add(booleanFalseValue2)
-        mapLTS.add(errorValue2)
-        mapLTS.add(undefValue2)
-    }
-
     var bNodeCounter = 0
     inline fun createNewBNode(): Value {
         return createValue(ValueBnode("" + bNodeCounter++))
     }
 
     inline fun createIri(iri: String): Value {
-println("createIri::"+iri)
         return createValue("<" + iri + ">")
     }
 
-    inline fun createOther(data: String): Value {
-println("createOther::"+data)
-        return createValue(data)
+    inline fun createValue(value: String?): Value {
+        return createValue(ValueDefinition(value))
     }
 
-    inline fun createValue(value: String?) = createValue(ValueDefinition(value))
+    inline fun createTyped(content: String, type: String): Value {
+        return createValue(ValueDefinition("\"$content\"^^<$type>"))
+    }
+
+    inline fun createDouble(value: Double): Value {
+        return createValue(ValueDouble(value))
+    }
+
+    inline fun createDecimal(value: Double): Value {
+        return createValue(ValueDecimal(value))
+    }
+
+    inline fun createInteger(value: Int): Value {
+        return createValue(ValueInteger(value))
+    }
+
     inline fun checkValue(value: ValueDefinition): Value? {
         var res: Value?
         if (value is ValueUndef) {
@@ -129,8 +130,8 @@ println("createOther::"+data)
         }
     }
 
-    fun safeToFile(filename: String) {
-        File(filename).printWriter { out ->
+    fun safeToFolder(folderName: String) {
+        File(folderName + "/dictionary.txt").printWriter { out ->
             var idx = 0
             for (line in mapLTS) {
                 if (idx > 3) {
@@ -141,8 +142,8 @@ println("createOther::"+data)
         }
     }
 
-    fun loadFromFile(filename: String) {
-        File(filename).forEachLine {
+    fun loadFromFolder(folderName: String) {
+        File(folderName + "/dictionary.txt").forEachLine {
             createValue(ValueDefinition(it))
         }
     }

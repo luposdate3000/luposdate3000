@@ -4,7 +4,9 @@ package lupos.s00misc
 typealias MySetAny<T> = MySetAnyBinary<T>
 typealias MySetLong = MySetLongBinary
 typealias MySetInt = MySetIntBinary
+typealias MySetDouble = MySetDoubleBinary
 typealias MyMapInt<T> = MyMapIntBinaryTree<T>
 typealias MyMapLong<T> = MyMapLongBinaryTree<T>
 typealias MyMapLongInt = MyMapLongIntBinaryTree
 typealias MyMapIntInt = MyMapIntIntBinaryTree
+typealias MyMapDoubleInt = MyMapDoubleIntBinaryTree

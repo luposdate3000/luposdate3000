@@ -64,7 +64,6 @@ class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
 var allChoicesString = ""
 var choicesCount = 0
 fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
-    println(group.name)
     when (options.size) {
         0 -> throw Exception("script error")
         1 -> return options[0]
@@ -128,7 +127,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("Unsafe", "jvmS01BufferUnsafeMain")
         ),
         ChooseableGroup("Dictionary") to listOf(
-                ChooseableOptionDirectory("Int", "commonS03DictionaryIntArrayMain")
+                ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain"),
+                ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain")
         ),
         ChooseableGroup("Triple Store") to listOf(
                 ChooseableOptionDirectory("MapMapList", "commonS05MapMapListMain"),
@@ -160,7 +160,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("BinaryTree", "lupos.s00misc", listOf(
                         "MySetAny<T>" to "MySetAnyBinary<T>",
                         "MySetLong" to "MySetLongBinary",
-                        "MySetInt" to "MySetIntBinary"
+                        "MySetInt" to "MySetIntBinary",
+                        "MySetDouble" to "MySetDoubleBinary"
                 ))
         ),
         ChooseableGroup("Map Implementation") to listOf(
@@ -168,13 +169,15 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                         "MyMapInt<T>" to "MyMapIntBinaryTree<T>",
                         "MyMapLong<T>" to "MyMapLongBinaryTree<T>",
                         "MyMapLongInt" to "MyMapLongIntBinaryTree",
-                        "MyMapIntInt" to "MyMapIntIntBinaryTree"
+                        "MyMapIntInt" to "MyMapIntIntBinaryTree",
+                        "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
                 )),
                 ChooseableOptionTypeAlias("HashMap", "lupos.s00misc", listOf(
                         "MyMapInt<T>" to "MyMapIntBinaryTree<T>",
                         "MyMapLong<T>" to "MyMapLongBinaryTree<T>",
                         "MyMapLongInt" to "MyMapLongIntHash",
-                        "MyMapIntInt" to "MyMapIntIntBinaryTree"
+                        "MyMapIntInt" to "MyMapIntIntBinaryTree",
+                        "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
                 ))
         ),
         ChooseableGroup("Iterator Debug verbosity") to listOf(

@@ -174,7 +174,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         '"' -> {
                             var ttt = data.indexOf("\"@", start + 1)
                             if (data[column - 1] == '"' || data[column - 1] == '>' || (ttt < column && ttt > start + 1)) {
-                                currentTriple[nextType] = nodeGlobalDictionary.createOther(data.substring(start, column))
+                                currentTriple[nextType] = nodeGlobalDictionary.createValue(data.substring(start, column))
                             } else {
                                 var tt = data.indexOf("^^", start)
                                 while (true) {
@@ -189,7 +189,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 var key = data.substring(tt + 2, t)
                                 var value = prefixes[key]
                                 if (value != null) {
-                                    currentTriple[nextType] = nodeGlobalDictionary.createOther(data.substring(start, tt + 2) + "<" + value + data.substring(t + 1, column) + ">")
+                                    currentTriple[nextType] = nodeGlobalDictionary.createTyped(data.substring(start + 1, tt + 1), value + data.substring(t + 1, column))
                                 } else {
                                     throw Exception("unknown Prefix for '${data.substring(start, column)}'")
                                 }
@@ -206,9 +206,9 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                     throw Exception("unknown Prefix for '${data.substring(start, column)}'")
                                 }
                             } else if (data.startsWith("true", start)) {
-                                nodeGlobalDictionary.createOther("\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                                currentTriple[nextType] = ResultSetDictionary.booleanTrueValue
                             } else if (data.startsWith("false", start)) {
-                                nodeGlobalDictionary.createOther("\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                                currentTriple[nextType] = ResultSetDictionary.booleanFalseValue
                             } else {
                                 var containsDot = false
                                 var containsExponent = false
@@ -231,11 +231,11 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 }
                                 if (isNumeric) {
                                     if (containsExponent) {
-                                        nodeGlobalDictionary.createOther("\"" + data.substring(t, column) + "\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                        currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(t, column).toDouble())
                                     } else if (containsDot) {
-                                        nodeGlobalDictionary.createOther("\"" + data.substring(t, column) + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                        currentTriple[nextType] = nodeGlobalDictionary.createDecimal(data.substring(t, column).toDouble())
                                     } else {
-                                        nodeGlobalDictionary.createOther("\"" + data.substring(t, column) + "\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                        currentTriple[nextType] = nodeGlobalDictionary.createInteger(data.substring(t, column).toInt())
                                     }
                                 } else {
                                     var l = start - 10
@@ -502,7 +502,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
 
     fun process_persistence_store(foldername: String): String {
         BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
-        nodeGlobalDictionary.safeToFile(foldername + "/dictionary.txt")
+        nodeGlobalDictionary.safeToFolder(foldername)
         var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_DICTIONARY)
         BenchmarkUtils.start(EBenchmark.SAVE_TRIPLE_STORE)
         val stores = DistributedTripleStore.localStore.stores
@@ -522,7 +522,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     fun process_persistence_load(foldername: String): String {
         MemoryStatistics.print("before load")
         BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
-        nodeGlobalDictionary.loadFromFile(foldername + "/dictionary.txt")
+        nodeGlobalDictionary.loadFromFolder(foldername)
         var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_DICTIONARY)
         MemoryStatistics.print("after load dictionary")
         BenchmarkUtils.start(EBenchmark.LOAD_TRIPLE_STORE)

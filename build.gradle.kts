@@ -29,7 +29,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_jvm_SparqlTestSuite_On_Sequential_Heap_SingleList_Dummy_Korio_None_Local_On_BinaryTree_None_Empty")
+project.buildDir = file("build/build_jvm_SparqlTestSuite_On_Sequential_Heap_MultiMap_SingleList_Dummy_Korio_None_Local_On_BinaryTree_None_Empty")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
@@ -51,7 +51,7 @@ sourceSets["main"].java.srcDir("src/commonS00ResultFlowFastMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS00SanityChecksOnMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS03DictionaryMultiMapMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS05SingleListMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS12DummyMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS14ClientNoneMain/kotlin")

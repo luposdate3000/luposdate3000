@@ -6,7 +6,7 @@ timemin=0
 timeout=120
 triples=262144
 
-./generate-buildfile.kts jvm Endpoint Off Fast Sequential Heap SingleList Dummy Korio None Local Off BinaryTree None Empty
+./generate-buildfile.kts jvm Endpoint Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BinaryTree None Empty
 ./tool-gradle-build.sh
 
 
@@ -17,7 +17,7 @@ sleep 3
 (./build/executable 127.0.0.1)&
 sleep 3
 
-curl -X POST --data-binary "@/mnt/sp2b-testdata/$triples/data0.n3" http://localhost:80/import/turtle --header "Content-Type:text/plain"
+curl -X POST --data-binary "/mnt/sp2b-testdata/$triples/data0.n3" http://localhost:80/import/turtle --header "Content-Type:text/plain"
 #jmap -dump:live,file=dump 9997
 #visualvm
 

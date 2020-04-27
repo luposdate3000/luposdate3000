@@ -2,7 +2,7 @@ package lupos.s00misc
 
 class MyMapStringIntPatriciaTrie() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
-        val children = mutableListOf<MyMapStringIntPatriciaTrieNode>()
+        val children = MyListAny<MyMapStringIntPatriciaTrieNode>()
     }
 
     var size: Int = 0
@@ -100,4 +100,76 @@ class MyMapStringIntPatriciaTrie() {
     }
 
     fun forEach(action: (String, Int) -> Unit) = forEachInternal("", root, action)
+    fun safeToFile(filename: String) {
+        var queue = MyListAny<MyMapStringIntPatriciaTrieNode>()
+        File(filename).dataOutputStream { out ->
+            out.writeShort(root.children.size)
+            if (root.value != null) {
+                out.writeChar(1)
+                out.writeInt(root.value!!)
+            } else {
+                out.writeChar(0)
+            }
+            for (children in root.children) {
+                queue.add(children)
+            }
+            while (queue.size > 0) {
+                val node = queue.removeAt(0)
+                out.writeShort(node.children.size)
+                for (c in node.key) {
+                    out.writeChar(c.toInt())
+                }
+                /*write node.key*/
+                if (node.value != null) {
+                    out.writeChar(1)
+                    out.writeInt(node.value!!)
+                } else {
+                    out.writeChar(0)
+                }
+                for (children in node.children) {
+                    queue.add(children)
+                }
+            }
+        }
+    }
+
+    fun readFromFile(filename: String) {
+        var queueNode = MyListAny<MyMapStringIntPatriciaTrieNode>()
+        var queueCount = MyListInt()
+        File(filename).dataInputStream { fis ->
+            val len = fis.readShort()
+            if (len > 0) {
+                queueNode.add(root)
+                queueCount.add(len.toInt())
+            }
+            if (fis.readChar().toInt() == 1) {
+                root.value = fis.readInt()
+            }
+            while (queueCount.size > 0) {
+                val parentCount = queueCount[0]--
+                val parent = queueNode[0]
+                require(parentCount > 0)
+                if (parentCount == 1) {
+                    queueNode.removeAt(0)
+                    queueCount.removeAt(0)
+                }
+                val len = fis.readShort()
+                val key = StringBuilder()
+                var c = fis.readChar()
+                while (c.toInt() > 1) {
+                    key.append(c)
+                    c = fis.readChar()
+                }
+                val node: MyMapStringIntPatriciaTrieNode
+                if (c.toInt() == 1) {
+                    node = MyMapStringIntPatriciaTrieNode(key.toString(), fis.readInt())
+                } else {
+                    node = MyMapStringIntPatriciaTrieNode(key.toString(), null)
+                }
+                queueCount.add(len.toInt())
+                queueNode.add(node)
+                parent.children.add(node)
+            }
+        }
+    }
 }
