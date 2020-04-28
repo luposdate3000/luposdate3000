@@ -5,6 +5,7 @@ timemin=0
 #in seconds
 timeout=120
 triples=262144
+triples=16384
 
 ./generate-buildfile.kts jvm Endpoint Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BinaryTree None Empty
 ./tool-gradle-build.sh

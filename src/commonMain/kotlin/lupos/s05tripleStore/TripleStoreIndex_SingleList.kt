@@ -233,7 +233,12 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 }
                 pCount++
                 data1.add(p)
+                println(" ... ${data1.uuid} from iterator ${dataImport.keys.data.uuid} ${dataImport.values.uuid}")
+                println(value)
+                println(value.size)
+                println(data1.debug())
                 data1.add(value.size)
+                println(" ... x")
                 oiterator = value.iterator()
                 while (oiterator.hasNext()) {
                     data1.add(oiterator.next())
@@ -251,11 +256,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
-        require(false)
+        require(false, { "insert is not implemented" })
     }
 
     override fun remove(a: Value, b: Value, c: Value) {
-        require(false)
+        require(false, { "remove is not implemented" })
     }
 
     override fun clear() {

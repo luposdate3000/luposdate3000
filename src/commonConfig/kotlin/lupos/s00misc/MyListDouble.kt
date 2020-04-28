@@ -6,89 +6,271 @@ import lupos.s00misc.Coverage
 /* DO NOT MODIFY DIRECTLY */
 /* Substitutions :: Double,,,DoubleArray, */
 class MyListDouble {
+    companion object {
+        var instanceCounter = 0
+    }
+
+    var uuid = instanceCounter++
+
+    class MyListDoublePage() {
+        var next: MyListDoublePage? = null
+        var size = 0/*local*/
+        val data: DoubleArray = DoubleArray(5)
+    }
+
     @JvmField
     var size = 0
     @JvmField
-    var capacity = 10
+    var page: MyListDoublePage = MyListDoublePage()
     @JvmField
-    var data: DoubleArray
+    var lastpage = page
 
     inline fun reserve(capacity: Int) {
-        if (this.capacity < capacity) {
-            this.capacity = capacity
-            val tmp = DoubleArray(capacity)
-            data.copyInto(tmp)
-            data = tmp
-        }
+        println("Double $uuid reserve $capacity")
     }
 
     constructor() {
-        data = DoubleArray(capacity)
+        println("Double $uuid constructor 0")
     }
 
     constructor(value: Double) {
-        data = DoubleArray(capacity)
-        data[size++] = value
+        println("Double $uuid constructor 1")
+        size = 1
+        page = MyListDoublePage()
+        page.size = 1
+        page.data[0] = value
     }
 
     constructor(initialCapacity: Int, init: (Int) -> Double) {
-        capacity = initialCapacity
-        size = capacity
-        data = DoubleArray(capacity) { init(it) }
+        println("Double $uuid constructor init $initialCapacity")
+        size = initialCapacity
+        var i = 0
+        page = MyListDoublePage()
+        var tmp = page
+        while (i < size) {
+            var j = tmp.size
+            while (tmp.size < tmp.data.size && i < size) {
+                tmp.data[j++] = init(i++)
+            }
+            tmp.size = j
+            if (i < size) {
+                val p = MyListDoublePage()
+                p.next = tmp.next
+                tmp.next = p
+                tmp = p
+            }
+        }
+        lastpage = tmp
+        println(debug())
     }
 
     fun clear() {
+        println("Double $uuid clear")
         size = 0
+        page = MyListDoublePage()
+        lastpage = page
+        println(debug())
     }
 
     fun add(value: Double) {
-        if (size + 1 >= capacity) {
-            reserve(capacity * 2)
+        println("Double $uuid add")
+        if (lastpage.size < lastpage.data.size) {
+            lastpage.data[lastpage.size++] = value
+        } else {
+            lastpage.next = MyListDoublePage()
+            lastpage = lastpage.next!!
+            lastpage.data[lastpage.size++] = value
         }
-        data[size++] = value
+        size++
+        println(debug())
     }
 
-    inline operator fun get(idx: Int) = data.get(idx) as Double
-    inline operator fun set(idx: Int, key: Double) = data.set(idx, key)
-    fun remove(value: Double): Boolean {
-        for (idx in 0 until size) {
-            if (data[idx] == value) {
-                removeAt(idx)
-                return true
-            }
+    inline operator fun get(idx: Int): Double {
+        println("Double $uuid get $idx")
+        require(idx < size)
+        var tmp = page
+        var offset = 0
+        while (offset + tmp.size <= idx) {
+            offset += tmp.size
+            require(tmp.next != null) { debug() + " $offset $idx" }
+            tmp = tmp.next!!
         }
+        println(debug())
+        return tmp.data[idx - offset] as Double
+    }
+
+    fun remove(value: Double): Boolean {
+        println("Double $uuid remove $size")
+        var i = 0
+        var tmp: MyListDoublePage? = page
+        while (i < size) {
+            var j = 0
+            while (j < tmp!!.size) {
+                if (tmp!!.data[j] == value) {
+                    while (j < tmp!!.size - 1) {
+                        tmp.data[j] = tmp.data[j + 1]
+                        j++
+                    }
+                    tmp.size--
+                    size--
+                    println(debug())
+                    return true
+                }
+                j++
+                i++
+            }
+            tmp = tmp.next
+        }
+        println(debug())
         return false
     }
 
     fun removeAt(idx: Int): Double {
-        val res = data[idx]
-        require(idx < size)
-        for (i in idx until size) {
-            data[i] = data[i + 1]
+        println("Double $uuid removeAt $idx $size")
+        var tmp = page
+        var offset = 0
+        while (offset + tmp.size < idx) {
+            offset += tmp.size
+            tmp = tmp.next!!
         }
+        var i = idx - offset
+        var res = tmp.data[i] as Double
+        while (i < tmp.size - 1) {
+            tmp.data[i] = tmp.data[i + 1]
+            i++
+        }
+        tmp.size--
         size--
-        return res as Double
+        println(debug())
+        return res
+    }
+
+    inline operator fun set(idx: Int, value: Double) {
+        println("Double $uuid set $idx $size")
+        require(idx <= size)
+        if (idx == size) {
+            if (lastpage.size < lastpage.data.size) {
+                lastpage.data[lastpage.size] = value
+                lastpage.size++
+            } else {
+                lastpage.next = MyListDoublePage()
+                lastpage = lastpage.next!!
+                lastpage.size = 1
+                lastpage.data[0] = value
+            }
+            size++
+        } else {
+            var tmp = page
+            var offset = 0
+            var t = idx
+            while (t >= tmp.size) {
+                offset += tmp.size
+                t = idx - offset
+                tmp = tmp.next!!
+            }
+            tmp.data[t] = value
+        }
+        println(debug())
     }
 
     fun add(idx: Int, value: Double) {
-        if (size + 1 >= capacity) {
-            reserve(capacity * 2)
-        }
-        if (idx < size) {
-            size++
-            for (i in size downTo idx + 1) {
-                data[i] = data[i - 1]
+        println("Double $uuid add $idx $size")
+        require(idx <= size)
+        if (idx == size) {
+            if (lastpage.size < lastpage.data.size) {
+                println("a")
+                lastpage.data[lastpage.size++] = value
+            } else {
+                println("b")
+                lastpage.next = MyListDoublePage()
+                lastpage = lastpage.next!!
+                lastpage.data[lastpage.size++] = value
             }
-            data[idx] = value
         } else {
-            data[size++] = value
+            var tmp = page
+            var offset = 0
+            var t = idx
+            while (t > tmp.size) {
+                offset += tmp.size
+                t = idx - offset
+                tmp = tmp.next!!
+            }
+            if (t == tmp.size && tmp.size < tmp.data.size) {
+                tmp.data[t] = value
+                tmp.size++
+            } else {
+                if (t == tmp.size) {
+                    offset += tmp.size
+                    t = idx - offset
+                    tmp = tmp.next!!
+                }
+                if (tmp.size < tmp.data.size) {
+                    println("marker c $t ${tmp.size}")
+                    for (i in tmp.size downTo t + 1) {
+                        println("marker cc $i")
+                        tmp.data[i] = tmp.data[i - 1]
+                    }
+                    tmp.data[t] = value
+                    tmp.size++
+                } else {
+                    println("d")
+                    var p = MyListDoublePage()
+                    p.next = tmp.next
+                    tmp.next = p
+                    var j = 0
+                    for (i in t until tmp.data.size) {
+                        p.data[j++] = tmp.data[i]
+                    }
+                    tmp.size = t + 1
+                    p.size = j
+                    tmp.data[t] = value
+                    if (lastpage == tmp) {
+                        lastpage = p
+                    }
+                }
+            }
         }
+        size++
+        println(debug())
+    }
+
+    fun debug(): String {
+        var res = StringBuilder()
+        var totalsize = 0
+        res.append("Double $uuid debug $size [")
+        var tmp = page
+        while (true) {
+            totalsize += tmp.size
+            res.append("" + tmp.size + "{")
+            for (i in 0 until tmp.size) {
+                res.append("" + tmp.data[i] + ", ")
+            }
+            res.append("}, ")
+            if (tmp.next == null) {
+                break
+            }
+            tmp = tmp.next!!
+        }
+        res.append("]")
+        require(totalsize == size, { "size incorrect ${res.toString()}" })
+        require(tmp == lastpage, { "lastpage incorrect ${res.toString()}" })
+        return res.toString()
     }
 
     inline operator fun iterator() = MyListDoubleIterator(this)
     class MyListDoubleIterator(@JvmField val data: MyListDouble) : Iterator<Double> {
-        var index = 0
-        override fun hasNext() = index < data.size
-        override fun next() = data.data[index++] as Double
+        var tmp = data.page
+        var globalidx = 0
+        var idx = 0
+        override fun hasNext() = idx < tmp.size || tmp.next != null
+        override fun next(): Double {
+            println("Double ${data.uuid} iterator $idx $globalidx")
+            if (idx == tmp.size) {
+                globalidx += idx
+                tmp = tmp.next!!
+                idx = 0
+            }
+            return tmp.data[idx++] as Double
+        }
     }
 }

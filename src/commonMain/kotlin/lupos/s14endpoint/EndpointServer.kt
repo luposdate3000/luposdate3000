@@ -302,9 +302,9 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         for (fileName in fileNames.split(";")) {
             iterateTurtleData(fileName, bulk)
         }
-        println("ready")
-        Thread.sleep(20000)
-        println("not ready")
+//        println("ready")
+//        Thread.sleep(20000)
+//        println("not ready")
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()
     }

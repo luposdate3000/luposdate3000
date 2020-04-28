@@ -6,16 +6,17 @@ import lupos.s00misc.File
 object Coverage {
     var verbose = true
     var veryverbose = true
-    val CoverageMapGenerated = MyMapIntGeneric<String>()
-    val CoverageMapWhenCaseGenerated = MyMapIntInt()
+    val CoverageMapGenerated = mutableMapOf<Int, String>()
+    val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
 
     init {
         var s = File("resources/CoverageMapGenerated.txt").readAsString()
         var lines = s.split("\n")
         for (line in lines) {
             val row = line.split(":")
-            if (row.size == 3)
+            if (row.size == 3) {
                 CoverageMapGenerated[row[0].toInt()] = row[1] + ":" + row[2]
+            }
         }
         s = File("resources/CoverageMapWhenCaseGenerated.txt").readAsString()
         lines = s.split("\n")
@@ -127,7 +128,7 @@ object Coverage {
         var h = s.hashCode()
         if (h < 0)
             h = -h
-        File("mnt/coverage${h}.cov").printWriter { out ->
+        File("coverage${h}.cov").printWriter { out ->
             out.println(s)
         }
     }

@@ -80,6 +80,7 @@ for (arg in args) {
             !arg.endsWith("BufferManager.kt") &&
             !arg.endsWith("BPlusTreeTests.kt") &&
             !arg.endsWith("B_Plus_Tree.kt") &&
+            !arg.endsWith("EndpointServer.kt") &&
             !arg.endsWith("B_Plus_Tree_Int_to_Int.kt") &&
             !arg.endsWith("LSM_Tree.kt") &&
             !arg.endsWith("Radix_Tree.kt") &&
