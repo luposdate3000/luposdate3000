@@ -16,8 +16,7 @@ class MyMapStringIntPatriciaTrie() {
 
     fun walkInternal(key: String, node: MyMapStringIntPatriciaTrieNode, onCreate: () -> Int?, onUpdate: (MyMapStringIntPatriciaTrieNode) -> Unit): Int? {
         val keyF = key.get(0)
-        for (childIndex in 0 until node.children.size) {
-            val child = node.children[childIndex]
+        for (child in node.children) {
             val childF = child.key.get(0)
             if (keyF == childF) {
                 val commonKey = key.commonPrefixWith(child.key)
