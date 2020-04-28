@@ -130,7 +130,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     fun mergeInternal(data1: MyListInt, data2: MyListInt): MyListInt {
         var data = MyListInt()
         CoroutinesHelper.runBlock {
-            try {
                 val iterators = arrayOf(arrayOf(ColumnIteratorStore3a(data1), ColumnIteratorStore3b(data1), ColumnIteratorStore3c(data1)), arrayOf(ColumnIteratorStore3a(data2), ColumnIteratorStore3b(data2), ColumnIteratorStore3c(data2)))
                 val head = Array(2) { Array<Int?>(3) { null } }
                 for (cmp in 0 until 2) {
@@ -189,10 +188,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 for (i in 0 until 3) {
                     data[position[i]] = count[i]
                 }
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                throw e
-            }
         }
         return data
     }
@@ -233,12 +228,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 }
                 pCount++
                 data1.add(p)
-                println(" ... ${data1.uuid} from iterator ${dataImport.keys.data.uuid} ${dataImport.values.uuid}")
-                println(value)
-                println(value.size)
-                println(data1.debug())
                 data1.add(value.size)
-                println(" ... x")
                 oiterator = value.iterator()
                 while (oiterator.hasNext()) {
                     data1.add(oiterator.next())
