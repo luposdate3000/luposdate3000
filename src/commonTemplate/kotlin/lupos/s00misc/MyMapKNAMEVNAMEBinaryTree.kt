@@ -54,9 +54,13 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
 
     inline fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
     inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
-        for (i in 0 until values.size) {
-            action(keys.data[i], values[i])
-        }
+val iteratorK=keys.iterator()
+val iteratorV=values.iterator()
+while(iteratorK.hasNext()){
+val k=iteratorK.next()
+val v=iteratorV.next()
+action(k,v)
+}
     }
 
     class MyMapKNAMEVNAMEBinaryTreeIteratorGDEF(val data: MyMapKNAMEVNAMEBinaryTreeGUSEKV) {
