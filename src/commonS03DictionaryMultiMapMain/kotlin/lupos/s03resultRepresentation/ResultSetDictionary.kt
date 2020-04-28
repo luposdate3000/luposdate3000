@@ -35,11 +35,11 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
         @JvmField
-        val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt())/*lowest 4 values*/ /*required to be 0 for thruth table loopups*/
+        val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt())/*lowest 4 values*/ /*required to be 0 for_ thruth table loopups*/
         @JvmField
-        val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt())/*lowest 4 values*/ /*required to be 1 for thruth table loopups*/
+        val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt())/*lowest 4 values*/ /*required to be 1 for_ thruth table loopups*/
         @JvmField
-        val errorValue = (flaggedValueLocalBnode or 0x00000010.toInt())/*lowest 4 values*/ /*required to be 2 for thruth table loopups*/
+        val errorValue = (flaggedValueLocalBnode or 0x00000010.toInt())/*lowest 4 values*/ /*required to be 2 for_ thruth table loopups*/
         @JvmField
         val undefValue = (flaggedValueLocalBnode or 0x00000011.toInt())/*lowest 4 values*/
         @JvmField

@@ -191,7 +191,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 if (value != null) {
                                     currentTriple[nextType] = nodeGlobalDictionary.createTyped(data.substring(start + 1, tt - 1), value + data.substring(t + 1, column))
                                 } else {
-                                    throw Exception("unknown Prefix for '${data.substring(start, column)}'")
+                                    throw Exception("unknown Prefix '${data.substring(start, column)}'")
                                 }
                             }
                         }
@@ -203,7 +203,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 if (value != null) {
                                     currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(t + 1, column))
                                 } else {
-                                    throw Exception("unknown Prefix for '${data.substring(start, column)}'")
+                                    throw Exception("unknown Prefix '${data.substring(start, column)}'")
                                 }
                             } else if (data.startsWith("true", start)) {
                                 currentTriple[nextType] = ResultSetDictionary.booleanTrueValue
@@ -240,10 +240,12 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 } else {
                                     var l = start - 10
                                     var r = column + 10
-                                    if (l < 0)
+                                    if (l < 0) {
                                         l = 0
-                                    if (r > data.length)
+                                    }
+                                    if (r > data.length) {
                                         r = data.length
+                                    }
                                     throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
                                 }
                             }
@@ -300,9 +302,9 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         for (fileName in fileNames.split(";")) {
             iterateTurtleData(fileName, bulk)
         }
-//        println("ready")
-//        Thread.sleep(20000)
-//        println("not ready")
+        println("ready")
+        Thread.sleep(20000)
+        println("not ready")
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()
     }
@@ -338,7 +340,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     }
 
     /*
-    incoming sparql benchmark for jena db compare
+    incoming sparql benchmark for_ jena db compare
     */
     suspend fun jena_process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): String {
         BenchmarkUtils.start(EBenchmark.QUERY)

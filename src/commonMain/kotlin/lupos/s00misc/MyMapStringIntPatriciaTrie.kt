@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MyMapStringIntPatriciaTrie() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
         val children = MyListGeneric<MyMapStringIntPatriciaTrieNode>()

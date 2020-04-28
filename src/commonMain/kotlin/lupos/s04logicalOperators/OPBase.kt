@@ -180,7 +180,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     }
                 }
                 for (child in 0 until 2) {
-//it is required, that both join-inputs are sorted by the same join columns in the same order - if all join columns are equally sorted, than allow any additional sort by one of the children
+//it is required, that both join-inputs are sorted by the same join columns in the same order - _if all join columns are equally sorted, than allow any additional sort by one of the children
                     for (i in 0 until resTmp[child].size) {
                         loop@ for (j in 0 until resTmp[1 - child].size) {
                             var s = columns[0].size

@@ -78,11 +78,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                     }
                 } else {
                     if (node.mySortPriority.size >= columns[0].size) {
-                        if (projectedVariables.size == 1 &&
-                                childA.getProvidedVariableNames().size == 1 &&
-                                childB.getProvidedVariableNames().size == 1 &&
-                                childA.getProvidedVariableNames()[0] == projectedVariables[0] &&
-                                childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
+                        if (projectedVariables.size == 1 && childA.getProvidedVariableNames().size == 1 && childB.getProvidedVariableNames().size == 1 && childA.getProvidedVariableNames()[0] == projectedVariables[0] && childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
                             res = POPJoinMergeSingleColumn(query, projectedVariables, childA, childB, false)
                         } else if (childA.getProvidedVariableNames().containsAll(node.mySortPriority)) {
                             res = POPJoinMerge(query, projectedVariables, childA, childB, false)

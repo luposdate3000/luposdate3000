@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import java.io.*
+import lupos.s00misc.Coverage
 import org.apache.jena.query.*
 import org.apache.jena.rdf.model.*
 import org.apache.jena.riot.*

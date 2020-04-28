@@ -17,7 +17,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterSplitAND(query)//
             ),
             arrayOf<OptimizerBase>(
-//remove all filters testing for equality by renaming one of the variables
+//remove all filters testing for_ equality by renaming one of the variables
                     LogicalOptimizerFilterEQ(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -53,7 +53,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterIntoTriple(query)//
             ),
             arrayOf<OptimizerBase>(
-//calculate the sort order of the columns, as a prerequisite for physical optimisation
+//calculate the sort order of the columns, as a prerequisite _for physical optimisation
                     LogicalOptimizerColumnSortOrder(query)//
             )
     )
