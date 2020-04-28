@@ -6,19 +6,46 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Generic,<Generic>,<Generic>,Array<Any?>,{null} */
 class MyListGeneric<Generic> {
-
     class MyListGenericPage<Generic>() {
         var next: MyListGenericPage<Generic>? = null
         var size = 0/*local*/
-        val data: Array<Any?> = Array<Any?>(50) {null}
+        val data: Array<Any?> = Array<Any?>(5) {null}
     }
 
+    var pagecount = 1
     @JvmField
     var size = 0
     @JvmField
-    var page: MyListGenericPage<Generic> = MyListGenericPage<Generic>()
+    var page = MyListGenericPage<Generic>()
     @JvmField
     var lastpage = page
+
+    fun shrinkToFit() {
+        if (pagecount > 5) {
+            var capacity = pagecount * page.data.size
+            if (capacity > size * 2) {
+                var c = 1
+                val b = MyListGenericPage<Generic>()
+                var t = b
+                var it = iterator()
+                while (it.hasNext()) {
+                    var j = 0
+                    while (it.hasNext() && j < t.data.size) {
+                        t.data[j++] = it.next()
+                    }
+                    t.size = j
+                    if (it.hasNext()) {
+                        t.next = MyListGenericPage<Generic>()
+                        t = t.next!!
+                        c++
+                    }
+                }
+                pagecount = c
+                page = b
+                lastpage = t
+            }
+        }
+    }
 
     inline fun reserve(capacity: Int) {
     }
@@ -28,7 +55,6 @@ class MyListGeneric<Generic> {
 
     constructor(value: Generic) {
         size = 1
-        page = MyListGenericPage<Generic>()
         page.size = 1
         page.data[0] = value
     }
@@ -36,7 +62,6 @@ class MyListGeneric<Generic> {
     constructor(initialCapacity: Int, init: (Int) -> Generic) {
         size = initialCapacity
         var i = 0
-        page = MyListGenericPage<Generic>()
         var tmp = page
         while (i < size) {
             var j = tmp.size
@@ -46,6 +71,7 @@ class MyListGeneric<Generic> {
             tmp.size = j
             if (i < size) {
                 val p = MyListGenericPage<Generic>()
+                pagecount++
                 p.next = tmp.next
                 tmp.next = p
                 tmp = p
@@ -57,6 +83,7 @@ class MyListGeneric<Generic> {
     fun clear() {
         size = 0
         page = MyListGenericPage<Generic>()
+        pagecount = 1
         lastpage = page
     }
 
@@ -65,10 +92,12 @@ class MyListGeneric<Generic> {
             lastpage.data[lastpage.size++] = value
         } else {
             lastpage.next = MyListGenericPage<Generic>()
+            pagecount++
             lastpage = lastpage.next!!
             lastpage.data[lastpage.size++] = value
         }
         size++
+        shrinkToFit()
     }
 
     inline operator fun get(idx: Int): Generic {
@@ -132,6 +161,7 @@ class MyListGeneric<Generic> {
                 lastpage.size++
             } else {
                 lastpage.next = MyListGenericPage<Generic>()
+                pagecount++
                 lastpage = lastpage.next!!
                 lastpage.size = 1
                 lastpage.data[0] = value
@@ -148,6 +178,7 @@ class MyListGeneric<Generic> {
             }
             tmp.data[t] = value
         }
+        shrinkToFit()
     }
 
     fun add(idx: Int, value: Generic) {
@@ -157,6 +188,7 @@ class MyListGeneric<Generic> {
                 lastpage.data[lastpage.size++] = value
             } else {
                 lastpage.next = MyListGenericPage<Generic>()
+                pagecount++
                 lastpage = lastpage.next!!
                 lastpage.data[lastpage.size++] = value
             }
@@ -186,6 +218,7 @@ class MyListGeneric<Generic> {
                     tmp.size++
                 } else {
                     var p = MyListGenericPage<Generic>()
+                    pagecount++
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
@@ -202,6 +235,7 @@ class MyListGeneric<Generic> {
             }
         }
         size++
+        shrinkToFit()
     }
 
     fun debug(): String {

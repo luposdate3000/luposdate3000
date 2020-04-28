@@ -130,64 +130,64 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     fun mergeInternal(data1: MyListInt, data2: MyListInt): MyListInt {
         var data = MyListInt()
         CoroutinesHelper.runBlock {
-                val iterators = arrayOf(arrayOf(ColumnIteratorStore3a(data1), ColumnIteratorStore3b(data1), ColumnIteratorStore3c(data1)), arrayOf(ColumnIteratorStore3a(data2), ColumnIteratorStore3b(data2), ColumnIteratorStore3c(data2)))
-                val head = Array(2) { Array<Int?>(3) { null } }
-                for (cmp in 0 until 2) {
-                    for (i in 0 until 3) {
-                        head[cmp][i] = iterators[cmp][i].next()
-                    }
-                }
-                var cmp1 = 0
+            val iterators = arrayOf(arrayOf(ColumnIteratorStore3a(data1), ColumnIteratorStore3b(data1), ColumnIteratorStore3c(data1)), arrayOf(ColumnIteratorStore3a(data2), ColumnIteratorStore3b(data2), ColumnIteratorStore3c(data2)))
+            val head = Array(2) { Array<Int?>(3) { null } }
+            for (cmp in 0 until 2) {
                 for (i in 0 until 3) {
-                    if (head[0][i]!! < head[1][i]!!) {
-                        cmp1 = 0
-                        break
-                    } else if (head[0][i]!! > head[1][i]!!) {
-                        cmp1 = 1
-                        break
-                    }
+                    head[cmp][i] = iterators[cmp][i].next()
                 }
-                var last = Array(3) { head[cmp1][it]!! }
-                var count = Array(3) { 1 }
-                var position = Array(3) { 0 }
-                for (i in 0 until 3) {
-                    position[i] = data.size
-                    data.add(count[i])
-                    data.add(head[cmp1][i]!!)
-                    head[cmp1][i] = iterators[cmp1][i].next()
+            }
+            var cmp1 = 0
+            for (i in 0 until 3) {
+                if (head[0][i]!! < head[1][i]!!) {
+                    cmp1 = 0
+                    break
+                } else if (head[0][i]!! > head[1][i]!!) {
+                    cmp1 = 1
+                    break
                 }
-                loop@ while (head[0][0] != null || head[1][0] != null) {
-                    for (pos in 0 until 3) {
-                        for (cmp in 0 until 2) {
-                            if (head[cmp][pos] != null && (head[1 - cmp][pos] == null || head[cmp][pos]!! < head[1 - cmp][pos]!!)) {
-                                var hadChange = false
-                                for (i in 0 until 3) {
-                                    if (hadChange) {
-                                        last[i] = head[cmp][i]!!
-                                        data[position[i]] = count[i]
-                                        count[i] = 1
-                                        position[i] = data.size
-                                        data.add(count[i])
-                                        data.add(head[cmp][i]!!)
-                                    } else if (last[i] != head[cmp][i]) {
-                                        last[i] = head[cmp][i]!!
-                                        count[i]++
-                                        hadChange = true
-                                        data.add(head[cmp][i]!!)
-                                    }
-                                    head[cmp][i] = iterators[cmp][i].next()
+            }
+            var last = Array(3) { head[cmp1][it]!! }
+            var count = Array(3) { 1 }
+            var position = Array(3) { 0 }
+            for (i in 0 until 3) {
+                position[i] = data.size
+                data.add(count[i])
+                data.add(head[cmp1][i]!!)
+                head[cmp1][i] = iterators[cmp1][i].next()
+            }
+            loop@ while (head[0][0] != null || head[1][0] != null) {
+                for (pos in 0 until 3) {
+                    for (cmp in 0 until 2) {
+                        if (head[cmp][pos] != null && (head[1 - cmp][pos] == null || head[cmp][pos]!! < head[1 - cmp][pos]!!)) {
+                            var hadChange = false
+                            for (i in 0 until 3) {
+                                if (hadChange) {
+                                    last[i] = head[cmp][i]!!
+                                    data[position[i]] = count[i]
+                                    count[i] = 1
+                                    position[i] = data.size
+                                    data.add(count[i])
+                                    data.add(head[cmp][i]!!)
+                                } else if (last[i] != head[cmp][i]) {
+                                    last[i] = head[cmp][i]!!
+                                    count[i]++
+                                    hadChange = true
+                                    data.add(head[cmp][i]!!)
                                 }
-                                continue@loop
+                                head[cmp][i] = iterators[cmp][i].next()
                             }
+                            continue@loop
                         }
                     }
-                    for (i in 0 until 3) {
-                        head[0][i] = iterators[0][i].next()
-                    }
                 }
                 for (i in 0 until 3) {
-                    data[position[i]] = count[i]
+                    head[0][i] = iterators[0][i].next()
                 }
+            }
+            for (i in 0 until 3) {
+                data[position[i]] = count[i]
+            }
         }
         return data
     }

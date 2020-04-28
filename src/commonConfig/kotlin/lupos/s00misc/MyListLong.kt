@@ -6,19 +6,46 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Long,,,LongArray, */
 class MyListLong {
-
     class MyListLongPage() {
         var next: MyListLongPage? = null
         var size = 0/*local*/
-        val data: LongArray = LongArray(50) 
+        val data: LongArray = LongArray(5) 
     }
 
+    var pagecount = 1
     @JvmField
     var size = 0
     @JvmField
-    var page: MyListLongPage = MyListLongPage()
+    var page = MyListLongPage()
     @JvmField
     var lastpage = page
+
+    fun shrinkToFit() {
+        if (pagecount > 5) {
+            var capacity = pagecount * page.data.size
+            if (capacity > size * 2) {
+                var c = 1
+                val b = MyListLongPage()
+                var t = b
+                var it = iterator()
+                while (it.hasNext()) {
+                    var j = 0
+                    while (it.hasNext() && j < t.data.size) {
+                        t.data[j++] = it.next()
+                    }
+                    t.size = j
+                    if (it.hasNext()) {
+                        t.next = MyListLongPage()
+                        t = t.next!!
+                        c++
+                    }
+                }
+                pagecount = c
+                page = b
+                lastpage = t
+            }
+        }
+    }
 
     inline fun reserve(capacity: Int) {
     }
@@ -28,7 +55,6 @@ class MyListLong {
 
     constructor(value: Long) {
         size = 1
-        page = MyListLongPage()
         page.size = 1
         page.data[0] = value
     }
@@ -36,7 +62,6 @@ class MyListLong {
     constructor(initialCapacity: Int, init: (Int) -> Long) {
         size = initialCapacity
         var i = 0
-        page = MyListLongPage()
         var tmp = page
         while (i < size) {
             var j = tmp.size
@@ -46,6 +71,7 @@ class MyListLong {
             tmp.size = j
             if (i < size) {
                 val p = MyListLongPage()
+                pagecount++
                 p.next = tmp.next
                 tmp.next = p
                 tmp = p
@@ -57,6 +83,7 @@ class MyListLong {
     fun clear() {
         size = 0
         page = MyListLongPage()
+        pagecount = 1
         lastpage = page
     }
 
@@ -65,10 +92,12 @@ class MyListLong {
             lastpage.data[lastpage.size++] = value
         } else {
             lastpage.next = MyListLongPage()
+            pagecount++
             lastpage = lastpage.next!!
             lastpage.data[lastpage.size++] = value
         }
         size++
+        shrinkToFit()
     }
 
     inline operator fun get(idx: Int): Long {
@@ -132,6 +161,7 @@ class MyListLong {
                 lastpage.size++
             } else {
                 lastpage.next = MyListLongPage()
+                pagecount++
                 lastpage = lastpage.next!!
                 lastpage.size = 1
                 lastpage.data[0] = value
@@ -148,6 +178,7 @@ class MyListLong {
             }
             tmp.data[t] = value
         }
+        shrinkToFit()
     }
 
     fun add(idx: Int, value: Long) {
@@ -157,6 +188,7 @@ class MyListLong {
                 lastpage.data[lastpage.size++] = value
             } else {
                 lastpage.next = MyListLongPage()
+                pagecount++
                 lastpage = lastpage.next!!
                 lastpage.data[lastpage.size++] = value
             }
@@ -186,6 +218,7 @@ class MyListLong {
                     tmp.size++
                 } else {
                     var p = MyListLongPage()
+                    pagecount++
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
@@ -202,6 +235,7 @@ class MyListLong {
             }
         }
         size++
+        shrinkToFit()
     }
 
     fun debug(): String {

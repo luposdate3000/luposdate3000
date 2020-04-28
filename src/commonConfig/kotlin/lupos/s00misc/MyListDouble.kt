@@ -6,19 +6,46 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Double,,,DoubleArray, */
 class MyListDouble {
-
     class MyListDoublePage() {
         var next: MyListDoublePage? = null
         var size = 0/*local*/
-        val data: DoubleArray = DoubleArray(50) 
+        val data: DoubleArray = DoubleArray(5) 
     }
 
+    var pagecount = 1
     @JvmField
     var size = 0
     @JvmField
-    var page: MyListDoublePage = MyListDoublePage()
+    var page = MyListDoublePage()
     @JvmField
     var lastpage = page
+
+    fun shrinkToFit() {
+        if (pagecount > 5) {
+            var capacity = pagecount * page.data.size
+            if (capacity > size * 2) {
+                var c = 1
+                val b = MyListDoublePage()
+                var t = b
+                var it = iterator()
+                while (it.hasNext()) {
+                    var j = 0
+                    while (it.hasNext() && j < t.data.size) {
+                        t.data[j++] = it.next()
+                    }
+                    t.size = j
+                    if (it.hasNext()) {
+                        t.next = MyListDoublePage()
+                        t = t.next!!
+                        c++
+                    }
+                }
+                pagecount = c
+                page = b
+                lastpage = t
+            }
+        }
+    }
 
     inline fun reserve(capacity: Int) {
     }
@@ -28,7 +55,6 @@ class MyListDouble {
 
     constructor(value: Double) {
         size = 1
-        page = MyListDoublePage()
         page.size = 1
         page.data[0] = value
     }
@@ -36,7 +62,6 @@ class MyListDouble {
     constructor(initialCapacity: Int, init: (Int) -> Double) {
         size = initialCapacity
         var i = 0
-        page = MyListDoublePage()
         var tmp = page
         while (i < size) {
             var j = tmp.size
@@ -46,6 +71,7 @@ class MyListDouble {
             tmp.size = j
             if (i < size) {
                 val p = MyListDoublePage()
+                pagecount++
                 p.next = tmp.next
                 tmp.next = p
                 tmp = p
@@ -57,6 +83,7 @@ class MyListDouble {
     fun clear() {
         size = 0
         page = MyListDoublePage()
+        pagecount = 1
         lastpage = page
     }
 
@@ -65,10 +92,12 @@ class MyListDouble {
             lastpage.data[lastpage.size++] = value
         } else {
             lastpage.next = MyListDoublePage()
+            pagecount++
             lastpage = lastpage.next!!
             lastpage.data[lastpage.size++] = value
         }
         size++
+        shrinkToFit()
     }
 
     inline operator fun get(idx: Int): Double {
@@ -132,6 +161,7 @@ class MyListDouble {
                 lastpage.size++
             } else {
                 lastpage.next = MyListDoublePage()
+                pagecount++
                 lastpage = lastpage.next!!
                 lastpage.size = 1
                 lastpage.data[0] = value
@@ -148,6 +178,7 @@ class MyListDouble {
             }
             tmp.data[t] = value
         }
+        shrinkToFit()
     }
 
     fun add(idx: Int, value: Double) {
@@ -157,6 +188,7 @@ class MyListDouble {
                 lastpage.data[lastpage.size++] = value
             } else {
                 lastpage.next = MyListDoublePage()
+                pagecount++
                 lastpage = lastpage.next!!
                 lastpage.data[lastpage.size++] = value
             }
@@ -186,6 +218,7 @@ class MyListDouble {
                     tmp.size++
                 } else {
                     var p = MyListDoublePage()
+                    pagecount++
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
@@ -202,6 +235,7 @@ class MyListDouble {
             }
         }
         size++
+        shrinkToFit()
     }
 
     fun debug(): String {
