@@ -249,11 +249,13 @@ class ResultSetDictionary(val global: Boolean = false) {
                 /*return*/ createNewBNode(value.value)
             }
             is ValueBoolean -> {
+                var res: Value
                 if (value.value) {
-                    /*return*/ booleanTrueValue
+                    res = booleanTrueValue
                 } else {
-                    /*return*/ booleanFalseValue
+                    res = booleanFalseValue
                 }
+/*return*/ res
             }
             is ValueUndef -> {
                 /*return*/ undefValue

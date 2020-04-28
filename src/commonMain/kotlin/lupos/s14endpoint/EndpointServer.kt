@@ -119,7 +119,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     var qouteCount = 0
                     loop@ while (column < data.length) {
                         when (data[column]) {
-                            '"' -> {
+                            '"' /*"*/ -> {
                                 if (column == 0 || data[column - 1] != '\\') {
                                     qouteCount++
                                 }
@@ -171,7 +171,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             require(value != null)
                             currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(start + 1, column))
                         }
-                        '"' -> {
+                        '"' /*"*/ -> {
                             var ttt = data.indexOf("\"@", start + 1)
                             if (data[column - 1] == '"' || data[column - 1] == '>' || (ttt < column && ttt > start + 1)) {
                                 currentTriple[nextType] = nodeGlobalDictionary.createValue(data.substring(start, column))
