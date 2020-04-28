@@ -76,12 +76,14 @@ action(k,v)
         
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
-            for (i in 0 until size) {
-                out.writeDouble(keys.data[i])
-            }
-            for (i in 0 until size) {
-                out.writeInt(values[i])
-            }
+val iteratorK=keys.iterator()
+while(iteratorK.hasNext()){
+out.writeDouble(iteratorK.next())
+}
+val iteratorV=values.iterator()
+while(iteratorV.hasNext()){
+out.writeInt(iteratorV.next())
+}
         }
         
     }

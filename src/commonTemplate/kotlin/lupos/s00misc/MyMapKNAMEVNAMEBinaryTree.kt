@@ -54,13 +54,13 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
 
     inline fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
     inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
-val iteratorK=keys.iterator()
-val iteratorV=values.iterator()
-while(iteratorK.hasNext()){
-val k=iteratorK.next()
-val v=iteratorV.next()
-action(k,v)
-}
+        val iteratorK = keys.iterator()
+        val iteratorV = values.iterator()
+        while (iteratorK.hasNext()) {
+            val k = iteratorK.next()
+            val v = iteratorV.next()
+            action(k, v)
+        }
     }
 
     class MyMapKNAMEVNAMEBinaryTreeIteratorGDEF(val data: MyMapKNAMEVNAMEBinaryTreeGUSEKV) {
@@ -74,11 +74,13 @@ action(k,v)
         IOSTART
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
-            for (i in 0 until size) {
-                out.writeKEY(keys.data[i])
+            val iteratorK = keys.iterator()
+            while (iteratorK.hasNext()) {
+                out.writeKEY(iteratorK.next())
             }
-            for (i in 0 until size) {
-                out.writeVALUE(values[i])
+            val iteratorV = values.iterator()
+            while (iteratorV.hasNext()) {
+                out.writeVALUE(iteratorV.next())
             }
         }
         IOEND
