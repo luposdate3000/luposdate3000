@@ -5,7 +5,7 @@ import lupos.s00misc.Coverage
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {
     companion object {
-        val capacity = 8
+        val capacity = 1024
     }
 
     class MyListVALUEPageGDEF() {
@@ -23,21 +23,26 @@ class MyListVALUEGDEF {
     var lastpage = page
 
     fun shrinkToFit() {
+//println("shrink a")
         if (pagecount > 5) {
-            var capacity = pagecount * capacity
-            if (capacity > size * 2) {
+//println("shrink b")
+            if (pagecount * capacity > size * 2) {
+//println("shrink c")
                 var c = 1
                 val b = MyListVALUEPageGDEF()
                 var t = b
                 var it = iterator()
                 while (it.hasNext()) {
+//println("shrink d")
                     var j = 0
                     while (it.hasNext() && j < capacity) {
+//println("shrink e $j $capacity")
                         t.data[j] = it.next()
                         j++
                     }
                     t.size = j
                     if (it.hasNext()) {
+//println("shrink f")
                         t.next = MyListVALUEPageGDEF()
                         t = t.next!!
                         c++
@@ -48,7 +53,7 @@ class MyListVALUEGDEF {
                 lastpage = t
             }
         }
-        debug()
+        //debug()
     }
 
     inline fun reserve(capacity: Int) {
@@ -61,7 +66,7 @@ class MyListVALUEGDEF {
         size = 1
         page.size = 1
         page.data[0] = value
-        debug()
+        //debug()
     }
 
     constructor(initialCapacity: Int, init: (Int) -> VALUE) {
@@ -84,7 +89,7 @@ class MyListVALUEGDEF {
             }
         }
         lastpage = tmp
-        debug()
+        //debug()
     }
 
     fun clear() {
@@ -92,15 +97,18 @@ class MyListVALUEGDEF {
         page = MyListVALUEPageGDEF()
         pagecount = 1
         lastpage = page
-        debug()
+        //debug()
     }
 
     fun add(value: VALUE) {
+//println("addd a")
         if (lastpage.size < capacity) {
-            println("lastpage.size < capacity ${lastpage.size} ${capacity}")
+//println("addd b")
+            //println("lastpage.size < capacity ${lastpage.size} ${capacity}")
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
+//println("addd c")
             lastpage.next = MyListVALUEPageGDEF()
             pagecount++
             lastpage = lastpage.next!!
@@ -108,7 +116,7 @@ class MyListVALUEGDEF {
             lastpage.size++
         }
         size++
-        debug()
+        //debug()
         shrinkToFit()
     }
 
@@ -121,7 +129,7 @@ class MyListVALUEGDEF {
             require(tmp.next != null) { debug() + " $offset $idx" }
             tmp = tmp.next!!
         }
-        debug()
+        //debug()
         return tmp.data[idx - offset] as VALUE
     }
 
@@ -138,7 +146,7 @@ class MyListVALUEGDEF {
                     }
                     tmp.size--
                     size--
-                    debug()
+                    //debug()
                     return true
                 }
                 j++
@@ -146,7 +154,7 @@ class MyListVALUEGDEF {
             }
             tmp = tmp.next
         }
-        debug()
+        //debug()
         return false
     }
 
@@ -165,17 +173,21 @@ class MyListVALUEGDEF {
         }
         tmp.size--
         size--
-        debug()
+        //debug()
         return res
     }
 
     inline operator fun set(idx: Int, value: VALUE) {
         require(idx <= size)
+//println("set a")
         if (idx == size) {
+//println("set b")
             if (lastpage.size < capacity) {
+//println("set c")
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
+//println("set d")
                 lastpage.next = MyListVALUEPageGDEF()
                 pagecount++
                 lastpage = lastpage.next!!
@@ -184,35 +196,33 @@ class MyListVALUEGDEF {
             }
             size++
         } else {
+//println("set e")
             var tmp = page
             var offset = 0
             var t = idx
             while (t >= tmp.size) {
+//println("set f")
                 offset += tmp.size
                 t = idx - offset
                 tmp = tmp.next!!
             }
             tmp.data[t] = value
         }
-        debug()
+        //debug()
         shrinkToFit()
     }
 
-    var flag = 0
-    var flag2 = 0
-    var flag3 = 0
-    var flag4: VALUE? = null
     fun add(idx: Int, value: VALUE) {
-        flag3 = idx
-        flag4 = value
         require(idx <= size)
+//println("add a")
         if (idx == size) {
+//println("add b")
             if (lastpage.size < capacity) {
-                flag = 1
+//println("add c")
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
-                flag = 2
+//println("add d")
                 lastpage.next = MyListVALUEPageGDEF()
                 pagecount++
                 lastpage = lastpage.next!!
@@ -220,43 +230,45 @@ class MyListVALUEGDEF {
                 lastpage.size++
             }
         } else {
-            flag = 3
+//println("add e")
             var tmp = page
             var offset = 0
             var t = idx
             while (t > tmp.size) {
+//println("add f")
                 offset += tmp.size
                 t = idx - offset
                 tmp = tmp.next!!
             }
             if (t == tmp.size && tmp.size < capacity) {
-                flag = 5
+//println("add g")
                 tmp.data[t] = value
                 tmp.size++
             } else {
-                flag = 6
-                flag2 = 0
+//println("add h")
                 if (t == tmp.size) {
-                    flag2 = 1
+//println("add i")
                     offset += tmp.size
                     t = idx - offset
                     tmp = tmp.next!!
                 }
                 if (tmp.size < capacity) {
-                    flag = 7
+//println("add j")
                     for (i in tmp.size downTo t + 1) {
+//println("add k")
                         tmp.data[i] = tmp.data[i - 1]
                     }
                     tmp.data[t] = value
                     tmp.size++
                 } else {
-                    flag = 8
+//println("add l")
                     var p = MyListVALUEPageGDEF()
                     pagecount++
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
                     for (i in t until capacity) {
+//println("add m")
                         p.data[j] = tmp.data[i]
                         j++
                     }
@@ -264,13 +276,14 @@ class MyListVALUEGDEF {
                     p.size = j
                     tmp.data[t] = value
                     if (lastpage == tmp) {
+//println("add n")
                         lastpage = p
                     }
                 }
             }
         }
         size++
-        debug()
+        //debug()
         shrinkToFit()
     }
 
@@ -292,7 +305,7 @@ class MyListVALUEGDEF {
             tmp = tmp.next!!
         }
         res.append("]")
-        require(totalsize == size, { "size incorrect ${res.toString()} $flag $flag2 $flag3 $flag4" })
+        require(totalsize == size, { "size incorrect ${res.toString()}" })
         require(tmp == lastpage, { "lastpage incorrect ${res.toString()}" })
         return res.toString()
     }
@@ -357,7 +370,7 @@ class MyListVALUEGDEF {
         }
 
         fun add(value: VALUE) {
-            println("size capacity $size $capacity ${capacity * 2}")
+            //println("size capacity $size $capacity ${capacity * 2}")
             if (size >= capacity) {
                 reserve(capacity * 2)
             }
@@ -370,18 +383,12 @@ class MyListVALUEGDEF {
         }
 
         inline operator fun set(idx: Int, value: VALUE) {
-            println("idx size $idx $size")
+            //println("idx size $idx $size")
             require(idx <= size)
             if (idx == size) {
                 add(value)
             } else {
-                {
-                    {
-                        {
-                            data.set(idx, value)
-                        }
-                    }
-                }
+                data.set(idx, value)
             }
         }
 
