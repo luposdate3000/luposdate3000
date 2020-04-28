@@ -56,13 +56,13 @@ class MyMapDoubleDoubleBinaryTree() {
 
     inline fun iterator() = MyMapDoubleDoubleBinaryTreeIterator(this)
     inline fun forEach(crossinline action: (Double, Double) -> Unit) {
-val iteratorK=keys.iterator()
-val iteratorV=values.iterator()
-while(iteratorK.hasNext()){
-val k=iteratorK.next()
-val v=iteratorV.next()
-action(k,v)
-}
+        val iteratorK = keys.iterator()
+        val iteratorV = values.iterator()
+        while (iteratorK.hasNext()) {
+            val k = iteratorK.next()
+            val v = iteratorV.next()
+            action(k, v)
+        }
     }
 
     class MyMapDoubleDoubleBinaryTreeIterator(val data: MyMapDoubleDoubleBinaryTree) {
@@ -76,14 +76,14 @@ action(k,v)
         
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
-val iteratorK=keys.iterator()
-while(iteratorK.hasNext()){
-out.writeDouble(iteratorK.next())
-}
-val iteratorV=values.iterator()
-while(iteratorV.hasNext()){
-out.writeDouble(iteratorV.next())
-}
+            val iteratorK = keys.iterator()
+            while (iteratorK.hasNext()) {
+                out.writeDouble(iteratorK.next())
+            }
+            val iteratorV = values.iterator()
+            while (iteratorV.hasNext()) {
+                out.writeDouble(iteratorV.next())
+            }
         }
         
     }

@@ -56,13 +56,13 @@ class MyMapGenericGenericBinaryTree<GenericK : Comparable<GenericK>, GenericV>()
 
     inline fun iterator() = MyMapGenericGenericBinaryTreeIterator(this)
     inline fun forEach(crossinline action: (GenericK, GenericV) -> Unit) {
-val iteratorK=keys.iterator()
-val iteratorV=values.iterator()
-while(iteratorK.hasNext()){
-val k=iteratorK.next()
-val v=iteratorV.next()
-action(k,v)
-}
+        val iteratorK = keys.iterator()
+        val iteratorV = values.iterator()
+        while (iteratorK.hasNext()) {
+            val k = iteratorK.next()
+            val v = iteratorV.next()
+            action(k, v)
+        }
     }
 
     class MyMapGenericGenericBinaryTreeIterator<GenericK : Comparable<GenericK>, GenericV>(val data: MyMapGenericGenericBinaryTree<GenericK, GenericV>) {

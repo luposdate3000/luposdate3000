@@ -38,9 +38,10 @@ class MySetLongBinaryTree {
         if (data.size == 0) {
             onCreate(0)
         } else if (data.size == 1) {
-            if (data[0] < value) {
+            val d = data[0]
+            if (d < value) {
                 onCreate(1)
-            } else if (data[0] > value) {
+            } else if (d > value) {
                 onCreate(0)
             } else {
                 onExists(0)
@@ -50,23 +51,26 @@ class MySetLongBinaryTree {
             var r = data.size - 1
             while (r - l > 1) {
                 var m = (r + l) / 2
-                if (data[m] < value) {
+                val d = data[m]
+                if (d < value) {
                     l = m
-                } else if (data[m] > value) {
+                } else if (d > value) {
                     r = m
                 } else {
                     onExists(m)
                     return
                 }
             }
-            if (data[r] < value) {
+            val dl = data[l]
+            val dr = data[r]
+            if (dr < value) {
                 onCreate(r + 1)
-            } else if (data[l] > value) {
+            } else if (dl > value) {
                 onCreate(l)
-            } else if (data[r] > value && data[l] < value) {
-                onCreate(r)
-            } else if (data[l] == value) {
+            } else if (dl == value) {
                 onExists(l)
+            } else if (dr > value && dl < value) {
+                onCreate(r)
             } else {
                 onExists(r)
             }
