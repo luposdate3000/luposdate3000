@@ -120,7 +120,11 @@ val templates = listOf(
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Double", "IOSTART" to "", "IOEND" to "")),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "GenericK", "VALUE" to "GenericV", "GDEF" to "<GenericK : Comparable<GenericK>, GenericV>", "GUSEKV" to "<GenericK, GenericV>", "GUSEK" to "<GenericK>", "GUSEV" to "<GenericV>", "KNAME" to "Generic", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"))
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}"))
 )
 
 val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
@@ -182,15 +186,21 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("Off", "commonS00WrapperJenaOffMain")
         ),
         ChooseableGroup("Set Implementation") to listOf(
-                ChooseableOptionTypeAlias("BinaryTree", "lupos.s00misc", listOf(
+                ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(
                         "MySetGeneric<T>" to "MySetGenericBinaryTree<T>",
                         "MySetLong" to "MySetLongBinaryTree",
                         "MySetInt" to "MySetIntBinaryTree",
                         "MySetDouble" to "MySetDoubleBinaryTree"
+                )),
+                ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
+                        "MySetGeneric<T>" to "MySetGenericBTree<T>",
+                        "MySetLong" to "MySetLongBTree",
+                        "MySetInt" to "MySetIntBTree",
+                        "MySetDouble" to "MySetDoubleBTree"
                 ))
         ),
         ChooseableGroup("Map Implementation") to listOf(
-                ChooseableOptionTypeAlias("BinaryTree", "lupos.s00misc", listOf(
+                ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(
                         "MyMapIntGeneric<T>" to "MyMapIntGenericBinaryTree<T>",
                         "MyMapLongGeneric<T>" to "MyMapLongGenericBinaryTree<T>",
                         "MyMapLongInt" to "MyMapLongIntBinaryTree",

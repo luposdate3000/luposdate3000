@@ -1,6 +1,6 @@
 pkill java
 port="3030"
-./generate-buildfile.kts jvm SparqlTestSuite On Fast Sequential Heap MultiMap SingleList Dummy Korio None Local On BinaryTree None Empty
+./generate-buildfile.kts jvm SparqlTestSuite On Fast Sequential Heap MultiMap SingleList Dummy Korio None Local On BTree Bisection None Empty
 ./tool-gradle-build.sh
 function execJvm
 {
