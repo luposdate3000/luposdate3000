@@ -4,11 +4,36 @@ package lupos.s00misc
 /* DO NOT MODIFY DIRECTLY */
 class MySetDoubleBTree(val t: Int) {
     var root: MySetDoubleBTreeNode? = null
+    var size = 0
 
     constructor() : this(512)
 
-    class MySetDoubleBTreeNode(val t: Int, val leaf: Boolean
-    ) {
+    class MySetDoubleBTreeNodeIterator(val node: MySetDoubleBTreeNode) : Iterator<Double> {
+        var i = 0
+        var childIterator = node.C[0]!!.iterator()
+        override fun hasNext(): Boolean {
+            if (node.leaf) {
+                return i < node.n
+            } else {
+                return i < node.n || (i == node.n && childIterator.hasNext())
+            }
+        }
+
+        override fun next(): Double {
+            if (node.leaf) {
+                return node.keys[i++] as Double
+            } else {
+                if (childIterator.hasNext()) {
+                    return childIterator.next()
+                } else {
+                    childIterator = node.C[i + 1]!!.iterator()
+                    return node.keys[i++] as Double
+                }
+            }
+        }
+    }
+
+    class MySetDoubleBTreeNode(val t: Int, val leaf: Boolean) {
         val keys = DoubleArray(2 * t - 1)
         val C = Array<MySetDoubleBTreeNode?>(2 * t) { null }
         var n = 0
@@ -16,6 +41,7 @@ class MySetDoubleBTree(val t: Int) {
             /*later when buffer-manager is used*/
         }
 
+        fun iterator() = MySetDoubleBTreeNodeIterator(this)
         fun findDouble(k: Double): Int {
             var idx = 0
             while (idx < n && (keys[idx] as Double) < k) {
@@ -24,24 +50,28 @@ class MySetDoubleBTree(val t: Int) {
             return idx
         }
 
-        fun remove(k: Double) {
+        fun remove(k: Double): Double? {
             val idx = findDouble(k)
-            if (idx < n && (keys[idx] as Double) == k) {
+            val key = keys[idx] as Double
+            if (idx < n && key == k) {
                 if (leaf) {
                     removeFromLeaf(idx)
                 } else {
                     removeFromNonLeaf(idx)
                 }
+                return key
             } else if (!leaf) {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
                 }
                 if (flag && idx > n) {
-                    C[idx - 1]!!.remove(k)
+                    return C[idx - 1]!!.remove(k)
                 } else {
-                    C[idx]!!.remove(k)
+                    return C[idx]!!.remove(k)
                 }
+            } else {
+                return null
             }
         }
 
@@ -189,26 +219,36 @@ class MySetDoubleBTree(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: Double) {
+        fun insertNonFull(k: Double, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
             var i = n - 1
-            if (leaf) {
-                while (i >= 0 && (keys[i] as Double > k)) {
-                    keys[i + 1] = keys[i]
-                    i--
+            var found = false
+            for (i in 0 until n) {
+                if (keys[i] as Double == k) {
+                    onExists()
+                    found = true
+                    break
                 }
-                keys[i + 1] = k
-                n++
-            } else {
-                while (i >= 0 && (keys[i] as Double) > k) {
-                    i--
-                }
-                if (C[i + 1]!!.n == 2 * t - 1) {
-                    splitChild(i + 1, C[i + 1]!!)
-                    if ((keys[i + 1] as Double) < k) {
-                        i++
+            }
+            if (!found) {
+                if (leaf) {
+                    while (i >= 0 && (keys[i] as Double > k)) {
+                        keys[i + 1] = keys[i]
+                        i--
                     }
+                    keys[i + 1] = k
+                    n++
+                } else {
+                    while (i >= 0 && (keys[i] as Double) > k) {
+                        i--
+                    }
+                    if (C[i + 1]!!.n == 2 * t - 1) {
+                        splitChild(i + 1, C[i + 1]!!)
+                        if ((keys[i + 1] as Double) < k) {
+                            i++
+                        }
+                    }
+                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
                 }
-                C[i + 1]!!.insertNonFull(k)
             }
         }
 
@@ -240,11 +280,13 @@ class MySetDoubleBTree(val t: Int) {
         }
     }
 
-    fun add(k: Double) {
+    fun add(k: Double, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
         if (root == null) {
             root = MySetDoubleBTreeNode(t, true)
             root!!.keys[0] = k
             root!!.n = 1
+            size++
+            onCreate()
         } else if (root!!.n == 2 * t - 1) {
             val s = MySetDoubleBTreeNode(t, false)
             s.C[0] = root
@@ -253,10 +295,16 @@ class MySetDoubleBTree(val t: Int) {
             if ((s.keys[0] as Double) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k)
+            s.C[i]!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k)
+            root!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
         }
     }
 
@@ -274,9 +322,12 @@ class MySetDoubleBTree(val t: Int) {
         }
     }
 
-    fun remove(k: Double) {
+    fun remove(k: Double): Double? {
         if (root != null) {
-            root!!.remove(k)
+            val res = root!!.remove(k)
+            if (res != null) {
+                size--
+            }
             if (root!!.n == 0) {
                 val tmp = root!!
                 if (root!!.leaf) {
@@ -286,10 +337,25 @@ class MySetDoubleBTree(val t: Int) {
                 }
                 tmp.free()
             }
+            return res
         }
+        return null
     }
 
     fun appendAssumeSorted(key: Double) {
-        add(key)
+        add(key, {}, {})
+    }
+
+    fun iterator(): Iterator<Double> {
+        if (root != null) {
+            return root!!.iterator()
+        } else {
+            return EmptyIterator()
+        }
+    }
+
+    class EmptyIterator : Iterator<Double> {
+        override fun hasNext() = false
+        override fun next(): Double = throw Exception("unreachable")
     }
 }

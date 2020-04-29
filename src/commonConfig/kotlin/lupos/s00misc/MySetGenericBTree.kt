@@ -4,11 +4,36 @@ package lupos.s00misc
 /* DO NOT MODIFY DIRECTLY */
 class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
     var root: MySetGenericBTreeNode<Generic>? = null
+    var size = 0
 
     constructor() : this(512)
 
-    class MySetGenericBTreeNode<Generic : Comparable<Generic>>(val t: Int, val leaf: Boolean
-    ) {
+    class MySetGenericBTreeNodeIterator<Generic : Comparable<Generic>>(val node: MySetGenericBTreeNode<Generic>) : Iterator<Generic> {
+        var i = 0
+        var childIterator = node.C[0]!!.iterator()
+        override fun hasNext(): Boolean {
+            if (node.leaf) {
+                return i < node.n
+            } else {
+                return i < node.n || (i == node.n && childIterator.hasNext())
+            }
+        }
+
+        override fun next(): Generic {
+            if (node.leaf) {
+                return node.keys[i++] as Generic
+            } else {
+                if (childIterator.hasNext()) {
+                    return childIterator.next()
+                } else {
+                    childIterator = node.C[i + 1]!!.iterator()
+                    return node.keys[i++] as Generic
+                }
+            }
+        }
+    }
+
+    class MySetGenericBTreeNode<Generic : Comparable<Generic>>(val t: Int, val leaf: Boolean) {
         val keys = Array<Any?>(2 * t - 1) { null }
         val C = Array<MySetGenericBTreeNode<Generic>?>(2 * t) { null }
         var n = 0
@@ -16,6 +41,7 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
             /*later when buffer-manager is used*/
         }
 
+        fun iterator() = MySetGenericBTreeNodeIterator<Generic>(this)
         fun findGeneric(k: Generic): Int {
             var idx = 0
             while (idx < n && (keys[idx] as Generic) < k) {
@@ -24,24 +50,28 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
             return idx
         }
 
-        fun remove(k: Generic) {
+        fun remove(k: Generic): Generic? {
             val idx = findGeneric(k)
-            if (idx < n && (keys[idx] as Generic) == k) {
+            val key = keys[idx] as Generic
+            if (idx < n && key == k) {
                 if (leaf) {
                     removeFromLeaf(idx)
                 } else {
                     removeFromNonLeaf(idx)
                 }
+                return key
             } else if (!leaf) {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
                 }
                 if (flag && idx > n) {
-                    C[idx - 1]!!.remove(k)
+                    return C[idx - 1]!!.remove(k)
                 } else {
-                    C[idx]!!.remove(k)
+                    return C[idx]!!.remove(k)
                 }
+            } else {
+                return null
             }
         }
 
@@ -189,26 +219,36 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: Generic) {
+        fun insertNonFull(k: Generic, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
             var i = n - 1
-            if (leaf) {
-                while (i >= 0 && (keys[i] as Generic > k)) {
-                    keys[i + 1] = keys[i]
-                    i--
+            var found = false
+            for (i in 0 until n) {
+                if (keys[i] as Generic == k) {
+                    onExists()
+                    found = true
+                    break
                 }
-                keys[i + 1] = k
-                n++
-            } else {
-                while (i >= 0 && (keys[i] as Generic) > k) {
-                    i--
-                }
-                if (C[i + 1]!!.n == 2 * t - 1) {
-                    splitChild(i + 1, C[i + 1]!!)
-                    if ((keys[i + 1] as Generic) < k) {
-                        i++
+            }
+            if (!found) {
+                if (leaf) {
+                    while (i >= 0 && (keys[i] as Generic > k)) {
+                        keys[i + 1] = keys[i]
+                        i--
                     }
+                    keys[i + 1] = k
+                    n++
+                } else {
+                    while (i >= 0 && (keys[i] as Generic) > k) {
+                        i--
+                    }
+                    if (C[i + 1]!!.n == 2 * t - 1) {
+                        splitChild(i + 1, C[i + 1]!!)
+                        if ((keys[i + 1] as Generic) < k) {
+                            i++
+                        }
+                    }
+                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
                 }
-                C[i + 1]!!.insertNonFull(k)
             }
         }
 
@@ -240,11 +280,13 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
         }
     }
 
-    fun add(k: Generic) {
+    fun add(k: Generic, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
         if (root == null) {
             root = MySetGenericBTreeNode<Generic>(t, true)
             root!!.keys[0] = k
             root!!.n = 1
+            size++
+            onCreate()
         } else if (root!!.n == 2 * t - 1) {
             val s = MySetGenericBTreeNode<Generic>(t, false)
             s.C[0] = root
@@ -253,10 +295,16 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
             if ((s.keys[0] as Generic) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k)
+            s.C[i]!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k)
+            root!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
         }
     }
 
@@ -274,9 +322,12 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
         }
     }
 
-    fun remove(k: Generic) {
+    fun remove(k: Generic): Generic? {
         if (root != null) {
-            root!!.remove(k)
+            val res = root!!.remove(k)
+            if (res != null) {
+                size--
+            }
             if (root!!.n == 0) {
                 val tmp = root!!
                 if (root!!.leaf) {
@@ -286,10 +337,25 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
                 }
                 tmp.free()
             }
+            return res
         }
+        return null
     }
 
     fun appendAssumeSorted(key: Generic) {
-        add(key)
+        add(key, {}, {})
+    }
+
+    fun iterator(): Iterator<Generic> {
+        if (root != null) {
+            return root!!.iterator()
+        } else {
+            return EmptyIterator<Generic>()
+        }
+    }
+
+    class EmptyIterator<Generic : Comparable<Generic>> : Iterator<Generic> {
+        override fun hasNext() = false
+        override fun next(): Generic = throw Exception("unreachable")
     }
 }

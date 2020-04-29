@@ -4,11 +4,36 @@ package lupos.s00misc
 /* DO NOT MODIFY DIRECTLY */
 class MySetLongBTree(val t: Int) {
     var root: MySetLongBTreeNode? = null
+    var size = 0
 
     constructor() : this(512)
 
-    class MySetLongBTreeNode(val t: Int, val leaf: Boolean
-    ) {
+    class MySetLongBTreeNodeIterator(val node: MySetLongBTreeNode) : Iterator<Long> {
+        var i = 0
+        var childIterator = node.C[0]!!.iterator()
+        override fun hasNext(): Boolean {
+            if (node.leaf) {
+                return i < node.n
+            } else {
+                return i < node.n || (i == node.n && childIterator.hasNext())
+            }
+        }
+
+        override fun next(): Long {
+            if (node.leaf) {
+                return node.keys[i++] as Long
+            } else {
+                if (childIterator.hasNext()) {
+                    return childIterator.next()
+                } else {
+                    childIterator = node.C[i + 1]!!.iterator()
+                    return node.keys[i++] as Long
+                }
+            }
+        }
+    }
+
+    class MySetLongBTreeNode(val t: Int, val leaf: Boolean) {
         val keys = LongArray(2 * t - 1)
         val C = Array<MySetLongBTreeNode?>(2 * t) { null }
         var n = 0
@@ -16,6 +41,7 @@ class MySetLongBTree(val t: Int) {
             /*later when buffer-manager is used*/
         }
 
+        fun iterator() = MySetLongBTreeNodeIterator(this)
         fun findLong(k: Long): Int {
             var idx = 0
             while (idx < n && (keys[idx] as Long) < k) {
@@ -24,24 +50,28 @@ class MySetLongBTree(val t: Int) {
             return idx
         }
 
-        fun remove(k: Long) {
+        fun remove(k: Long): Long? {
             val idx = findLong(k)
-            if (idx < n && (keys[idx] as Long) == k) {
+            val key = keys[idx] as Long
+            if (idx < n && key == k) {
                 if (leaf) {
                     removeFromLeaf(idx)
                 } else {
                     removeFromNonLeaf(idx)
                 }
+                return key
             } else if (!leaf) {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
                 }
                 if (flag && idx > n) {
-                    C[idx - 1]!!.remove(k)
+                    return C[idx - 1]!!.remove(k)
                 } else {
-                    C[idx]!!.remove(k)
+                    return C[idx]!!.remove(k)
                 }
+            } else {
+                return null
             }
         }
 
@@ -189,26 +219,36 @@ class MySetLongBTree(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: Long) {
+        fun insertNonFull(k: Long, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
             var i = n - 1
-            if (leaf) {
-                while (i >= 0 && (keys[i] as Long > k)) {
-                    keys[i + 1] = keys[i]
-                    i--
+            var found = false
+            for (i in 0 until n) {
+                if (keys[i] as Long == k) {
+                    onExists()
+                    found = true
+                    break
                 }
-                keys[i + 1] = k
-                n++
-            } else {
-                while (i >= 0 && (keys[i] as Long) > k) {
-                    i--
-                }
-                if (C[i + 1]!!.n == 2 * t - 1) {
-                    splitChild(i + 1, C[i + 1]!!)
-                    if ((keys[i + 1] as Long) < k) {
-                        i++
+            }
+            if (!found) {
+                if (leaf) {
+                    while (i >= 0 && (keys[i] as Long > k)) {
+                        keys[i + 1] = keys[i]
+                        i--
                     }
+                    keys[i + 1] = k
+                    n++
+                } else {
+                    while (i >= 0 && (keys[i] as Long) > k) {
+                        i--
+                    }
+                    if (C[i + 1]!!.n == 2 * t - 1) {
+                        splitChild(i + 1, C[i + 1]!!)
+                        if ((keys[i + 1] as Long) < k) {
+                            i++
+                        }
+                    }
+                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
                 }
-                C[i + 1]!!.insertNonFull(k)
             }
         }
 
@@ -240,11 +280,13 @@ class MySetLongBTree(val t: Int) {
         }
     }
 
-    fun add(k: Long) {
+    fun add(k: Long, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
         if (root == null) {
             root = MySetLongBTreeNode(t, true)
             root!!.keys[0] = k
             root!!.n = 1
+            size++
+            onCreate()
         } else if (root!!.n == 2 * t - 1) {
             val s = MySetLongBTreeNode(t, false)
             s.C[0] = root
@@ -253,10 +295,16 @@ class MySetLongBTree(val t: Int) {
             if ((s.keys[0] as Long) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k)
+            s.C[i]!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k)
+            root!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
         }
     }
 
@@ -274,9 +322,12 @@ class MySetLongBTree(val t: Int) {
         }
     }
 
-    fun remove(k: Long) {
+    fun remove(k: Long): Long? {
         if (root != null) {
-            root!!.remove(k)
+            val res = root!!.remove(k)
+            if (res != null) {
+                size--
+            }
             if (root!!.n == 0) {
                 val tmp = root!!
                 if (root!!.leaf) {
@@ -286,10 +337,25 @@ class MySetLongBTree(val t: Int) {
                 }
                 tmp.free()
             }
+            return res
         }
+        return null
     }
 
     fun appendAssumeSorted(key: Long) {
-        add(key)
+        add(key, {}, {})
+    }
+
+    fun iterator(): Iterator<Long> {
+        if (root != null) {
+            return root!!.iterator()
+        } else {
+            return EmptyIterator()
+        }
+    }
+
+    class EmptyIterator : Iterator<Long> {
+        override fun hasNext() = false
+        override fun next(): Long = throw Exception("unreachable")
     }
 }

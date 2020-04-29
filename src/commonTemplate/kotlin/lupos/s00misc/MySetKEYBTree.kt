@@ -2,11 +2,36 @@ package lupos.s00misc
 
 class MySetKEYBTreeGDEF(val t: Int) {
     var root: MySetKEYBTreeNodeGUSE? = null
+    var size = 0
 
     constructor() : this(512)
 
-    class MySetKEYBTreeNodeGDEF(val t: Int, val leaf: Boolean
-    ) {
+    class MySetKEYBTreeNodeIteratorGDEF(val node: MySetKEYBTreeNodeGUSE) : Iterator<KEY> {
+        var i = 0
+        var childIterator = node.C[0]!!.iterator()
+        override fun hasNext(): Boolean {
+            if (node.leaf) {
+                return i < node.n
+            } else {
+                return i < node.n || (i == node.n && childIterator.hasNext())
+            }
+        }
+
+        override fun next(): KEY {
+            if (node.leaf) {
+                return node.keys[i++] as KEY
+            } else {
+                if (childIterator.hasNext()) {
+                    return childIterator.next()
+                } else {
+                    childIterator = node.C[i + 1]!!.iterator()
+                    return node.keys[i++] as KEY
+                }
+            }
+        }
+    }
+
+    class MySetKEYBTreeNodeGDEF(val t: Int, val leaf: Boolean) {
         val keys = ARRAYTYPE(2 * t - 1) ARRAYINITIALIZER
         val C = Array<MySetKEYBTreeNodeGUSE?>(2 * t) { null }
         var n = 0
@@ -14,6 +39,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
             /*later when buffer-manager is used*/
         }
 
+        fun iterator() = MySetKEYBTreeNodeIteratorGUSE(this)
         fun findKEY(k: KEY): Int {
             var idx = 0
             while (idx < n && (keys[idx] as KEY) < k) {
@@ -22,24 +48,28 @@ class MySetKEYBTreeGDEF(val t: Int) {
             return idx
         }
 
-        fun remove(k: KEY) {
+        fun remove(k: KEY): KEY? {
             val idx = findKEY(k)
-            if (idx < n && (keys[idx] as KEY) == k) {
+            val key = keys[idx] as KEY
+            if (idx < n && key == k) {
                 if (leaf) {
                     removeFromLeaf(idx)
                 } else {
                     removeFromNonLeaf(idx)
                 }
+                return key
             } else if (!leaf) {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
                 }
                 if (flag && idx > n) {
-                    C[idx - 1]!!.remove(k)
+                    return C[idx - 1]!!.remove(k)
                 } else {
-                    C[idx]!!.remove(k)
+                    return C[idx]!!.remove(k)
                 }
+            } else {
+                return null
             }
         }
 
@@ -187,26 +217,36 @@ class MySetKEYBTreeGDEF(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: KEY) {
+        fun insertNonFull(k: KEY, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
             var i = n - 1
-            if (leaf) {
-                while (i >= 0 && (keys[i] as KEY > k)) {
-                    keys[i + 1] = keys[i]
-                    i--
+            var found = false
+            for (i in 0 until n) {
+                if (keys[i] as KEY == k) {
+                    onExists()
+                    found = true
+                    break
                 }
-                keys[i + 1] = k
-                n++
-            } else {
-                while (i >= 0 && (keys[i] as KEY) > k) {
-                    i--
-                }
-                if (C[i + 1]!!.n == 2 * t - 1) {
-                    splitChild(i + 1, C[i + 1]!!)
-                    if ((keys[i + 1] as KEY) < k) {
-                        i++
+            }
+            if (!found) {
+                if (leaf) {
+                    while (i >= 0 && (keys[i] as KEY > k)) {
+                        keys[i + 1] = keys[i]
+                        i--
                     }
+                    keys[i + 1] = k
+                    n++
+                } else {
+                    while (i >= 0 && (keys[i] as KEY) > k) {
+                        i--
+                    }
+                    if (C[i + 1]!!.n == 2 * t - 1) {
+                        splitChild(i + 1, C[i + 1]!!)
+                        if ((keys[i + 1] as KEY) < k) {
+                            i++
+                        }
+                    }
+                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
                 }
-                C[i + 1]!!.insertNonFull(k)
             }
         }
 
@@ -238,11 +278,13 @@ class MySetKEYBTreeGDEF(val t: Int) {
         }
     }
 
-    fun add(k: KEY) {
+    fun add(k: KEY, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
         if (root == null) {
             root = MySetKEYBTreeNodeGUSE(t, true)
             root!!.keys[0] = k
             root!!.n = 1
+            size++
+            onCreate()
         } else if (root!!.n == 2 * t - 1) {
             val s = MySetKEYBTreeNodeGUSE(t, false)
             s.C[0] = root
@@ -251,10 +293,16 @@ class MySetKEYBTreeGDEF(val t: Int) {
             if ((s.keys[0] as KEY) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k)
+            s.C[i]!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k)
+            root!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
         }
     }
 
@@ -272,9 +320,12 @@ class MySetKEYBTreeGDEF(val t: Int) {
         }
     }
 
-    fun remove(k: KEY) {
+    fun remove(k: KEY): KEY? {
         if (root != null) {
-            root!!.remove(k)
+            val res = root!!.remove(k)
+            if (res != null) {
+                size--
+            }
             if (root!!.n == 0) {
                 val tmp = root!!
                 if (root!!.leaf) {
@@ -284,10 +335,25 @@ class MySetKEYBTreeGDEF(val t: Int) {
                 }
                 tmp.free()
             }
+            return res
         }
+        return null
     }
 
     fun appendAssumeSorted(key: KEY) {
-        add(key)
+        add(key, {}, {})
+    }
+
+    fun iterator(): Iterator<KEY> {
+        if (root != null) {
+            return root!!.iterator()
+        } else {
+            return EmptyIteratorGUSE()
+        }
+    }
+
+    class EmptyIteratorGDEF : Iterator<KEY> {
+        override fun hasNext() = false
+        override fun next(): KEY = throw Exception("unreachable")
     }
 }

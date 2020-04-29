@@ -4,11 +4,36 @@ package lupos.s00misc
 /* DO NOT MODIFY DIRECTLY */
 class MySetIntBTree(val t: Int) {
     var root: MySetIntBTreeNode? = null
+    var size = 0
 
     constructor() : this(512)
 
-    class MySetIntBTreeNode(val t: Int, val leaf: Boolean
-    ) {
+    class MySetIntBTreeNodeIterator(val node: MySetIntBTreeNode) : Iterator<Int> {
+        var i = 0
+        var childIterator = node.C[0]!!.iterator()
+        override fun hasNext(): Boolean {
+            if (node.leaf) {
+                return i < node.n
+            } else {
+                return i < node.n || (i == node.n && childIterator.hasNext())
+            }
+        }
+
+        override fun next(): Int {
+            if (node.leaf) {
+                return node.keys[i++] as Int
+            } else {
+                if (childIterator.hasNext()) {
+                    return childIterator.next()
+                } else {
+                    childIterator = node.C[i + 1]!!.iterator()
+                    return node.keys[i++] as Int
+                }
+            }
+        }
+    }
+
+    class MySetIntBTreeNode(val t: Int, val leaf: Boolean) {
         val keys = IntArray(2 * t - 1)
         val C = Array<MySetIntBTreeNode?>(2 * t) { null }
         var n = 0
@@ -16,6 +41,7 @@ class MySetIntBTree(val t: Int) {
             /*later when buffer-manager is used*/
         }
 
+        fun iterator() = MySetIntBTreeNodeIterator(this)
         fun findInt(k: Int): Int {
             var idx = 0
             while (idx < n && (keys[idx] as Int) < k) {
@@ -24,24 +50,28 @@ class MySetIntBTree(val t: Int) {
             return idx
         }
 
-        fun remove(k: Int) {
+        fun remove(k: Int): Int? {
             val idx = findInt(k)
-            if (idx < n && (keys[idx] as Int) == k) {
+            val key = keys[idx] as Int
+            if (idx < n && key == k) {
                 if (leaf) {
                     removeFromLeaf(idx)
                 } else {
                     removeFromNonLeaf(idx)
                 }
+                return key
             } else if (!leaf) {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
                 }
                 if (flag && idx > n) {
-                    C[idx - 1]!!.remove(k)
+                    return C[idx - 1]!!.remove(k)
                 } else {
-                    C[idx]!!.remove(k)
+                    return C[idx]!!.remove(k)
                 }
+            } else {
+                return null
             }
         }
 
@@ -189,26 +219,36 @@ class MySetIntBTree(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: Int) {
+        fun insertNonFull(k: Int, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
             var i = n - 1
-            if (leaf) {
-                while (i >= 0 && (keys[i] as Int > k)) {
-                    keys[i + 1] = keys[i]
-                    i--
+            var found = false
+            for (i in 0 until n) {
+                if (keys[i] as Int == k) {
+                    onExists()
+                    found = true
+                    break
                 }
-                keys[i + 1] = k
-                n++
-            } else {
-                while (i >= 0 && (keys[i] as Int) > k) {
-                    i--
-                }
-                if (C[i + 1]!!.n == 2 * t - 1) {
-                    splitChild(i + 1, C[i + 1]!!)
-                    if ((keys[i + 1] as Int) < k) {
-                        i++
+            }
+            if (!found) {
+                if (leaf) {
+                    while (i >= 0 && (keys[i] as Int > k)) {
+                        keys[i + 1] = keys[i]
+                        i--
                     }
+                    keys[i + 1] = k
+                    n++
+                } else {
+                    while (i >= 0 && (keys[i] as Int) > k) {
+                        i--
+                    }
+                    if (C[i + 1]!!.n == 2 * t - 1) {
+                        splitChild(i + 1, C[i + 1]!!)
+                        if ((keys[i + 1] as Int) < k) {
+                            i++
+                        }
+                    }
+                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
                 }
-                C[i + 1]!!.insertNonFull(k)
             }
         }
 
@@ -240,11 +280,13 @@ class MySetIntBTree(val t: Int) {
         }
     }
 
-    fun add(k: Int) {
+    fun add(k: Int, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
         if (root == null) {
             root = MySetIntBTreeNode(t, true)
             root!!.keys[0] = k
             root!!.n = 1
+            size++
+            onCreate()
         } else if (root!!.n == 2 * t - 1) {
             val s = MySetIntBTreeNode(t, false)
             s.C[0] = root
@@ -253,10 +295,16 @@ class MySetIntBTree(val t: Int) {
             if ((s.keys[0] as Int) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k)
+            s.C[i]!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k)
+            root!!.insertNonFull(k, {
+                size++
+                onCreate()
+            }, onExists)
         }
     }
 
@@ -274,9 +322,12 @@ class MySetIntBTree(val t: Int) {
         }
     }
 
-    fun remove(k: Int) {
+    fun remove(k: Int): Int? {
         if (root != null) {
-            root!!.remove(k)
+            val res = root!!.remove(k)
+            if (res != null) {
+                size--
+            }
             if (root!!.n == 0) {
                 val tmp = root!!
                 if (root!!.leaf) {
@@ -286,10 +337,25 @@ class MySetIntBTree(val t: Int) {
                 }
                 tmp.free()
             }
+            return res
         }
+        return null
     }
 
     fun appendAssumeSorted(key: Int) {
-        add(key)
+        add(key, {}, {})
+    }
+
+    fun iterator(): Iterator<Int> {
+        if (root != null) {
+            return root!!.iterator()
+        } else {
+            return EmptyIterator()
+        }
+    }
+
+    class EmptyIterator : Iterator<Int> {
+        override fun hasNext() = false
+        override fun next(): Int = throw Exception("unreachable")
     }
 }
