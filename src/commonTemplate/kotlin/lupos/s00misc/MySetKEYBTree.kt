@@ -217,12 +217,12 @@ class MySetKEYBTreeGDEF(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: KEY, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
+        fun insertNonFull(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
             var i = n - 1
             var found = false
             for (i in 0 until n) {
                 if (keys[i] as KEY == k) {
-                    onExists()
+                    onExists(keys[i]as KEY)
                     found = true
                     break
                 }
@@ -278,7 +278,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
         }
     }
 
-    fun add(k: KEY, onCreate: () -> Unit = {}, onExists: () -> Unit = {}) {
+    fun add(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
         if (root == null) {
             root = MySetKEYBTreeNodeGUSE(t, true)
             root!!.keys[0] = k

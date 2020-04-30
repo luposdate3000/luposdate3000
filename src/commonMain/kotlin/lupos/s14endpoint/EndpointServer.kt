@@ -79,7 +79,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         return column
     }
 
-    fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport) {
+suspend    fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport, onFull:suspend()->Unit) {
         var withinGeneratedOBnode = false
         val data = File(fileName).readAsString()
         try {
@@ -153,7 +153,11 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             require(nextType == 2)
                             currentTriple[2] = nodeGlobalDictionary.createNewBNode()
                             bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
-                            currentTriple[0] = currentTriple[2]
+                            if(bulk.full()){ 
+bulk.sort()
+                        onFull()
+                }
+currentTriple[0] = currentTriple[2]
                             nextType = 0
                         }
                         'a' -> {
@@ -253,6 +257,10 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     }
                     if (nextType == 2) {
                         bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
+		if(bulk.full()){
+			bulk.sort()
+onFull()
+		}
                         while (column < data.length && data[column] == ' ') {
                             column++
                         }
@@ -300,11 +308,12 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         var counter = 0
         var store = DistributedTripleStore.getDefaultGraph(query)
         for (fileName in fileNames.split(";")) {
-            iterateTurtleData(fileName, bulk)
+            iterateTurtleData(fileName, bulk,{store.bulkImport(bulk)})
         }
 //        println("ready")
 //        Thread.sleep(20000)
 //        println("not ready")
+bulk.sort()
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()
     }

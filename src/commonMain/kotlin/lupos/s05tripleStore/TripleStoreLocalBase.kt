@@ -50,7 +50,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     @JvmField
     var data = arrayOf<TripleStoreIndex>()
     @JvmField
-    var order = arrayOf<Array<Int>>()
+    var order = arrayOf<IntArray>()
     @JvmField
     var dataDistinct = arrayOf<Pair<String, TripleStoreIndex>>()
 
@@ -86,22 +86,22 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                data[idx.ordinal].import(dataImport.dataSPO)
+                data[idx.ordinal].import(dataImport.dataSPO,dataImport.idx/3,order[idx.ordinal])
             }
             EIndexPattern.SO, EIndexPattern.S_1 -> {
-                data[idx.ordinal].import(dataImport.dataSOP)
+                data[idx.ordinal].import(dataImport.dataSOP,dataImport.idx/3,order[idx.ordinal])
             }
             EIndexPattern.P_1, EIndexPattern.PO -> {
-                data[idx.ordinal].import(dataImport.dataPOS)
+                data[idx.ordinal].import(dataImport.dataPOS,dataImport.idx/3,order[idx.ordinal])
             }
             EIndexPattern.O_0 -> {
-                data[idx.ordinal].import(dataImport.dataOSP)
+                data[idx.ordinal].import(dataImport.dataOSP,dataImport.idx/3,order[idx.ordinal])
             }
             EIndexPattern.P_0 -> {
-                data[idx.ordinal].import(dataImport.dataPSO)
+                data[idx.ordinal].import(dataImport.dataPSO,dataImport.idx/3,order[idx.ordinal])
             }
             EIndexPattern.O_1 -> {
-                data[idx.ordinal].import(dataImport.dataOPS)
+                data[idx.ordinal].import(dataImport.dataOPS,dataImport.idx/3,order[idx.ordinal])
             }
         }
     }

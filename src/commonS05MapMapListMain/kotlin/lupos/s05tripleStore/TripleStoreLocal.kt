@@ -54,25 +54,25 @@ class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
 /*return*/res
         }
         order = Array(EIndexPattern.values().size) {
-            val res: Array<Int>
+            val res: IntArray
             when (EIndexPattern.values()[it]) {
                 EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
-                    res = arrayOf(0, 1, 2)
+                    res = intArrayOf(0, 1, 2)
                 }
                 EIndexPattern.SO, EIndexPattern.S_1 -> {
-                    res = arrayOf(0, 2, 1)
+                    res = intArrayOf(0, 2, 1)
                 }
                 EIndexPattern.P_1, EIndexPattern.PO -> {
-                    res = arrayOf(1, 2, 0)
+                    res = intArrayOf(1, 2, 0)
                 }
                 EIndexPattern.P_0 -> {
-                    res = arrayOf(1, 0, 2)
+                    res = intArrayOf(1, 0, 2)
                 }
                 EIndexPattern.O_0 -> {
-                    res = arrayOf(2, 0, 1)
+                    res = intArrayOf(2, 0, 1)
                 }
                 EIndexPattern.O_1 -> {
-                    res = arrayOf(2, 1, 0)
+                    res = intArrayOf(2, 1, 0)
                 }
             }
 /*return*/res

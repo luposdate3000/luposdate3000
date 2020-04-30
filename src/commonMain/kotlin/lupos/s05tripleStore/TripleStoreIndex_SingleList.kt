@@ -127,10 +127,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         return res
     }
 
-    fun mergeInternal(data1: MyListInt, data2: MyListInt): MyListInt {
+    fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
         var data = MyListInt()
         CoroutinesHelper.runBlock {
-            val iterators = arrayOf(arrayOf(ColumnIteratorStore3a(data1), ColumnIteratorStore3b(data1), ColumnIteratorStore3c(data1)), arrayOf(ColumnIteratorStore3a(data2), ColumnIteratorStore3b(data2), ColumnIteratorStore3c(data2)))
             val head = Array(2) { Array<Int?>(3) { null } }
             for (cmp in 0 until 2) {
                 for (i in 0 until 3) {
@@ -138,13 +137,19 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 }
             }
             var cmp1 = 0
-            for (i in 0 until 3) {
-                if (head[0][i]!! < head[1][i]!!) {
-                    cmp1 = 0
-                    break
-                } else if (head[0][i]!! > head[1][i]!!) {
-                    cmp1 = 1
-                    break
+            if (head[0][0] == null) {
+                cmp1 = 1
+            } else if (head[1][0] == null) {
+                cmp1 = 0
+            } else {
+                for (i in 0 until 3) {
+                    if (head[0][i]!! < head[1][i]!!) {
+                        cmp1 = 0
+                        break
+                    } else if (head[0][i]!! > head[1][i]!!) {
+                        cmp1 = 1
+                        break
+                    }
                 }
             }
             var last = Array(3) { head[cmp1][it]!! }
@@ -192,7 +197,46 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         return data
     }
 
-    override fun import(dataImport: MyMapLongGeneric<MySetInt>) {
+    class ImportIterator(val data: IntArray, val count: Int, offset: Int) : ColumnIterator() {
+        var idx = offset
+
+        init {
+            next = {
+                var res: Value?
+                if (idx > count) {
+                    res = null
+                } else {
+                    res = data[idx]
+                    idx += 3
+                }
+/*return*/res
+            }
+        }
+    }
+
+    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+        if (count > 0) {
+            val inverseOrder = IntArray(3)
+            for (i in 0 until 3) {
+                inverseOrder[order[i]] = i
+            }
+            val count3 = count * 3
+            val iteratorsA: Array<ColumnIterator>
+            if (data.size == 0) {
+                iteratorsA = arrayOf(ColumnIterator(), ColumnIterator(), ColumnIterator())
+            } else {
+                iteratorsA = arrayOf(ColumnIteratorStore3a(data), ColumnIteratorStore3b(data), ColumnIteratorStore3c(data))
+            }
+
+            data = mergeInternal(arrayOf(
+                    iteratorsA,
+                    arrayOf<ColumnIterator>(ImportIterator(dataImport, count, inverseOrder[0]), ImportIterator(dataImport, count, inverseOrder[1]), ImportIterator(dataImport, count, inverseOrder[2]))
+            ))
+            rebuildMap()
+        }
+    }
+
+    fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val data1 = MyListInt()
         val iterator = dataImport.iterator()
         if (iterator.hasNext()) {
@@ -239,7 +283,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             if (data.size == 0) {
                 data = data1
             } else {
-                data = mergeInternal(data1, data)
+                data = mergeInternal(arrayOf(arrayOf(ColumnIteratorStore3a(data1), ColumnIteratorStore3b(data1), ColumnIteratorStore3c(data1)), arrayOf(ColumnIteratorStore3a(data), ColumnIteratorStore3b(data), ColumnIteratorStore3c(data))))
             }
             rebuildMap()
         }

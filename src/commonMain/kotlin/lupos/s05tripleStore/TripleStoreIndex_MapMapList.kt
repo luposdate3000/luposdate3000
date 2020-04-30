@@ -169,7 +169,35 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         return res
     }
 
-    override fun import(dataImport: MyMapLongGeneric<MySetInt>) {
+    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+        val inverseOrder = IntArray(3)
+        for (i in 0 until 3) {
+            inverseOrder[order[i]] = i
+        }
+        if (count > 0) {
+            var lastS = dataImport[count + inverseOrder[0]]
+            var tmpS = data.getOrCreate(lastS, { MyMapIntGeneric<MySetInt>() })
+            var lastP = dataImport[count + inverseOrder[1]]
+            var tmpP = tmpS.getOrCreate(lastP, { MySetInt() })
+            tmpP.add(dataImport[count + inverseOrder[2]])
+            for (i in 1 until count) {
+                var s = dataImport[count + inverseOrder[0]]
+                var p = dataImport[count + inverseOrder[1]]
+                if (s != lastS) {
+                    lastS = s
+                    lastP = p
+                    tmpS = data.getOrCreate(lastS, { MyMapIntGeneric<MySetInt>() })
+                    tmpP = tmpS.getOrCreate(lastP, { MySetInt() })
+                } else if (p != lastP) {
+                    lastP = p
+                    tmpP = tmpS.getOrCreate(lastP, { MySetInt() })
+                }
+                tmpP.add(dataImport[count + inverseOrder[2]])
+            }
+        }
+    }
+
+    fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val iterator = dataImport.iterator()
         while (iterator.hasNext()) {
             val key = iterator.next()
