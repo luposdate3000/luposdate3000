@@ -117,32 +117,54 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 } else {
                     var start = column
                     var qouteCount = 0
+                    var containsDot = false
+                    var containsExponent = false
+                    var isNumeric = true
                     loop@ while (column < data.length) {
                         when (data[column]) {
                             '"' /*"*/ -> {
                                 if (column == 0 || data[column - 1] != '\\') {
                                     qouteCount++
                                 }
+                                isNumeric = false
+                            }
+                            'e', 'E' -> {
+                                containsExponent = true
                             }
                             '<' -> {
                                 if (qouteCount % 2 == 0) {
                                     qouteCount++
                                 }
+                                isNumeric = false
                             }
                             '>' -> {
                                 if (qouteCount % 2 == 1) {
                                     qouteCount++
                                 }
+                                isNumeric = false
                             }
                             ' ', '\n', '\t' -> {
                                 if (qouteCount % 2 == 0) {
                                     break@loop
                                 }
+                                isNumeric = false
                             }
-                            '.', ',', ';' -> {
+                            '.' -> {
+                                if ((!isNumeric || containsDot) && qouteCount % 2 == 0 && nextType == 2) {
+                                    break@loop
+                                }
+                                containsDot = true
+                            }
+                            ',', ';' -> {
                                 if (qouteCount % 2 == 0 && nextType == 2) {
                                     break@loop
                                 }
+                                isNumeric = false
+                            }
+                            '+', '-', in '0'..'9' -> {
+                            }
+                            else -> {
+                                isNumeric = false
                             }
                         }
                         column++
@@ -213,34 +235,27 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             } else if (data.startsWith("false", start)) {
                                 currentTriple[nextType] = ResultSetDictionary.booleanFalseValue
                             } else {
-                                var containsDot = false
-                                var containsExponent = false
-                                var isNumeric = true
-                                tmp@ for (i in start until column) {
-                                    when (data[i]) {
-                                        '.' -> {
-                                            containsDot = true
+                                try {
+                                    if (isNumeric) {
+                                        if (containsExponent) {
+                                            currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(start, column).toDouble())
+                                        } else if (containsDot) {
+                                            currentTriple[nextType] = nodeGlobalDictionary.createDecimal(data.substring(start, column).toDouble())
+                                        } else {
+                                            currentTriple[nextType] = nodeGlobalDictionary.createInteger(data.substring(start, column).toInt())
                                         }
-                                        'e', 'E' -> {
-                                            containsExponent = true
-                                        }
-                                        in '0'..'9', '-', '+' -> {
-                                        }
-                                        else -> {
-                                            isNumeric = false
-                                            break@tmp
-                                        }
-                                    }
-                                }
-                                if (isNumeric) {
-                                    if (containsExponent) {
-                                        currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(t, column).toDouble())
-                                    } else if (containsDot) {
-                                        currentTriple[nextType] = nodeGlobalDictionary.createDecimal(data.substring(t, column).toDouble())
                                     } else {
-                                        currentTriple[nextType] = nodeGlobalDictionary.createInteger(data.substring(t, column).toInt())
+                                        var l = start - 10
+                                        var r = column + 10
+                                        if (l < 0) {
+                                            l = 0
+                                        }
+                                        if (r > data.length) {
+                                            r = data.length
+                                        }
+                                        throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
                                     }
-                                } else {
+                                } catch (e: Throwable) {
                                     var l = start - 10
                                     var r = column + 10
                                     if (l < 0) {
@@ -249,7 +264,8 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                     if (r > data.length) {
                                         r = data.length
                                     }
-                                    throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
+                                    e.printStackTrace()
+                                    throw Exception("unable to parse after error $isNumeric $containsExponent $containsDot '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
                                 }
                             }
                         }
@@ -259,9 +275,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         if (bulk.full()) {
                             onFull()
                         }
-                        while (column < data.length && data[column] == ' ') {
-                            column++
-                        }
+			column = skipAllSepatators(data, column)
                         if (withinGeneratedOBnode) {
                             if (data[column] == ']') {
                                 withinGeneratedOBnode = false
@@ -281,7 +295,16 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 nextType = 2
                             }
                             else -> {
-                                require(false)
+var l = start - 10
+                                    var r = column + 10
+                                    if (l < 0) {
+                                        l = 0
+                                    }
+                                    if (r > data.length) {
+                                        r = data.length
+                                    }
+                                    
+                                require(false, { "not allowed termination sign ${data[column].toInt()} context: '${data.substring(l, r)}'" })
                             }
                         }
                         column++
