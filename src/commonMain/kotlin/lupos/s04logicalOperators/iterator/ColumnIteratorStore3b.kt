@@ -9,40 +9,41 @@ class ColumnIteratorStore3b(val values: MyListValue) : ColumnIterator() {
     var counterPrimary: Int
     var counterSecondary: Int
     var counterTerniary: Int
-    var index = 5
-    var value = values[3]
+    var valueA = 0
+    var valueB = 0
+    var valueC = 0
+    val it = values.iterator()
 
     init {
         if (values.size > 4) {
-            counterPrimary = values[0] - 1
-            counterSecondary = values[2] - 1
-            counterTerniary = values[4] - 1
+            counterPrimary = it.next() - 1
+            valueA = it.next()
+            counterSecondary = it.next() - 1
+            valueB = it.next()
+            counterTerniary = it.next() - 1
             next = {
-                //BenchmarkUtils.start(EBenchmark.STORE_NEXT3b)
-                var res: Value? = value
-                index++
+                valueC = it.next()
+                var res = valueB
                 if (counterTerniary == 0) {
                     if (counterSecondary == 0) {
                         if (counterPrimary == 0) {
                             close()
                         } else {
                             counterPrimary--
-                            counterSecondary = values[index + 1] - 1
-                            value = values[index + 2]
-                            counterTerniary = values[index + 3] - 1
-                            index += 4
+                            valueA = it.next()
+                            counterSecondary = it.next() - 1
+                            valueB = it.next()
+                            counterTerniary = it.next() - 1
                         }
                     } else {
                         counterSecondary--
-                        value = values[index]
-                        counterTerniary = values[index + 1] - 1
-                        index += 2
+                        valueB = it.next()
+                        counterTerniary = it.next() - 1
                     }
                 } else {
                     counterTerniary--
                 }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_NEXT3b)
-/*return*/res
+                /*return*/res
             }
         } else {
             counterPrimary = 0

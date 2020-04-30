@@ -371,7 +371,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 if (token !is DECIMAL) {
                     throw UnexpectedToken(token, arrayOf("DECIMAL"), ltit)
                 }
-                return "\"" + token.image + "\"^^<" + token.image + "\"^^<" + xsd_decimal + ">"
+                return "\"" + token.image + "\"^^<" + xsd_decimal + ">"
             }
             t14 is DOUBLE -> {
                 token = ltit.nextToken()
