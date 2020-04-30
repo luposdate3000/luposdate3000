@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority

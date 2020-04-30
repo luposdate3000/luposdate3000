@@ -21,6 +21,7 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
     init {
+distinctIndices=arrayOf<EIndexPattern>(EIndexPattern.SPO,EIndexPattern.SO,EIndexPattern.PO,EIndexPattern.P_0,EIndexPattern.O_0,EIndexPattern.O_1)
         dataDistinct = arrayOf(/*return*/
 /*return*/                Pair("SPO", TripleStoreIndex_SingleList()),
 /*return*/                Pair("SOP", TripleStoreIndex_SingleList()),

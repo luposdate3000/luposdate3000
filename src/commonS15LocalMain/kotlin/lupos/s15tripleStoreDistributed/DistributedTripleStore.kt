@@ -77,7 +77,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
     suspend fun bulkImport(data: TripleStoreBulkImport) {
-        for (idx in EIndexPattern.values()) {
+        for (idx in TripleStoreLocalBase.distinctIndices) {
             Endpoint.process_local_triple_import(query, name, data, idx)
         }
     }

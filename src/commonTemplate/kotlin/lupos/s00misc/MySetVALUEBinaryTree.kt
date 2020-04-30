@@ -100,12 +100,18 @@ class MySetVALUEBinaryTreeGDEF {
     }
 
     inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+if(data.size>0 && value>data[data.size - 1]){
+val it=data.size
+data.add(it, value)
+onCreate(it)
+}else{
         internal(value, {
             data.add(it, value)
             onCreate(it)
         }, {
             onExists(it)
         })
+}
     }
 
     inline fun toList(): MyListVALUEGUSE {

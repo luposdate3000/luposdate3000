@@ -224,7 +224,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
-            println("start import")
+            println("start import ${count/3}")
             SanityCheck {
                 for (i in 1 until count / 3) {
                     val xx1 = (i - 1) * 3 + order[0]

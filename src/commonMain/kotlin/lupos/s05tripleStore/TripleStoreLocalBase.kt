@@ -53,6 +53,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     var order = arrayOf<IntArray>()
     @JvmField
     var dataDistinct = arrayOf<Pair<String, TripleStoreIndex>>()
+companion object{
+@JvmField
+var distinctIndices=arrayOf<EIndexPattern>()
+}
 
     fun safeToFolder(foldername: String) {
         dataDistinct.forEach {

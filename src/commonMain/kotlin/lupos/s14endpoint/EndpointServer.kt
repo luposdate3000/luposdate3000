@@ -17,14 +17,14 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s02buildSyntaxTree.rdf.*
 import lupos.s02buildSyntaxTree.rdf.ID_Triple
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.turtle.*
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
@@ -52,260 +52,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     @JvmField
     val fullname = hostname + ":" + port
 
-    fun skipToLineEnd(data: String, idx: Int): Int {
-        val tmp = data.indexOf('\n', idx)
-        if (tmp < idx) {
-            return data.length
-        } else {
-            return tmp
-        }
-    }
-
-    fun skipAllSepatators(data: String, idx: Int): Int {
-        var column = idx
-        loop@ while (column < data.length) {
-            when (data[column]) {
-                ' ', '\n', '\t', '\r', '\u0085', '\u2028', '\u2029' -> {
-                    column++
-                }
-                '#' -> {
-                    column = skipToLineEnd(data, column)
-                }
-                else -> {
-                    break@loop
-                }
-            }
-        }
-        return column
-    }
-
-    suspend fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport, onFull: suspend () -> Unit) {
-        var withinGeneratedOBnode = false
-        val data = File(fileName).readAsString()
-        try {
-            var nextType = 0 /* 0:S,1:P,2:O*/
-            val currentTriple = Array(3) { 0 }
-            var prefixes = mutableMapOf<String, String>()
-            var column = skipAllSepatators(data, 0)
-            while (column < data.length) {
-                if (data.startsWith("@prefix", column)) {
-                    column = skipAllSepatators(data, column + "@prefix".length)
-                    var t = data.indexOf(':', column)
-                    SanityCheck.check { t >= column }
-                    val key = data.substring(column, t)
-                    column = skipAllSepatators(data, t + 1)
-                    SanityCheck.check { data[column] == '<' }
-                    column++
-                    t = data.indexOf('>', column)
-                    SanityCheck.check { t > column }
-                    var value = data.substring(column, t)
-                    column = skipAllSepatators(data, t + 1)
-                    SanityCheck.check { data[column] == '.' }
-                    column++
-                    prefixes[key] = value
-                } else if (data.startsWith("@base", column)) {
-                    column = skipAllSepatators(data, column + "@base".length)
-                    SanityCheck.check { data[column] == '<' }
-                    column++
-                    var t = data.indexOf('>', column)
-                    SanityCheck.check { t > column }
-                    var value = data.substring(column, t)
-                    column = skipAllSepatators(data, t + 1)
-                    SanityCheck.check { data[column] == '.' }
-                    column++
-                    prefixes[""] = value
-                } else {
-                    var start = column
-                    var qouteCount = 0
-                    var containsDot = false
-                    var containsExponent = false
-                    var isNumeric = true
-                    loop@ while (column < data.length) {
-                        when (data[column]) {
-                            '"' /*"*/ -> {
-                                if (column == 0 || data[column - 1] != '\\') {
-                                    qouteCount++
-                                }
-                                isNumeric = false
-                            }
-                            'e', 'E' -> {
-                                containsExponent = true
-                            }
-                            '<' -> {
-                                if (qouteCount % 2 == 0) {
-                                    qouteCount++
-                                }
-                                isNumeric = false
-                            }
-                            '>' -> {
-                                if (qouteCount % 2 == 1) {
-                                    qouteCount++
-                                }
-                                isNumeric = false
-                            }
-                            ' ', '\n', '\t' -> {
-                                if (qouteCount % 2 == 0) {
-                                    break@loop
-                                }
-                                isNumeric = false
-                            }
-                            '.' -> {
-                                if ((!isNumeric || containsDot) && qouteCount % 2 == 0 && nextType == 2) {
-                                    break@loop
-                                }
-                                containsDot = true
-                            }
-                            ',', ';' -> {
-                                if (qouteCount % 2 == 0 && nextType == 2) {
-                                    break@loop
-                                }
-                                isNumeric = false
-                            }
-                            '+', '-', in '0'..'9' -> {
-                            }
-                            else -> {
-                                isNumeric = false
-                            }
-                        }
-                        column++
-                    }
-                    when (data[start]) {
-                        '[' -> {
-                            withinGeneratedOBnode = true
-                            SanityCheck.check { nextType == 2 }
-                            currentTriple[2] = nodeGlobalDictionary.createNewBNode()
-                            bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
-                            if (bulk.full()) {
-                                onFull()
-                            }
-                            currentTriple[0] = currentTriple[2]
-                            nextType = 0
-                        }
-                        'a' -> {
-                            SanityCheck.check { column == start + 1 }
-                            currentTriple[nextType] = nodeGlobalDictionary.createIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-                        }
-                        '_' -> {
-                            currentTriple[nextType] = bulk.dictionaryBNode.getOrCreate(data.substring(start, column), { nodeGlobalDictionary.createNewBNode() })
-                        }
-                        '<' -> {
-                            currentTriple[nextType] = nodeGlobalDictionary.createIri(data.substring(start + 1, column - 1))
-                        }
-                        ':' -> {
-                            val value = prefixes[""]
-                            SanityCheck.check { value != null }
-                            currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(start + 1, column))
-                        }
-                        '"' /*"*/ -> {
-                            var ttt = data.indexOf("\"@", start + 1)
-                            if (data[column - 1] == '"' || data[column - 1] == '>' || (ttt < column && ttt > start + 1)) {
-                                currentTriple[nextType] = nodeGlobalDictionary.createValue(data.substring(start, column))
-                            } else {
-                                var tt = data.indexOf("^^", start)
-                                while (true) {
-                                    val t = data.indexOf("^^", tt)
-                                    if (t > tt && t < column) {
-                                        tt = t
-                                    } else {
-                                        break
-                                    }
-                                }
-                                val t = data.indexOf(":", tt)
-                                var key = data.substring(tt + 2, t)
-                                var value = prefixes[key]
-                                if (value != null) {
-                                    currentTriple[nextType] = nodeGlobalDictionary.createTyped(data.substring(start + 1, tt - 1), value + data.substring(t + 1, column))
-                                } else {
-                                    throw Exception("unknown Prefix '${data.substring(start, column)}'")
-                                }
-                            }
-                        }
-                        else -> {
-                            var t = data.indexOf(':', start)
-                            if (t > start && t < column) {
-                                var key = data.substring(start, t)
-                                var value = prefixes[key]
-                                if (value != null) {
-                                    currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(t + 1, column))
-                                } else {
-                                    throw Exception("unknown Prefix '${data.substring(start, column)}'")
-                                }
-                            } else if (data.startsWith("true", start)) {
-                                currentTriple[nextType] = ResultSetDictionary.booleanTrueValue
-                            } else if (data.startsWith("false", start)) {
-                                currentTriple[nextType] = ResultSetDictionary.booleanFalseValue
-                            } else {
-                                if (isNumeric) {
-                                    if (containsExponent) {
-                                        currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(start, column).toDouble())
-                                    } else if (containsDot) {
-                                        currentTriple[nextType] = nodeGlobalDictionary.createDecimal(data.substring(start, column).toDouble())
-                                    } else {
-                                        currentTriple[nextType] = nodeGlobalDictionary.createInteger(data.substring(start, column).toInt())
-                                    }
-                                } else {
-                                    var l = start - 10
-                                    var r = column + 10
-                                    if (l < 0) {
-                                        l = 0
-                                    }
-                                    if (r > data.length) {
-                                        r = data.length
-                                    }
-                                    throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
-                                }
-                            }
-                        }
-                    }
-                    if (nextType == 2) {
-                        bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
-                        if (bulk.full()) {
-                            onFull()
-                        }
-                        column = skipAllSepatators(data, column)
-                        if (withinGeneratedOBnode) {
-                            if (data[column] == ']') {
-                                withinGeneratedOBnode = false
-                                column = skipAllSepatators(data, column + 1)
-                            } else {
-                                SanityCheck.check { data[column] != '.' }
-                            }
-                        }
-                        when (data[column]) {
-                            '.' -> {
-                                nextType = 0
-                            }
-                            ';' -> {
-                                nextType = 1
-                            }
-                            ',' -> {
-                                nextType = 2
-                            }
-                            else -> {
-                                var l = start - 10
-                                var r = column + 10
-                                if (l < 0) {
-                                    l = 0
-                                }
-                                if (r > data.length) {
-                                    r = data.length
-                                }
-                                throw Exception("not allowed termination sign ${data[column].toInt()} context: '${data.substring(l, r)}'")
-                            }
-                        }
-                        column++
-                    } else {
-                        nextType++
-                    }
-                }
-                column = skipAllSepatators(data, column)
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            throw e
-        }
-    }
-
     /*
     incoming bulk import
     */
@@ -315,7 +61,21 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         var counter = 0
         var store = DistributedTripleStore.getDefaultGraph(query)
         for (fileName in fileNames.split(";")) {
-            iterateTurtleData(fileName, bulk, { bulk.sort();store.bulkImport(bulk);bulk.reset() })
+            val data = File(fileName).readAsString()
+            val lcit = LexerCharIterator(data)
+            val tit = TurtleScanner(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            TurtleParserWithStringTriples({ s, p, o ->
+                bulk.insert(nodeGlobalDictionary.createValue(s), nodeGlobalDictionary.createValue(p), nodeGlobalDictionary.createValue(o))
+                if (bulk.full()) {
+                    CoroutinesHelper.runBlock {
+                        bulk.sort()
+                        store.bulkImport(bulk)
+                        bulk.reset()
+                    }
+                }
+            }, ltit).turtleDoc()
+//            iterateTurtleData(fileName, bulk, { bulk.sort();store.bulkImport(bulk);bulk.reset() })
         }
         println("ready")
         Thread.sleep(20000)
