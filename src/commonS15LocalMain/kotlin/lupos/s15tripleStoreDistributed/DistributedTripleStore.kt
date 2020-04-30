@@ -56,16 +56,18 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     init {
+SanityCheck{
         if (idx == EIndexPattern.SPO) {
             if (children[0] is AOPVariable) {
-                idx.keyIndices.map { require(children[it] is AOPVariable, { "$graphName ${idx} ${children.map { it }}" }) }
+                idx.keyIndices.map { SanityCheck.check{children[it] is AOPVariable}}
             } else {
-                idx.keyIndices.map { require(children[it] is AOPConstant, { "$graphName ${idx} ${children.map { it }}" }) }
+                idx.keyIndices.map { SanityCheck.check{children[it] is AOPConstant}}
             }
         } else {
-            idx.keyIndices.map { require(children[it] is AOPConstant) }
-            idx.valueIndices.map { require(children[it] is AOPVariable) }
+            idx.keyIndices.map { SanityCheck.check{children[it] is AOPConstant} }
+            idx.valueIndices.map { SanityCheck.check{children[it] is AOPVariable} }
         }
+}
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
@@ -81,14 +83,14 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
-        require(data.size == 3)
+        SanityCheck.check{data.size == 3}
         val map = Array(EIndexPattern.values().size) { Array(3) { MyListValue() } }
         loop@ while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
                 if (v == null) {
-                    require(columnIndex == 0)
+                    SanityCheck.check{columnIndex == 0}
                     break@loop
                 }
                 row[columnIndex] = v
@@ -115,7 +117,9 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         val projectedVariables = mutableListOf<String>()
         if (idx == EIndexPattern.SPO) {
             if (params[0] is AOPVariable) {
-                idx.keyIndices.map { require(params[it] is AOPVariable, { "$idx ${params.map { it }}" }) }
+SanityCheck{
+                idx.keyIndices.map { SanityCheck.check{params[it] is AOPVariable} }
+}
                 idx.keyIndices.map {
                     val tmp = (params[it] as AOPVariable).name
                     if (tmp != "_") {
@@ -123,11 +127,15 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                     }
                 }
             } else {
-                idx.keyIndices.map { require(params[it] is AOPConstant, { "$idx ${params.map { it }}" }) }
+SanityCheck{
+                idx.keyIndices.map { SanityCheck.check{params[it] is AOPConstant}}
+}
             }
         } else {
-            idx.keyIndices.map { require(params[it] is AOPConstant, { "$idx ${params.map { it }}" }) }
-            idx.valueIndices.map { require(params[it] is AOPVariable, { "$idx ${params.map { it }}" }) }
+SanityCheck{
+            idx.keyIndices.map { SanityCheck.check{params[it] is AOPConstant}}
+            idx.valueIndices.map { SanityCheck.check{params[it] is AOPVariable}}
+}
             idx.valueIndices.map {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {

@@ -66,7 +66,7 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
                 fastcmp = 1
             }
         } else {
-            require(cmp == 1)
+            SanityCheck.check{cmp == 1}
             queue.add(cacheB!!)
             cacheB = childB.next()
             if (cacheB == null) {
@@ -80,8 +80,8 @@ class ColumnIteratorMergeSort(val childA: ColumnIterator, val childB: ColumnIter
         next = {
             cacheA = childA.next()
             cacheB = childB.next()
-            require(cacheA != null)
-            require(cacheB != null)
+            SanityCheck.check{cacheA != null}
+            SanityCheck.check{cacheB != null}
             next = {
                 var res: Value? = null
                 if (queue.size > 0) {

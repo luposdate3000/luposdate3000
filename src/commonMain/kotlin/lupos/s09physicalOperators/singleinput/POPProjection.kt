@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.*
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -41,10 +41,12 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
         }
         if (variables.size == 0) {
             val variables2 = children[0].getProvidedVariableNames()
-            require(variables2.size > 0)
+SanityCheck{
+            SanityCheck.check{variables2.size > 0}
             for (variable in variables2) {
-                require(child.columns[variable] != null, { "$variable $uuid" })
+                SanityCheck.check{child.columns[variable] != null}
             }
+}
             val column = child.columns[variables2[0]]!!
             val res = ColumnIteratorRow(outMap)
             res.hasNext = {
@@ -53,7 +55,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
             return res
         } else {
             for (variable in variables) {
-                require(child.columns[variable] != null, { "$variable $uuid" })
+                SanityCheck.check{child.columns[variable] != null}
                 outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
             }
             return ColumnIteratorRow(outMap)

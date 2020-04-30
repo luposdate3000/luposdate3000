@@ -53,7 +53,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun loadFromFolder(filename: String) {
-        require(data.size == 0)
+        SanityCheck.check{data.size == 0}
         val capacity = (File(filename).length() / 4).toInt()
         File(filename).dataInputStream { fis ->
             data = MyListInt(capacity, { fis.readInt() })
@@ -66,16 +66,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
-        var s = StringBuilder()
-        for (i in 0 until filter.size) {
-            s.append(" f:" + filter[i])
-        }
-        for (i in 0 until projection.size) {
-            s.append(" p:" + projection[i])
-        }
-        println("ask for iterator ${data.size} ${s.toString()}")
-        require(filter.size >= 0 && filter.size <= 3)
-        require(projection.size + filter.size == 3)
+        SanityCheck.check{filter.size >= 0 && filter.size <= 3}
+        SanityCheck.check{projection.size + filter.size == 3}
 //BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
@@ -104,7 +96,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                     if (projection[0] == "_") {
                         res.count = data[idx]
                     } else {
-                        println("storeIterator -$storeIteratorCounter 1 ${filter[0]} ${filter[1]}")
                         columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore1(data, idx))
                     }
                 }
@@ -112,34 +103,29 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 val idx = index1[filter[0]]
                 if (idx != null) {
                     if (projection[0] != "_") {
-                        println("storeIterator -$storeIteratorCounter 2a ${filter[0]}")
                         columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore2a(data, idx))
                         if (projection[1] != "_") {
-                            println("storeIterator -$storeIteratorCounter 2b ${filter[0]}")
                             columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore2b(data, idx))
                         }
                     } else {
-                        require(projection[1] == "_")
+                        SanityCheck.check{projection[1] == "_"}
                     }
                 }
             } else {
-                require(filter.size == 0)
+                SanityCheck.check{filter.size == 0}
                 if (projection[0] != "_") {
-                    println("storeIterator -$storeIteratorCounter 3a")
                     columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
                     if (projection[1] != "_") {
-                        println("storeIterator -$storeIteratorCounter 3b")
                         columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore3b(data))
                         if (projection[2] != "_") {
-                            println("storeIterator -$storeIteratorCounter 3c")
                             columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], ColumnIteratorStore3c(data))
                         }
                     } else {
-                        require(projection[2] == "_")
+                        SanityCheck.check{projection[2] == "_"}
                     }
                 } else {
-                    require(projection[1] == "_")
-                    require(projection[2] == "_")
+                    SanityCheck.check{projection[1] == "_"}
+                    SanityCheck.check{projection[2] == "_"}
                 }
             }
         }
@@ -235,8 +221,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-println(dataImport)
         if (count > 0) {
+SanityCheck{
             for (i in 1 until count / 3) {
                 val xx1 = (i - 1) * 3 + order[0]
 		val xx2 = i * 3 + order[0]
@@ -244,12 +230,9 @@ println(dataImport)
 		val xx4 = i * 3 + order[1]
 		val xx5 = (i - 1) * 3 + order[2]
 		val xx6 = i * 3 + order[2]
-                require(
-                        (dataImport[xx1] < dataImport[xx2]) ||
-                                (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] < dataImport[xx4]) ||
-                                (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] == dataImport[xx4] && dataImport[xx5] <= dataImport[xx6]),
-                        { "input is not ordered $i ${dataImport[xx1]} ${dataImport[xx3]} ${dataImport[xx5]} .. ${dataImport[xx2]} ${dataImport[xx4]} ${dataImport[xx6]}" })
+                SanityCheck.check{                        (dataImport[xx1] < dataImport[xx2]) ||                                (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] < dataImport[xx4]) ||                                (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] == dataImport[xx4] && dataImport[xx5] <= dataImport[xx6])}
             }
+}
             val count3 = count * 3
             val iteratorsA: Array<ColumnIterator>
             if (data.size == 0) {
@@ -260,8 +243,8 @@ println(dataImport)
             data = mergeInternal(arrayOf(iteratorsA, arrayOf<ColumnIterator>(ImportIterator(dataImport, count, order[0]), ImportIterator(dataImport, count, order[1]), ImportIterator(dataImport, count, order[2]))))
             rebuildMap()
         }
+SanityCheck{
         CoroutinesHelper.runBlock {
-            println("complete data")
             var ia = ColumnIteratorStore3a(data)
             var ib = ColumnIteratorStore3b(data)
             var ic = ColumnIteratorStore3c(data)
@@ -269,41 +252,16 @@ println(dataImport)
             var b = ib.next()
             var c = ic.next()
             while (a != null) {
-                println("$a $b $c")
                 var a2 = ia.next()
                 var b2 = ib.next()
                 var c2 = ic.next()
-                require(
-                        (a2 == null) ||
-                                (a!! < a2!!) ||
-                                ((a!! == a2!!) && (b!! < b2!!)) ||
-                                ((a!! == a2!!) && (b!! == b2!!) && (c!! < c2!!)), { "incorrect merge with store data $a $b $c .. $a2 $b2 $c2" }
-                )
+                SanityCheck.check{                        (a2 == null) ||                                (a!! < a2!!) ||                                ((a!! == a2!!) && (b!! < b2!!)) ||                                ((a!! == a2!!) && (b!! == b2!!) && (c!! < c2!!))}
                 a = a2
                 b = b2
                 c = c2
             }
-            println("raw data: >>>>>>>>>>")
-            var it = data.iterator()
-            var i = 0
-            while (it.hasNext()) {
-                val value = it.next()
-                println("$i .. ${value}")
-                require(data[i] == value)
-                i++
-            }
-            println("<<<<<<<<<<<<<<0")
-            index1.forEach { k, v ->
-                println("$v <- $k")
-                require(index1[k] == v)
-            }
-            println("<<<<<<<<<<<<<<1")
-            index2.forEach { k, v ->
-                println("$v <- ${(k shr 32).toInt()} ${k.toInt()}")
-                require(index2[k] == v)
-            }
-            println("<<<<<<<<<<<<<<2")
         }
+}
     }
 
     fun import(dataImport: MyMapLongGeneric<MySetInt>) {

@@ -38,12 +38,12 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        require(!optional, { "POPJoinMergeSingleColumn optional" })
-        require(projectedVariables.size == 1)
-        require(children[0].getProvidedVariableNames().size == 1)
-        require(children[0].getProvidedVariableNames()[0] == projectedVariables[0])
-        require(children[1].getProvidedVariableNames().size == 1)
-        require(children[1].getProvidedVariableNames()[0] == projectedVariables[0])
+        SanityCheck.check{!optional}
+        SanityCheck.check{projectedVariables.size == 1}
+        SanityCheck.check{children[0].getProvidedVariableNames().size == 1}
+        SanityCheck.check{children[0].getProvidedVariableNames()[0] == projectedVariables[0]}
+        SanityCheck.check{children[1].getProvidedVariableNames().size == 1}
+        SanityCheck.check{children[1].getProvidedVariableNames()[0] == projectedVariables[0]}
         val child = Array(2) { children[it].evaluate().columns[projectedVariables[0]]!! }
         val head = Array(2) { child[it].next() }
         val outMap = mutableMapOf<String, ColumnIterator>()

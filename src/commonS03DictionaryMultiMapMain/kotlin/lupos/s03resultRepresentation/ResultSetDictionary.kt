@@ -24,14 +24,14 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
         val flaggedValueLocalInt = 0x30000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDecimal = 0x36000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 6 bit*/
         val flaggedValueLocalDouble = 0x38000000.toInt()/*first 6 bit*/
         val flaggedValueLocalLangTagged = 0x3C00000.toInt()/*first 6 bit*/
         val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalInt = 0x70000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDecimal = 0x76000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
         @JvmField
@@ -292,7 +292,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun getValue(value: Value): ValueDefinition {
-//        println("${value.toString(16)} ${(value and mask1).toString(16)} ${(value and mask3).toString(16)} ${(value and mask5).toString(16)} ${(value and filter3).toString(16)} ${(value and filter5).toString(16)} ${(value and mask1) == mask1} ${nodeGlobalDictionary.iriList.size} ${iriList.size}")
+        println("${value.toString(16)} ${(value and mask1).toString(16)} ${(value and mask3).toString(16)} ${(value and mask5).toString(16)} ${(value and filter3).toString(16)} ${(value and filter5).toString(16)} ${(value and mask1) == mask1} ${nodeGlobalDictionary.iriList.size} ${iriList.size}")
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {

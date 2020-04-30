@@ -142,6 +142,7 @@ open class POPValues : POPBase {
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", variable))
         }
         var columns = Array(variables.size) { data[variables[it]] }
+if(columns.size>0){
         for (i in 0 until columns[0]!!.size) {
             val b = XMLElement("binding")
             bindings.addContent(b)
@@ -154,6 +155,7 @@ open class POPValues : POPBase {
                 }
             }
         }
+}
         return res
     }
 }

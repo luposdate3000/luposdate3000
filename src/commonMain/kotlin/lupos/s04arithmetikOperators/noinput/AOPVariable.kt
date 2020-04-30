@@ -1,7 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
@@ -24,8 +24,8 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
                 /*return*/ResultSetDictionary.undefValue2
             }
         } else {
-            require(tmp is ColumnIteratorQueue, { "$tmp" })
-            val column = tmp
+            SanityCheck.check{tmp is ColumnIteratorQueue}
+            val column = tmp as ColumnIteratorQueue
             res = {
                 /*return*/query.dictionary.getValue(column.tmp!!)
             }
@@ -41,8 +41,8 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
                 /*return*/ResultSetDictionary.undefValue
             }
         } else {
-            require(tmp is ColumnIteratorQueue, { "$tmp" })
-            val column = tmp
+            SanityCheck.check{tmp is ColumnIteratorQueue}
+            val column = tmp as ColumnIteratorQueue
             res = {
                 /*return*/column.tmp!!
             }

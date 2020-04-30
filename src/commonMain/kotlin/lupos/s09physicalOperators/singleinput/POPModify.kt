@@ -72,7 +72,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
             for (columnIndex in 0 until variables.size) {
                 val value = columns[columnIndex].next()
                 if (value == null) {
-                    require(columnIndex == 0)
+                    SanityCheck.check{columnIndex == 0}
                     break@loop
                 }
                 row[columnIndex] = value
@@ -80,7 +80,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
             for (action in modify) {
                 var graphVarIdx = 0
                 if (action.first.graphVar) {
-                    require(variables.contains(action.first.graph))
+                    SanityCheck.check{variables.contains(action.first.graph)}
                     while (variables[graphVarIdx] != action.first.graph) {
                         graphVarIdx++
                     }
@@ -106,7 +106,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                                 continue@loop2
                             }
                         }
-                        require(false)
+                        SanityCheck.check{false}
                     }
                 }
             }

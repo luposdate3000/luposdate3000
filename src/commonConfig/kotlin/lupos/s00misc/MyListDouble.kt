@@ -25,26 +25,20 @@ class MyListDouble {
     var lastpage = page
 
     fun shrinkToFit() {
-//println("shrink a")
         if (pagecount > 5) {
-//println("shrink b")
             if (pagecount * capacity > size * 2) {
-//println("shrink c")
                 var c = 1
                 val b = MyListDoublePage()
                 var t = b
                 var it = iterator()
                 while (it.hasNext()) {
-//println("shrink d")
                     var j = 0
                     while (it.hasNext() && j < capacity) {
-//println("shrink e $j $capacity")
                         t.data[j] = it.next()
                         j++
                     }
                     t.size = j
                     if (it.hasNext()) {
-//println("shrink f")
                         t.next = MyListDoublePage()
                         t = t.next!!
                         c++
@@ -55,7 +49,6 @@ class MyListDouble {
                 lastpage = t
             }
         }
-        //debug()
     }
 
     inline fun reserve(capacity: Int) {
@@ -68,7 +61,6 @@ class MyListDouble {
         size = 1
         page.size = 1
         page.data[0] = value
-        //debug()
     }
 
     constructor(initialCapacity: Int, init: (Int) -> Double) {
@@ -91,7 +83,6 @@ class MyListDouble {
             }
         }
         lastpage = tmp
-        //debug()
     }
 
     fun clear() {
@@ -99,18 +90,13 @@ class MyListDouble {
         page = MyListDoublePage()
         pagecount = 1
         lastpage = page
-        //debug()
     }
 
     fun add(value: Double) {
-//println("addd a")
         if (lastpage.size < capacity) {
-//println("addd b")
-            //println("lastpage.size < capacity ${lastpage.size} ${capacity}")
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
-//println("addd c")
             lastpage.next = MyListDoublePage()
             pagecount++
             lastpage = lastpage.next!!
@@ -118,20 +104,18 @@ class MyListDouble {
             lastpage.size++
         }
         size++
-        //debug()
         shrinkToFit()
     }
 
     inline operator fun get(idx: Int): Double {
-        require(idx < size)
+        SanityCheck.check{idx < size}
         var tmp = page
         var offset = 0
         while (offset + tmp.size <= idx) {
             offset += tmp.size
-            require(tmp.next != null) { debug() + " $offset $idx" }
+            SanityCheck.check{tmp.next != null}
             tmp = tmp.next!!
         }
-        //debug()
         return tmp.data[idx - offset] as Double
     }
 
@@ -148,7 +132,6 @@ class MyListDouble {
                     }
                     tmp.size--
                     size--
-                    //debug()
                     return true
                 }
                 j++
@@ -156,7 +139,6 @@ class MyListDouble {
             }
             tmp = tmp.next
         }
-        //debug()
         return false
     }
 
@@ -175,21 +157,16 @@ class MyListDouble {
         }
         tmp.size--
         size--
-        //debug()
         return res
     }
 
     inline operator fun set(idx: Int, value: Double) {
-        require(idx <= size)
-//println("set a")
+        SanityCheck.check{idx <= size}
         if (idx == size) {
-//println("set b")
             if (lastpage.size < capacity) {
-//println("set c")
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
-//println("set d")
                 lastpage.next = MyListDoublePage()
                 pagecount++
                 lastpage = lastpage.next!!
@@ -198,33 +175,26 @@ class MyListDouble {
             }
             size++
         } else {
-//println("set e")
             var tmp = page
             var offset = 0
             var t = idx
             while (t >= tmp.size) {
-//println("set f")
                 offset += tmp.size
                 t = idx - offset
                 tmp = tmp.next!!
             }
             tmp.data[t] = value
         }
-        //debug()
         shrinkToFit()
     }
 
     fun add(idx: Int, value: Double) {
-        require(idx <= size)
-//println("add a")
+SanityCheck.check{idx<=size}
         if (idx == size) {
-//println("add b")
             if (lastpage.size < capacity) {
-//println("add c")
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
-//println("add d")
                 lastpage.next = MyListDoublePage()
                 pagecount++
                 lastpage = lastpage.next!!
@@ -232,45 +202,36 @@ class MyListDouble {
                 lastpage.size++
             }
         } else {
-//println("add e")
             var tmp = page
             var offset = 0
             var t = idx
             while (t > tmp.size) {
-//println("add f")
                 offset += tmp.size
                 t = idx - offset
                 tmp = tmp.next!!
             }
             if (t == tmp.size && tmp.size < capacity) {
-//println("add g")
                 tmp.data[t] = value
                 tmp.size++
             } else {
-//println("add h")
                 if (t == tmp.size) {
-//println("add i")
                     offset += tmp.size
                     t = idx - offset
                     tmp = tmp.next!!
                 }
                 if (tmp.size < capacity) {
-//println("add j")
                     for (i in tmp.size downTo t + 1) {
-//println("add k")
                         tmp.data[i] = tmp.data[i - 1]
                     }
                     tmp.data[t] = value
                     tmp.size++
                 } else {
-//println("add l")
                     var p = MyListDoublePage()
                     pagecount++
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
                     for (i in t until capacity) {
-//println("add m")
                         p.data[j] = tmp.data[i]
                         j++
                     }
@@ -278,14 +239,12 @@ class MyListDouble {
                     p.size = j
                     tmp.data[t] = value
                     if (lastpage == tmp) {
-//println("add n")
                         lastpage = p
                     }
                 }
             }
         }
         size++
-        //debug()
         shrinkToFit()
     }
 
@@ -307,8 +266,8 @@ class MyListDouble {
             tmp = tmp.next!!
         }
         res.append("]")
-        require(totalsize == size, { "size incorrect ${res.toString()}" })
-        require(tmp == lastpage, { "lastpage incorrect ${res.toString()}" })
+        SanityCheck.check{totalsize == size}
+        SanityCheck.check{tmp == lastpage}
         return res.toString()
     }
 
@@ -342,7 +301,7 @@ class MyListDouble {
         var data: DoubleArray
 
         inline fun reserve(capacity: Int) {
-            require(capacity <= MyListDouble.capacity, { "capacity too large" })
+            SanityCheck.check{capacity <= MyListDouble.capacity}
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = DoubleArray(capacity) 
@@ -372,7 +331,6 @@ class MyListDouble {
         }
 
         fun add(value: Double) {
-            //println("size capacity $size $capacity ${capacity * 2}")
             if (size >= capacity) {
                 reserve(capacity * 2)
             }
@@ -385,8 +343,7 @@ class MyListDouble {
         }
 
         inline operator fun set(idx: Int, value: Double) {
-            //println("idx size $idx $size")
-            require(idx <= size)
+            SanityCheck.check{idx <= size}
             if (idx == size) {
                 add(value)
             } else {
@@ -406,7 +363,7 @@ class MyListDouble {
 
         fun removeAt(idx: Int): Double {
             val res = data[idx]
-            require(idx < size)
+            SanityCheck.check{idx < size}
             for (i in idx until size) {
                 data[i] = data[i + 1]
             }

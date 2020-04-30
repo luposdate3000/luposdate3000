@@ -50,27 +50,31 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     init {
+SanityCheck{
         if (idx == EIndexPattern.SPO) {
             if (params[0] is AOPVariable) {
-                idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+                idx.keyIndices.map { SanityCheck.check{params[it] is AOPVariable}}
             } else {
-                idx.keyIndices.map { require(params[it] is AOPConstant, { "$graphName ${idx} ${params.map { it }}" }) }
+                idx.keyIndices.map {SanityCheck.check{params[it] is AOPConstant}}
             }
         } else {
-            idx.keyIndices.map { require(params[it] is AOPConstant) }
-            idx.valueIndices.map { require(params[it] is AOPVariable) }
+            idx.keyIndices.map { SanityCheck.check{params[it] is AOPConstant} }
+            idx.valueIndices.map { SanityCheck.check{params[it] is AOPVariable} }
         }
+}
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = projectedVariables
+SanityCheck{
         if (idx == EIndexPattern.SPO) {
-            idx.keyIndices.map { require(params[it] is AOPVariable, { "$graphName ${idx} ${params.map { it }}" }) }
+            idx.keyIndices.map { SanityCheck.check{params[it] is AOPVariable}}
         } else {
-            idx.keyIndices.map { require(params[it] is AOPConstant) }
-            idx.valueIndices.map { require(params[it] is AOPVariable) }
+            idx.keyIndices.map { SanityCheck.check{params[it] is AOPConstant} }
+            idx.valueIndices.map { SanityCheck.check{params[it] is AOPVariable} }
         }
+}
         val nodeNameIterator = nodeNames.iterator()
         val columns = Array(variables.size) { ColumnIteratorChildIterator() }
         for (variableIndex in 0 until variables.size) {
@@ -159,14 +163,14 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
-        require(data.size == 3)
+        SanityCheck.check{data.size == 3}
         val map = mutableMapOf<String, Array<Array<MyListValue>>>()
         loop@ while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
                 if (v == null) {
-                    require(columnIndex == 0)
+                    SanityCheck.check{columnIndex == 0}
                     break@loop
                 }
                 row[columnIndex] = v
@@ -200,7 +204,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
         val projectedVariables = mutableListOf<String>()
         if (idx == EIndexPattern.SPO) {
-            idx.keyIndices.map { require(params[it] is AOPVariable, { "$name ${idx} ${params.map { it }}" }) }
+            idx.keyIndices.map { SanityCheck.check{params[it] is AOPVariable}}
             idx.keyIndices.map {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {
@@ -208,8 +212,8 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                 }
             }
         } else {
-            idx.keyIndices.map { require(params[it] is AOPConstant) }
-            idx.valueIndices.map { require(params[it] is AOPVariable) }
+            idx.keyIndices.map { SanityCheck.check{params[it] is AOPConstant} }
+            idx.valueIndices.map { SanityCheck.check{params[it] is AOPVariable} }
             idx.valueIndices.map {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {

@@ -11,7 +11,7 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
     val data = MyListValue()
 
     init {
-        require(count > 0)
+        SanityCheck.check{count > 0}
         next = {
             var res: Value?
             val tmp = child.next()

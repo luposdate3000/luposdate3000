@@ -67,17 +67,34 @@ class MyMapStringIntPatriciaTrie() {
         }
     }
 
-    inline operator fun get(key: String) = walkInternal(key, root, { null }, {})
+    inline operator fun get(key: String) :Int?{
+if(key==""){
+return root.value
+}else{
+return walkInternal(key, root, { null }, {})
+}
+}
     inline operator fun set(key: String, value: Int) {
+if(key==""){
+root.value=value
+}else{
         walkInternal(key, root, { value }, { it.value = value })
+}
     }
 
     inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
         var value: Int? = null
+if(key==""){
+if(root.value==null){
+root.value=onCreate()
+}
+value=root.value
+}else{
         walkInternal(key, root, {
             value = onCreate()
 /*return*/value
         }, { value = it.value })
+}
         return value!!
     }
 
@@ -149,7 +166,7 @@ class MyMapStringIntPatriciaTrie() {
             while (queueCount.size > 0) {
                 val parentCount = queueCount[0]--
                 val parent = queueNode[0]
-                require(parentCount > 0)
+                SanityCheck.check{parentCount > 0}
                 if (parentCount == 1) {
                     queueNode.removeAt(0)
                     queueCount.removeAt(0)

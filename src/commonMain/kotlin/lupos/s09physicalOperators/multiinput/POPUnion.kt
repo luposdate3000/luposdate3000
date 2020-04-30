@@ -3,7 +3,7 @@ package lupos.s09physicalOperators.multiinput
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s03resultRepresentation.*
@@ -20,8 +20,8 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(): ColumnIteratorRow {
         val variables = getProvidedVariableNames()
-        require(children[0].getProvidedVariableNames().containsAll(variables), { "$uuid ${children[0].getProvidedVariableNames()} ${variables}" })
-        require(children[1].getProvidedVariableNames().containsAll(variables), { "$uuid ${children[1].getProvidedVariableNames()} ${variables}" })
+        SanityCheck.check{children[0].getProvidedVariableNames().containsAll(variables)}
+        SanityCheck.check{children[1].getProvidedVariableNames().containsAll(variables)}
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()

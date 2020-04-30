@@ -116,7 +116,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
 //insert new single page
                     var next = iterators[variableIndex].next()
                     if (next == null) {
-                        require(variableIndex == 0)
+                        SanityCheck.check{variableIndex == 0}
                         break@collectData
                     }
                     val iter = ColumnIteratorRepeatValue(1, next)
@@ -176,12 +176,12 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
 
     fun processMergeTree(variablesSize: Int, targetIterators: Array<MutableList<ColumnIterator?>>, index: Int, comparators: Array<Comparator<Value>>) {
         var targetIndex = index
-        require(targetIndex > 0)
+        SanityCheck.check{targetIndex > 0}
         var processDone = false
         while (!processDone) {
             for (variableIndex in 0 until variablesSize) {
                 val iter = targetIterators[variableIndex][targetIndex - 1]
-                require(iter != null, { "POPSort" })
+                SanityCheck.check{iter != null}
                 if (targetIterators[variableIndex].size == targetIndex) {
 //the first merge-node with this amount of leaves
                     targetIterators[variableIndex].add(iter)
@@ -193,10 +193,10 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                 } else {
 //merge with another node of same size - and continue to merge the result with other larger merge-trees
                     if (variableIndex > 0) {
-                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter, comparators[variableIndex], targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort, null)
+                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter!!, comparators[variableIndex], targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort, null)
                         (targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort).lowerPriority = targetIterators[variableIndex][targetIndex]!! as ColumnIteratorMergeSort
                     } else {
-                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter, comparators[variableIndex], null, null)
+                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter!!, comparators[variableIndex], null, null)
                     }
                 }
                 targetIterators[variableIndex][targetIndex - 1] = null

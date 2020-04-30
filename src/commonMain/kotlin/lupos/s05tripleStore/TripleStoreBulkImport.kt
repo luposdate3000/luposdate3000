@@ -36,10 +36,6 @@ idx=0
         if (count < mid) {
             b = a
             a = aEnd
-            //println("assuming $off $count")
-        } else {
-            //println("assuming $off $mid")
-            //println("assuming ${off + mid} ${count - mid}")
         }
         loop@ while (a < aEnd && b < bEnd) {
             for (i in 0 until 3) {
@@ -72,21 +68,10 @@ idx=0
             target[c++] = source[b++]
             target[c++] = source[b++]
         }
-        //println("providing $off $count")
-    }
-
-    fun debug(d: IntArray) {
-        println("++++++++++++")
-        for (i in 0 until idx / 3) {
-            println("${d[i * 3]}, ${d[i * 3 + 1]}, ${d[i * 3 + 2]}")
-        }
-        println("------------")
     }
 
     fun sort() {
 //the target data is sorted, but may contain duplicates, _if the input contains those
-        //println("beforeSort")
-        //debug(data[8])
         val total = idx / 3
         var off = IntArray(3)
         var shift = IntArray(3)
@@ -112,9 +97,7 @@ idx=0
                     shift[i] = 0
                     count[i] = 1 shl shift[i]
                     var first = true
-                    //println("base-loop ${count[i]} ${count[i] / 2} ${total}")
                     while (count[i] / 2 < total) {
-                        //println("current count ${count[i]}")
                         off[i] = 0
                         shift[i]++
                         count[i] = 1 shl shift[i]
@@ -123,14 +106,11 @@ idx=0
                             first = false
                             sourceIdx = 8
                         }
-                        //println("current source $sourceIdx")
                         while (off[i] + count[i] <= total) {
-                            //println("sorting1 $i ${off[i]} ${count[i] / 2} ${count[i]}")
                             mergeSort(data[sourceIdx], data[3 + i], off[i], count[i] / 2, count[i], orders[i * 2 + j])
                             off[i] += count[i]
                         }
                         if (off[i] < total) {
-                            //println("sorting2 $i ${off[i]} ${count[i] / 2} ${total - off[i]}")
                             mergeSort(data[sourceIdx], data[3 + i], off[i], count[i] / 2, total - off[i], orders[i * 2 + j])
                         }
                         var t = data[i]
@@ -148,13 +128,6 @@ idx=0
                     data[6] = dataSPO
                     data[7] = dataPSO
                     data[8] = dataOSP
-/*                    println("SPO")
-                    debug(dataSPO)
-                    println("PSO")
-                    debug(dataPSO)
-                    println("OSP")
-                    debug(dataOSP)
-*/
                 } else {
                     dataSOP = data[0]
                     dataPOS = data[1]
@@ -162,18 +135,5 @@ idx=0
                 }
             }
         }
-        println("<<<<<<<<<<")
-        println("SPO"+dataSPO)
-        debug(dataSPO)
-        println("PSO"+dataPSO)
-        debug(dataPSO)
-        println("OSP"+dataOSP)
-        debug(dataOSP)
-        println("SOP"+dataSOP)
-        debug(dataSOP)
-        println("POS"+dataPOS)
-        debug(dataPOS)
-        println("OPS"+dataOPS)
-        debug(dataOPS)
     }
 }

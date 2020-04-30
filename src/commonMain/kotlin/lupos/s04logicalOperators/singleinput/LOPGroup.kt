@@ -33,10 +33,9 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
             if (b is LOPBind) {
                 this.bindings.add(Pair(b.name.name, b.children[1] as AOPBase))
                 b = b.children[0]
-            } else if (b is OPNothing) {
-                break
             } else {
-                require(false)
+		SanityCheck.check{b is OPNothing}
+                break
             }
         }
         this.bindings = this.bindings.asReversed()

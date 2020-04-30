@@ -47,9 +47,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         }
 
         override fun equals(other: Any?): Boolean {
-            require(other is MapKey)
+            SanityCheck.check{other is MapKey}
             for (i in 0 until data.size) {
-                if (data[i] != other.data[i]) {
+                if (data[i] != (other as MapKey).data[i]) {
                     return false
                 }
             }
@@ -57,9 +57,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         }
 
         fun equalsFuzzy(other: Any?): Boolean {
-            require(other is MapKey)
+            SanityCheck.check{other is MapKey}
             for (i in 0 until data.size) {
-                if (data[i] != ResultSetDictionary.undefValue && other.data[i] != ResultSetDictionary.undefValue && data[i] != other.data[i]) {
+                if (data[i] != ResultSetDictionary.undefValue && (other as MapKey).data[i] != ResultSetDictionary.undefValue && data[i] != (other as MapKey).data[i]) {
                     return false
                 }
             }
@@ -182,7 +182,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val value = columnsINAO[columnIndex].next()
                                     if (value == null) {
-                                        require(columnIndex == 0)
+                                        SanityCheck.check{columnIndex == 0}
                                         done = true
                                         break
                                     }
@@ -276,7 +276,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                             for (columnIndex in 0 until columnsINAJ.size) {
                                 val value = columnsINAJ[columnIndex].next()
                                 if (value == null) {
-                                    require(columnIndex == 0)
+                                    SanityCheck.check{columnIndex == 0}
                                     nextKey = null
                                     break@loopA
                                 }

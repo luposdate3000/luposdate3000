@@ -91,27 +91,27 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 if (data.startsWith("@prefix", column)) {
                     column = skipAllSepatators(data, column + "@prefix".length)
                     var t = data.indexOf(':', column)
-                    require(t >= column)
+                    SanityCheck.check{t >= column}
                     val key = data.substring(column, t)
                     column = skipAllSepatators(data, t + 1)
-                    require(data[column] == '<')
+                    SanityCheck.check{data[column] == '<'}
                     column++
                     t = data.indexOf('>', column)
-                    require(t > column)
+                    SanityCheck.check{t > column}
                     var value = data.substring(column, t)
                     column = skipAllSepatators(data, t + 1)
-                    require(data[column] == '.')
+                    SanityCheck.check{data[column] == '.'}
                     column++
                     prefixes[key] = value
                 } else if (data.startsWith("@base", column)) {
                     column = skipAllSepatators(data, column + "@base".length)
-                    require(data[column] == '<')
+                    SanityCheck.check{data[column] == '<'}
                     column++
                     var t = data.indexOf('>', column)
-                    require(t > column)
+                    SanityCheck.check{t > column}
                     var value = data.substring(column, t)
                     column = skipAllSepatators(data, t + 1)
-                    require(data[column] == '.')
+                    SanityCheck.check{data[column] == '.'}
                     column++
                     prefixes[""] = value
                 } else {
@@ -172,7 +172,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     when (data[start]) {
                         '[' -> {
                             withinGeneratedOBnode = true
-                            require(nextType == 2)
+                            SanityCheck.check{nextType == 2}
                             currentTriple[2] = nodeGlobalDictionary.createNewBNode()
                             bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
                             if (bulk.full()) {
@@ -182,7 +182,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             nextType = 0
                         }
                         'a' -> {
-                            require(column == start + 1)
+                            SanityCheck.check{column == start + 1}
                             currentTriple[nextType] = nodeGlobalDictionary.createIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
                         }
                         '_' -> {
@@ -193,7 +193,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         }
                         ':' -> {
                             val value = prefixes[""]
-                            require(value != null)
+                            SanityCheck.check{value != null}
                             currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(start + 1, column))
                         }
                         '"' /*"*/ -> {
@@ -235,7 +235,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             } else if (data.startsWith("false", start)) {
                                 currentTriple[nextType] = ResultSetDictionary.booleanFalseValue
                             } else {
-                                try {
                                     if (isNumeric) {
                                         if (containsExponent) {
                                             currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(start, column).toDouble())
@@ -255,18 +254,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                         }
                                         throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
                                     }
-                                } catch (e: Throwable) {
-                                    var l = start - 10
-                                    var r = column + 10
-                                    if (l < 0) {
-                                        l = 0
-                                    }
-                                    if (r > data.length) {
-                                        r = data.length
-                                    }
-                                    e.printStackTrace()
-                                    throw Exception("unable to parse after error $isNumeric $containsExponent $containsDot '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
-                                }
                             }
                         }
                     }
@@ -281,7 +268,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 withinGeneratedOBnode = false
                                 column = skipAllSepatators(data, column + 1)
                             } else {
-                                require(data[column] != '.')
+                                SanityCheck.check{data[column] != '.'}
                             }
                         }
                         when (data[column]) {
@@ -303,8 +290,7 @@ var l = start - 10
                                     if (r > data.length) {
                                         r = data.length
                                     }
-                                    
-                                require(false, { "not allowed termination sign ${data[column].toInt()} context: '${data.substring(l, r)}'" })
+                                throw Exception("not allowed termination sign ${data[column].toInt()} context: '${data.substring(l, r)}'" )
                             }
                         }
                         column++

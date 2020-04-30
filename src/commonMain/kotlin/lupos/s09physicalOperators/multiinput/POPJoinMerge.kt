@@ -38,7 +38,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        require(!optional, { "POPJoinMerge optional" })
+        SanityCheck.check{!optional}
 //setup columns
         val child = Array(2) { children[it].evaluate() }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
@@ -81,8 +81,8 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             columnsOUT[1].add(t)
             columnsINO[1].add(child[1].columns[name]!!)
         }
-        require(columnsINJ[0].size > 0)
-        require(columnsINJ[0].size == columnsINJ[1].size)
+        SanityCheck.check{columnsINJ[0].size > 0}
+        SanityCheck.check{columnsINJ[0].size == columnsINJ[1].size}
         var emptyColumnsWithJoin = columnsOUT[0].size == 0 && columnsOUT[1].size == 0 && columnsOUTJ.size == 0
         if (emptyColumnsWithJoin) {
             t = ColumnIteratorChildIterator()
@@ -127,7 +127,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
 //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
-        require(keyCopy[0] != null)
+        SanityCheck.check{keyCopy[0] != null}
         loop@ while (true) {
             count++
             for (i in 0 until columnsINO.size) {
@@ -135,7 +135,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-                require(key[i] != ResultSetDictionary.undefValue)
+                SanityCheck.check{key[i] != ResultSetDictionary.undefValue}
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -162,10 +162,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         }
                         for (j in 0 until columnsINJ[0].size) {
                             key[0][j] = columnsINJ[0][j].next()
-                            require(key[0][j] != ResultSetDictionary.undefValue)
+                            SanityCheck.check{key[0][j] != ResultSetDictionary.undefValue}
                             done = key[0][j] == null
                             if (done) {
-                                require(j == 0)
+                                SanityCheck.check{j == 0}
                                 break@loop
                             }
                         }
@@ -176,10 +176,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-                            require(key[1][j] != ResultSetDictionary.undefValue)
+                            SanityCheck.check{key[1][j] != ResultSetDictionary.undefValue}
                             done = key[1][j] == null
                             if (done) {
-                                require(j == 0)
+                                SanityCheck.check{j == 0}
                                 break@loop
                             }
                         }

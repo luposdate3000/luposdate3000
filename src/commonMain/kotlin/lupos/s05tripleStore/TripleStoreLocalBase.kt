@@ -36,10 +36,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
 
         override fun equals(other: Any?): Boolean {
-            require(other is MapKey)
-            require(key.size == other.key.size)
+            SanityCheck.check{other is MapKey}
+            SanityCheck.check{key.size == (other as MapKey).key.size}
             for (columnIndex in 0 until key.size) {
-                if (key[columnIndex] != other.key[columnIndex]) {
+                if (key[columnIndex] != (other as MapKey).key[columnIndex]) {
                     return false
                 }
             }
@@ -73,18 +73,17 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             val i = order[idx.ordinal][ii]
             val param = params[i]
             if (param is AOPConstant) {
-                require(filter.size == ii)
+                SanityCheck.check{filter.size == ii}
                 filter.add(nodeGlobalDictionary.createValue(param.value))
             } else {
-                require(param is AOPVariable)
-                projection.add(param.name)
+                SanityCheck.check{param is AOPVariable}
+                projection.add((param as AOPVariable).name)
             }
         }
         return data[idx.ordinal].getIterator(query, filter, projection.toTypedArray())
     }
 
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
-println("import $idx")
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
                 data[idx.ordinal].import(dataImport.dataSPO, dataImport.idx, order[idx.ordinal])
@@ -144,7 +143,7 @@ println("import $idx")
     }
 
     suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
-        require(dataModify.size == 3)
+        SanityCheck.check{dataModify.size == 3}
         var tmp: MutableSet<MapKey>?
         if (type == EModifyType.INSERT) {
             tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -164,7 +163,7 @@ println("import $idx")
             for (columnIndex in 0 until 3) {
                 val v = dataModify[columnIndex].next()
                 if (v == null) {
-                    require(columnIndex == 0)
+                    SanityCheck.check{columnIndex == 0}
                     break@loop
                 } else {
                     k[columnIndex] = query.dictionary.valueToGlobal(v)

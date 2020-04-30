@@ -42,8 +42,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        require(!optional, { "POPJoinWithStore optional" })
-        require(!childB.graphVar)
+        SanityCheck.check{!optional}
+        SanityCheck.check{!childB.graphVar}
         val childAv = children[0].evaluate()
         val childA = children[0]
         val columnsINAO = mutableListOf<ColumnIterator>()
@@ -89,7 +89,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             columnsOUT.add(it)
             outMap[name] = it
         }
-        require(variablINBO.size > 0)
+        SanityCheck.check{variablINBO.size > 0}
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
         val valuesAO = Array<Value?>(columnsINAO.size) { null }
         val valuesAJ = Array<Value?>(columnsINAJ.size) { null }
@@ -101,13 +101,13 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
 /*return*/ childB.children[it] as AOPBase
         }
         for (i in 0 until indicesINBJ.size) {
-            require(params[indicesINBJ[i]] is AOPVariable)
+            SanityCheck.check{params[indicesINBJ[i]] is AOPVariable}
             params[indicesINBJ[i]] = AOPConstant(query, ResultSetDictionary.undefValue2)
             count++
         }
         var index: EIndexPattern
-        require(count > 0, { "POPJoinWithStore do not bind all 3 variables" })
-        require(count < 3, { "POPJoinWithStore no cartesian product" })
+        SanityCheck.check{count > 0}
+        SanityCheck.check{count < 3}
         if (count == 1) {
             if (params[0] is AOPConstant) {
                 if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0]) {
@@ -122,7 +122,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     index = EIndexPattern.P_1
                 }
             } else {
-                require(params[2] is AOPConstant)
+                SanityCheck.check{params[2] is AOPConstant}
                 if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
                     index = EIndexPattern.O_0
                 } else {
@@ -130,18 +130,18 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 }
             }
         } else {
-            require(count == 2)
+            SanityCheck.check{count == 2}
             if (params[0] is AOPVariable) {
                 index = EIndexPattern.PO
             } else if (params[1] is AOPVariable) {
                 index = EIndexPattern.SO
             } else {
-                require(params[2] is AOPVariable)
+                SanityCheck.check{params[2] is AOPVariable}
                 index = EIndexPattern.SP
             }
         }
-        require(indicesINBJ.size > 0)
-        require(valuesAJ.size == indicesINBJ.size)
+        SanityCheck.check{indicesINBJ.size > 0}
+        SanityCheck.check{valuesAJ.size == indicesINBJ.size}
         var columnsInBRoot: ColumnIteratorRow? = null
         val columnsInB = Array(variablINBO.size) { ColumnIterator() }
         for (i in 0 until columnsINAO.size) {
@@ -161,13 +161,12 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
             for (column in columnsOUT) {
                 column.onEmptyQueue = {
-                    try {
                         loopA@ while (true) {
                             var done = true
                             loopB@ for (i in 0 until variablINBO.size) {
                                 val value = columnsInB[i].next()
                                 if (value == null) {
-                                    require(i == 0)
+                                    SanityCheck.check{i == 0}
                                     done = false
                                     break@loopB
                                 } else {
@@ -202,9 +201,6 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 }
                             }
                         }
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                    }
                 }
             }
         }
