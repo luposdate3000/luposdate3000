@@ -292,7 +292,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun getValue(value: Value): ValueDefinition {
-        println("${value.toString(16)} ${(value and mask1).toString(16)} ${(value and mask3).toString(16)} ${(value and mask5).toString(16)} ${(value and filter3).toString(16)} ${(value and filter5).toString(16)} ${(value and mask1) == mask1} ${nodeGlobalDictionary.iriList.size} ${iriList.size}")
+//        println("${value.toString(16)} ${(value and mask1).toString(16)} ${(value and mask3).toString(16)} ${(value and mask5).toString(16)} ${(value and filter3).toString(16)} ${(value and filter5).toString(16)} ${(value and mask1) == mask1} ${nodeGlobalDictionary.iriList.size} ${iriList.size}")
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {

@@ -79,7 +79,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         return column
     }
 
-suspend    fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport, onFull:suspend()->Unit) {
+    suspend fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport, onFull: suspend () -> Unit) {
         var withinGeneratedOBnode = false
         val data = File(fileName).readAsString()
         try {
@@ -153,11 +153,11 @@ suspend    fun iterateTurtleData(fileName: String, bulk: TripleStoreBulkImport, 
                             require(nextType == 2)
                             currentTriple[2] = nodeGlobalDictionary.createNewBNode()
                             bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
-                            if(bulk.full()){ 
-bulk.sort()
-                        onFull()
-                }
-currentTriple[0] = currentTriple[2]
+                            if (bulk.full()) {
+                                bulk.sort()
+                                onFull()
+                            }
+                            currentTriple[0] = currentTriple[2]
                             nextType = 0
                         }
                         'a' -> {
@@ -257,10 +257,10 @@ currentTriple[0] = currentTriple[2]
                     }
                     if (nextType == 2) {
                         bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
-		if(bulk.full()){
-			bulk.sort()
-onFull()
-		}
+                        if (bulk.full()) {
+                            bulk.sort()
+                            onFull()
+                        }
                         while (column < data.length && data[column] == ' ') {
                             column++
                         }
@@ -308,12 +308,12 @@ onFull()
         var counter = 0
         var store = DistributedTripleStore.getDefaultGraph(query)
         for (fileName in fileNames.split(";")) {
-            iterateTurtleData(fileName, bulk,{store.bulkImport(bulk)})
+            iterateTurtleData(fileName, bulk, { store.bulkImport(bulk) })
         }
 //        println("ready")
 //        Thread.sleep(20000)
 //        println("not ready")
-bulk.sort()
+        bulk.sort()
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()
     }

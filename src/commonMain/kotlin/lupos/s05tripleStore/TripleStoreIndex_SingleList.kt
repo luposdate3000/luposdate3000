@@ -197,13 +197,13 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         return data
     }
 
-    class ImportIterator(val data: IntArray, val count: Int, offset: Int) : ColumnIterator() {
+    class ImportIterator(val data: IntArray, val count: Int, val offset: Int) : ColumnIterator() {
         var idx = offset
 
         init {
             next = {
                 var res: Value?
-                if (idx > count) {
+                if (idx >= count) {
                     res = null
                 } else {
                     res = data[idx]
@@ -227,11 +227,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             } else {
                 iteratorsA = arrayOf(ColumnIteratorStore3a(data), ColumnIteratorStore3b(data), ColumnIteratorStore3c(data))
             }
-
-            data = mergeInternal(arrayOf(
-                    iteratorsA,
-                    arrayOf<ColumnIterator>(ImportIterator(dataImport, count, inverseOrder[0]), ImportIterator(dataImport, count, inverseOrder[1]), ImportIterator(dataImport, count, inverseOrder[2]))
-            ))
+            data = mergeInternal(arrayOf(iteratorsA, arrayOf<ColumnIterator>(ImportIterator(dataImport, count, inverseOrder[0]), ImportIterator(dataImport, count, inverseOrder[1]), ImportIterator(dataImport, count, inverseOrder[2]))))
             rebuildMap()
         }
     }

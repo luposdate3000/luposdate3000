@@ -222,7 +222,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
             var found = false
             for (i in 0 until n) {
                 if (keys[i] as KEY == k) {
-                    onExists(keys[i]as KEY)
+                    onExists(keys[i] as KEY)
                     found = true
                     break
                 }
