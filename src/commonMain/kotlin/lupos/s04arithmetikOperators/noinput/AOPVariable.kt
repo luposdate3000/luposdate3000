@@ -24,7 +24,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
                 /*return*/ResultSetDictionary.undefValue2
             }
         } else {
-            SanityCheck.check{tmp is ColumnIteratorQueue}
+            SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             res = {
                 /*return*/query.dictionary.getValue(column.tmp!!)
@@ -41,7 +41,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
                 /*return*/ResultSetDictionary.undefValue
             }
         } else {
-            SanityCheck.check{tmp is ColumnIteratorQueue}
+            SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             res = {
                 /*return*/column.tmp!!

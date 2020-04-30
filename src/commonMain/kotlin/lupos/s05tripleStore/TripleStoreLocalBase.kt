@@ -36,8 +36,8 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
 
         override fun equals(other: Any?): Boolean {
-            SanityCheck.check{other is MapKey}
-            SanityCheck.check{key.size == (other as MapKey).key.size}
+            SanityCheck.check { other is MapKey }
+            SanityCheck.check { key.size == (other as MapKey).key.size }
             for (columnIndex in 0 until key.size) {
                 if (key[columnIndex] != (other as MapKey).key[columnIndex]) {
                     return false
@@ -73,10 +73,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             val i = order[idx.ordinal][ii]
             val param = params[i]
             if (param is AOPConstant) {
-                SanityCheck.check{filter.size == ii}
+                SanityCheck.check { filter.size == ii }
                 filter.add(nodeGlobalDictionary.createValue(param.value))
             } else {
-                SanityCheck.check{param is AOPVariable}
+                SanityCheck.check { param is AOPVariable }
                 projection.add((param as AOPVariable).name)
             }
         }
@@ -143,7 +143,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
-        SanityCheck.check{dataModify.size == 3}
+        SanityCheck.check { dataModify.size == 3 }
         var tmp: MutableSet<MapKey>?
         if (type == EModifyType.INSERT) {
             tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -163,7 +163,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             for (columnIndex in 0 until 3) {
                 val v = dataModify[columnIndex].next()
                 if (v == null) {
-                    SanityCheck.check{columnIndex == 0}
+                    SanityCheck.check { columnIndex == 0 }
                     break@loop
                 } else {
                     k[columnIndex] = query.dictionary.valueToGlobal(v)

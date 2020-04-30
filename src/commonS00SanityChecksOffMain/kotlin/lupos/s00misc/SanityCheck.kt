@@ -6,7 +6,8 @@ object SanityCheck {
     inline fun <T> helper(action: () -> Unit): T? {
         return null
     }
-operator fun invoke(action:()->Unit){}
+
+    operator fun invoke(action: () -> Unit) {}
     inline fun check(value: () -> Boolean) {}
     inline fun checkFalse(value: () -> Boolean) {}
     inline fun <T> checkEQ(a: () -> T, b: () -> T) {}

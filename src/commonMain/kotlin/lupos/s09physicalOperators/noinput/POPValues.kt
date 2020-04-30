@@ -142,20 +142,20 @@ open class POPValues : POPBase {
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", variable))
         }
         var columns = Array(variables.size) { data[variables[it]] }
-if(columns.size>0){
-        for (i in 0 until columns[0]!!.size) {
-            val b = XMLElement("binding")
-            bindings.addContent(b)
-            for (variableIndex in 0 until variables.size) {
-                val value = query.dictionary.getValue(columns[variableIndex]!![i]).valueToString()
-                if (value != null) {
-                    b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
-                } else {
-                    b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]))
+        if (columns.size > 0) {
+            for (i in 0 until columns[0]!!.size) {
+                val b = XMLElement("binding")
+                bindings.addContent(b)
+                for (variableIndex in 0 until variables.size) {
+                    val value = query.dictionary.getValue(columns[variableIndex]!![i]).valueToString()
+                    if (value != null) {
+                        b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
+                    } else {
+                        b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]))
+                    }
                 }
             }
         }
-}
         return res
     }
 }

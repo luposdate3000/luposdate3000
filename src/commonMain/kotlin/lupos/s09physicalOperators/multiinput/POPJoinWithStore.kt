@@ -42,8 +42,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override suspend fun evaluate(): ColumnIteratorRow {
-        SanityCheck.check{!optional}
-        SanityCheck.check{!childB.graphVar}
+        SanityCheck.check { !optional }
+        SanityCheck.check { !childB.graphVar }
         val childAv = children[0].evaluate()
         val childA = children[0]
         val columnsINAO = mutableListOf<ColumnIterator>()
@@ -89,7 +89,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             columnsOUT.add(it)
             outMap[name] = it
         }
-        SanityCheck.check{variablINBO.size > 0}
+        SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
         val valuesAO = Array<Value?>(columnsINAO.size) { null }
         val valuesAJ = Array<Value?>(columnsINAJ.size) { null }
@@ -101,13 +101,13 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
 /*return*/ childB.children[it] as AOPBase
         }
         for (i in 0 until indicesINBJ.size) {
-            SanityCheck.check{params[indicesINBJ[i]] is AOPVariable}
+            SanityCheck.check { params[indicesINBJ[i]] is AOPVariable }
             params[indicesINBJ[i]] = AOPConstant(query, ResultSetDictionary.undefValue2)
             count++
         }
         var index: EIndexPattern
-        SanityCheck.check{count > 0}
-        SanityCheck.check{count < 3}
+        SanityCheck.check { count > 0 }
+        SanityCheck.check { count < 3 }
         if (count == 1) {
             if (params[0] is AOPConstant) {
                 if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0]) {
@@ -122,7 +122,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     index = EIndexPattern.P_1
                 }
             } else {
-                SanityCheck.check{params[2] is AOPConstant}
+                SanityCheck.check { params[2] is AOPConstant }
                 if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
                     index = EIndexPattern.O_0
                 } else {
@@ -130,18 +130,18 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 }
             }
         } else {
-            SanityCheck.check{count == 2}
+            SanityCheck.check { count == 2 }
             if (params[0] is AOPVariable) {
                 index = EIndexPattern.PO
             } else if (params[1] is AOPVariable) {
                 index = EIndexPattern.SO
             } else {
-                SanityCheck.check{params[2] is AOPVariable}
+                SanityCheck.check { params[2] is AOPVariable }
                 index = EIndexPattern.SP
             }
         }
-        SanityCheck.check{indicesINBJ.size > 0}
-        SanityCheck.check{valuesAJ.size == indicesINBJ.size}
+        SanityCheck.check { indicesINBJ.size > 0 }
+        SanityCheck.check { valuesAJ.size == indicesINBJ.size }
         var columnsInBRoot: ColumnIteratorRow? = null
         val columnsInB = Array(variablINBO.size) { ColumnIterator() }
         for (i in 0 until columnsINAO.size) {
@@ -161,46 +161,46 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
             for (column in columnsOUT) {
                 column.onEmptyQueue = {
-                        loopA@ while (true) {
-                            var done = true
-                            loopB@ for (i in 0 until variablINBO.size) {
-                                val value = columnsInB[i].next()
-                                if (value == null) {
-                                    SanityCheck.check{i == 0}
-                                    done = false
-                                    break@loopB
-                                } else {
-                                    columnsOUTB[i].queue.add(value)
-                                }
-                            }
-                            if (done) {
-                                for (i in 0 until columnsOUTAO.size) {
-                                    columnsOUTAO[i].queue.add(valuesAO[i]!!)
-                                }
-                                for (i in 0 until columnsOUTAJ.size) {
-                                    columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
-                                }
-                                break@loopA
+                    loopA@ while (true) {
+                        var done = true
+                        loopB@ for (i in 0 until variablINBO.size) {
+                            val value = columnsInB[i].next()
+                            if (value == null) {
+                                SanityCheck.check { i == 0 }
+                                done = false
+                                break@loopB
                             } else {
-                                for (i in 0 until columnsINAO.size) {
-                                    valuesAO[i] = columnsINAO[i].next()
-                                }
-                                for (i in 0 until columnsINAJ.size) {
-                                    valuesAJ[i] = columnsINAJ[i].next()
-                                }
-                                if (valuesAJ[0] != null) {
-                                    for (i in 0 until indicesINBJ.size) {
-                                        params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
-                                    }
-                                    columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
-                                    for (i in 0 until variablINBO.size) {
-                                        columnsInB[i] = columnsInBRoot!!.columns[variablINBO[i]]!!
-                                    }
-                                } else {
-                                    break@loopA
-                                }
+                                columnsOUTB[i].queue.add(value)
                             }
                         }
+                        if (done) {
+                            for (i in 0 until columnsOUTAO.size) {
+                                columnsOUTAO[i].queue.add(valuesAO[i]!!)
+                            }
+                            for (i in 0 until columnsOUTAJ.size) {
+                                columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
+                            }
+                            break@loopA
+                        } else {
+                            for (i in 0 until columnsINAO.size) {
+                                valuesAO[i] = columnsINAO[i].next()
+                            }
+                            for (i in 0 until columnsINAJ.size) {
+                                valuesAJ[i] = columnsINAJ[i].next()
+                            }
+                            if (valuesAJ[0] != null) {
+                                for (i in 0 until indicesINBJ.size) {
+                                    params[indicesINBJ[i]] = AOPConstant(query, query.dictionary.getValue(valuesAJ[i]!!))
+                                }
+                                columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
+                                for (i in 0 until variablINBO.size) {
+                                    columnsInB[i] = columnsInBRoot!!.columns[variablINBO[i]]!!
+                                }
+                            } else {
+                                break@loopA
+                            }
+                        }
+                    }
                 }
             }
         }

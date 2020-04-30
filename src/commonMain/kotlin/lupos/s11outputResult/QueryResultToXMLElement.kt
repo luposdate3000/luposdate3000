@@ -51,7 +51,7 @@ object QueryResultToXMLElement {
                         }
                         if (valueID != ResultSetDictionary.undefValue && valueID != ResultSetDictionary.errorValue) {
                             val value = node.query.dictionary.getValue(valueID).valueToString()
-                            SanityCheck.check{value != null}
+                            SanityCheck.check { value != null }
                             val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
                             if (value!!.length > 1) {
                                 if (value.startsWith("\"") && !value.endsWith("\"")) {

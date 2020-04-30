@@ -116,7 +116,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
 //insert new single page
                     var next = iterators[variableIndex].next()
                     if (next == null) {
-                        SanityCheck.check{variableIndex == 0}
+                        SanityCheck.check { variableIndex == 0 }
                         break@collectData
                     }
                     val iter = ColumnIteratorRepeatValue(1, next)
@@ -176,12 +176,12 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
 
     fun processMergeTree(variablesSize: Int, targetIterators: Array<MutableList<ColumnIterator?>>, index: Int, comparators: Array<Comparator<Value>>) {
         var targetIndex = index
-        SanityCheck.check{targetIndex > 0}
+        SanityCheck.check { targetIndex > 0 }
         var processDone = false
         while (!processDone) {
             for (variableIndex in 0 until variablesSize) {
                 val iter = targetIterators[variableIndex][targetIndex - 1]
-                SanityCheck.check{iter != null}
+                SanityCheck.check { iter != null }
                 if (targetIterators[variableIndex].size == targetIndex) {
 //the first merge-node with this amount of leaves
                     targetIterators[variableIndex].add(iter)

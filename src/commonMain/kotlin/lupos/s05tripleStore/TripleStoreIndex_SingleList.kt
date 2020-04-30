@@ -36,6 +36,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     fun rebuildMap() {
+        println("start rebuild map")
         index1.clear()
         index2.clear()
         var idx = 0
@@ -50,10 +51,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 idx += data[idx] + 1
             }
         }
+        println("finish rebuild map")
     }
 
     override fun loadFromFolder(filename: String) {
-        SanityCheck.check{data.size == 0}
+        SanityCheck.check { data.size == 0 }
         val capacity = (File(filename).length() / 4).toInt()
         File(filename).dataInputStream { fis ->
             data = MyListInt(capacity, { fis.readInt() })
@@ -66,8 +68,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
-        SanityCheck.check{filter.size >= 0 && filter.size <= 3}
-        SanityCheck.check{projection.size + filter.size == 3}
+        SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
+        SanityCheck.check { projection.size + filter.size == 3 }
 //BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
@@ -108,11 +110,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                             columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore2b(data, idx))
                         }
                     } else {
-                        SanityCheck.check{projection[1] == "_"}
+                        SanityCheck.check { projection[1] == "_" }
                     }
                 }
             } else {
-                SanityCheck.check{filter.size == 0}
+                SanityCheck.check { filter.size == 0 }
                 if (projection[0] != "_") {
                     columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
                     if (projection[1] != "_") {
@@ -121,11 +123,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                             columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], ColumnIteratorStore3c(data))
                         }
                     } else {
-                        SanityCheck.check{projection[2] == "_"}
+                        SanityCheck.check { projection[2] == "_" }
                     }
                 } else {
-                    SanityCheck.check{projection[1] == "_"}
-                    SanityCheck.check{projection[2] == "_"}
+                    SanityCheck.check { projection[1] == "_" }
+                    SanityCheck.check { projection[2] == "_" }
                 }
             }
         }
@@ -222,17 +224,18 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
-SanityCheck{
-            for (i in 1 until count / 3) {
-                val xx1 = (i - 1) * 3 + order[0]
-		val xx2 = i * 3 + order[0]
-		val xx3 = (i - 1) * 3 + order[1]
-		val xx4 = i * 3 + order[1]
-		val xx5 = (i - 1) * 3 + order[2]
-		val xx6 = i * 3 + order[2]
-                SanityCheck.check{                        (dataImport[xx1] < dataImport[xx2]) ||                                (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] < dataImport[xx4]) ||                                (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] == dataImport[xx4] && dataImport[xx5] <= dataImport[xx6])}
+            println("start import")
+            SanityCheck {
+                for (i in 1 until count / 3) {
+                    val xx1 = (i - 1) * 3 + order[0]
+                    val xx2 = i * 3 + order[0]
+                    val xx3 = (i - 1) * 3 + order[1]
+                    val xx4 = i * 3 + order[1]
+                    val xx5 = (i - 1) * 3 + order[2]
+                    val xx6 = i * 3 + order[2]
+                    SanityCheck.check { (dataImport[xx1] < dataImport[xx2]) || (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] < dataImport[xx4]) || (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] == dataImport[xx4] && dataImport[xx5] <= dataImport[xx6]) }
+                }
             }
-}
             val count3 = count * 3
             val iteratorsA: Array<ColumnIterator>
             if (data.size == 0) {
@@ -241,27 +244,28 @@ SanityCheck{
                 iteratorsA = arrayOf(ColumnIteratorStore3a(data), ColumnIteratorStore3b(data), ColumnIteratorStore3c(data))
             }
             data = mergeInternal(arrayOf(iteratorsA, arrayOf<ColumnIterator>(ImportIterator(dataImport, count, order[0]), ImportIterator(dataImport, count, order[1]), ImportIterator(dataImport, count, order[2]))))
+            println("finish import")
             rebuildMap()
         }
-SanityCheck{
-        CoroutinesHelper.runBlock {
-            var ia = ColumnIteratorStore3a(data)
-            var ib = ColumnIteratorStore3b(data)
-            var ic = ColumnIteratorStore3c(data)
-            var a = ia.next()
-            var b = ib.next()
-            var c = ic.next()
-            while (a != null) {
-                var a2 = ia.next()
-                var b2 = ib.next()
-                var c2 = ic.next()
-                SanityCheck.check{                        (a2 == null) ||                                (a!! < a2!!) ||                                ((a!! == a2!!) && (b!! < b2!!)) ||                                ((a!! == a2!!) && (b!! == b2!!) && (c!! < c2!!))}
-                a = a2
-                b = b2
-                c = c2
+        SanityCheck {
+            CoroutinesHelper.runBlock {
+                var ia = ColumnIteratorStore3a(data)
+                var ib = ColumnIteratorStore3b(data)
+                var ic = ColumnIteratorStore3c(data)
+                var a = ia.next()
+                var b = ib.next()
+                var c = ic.next()
+                while (a != null) {
+                    var a2 = ia.next()
+                    var b2 = ib.next()
+                    var c2 = ic.next()
+                    SanityCheck.check { (a2 == null) || (a!! < a2!!) || ((a!! == a2!!) && (b!! < b2!!)) || ((a!! == a2!!) && (b!! == b2!!) && (c!! < c2!!)) }
+                    a = a2
+                    b = b2
+                    c = c2
+                }
             }
         }
-}
     }
 
     fun import(dataImport: MyMapLongGeneric<MySetInt>) {

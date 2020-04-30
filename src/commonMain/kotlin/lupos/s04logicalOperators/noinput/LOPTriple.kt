@@ -70,7 +70,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
                             res = EIndexPattern.P_1
                         }
                     } else {
-                        SanityCheck.check{children[2] is AOPConstant}
+                        SanityCheck.check { children[2] is AOPConstant }
                         if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0]) {
                             res = EIndexPattern.O_0
                         } else {
@@ -84,12 +84,12 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
                     } else if (children[1] !is AOPConstant) {
                         res = EIndexPattern.SO
                     } else {
-                        SanityCheck.check{children[2] !is AOPConstant}
+                        SanityCheck.check { children[2] !is AOPConstant }
                         res = EIndexPattern.SP
                     }
                 }
                 else -> {
-                    SanityCheck.check{count == 3 || count == 0}
+                    SanityCheck.check { count == 3 || count == 0 }
                     res = EIndexPattern.SPO
                 }
             }

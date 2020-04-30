@@ -127,7 +127,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                     val variables = Array(allVariables.size) { 0 }
                     val tmp = allChilds[i].getProvidedVariableNames()
                     for (t in tmp) {
-                        SanityCheck.check{allVariables.contains(t)}
+                        SanityCheck.check { allVariables.contains(t) }
                         for (j in allVariables.indices) {
                             if (allVariables[j] == t) {
                                 variables[j]++

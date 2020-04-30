@@ -40,7 +40,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-                        SanityCheck.check{idx == data.size}
+                        SanityCheck.check { idx == data.size }
                         needToAdd = false
                     }
                     break@loop
@@ -133,7 +133,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                         res.add(listOf(provided[2], provided[1], provided[0]))
                     }
                     else -> {
-                        SanityCheck.check{provided.size == 0}
+                        SanityCheck.check { provided.size == 0 }
                     }
                 }
             }
@@ -205,7 +205,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 val tmp = children[1].getPossibleSortPriorities()
                 for (x in children[0].getPossibleSortPriorities()) {
                     if (tmp.contains(x)) {
-                        SanityCheck.check{getProvidedVariableNames().containsAll(x)}
+                        SanityCheck.check { getProvidedVariableNames().containsAll(x) }
                         addToPrefixFreeList(x, res)
                     }
                 }
@@ -317,7 +317,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 }
             }
             if (!found) {
-                SanityCheck.check{this is LOPBind || this is LOPFilter}
+                SanityCheck.check { this is LOPBind || this is LOPFilter }
                 children[1] = replaceVariableWithUndef(children[1], name)
             }
         }

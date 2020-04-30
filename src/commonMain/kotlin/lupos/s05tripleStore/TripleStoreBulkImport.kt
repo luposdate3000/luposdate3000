@@ -22,9 +22,11 @@ class TripleStoreBulkImport {
         data[8][idx++] = pi
         data[8][idx++] = oi
     }
-fun reset(){
-idx=0
-}
+
+    fun reset() {
+        idx = 0
+    }
+
     fun full() = idx >= size
     fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
         //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
@@ -71,6 +73,7 @@ idx=0
     }
 
     fun sort() {
+        println("Bulk start sorting")
 //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
         var off = IntArray(3)
@@ -135,5 +138,6 @@ idx=0
                 }
             }
         }
+        println("Bulk finish sorting")
     }
 }

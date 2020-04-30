@@ -26,7 +26,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
 
     override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
-        SanityCheck.check{children[1] is AOPSet}
+        SanityCheck.check { children[1] is AOPSet }
         val childsB = Array(children[1].children.size) { (children[1].children[it] as AOPBase).evaluate(row) }
         return {
             var res: ValueDefinition = ValueError()

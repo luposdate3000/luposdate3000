@@ -65,8 +65,8 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     }
 
     override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
-        SanityCheck.check{filter.size >= 0 && filter.size <= 3}
-        SanityCheck.check{projection.size + filter.size == 3}
+        SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
+        SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
         for (sIndex in 0 until projection.size) {
             val s = projection[sIndex]

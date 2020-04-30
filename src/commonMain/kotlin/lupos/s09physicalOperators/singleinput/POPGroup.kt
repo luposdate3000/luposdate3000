@@ -137,7 +137,7 @@ class POPGroup : POPBase {
         }
 
         override fun equals(other: Any?): Boolean {
-            SanityCheck.check{other is MapKey}
+            SanityCheck.check { other is MapKey }
             for (i in 0 until data.size) {
                 if (data[i] != (other as MapKey).data[i]) {
                     return false
@@ -147,7 +147,7 @@ class POPGroup : POPBase {
         }
 
         fun equalsFuzzy(other: Any?): Boolean {
-            SanityCheck.check{other is MapKey}
+            SanityCheck.check { other is MapKey }
             for (i in 0 until data.size) {
                 if (data[i] != ResultSetDictionary.undefValue && (other as MapKey).data[i] != ResultSetDictionary.undefValue && data[i] != (other as MapKey).data[i]) {
                     return false
@@ -200,7 +200,7 @@ class POPGroup : POPBase {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         val value = valueColumns[columnIndex].next()
                         if (value == null) {
-                            SanityCheck.check{columnIndex == 0}
+                            SanityCheck.check { columnIndex == 0 }
                             break@loop2
                         }
                         localRow.columns[columnIndex].tmp = value
@@ -221,7 +221,7 @@ class POPGroup : POPBase {
                 for (columnIndex in 0 until keyColumnNames.size) {
                     val value = keyColumns[columnIndex].next()
                     if (value == null) {
-                        SanityCheck.check{columnIndex == 0}
+                        SanityCheck.check { columnIndex == 0 }
                         break@loop
                     }
                     currentKey[columnIndex] = value

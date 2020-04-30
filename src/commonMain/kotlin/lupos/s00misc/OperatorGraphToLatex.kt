@@ -71,13 +71,13 @@ object OperatorGraphToLatex {
                     }
                 }
                 element.startsWith("variable") -> {
-if(element!="variables/>"){
-                    if (stack.size > 0) {
-                        if (stack[0].projectionHelper != "") {
-                            stack[0].projectionHelper += ","
+                    if (element != "variables/>") {
+                        if (stack.size > 0) {
+                            if (stack[0].projectionHelper != "") {
+                                stack[0].projectionHelper += ","
+                            }
+                            stack[0].projectionHelper += element.substring(15, element.length - 3)
                         }
-                        stack[0].projectionHelper += element.substring(15, element.length - 3)
-}
                     }
                 }
                 element.startsWith("LOP") || element.startsWith("AOP") || element.startsWith("POP") -> {

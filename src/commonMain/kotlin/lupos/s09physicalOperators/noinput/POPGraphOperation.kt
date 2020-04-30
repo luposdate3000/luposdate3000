@@ -182,7 +182,7 @@ class POPGraphOperation(query: Query,
                             DistributedTripleStore.createGraph(query, graph1iri!!)
                         }
                         else -> {
-                            SanityCheck.check{false}
+                            SanityCheck.check { false }
                         }
                     }
                 }
@@ -199,7 +199,7 @@ class POPGraphOperation(query: Query,
                                     copyData(source, target)
                                 }
                                 else -> {
-                                    SanityCheck.check{false}
+                                    SanityCheck.check { false }
                                 }
                             }
                         }
@@ -220,12 +220,12 @@ class POPGraphOperation(query: Query,
                                     }
                                 }
                                 else -> {
-                                    SanityCheck.check{false}
+                                    SanityCheck.check { false }
                                 }
                             }
                         }
                         else -> {
-                            SanityCheck.check{false}
+                            SanityCheck.check { false }
                         }
                     }
                 }
@@ -243,7 +243,7 @@ class POPGraphOperation(query: Query,
                                     DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
                                 }
                                 else -> {
-                                    SanityCheck.check{false}
+                                    SanityCheck.check { false }
                                 }
                             }
                         }
@@ -266,12 +266,12 @@ class POPGraphOperation(query: Query,
                                     }
                                 }
                                 else -> {
-                                    SanityCheck.check{false}
+                                    SanityCheck.check { false }
                                 }
                             }
                         }
                         else -> {
-                            SanityCheck.check{false}
+                            SanityCheck.check { false }
                         }
                     }
                 }
@@ -287,7 +287,7 @@ class POPGraphOperation(query: Query,
                                     copyData(source, target)
                                 }
                                 else -> {
-                                    SanityCheck.check{false}
+                                    SanityCheck.check { false }
                                 }
                             }
                         }
@@ -306,12 +306,12 @@ class POPGraphOperation(query: Query,
                                     }
                                 }
                                 else -> {
-                                    SanityCheck.check{false}
+                                    SanityCheck.check { false }
                                 }
                             }
                         }
                         else -> {
-                            SanityCheck.check{false}
+                            SanityCheck.check { false }
                         }
                     }
                 }

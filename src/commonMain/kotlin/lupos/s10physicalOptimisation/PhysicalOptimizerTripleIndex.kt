@@ -69,11 +69,11 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             val store = DistributedTripleStore.getNamedGraph(query, node.graph)
             val params = Array<AOPBase>(3) {
                 var res2 = node.children[it] as AOPBase
-SanityCheck{
-                if (res2 is AOPVariable) {
-                    SanityCheck.check{projectedVariables.contains(res2.name) || res2.name == "_"}
+                SanityCheck {
+                    if (res2 is AOPVariable) {
+                        SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
+                    }
                 }
-}
 /*return*/res2
             }
             res = store.getIterator(params, LOPTriple.getIntex(node.children, node.mySortPriority))

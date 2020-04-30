@@ -2,8 +2,8 @@ package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
-import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.*
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -60,12 +60,12 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         }
         val res = ColumnIteratorRow(outMap)
         val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
-        SanityCheck.check{variablesLocal.size != 0}
+        SanityCheck.check { variablesLocal.size != 0 }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
             outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
         } else {
-            SanityCheck.check{boundIndex != -1}
+            SanityCheck.check { boundIndex != -1 }
             for (variableIndex in 0 until variablesLocal.size) {
                 columnsLocal[variableIndex].onEmptyQueue = {
                     var done = false
@@ -73,7 +73,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                         if (boundIndex != variableIndex2) {
                             val value = columnsIn[variableIndex2]!!.next()
                             if (value == null) {
-                                SanityCheck.check{variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1)}
+                                SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
                                 for (variableIndex3 in 0 until variablesLocal.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }

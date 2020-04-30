@@ -2,9 +2,9 @@ package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
+import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s00misc.*
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -41,12 +41,12 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
         }
         if (variables.size == 0) {
             val variables2 = children[0].getProvidedVariableNames()
-SanityCheck{
-            SanityCheck.check{variables2.size > 0}
-            for (variable in variables2) {
-                SanityCheck.check{child.columns[variable] != null}
+            SanityCheck {
+                SanityCheck.check { variables2.size > 0 }
+                for (variable in variables2) {
+                    SanityCheck.check { child.columns[variable] != null }
+                }
             }
-}
             val column = child.columns[variables2[0]]!!
             val res = ColumnIteratorRow(outMap)
             res.hasNext = {
@@ -55,7 +55,7 @@ SanityCheck{
             return res
         } else {
             for (variable in variables) {
-                SanityCheck.check{child.columns[variable] != null}
+                SanityCheck.check { child.columns[variable] != null }
                 outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
             }
             return ColumnIteratorRow(outMap)

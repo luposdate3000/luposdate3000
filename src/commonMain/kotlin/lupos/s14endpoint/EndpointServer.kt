@@ -91,27 +91,27 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 if (data.startsWith("@prefix", column)) {
                     column = skipAllSepatators(data, column + "@prefix".length)
                     var t = data.indexOf(':', column)
-                    SanityCheck.check{t >= column}
+                    SanityCheck.check { t >= column }
                     val key = data.substring(column, t)
                     column = skipAllSepatators(data, t + 1)
-                    SanityCheck.check{data[column] == '<'}
+                    SanityCheck.check { data[column] == '<' }
                     column++
                     t = data.indexOf('>', column)
-                    SanityCheck.check{t > column}
+                    SanityCheck.check { t > column }
                     var value = data.substring(column, t)
                     column = skipAllSepatators(data, t + 1)
-                    SanityCheck.check{data[column] == '.'}
+                    SanityCheck.check { data[column] == '.' }
                     column++
                     prefixes[key] = value
                 } else if (data.startsWith("@base", column)) {
                     column = skipAllSepatators(data, column + "@base".length)
-                    SanityCheck.check{data[column] == '<'}
+                    SanityCheck.check { data[column] == '<' }
                     column++
                     var t = data.indexOf('>', column)
-                    SanityCheck.check{t > column}
+                    SanityCheck.check { t > column }
                     var value = data.substring(column, t)
                     column = skipAllSepatators(data, t + 1)
-                    SanityCheck.check{data[column] == '.'}
+                    SanityCheck.check { data[column] == '.' }
                     column++
                     prefixes[""] = value
                 } else {
@@ -172,7 +172,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     when (data[start]) {
                         '[' -> {
                             withinGeneratedOBnode = true
-                            SanityCheck.check{nextType == 2}
+                            SanityCheck.check { nextType == 2 }
                             currentTriple[2] = nodeGlobalDictionary.createNewBNode()
                             bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
                             if (bulk.full()) {
@@ -182,7 +182,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             nextType = 0
                         }
                         'a' -> {
-                            SanityCheck.check{column == start + 1}
+                            SanityCheck.check { column == start + 1 }
                             currentTriple[nextType] = nodeGlobalDictionary.createIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
                         }
                         '_' -> {
@@ -193,7 +193,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         }
                         ':' -> {
                             val value = prefixes[""]
-                            SanityCheck.check{value != null}
+                            SanityCheck.check { value != null }
                             currentTriple[nextType] = nodeGlobalDictionary.createIri(value + data.substring(start + 1, column))
                         }
                         '"' /*"*/ -> {
@@ -235,25 +235,25 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             } else if (data.startsWith("false", start)) {
                                 currentTriple[nextType] = ResultSetDictionary.booleanFalseValue
                             } else {
-                                    if (isNumeric) {
-                                        if (containsExponent) {
-                                            currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(start, column).toDouble())
-                                        } else if (containsDot) {
-                                            currentTriple[nextType] = nodeGlobalDictionary.createDecimal(data.substring(start, column).toDouble())
-                                        } else {
-                                            currentTriple[nextType] = nodeGlobalDictionary.createInteger(data.substring(start, column).toInt())
-                                        }
+                                if (isNumeric) {
+                                    if (containsExponent) {
+                                        currentTriple[nextType] = nodeGlobalDictionary.createDouble(data.substring(start, column).toDouble())
+                                    } else if (containsDot) {
+                                        currentTriple[nextType] = nodeGlobalDictionary.createDecimal(data.substring(start, column).toDouble())
                                     } else {
-                                        var l = start - 10
-                                        var r = column + 10
-                                        if (l < 0) {
-                                            l = 0
-                                        }
-                                        if (r > data.length) {
-                                            r = data.length
-                                        }
-                                        throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
+                                        currentTriple[nextType] = nodeGlobalDictionary.createInteger(data.substring(start, column).toInt())
                                     }
+                                } else {
+                                    var l = start - 10
+                                    var r = column + 10
+                                    if (l < 0) {
+                                        l = 0
+                                    }
+                                    if (r > data.length) {
+                                        r = data.length
+                                    }
+                                    throw Exception("unable to parse '${data.substring(start, column)}' context: '${data.substring(l, r)}' $l $r $start $column")
+                                }
                             }
                         }
                     }
@@ -262,13 +262,13 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                         if (bulk.full()) {
                             onFull()
                         }
-			column = skipAllSepatators(data, column)
+                        column = skipAllSepatators(data, column)
                         if (withinGeneratedOBnode) {
                             if (data[column] == ']') {
                                 withinGeneratedOBnode = false
                                 column = skipAllSepatators(data, column + 1)
                             } else {
-                                SanityCheck.check{data[column] != '.'}
+                                SanityCheck.check { data[column] != '.' }
                             }
                         }
                         when (data[column]) {
@@ -282,15 +282,15 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                                 nextType = 2
                             }
                             else -> {
-var l = start - 10
-                                    var r = column + 10
-                                    if (l < 0) {
-                                        l = 0
-                                    }
-                                    if (r > data.length) {
-                                        r = data.length
-                                    }
-                                throw Exception("not allowed termination sign ${data[column].toInt()} context: '${data.substring(l, r)}'" )
+                                var l = start - 10
+                                var r = column + 10
+                                if (l < 0) {
+                                    l = 0
+                                }
+                                if (r > data.length) {
+                                    r = data.length
+                                }
+                                throw Exception("not allowed termination sign ${data[column].toInt()} context: '${data.substring(l, r)}'")
                             }
                         }
                         column++
@@ -317,9 +317,9 @@ var l = start - 10
         for (fileName in fileNames.split(";")) {
             iterateTurtleData(fileName, bulk, { bulk.sort();store.bulkImport(bulk);bulk.reset() })
         }
-//        println("ready")
-//        Thread.sleep(20000)
-//        println("not ready")
+        println("ready")
+        Thread.sleep(20000)
+        println("not ready")
         bulk.sort()
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()

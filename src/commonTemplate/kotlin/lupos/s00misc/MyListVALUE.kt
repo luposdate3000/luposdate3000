@@ -106,12 +106,12 @@ class MyListVALUEGDEF {
     }
 
     inline operator fun get(idx: Int): VALUE {
-        SanityCheck.check{idx < size}
+        SanityCheck.check { idx < size }
         var tmp = page
         var offset = 0
         while (offset + tmp.size <= idx) {
             offset += tmp.size
-            SanityCheck.check{tmp.next != null}
+            SanityCheck.check { tmp.next != null }
             tmp = tmp.next!!
         }
         return tmp.data[idx - offset] as VALUE
@@ -159,7 +159,7 @@ class MyListVALUEGDEF {
     }
 
     inline operator fun set(idx: Int, value: VALUE) {
-        SanityCheck.check{idx <= size}
+        SanityCheck.check { idx <= size }
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -187,7 +187,7 @@ class MyListVALUEGDEF {
     }
 
     fun add(idx: Int, value: VALUE) {
-SanityCheck.check{idx<=size}
+        SanityCheck.check { idx <= size }
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -264,8 +264,8 @@ SanityCheck.check{idx<=size}
             tmp = tmp.next!!
         }
         res.append("]")
-        SanityCheck.check{totalsize == size}
-        SanityCheck.check{tmp == lastpage}
+        SanityCheck.check { totalsize == size }
+        SanityCheck.check { tmp == lastpage }
         return res.toString()
     }
 
@@ -299,7 +299,7 @@ SanityCheck.check{idx<=size}
         var data: ARRAYTYPE
 
         inline fun reserve(capacity: Int) {
-            SanityCheck.check{capacity <= MyListVALUE.capacity}
+            SanityCheck.check { capacity <= MyListVALUE.capacity }
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = ARRAYTYPE(capacity) ARRAYINITIALIZER
@@ -341,7 +341,7 @@ SanityCheck.check{idx<=size}
         }
 
         inline operator fun set(idx: Int, value: VALUE) {
-            SanityCheck.check{idx <= size}
+            SanityCheck.check { idx <= size }
             if (idx == size) {
                 add(value)
             } else {
@@ -361,7 +361,7 @@ SanityCheck.check{idx<=size}
 
         fun removeAt(idx: Int): VALUE {
             val res = data[idx]
-            SanityCheck.check{idx < size}
+            SanityCheck.check { idx < size }
             for (i in idx until size) {
                 data[i] = data[i + 1]
             }

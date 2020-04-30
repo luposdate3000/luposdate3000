@@ -1,8 +1,8 @@
 package lupos.s14endpoint
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.*
+import lupos.s00misc.Coverage
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.*
@@ -74,7 +74,7 @@ fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: S
 
 fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): List<String> {
     val res = mutableListOf<String>()
-    SanityCheck.check{node["projectedVariables"] != null}
+    SanityCheck.check { node["projectedVariables"] != null }
     for (c in node["projectedVariables"]!!.childs) {
         res.add(c.attributes["name"]!!)
     }
