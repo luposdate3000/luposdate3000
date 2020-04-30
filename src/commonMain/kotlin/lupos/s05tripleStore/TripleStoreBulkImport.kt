@@ -22,7 +22,9 @@ class TripleStoreBulkImport {
         data[8][idx++] = pi
         data[8][idx++] = oi
     }
-
+fun reset(){
+idx=0
+}
     fun full() = idx >= size
     fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
         //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
@@ -34,10 +36,10 @@ class TripleStoreBulkImport {
         if (count < mid) {
             b = a
             a = aEnd
-            println("assuming $off $count")
+            //println("assuming $off $count")
         } else {
-            println("assuming $off $mid")
-            println("assuming ${off + mid} ${count - mid}")
+            //println("assuming $off $mid")
+            //println("assuming ${off + mid} ${count - mid}")
         }
         loop@ while (a < aEnd && b < bEnd) {
             for (i in 0 until 3) {
@@ -70,7 +72,7 @@ class TripleStoreBulkImport {
             target[c++] = source[b++]
             target[c++] = source[b++]
         }
-        println("providing $off $count")
+        //println("providing $off $count")
     }
 
     fun debug(d: IntArray) {
@@ -83,8 +85,8 @@ class TripleStoreBulkImport {
 
     fun sort() {
 //the target data is sorted, but may contain duplicates, _if the input contains those
-        println("beforeSort")
-        debug(data[8])
+        //println("beforeSort")
+        //debug(data[8])
         val total = idx / 3
         var off = IntArray(3)
         var shift = IntArray(3)
@@ -110,9 +112,9 @@ class TripleStoreBulkImport {
                     shift[i] = 0
                     count[i] = 1 shl shift[i]
                     var first = true
-                    println("base-loop ${count[i]} ${count[i] / 2} ${total}")
+                    //println("base-loop ${count[i]} ${count[i] / 2} ${total}")
                     while (count[i] / 2 < total) {
-                        println("current count ${count[i]}")
+                        //println("current count ${count[i]}")
                         off[i] = 0
                         shift[i]++
                         count[i] = 1 shl shift[i]
@@ -121,14 +123,14 @@ class TripleStoreBulkImport {
                             first = false
                             sourceIdx = 8
                         }
-                        println("current source $sourceIdx")
+                        //println("current source $sourceIdx")
                         while (off[i] + count[i] <= total) {
-                            println("sorting1 $i ${off[i]} ${count[i] / 2} ${count[i]}")
+                            //println("sorting1 $i ${off[i]} ${count[i] / 2} ${count[i]}")
                             mergeSort(data[sourceIdx], data[3 + i], off[i], count[i] / 2, count[i], orders[i * 2 + j])
                             off[i] += count[i]
                         }
                         if (off[i] < total) {
-                            println("sorting2 $i ${off[i]} ${count[i] / 2} ${total - off[i]}")
+                            //println("sorting2 $i ${off[i]} ${count[i] / 2} ${total - off[i]}")
                             mergeSort(data[sourceIdx], data[3 + i], off[i], count[i] / 2, total - off[i], orders[i * 2 + j])
                         }
                         var t = data[i]
@@ -146,12 +148,13 @@ class TripleStoreBulkImport {
                     data[6] = dataSPO
                     data[7] = dataPSO
                     data[8] = dataOSP
-                    println("SPO")
+/*                    println("SPO")
                     debug(dataSPO)
                     println("PSO")
                     debug(dataPSO)
                     println("OSP")
                     debug(dataOSP)
+*/
                 } else {
                     dataSOP = data[0]
                     dataPOS = data[1]
@@ -160,17 +163,17 @@ class TripleStoreBulkImport {
             }
         }
         println("<<<<<<<<<<")
-        println("SPO")
+        println("SPO"+dataSPO)
         debug(dataSPO)
-        println("PSO")
+        println("PSO"+dataPSO)
         debug(dataPSO)
-        println("OSP")
+        println("OSP"+dataOSP)
         debug(dataOSP)
-        println("SOP")
+        println("SOP"+dataSOP)
         debug(dataSOP)
-        println("POS")
+        println("POS"+dataPOS)
         debug(dataPOS)
-        println("OPS")
+        println("OPS"+dataOPS)
         debug(dataOPS)
     }
 }

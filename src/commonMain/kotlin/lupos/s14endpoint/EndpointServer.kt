@@ -154,7 +154,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                             currentTriple[2] = nodeGlobalDictionary.createNewBNode()
                             bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
                             if (bulk.full()) {
-                                bulk.sort()
                                 onFull()
                             }
                             currentTriple[0] = currentTriple[2]
@@ -258,7 +257,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     if (nextType == 2) {
                         bulk.insert(currentTriple[0], currentTriple[1], currentTriple[2])
                         if (bulk.full()) {
-                            bulk.sort()
                             onFull()
                         }
                         while (column < data.length && data[column] == ' ') {
@@ -308,7 +306,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         var counter = 0
         var store = DistributedTripleStore.getDefaultGraph(query)
         for (fileName in fileNames.split(";")) {
-            iterateTurtleData(fileName, bulk, { store.bulkImport(bulk) })
+            iterateTurtleData(fileName, bulk, { bulk.sort();store.bulkImport(bulk);bulk.reset() })
         }
 //        println("ready")
 //        Thread.sleep(20000)
