@@ -40,15 +40,25 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         index1.clear()
         index2.clear()
         var idx = 0
-        val size0 = data[idx++]
+var iterator=data.iterator()
+        val size0 = iterator.next()
+idx++
         for (i0 in 0 until size0) {
-            val key0 = data[idx++]
+            val key0 = iterator.next()
+idx++
             index1[key0] = idx
-            val size1 = data[idx++]
+            val size1 = iterator.next()
+idx++
             for (i1 in 0 until size1) {
-                val key1 = data[idx++]
+                val key1 = iterator.next()
+idx++
                 index2[(key0.toLong() shl 32) + key1] = idx
-                idx += data[idx] + 1
+var c=iterator.next()
+idx++
+for(i in 0 until c){
+iterator.next()
+}
+                idx += c
             }
         }
         println("finish rebuild map")

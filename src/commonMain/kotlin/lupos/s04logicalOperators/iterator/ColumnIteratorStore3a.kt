@@ -10,9 +10,10 @@ class ColumnIteratorStore3a(val values: MyListValue) : ColumnIterator() {
     var counterSecondary: Int
     var counterTerniary: Int
     var index = 5
-    var value = values[1]
+    var value :Value
 
     init {
+value = values[1]
         if (values.size > 4) {
             counterPrimary = values[0] - 1
             counterSecondary = values[2] - 1

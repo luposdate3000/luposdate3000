@@ -77,9 +77,9 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }, ltit).turtleDoc()
 //            iterateTurtleData(fileName, bulk, { bulk.sort();store.bulkImport(bulk);bulk.reset() })
         }
-        println("ready")
-        Thread.sleep(20000)
-        println("not ready")
+//        println("ready")
+//        Thread.sleep(20000)
+//        println("not ready")
         bulk.sort()
         store.bulkImport(bulk)
         return XMLElement("success $counter").toString()
