@@ -4,64 +4,71 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetDoubleBTree(val t: Int) {
-    var root: MySetDoubleBTreeNode? = null
+class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t: Int) {
+    var root: MyMapGenericGenericBTreeNode<GenericK, GenericV>? = null
     var size = 0
 
     constructor() : this(512)
 
-    class MySetDoubleBTreeNodeIterator(val node: MySetDoubleBTreeNode) : Iterator<Double> {
+open    class MyMapGenericGenericBTreeNodeIterator<GenericK : Comparable<GenericK>, GenericV>(val node: MyMapGenericGenericBTreeNode<GenericK, GenericV>?) : Iterator<GenericK> {
+
         var i = 0
-        var childIterator = node.C[0]!!.iterator()
+        var childIterator = node!!.C[0]!!.iterator()
+        var v: GenericV = node!!.values[0] as GenericV
         override fun hasNext(): Boolean {
-            if (node.leaf) {
+            if (node!!.leaf) {
                 return i < node.n
             } else {
                 return i < node.n || (i == node.n && childIterator.hasNext())
             }
         }
 
-        override fun next(): Double {
-            if (node.leaf) {
-                return node.keys[i++] as Double
+        override fun next(): GenericK {
+            if (node!!.leaf) {
+                v = node.values[i] as GenericV
+                return node.keys[i++] as GenericK
             } else {
                 if (childIterator.hasNext()) {
                     return childIterator.next()
                 } else {
                     childIterator = node.C[i + 1]!!.iterator()
-                    return node.keys[i++] as Double
+                    v = node.values[i] as GenericV
+                    return node.keys[i++] as GenericK
                 }
             }
         }
+fun value()=v
     }
 
-    class MySetDoubleBTreeNode(val t: Int, val leaf: Boolean) {
-        val keys = DoubleArray(2 * t - 1) 
-        val C = Array<MySetDoubleBTreeNode?>(2 * t) { null }
+    class MyMapGenericGenericBTreeNode<GenericK : Comparable<GenericK>, GenericV>(val t: Int, val leaf: Boolean) {
+        val keys = Array<Any?>(2 * t - 1) {null}
+        val values = Array<Any?>(2 * t - 1) {null}
+        val C = Array<MyMapGenericGenericBTreeNode<GenericK, GenericV>?>(2 * t) { null }
         var n = 0
         fun free() {
             /*later when buffer-manager is used*/
         }
 
-        fun iterator() = MySetDoubleBTreeNodeIterator(this)
-        fun findDouble(k: Double): Int {
+        fun iterator() = MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>(this)
+        fun findGenericK(k: GenericK): Int {
             var idx = 0
-            while (idx < n && (keys[idx] as Double) < k) {
+            while (idx < n && (keys[idx] as GenericK) < k) {
                 idx++
             }
             return idx
         }
 
-        fun remove(k: Double): Double? {
-            val idx = findDouble(k)
-            val key = keys[idx] as Double
+        fun remove(k: GenericK): Pair<GenericK, GenericV>? {
+            val idx = findGenericK(k)
+            val key = keys[idx] as GenericK
+            val value = values[idx] as GenericV
             if (idx < n && key == k) {
                 if (leaf) {
                     removeFromLeaf(idx)
                 } else {
                     removeFromNonLeaf(idx)
                 }
-                return key
+                return Pair(key, value)
             } else if (!leaf) {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
@@ -80,40 +87,35 @@ class MySetDoubleBTree(val t: Int) {
         fun removeFromLeaf(idx: Int) {
             for (i in idx + 1 until n) {
                 keys[i - 1] = keys[i]
+                values[i - 1] = values[i]
             }
             n--
         }
 
         fun removeFromNonLeaf(idx: Int) {
-            val k = keys[idx] as Double
+            val k = keys[idx] as GenericK
             if (C[idx]!!.n >= t) {
-                val pred = getPred(idx)
+                var cur = C[idx]!!
+                while (!cur.leaf) {
+                    cur = cur.C[cur.n]!!
+                }
+                val pred = cur.keys[cur.n - 1] as GenericK
                 keys[idx] = pred
+                values[idx] = cur.values[cur.n - 1] as GenericV
                 C[idx]!!.remove(pred)
             } else if (C[idx + 1]!!.n >= t) {
-                val succ = getSucc(idx)
+                var cur = C[idx + 1]!!
+                while (!cur.leaf) {
+                    cur = cur.C[0]!!
+                }
+                val succ = cur.keys[0] as GenericK
                 keys[idx] = succ
+                values[idx] = cur.values[0] as GenericV
                 C[idx + 1]!!.remove(succ)
             } else {
                 merge(idx)
                 C[idx]!!.remove(k)
             }
-        }
-
-        fun getPred(idx: Int): Double {
-            var cur = C[idx]!!
-            while (!cur.leaf) {
-                cur = cur.C[cur.n]!!
-            }
-            return cur.keys[cur.n - 1] as Double
-        }
-
-        fun getSucc(idx: Int): Double {
-            var cur = C[idx + 1]!!
-            while (!cur.leaf) {
-                cur = cur.C[0]!!
-            }
-            return cur.keys[0] as Double
         }
 
         fun fill(idx: Int) {
@@ -134,6 +136,7 @@ class MySetDoubleBTree(val t: Int) {
             var i = child.n - 1
             while (i >= 0) {
                 child.keys[i + 1] = child.keys[i]
+                child.values[i + 1] = child.values[i]
                 i--
             }
             if (!child.leaf) {
@@ -143,10 +146,12 @@ class MySetDoubleBTree(val t: Int) {
                     i--
                 }
                 child.keys[0] = keys[idx - 1]
+                child.values[0] = values[idx - 1]
                 if (!child.leaf) {
                     child.C[0] = sibling.C[sibling.n]
                 }
                 keys[idx - 1] = sibling.keys[sibling.n - 1]
+                values[idx - 1] = sibling.values[sibling.n - 1]
                 child.n++
                 sibling.n--
             }
@@ -156,12 +161,15 @@ class MySetDoubleBTree(val t: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
             child.keys[child.n] = keys[idx]
+            child.values[child.n] = values[idx]
             if (!child.leaf) {
                 child.C[child.n + 1] = sibling.C[0]
             }
             keys[idx] = sibling.keys[0]
+            values[idx] = sibling.values[0]
             for (i in 1 until sibling.n) {
                 sibling.keys[i - 1] = sibling.keys[i]
+                sibling.values[i - 1] = sibling.values[i]
             }
             if (!sibling.leaf) {
                 for (i in 1 until sibling.n + 1) {
@@ -176,8 +184,10 @@ class MySetDoubleBTree(val t: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
             child.keys[t - 1] = keys[idx]
+            child.values[t - 1] = values[idx]
             for (i in 0 until sibling.n) {
                 child.keys[i + t] = sibling.keys[i]
+                child.values[i + t] = sibling.values[i]
             }
             if (!child.leaf) {
                 for (i in 0 until sibling.n + 1) {
@@ -186,6 +196,7 @@ class MySetDoubleBTree(val t: Int) {
             }
             for (i in idx + 1 until n) {
                 keys[i - 1] = keys[i]
+                values[i - 1] = values[i]
             }
             for (i in idx + 2 until n + 1) {
                 C[i - 1] = C[i]
@@ -195,24 +206,24 @@ class MySetDoubleBTree(val t: Int) {
             sibling.free()
         }
 
-        fun forEach(action: (Double) -> Unit) {
+        fun forEach(action: (GenericK, GenericV) -> Unit) {
             for (i in 0 until n) {
                 if (!leaf) {
                     C[i]!!.forEach(action)
                 }
-                action(keys[i] as Double)
+                action(keys[i] as GenericK, values[i] as GenericV)
             }
             if (!leaf) {
                 C[n]!!.forEach(action)
             }
         }
 
-        fun search(k: Double): Boolean {
+        fun search(k: GenericK): Boolean {
             var i = 0
-            while (i < n && k > (keys[i] as Double)) {
+            while (i < n && k > (keys[i] as GenericK)) {
                 i++
             }
-            if ((keys[i] as Double) == k) {
+            if ((keys[i] as GenericK) == k) {
                 return true
             } else if (leaf) {
                 return false
@@ -221,44 +232,47 @@ class MySetDoubleBTree(val t: Int) {
             }
         }
 
-        fun insertNonFull(k: Double, onCreate: () -> Unit = {}, onExists: (Double) -> Unit = {}) {
+        fun insertNonFull(k: GenericK, v: GenericV, onCreate: () -> Unit = {}, onExists: (GenericK, GenericV) -> Unit = {a,b->}) {
             var i = n - 1
             var found = false
-            for (i in 0 until n) {
-                if (keys[i] as Double == k) {
-                    onExists(keys[i] as Double)
+            for (j in 0 until n) {
+                if (keys[j] as GenericK == k) {
+                    onExists(keys[j] as GenericK, values[j] as GenericV)
                     found = true
                     break
                 }
             }
             if (!found) {
                 if (leaf) {
-                    while (i >= 0 && (keys[i] as Double > k)) {
+                    while (i >= 0 && (keys[i] as GenericK > k)) {
                         keys[i + 1] = keys[i]
+                        values[i + 1] = values[i]
                         i--
                     }
                     keys[i + 1] = k
+                    values[i + 1] = v
                     n++
                 } else {
-                    while (i >= 0 && (keys[i] as Double) > k) {
+                    while (i >= 0 && (keys[i] as GenericK) > k) {
                         i--
                     }
                     if (C[i + 1]!!.n == 2 * t - 1) {
                         splitChild(i + 1, C[i + 1]!!)
-                        if ((keys[i + 1] as Double) < k) {
+                        if ((keys[i + 1] as GenericK) < k) {
                             i++
                         }
                     }
-                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
+                    C[i + 1]!!.insertNonFull(k, v, onCreate, onExists)
                 }
             }
         }
 
-        fun splitChild(i: Int, y: MySetDoubleBTreeNode) {
-            val z = MySetDoubleBTreeNode(y.t, y.leaf)
+        fun splitChild(i: Int, y: MyMapGenericGenericBTreeNode<GenericK, GenericV>) {
+            val z = MyMapGenericGenericBTreeNode<GenericK, GenericV>(y.t, y.leaf)
             z.n = t - 1
             for (j in 0 until t - 1) {
                 z.keys[j] = y.keys[j + t]
+                z.values[j] = y.values[j + t]
             }
             if (leaf == false) {
                 for (j in 0 until t) {
@@ -275,48 +289,51 @@ class MySetDoubleBTree(val t: Int) {
             j = n - 1
             while (j >= i) {
                 keys[j + 1] = keys[j]
+                values[j + 1] = values[j]
                 j--
             }
             keys[i] = y.keys[t - 1]
+            values[i] = y.values[t - 1]
             n++
         }
     }
 
-    fun add(k: Double, onCreate: () -> Unit = {}, onExists: (Double) -> Unit = {}) {
+    fun add(k: GenericK, v: GenericV, onCreate: () -> Unit = {}, onExists: (GenericK, GenericV) -> Unit = {a,b->}) {
         if (root == null) {
-            root = MySetDoubleBTreeNode(t, true)
+            root = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, true)
             root!!.keys[0] = k
+            root!!.values[0] = v
             root!!.n = 1
             size++
             onCreate()
         } else if (root!!.n == 2 * t - 1) {
-            val s = MySetDoubleBTreeNode(t, false)
+            val s = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, false)
             s.C[0] = root
             s.splitChild(0, root!!)
             var i = 0
-            if ((s.keys[0] as Double) < k) {
+            if ((s.keys[0] as GenericK) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k, {
+            s.C[i]!!.insertNonFull(k, v, {
                 size++
                 onCreate()
             }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k, {
+            root!!.insertNonFull(k, v, {
                 size++
                 onCreate()
             }, onExists)
         }
     }
 
-    fun forEach(action: (Double) -> Unit) {
+    fun forEach(action: (GenericK, GenericV) -> Unit) {
         if (root != null) {
             root!!.forEach(action)
         }
     }
 
-    fun contains(k: Double): Boolean {
+    fun contains(k: GenericK): Boolean {
         if (root == null) {
             return false
         } else {
@@ -324,7 +341,7 @@ class MySetDoubleBTree(val t: Int) {
         }
     }
 
-    fun remove(k: Double): Double? {
+    fun remove(k: GenericK): Pair<GenericK, GenericV>? {
         if (root != null) {
             val res = root!!.remove(k)
             if (res != null) {
@@ -344,20 +361,20 @@ class MySetDoubleBTree(val t: Int) {
         return null
     }
 
-    fun appendAssumeSorted(key: Double) {
-        add(key, {}, {})
+    fun appendAssumeSorted(key: GenericK, value: GenericV) {
+        add(key, value, {}, {a,b->})
     }
 
-    fun iterator(): Iterator<Double> {
+    fun iterator(): MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV> {
         if (root != null) {
             return root!!.iterator()
         } else {
-            return EmptyIterator()
+            return EmptyIterator<GenericK, GenericV>()
         }
     }
 
-    class EmptyIterator : Iterator<Double> {
+    class EmptyIterator<GenericK : Comparable<GenericK>, GenericV> : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>(null) {
         override fun hasNext() = false
-        override fun next(): Double = throw Exception("unreachable")
+        override fun next(): GenericK = throw Exception("unreachable")
     }
 }
