@@ -392,6 +392,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPJoinMerge" -> {
             return POPJoinMerge(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
+        "POPJoinMergeSingleColumn" -> {
+            return POPJoinMergeSingleColumn(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+        }
         "POPJoinWithStore" -> {
             return POPJoinWithStore(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
         }

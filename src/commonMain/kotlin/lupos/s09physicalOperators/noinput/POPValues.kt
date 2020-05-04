@@ -110,7 +110,7 @@ open class POPValues : POPBase {
             SanityCheck.check({ v is AOPValue })
             val it = v.children.iterator()
             for (variableIndex in 0 until variables.size) {
-                columns[variableIndex].add(query.dictionary.createValue((it.next() as AOPConstant).value))
+                columns[variableIndex].add((it.next() as AOPConstant).value)
             }
         }
     }

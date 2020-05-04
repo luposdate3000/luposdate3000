@@ -66,7 +66,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
                     tmp = Array(3) { MyListValue() }
                     iteratorDataMap[t.graph] = tmp
                 }
-                tmp[i].add(query.dictionary.createValue((t.children[i] as AOPConstant).value))
+                tmp[i].add((t.children[i] as AOPConstant).value)
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {

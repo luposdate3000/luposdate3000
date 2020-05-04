@@ -53,10 +53,11 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     var order = arrayOf<IntArray>()
     @JvmField
     var dataDistinct = arrayOf<Pair<String, TripleStoreIndex>>()
-companion object{
-@JvmField
-var distinctIndices=arrayOf<EIndexPattern>()
-}
+
+    companion object {
+        @JvmField
+        var distinctIndices = arrayOf<EIndexPattern>()
+    }
 
     fun safeToFolder(foldername: String) {
         dataDistinct.forEach {
@@ -71,20 +72,20 @@ var distinctIndices=arrayOf<EIndexPattern>()
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
-        val filter = MyListValue()
+        val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
             val i = order[idx.ordinal][ii]
             val param = params[i]
             if (param is AOPConstant) {
                 SanityCheck.check { filter.size == ii }
-                filter.add(nodeGlobalDictionary.createValue(param.value))
+                filter.add(nodeGlobalDictionary.valueToGlobal(param.value))
             } else {
                 SanityCheck.check { param is AOPVariable }
                 projection.add((param as AOPVariable).name)
             }
         }
-        return data[idx.ordinal].getIterator(query, filter, projection.toTypedArray())
+        return data[idx.ordinal].getIterator(query, filter, projection)
     }
 
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
@@ -108,6 +109,8 @@ var distinctIndices=arrayOf<EIndexPattern>()
                 data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, order[idx.ordinal])
             }
         }
+        println("imported $idx")
+        data[idx.ordinal].printContents()
     }
 
     @JvmField

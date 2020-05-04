@@ -21,7 +21,7 @@ import lupos.s09physicalOperators.POPBase
 
 class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
     override fun toSparql(): String {
-        if (children[1] is AOPConstant && (children[1] as AOPConstant).value is ValueUndef) {
+        if (children[1] is AOPConstant && (children[1] as AOPConstant).value == ResultSetDictionary.undefValue) {
             return children[0].toSparql()
         }
         var res = "{SELECT "

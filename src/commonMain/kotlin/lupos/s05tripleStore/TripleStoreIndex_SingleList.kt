@@ -40,24 +40,24 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         index1.clear()
         index2.clear()
         var idx = 0
-var iterator=data.iterator()
+        var iterator = data.iterator()
         val size0 = iterator.next()
-idx++
+        idx++
         for (i0 in 0 until size0) {
             val key0 = iterator.next()
-idx++
+            idx++
             index1[key0] = idx
             val size1 = iterator.next()
-idx++
+            idx++
             for (i1 in 0 until size1) {
                 val key1 = iterator.next()
-idx++
+                idx++
                 index2[(key0.toLong() shl 32) + key1] = idx
-var c=iterator.next()
-idx++
-for(i in 0 until c){
-iterator.next()
-}
+                var c = iterator.next()
+                idx++
+                for (i in 0 until c) {
+                    iterator.next()
+                }
                 idx += c
             }
         }
@@ -77,7 +77,27 @@ iterator.next()
         var storeIteratorCounter = 1L
     }
 
-    override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
+    override fun printContents() {
+        SanityCheck {
+            CoroutinesHelper.runBlock {
+                val ai = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3a(data))
+                val bi = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3b(data))
+                val ci = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3c(data))
+                var a = ai.next()
+                var b = bi.next()
+                var c = ci.next()
+                while (a != null) {
+                    println("store content ::: $a $b $c")
+                    a = ai.next()
+                    b = bi.next()
+                    c = ci.next()
+                }
+            }
+        }
+    }
+
+    override fun getIterator(query: Query, filter: List<Value>, projection: List<String>): ColumnIteratorRow {
+        println("TripleStoreIndex_SingleList getIterator filter ${filter.map { it }}")
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
 //BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
@@ -109,6 +129,30 @@ iterator.next()
                         res.count = data[idx]
                     } else {
                         columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore1(data, idx))
+                    }
+                } else {
+                    SanityCheck {
+                        CoroutinesHelper.runBlock {
+                            val ai = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
+                            val bi = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3b(data))
+                            var a = ai.next()
+                            var b = bi.next()
+                            println("store ::: $a $b")
+                            while (a != null) {
+                                if (a == filter[0] && b == filter[1]) {
+                                    throw Exception("found the requested data, but not within index ${key.toString(16)} ${filter[0].toString(16)} ${filter[1].toString(16)}")
+                                } else if (a == filter[1] && b == filter[0]) {
+                                    println("found the requested data, but not within index (inversed - may be correct?)")
+                                }
+                                var a2 = ai.next()
+                                var b2 = bi.next()
+                                if (a != a2 || b != b2) {
+                                    println("store ::: $a2 $b2")
+                                }
+                                a = a2
+                                b = b2
+                            }
+                        }
                     }
                 }
             } else if (filter.size == 1) {
@@ -234,7 +278,7 @@ iterator.next()
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
-            println("start import ${count/3}")
+            println("start import ${count / 3}")
             SanityCheck {
                 for (i in 1 until count / 3) {
                     val xx1 = (i - 1) * 3 + order[0]

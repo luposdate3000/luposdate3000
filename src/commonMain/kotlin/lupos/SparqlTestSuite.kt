@@ -48,17 +48,18 @@ class SparqlTestSuite() {
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-            val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
+            val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7", "q12b-1", "q12b-2", "q12b-3", "q12b-4")
             val inputDataFile = "resources/sp2b/sp2b.n3"
             for (f in sp2bFiles) {
                 GlobalLogger.log(ELoggerType.RELEASE, { "  Test: sp2b/$f" })
                 val queryFile = "resources/sp2b/$f.sparql"
-                val resultFile = "resources/sp2b/$f.srj"
+                val resultFile = "resources/sp2b/$f.srx"
                 CoroutinesHelper.runBlock {
                     parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                 }
             }
         }
+        nodeGlobalDictionary.printContents()
     }
 
     private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
@@ -537,6 +538,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     val jenaResult = JenaWrapper.execQuery(toParse)
                     val jenaXML = XMLElement.parseFromXml(jenaResult)
+//println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                     if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })

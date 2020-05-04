@@ -98,7 +98,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                 loop2@ for (columnIndex in 0 until 3) {
                     val tmp = action.first.children[columnIndex]
                     if (tmp is AOPConstant) {
-                        target[columnIndex].add(query.dictionary.createValue(tmp.value))
+                        target[columnIndex].add(tmp.value)
                     } else {
                         for (columnIndex2 in 0 until variables.size) {
                             if (variables[columnIndex2] == (tmp as AOPVariable).name) {

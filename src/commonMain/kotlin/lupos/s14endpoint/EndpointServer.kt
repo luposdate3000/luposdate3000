@@ -52,6 +52,14 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     @JvmField
     val fullname = hostname + ":" + port
 
+    fun process_turtle_input_helper(dict: MyMapStringIntPatriciaTrie, v: String): Value {
+        if (v.startsWith("_:")) {
+            return dict.getOrCreate(v, { nodeGlobalDictionary.createNewBNode() })
+        } else {
+            return nodeGlobalDictionary.createValue(v)
+        }
+    }
+
     /*
     incoming bulk import
     */
@@ -60,13 +68,17 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         var bulk = TripleStoreBulkImport()
         var counter = 0
         var store = DistributedTripleStore.getDefaultGraph(query)
+        val dict = MyMapStringIntPatriciaTrie()
         for (fileName in fileNames.split(";")) {
             val data = File(fileName).readAsString()
             val lcit = LexerCharIterator(data)
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             TurtleParserWithStringTriples({ s, p, o ->
-                bulk.insert(nodeGlobalDictionary.createValue(s), nodeGlobalDictionary.createValue(p), nodeGlobalDictionary.createValue(o))
+                bulk.insert(
+                        process_turtle_input_helper(dict, s),
+                        process_turtle_input_helper(dict, p),
+                        process_turtle_input_helper(dict, o))
                 if (bulk.full()) {
                     CoroutinesHelper.runBlock {
                         bulk.sort()
@@ -75,7 +87,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                     }
                 }
             }, ltit).turtleDoc()
-//            iterateTurtleData(fileName, bulk, { bulk.sort();store.bulkImport(bulk);bulk.reset() })
         }
 //        println("ready")
 //        Thread.sleep(20000)

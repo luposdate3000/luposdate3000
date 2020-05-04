@@ -345,6 +345,33 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
+    fun printContents() {
+        var base: Int
+        if (global) {
+            base = mask1
+        } else {
+            base = 0
+        }
+        for (i in 0 until iriList.size) {
+            println("dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriList[i]}")
+        }
+        for (i in 0 until typedList.size) {
+            println("dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedList[i]}")
+        }
+        for (i in 0 until intList.size) {
+            println("dict - int :: ${i + base + flaggedValueLocalInt} -> ${intList[i]}")
+        }
+        for (i in 0 until decimalList.size) {
+            println("dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalList[i]}")
+        }
+        for (i in 0 until doubleList.size) {
+            println("dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
+        }
+        for (i in 0 until langTaggedList.size) {
+            println("dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedList[i]}")
+        }
+    }
+
     fun valueToGlobal(value: Value): Value {
         if ((value and mask1) == mask1) {
             return value

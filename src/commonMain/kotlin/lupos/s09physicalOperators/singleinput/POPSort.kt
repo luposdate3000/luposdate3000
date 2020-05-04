@@ -53,6 +53,11 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
+        val projectedXML = XMLElement("projectedVariables")
+        res.addContent(projectedXML)
+        for (variable in projectedVariables) {
+            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
+        }
         res.addAttribute("uuid", "" + uuid)
         val sortByXML = XMLElement("by")
         res.addContent(sortByXML)

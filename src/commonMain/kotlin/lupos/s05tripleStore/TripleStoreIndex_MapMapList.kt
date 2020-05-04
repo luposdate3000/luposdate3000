@@ -23,6 +23,9 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
 
+    override fun printContents() {
+    }
+
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.values.size)
@@ -64,7 +67,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         }
     }
 
-    override fun getIterator(query: Query, filter: MyListValue, projection: Array<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: List<Value>, projection: List<String>): ColumnIteratorRow {
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
