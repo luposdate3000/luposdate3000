@@ -36,7 +36,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     fun rebuildMap() {
-        println("start rebuild map")
         index1.clear()
         index2.clear()
         var idx = 0
@@ -61,7 +60,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 idx += c
             }
         }
-        println("finish rebuild map")
     }
 
     override fun loadFromFolder(filename: String) {
@@ -97,7 +95,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     override fun getIterator(query: Query, filter: List<Value>, projection: List<String>): ColumnIteratorRow {
-        println("TripleStoreIndex_SingleList getIterator filter ${filter.map { it }}")
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
 //BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
@@ -278,8 +275,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
-            println("start import ${count / 3}")
             SanityCheck {
+                println("start import ${count / 3}")
                 for (i in 1 until count / 3) {
                     val xx1 = (i - 1) * 3 + order[0]
                     val xx2 = i * 3 + order[0]

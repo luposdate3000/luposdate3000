@@ -17,6 +17,14 @@ class MySetVALUEBinaryTreeGDEF {
         return data.iterator()
     }
 
+fun forEach(action:(VALUE)->Unit){
+var it=iterator()
+while(it.hasNext()){
+val v=it.next()
+action(v)
+}
+}
+
     constructor() {
     }
 

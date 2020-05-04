@@ -95,11 +95,12 @@ class MyListVALUEGDEF {
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
-            lastpage.next = MyListVALUEPageGDEF()
-            pagecount++
-            lastpage = lastpage.next!!
+            val next = MyListVALUEPageGDEF()
+            lastpage.next = next
+            lastpage = next
             lastpage.data[lastpage.size] = value
             lastpage.size++
+            pagecount++
         }
         size++
         shrinkToFit()
@@ -117,44 +118,60 @@ class MyListVALUEGDEF {
         return tmp.data[idx - offset] as VALUE
     }
 
+    fun removeInternal(prev: MyListVALUEPageGDEF, tmp: MyListVALUEPageGDEF, i: Int) {
+        if (tmp.size == 1) {
+            if (tmp == page) {
+                if (tmp.next != null) {
+//first page must not be null, and therefore is allowed to be empty
+                    page = tmp.next!!
+                }
+            } else {
+//remove page in the middle
+SanityCheck.check{prev!=tmp}
+                prev.next = tmp.next
+            }
+        } else {
+            for (j in i until tmp.size - 1){
+                tmp.data[j] = tmp.data[j + 1]
+	    }
+        }
+        tmp.size--
+        size--
+    }
+
     fun remove(value: VALUE): Boolean {
         var i = 0
-        var tmp: MyListVALUEPageGDEF? = page
+        var tmp = page
+        var prev = page
         while (i < size) {
             var j = 0
             while (j < tmp!!.size) {
                 if (tmp!!.data[j] == value) {
-                    while (j < tmp!!.size - 1) {
-                        tmp.data[j] = tmp.data[j + 1]
-                        j++
-                    }
-                    tmp.size--
-                    size--
+                    removeInternal(prev, tmp, j)
                     return true
                 }
                 j++
                 i++
             }
-            tmp = tmp.next
+            prev = tmp
+            tmp = tmp.next!!
         }
         return false
     }
 
     fun removeAt(idx: Int): VALUE {
+        SanityCheck.check { idx < size }
+        var prev = page
         var tmp = page
         var offset = 0
         while (offset + tmp.size < idx) {
             offset += tmp.size
+            prev = tmp
             tmp = tmp.next!!
         }
         var i = idx - offset
         var res = tmp.data[i] as VALUE
-        while (i < tmp.size - 1) {
-            tmp.data[i] = tmp.data[i + 1]
-            i++
-        }
-        tmp.size--
-        size--
+        removeInternal(prev, tmp, i)
         return res
     }
 
@@ -275,12 +292,10 @@ class MyListVALUEGDEF {
 
     class MyListVALUEIteratorGDEF(@JvmField val data: MyListVALUEGUSE) : Iterator<VALUE> {
         var tmp = data.page
-        var globalidx = 0
         var idx = 0
         override fun hasNext() = idx < tmp.size || tmp.next != null
         override fun next(): VALUE {
             if (idx == tmp.size) {
-                globalidx += idx
                 tmp = tmp.next!!
                 idx = 0
             }

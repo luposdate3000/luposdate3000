@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export JAVA_OPTS="-Xmx30g"
 #in milliseconds
 timemin=0
 #in seconds

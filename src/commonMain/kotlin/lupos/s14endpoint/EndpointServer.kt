@@ -88,11 +88,11 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
                 }
             }, ltit).turtleDoc()
         }
-//        println("ready")
-//        Thread.sleep(20000)
-//        println("not ready")
         bulk.sort()
         store.bulkImport(bulk)
+//        println("ready")
+//        Thread.sleep(20000)
+//        println("not ready ${bulk.idx}")
         return XMLElement("success $counter").toString()
     }
 
@@ -290,6 +290,9 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     }
 
     fun process_persistence_store(foldername: String): String {
+println("process_persistence_store $foldername")
+File(foldername).deleteRecursively()
+File(foldername).mkdirs()
         BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
         nodeGlobalDictionary.safeToFolder(foldername)
         var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_DICTIONARY)
@@ -299,6 +302,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         File(foldername + "/stores.txt").printWriter { out ->
             stores.keys.forEach { name ->
                 val store = stores[name]!!
+File(foldername + "/$idx").mkdirs()
                 store.safeToFolder(foldername + "/$idx")
                 out.println(name)
                 idx++

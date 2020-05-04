@@ -381,27 +381,27 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun safeToFolder(folderName: String) {
-        File(folderName + "bnode.count").dataOutputStream { out ->
+        File(folderName + "/bnode.count").dataOutputStream { out ->
             out.writeInt(bNodeCounter)
         }
-        iriMap.safeToFile(folderName + "iri.map")
-        langTaggedMap.safeToFile(folderName + "langTagged.map")
-        typedMap.safeToFile(folderName + "typed.map")
-        doubleMap.safeToFile(folderName + "double.map")
-        decimalMap.safeToFile(folderName + "decimal.map")
-        intMap.safeToFile(folderName + "int.map")
+        iriMap.safeToFile(folderName + "/iri.map")
+        langTaggedMap.safeToFile(folderName + "/langTagged.map")
+        typedMap.safeToFile(folderName + "/typed.map")
+        doubleMap.safeToFile(folderName + "/double.map")
+        decimalMap.safeToFile(folderName + "/decimal.map")
+        intMap.safeToFile(folderName + "/int.map")
     }
 
     fun loadFromFolder(folderName: String) {
-        File(folderName + "bnode.count").dataInputStream { fis ->
+        File(folderName + "/bnode.count").dataInputStream { fis ->
             bNodeCounter = fis.readInt()
         }
-        iriMap.loadFromFile(folderName + "iri.map")
-        langTaggedMap.loadFromFile(folderName + "langTagged.map")
-        typedMap.loadFromFile(folderName + "typed.map")
-        doubleMap.loadFromFile(folderName + "double.map")
-        decimalMap.loadFromFile(folderName + "decimal.map")
-        intMap.loadFromFile(folderName + "int.map")
+        iriMap.loadFromFile(folderName + "/iri.map")
+        langTaggedMap.loadFromFile(folderName + "/langTagged.map")
+        typedMap.loadFromFile(folderName + "/typed.map")
+        doubleMap.loadFromFile(folderName + "/double.map")
+        decimalMap.loadFromFile(folderName + "/decimal.map")
+        intMap.loadFromFile(folderName + "/int.map")
         iriList.reserve(iriMap.size)
         iriMap.forEach { k, v ->
             iriList[v] = k

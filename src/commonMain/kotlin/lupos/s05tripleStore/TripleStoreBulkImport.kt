@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.*
 class TripleStoreBulkImport {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
-    val sizeshift = 17
+    val sizeshift = 20
     val size = 3 * (1 shl sizeshift)
     val data = Array(9) { IntArray(size) }
     var idx = 0

@@ -1,26 +1,27 @@
 #!/bin/bash
+export JAVA_OPTS="-Xmx30g"
 
 #in seconds
 timemin=10
 
-triples=4194304
+triples=1024
 
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
 
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MapMapList Dummy Korio None Local Off BinaryTree None Empty
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  MapMapList Dummy Korio None Local Off Bisection Bisection None Empty
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/MapMap_BinaryTree_Empty.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off BinaryTree None Empty
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection Bisection None Empty
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Single_BinaryTree_Empty.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None Empty
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection HashMap None Empty
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_Empty.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None EmptyWithDictionary
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection HashMap None EmptyWithDictionary
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_EmptyWithDictionary.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap SingleList Dummy Korio None Local Off HashMap None XML
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection HashMap None XML
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_XML.x
 
@@ -39,6 +40,11 @@ echo "resources/sp2b/q10.sparql" >> log/queries
 echo "resources/sp2b/q12a.sparql" >> log/queries
 echo "resources/sp2b/q12b.sparql" >> log/queries
 echo "resources/sp2b/q12c.sparql" >> log/queries
+
+#!!!!!!!!!!!!
+echo "resources/sp2b/q12c.sparql" > log/queries
+#!!!!!!!!!!!!
+
 for version in "MapMap_BinaryTree_Empty" "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML"
 do
 	cp log/queries log/benchtmp/$version.queries
@@ -48,12 +54,12 @@ do
 	triplesfolder=/mnt/sp2b-testdata/${triples}
 	size=$(du -sbc ${triplesfolder}/*.n3 | grep total | sed 's/\t.*//g')
 	i=0
-	for version in "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML" "MapMap_BinaryTree_Empty"
+	for version in "Single_BinaryTree_Empty"
+#	for version in "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML" "MapMap_BinaryTree_Empty"
 	do
 		queries=$(paste -s -d ';' log/benchtmp/$version.queries)
 		if [ -n "$queries" ]
 		then
-			export JAVA_OPTS="-Xmx30g"
 			if [ $i -eq 0 ]
 			then
 				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" > log/benchtmp/x

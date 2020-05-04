@@ -35,6 +35,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             println("resources/sp2b/persistence-import.sparql,$numberOfTriples,0,1,${time * 1000.0},${1.0 / time},$originalTripleSize")
             val timer2 = Monotonic.markNow()
+println("main $persistenceFolder")
             endpointServer!!.process_persistence_store(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             println("resources/sp2b/persistence-store.sparql,$numberOfTriples,0,1,${time * 1000.0}2,${1.0 / time2},$originalTripleSize")
