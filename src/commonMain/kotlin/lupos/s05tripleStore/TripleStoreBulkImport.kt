@@ -1,5 +1,11 @@
 package lupos.s05tripleStore
 
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.*
@@ -73,7 +79,7 @@ class TripleStoreBulkImport {
     }
 
     fun sort() {
-        println("Bulk start sorting")
+        BenchmarkUtils.start(EBenchmark.IMPORT_SORT)
 //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
         var off = IntArray(3)
@@ -138,6 +144,6 @@ class TripleStoreBulkImport {
                 }
             }
         }
-        println("Bulk finish sorting")
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_SORT)
     }
 }

@@ -1,29 +1,26 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx30g"
 
-#in seconds
-timemin=10
-
 triples=1024
 
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
 
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  MapMapList Dummy Korio None Local Off Bisection Bisection None Empty
-./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/MapMap_BinaryTree_Empty.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection Bisection None Empty
+#./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap MapMapList Dummy Korio None Local Off BTree Bisection None Empty
+#./tool-gradle-build.sh
+#ln -s $(readlink -f build/executable) log/benchtmp/MapMap_BinaryTree_Empty.x
+./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree Bisection None Empty
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Single_BinaryTree_Empty.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection HashMap None Empty
-./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_Empty.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection HashMap None EmptyWithDictionary
-./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_EmptyWithDictionary.x
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap  SingleList Dummy Korio None Local Off Bisection HashMap None XML
-./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_XML.x
+#./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree HashMap None Empty
+#./tool-gradle-build.sh
+#ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_Empty.x
+#./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree HashMap None EmptyWithDictionary
+#./tool-gradle-build.sh
+#ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_EmptyWithDictionary.x
+#./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree HashMap None XML
+#./tool-gradle-build.sh
+#ln -s $(readlink -f build/executable) log/benchtmp/Single_HashMap_XML.x
 
 
 p=$(pwd)/benchmark_results/sp2b
@@ -45,7 +42,8 @@ echo "resources/sp2b/q12c.sparql" >> log/queries
 echo "resources/sp2b/q12c.sparql" > log/queries
 #!!!!!!!!!!!!
 
-for version in "MapMap_BinaryTree_Empty" "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML"
+for version in "Single_BinaryTree_Empty"
+#for version in "MapMap_BinaryTree_Empty" "Single_BinaryTree_Empty" "Single_HashMap_Empty" "Single_HashMap_EmptyWithDictionary" "Single_HashMap_XML"
 do
 	cp log/queries log/benchtmp/$version.queries
 done

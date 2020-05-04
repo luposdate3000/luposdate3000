@@ -8,17 +8,20 @@ class MyListVALUEGDEF {
         val capacity = 1024
     }
 
-    class MyListVALUEPageGDEF() {
+    class MyListVALUEPageGDEF(val version: Int) {
         var next: MyListVALUEPageGDEF? = null
         var size = 0/*local*/
         val data = MyListVALUESmallGDEF()
     }
 
+    @JvmField
+    var version = 0
+    @JvmField
     var pagecount = 1
     @JvmField
     var size = 0
     @JvmField
-    var page = MyListVALUEPageGDEF()
+    var page = MyListVALUEPageGDEF(version)
     @JvmField
     var lastpage = page
 
@@ -26,7 +29,7 @@ class MyListVALUEGDEF {
         if (pagecount > 5) {
             if (pagecount * capacity > size * 2) {
                 var c = 1
-                val b = MyListVALUEPageGDEF()
+                val b = MyListVALUEPageGDEF(version)
                 var t = b
                 var it = iterator()
                 while (it.hasNext()) {
@@ -37,7 +40,7 @@ class MyListVALUEGDEF {
                     }
                     t.size = j
                     if (it.hasNext()) {
-                        t.next = MyListVALUEPageGDEF()
+                        t.next = MyListVALUEPageGDEF(version)
                         t = t.next!!
                         c++
                     }
@@ -73,7 +76,7 @@ class MyListVALUEGDEF {
             }
             tmp.size = j
             if (i < size) {
-                val p = MyListVALUEPageGDEF()
+                val p = MyListVALUEPageGDEF(version)
                 pagecount++
                 p.next = tmp.next
                 tmp.next = p
@@ -84,10 +87,39 @@ class MyListVALUEGDEF {
     }
 
     fun clear() {
+        version++
         size = 0
-        page = MyListVALUEPageGDEF()
+        page = MyListVALUEPageGDEF(version)
         pagecount = 1
         lastpage = page
+    }
+
+    fun set(location: MyListVALUEFastAccessGUSE, value: VALUE) {
+        if (location.version == version) {
+            location.page.data[location.idx] = value
+        } else {
+            this[location.globalIdx] = value
+        }
+    }
+
+    class MyListVALUEFastAccessGDEF(val page: MyListVALUEPageGUSE, val idx: Int, val version: Int, val globalIdx: Int)
+
+    fun getNullPointer() = MyListVALUEFastAccess(page, 0, version - 1, 0)
+    fun addAndGetPointer(value: VALUE): MyListVALUEFastAccessGUSE {
+        if (lastpage.size < capacity) {
+            lastpage.data[lastpage.size] = value
+            lastpage.size++
+        } else {
+            val next = MyListVALUEPageGDEF(version)
+            lastpage.next = next
+            lastpage = next
+            lastpage.data[lastpage.size] = value
+            lastpage.size++
+            pagecount++
+        }
+        size++
+        shrinkToFit()
+        return MyListVALUEFastAccess(lastpage, lastpage.size - 1, version, size - 1)
     }
 
     fun add(value: VALUE) {
@@ -95,7 +127,7 @@ class MyListVALUEGDEF {
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
-            val next = MyListVALUEPageGDEF()
+            val next = MyListVALUEPageGDEF(version)
             lastpage.next = next
             lastpage = next
             lastpage.data[lastpage.size] = value
@@ -127,13 +159,13 @@ class MyListVALUEGDEF {
                 }
             } else {
 //remove page in the middle
-SanityCheck.check{prev!=tmp}
+                SanityCheck.check { prev != tmp }
                 prev.next = tmp.next
             }
         } else {
-            for (j in i until tmp.size - 1){
+            for (j in i until tmp.size - 1) {
                 tmp.data[j] = tmp.data[j + 1]
-	    }
+            }
         }
         tmp.size--
         size--
@@ -182,7 +214,7 @@ SanityCheck.check{prev!=tmp}
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
-                lastpage.next = MyListVALUEPageGDEF()
+                lastpage.next = MyListVALUEPageGDEF(version)
                 pagecount++
                 lastpage = lastpage.next!!
                 lastpage.size = 1
@@ -210,7 +242,7 @@ SanityCheck.check{prev!=tmp}
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
-                lastpage.next = MyListVALUEPageGDEF()
+                lastpage.next = MyListVALUEPageGDEF(version)
                 pagecount++
                 lastpage = lastpage.next!!
                 lastpage.data[lastpage.size] = value
@@ -241,7 +273,7 @@ SanityCheck.check{prev!=tmp}
                     tmp.data[t] = value
                     tmp.size++
                 } else {
-                    var p = MyListVALUEPageGDEF()
+                    var p = MyListVALUEPageGDEF(version)
                     pagecount++
                     p.next = tmp.next
                     tmp.next = p

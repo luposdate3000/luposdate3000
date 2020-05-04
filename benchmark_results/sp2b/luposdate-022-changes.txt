@@ -1,1 +1,4 @@
 different bulk import strategy
+different map implementations
+fixed bugs
+pointer-based access to list/array datastructure

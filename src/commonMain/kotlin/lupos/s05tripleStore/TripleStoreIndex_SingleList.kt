@@ -36,6 +36,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     fun rebuildMap() {
+        BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
         index1.clear()
         index2.clear()
         var idx = 0
@@ -60,6 +61,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 idx += c
             }
         }
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
     }
 
     override fun loadFromFolder(filename: String) {
@@ -187,6 +189,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     }
 
     fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
+        BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         var data = MyListInt()
         CoroutinesHelper.runBlock {
             val head = Array(2) { Array<Int?>(3) { null } }
@@ -213,10 +216,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
             }
             var last = Array(3) { head[cmp1][it]!! }
             var count = Array(3) { 1 }
-            var position = Array(3) { 0 }
+            var position = Array(3) { data.getNullPointer() }
             for (i in 0 until 3) {
-                position[i] = data.size
-                data.add(count[i])
+                position[i] = data.addAndGetPointer(count[i])
                 data.add(head[cmp1][i]!!)
                 head[cmp1][i] = iterators[cmp1][i].next()
             }
@@ -228,10 +230,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                             for (i in 0 until 3) {
                                 if (hadChange) {
                                     last[i] = head[cmp][i]!!
-                                    data[position[i]] = count[i]
+                                    data.set(position[i], count[i])
                                     count[i] = 1
-                                    position[i] = data.size
-                                    data.add(count[i])
+                                    position[i] = data.addAndGetPointer(count[i])
                                     data.add(head[cmp][i]!!)
                                 } else if (last[i] != head[cmp][i]) {
                                     last[i] = head[cmp][i]!!
@@ -250,9 +251,10 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 }
             }
             for (i in 0 until 3) {
-                data[position[i]] = count[i]
+                data.set(position[i], count[i])
             }
         }
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
         return data
     }
 
@@ -295,7 +297,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                 iteratorsA = arrayOf(ColumnIteratorStore3a(data), ColumnIteratorStore3b(data), ColumnIteratorStore3c(data))
             }
             data = mergeInternal(arrayOf(iteratorsA, arrayOf<ColumnIterator>(ImportIterator(dataImport, count, order[0]), ImportIterator(dataImport, count, order[1]), ImportIterator(dataImport, count, order[2]))))
-            println("finish import")
             rebuildMap()
         }
         SanityCheck {

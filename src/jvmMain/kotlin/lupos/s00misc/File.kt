@@ -24,8 +24,9 @@ class File(@JvmField val filename: String) {
             }
         }
     }
-fun mkdirs()=java.io.File(filename).mkdirs()
-fun deleteRecursively()=java.io.File(filename).deleteRecursively()
+
+    fun mkdirs() = java.io.File(filename).mkdirs()
+    fun deleteRecursively() = java.io.File(filename).deleteRecursively()
     fun length() = java.io.File(filename).length()
     fun readAsString() = java.io.File(filename).readText()
     suspend fun walk(action: suspend (String) -> Unit) {

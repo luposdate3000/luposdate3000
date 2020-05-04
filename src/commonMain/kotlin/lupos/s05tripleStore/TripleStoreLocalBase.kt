@@ -60,15 +60,15 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun safeToFolder(foldername: String) {
-println("TripleStoreLocalBase safeToFolder $foldername")
+        println("TripleStoreLocalBase safeToFolder $foldername")
         dataDistinct.forEach {
-            it.second.safeToFolder(foldername +"/"+ it.first + ".bin")
+            it.second.safeToFolder(foldername + "/" + it.first + ".bin")
         }
     }
 
     fun loadFromFolder(foldername: String) {
         dataDistinct.forEach {
-            it.second.loadFromFolder(foldername +"/"+ it.first + ".bin")
+            it.second.loadFromFolder(foldername + "/" + it.first + ".bin")
         }
     }
 

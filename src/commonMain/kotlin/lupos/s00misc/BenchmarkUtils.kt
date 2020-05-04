@@ -25,13 +25,10 @@ enum class EBenchmark {
     STORE_NEXT3a,
     STORE_NEXT3b,
     STORE_NEXT3c,
-    IMPORT_COMPLETE,//contains all other IMPORT_*
-    IMPORT_INIT,
-    IMPORT_TURTLE_PARSER,//contains IMPORT_PATRICIA_INSERT
-    IMPORT_DICTIONARY_INSERT,
-    IMPORT_PATRICIA_INSERT,
-    IMPORT_PATRICIA_MAPPING,//contains IMPORT_DICTIONARY_INSERT
-    IMPORT_TRIPLE_STORE,
+    IMPORT_SORT,
+    IMPORT_DICT,
+    IMPORT_REBUILD_MAP,
+    IMPORT_MERGE_DATA,
     LOAD_DICTIONARY,
     LOAD_TRIPLE_STORE,
     SAVE_DICTIONARY,
@@ -64,4 +61,7 @@ object BenchmarkUtils {
         counters[id.ordinal]++
         return res
     }
+
+    fun getTime(id: EBenchmark) = results[id.ordinal]
+    fun getCounter(id: EBenchmark) = counters[id.ordinal]
 }

@@ -11,6 +11,10 @@ enum class Datasource {
     LOAD, IMPORT
 }
 
+fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples: Long, originalTripleSize: Long) {
+    println("$title,$numberOfTriples,0,$count,${time * 1000.0},${count.toDouble() / time},$originalTripleSize")
+}
+
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
@@ -27,18 +31,22 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             val timer = Monotonic.markNow()
             endpointServer!!.process_persistence_load(persistenceFolder)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            println("resources/sp2b/persistence-load.sparql,$numberOfTriples,0,1,${time * 1000.0},${1.0 / time},$originalTripleSize")
+            printBenchmarkLine("resources/sp2b/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
         Datasource.IMPORT -> {
             val timer = Monotonic.markNow()
             endpointServer!!.process_turtle_input(datasourceFiles)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            println("resources/sp2b/persistence-import.sparql,$numberOfTriples,0,1,${time * 1000.0},${1.0 / time},$originalTripleSize")
+            printBenchmarkLine("resources/sp2b/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/sp2b/persistence-import-sort.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_SORT), 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/sp2b/persistence-import-dict.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_DICT), 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/sp2b/persistence-import-rebuild.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_REBUILD_MAP), 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/sp2b/persistence-import-merge.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_MERGE_DATA), 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/sp2b/persistence-import-parse.sparql", time - BenchmarkUtils.getTime(EBenchmark.IMPORT_MERGE_DATA) - BenchmarkUtils.getTime(EBenchmark.IMPORT_REBUILD_MAP) - BenchmarkUtils.getTime(EBenchmark.IMPORT_DICT) - BenchmarkUtils.getTime(EBenchmark.IMPORT_SORT), 1, numberOfTriples, originalTripleSize)
             val timer2 = Monotonic.markNow()
-println("main $persistenceFolder")
             endpointServer!!.process_persistence_store(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
-            println("resources/sp2b/persistence-store.sparql,$numberOfTriples,0,1,${time * 1000.0}2,${1.0 / time2},$originalTripleSize")
+            printBenchmarkLine("resources/sp2b/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
         }
     }
     for (queryFile in queryFiles) {
