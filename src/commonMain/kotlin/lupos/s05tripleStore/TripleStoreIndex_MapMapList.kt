@@ -28,12 +28,12 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
 
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
-            out.writeInt(data.values.size)
+            out.writeInt(data.size)
             val iterator0 = data.iterator()
             while (iterator0.hasNext()) {
                 out.writeInt(iterator0.next())
                 val value0 = iterator0.value()
-                out.writeInt(value0.values.size)
+                out.writeInt(value0.size)
                 val iterator1 = value0.iterator()
                 while (iterator1.hasNext()) {
                     out.writeInt(iterator1.next())

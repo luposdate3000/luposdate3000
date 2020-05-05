@@ -133,6 +133,54 @@ val templates = listOf(
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Int", "VALUE" to "Int", "KNAME" to "Int", "VNAME" to "Int", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "IntArray","ARRAYVTYPE" to "IntArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Int", "VALUE" to "Long", "KNAME" to "Int", "VNAME" to "Long", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "IntArray","ARRAYVTYPE" to "LongArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Int", "VALUE" to "Double", "KNAME" to "Int", "VNAME" to "Double", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "IntArray","ARRAYVTYPE" to "DoubleArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Long", "VALUE" to "Int", "KNAME" to "Long", "VNAME" to "Int", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "LongArray","ARRAYVTYPE" to "IntArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Long", "VALUE" to "Long", "KNAME" to "Long", "VNAME" to "Long", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "LongArray","ARRAYVTYPE" to "LongArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Long", "VALUE" to "Double", "KNAME" to "Long", "VNAME" to "Double", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "LongArray","ARRAYVTYPE" to "DoubleArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Double", "VALUE" to "Int", "KNAME" to "Double", "VNAME" to "Int", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "DoubleArray","ARRAYVTYPE" to "IntArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Double", "VALUE" to "Long", "KNAME" to "Double", "VNAME" to "Long", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "DoubleArray","ARRAYVTYPE" to "LongArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf("KEY" to "Double", "VALUE" to "Double", "KNAME" to "Double", "VNAME" to "Double", "GDEF" to "", "GUSE" to "","ARRAYKTYPE" to "DoubleArray","ARRAYVTYPE" to "DoubleArray","ARRAYKINITIALIZER" to "","ARRAYVINITIALIZER" to "", "IOSTART" to "", "IOEND" to "")),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf(
+"KEY" to "Int", 
+"VALUE" to "GenericV",
+ "KNAME" to "Int",
+ "VNAME" to "Generic",
+ "GDEF" to "<GenericV>",
+ "GUSE" to "<GenericV>",
+"ARRAYKTYPE" to "IntArray",
+"ARRAYVTYPE" to "Array<Any?>",
+"ARRAYKINITIALIZER" to "",
+"ARRAYVINITIALIZER" to "{null}",
+"IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+)),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf(
+"KEY" to "Long", 
+"VALUE" to "GenericV",
+ "KNAME" to "Long",
+ "VNAME" to "Generic",
+ "GDEF" to "<GenericV>",
+ "GUSE" to "<GenericV>",
+"ARRAYKTYPE" to "LongArray",
+"ARRAYVTYPE" to "Array<Any?>",
+"ARRAYKINITIALIZER" to "",
+"ARRAYVINITIALIZER" to "{null}",
+"IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+)),
+PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf(
+"KEY" to "Double", 
+"VALUE" to "GenericV",
+ "KNAME" to "Double",
+ "VNAME" to "Generic",
+ "GDEF" to "<GenericV>",
+ "GUSE" to "<GenericV>",
+"ARRAYKTYPE" to "DoubleArray",
+"ARRAYVTYPE" to "Array<Any?>",
+"ARRAYKINITIALIZER" to "",
+"ARRAYVINITIALIZER" to "{null}",
+"IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+)),
 PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf(
 "KEY" to "GenericK", 
 "VALUE" to "GenericV",
@@ -143,7 +191,8 @@ PrecompileTemplate("lupos.s00misc","MyMapKNAMEVNAMEBTree",listOf(
 "ARRAYKTYPE" to "Array<Any?>",
 "ARRAYVTYPE" to "Array<Any?>",
 "ARRAYKINITIALIZER" to "{null}",
-"ARRAYVINITIALIZER" to "{null}"
+"ARRAYVINITIALIZER" to "{null}",
+"IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
 ))
 )
 
@@ -220,6 +269,13 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ))
         ),
         ChooseableGroup("Map Implementation") to listOf(
+                ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
+                        "MyMapIntGeneric<T>" to "MyMapIntGenericBTree<T>",
+                        "MyMapLongGeneric<T>" to "MyMapLongGenericBTree<T>",
+                        "MyMapLongInt" to "MyMapLongIntBTree",
+                        "MyMapIntInt" to "MyMapIntIntBTree",
+                        "MyMapDoubleInt" to "MyMapDoubleIntBTree"
+                )),
                 ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(
                         "MyMapIntGeneric<T>" to "MyMapIntGenericBinaryTree<T>",
                         "MyMapLongGeneric<T>" to "MyMapLongGenericBinaryTree<T>",

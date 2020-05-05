@@ -8,9 +8,17 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
     var root: MyMapGenericGenericBTreeNode<GenericK, GenericV>? = null
     var size = 0
 
-    constructor() : this(512)
+fun clear(){
+root=null
+size=0
+}
 
-open    class MyMapGenericGenericBTreeNodeIterator<GenericK : Comparable<GenericK>, GenericV>(val node: MyMapGenericGenericBTreeNode<GenericK, GenericV>?) : Iterator<GenericK> {
+    constructor() : this(512)
+constructor(d:Pair<GenericK,GenericV>):this(){
+appendAssumeSorted(d.first,d.second)
+}
+
+    open class MyMapGenericGenericBTreeNodeIterator<GenericK : Comparable<GenericK>, GenericV>(val node: MyMapGenericGenericBTreeNode<GenericK, GenericV>?) : Iterator<GenericK> {
 
         var i = 0
         var childIterator = node!!.C[0]!!.iterator()
@@ -37,7 +45,8 @@ open    class MyMapGenericGenericBTreeNodeIterator<GenericK : Comparable<Generic
                 }
             }
         }
-fun value()=v
+
+        fun value() = v
     }
 
     class MyMapGenericGenericBTreeNode<GenericK : Comparable<GenericK>, GenericV>(val t: Int, val leaf: Boolean) {
@@ -218,26 +227,26 @@ fun value()=v
             }
         }
 
-        fun search(k: GenericK): Boolean {
+        fun search(k: GenericK): GenericV? {
             var i = 0
             while (i < n && k > (keys[i] as GenericK)) {
                 i++
             }
             if ((keys[i] as GenericK) == k) {
-                return true
+                return values[i] as GenericV
             } else if (leaf) {
-                return false
+                return null
             } else {
                 return C[i]!!.search(k)
             }
         }
 
-        fun insertNonFull(k: GenericK, v: GenericV, onCreate: () -> Unit = {}, onExists: (GenericK, GenericV) -> Unit = {a,b->}) {
+        fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
             var i = n - 1
             var found = false
             for (j in 0 until n) {
                 if (keys[j] as GenericK == k) {
-                    onExists(keys[j] as GenericK, values[j] as GenericV)
+                    values[j] = onExists(keys[j] as GenericK, values[j] as GenericV)
                     found = true
                     break
                 }
@@ -250,7 +259,7 @@ fun value()=v
                         i--
                     }
                     keys[i + 1] = k
-                    values[i + 1] = v
+                    values[i + 1] = onCreate()
                     n++
                 } else {
                     while (i >= 0 && (keys[i] as GenericK) > k) {
@@ -262,7 +271,7 @@ fun value()=v
                             i++
                         }
                     }
-                    C[i + 1]!!.insertNonFull(k, v, onCreate, onExists)
+                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
                 }
             }
         }
@@ -298,14 +307,14 @@ fun value()=v
         }
     }
 
-    fun add(k: GenericK, v: GenericV, onCreate: () -> Unit = {}, onExists: (GenericK, GenericV) -> Unit = {a,b->}) {
+    operator fun set(k: GenericK, v: GenericV) = insert(k, { v }, { a, b -> v })
+    fun insert(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
         if (root == null) {
             root = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, true)
             root!!.keys[0] = k
-            root!!.values[0] = v
+            root!!.values[0] = onCreate()
             root!!.n = 1
             size++
-            onCreate()
         } else if (root!!.n == 2 * t - 1) {
             val s = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, false)
             s.C[0] = root
@@ -314,15 +323,15 @@ fun value()=v
             if ((s.keys[0] as GenericK) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k, v, {
+            s.C[i]!!.insertNonFull(k, {
                 size++
-                onCreate()
+                /*return*/ onCreate()
             }, onExists)
             root = s
         } else {
-            root!!.insertNonFull(k, v, {
+            root!!.insertNonFull(k, {
                 size++
-                onCreate()
+                /*return*/ onCreate()
             }, onExists)
         }
     }
@@ -333,9 +342,11 @@ fun value()=v
         }
     }
 
-    fun contains(k: GenericK): Boolean {
+    fun contains(k: GenericK) = get(k) == null
+
+    operator fun get(k: GenericK): GenericV? {
         if (root == null) {
-            return false
+            return null
         } else {
             return root!!.search(k)
         }
@@ -361,8 +372,9 @@ fun value()=v
         return null
     }
 
-    fun appendAssumeSorted(key: GenericK, value: GenericV) {
-        add(key, value, {}, {a,b->})
+    fun appendAssumeSorted(key: GenericK, value: GenericV):GenericV {
+        insert(key, { value }, { a, b -> value })
+return value
     }
 
     fun iterator(): MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV> {
@@ -376,5 +388,21 @@ fun value()=v
     class EmptyIterator<GenericK : Comparable<GenericK>, GenericV> : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>(null) {
         override fun hasNext() = false
         override fun next(): GenericK = throw Exception("unreachable")
+    }
+
+    inline fun getOrCreate(key: GenericK, crossinline onCreate: () -> GenericV): GenericV {
+        var res: GenericV? = null
+        insert(key, {
+            res = onCreate()
+            /*return*/res!!
+        }, { a, b ->
+            res = b
+            /*return*/ res!!
+        })
+        return res!!
+    }
+
+    fun safeToFile(filename: String) {
+        throw Exception("not Implemented")
     }
 }

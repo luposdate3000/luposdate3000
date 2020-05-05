@@ -2,7 +2,7 @@
 export JAVA_OPTS="-Xmx30g"
 pkill java
 port="3030"
-./generate-buildfile.kts jvm SparqlTestSuite On Fast Sequential Heap MultiMap SingleList Dummy Korio None Local On BTree Bisection Verbose Empty
+./generate-buildfile.kts jvm SparqlTestSuite On Fast Sequential Heap MultiMap SingleList Dummy Korio None Local On BTree BTree Verbose Empty
 ./tool-gradle-build.sh
 function execJvm
 {
