@@ -8,7 +8,7 @@ fi
 output=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")
 cachefile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/gradle_-" | sed "s/\".*//g")
 logfile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/compile_-" | sed "s/\".*//g")
-if grep -q "build_jvm_" "$buildfile"
+if grep -q "_jvm_" "$buildfile"
 then
 	gradle --project-cache-dir="$cachefile" build > $logfile 2>&1
 	(

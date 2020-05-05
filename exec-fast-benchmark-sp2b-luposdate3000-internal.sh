@@ -7,7 +7,7 @@ timeout=120
 triples=524288
 #triples=16384
 
-./generate-buildfile.kts jvm Endpoint Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree BTree None Empty
+./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Endpoint Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree BTree None Empty
 ./tool-gradle-build.sh
 
 
@@ -15,7 +15,7 @@ triples=524288
 
 pkill java
 sleep 3
-(./build/executable 127.0.0.1 > x)&
+(export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64 ; ./build/executable 127.0.0.1 > x)&
 sleep 3
 
 curl -X POST --data-binary "/mnt/sp2b-testdata/$triples/data0.n3" http://localhost:80/import/turtle --header "Content-Type:text/plain"
@@ -48,7 +48,7 @@ triplesfolder=/mnt/sp2b-testdata/${triples}
 size=$(du -sb $triplesfolder | sed 's/\t.*//g')
 pkill java
 sleep 3
-(./build/executable 127.0.0.1 > log/server 2>&1)&
+(export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64 ; ./build/executable 127.0.0.1 > log/server 2>&1)&
 sleep 3
 a=$(($(date +%s%N)/1000000))
 for f in $(find $triplesfolder/*.n3)

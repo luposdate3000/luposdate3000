@@ -317,7 +317,7 @@ val platformPrefix = mapOf(
         "mingw64" to listOf("common")
 )
 val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.1"))).label
-val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"))).label
+val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"),ChooseableOption("1.4.255-SNAPSHOT"))).label
 val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
 
 val additionalSources = mapOf(
@@ -462,11 +462,22 @@ for (option in allChoosenOptions.sorted())
 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
 
 File("build.gradle.kts").printWriter().use { out ->
+when (platform) {
+"jvm" -> {
+    out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions.jvmTarget="14"
+    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
+}""")
+}
+else ->{
     out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
+}""")
 }
-buildscript {
+}
+    out.println("""buildscript {
     repositories {
         jcenter()
         google()
@@ -477,7 +488,7 @@ buildscript {
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26")
         classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
@@ -485,7 +496,7 @@ buildscript {
     when (platform) {
         "jvm" -> {
             out.println("""plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.61"
+    id("org.jetbrains.kotlin.jvm") version "$kotlinVersion"
     application
 }
 application {
@@ -511,7 +522,7 @@ dependencies {""")
         }
         else -> {
             out.println("""plugins {
-    id("org.jetbrains.kotlin.multiplatform") version "1.3.61"
+    id("org.jetbrains.kotlin.multiplatform") version "$kotlinVersion"
 }
 repositories {
     jcenter()

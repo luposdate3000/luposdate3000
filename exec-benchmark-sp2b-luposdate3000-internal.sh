@@ -6,7 +6,7 @@ triples=1024
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
 
-./generate-buildfile.kts jvm Benchmark Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree BTree None Empty
+./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Benchmark Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree BTree None Empty
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Single_BTree_Empty.x
 
@@ -30,6 +30,8 @@ echo "resources/sp2b/q12c.sparql" >> log/queries
 #!!!!!!!!!!!!
 echo "resources/sp2b/q12c.sparql" > log/queries
 #!!!!!!!!!!!!
+
+export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
 for version in "${versions[@]}"
 do

@@ -10,8 +10,8 @@ for e in $(seq 0 4);do lastnamee=$lastname;echo e
 for f in $(seq 0 4);do lastnamef=$lastname;echo f
 for g in $(seq 0 4);do lastnameg=$lastname;echo g
 for h in $(seq 0 4);do lastnameh=$lastname;echo h
-echo ./generate-buildfile.kts $a $b $c $d $e $f $g $h 0 0 0 0 0 0 >> generatedBuildScripts/log
-./generate-buildfile.kts $a $b $c $d $e $f $g $h 0 0 0 0 0 0
+echo ./generate-buildfile.kts 1.4.255-SNAPSHOT $a $b $c $d $e $f $g $h 0 0 0 0 0 0 >> generatedBuildScripts/log
+./generate-buildfile.kts 1.4.255-SNAPSHOT $a $b $c $d $e $f $g $h 0 0 0 0 0 0
 lastname=$(cat "build.gradle.kts" | grep buildDir | sed "s/.*file..//g"| sed 's/".*//g')
 echo $lastname >> generatedBuildScripts/log
 mv "build.gradle.kts" "generatedBuildScripts/build.gradle.${lastname}.kts"

@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions -jvm-target=14"
+}
 buildscript {
     repositories {
         jcenter()
