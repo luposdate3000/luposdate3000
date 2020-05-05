@@ -329,17 +329,28 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
             var listA = data
             var listB = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
             while (listA.size > 1) {
+                SanityCheck {
+                    var j = 0
+                    for (x in listA) {
+                        if (!x.leaf) {
+                            for (i in 0 until x.n + 1) {
+                                SanityCheck.check { x.C[i] != null }
+                            }
+                            j++
+                        }
+                    }
+                }
                 var n = listA.size  //total nodes in this level
                 var n2 = (n + 2 * t) / (2 * t - 1)  //required nodes in the next level to hold all of the current nodes (round up)
                 var n3 = n / n2 + 1       //average number of childs in the next level - prevent that the last node has 1 element and therefore a wrong tree depth
-                for (i in 0 until n2 - 1) {
+                for (i in 0 until n2) {
                     val node = MyMapKNAMEVNAMEBTreeNodeGUSE(t, false)
                     listB.add(node)
                     for (j in 0 until n3) {
                         if (listA.size > 0) {
                             var tmp = listA.removeAt(0)
                             node.C[node.n] = tmp
-                            if (j < n3 - 1) {
+                            if (j < n3 - 1 && listA.size > 0) {
                                 var maxElement = tmp
                                 while (!maxElement.leaf) {
                                     maxElement = maxElement.C[maxElement.n]!!
@@ -349,9 +360,12 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
                                 maxElement.n--
                                 node.n++
                             }
+                        } else {
+                            break
                         }
                     }
                 }
+                SanityCheck.check { listA.size == 0 }
                 listA = listB
                 listB = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
             }

@@ -75,11 +75,9 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
             val iteratorK = keys.iterator()
+            val iteratorV = values.iterator()
             while (iteratorK.hasNext()) {
                 out.writeKEY(iteratorK.next())
-            }
-            val iteratorV = values.iterator()
-            while (iteratorV.hasNext()) {
                 out.writeVALUE(iteratorV.next())
             }
         }
@@ -92,8 +90,6 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
             var size = fis.readInt()
             for (i in 0 until size) {
                 keys.appendAssumeSorted(fis.readKEY())
-            }
-            for (i in 0 until size) {
                 values.add(fis.readVALUE())
             }
         }
