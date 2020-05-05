@@ -4,7 +4,7 @@ import lupos.s00misc.Coverage
 
 class MyMapStringIntPatriciaTrie() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
-        val children = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
+        val children = mutableListOf<MyMapStringIntPatriciaTrieNode>()
     }
 
     var size: Int = 0
@@ -119,8 +119,9 @@ class MyMapStringIntPatriciaTrie() {
     }
 
     fun forEach(action: (String, Int) -> Unit) = forEachInternal("", root, action)
+
     fun safeToFile(filename: String) {
-        var queue = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
+        var queue = mutableListOf<MyMapStringIntPatriciaTrieNode>()
         File(filename).dataOutputStream { out ->
             out.writeShort(root.children.size)
             if (root.value != null) {
@@ -153,7 +154,7 @@ class MyMapStringIntPatriciaTrie() {
     }
 
     fun loadFromFile(filename: String) {
-        var queueNode = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
+        var queueNode = mutableListOf<MyMapStringIntPatriciaTrieNode>()
         var queueCount = MyListInt()
         File(filename).dataInputStream { fis ->
             val len = fis.readShort()
@@ -191,4 +192,19 @@ class MyMapStringIntPatriciaTrie() {
             }
         }
     }
+
+
+    fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode,depth:Int) {
+        if (node.value != null) {
+	    println("${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}=${node.value}")
+        }else{
+	    println("${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}")
+	}
+        for (c in node.children) {
+            debugInternal(prefix+" ", c,depth+1)
+        }
+    }
+
+    fun debug() = debugInternal("", root,0)
+
 }

@@ -320,6 +320,20 @@ class MyListLong {
         return res.toString()
     }
 
+inline fun forEach(crossinline action:(Long)->Unit){
+var tmp=page
+while(true){
+for(i in 0 until tmp.size){
+action(tmp.data[i] as Long)
+}
+if(tmp.next==null){
+break
+}else{
+tmp=tmp.next!!
+}
+}
+}
+
     inline operator fun iterator(): MyListLongIterator {
         return MyListLongIterator(this)
     }

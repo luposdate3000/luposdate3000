@@ -318,6 +318,20 @@ class MyListVALUEGDEF {
         return res.toString()
     }
 
+inline fun forEach(crossinline action:(VALUE)->Unit){
+var tmp=page
+while(true){
+for(i in 0 until tmp.size){
+action(tmp.data[i] as VALUE)
+}
+if(tmp.next==null){
+break
+}else{
+tmp=tmp.next!!
+}
+}
+}
+
     inline operator fun iterator(): MyListVALUEIteratorGUSE {
         return MyListVALUEIterator(this)
     }

@@ -1,0 +1,9 @@
+resources/sp2b/persistence-import.sparql,1024,,1,131,7.63,259703
+resources/sp2b/persistence-import.sparql,2048,0,1,194,5.15,467654
+resources/sp2b/persistence-import.sparql,4096,0,1,263,3.80,805547
+resources/sp2b/persistence-import.sparql,8192,0,1,432,2.31,1556974
+resources/sp2b/persistence-import.sparql,16384,0,1,752,1.32,3074596
+resources/sp2b/persistence-import.sparql,32768,0,1,1398,.71,6047099
+resources/sp2b/persistence-import.sparql,65536,0,1,2702,.37,12044687
+resources/sp2b/persistence-import.sparql,131072,0,1,5258,.19,23970668
+resources/sp2b/persistence-import.sparql,262144,0,1,10677,.09,47954944

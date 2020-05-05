@@ -29,9 +29,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
 
     override fun safeToFolder(filename: String) {
         File(filename).dataOutputStream { out ->
-            for (i in 0 until data.size) {
-                out.writeInt(data[i])
-            }
+data.forEach{
+out.writeInt(it)
+}
         }
     }
 

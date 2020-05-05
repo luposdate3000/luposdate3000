@@ -462,7 +462,11 @@ for (option in allChoosenOptions.sorted())
 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
 
 File("build.gradle.kts").printWriter().use { out ->
-    out.println("""buildscript {
+    out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
+}
+buildscript {
     repositories {
         jcenter()
         google()

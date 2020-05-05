@@ -1,0 +1,15 @@
+resources/sp2b/import.sparql,1000,0,1,409,2.44
+resources/sp2b/import.sparql,2000,0,1,463,2.15
+resources/sp2b/import.sparql,4000,0,1,458,2.18
+resources/sp2b/import.sparql,8000,0,1,553,1.80
+resources/sp2b/import.sparql,16000,0,1,613,1.63
+resources/sp2b/import.sparql,32000,0,1,790,1.26
+resources/sp2b/import.sparql,64000,0,1,992,1.00
+resources/sp2b/import.sparql,128000,0,1,1366,.73
+resources/sp2b/import.sparql,256000,0,1,2124,.47
+resources/sp2b/import.sparql,512000,0,1,3587,.27
+resources/sp2b/import.sparql,1024000,0,1,6916,.14
+resources/sp2b/import.sparql,2048000,0,1,14851,.06
+resources/sp2b/import.sparql,4096000,0,1,29646,.03
+resources/sp2b/import.sparql,8192000,0,1,67294,.01
+resources/sp2b/import.sparql,16384000,0,1,1621497,0

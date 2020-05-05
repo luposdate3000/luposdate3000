@@ -320,6 +320,20 @@ class MyListInt {
         return res.toString()
     }
 
+inline fun forEach(crossinline action:(Int)->Unit){
+var tmp=page
+while(true){
+for(i in 0 until tmp.size){
+action(tmp.data[i] as Int)
+}
+if(tmp.next==null){
+break
+}else{
+tmp=tmp.next!!
+}
+}
+}
+
     inline operator fun iterator(): MyListIntIterator {
         return MyListIntIterator(this)
     }

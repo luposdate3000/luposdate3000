@@ -320,6 +320,20 @@ class MyListDouble {
         return res.toString()
     }
 
+inline fun forEach(crossinline action:(Double)->Unit){
+var tmp=page
+while(true){
+for(i in 0 until tmp.size){
+action(tmp.data[i] as Double)
+}
+if(tmp.next==null){
+break
+}else{
+tmp=tmp.next!!
+}
+}
+}
+
     inline operator fun iterator(): MyListDoubleIterator {
         return MyListDoubleIterator(this)
     }
