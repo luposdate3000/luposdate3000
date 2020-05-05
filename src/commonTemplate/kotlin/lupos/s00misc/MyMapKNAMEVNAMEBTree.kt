@@ -5,20 +5,18 @@ import lupos.s00misc.Coverage
 class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
     var size = 0
-
-fun clear(){
-/*todo release all pages*/
-root=null
-size=0
-}
+    fun clear() {
+        /*todo release all pages*/
+        root = null
+        size = 0
+    }
 
     constructor() : this(512)
-constructor(d:Pair<KEY,VALUE>):this(){
-appendAssumeSorted(d.first,d.second)
-}
+    constructor(d: Pair<KEY, VALUE>) : this() {
+        set(d.first, d.second)
+    }
 
     open class MyMapKNAMEVNAMEBTreeNodeIteratorGDEF(val node: MyMapKNAMEVNAMEBTreeNodeGUSE?) : Iterator<KEY> {
-
         var i = 0
         var childIterator = node!!.C[0]!!.iterator()
         var v: VALUE = node!!.values[0] as VALUE
@@ -306,6 +304,69 @@ appendAssumeSorted(d.first,d.second)
         }
     }
 
+    class MyMapKNAMEVNAMEBTreeInitializerGDEF(val t: Int, val target: MyMapKNAMEVNAMEBTreeGUSE) {
+        var size = 0
+        val data = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
+        fun appendAssumeSorted(key: KEY, value: VALUE): VALUE {
+            val tmp: MyMapKNAMEVNAMEBTreeNodeGUSE
+            if (data.size == 0 || data[data.size - 1].n == 2 * t - 1) {
+                tmp = MyMapKNAMEVNAMEBTreeNodeGUSE(t, true)
+                data.add(tmp)
+                tmp.keys[0] = key
+                tmp.values[0] = value
+                tmp.n = 1
+            } else {
+                tmp = data[data.size - 1]
+            }
+            tmp.keys[tmp.n] = key
+            tmp.values[tmp.n] = value
+            tmp.n++
+            size++
+            return value
+        }
+
+        fun apply() {
+            var listA = data
+            var listB = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
+            while (listA.size > 1) {
+                var n = listA.size  //total nodes in this level
+                var n2 = (n + 2 * t) / (2 * t - 1)  //required nodes in the next level to hold all of the current nodes (round up)
+                var n3 = n / n2 + 1       //average number of childs in the next level - prevent that the last node has 1 element and therefore a wrong tree depth
+                for (i in 0 until n2 - 1) {
+                    val node = MyMapKNAMEVNAMEBTreeNodeGUSE(t, false)
+                    listB.add(node)
+                    for (j in 0 until n3) {
+                        if (listA.size > 0) {
+                            var tmp = listA.removeAt(0)
+                            node.C[node.n] = tmp
+                            if (j < n3 - 1) {
+                                var maxElement = tmp
+                                while (!maxElement.leaf) {
+                                    maxElement = maxElement.C[maxElement.n]!!
+                                }
+                                node.keys[node.n] = maxElement.keys[maxElement.n - 1]
+                                node.values[node.n] = maxElement.values[maxElement.n - 1]
+                                maxElement.n--
+                                node.n++
+                            }
+                        }
+                    }
+                }
+                listA = listB
+                listB = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
+            }
+            target.clear()
+            target.root = listA[0]
+            target.size = size
+        }
+    }
+
+    fun withFastInitializer(action: (MyMapKNAMEVNAMEBTreeInitializerGUSE) -> Unit) {
+        val init = MyMapKNAMEVNAMEBTreeInitializerGUSE(t, this)
+        action(init)
+        init.apply()
+    }
+
     operator fun set(k: KEY, v: VALUE) = insert(k, { v }, { a, b -> v })
     fun insert(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE) {
         if (root == null) {
@@ -342,7 +403,6 @@ appendAssumeSorted(d.first,d.second)
     }
 
     fun contains(k: KEY) = get(k) == null
-
     operator fun get(k: KEY): VALUE? {
         if (root == null) {
             return null
@@ -369,11 +429,6 @@ appendAssumeSorted(d.first,d.second)
             return res
         }
         return null
-    }
-
-    fun appendAssumeSorted(key: KEY, value: VALUE):VALUE {
-        insert(key, { value }, { a, b -> value })
-return value
     }
 
     fun iterator(): MyMapKNAMEVNAMEBTreeNodeIteratorGUSE {
@@ -405,22 +460,24 @@ return value
         IOSTART
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
-forEach{k,v->
-out.writeKEY(k)
-out.writeVALUE(v)
-}
+            forEach { k, v ->
+                out.writeKEY(k)
+                out.writeVALUE(v)
+            }
         }
         IOEND
     }
 
     fun loadFromFile(filename: String) {
         IOSTART
-        File(filename).dataInputStream { fis ->
-            var size = fis.readInt()
-            for (i in 0 until size) {
-val k=fis.readKEY()
-val v=fis.readVALUE()
-                appendAssumeSorted(k,v)
+        withFastInitializer { init ->
+            File(filename).dataInputStream { fis ->
+                var size = fis.readInt()
+                for (i in 0 until size) {
+                    val k = fis.readKEY()
+                    val v = fis.readVALUE()
+                    init.appendAssumeSorted(k, v)
+                }
             }
         }
         IOEND

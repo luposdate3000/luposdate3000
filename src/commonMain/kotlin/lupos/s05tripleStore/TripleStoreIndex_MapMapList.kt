@@ -50,17 +50,20 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     override fun loadFromFolder(filename: String) {
         File(filename).dataInputStream { it ->
             val size0 = it.readInt()
-            for (i0 in 0 until size0) {
-                val key0 = it.readInt()
-                val tmp0 = data.appendAssumeSorted(key0, MyMapIntGeneric<MySetInt>())
-                val size1 = it.readInt()
-                for (i1 in 0 until size1) {
-                    val key1 = it.readInt()
-                    val tmp1 = tmp0.appendAssumeSorted(key1, MySetInt())
-                    val size2 = it.readInt()
-                    for (i2 in 0 until size2) {
-                        val key2 = it.readInt()
-                        tmp1.appendAssumeSorted(key2)
+            data.withFastInitializer { initData ->
+                for (i0 in 0 until size0) {
+                    val key0 = it.readInt()
+                    initData.appendAssumeSorted(key0, MyMapIntGeneric<MySetInt>()).withFastInitializer { tmp0 ->
+                        val size1 = it.readInt()
+                        for (i1 in 0 until size1) {
+                            val key1 = it.readInt()
+                            val tmp1 = tmp0.appendAssumeSorted(key1, MySetInt())
+                            val size2 = it.readInt()
+                            for (i2 in 0 until size2) {
+                                val key2 = it.readInt()
+                                tmp1.appendAssumeSorted(key2)
+                            }
+                        }
                     }
                 }
             }
