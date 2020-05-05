@@ -43,6 +43,8 @@ class MyMapIntGenericBinaryTree<Generic>() {
         return value!!
     }
 
+fun withFastInitializer(action:(MyMapIntGenericBinaryTree<Generic>)->Unit)=action(this)
+
     fun appendAssumeSorted(key: Int, value: Generic): Generic {
         keys.add(key)
         values.add(value)

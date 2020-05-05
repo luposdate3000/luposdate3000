@@ -43,6 +43,8 @@ class MyMapIntLongBinaryTree() {
         return value!!
     }
 
+fun withFastInitializer(action:(MyMapIntLongBinaryTree)->Unit)=action(this)
+
     fun appendAssumeSorted(key: Int, value: Long): Long {
         keys.add(key)
         values.add(value)
