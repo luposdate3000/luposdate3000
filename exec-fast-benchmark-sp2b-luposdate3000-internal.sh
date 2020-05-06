@@ -4,8 +4,9 @@ export JAVA_OPTS="-Xmx30g"
 timemin=0
 #in seconds
 timeout=120
+triples=16384
 triples=524288
-#triples=16384
+triples=8388608
 
 ./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Endpoint Off Fast Sequential Heap MultiMap SingleList Dummy Korio None Local Off BTree BTree None Empty
 ./tool-gradle-build.sh
@@ -15,13 +16,12 @@ triples=524288
 
 pkill java
 sleep 3
-(export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64 ; ./build/executable 127.0.0.1>x)&
+(export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64 ; ./build/executable 127.0.0.1 > x)&
 sleep 3
 
 curl -X POST --data-binary "/mnt/sp2b-testdata/$triples/data0.n3" http://localhost:80/import/turtle --header "Content-Type:text/plain"
 #jmap -dump:live,file=dump 9997
 #visualvm
-
 wait
 exit
 

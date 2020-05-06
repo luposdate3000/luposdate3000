@@ -2,7 +2,7 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MyMapStringIntPatriciaTrieOld() {
+class MyMapStringIntPatriciaTrieVersion1() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
         val children = mutableListOf<MyMapStringIntPatriciaTrieNode>()
     }
