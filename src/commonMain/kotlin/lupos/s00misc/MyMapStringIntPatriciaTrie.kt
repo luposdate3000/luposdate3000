@@ -13,6 +13,25 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }
 
+
+fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode,depth:Int) {
+var i=0
+for (c in node.childs){
+if(c!=null){
+i++
+}
+}
+        println("${prefix}${node.str}:${node.childs.size}@${node.str.length}-${depth}+$i,${node.childs.size-i}")
+        for (c in node.childs) {
+		if(c!=null){
+            debugInternal(prefix+" ", c,depth+1)
+}
+        }
+    }
+
+    fun debug() = debugInternal("", root,0)
+
+
     inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
             rootValue = onExist(rootValue)
@@ -118,7 +137,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         walkInternal(key, { value }, { value }, {}, true)
     }
 
-    inline fun getOrCreate(key: String, onCreate: () -> Int): Int {
+    inline fun getOrCreate(key: String,crossinline onCreate: () -> Int): Int {
         var res = undefinedValue
         walkInternal(key, {
             res = onCreate()
@@ -141,8 +160,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         size = 0
     }
 
-    inline fun forEach(action: crossinline(String, Int) -> Unit)
-    {
+    inline fun forEach(crossinline action: (String, Int) -> Unit)    {
         var queue = mutableListOf<Pair<String, MyMapStringIntPatriciaTrieNode>>()
         var node = root
         if (rootValue != undefinedValue) {
