@@ -18,46 +18,66 @@ class MyMapDoubleDoubleBTree(val t: Int) {
         set(d.first, d.second)
     }
 
-    open class MyMapDoubleDoubleBTreeNodeIterator(val node: MyMapDoubleDoubleBTreeNode?) : Iterator<Double> {
+    abstract class MyMapDoubleDoubleBTreeNodeIterator() : Iterator<Double> {
+        abstract fun value(): Double
+    }
+
+
+    class MyMapDoubleDoubleBTreeNodeIteratorLeaf(val node: MyMapDoubleDoubleBTreeNodeLeaf) : MyMapDoubleDoubleBTreeNodeIterator() {
+        var i = 0
+        var v: Double = node!!.values[0] as Double
+        override fun hasNext(): Boolean {
+            return i < node.n
+        }
+
+        override fun next(): Double {
+            v = node.values[i] as Double
+            return node.keys[i++] as Double
+        }
+
+        override fun value() = v
+    }
+
+    class MyMapDoubleDoubleBTreeNodeIteratorNonLeaf(val node: MyMapDoubleDoubleBTreeNodeNonLeaf) : MyMapDoubleDoubleBTreeNodeIterator() {
         var i = 0
         var childIterator = node!!.C[0]!!.iterator()
         var v: Double = node!!.values[0] as Double
         override fun hasNext(): Boolean {
-            if (node!!.leaf) {
-                return i < node.n
-            } else {
-                return i < node.n || (i == node.n && childIterator.hasNext())
-            }
+            return i < node.n || (i == node.n && childIterator.hasNext())
         }
 
         override fun next(): Double {
-            if (node!!.leaf) {
+            if (childIterator.hasNext()) {
+                return childIterator.next()
+            } else {
+                childIterator = node.C[i + 1]!!.iterator()
                 v = node.values[i] as Double
                 return node.keys[i++] as Double
-            } else {
-                if (childIterator.hasNext()) {
-                    return childIterator.next()
-                } else {
-                    childIterator = node.C[i + 1]!!.iterator()
-                    v = node.values[i] as Double
-                    return node.keys[i++] as Double
-                }
             }
         }
 
-        fun value() = v
+        override fun value() = v
     }
 
-    class MyMapDoubleDoubleBTreeNode(val t: Int, val leaf: Boolean) {
+    abstract class MyMapDoubleDoubleBTreeNode(val t: Int) {
         val keys = DoubleArray(2 * t - 1) 
         val values = DoubleArray(2 * t - 1) 
-        val C = Array<MyMapDoubleDoubleBTreeNode?>(2 * t) { null }
         var n = 0
-        fun free() {
+        abstract fun iterator(): MyMapDoubleDoubleBTreeNodeIterator
+        abstract fun free()
+        abstract fun remove(k: Double): Pair<Double, Double>?
+        abstract fun forEach(action: (Double, Double) -> Unit)
+        abstract fun search(k: Double): Double?
+        abstract fun insertNonFull(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double)
+    }
+
+    class MyMapDoubleDoubleBTreeNodeNonLeaf(t: Int) : MyMapDoubleDoubleBTreeNode(t) {
+        val C = Array<MyMapDoubleDoubleBTreeNode?>(2 * t) { null }
+        override fun free() {
             /*later when buffer-manager is used*/
         }
 
-        fun iterator() = MyMapDoubleDoubleBTreeNodeIterator(this)
+        override fun iterator() = MyMapDoubleDoubleBTreeNodeIteratorNonLeaf(this)
         fun findDouble(k: Double): Int {
             var idx = 0
             while (idx < n && (keys[idx] as Double) < k) {
@@ -66,18 +86,14 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             return idx
         }
 
-        fun remove(k: Double): Pair<Double, Double>? {
+        override fun remove(k: Double): Pair<Double, Double>? {
             val idx = findDouble(k)
             val key = keys[idx] as Double
             val value = values[idx] as Double
             if (idx < n && key == k) {
-                if (leaf) {
-                    removeFromLeaf(idx)
-                } else {
-                    removeFromNonLeaf(idx)
-                }
+                removeFromNonLeaf(idx)
                 return Pair(key, value)
-            } else if (!leaf) {
+            } else {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
@@ -87,24 +103,14 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
-            } else {
-                return null
             }
-        }
-
-        fun removeFromLeaf(idx: Int) {
-            for (i in idx + 1 until n) {
-                keys[i - 1] = keys[i]
-                values[i - 1] = values[i]
-            }
-            n--
         }
 
         fun removeFromNonLeaf(idx: Int) {
             val k = keys[idx] as Double
             if (C[idx]!!.n >= t) {
                 var cur = C[idx]!!
-                while (!cur.leaf) {
+                while (cur is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                     cur = cur.C[cur.n]!!
                 }
                 val pred = cur.keys[cur.n - 1] as Double
@@ -113,7 +119,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 C[idx]!!.remove(pred)
             } else if (C[idx + 1]!!.n >= t) {
                 var cur = C[idx + 1]!!
-                while (!cur.leaf) {
+                while (cur is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                     cur = cur.C[0]!!
                 }
                 val succ = cur.keys[0] as Double
@@ -147,7 +153,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 child.values[i + 1] = child.values[i]
                 i--
             }
-            if (!child.leaf) {
+            if (child is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                 i = child.n
                 while (i >= 0) {
                     child.C[i + 1] = child.C[i]
@@ -155,7 +161,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 }
                 child.keys[0] = keys[idx - 1]
                 child.values[0] = values[idx - 1]
-                if (!child.leaf) {
+                if (child is MyMapDoubleDoubleBTreeNodeNonLeaf && sibling is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                     child.C[0] = sibling.C[sibling.n]
                 }
                 keys[idx - 1] = sibling.keys[sibling.n - 1]
@@ -170,7 +176,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             val sibling = C[idx + 1]!!
             child.keys[child.n] = keys[idx]
             child.values[child.n] = values[idx]
-            if (!child.leaf) {
+            if (child is MyMapDoubleDoubleBTreeNodeNonLeaf && sibling is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                 child.C[child.n + 1] = sibling.C[0]
             }
             keys[idx] = sibling.keys[0]
@@ -179,7 +185,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 sibling.keys[i - 1] = sibling.keys[i]
                 sibling.values[i - 1] = sibling.values[i]
             }
-            if (!sibling.leaf) {
+            if (sibling is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                 for (i in 1 until sibling.n + 1) {
                     sibling.C[i - 1] = sibling.C[i]
                 }
@@ -197,7 +203,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 child.keys[i + t] = sibling.keys[i]
                 child.values[i + t] = sibling.values[i]
             }
-            if (!child.leaf) {
+            if (child is MyMapDoubleDoubleBTreeNodeNonLeaf && sibling is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                 for (i in 0 until sibling.n + 1) {
                     child.C[i + t] = sibling.C[i]
                 }
@@ -214,33 +220,27 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             sibling.free()
         }
 
-        fun forEach(action: (Double, Double) -> Unit) {
+        override fun forEach(action: (Double, Double) -> Unit) {
             for (i in 0 until n) {
-                if (!leaf) {
-                    C[i]!!.forEach(action)
-                }
+                C[i]!!.forEach(action)
                 action(keys[i] as Double, values[i] as Double)
             }
-            if (!leaf) {
-                C[n]!!.forEach(action)
-            }
+            C[n]!!.forEach(action)
         }
 
-        fun search(k: Double): Double? {
+        override fun search(k: Double): Double? {
             var i = 0
             while (i < n && k > (keys[i] as Double)) {
                 i++
             }
             if ((keys[i] as Double) == k) {
                 return values[i] as Double
-            } else if (leaf) {
-                return null
             } else {
                 return C[i]!!.search(k)
             }
         }
 
-        fun insertNonFull(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double) {
+        override fun insertNonFull(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double) {
             var i = n - 1
             var found = false
             for (j in 0 until n) {
@@ -251,38 +251,31 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 }
             }
             if (!found) {
-                if (leaf) {
-                    while (i >= 0 && (keys[i] as Double > k)) {
-                        keys[i + 1] = keys[i]
-                        values[i + 1] = values[i]
-                        i--
-                    }
-                    keys[i + 1] = k
-                    values[i + 1] = onCreate()
-                    n++
-                } else {
-                    while (i >= 0 && (keys[i] as Double) > k) {
-                        i--
-                    }
-                    if (C[i + 1]!!.n == 2 * t - 1) {
-                        splitChild(i + 1, C[i + 1]!!)
-                        if ((keys[i + 1] as Double) < k) {
-                            i++
-                        }
-                    }
-                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
+                while (i >= 0 && (keys[i] as Double) > k) {
+                    i--
                 }
+                if (C[i + 1]!!.n == 2 * t - 1) {
+                    splitChild(i + 1, C[i + 1]!!)
+                    if ((keys[i + 1] as Double) < k) {
+                        i++
+                    }
+                }
+                C[i + 1]!!.insertNonFull(k, onCreate, onExists)
             }
         }
 
         fun splitChild(i: Int, y: MyMapDoubleDoubleBTreeNode) {
-            val z = MyMapDoubleDoubleBTreeNode(y.t, y.leaf)
+            val z = if (y is MyMapDoubleDoubleBTreeNodeLeaf) {
+                MyMapDoubleDoubleBTreeNodeLeaf(y.t)
+            } else {
+                MyMapDoubleDoubleBTreeNodeNonLeaf(y.t)
+            }
             z.n = t - 1
             for (j in 0 until t - 1) {
                 z.keys[j] = y.keys[j + t]
                 z.values[j] = y.values[j + t]
             }
-            if (leaf == false) {
+            if (y is MyMapDoubleDoubleBTreeNodeNonLeaf && z is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                 for (j in 0 until t) {
                     z.C[j] = y.C[j + t]
                 }
@@ -306,13 +299,89 @@ class MyMapDoubleDoubleBTree(val t: Int) {
         }
     }
 
+    class MyMapDoubleDoubleBTreeNodeLeaf(t: Int) : MyMapDoubleDoubleBTreeNode(t) {
+        override fun free() {
+            /*later when buffer-manager is used*/
+        }
+
+        override fun iterator() = MyMapDoubleDoubleBTreeNodeIteratorLeaf(this)
+        fun findDouble(k: Double): Int {
+            var idx = 0
+            while (idx < n && (keys[idx] as Double) < k) {
+                idx++
+            }
+            return idx
+        }
+
+        override fun remove(k: Double): Pair<Double, Double>? {
+            val idx = findDouble(k)
+            val key = keys[idx] as Double
+            val value = values[idx] as Double
+            if (idx < n && key == k) {
+                removeFromLeaf(idx)
+                return Pair(key, value)
+            } else {
+                return null
+            }
+        }
+
+        fun removeFromLeaf(idx: Int) {
+            for (i in idx + 1 until n) {
+                keys[i - 1] = keys[i]
+                values[i - 1] = values[i]
+            }
+            n--
+        }
+
+        override fun forEach(action: (Double, Double) -> Unit) {
+            for (i in 0 until n) {
+                action(keys[i] as Double, values[i] as Double)
+            }
+        }
+
+        override fun search(k: Double): Double? {
+            var i = 0
+            while (i < n && k > (keys[i] as Double)) {
+                i++
+            }
+            if ((keys[i] as Double) == k) {
+                return values[i] as Double
+            } else {
+                return null
+            }
+        }
+
+        override fun insertNonFull(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double) {
+            var i = n - 1
+            var found = false
+            for (j in 0 until n) {
+                if (keys[j] as Double == k) {
+                    values[j] = onExists(keys[j] as Double, values[j] as Double)
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                while (i >= 0 && (keys[i] as Double > k)) {
+                    keys[i + 1] = keys[i]
+                    values[i + 1] = values[i]
+                    i--
+                }
+                keys[i + 1] = k
+                values[i + 1] = onCreate()
+                n++
+            }
+        }
+
+    }
+
     class MyMapDoubleDoubleBTreeInitializer(val t: Int, val target: MyMapDoubleDoubleBTree) {
         var size = 0
         val data = mutableListOf<MyMapDoubleDoubleBTreeNode>()
         fun appendAssumeSorted(key: Double, value: Double): Double {
             val tmp: MyMapDoubleDoubleBTreeNode
             if (data.size == 0 || data[data.size - 1].n == 2 * t - 1) {
-                tmp = MyMapDoubleDoubleBTreeNode(t, true)
+                tmp = MyMapDoubleDoubleBTreeNodeLeaf(t)
                 data.add(tmp)
                 tmp.keys[0] = key
                 tmp.values[0] = value
@@ -334,7 +403,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 SanityCheck {
                     var j = 0
                     for (x in listA) {
-                        if (!x.leaf) {
+                        if (x is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                             for (i in 0 until x.n + 1) {
                                 SanityCheck.check { x.C[i] != null }
                             }
@@ -346,7 +415,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 var n2 = (n + 2 * t) / (2 * t - 1)  //required nodes in the next level to hold all of the current nodes (round up)
                 var n3 = n / n2 + 1       //average number of childs in the next level - prevent that the last node has 1 element and therefore a wrong tree depth
                 for (i in 0 until n2) {
-                    val node = MyMapDoubleDoubleBTreeNode(t, false)
+                    val node = MyMapDoubleDoubleBTreeNodeNonLeaf(t)
                     listB.add(node)
                     for (j in 0 until n3) {
                         if (listA.size > 0) {
@@ -354,7 +423,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                             node.C[node.n] = tmp
                             if (j < n3 - 1 && listA.size > 0) {
                                 var maxElement = tmp
-                                while (!maxElement.leaf) {
+                                while (maxElement is MyMapDoubleDoubleBTreeNodeNonLeaf) {
                                     maxElement = maxElement.C[maxElement.n]!!
                                 }
                                 node.keys[node.n] = maxElement.keys[maxElement.n - 1]
@@ -386,13 +455,13 @@ class MyMapDoubleDoubleBTree(val t: Int) {
     operator fun set(k: Double, v: Double) = insert(k, { v }, { a, b -> v })
     fun insert(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double) {
         if (root == null) {
-            root = MyMapDoubleDoubleBTreeNode(t, true)
+            root = MyMapDoubleDoubleBTreeNodeLeaf(t)
             root!!.keys[0] = k
             root!!.values[0] = onCreate()
             root!!.n = 1
             size++
         } else if (root!!.n == 2 * t - 1) {
-            val s = MyMapDoubleDoubleBTreeNode(t, false)
+            val s = MyMapDoubleDoubleBTreeNodeNonLeaf(t)
             s.C[0] = root
             s.splitChild(0, root!!)
             var i = 0
@@ -435,10 +504,10 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             }
             if (root!!.n == 0) {
                 val tmp = root!!
-                if (root!!.leaf) {
-                    root == null
+                if (tmp is MyMapDoubleDoubleBTreeNodeNonLeaf) {
+                    root = tmp!!.C[0]
                 } else {
-                    root = root!!.C[0]
+                    root == null
                 }
                 tmp.free()
             }
@@ -455,9 +524,10 @@ class MyMapDoubleDoubleBTree(val t: Int) {
         }
     }
 
-    class EmptyIterator : MyMapDoubleDoubleBTreeNodeIterator(null) {
+    class EmptyIterator : MyMapDoubleDoubleBTreeNodeIterator() {
         override fun hasNext() = false
         override fun next(): Double = throw Exception("unreachable")
+        override fun value(): Double = throw Exception("unreachable")
     }
 
     inline fun getOrCreate(key: Double, crossinline onCreate: () -> Double): Double {

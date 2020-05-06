@@ -80,6 +80,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             TurtleParserWithStringTriples({ s, p, o ->
+println("reading $s $p $o")
                 bulk.insert(
                         process_turtle_input_helper(dict, s),
                         process_turtle_input_helper(dict, p),

@@ -18,46 +18,66 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
         set(d.first, d.second)
     }
 
-    open class MyMapGenericGenericBTreeNodeIterator<GenericK : Comparable<GenericK>, GenericV>(val node: MyMapGenericGenericBTreeNode<GenericK, GenericV>?) : Iterator<GenericK> {
+    abstract class MyMapGenericGenericBTreeNodeIterator<GenericK : Comparable<GenericK>, GenericV>() : Iterator<GenericK> {
+        abstract fun value(): GenericV
+    }
+
+
+    class MyMapGenericGenericBTreeNodeIteratorLeaf<GenericK : Comparable<GenericK>, GenericV>(val node: MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>) : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>() {
+        var i = 0
+        var v: GenericV = node!!.values[0] as GenericV
+        override fun hasNext(): Boolean {
+            return i < node.n
+        }
+
+        override fun next(): GenericK {
+            v = node.values[i] as GenericV
+            return node.keys[i++] as GenericK
+        }
+
+        override fun value() = v
+    }
+
+    class MyMapGenericGenericBTreeNodeIteratorNonLeaf<GenericK : Comparable<GenericK>, GenericV>(val node: MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>() {
         var i = 0
         var childIterator = node!!.C[0]!!.iterator()
         var v: GenericV = node!!.values[0] as GenericV
         override fun hasNext(): Boolean {
-            if (node!!.leaf) {
-                return i < node.n
-            } else {
-                return i < node.n || (i == node.n && childIterator.hasNext())
-            }
+            return i < node.n || (i == node.n && childIterator.hasNext())
         }
 
         override fun next(): GenericK {
-            if (node!!.leaf) {
+            if (childIterator.hasNext()) {
+                return childIterator.next()
+            } else {
+                childIterator = node.C[i + 1]!!.iterator()
                 v = node.values[i] as GenericV
                 return node.keys[i++] as GenericK
-            } else {
-                if (childIterator.hasNext()) {
-                    return childIterator.next()
-                } else {
-                    childIterator = node.C[i + 1]!!.iterator()
-                    v = node.values[i] as GenericV
-                    return node.keys[i++] as GenericK
-                }
             }
         }
 
-        fun value() = v
+        override fun value() = v
     }
 
-    class MyMapGenericGenericBTreeNode<GenericK : Comparable<GenericK>, GenericV>(val t: Int, val leaf: Boolean) {
+    abstract class MyMapGenericGenericBTreeNode<GenericK : Comparable<GenericK>, GenericV>(val t: Int) {
         val keys = Array<Any?>(2 * t - 1) {null}
         val values = Array<Any?>(2 * t - 1) {null}
-        val C = Array<MyMapGenericGenericBTreeNode<GenericK, GenericV>?>(2 * t) { null }
         var n = 0
-        fun free() {
+        abstract fun iterator(): MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>
+        abstract fun free()
+        abstract fun remove(k: GenericK): Pair<GenericK, GenericV>?
+        abstract fun forEach(action: (GenericK, GenericV) -> Unit)
+        abstract fun search(k: GenericK): GenericV?
+        abstract fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV)
+    }
+
+    class MyMapGenericGenericBTreeNodeNonLeaf<GenericK : Comparable<GenericK>, GenericV>(t: Int) : MyMapGenericGenericBTreeNode<GenericK, GenericV>(t) {
+        val C = Array<MyMapGenericGenericBTreeNode<GenericK, GenericV>?>(2 * t) { null }
+        override fun free() {
             /*later when buffer-manager is used*/
         }
 
-        fun iterator() = MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>(this)
+        override fun iterator() = MyMapGenericGenericBTreeNodeIteratorNonLeaf<GenericK, GenericV>(this)
         fun findGenericK(k: GenericK): Int {
             var idx = 0
             while (idx < n && (keys[idx] as GenericK) < k) {
@@ -66,18 +86,14 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             return idx
         }
 
-        fun remove(k: GenericK): Pair<GenericK, GenericV>? {
+        override fun remove(k: GenericK): Pair<GenericK, GenericV>? {
             val idx = findGenericK(k)
             val key = keys[idx] as GenericK
             val value = values[idx] as GenericV
             if (idx < n && key == k) {
-                if (leaf) {
-                    removeFromLeaf(idx)
-                } else {
-                    removeFromNonLeaf(idx)
-                }
+                removeFromNonLeaf(idx)
                 return Pair(key, value)
-            } else if (!leaf) {
+            } else {
                 val flag = idx == n
                 if (C[idx]!!.n < t) {
                     fill(idx)
@@ -87,24 +103,14 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 } else {
                     return C[idx]!!.remove(k)
                 }
-            } else {
-                return null
             }
-        }
-
-        fun removeFromLeaf(idx: Int) {
-            for (i in idx + 1 until n) {
-                keys[i - 1] = keys[i]
-                values[i - 1] = values[i]
-            }
-            n--
         }
 
         fun removeFromNonLeaf(idx: Int) {
             val k = keys[idx] as GenericK
             if (C[idx]!!.n >= t) {
                 var cur = C[idx]!!
-                while (!cur.leaf) {
+                while (cur is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                     cur = cur.C[cur.n]!!
                 }
                 val pred = cur.keys[cur.n - 1] as GenericK
@@ -113,7 +119,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 C[idx]!!.remove(pred)
             } else if (C[idx + 1]!!.n >= t) {
                 var cur = C[idx + 1]!!
-                while (!cur.leaf) {
+                while (cur is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                     cur = cur.C[0]!!
                 }
                 val succ = cur.keys[0] as GenericK
@@ -147,7 +153,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 child.values[i + 1] = child.values[i]
                 i--
             }
-            if (!child.leaf) {
+            if (child is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                 i = child.n
                 while (i >= 0) {
                     child.C[i + 1] = child.C[i]
@@ -155,7 +161,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 }
                 child.keys[0] = keys[idx - 1]
                 child.values[0] = values[idx - 1]
-                if (!child.leaf) {
+                if (child is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV> && sibling is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                     child.C[0] = sibling.C[sibling.n]
                 }
                 keys[idx - 1] = sibling.keys[sibling.n - 1]
@@ -170,7 +176,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             val sibling = C[idx + 1]!!
             child.keys[child.n] = keys[idx]
             child.values[child.n] = values[idx]
-            if (!child.leaf) {
+            if (child is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV> && sibling is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                 child.C[child.n + 1] = sibling.C[0]
             }
             keys[idx] = sibling.keys[0]
@@ -179,7 +185,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 sibling.keys[i - 1] = sibling.keys[i]
                 sibling.values[i - 1] = sibling.values[i]
             }
-            if (!sibling.leaf) {
+            if (sibling is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                 for (i in 1 until sibling.n + 1) {
                     sibling.C[i - 1] = sibling.C[i]
                 }
@@ -197,7 +203,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 child.keys[i + t] = sibling.keys[i]
                 child.values[i + t] = sibling.values[i]
             }
-            if (!child.leaf) {
+            if (child is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV> && sibling is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                 for (i in 0 until sibling.n + 1) {
                     child.C[i + t] = sibling.C[i]
                 }
@@ -214,33 +220,27 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             sibling.free()
         }
 
-        fun forEach(action: (GenericK, GenericV) -> Unit) {
+        override fun forEach(action: (GenericK, GenericV) -> Unit) {
             for (i in 0 until n) {
-                if (!leaf) {
-                    C[i]!!.forEach(action)
-                }
+                C[i]!!.forEach(action)
                 action(keys[i] as GenericK, values[i] as GenericV)
             }
-            if (!leaf) {
-                C[n]!!.forEach(action)
-            }
+            C[n]!!.forEach(action)
         }
 
-        fun search(k: GenericK): GenericV? {
+        override fun search(k: GenericK): GenericV? {
             var i = 0
             while (i < n && k > (keys[i] as GenericK)) {
                 i++
             }
             if ((keys[i] as GenericK) == k) {
                 return values[i] as GenericV
-            } else if (leaf) {
-                return null
             } else {
                 return C[i]!!.search(k)
             }
         }
 
-        fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
+        override fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
             var i = n - 1
             var found = false
             for (j in 0 until n) {
@@ -251,38 +251,31 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 }
             }
             if (!found) {
-                if (leaf) {
-                    while (i >= 0 && (keys[i] as GenericK > k)) {
-                        keys[i + 1] = keys[i]
-                        values[i + 1] = values[i]
-                        i--
-                    }
-                    keys[i + 1] = k
-                    values[i + 1] = onCreate()
-                    n++
-                } else {
-                    while (i >= 0 && (keys[i] as GenericK) > k) {
-                        i--
-                    }
-                    if (C[i + 1]!!.n == 2 * t - 1) {
-                        splitChild(i + 1, C[i + 1]!!)
-                        if ((keys[i + 1] as GenericK) < k) {
-                            i++
-                        }
-                    }
-                    C[i + 1]!!.insertNonFull(k, onCreate, onExists)
+                while (i >= 0 && (keys[i] as GenericK) > k) {
+                    i--
                 }
+                if (C[i + 1]!!.n == 2 * t - 1) {
+                    splitChild(i + 1, C[i + 1]!!)
+                    if ((keys[i + 1] as GenericK) < k) {
+                        i++
+                    }
+                }
+                C[i + 1]!!.insertNonFull(k, onCreate, onExists)
             }
         }
 
         fun splitChild(i: Int, y: MyMapGenericGenericBTreeNode<GenericK, GenericV>) {
-            val z = MyMapGenericGenericBTreeNode<GenericK, GenericV>(y.t, y.leaf)
+            val z = if (y is MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>) {
+                MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>(y.t)
+            } else {
+                MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>(y.t)
+            }
             z.n = t - 1
             for (j in 0 until t - 1) {
                 z.keys[j] = y.keys[j + t]
                 z.values[j] = y.values[j + t]
             }
-            if (leaf == false) {
+            if (y is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV> && z is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                 for (j in 0 until t) {
                     z.C[j] = y.C[j + t]
                 }
@@ -306,13 +299,89 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
         }
     }
 
+    class MyMapGenericGenericBTreeNodeLeaf<GenericK : Comparable<GenericK>, GenericV>(t: Int) : MyMapGenericGenericBTreeNode<GenericK, GenericV>(t) {
+        override fun free() {
+            /*later when buffer-manager is used*/
+        }
+
+        override fun iterator() = MyMapGenericGenericBTreeNodeIteratorLeaf<GenericK, GenericV>(this)
+        fun findGenericK(k: GenericK): Int {
+            var idx = 0
+            while (idx < n && (keys[idx] as GenericK) < k) {
+                idx++
+            }
+            return idx
+        }
+
+        override fun remove(k: GenericK): Pair<GenericK, GenericV>? {
+            val idx = findGenericK(k)
+            val key = keys[idx] as GenericK
+            val value = values[idx] as GenericV
+            if (idx < n && key == k) {
+                removeFromLeaf(idx)
+                return Pair(key, value)
+            } else {
+                return null
+            }
+        }
+
+        fun removeFromLeaf(idx: Int) {
+            for (i in idx + 1 until n) {
+                keys[i - 1] = keys[i]
+                values[i - 1] = values[i]
+            }
+            n--
+        }
+
+        override fun forEach(action: (GenericK, GenericV) -> Unit) {
+            for (i in 0 until n) {
+                action(keys[i] as GenericK, values[i] as GenericV)
+            }
+        }
+
+        override fun search(k: GenericK): GenericV? {
+            var i = 0
+            while (i < n && k > (keys[i] as GenericK)) {
+                i++
+            }
+            if ((keys[i] as GenericK) == k) {
+                return values[i] as GenericV
+            } else {
+                return null
+            }
+        }
+
+        override fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
+            var i = n - 1
+            var found = false
+            for (j in 0 until n) {
+                if (keys[j] as GenericK == k) {
+                    values[j] = onExists(keys[j] as GenericK, values[j] as GenericV)
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                while (i >= 0 && (keys[i] as GenericK > k)) {
+                    keys[i + 1] = keys[i]
+                    values[i + 1] = values[i]
+                    i--
+                }
+                keys[i + 1] = k
+                values[i + 1] = onCreate()
+                n++
+            }
+        }
+
+    }
+
     class MyMapGenericGenericBTreeInitializer<GenericK : Comparable<GenericK>, GenericV>(val t: Int, val target: MyMapGenericGenericBTree<GenericK, GenericV>) {
         var size = 0
         val data = mutableListOf<MyMapGenericGenericBTreeNode<GenericK, GenericV>>()
         fun appendAssumeSorted(key: GenericK, value: GenericV): GenericV {
             val tmp: MyMapGenericGenericBTreeNode<GenericK, GenericV>
             if (data.size == 0 || data[data.size - 1].n == 2 * t - 1) {
-                tmp = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, true)
+                tmp = MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>(t)
                 data.add(tmp)
                 tmp.keys[0] = key
                 tmp.values[0] = value
@@ -334,7 +403,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 SanityCheck {
                     var j = 0
                     for (x in listA) {
-                        if (!x.leaf) {
+                        if (x is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                             for (i in 0 until x.n + 1) {
                                 SanityCheck.check { x.C[i] != null }
                             }
@@ -346,7 +415,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 var n2 = (n + 2 * t) / (2 * t - 1)  //required nodes in the next level to hold all of the current nodes (round up)
                 var n3 = n / n2 + 1       //average number of childs in the next level - prevent that the last node has 1 element and therefore a wrong tree depth
                 for (i in 0 until n2) {
-                    val node = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, false)
+                    val node = MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>(t)
                     listB.add(node)
                     for (j in 0 until n3) {
                         if (listA.size > 0) {
@@ -354,7 +423,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                             node.C[node.n] = tmp
                             if (j < n3 - 1 && listA.size > 0) {
                                 var maxElement = tmp
-                                while (!maxElement.leaf) {
+                                while (maxElement is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                                     maxElement = maxElement.C[maxElement.n]!!
                                 }
                                 node.keys[node.n] = maxElement.keys[maxElement.n - 1]
@@ -386,13 +455,13 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
     operator fun set(k: GenericK, v: GenericV) = insert(k, { v }, { a, b -> v })
     fun insert(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
         if (root == null) {
-            root = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, true)
+            root = MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>(t)
             root!!.keys[0] = k
             root!!.values[0] = onCreate()
             root!!.n = 1
             size++
         } else if (root!!.n == 2 * t - 1) {
-            val s = MyMapGenericGenericBTreeNode<GenericK, GenericV>(t, false)
+            val s = MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>(t)
             s.C[0] = root
             s.splitChild(0, root!!)
             var i = 0
@@ -435,10 +504,10 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             }
             if (root!!.n == 0) {
                 val tmp = root!!
-                if (root!!.leaf) {
-                    root == null
+                if (tmp is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
+                    root = tmp!!.C[0]
                 } else {
-                    root = root!!.C[0]
+                    root == null
                 }
                 tmp.free()
             }
@@ -455,9 +524,10 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
         }
     }
 
-    class EmptyIterator<GenericK : Comparable<GenericK>, GenericV> : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>(null) {
+    class EmptyIterator<GenericK : Comparable<GenericK>, GenericV> : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>() {
         override fun hasNext() = false
         override fun next(): GenericK = throw Exception("unreachable")
+        override fun value(): GenericV = throw Exception("unreachable")
     }
 
     inline fun getOrCreate(key: GenericK, crossinline onCreate: () -> GenericV): GenericV {
