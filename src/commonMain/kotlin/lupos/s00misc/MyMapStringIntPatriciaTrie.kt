@@ -2,209 +2,256 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MyMapStringIntPatriciaTrie() {
-    class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
-        val children = mutableListOf<MyMapStringIntPatriciaTrieNode>()
+class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
+    var root = MyMapStringIntPatriciaTrieNode()
+    var rootValue: Int = undefinedValue
+    var size = 0
+
+    class MyMapStringIntPatriciaTrieNode() {
+        var str = ""
+        var arr = IntArray(0) /*second half: child values, first half offsets in str*/
+        var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }
 
-    var size: Int = 0
-    var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode("", null)
-
-    constructor(data: Pair<String, Int>) : this() {
-        set(data.first, data.second)
-    }
-
-    fun walkInternal(key: String, node: MyMapStringIntPatriciaTrieNode, onCreate: () -> Int?, onUpdate: (MyMapStringIntPatriciaTrieNode) -> Unit): Int? {
-        val keyF = key.get(0)
-        for (child in node.children) {
-            val childF = child.key.get(0)
-            if (keyF == childF) {
-                val commonKey = key.commonPrefixWith(child.key)
-                if (child.key.length == key.length && commonKey.length == key.length) {
-                    if (child.value == null) {
-                        child.value = onCreate()
-                        if (child.value != null) {
-                            size++
-                        }
-                    } else {
-                        onUpdate(child)
-                    }
-                    return child.value
-                } else if (commonKey.length == child.key.length) {
-                    return walkInternal(key.substring(commonKey.length, key.length), child, onCreate, onUpdate)
-                } else {
-                    val value = onCreate()
-                    if (value != null) {
-                        size++
-                        val intermediateNode = MyMapStringIntPatriciaTrieNode(commonKey, null)
-                        child.key = child.key.substring(commonKey.length, child.key.length)
-                        intermediateNode.children.add(child)
-                        node.children.remove(child)
-                        node.children.add(intermediateNode)
-                        var newNode: MyMapStringIntPatriciaTrieNode
-                        if (commonKey.length == key.length) {
-                            newNode = intermediateNode
-                            intermediateNode.value = value
+    inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
+        if (_key == "") {
+            rootValue = onExist(rootValue)
+        } else {
+            var key = _key
+            var node = root
+            loop@ while (true) {
+                require(key.length > 0)
+                var childCount = node.childs.size
+                for (childIdx in 0 until childCount) {
+                    if (node.str[node.arr[childIdx]] == key[0]) {
+                        var childKeyStart = node.arr[childIdx]
+                        var childKeyEnd: Int
+                        if (childIdx == childCount - 1) {
+                            childKeyEnd = node.str.length
                         } else {
-                            newNode = MyMapStringIntPatriciaTrieNode(key.substring(commonKey.length, key.length), value)
-                            intermediateNode.children.add(newNode)
+                            childKeyEnd = node.arr[childIdx + 1]
                         }
-                        return newNode.value
-                    } else {
-                        return null
+                        var childKey = node.str.substring(childKeyStart, childKeyEnd)
+                        var commonKey = key.commonPrefixWith(childKey)
+                        if (commonKey.length == key.length) {
+                            node.arr[childCount + childIdx] = onExist(node.arr[childCount + childIdx])
+                            return
+                        } else if (commonKey.length == childKey.length) {
+                            if (node.childs[childIdx] != null) {
+                                node = node.childs[childIdx]!!
+                                key = key.substring(childKey.length, key.length)
+                                continue@loop
+                            } else {
+                                if (create) {
+                                    var newNode = MyMapStringIntPatriciaTrieNode()
+                                    newNode.childs = arrayOf(null)
+                                    newNode.arr = intArrayOf(0, onCreate())
+                                    newNode.str = key.substring(commonKey.length, key.length)
+                                    node.childs[childIdx] = newNode
+                                    size++
+                                } else {
+                                    onNotFound()
+                                }
+                                return
+                            }
+                        } else {
+                            if (create) {
+                                var otherKey = childKey.substring(commonKey.length, childKey.length)
+                                var newKey = key.substring(commonKey.length, key.length)
+                                var newNode = MyMapStringIntPatriciaTrieNode()
+                                newNode.childs = arrayOf(node.childs[childIdx], null)
+                                newNode.str = otherKey + newKey
+                                newNode.arr = intArrayOf(0, otherKey.length, node.arr[childCount + childIdx], onCreate())
+                                node.childs[childIdx] = newNode
+                                node.arr[childCount + childIdx] = undefinedValue
+                                node.str = node.str.substring(0, childKeyStart) + commonKey + node.str.substring(childKeyEnd, node.str.length)
+                                for (j in childIdx + 1 until childCount) {
+                                    node.arr[j] -= otherKey.length
+                                }
+                                size++
+                            } else {
+                                onNotFound()
+                            }
+                            return
+                        }
                     }
                 }
+                if (create) {
+                    var childs = Array(childCount + 1) {
+                        val res: MyMapStringIntPatriciaTrieNode?
+                        if (it < childCount) {
+                            res = node.childs[it]
+                        } else {
+                            res = null
+                        }
+                        /*return*/ res
+                    }
+                    var arr = IntArray(node.arr.size + 2)
+                    for (childIdx in 0 until childCount) {
+                        arr[childIdx] = node.arr[childIdx]
+                        arr[childCount + 1 + childIdx] = node.arr[childCount + childIdx]
+                    }
+                    arr[childCount + childCount + 1] = onCreate()
+                    arr[childCount] = node.str.length
+                    node.str += key
+                    node.childs = childs
+                    node.arr = arr
+                    size++
+                } else {
+                    onNotFound()
+                }
+                return
             }
-        }
-        val value = onCreate()
-        if (value != null) {
-            size++
-            val newNode = MyMapStringIntPatriciaTrieNode(key, value)
-            node.children.add(newNode)
-            return newNode.value
-        } else {
-            return null
         }
     }
 
     inline operator fun get(key: String): Int? {
-        if (key == "") {
-            return root.value
-        } else {
-            return walkInternal(key, root, { null }, {})
-        }
+        var res: Int? = null
+        walkInternal(key, { undefinedValue }, {
+            res = it
+            /*return*/ it
+        }, {}, false)
+        return res
     }
 
     inline operator fun set(key: String, value: Int) {
-        if (key == "") {
-            root.value = value
-        } else {
-            walkInternal(key, root, { value }, { it.value = value })
-        }
+        walkInternal(key, { value }, { value }, {}, true)
     }
 
-    inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
-        var value: Int? = null
-        if (key == "") {
-            if (root.value == null) {
-                root.value = onCreate()
-            }
-            value = root.value
-        } else {
-            walkInternal(key, root, {
-                value = onCreate()
-/*return*/value
-            }, { value = it.value })
-        }
-        return value!!
+    inline fun getOrCreate(key: String, onCreate: () -> Int): Int {
+        var res = undefinedValue
+        walkInternal(key, {
+            res = onCreate()
+            /*return*/ res
+        }, {
+            res = it
+            /*return*/ it
+        }, {}, true)
+        return res
     }
 
-    fun appendAssumeSorted(key: String, value: Int): Int {
+    inline fun appendAssumeSorted(key: String, value: Int): Int {
         set(key, value)
         return value
     }
 
-    fun clear() {
-        root = MyMapStringIntPatriciaTrieNode("", null)
+    inline fun clear() {
+        root = MyMapStringIntPatriciaTrieNode()
+        rootValue = undefinedValue
+        size = 0
     }
 
-    fun forEachInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode, action: (String, Int) -> Unit) {
-        val nextPrefix = prefix + node.key
-        if (node.value != null) {
-            action(nextPrefix, node.value!!)
+    inline fun forEach(action: crossinline(String, Int) -> Unit)
+    {
+        var queue = mutableListOf<Pair<String, MyMapStringIntPatriciaTrieNode>>()
+        var node = root
+        if (rootValue != undefinedValue) {
+            action("", rootValue)
         }
-        for (c in node.children) {
-            forEachInternal(nextPrefix, c, action)
+        var childCount = node.childs.size
+        for (childIdx in 0 until childCount) {
+            var childKeyStart = node.arr[childIdx]
+            var childKeyEnd: Int
+            if (childIdx == childCount - 1) {
+                childKeyEnd = node.str.length
+            } else {
+                childKeyEnd = node.arr[childIdx + 1]
+            }
+            var childKey = node.str.substring(childKeyStart, childKeyEnd)
+            if (node.arr[childCount + childIdx] != undefinedValue) {
+                action(childKey, node.arr[childCount + childIdx])
+            }
+            if (node.childs[childIdx] != null) {
+                queue.add(Pair(childKey, node.childs[childIdx]!!))
+            }
+        }
+        while (queue.size > 0) {
+            var current = queue.removeAt(0)
+            var prefix = current.first
+            node = current.second
+            var childCount = node.childs.size
+            for (childIdx in 0 until childCount) {
+                var childKeyStart = node.arr[childIdx]
+                var childKeyEnd: Int
+                if (childIdx == childCount - 1) {
+                    childKeyEnd = node.str.length
+                } else {
+                    childKeyEnd = node.arr[childIdx + 1]
+                }
+                var childKey = prefix + node.str.substring(childKeyStart, childKeyEnd)
+                if (node.arr[childCount + childIdx] != undefinedValue) {
+                    action(childKey, node.arr[childCount + childIdx])
+                }
+                if (node.childs[childIdx] != null) {
+                    queue.add(Pair(childKey, node.childs[childIdx]!!))
+                }
+            }
         }
     }
-
-    fun forEach(action: (String, Int) -> Unit) = forEachInternal("", root, action)
 
     fun safeToFile(filename: String) {
         var queue = mutableListOf<MyMapStringIntPatriciaTrieNode>()
         File(filename).dataOutputStream { out ->
-            out.writeShort(root.children.size)
-            if (root.value != null) {
-                out.writeChar(1)
-                out.writeInt(root.value!!)
-            } else {
-                out.writeChar(0)
-            }
-            for (children in root.children) {
-                queue.add(children)
-            }
+            out.writeInt(rootValue)
+            queue.add(root)
             while (queue.size > 0) {
                 val node = queue.removeAt(0)
-                out.writeShort(node.children.size)
-                for (c in node.key) {
+                var childCount = node.childs.size
+                out.writeShort(childCount)
+                for (c in node.str) {
                     out.writeChar(c.toInt())
                 }
-                /*write node.key*/
-                if (node.value != null) {
-                    out.writeChar(1)
-                    out.writeInt(node.value!!)
-                } else {
-                    out.writeChar(0)
-                }
-                for (children in node.children) {
-                    queue.add(children)
+                out.writeChar(0)
+                for (i in 0 until childCount) {
+                    out.writeInt(node.arr[i])
+                    out.writeInt(node.arr[childCount + i])
+                    if (node.childs[i] == null) {
+                        out.writeChar(0)
+                    } else {
+                        out.writeChar(1)
+                        queue.add(node.childs[i]!!)
+                    }
                 }
             }
         }
     }
 
     fun loadFromFile(filename: String) {
-        var queueNode = mutableListOf<MyMapStringIntPatriciaTrieNode>()
-        var queueCount = MyListInt()
+        var queue = mutableListOf<Pair<Int, MyMapStringIntPatriciaTrieNode>>()
         File(filename).dataInputStream { fis ->
-            val len = fis.readShort()
-            if (len > 0) {
-                queueNode.add(root)
-                queueCount.add(len.toInt())
-            }
-            if (fis.readChar().toInt() == 1) {
-                root.value = fis.readInt()
-            }
-            while (queueCount.size > 0) {
-                val parentCount = queueCount[0]--
-                val parent = queueNode[0]
-                SanityCheck.check { parentCount > 0 }
-                if (parentCount == 1) {
-                    queueNode.removeAt(0)
-                    queueCount.removeAt(0)
+            rootValue = fis.readInt()
+            var first = true
+            while (queue.size > 0 || first) {
+                val node = MyMapStringIntPatriciaTrieNode()
+                if (first) {
+                    root = node
+                    first = false
+                } else {
+                    var current = queue.removeAt(0)
+                    current.second.childs[current.first] = node
                 }
-                val len = fis.readShort()
-                val key = StringBuilder()
+                size = 0
+                if (rootValue != null) {
+                    size++
+                }
+                var childCount = fis.readShort()
                 var c = fis.readChar()
-                while (c.toInt() > 1) {
-                    key.append(c)
+                while (c.toInt() != 0) {
+                    node.str += c
                     c = fis.readChar()
                 }
-                val node: MyMapStringIntPatriciaTrieNode
-                if (c.toInt() == 1) {
-                    node = MyMapStringIntPatriciaTrieNode(key.toString(), fis.readInt())
-                } else {
-                    node = MyMapStringIntPatriciaTrieNode(key.toString(), null)
+                node.childs = Array<MyMapStringIntPatriciaTrieNode?>(childCount.toInt()) { null }
+                node.arr = IntArray(childCount * 2)
+                for (i in 0 until childCount) {
+                    node.arr[i] = fis.readInt()
+                    node.arr[childCount + i] = fis.readInt()
+                    var x = fis.readChar()
+                    if (x.toInt() == 1) {
+                        queue.add(Pair(i, node))
+                    }
                 }
-                queueCount.add(len.toInt())
-                queueNode.add(node)
-                parent.children.add(node)
             }
         }
     }
-
-
-    fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode,depth:Int) {
-        if (node.value != null) {
-	    println("${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}=${node.value}")
-        }else{
-	    println("${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}")
-	}
-        for (c in node.children) {
-            debugInternal(prefix+" ", c,depth+1)
-        }
-    }
-
-    fun debug() = debugInternal("", root,0)
 
 }

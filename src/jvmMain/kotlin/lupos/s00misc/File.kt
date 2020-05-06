@@ -79,4 +79,46 @@ class File(@JvmField val filename: String) {
             dis?.close()
         }
     }
+
+ override fun equals(other:Any?) :Boolean{
+if(other !is File){
+return false
+}
+        val file1 = java.io.File(filename)
+        val file2 = java.io.File(other.filename)
+        val EOF = -1
+        if (file1 == file2) {
+            return true
+        }
+        if (file1.getCanonicalFile().equals(file2.getCanonicalFile())) {
+            return true
+        }
+        val file1Exists = file1.exists()
+        if (file1Exists != file2.exists()) {
+            return false
+        }
+        if (!file1Exists) {
+            return true
+        }
+        if (file1.isDirectory() || file2.isDirectory()) {
+            throw Exception ("Can't compare directories, only files")
+        }
+        if (file1.length() != file2.length()) {
+            return false
+        }
+val input1=BufferedInputStream(FileInputStream(file1))
+val input2=BufferedInputStream(FileInputStream (file2))
+            var ch = input1.read()
+            while (EOF != ch) {
+                val ch2 = input2.read()
+                if (ch != ch2) {
+                    return false
+                }
+                ch = input1.read()
+            }
+            val ch2 = input2.read()
+            return ch2 == EOF
+input1.close()
+input2.close()
+        }
 }

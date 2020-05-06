@@ -60,6 +60,13 @@ class SparqlTestSuite() {
             }
         }
         nodeGlobalDictionary.printContents()
+	nodeGlobalDictionary.typedMap.safeToFile("log/dict_1")
+	var tmp=ResultSetDictionary()
+	tmp.typedMap.loadFromFile("log/dict_1")
+	tmp.typedMap.safeToFile("log/dict_2")
+	if(File("log/dict_1")!=File("log/dict_2")){
+		throw Exception("saveing and reloading the Dictionary failed")
+	}
     }
 
     private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
