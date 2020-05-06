@@ -16,7 +16,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }
 
-open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode() {
+    open class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode() {
         var arr1: Int = 0
         var arr2: Int = 0
         var arr3: Int = 0
@@ -24,7 +24,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
         var childs1: MyMapStringIntPatriciaTrieNode? = null
     }
 
-    inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
+    fun walkInternal(_key: String, onCreate: () -> Int, onExist: (Int) -> Int, onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
             rootValue = onExist(rootValue)
         } else {
@@ -40,8 +40,10 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                             var childKeyStart = 0
                             var childKeyEnd = node.arr1
                             var childKey = node.str.substring(childKeyStart, childKeyEnd)
+                            require(childKey.length > 0)
                             var commonKey = key.commonPrefixWith(childKey)
-                            if (commonKey.length == key.length) {
+                            require(commonKey.length > 0)
+                            if (commonKey.length == key.length && commonKey.length == childKey.length) {
                                 node.arr2 = onExist(node.arr2)
                                 return
                             } else if (commonKey.length == childKey.length) {
@@ -49,6 +51,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                     prev = node
                                     nextnode = node.childs0!!
                                     key = key.substring(childKey.length, key.length)
+                                    require(key.length > 0)
                                     continue@loop
                                 } else {
                                     if (create) {
@@ -56,6 +59,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                         newNode.childs = arrayOf(null)
                                         newNode.arr = intArrayOf(0, onCreate())
                                         newNode.str = key.substring(commonKey.length, key.length)
+                                        require(newNode.str.length > 0)
                                         node.childs0 = newNode
                                         size++
                                     } else {
@@ -66,7 +70,9 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                             } else {
                                 if (create) {
                                     var otherKey = childKey.substring(commonKey.length, childKey.length)
+                                    require(otherKey.length > 0)
                                     var newKey = key.substring(commonKey.length, key.length)
+                                    require(newKey.length > 0)
                                     var newNode = MyMapStringIntPatriciaTrieNode2()
                                     newNode.childs0 = node.childs0
                                     newNode.childs1 = null
@@ -76,8 +82,9 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                     newNode.arr3 = onCreate()
                                     node.childs0 = newNode
                                     node.arr2 = undefinedValue
-                                    node.str = node.str.substring(0, childKeyStart) + commonKey + node.str.substring(childKeyEnd, node.str.length)
-                                    node.arr1 -= otherKey.length
+                                    node.str = commonKey + node.str.substring(childKeyEnd, node.str.length)
+                                    require(node.str.length > commonKey.length)
+                                    node.arr1 = commonKey.length
                                     size++
                                 } else {
                                     onNotFound()
@@ -88,8 +95,9 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                             var childKeyStart = node.arr1
                             var childKeyEnd = node.str.length
                             var childKey = node.str.substring(childKeyStart, childKeyEnd)
+                            require(childKey.length > 0)
                             var commonKey = key.commonPrefixWith(childKey)
-                            if (commonKey.length == key.length) {
+                            if (commonKey.length == key.length && commonKey.length == childKey.length) {
                                 node.arr3 = onExist(node.arr3)
                                 return
                             } else if (commonKey.length == childKey.length) {
@@ -97,6 +105,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                     prev = node
                                     nextnode = node.childs1!!
                                     key = key.substring(childKey.length, key.length)
+                                    require(key.length > 0)
                                     continue@loop
                                 } else {
                                     if (create) {
@@ -104,6 +113,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                         newNode.childs = arrayOf(null)
                                         newNode.arr = intArrayOf(0, onCreate())
                                         newNode.str = key.substring(commonKey.length, key.length)
+                                        require(newNode.str.length > 0)
                                         node.childs1 = newNode
                                         size++
                                     } else {
@@ -115,6 +125,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                 if (create) {
                                     var otherKey = childKey.substring(commonKey.length, childKey.length)
                                     var newKey = key.substring(commonKey.length, key.length)
+                                    require(newKey.length > 0)
                                     var newNode = MyMapStringIntPatriciaTrieNode2()
                                     newNode.childs0 = node.childs1
                                     newNode.childs1 = null
@@ -124,7 +135,8 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                     newNode.arr3 = onCreate()
                                     node.childs1 = newNode
                                     node.arr3 = undefinedValue
-                                    node.str = node.str.substring(0, childKeyStart) + commonKey + node.str.substring(childKeyEnd, node.str.length)
+                                    node.str = node.str.substring(0, childKeyStart) + commonKey
+                                    require(node.str.length > commonKey.length)
                                     size++
                                 } else {
                                     onNotFound()
@@ -174,8 +186,9 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                     childKeyEnd = node.arr[childIdx + 1]
                                 }
                                 var childKey = node.str.substring(childKeyStart, childKeyEnd)
+                                require(childKey.length > 0)
                                 var commonKey = key.commonPrefixWith(childKey)
-                                if (commonKey.length == key.length) {
+                                if (commonKey.length == key.length && commonKey.length == childKey.length) {
                                     node.arr[childCount + childIdx] = onExist(node.arr[childCount + childIdx])
                                     return
                                 } else if (commonKey.length == childKey.length) {
@@ -183,6 +196,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                         prev = node
                                         nextnode = node.childs[childIdx]!!
                                         key = key.substring(childKey.length, key.length)
+                                        require(key.length > 0)
                                         continue@loop
                                     } else {
                                         if (create) {
@@ -190,6 +204,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                             newNode.childs = arrayOf(null)
                                             newNode.arr = intArrayOf(0, onCreate())
                                             newNode.str = key.substring(commonKey.length, key.length)
+                                            require(newNode.str.length > 0)
                                             node.childs[childIdx] = newNode
                                             size++
                                         } else {
@@ -200,7 +215,9 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                 } else {
                                     if (create) {
                                         var otherKey = childKey.substring(commonKey.length, childKey.length)
+                                        require(otherKey.length > 0)
                                         var newKey = key.substring(commonKey.length, key.length)
+                                        require(newKey.length > 0)
                                         var newNode = MyMapStringIntPatriciaTrieNode2()
                                         newNode.childs0 = node.childs[childIdx]
                                         newNode.childs1 = null
@@ -210,9 +227,12 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                         newNode.arr3 = onCreate()
                                         node.childs[childIdx] = newNode
                                         node.arr[childCount + childIdx] = undefinedValue
+                                        var debugtmp = node.str.length
                                         node.str = node.str.substring(0, childKeyStart) + commonKey + node.str.substring(childKeyEnd, node.str.length)
+                                        require(node.str.length > commonKey.length || childCount == 1, { "${otherKey} ${newKey} ${commonKey} ${childKeyStart} ${childKeyEnd} ${debugtmp} ${childIdx} ${childCount} ${node.str.length}" })
                                         for (j in childIdx + 1 until childCount) {
                                             node.arr[j] -= otherKey.length
+                                            require(node.arr[j] < node.str.length)
                                         }
                                         size++
                                     } else {
@@ -237,8 +257,8 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                                 arr[childIdx] = node.arr[childIdx]
                                 arr[childCount + 1 + childIdx] = node.arr[childCount + childIdx]
                             }
-                            arr[childCount + childCount + 1] = onCreate()
                             arr[childCount] = node.str.length
+                            arr[childCount + childCount + 1] = onCreate()
                             node.str += key
                             node.childs = childs
                             node.arr = arr
@@ -499,7 +519,7 @@ open    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode
                 }
                 when (node) {
                     is MyMapStringIntPatriciaTrieNode2 -> {
-                        val dummy=fis.readInt()
+                        val dummy = fis.readInt()
                         node.arr2 = fis.readInt()
                         if (node.arr2 != undefinedValue) {
                             size++
