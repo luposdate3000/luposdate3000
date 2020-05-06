@@ -69,6 +69,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(fileNames: String): String {
+try{
         val query = Query()
         var bulk = TripleStoreBulkImport()
         var counter = 0
@@ -80,7 +81,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             TurtleParserWithStringTriples({ s, p, o ->
-println("reading $s $p $o")
                 bulk.insert(
                         process_turtle_input_helper(dict, s),
                         process_turtle_input_helper(dict, p),
@@ -97,15 +97,18 @@ println("reading $s $p $o")
         bulk.sort()
         store.bulkImport(bulk)
 //>>>
-/*
 	println("dumping dictionary - particia trie as debug")
 	nodeGlobalDictionary.typedMap.debug()
         println("ready")
         Thread.sleep(20000)
         println("not ready ${bulk.idx}")
-*/
+
 //<<<
         return XMLElement("success $counter").toString()
+}catch(e:Throwable){
+e.printStackTrace()
+throw e
+}
     }
 
     /*
