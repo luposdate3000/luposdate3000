@@ -24,7 +24,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         var childs1: MyMapStringIntPatriciaTrieNode? = null
     }
 
-inline    fun walkInternal(_key: String,  crossinline onCreate: () -> Int,  crossinline onExist: (Int) -> Int,  crossinline onNotFound: () -> Unit, create: Boolean) {
+    inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
             rootValue = onExist(rootValue)
         } else {
@@ -75,7 +75,7 @@ inline    fun walkInternal(_key: String,  crossinline onCreate: () -> Int,  cros
                                         var newNode = MyMapStringIntPatriciaTrieNodeN()
                                         newNode.childs = arrayOf(node.childs0)
                                         newNode.str = otherKey
-                                        newNode.arr = intArrayOf(0,node.arr2)
+                                        newNode.arr = intArrayOf(0, node.arr2)
                                         node.childs0 = newNode
                                         node.arr2 = onCreate()
                                         node.str = commonKey + node.str.substring(childKeyEnd, node.str.length)
@@ -144,7 +144,7 @@ inline    fun walkInternal(_key: String,  crossinline onCreate: () -> Int,  cros
                                         var newNode = MyMapStringIntPatriciaTrieNodeN()
                                         newNode.childs = arrayOf(node.childs1)
                                         newNode.str = otherKey
-                                        newNode.arr = intArrayOf(0,node.arr3)
+                                        newNode.arr = intArrayOf(0, node.arr3)
                                         node.childs1 = newNode
                                         node.arr3 = onCreate()
                                         node.str = node.str.substring(0, childKeyStart) + commonKey
@@ -525,7 +525,6 @@ inline    fun walkInternal(_key: String,  crossinline onCreate: () -> Int,  cros
             var first = true
             while (queue.size > 0 || first) {
                 var childCount = fis.readShort()
-
                 val node: MyMapStringIntPatriciaTrieNode
                 if (childCount.toInt() == 2) {
                     node = MyMapStringIntPatriciaTrieNode2()

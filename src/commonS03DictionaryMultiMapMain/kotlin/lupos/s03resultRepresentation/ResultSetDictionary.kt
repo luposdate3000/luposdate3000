@@ -79,55 +79,36 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
-    val iriMap = MyMapStringIntPatriciaTrie()
-    val iriList = MyListGeneric<String>()
+    val iriMap = MyMapStringIntPatriciaTrieDouble()
     fun createIri(iri: String): Value {
         if (global) {
-            return iriMap.getOrCreate(iri, {
-                val idx = iriList.size
-                iriList.add(iri)
-                /*return*/ (flaggedValueGlobalIri or idx.toInt())
-            })
+            return flaggedValueGlobalIri or iriMap.getOrCreate(iri)
         } else {
             var tmp = nodeGlobalDictionary.iriMap[iri]
             if (tmp != null) {
-                return tmp
+                return tmp or flaggedValueGlobalIri
             } else {
-                return iriMap.getOrCreate(iri, {
-                    val idx = iriList.size
-                    iriList.add(iri)
-                    /*return*/(flaggedValueLocalIri or idx.toInt())
-                })
+                return flaggedValueLocalIri or iriMap.getOrCreate(iri)
             }
         }
     }
 
-    val langTaggedMap = MyMapStringIntPatriciaTrie()
-    val langTaggedList = MyListGeneric<String>()
+    val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
     fun createLangTagged(content: String, lang: String): Value {
         val key = lang + "@" + content
         if (global) {
-            return langTaggedMap.getOrCreate(key, {
-                val idx = langTaggedList.size
-                langTaggedList.add(key)
-                /*return*/ (flaggedValueGlobalLangTagged or idx.toInt())
-            })
+            return flaggedValueGlobalLangTagged or langTaggedMap.getOrCreate(key)
         } else {
             var tmp = nodeGlobalDictionary.langTaggedMap[key]
             if (tmp != null) {
-                return tmp
+                return tmp or flaggedValueGlobalLangTagged
             } else {
-                return langTaggedMap.getOrCreate(key, {
-                    val idx = langTaggedList.size
-                    langTaggedList.add(key)
-                    /*return*/(flaggedValueLocalLangTagged or idx.toInt())
-                })
+                return flaggedValueLocalLangTagged or langTaggedMap.getOrCreate(key)
             }
         }
     }
 
-    val typedMap = MyMapStringIntPatriciaTrie()
-    val typedList = MyListGeneric<String>()
+    val typedMap = MyMapStringIntPatriciaTrieDouble()
     fun createTyped(content: String, type: String): Value {
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
@@ -149,21 +130,13 @@ class ResultSetDictionary(val global: Boolean = false) {
             else -> {
                 val key = type + ">" + content
                 if (global) {
-                    return typedMap.getOrCreate(key, {
-                        val idx = typedList.size
-                        typedList.add(key)
-                        /*return*/ (flaggedValueGlobalTyped or idx.toInt())
-                    })
+                    return flaggedValueGlobalTyped or typedMap.getOrCreate(key)
                 } else {
                     var tmp = nodeGlobalDictionary.typedMap[key]
                     if (tmp != null) {
-                        return tmp
+                        return tmp or flaggedValueGlobalTyped
                     } else {
-                        return typedMap.getOrCreate(key, {
-                            val idx = typedList.size
-                            typedList.add(key)
-                            /*return*/(flaggedValueLocalTyped or idx.toInt())
-                        })
+                        return flaggedValueLocalTyped or typedMap.getOrCreate(key)
                     }
                 }
             }
@@ -182,7 +155,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             val tmp = nodeGlobalDictionary.doubleMap[value]
             if (tmp != null) {
-                return tmp
+                return tmp or flaggedValueGlobalDouble
             } else {
                 return doubleMap.getOrCreate(value, {
                     val idx = doubleList.size
@@ -205,7 +178,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             val tmp = nodeGlobalDictionary.decimalMap[value]
             if (tmp != null) {
-                return tmp
+                return tmp or flaggedValueGlobalDecimal
             } else {
                 return decimalMap.getOrCreate(value, {
                     val idx = decimalList.size
@@ -228,7 +201,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             val tmp = nodeGlobalDictionary.intMap[value]
             if (tmp != null) {
-                return tmp
+                return tmp or flaggedValueGlobalInt
             } else {
                 return intMap.getOrCreate(value, {
                     val idx = intList.size
@@ -240,7 +213,8 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun createValue(value: String?): Value {
-        return createValue(ValueDefinition(value))
+        val res = createValue(ValueDefinition(value))
+        return res
     }
 
     fun createValue(value: ValueDefinition): Value {
@@ -255,7 +229,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 } else {
                     res = booleanFalseValue
                 }
-/*return*/ res
+                /*return*/ res
             }
             is ValueUndef -> {
                 /*return*/ undefValue
@@ -301,7 +275,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         var bit3 = value and mask3
         if (bit3 == flaggedValueLocalIri) {
-            res = ValueIri(dict.iriList[value and filter3]!!)
+            res = ValueIri(dict.iriMap[value and filter3]!!)
         } else if (bit3 == flaggedValueLocalBnode) {
             when (value) {
                 0 -> {
@@ -321,7 +295,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         } else if (bit3 == flaggedValueLocalTyped) {
-            val tmp = dict.typedList[value and filter3]!!
+            val tmp = dict.typedMap[value and filter3]!!
             var idx = tmp.indexOf(">")
             var type = tmp.substring(0, idx)
             var content = tmp.substring(idx + 1, tmp.length)
@@ -335,7 +309,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else if (bit5 == flaggedValueLocalDouble) {
                 res = ValueDouble(dict.doubleList[value and filter5]!!)
             } else {
-                val tmp = dict.langTaggedList[value and filter5]!!
+                val tmp = dict.langTaggedMap[value and filter5]!!
                 var idx = tmp.indexOf("@")
                 var lang = tmp.substring(0, idx)
                 var content = tmp.substring(idx + 1, tmp.length)
@@ -352,11 +326,11 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             base = 0
         }
-        for (i in 0 until iriList.size) {
-            println("dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriList[i]}")
+        for (i in 0 until iriMap.size) {
+            println("dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}")
         }
-        for (i in 0 until typedList.size) {
-            println("dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedList[i]}")
+        for (i in 0 until typedMap.size) {
+            println("dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
         }
         for (i in 0 until intList.size) {
             println("dict - int :: ${i + base + flaggedValueLocalInt} -> ${intList[i]}")
@@ -367,8 +341,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         for (i in 0 until doubleList.size) {
             println("dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
         }
-        for (i in 0 until langTaggedList.size) {
-            println("dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedList[i]}")
+        for (i in 0 until langTaggedMap.size) {
+            println("dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
         }
     }
 
@@ -402,18 +376,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         doubleMap.loadFromFile(folderName + "/double.map")
         decimalMap.loadFromFile(folderName + "/decimal.map")
         intMap.loadFromFile(folderName + "/int.map")
-        iriList.reserve(iriMap.size)
-        iriMap.forEach { k, v ->
-            iriList[v] = k
-        }
-        langTaggedList.reserve(langTaggedMap.size)
-        langTaggedMap.forEach { k, v ->
-            langTaggedList[v] = k
-        }
-        typedList.reserve(typedMap.size)
-        typedMap.forEach { k, v ->
-            typedList[v] = k
-        }
         doubleList.reserve(doubleMap.size)
         doubleMap.forEach { k, v ->
             doubleList[v] = k

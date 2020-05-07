@@ -69,46 +69,47 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     incoming bulk import
     */
     suspend fun process_turtle_input(fileNames: String): String {
-try{
-        val query = Query()
-        var bulk = TripleStoreBulkImport()
-        var counter = 0
-        var store = DistributedTripleStore.getDefaultGraph(query)
-        val dict = MyMapStringIntPatriciaTrie()
-        for (fileName in fileNames.split(";")) {
-            val data = File(fileName).readAsString()
-            val lcit = LexerCharIterator(data)
-            val tit = TurtleScanner(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            TurtleParserWithStringTriples({ s, p, o ->
-                bulk.insert(
-                        process_turtle_input_helper(dict, s),
-                        process_turtle_input_helper(dict, p),
-                        process_turtle_input_helper(dict, o))
-                if (bulk.full()) {
-                    CoroutinesHelper.runBlock {
-                        bulk.sort()
-                        store.bulkImport(bulk)
-                        bulk.reset()
+        try {
+            val query = Query()
+            var bulk = TripleStoreBulkImport()
+            var counter = 0
+            var store = DistributedTripleStore.getDefaultGraph(query)
+            val dict = MyMapStringIntPatriciaTrie()
+            for (fileName in fileNames.split(";")) {
+                val data = File(fileName).readAsString()
+                val lcit = LexerCharIterator(data)
+                val tit = TurtleScanner(lcit)
+                val ltit = LookAheadTokenIterator(tit, 3)
+                TurtleParserWithStringTriples({ s, p, o ->
+                    bulk.insert(
+                            process_turtle_input_helper(dict, s),
+                            process_turtle_input_helper(dict, p),
+                            process_turtle_input_helper(dict, o))
+                    if (bulk.full()) {
+                        CoroutinesHelper.runBlock {
+                            bulk.sort()
+                            store.bulkImport(bulk)
+                            bulk.reset()
+                        }
                     }
-                }
-            }, ltit).turtleDoc()
-        }
-        bulk.sort()
-        store.bulkImport(bulk)
+                }, ltit).turtleDoc()
+            }
+            bulk.sort()
+            store.bulkImport(bulk)
 //>>>
-	println("dumping dictionary - particia trie as debug")
-	nodeGlobalDictionary.typedMap.debug()
+/*
+//	println("dumping dictionary - particia trie as debug")
+//	nodeGlobalDictionary.typedMap.debug()
         println("ready")
         Thread.sleep(20000)
         println("not ready ${bulk.idx}")
-
+*/
 //<<<
-        return XMLElement("success $counter").toString()
-}catch(e:Throwable){
-e.printStackTrace()
-throw e
-}
+            return XMLElement("success $counter").toString()
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            throw e
+        }
     }
 
     /*

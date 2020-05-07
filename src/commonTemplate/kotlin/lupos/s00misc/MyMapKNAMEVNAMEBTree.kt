@@ -20,7 +20,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
         abstract fun value(): VALUE
     }
 
-
     class MyMapKNAMEVNAMEBTreeNodeIteratorLeafGDEF(val node: MyMapKNAMEVNAMEBTreeNodeLeafGUSE) : MyMapKNAMEVNAMEBTreeNodeIteratorGUSE() {
         var i = 0
         var v: VALUE = node!!.values[0] as VALUE
@@ -370,7 +369,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
                 n++
             }
         }
-
     }
 
     class MyMapKNAMEVNAMEBTreeInitializerGDEF(val t: Int, val target: MyMapKNAMEVNAMEBTreeGUSE) {

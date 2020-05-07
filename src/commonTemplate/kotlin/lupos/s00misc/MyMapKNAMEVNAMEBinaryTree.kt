@@ -41,8 +41,7 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         return value!!
     }
 
-fun withFastInitializer(action:(MyMapKNAMEVNAMEBinaryTreeGUSEKV)->Unit)=action(this)
-
+    fun withFastInitializer(action: (MyMapKNAMEVNAMEBinaryTreeGUSEKV) -> Unit) = action(this)
     fun appendAssumeSorted(key: KEY, value: VALUE): VALUE {
         keys.add(key)
         values.add(value)
