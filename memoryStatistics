@@ -1,0 +1,39 @@
+Für 8m Tripel
+
+MyListInt         - 135171436 Byte für 33018913 Elemente, 32246 Seiten ... Nutzdaten = 132075652 Byte, Overhead = 3095784 Byte (2%)
+MyMapLongIntBTree - 101298116 Byte für  8357865 Elemente,                  Nutzdaten = 100294380 Byte, Overhead = 1003736 Byte (1%)
+
+Total:                           2203646127 Bytes
+
+Store:                           1190076920 Bytes 54% von Total
+Store-SPO-data:                   620246888 Bytes 52% von Store
+Store-SP-O-index:                 481753200 Bytes 40% von Store
+Store-S-PO-index:                  88046592 Bytes  7% von Store
+
+Bulk-Import-Chunk:                113246736 Bytes  5% von Total
+Bulk-Import-BlankNode-Cache:       45100994 Bytes  2% von Total
+
+Dictionary:                       849243275 Bytes 38% von Total
+Dictionary-Int->TypedLiteral:     455980170 Bytes 53% von Dict
+Dictionary-TypedLiteral->Int:     257951490 Bytes 30% von Dict
+Dictionary-Int->Iri:              103502198 Bytes 12% von Dict
+Dictionary-Iri->Int:               31768507 Bytes  3% von Dict
+
+Other:                            119224938 Bytes  5% von Total
+
+
+
+
+Total:                           1681212674 Bytes
+
+Store:                           1190077688 Bytes
+
+Bulk-Import-Chunk:                113246736 Bytes
+Bulk-Import-BlankNode-Cache:       45100994 Bytes
+
+Dictionary:                       326807715 Bytes
+Dictionary-TypedLiteral:          293496654 Bytes     1174820 Nodes
+Dictionary-Iri:                    33269063 Bytes      121680 Nodes
+
+Other:                            164327271 Bytes
+
