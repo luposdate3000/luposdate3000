@@ -141,12 +141,12 @@ class MyListLong {
     }
 
     inline operator fun get(idx: Int): Long {
-        SanityCheck.check { idx < size }
+        SanityCheck.check ({ idx < size },{"a"})
         var tmp = page
         var offset = 0
         while (offset + tmp.size <= idx) {
             offset += tmp.size
-            SanityCheck.check { tmp.next != null }
+            SanityCheck.check ({ tmp.next != null },{"b"})
             tmp = tmp.next!!
         }
         return tmp.data[idx - offset] as Long
@@ -161,7 +161,7 @@ class MyListLong {
                 }
             } else {
 //remove page in the middle
-                SanityCheck.check { prev != tmp }
+                SanityCheck.check ({ prev != tmp },{"c"})
                 prev.next = tmp.next
             }
         } else {
@@ -194,7 +194,7 @@ class MyListLong {
     }
 
     fun removeAt(idx: Int): Long {
-        SanityCheck.check { idx < size }
+        SanityCheck.check ({ idx < size },{"d"})
         var prev = page
         var tmp = page
         var offset = 0
@@ -210,7 +210,7 @@ class MyListLong {
     }
 
     inline operator fun set(idx: Int, value: Long) {
-        SanityCheck.check { idx <= size }
+        SanityCheck.check ({ idx <= size },{"e"})
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -238,7 +238,7 @@ class MyListLong {
     }
 
     fun add(idx: Int, value: Long) {
-        SanityCheck.check { idx <= size }
+        SanityCheck.check ({ idx <= size },{"f"})
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -315,8 +315,8 @@ class MyListLong {
             tmp = tmp.next!!
         }
         res.append("]")
-        SanityCheck.check { totalsize == size }
-        SanityCheck.check { tmp == lastpage }
+        SanityCheck.check( { totalsize == size },{"g"})
+        SanityCheck.check ({ tmp == lastpage },{"h"})
         return res.toString()
     }
 
@@ -362,7 +362,7 @@ class MyListLong {
         var data: LongArray
 
         inline fun reserve(capacity: Int) {
-            SanityCheck.check { capacity <= MyListLong.capacity }
+            SanityCheck.check ({ capacity <= MyListLong.capacity },{"i"})
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = LongArray(capacity) 
@@ -404,7 +404,7 @@ class MyListLong {
         }
 
         inline operator fun set(idx: Int, value: Long) {
-            SanityCheck.check { idx <= size }
+            SanityCheck.check ({ idx <= size },{"j"})
             if (idx == size) {
                 add(value)
             } else {
@@ -424,7 +424,7 @@ class MyListLong {
 
         fun removeAt(idx: Int): Long {
             val res = data[idx]
-            SanityCheck.check { idx < size }
+            SanityCheck.check ({ idx < size },{"k"})
             for (i in idx until size) {
                 data[i] = data[i + 1]
             }

@@ -23,7 +23,6 @@ class MyMapStringIntPatriciaTrieDouble() {
     }
 
     operator fun get(key: Int): String {
-        //println("MyMapStringIntPatriciaTrieDouble.get $key ${allNodes.size} ${allOutNodes.size} ${allOutOffsets.size}")
         if (key == rootValue) {
             return ""
         }
@@ -32,7 +31,6 @@ class MyMapStringIntPatriciaTrieDouble() {
         var res = ""
         var node = allNodes[nodeIdx]
         while (true) {
-            //println("loop '$res' $nodeIdx $childIdx ${node.parent}")
             val childKeyStart = node.data[childIdx]
             val childKeyEnd: Int
             val childCount = node.data.size / 3
@@ -127,7 +125,6 @@ class MyMapStringIntPatriciaTrieDouble() {
                             } else {
                                 var result = undefinedValue
                                 if (create) {
-                                    //println("createA $_key")
                                     //previous key was a prefix of the new key
                                     val newNode = MyMapStringIntPatriciaTrieNode()
                                     val newNodeIdx = allNodes.size
@@ -159,7 +156,6 @@ class MyMapStringIntPatriciaTrieDouble() {
                                     otherChild.parent = newNodeIdx
                                 }
                                 if (commonKey.length == key.length) {
-                                    //println("createB $_key")
                                     allOutNodes.add(nodeIdx)
                                     allOutOffsets.add(childIdx)
                                     //new key is a prefix of the old key
@@ -176,7 +172,6 @@ class MyMapStringIntPatriciaTrieDouble() {
                                         node.data[j] -= otherKey.length
                                     }
                                 } else {
-                                    //println("createC $_key")
                                     allOutNodes.add(newNodeIdx)
                                     allOutOffsets.add(0)
                                     val newKey = key.substring(commonKey.length, key.length)
@@ -321,15 +316,17 @@ class MyMapStringIntPatriciaTrieDouble() {
                                 allOutNodes.add(0)
                                 allOutOffsets.add(0)
                             }
-if(value!=undefinedValue){
+			if(value!=undefinedValue){
                             allOutNodes[value] = counter
                             allOutOffsets[value] = i
-}
+			}
                         } else {
-                            while (value> allNodes.size) {
+                            while (value>= allNodes.size) {
                                 allNodes.add(MyMapStringIntPatriciaTrieNode())
                             }
+if(value!=undefinedValue){
                             allNodes[value].parent = counter
+}
                         }
                     }
                 }

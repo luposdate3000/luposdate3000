@@ -317,7 +317,7 @@ val platformPrefix = mapOf(
         "mingw64" to listOf("common")
 )
 val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.1"))).label
-val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"),ChooseableOption("1.4.255-SNAPSHOT"))).label
+val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
 val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
 
 val additionalSources = mapOf(
@@ -462,21 +462,21 @@ for (option in allChoosenOptions.sorted())
 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
 
 File("build.gradle.kts").printWriter().use { out ->
-when (platform) {
-"jvm" -> {
-    out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+    when (platform) {
+        "jvm" -> {
+            out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget="14"
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
 }""")
-}
-else ->{
-    out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+        }
+        else -> {
+            out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
 }""")
-}
-}
+        }
+    }
     out.println("""buildscript {
     repositories {
         jcenter()

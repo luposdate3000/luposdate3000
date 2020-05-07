@@ -141,12 +141,12 @@ class MyListGeneric<Generic> {
     }
 
     inline operator fun get(idx: Int): Generic {
-        SanityCheck.check { idx < size }
+        SanityCheck.check ({ idx < size },{"a"})
         var tmp = page
         var offset = 0
         while (offset + tmp.size <= idx) {
             offset += tmp.size
-            SanityCheck.check { tmp.next != null }
+            SanityCheck.check ({ tmp.next != null },{"b"})
             tmp = tmp.next!!
         }
         return tmp.data[idx - offset] as Generic
@@ -161,7 +161,7 @@ class MyListGeneric<Generic> {
                 }
             } else {
 //remove page in the middle
-                SanityCheck.check { prev != tmp }
+                SanityCheck.check ({ prev != tmp },{"c"})
                 prev.next = tmp.next
             }
         } else {
@@ -194,7 +194,7 @@ class MyListGeneric<Generic> {
     }
 
     fun removeAt(idx: Int): Generic {
-        SanityCheck.check { idx < size }
+        SanityCheck.check ({ idx < size },{"d"})
         var prev = page
         var tmp = page
         var offset = 0
@@ -210,7 +210,7 @@ class MyListGeneric<Generic> {
     }
 
     inline operator fun set(idx: Int, value: Generic) {
-        SanityCheck.check { idx <= size }
+        SanityCheck.check ({ idx <= size },{"e"})
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -238,7 +238,7 @@ class MyListGeneric<Generic> {
     }
 
     fun add(idx: Int, value: Generic) {
-        SanityCheck.check { idx <= size }
+        SanityCheck.check ({ idx <= size },{"f"})
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -315,8 +315,8 @@ class MyListGeneric<Generic> {
             tmp = tmp.next!!
         }
         res.append("]")
-        SanityCheck.check { totalsize == size }
-        SanityCheck.check { tmp == lastpage }
+        SanityCheck.check( { totalsize == size },{"g"})
+        SanityCheck.check ({ tmp == lastpage },{"h"})
         return res.toString()
     }
 
@@ -362,7 +362,7 @@ class MyListGeneric<Generic> {
         var data: Array<Any?>
 
         inline fun reserve(capacity: Int) {
-            SanityCheck.check { capacity <= MyListGeneric.capacity }
+            SanityCheck.check ({ capacity <= MyListGeneric.capacity },{"i"})
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = Array<Any?>(capacity) {null}
@@ -404,7 +404,7 @@ class MyListGeneric<Generic> {
         }
 
         inline operator fun set(idx: Int, value: Generic) {
-            SanityCheck.check { idx <= size }
+            SanityCheck.check ({ idx <= size },{"j"})
             if (idx == size) {
                 add(value)
             } else {
@@ -424,7 +424,7 @@ class MyListGeneric<Generic> {
 
         fun removeAt(idx: Int): Generic {
             val res = data[idx]
-            SanityCheck.check { idx < size }
+            SanityCheck.check ({ idx < size },{"k"})
             for (i in idx until size) {
                 data[i] = data[i + 1]
             }

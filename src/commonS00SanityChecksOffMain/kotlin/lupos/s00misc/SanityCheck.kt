@@ -8,6 +8,7 @@ object SanityCheck {
     }
 
     operator fun invoke(action: () -> Unit) {}
+    inline fun check(value: () -> Boolean,msg:()->String) {}
     inline fun check(value: () -> Boolean) {}
     inline fun checkFalse(value: () -> Boolean) {}
     inline fun <T> checkEQ(a: () -> T, b: () -> T) {}
