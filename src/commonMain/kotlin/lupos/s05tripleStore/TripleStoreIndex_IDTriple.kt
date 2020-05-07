@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import lupos.s05tripleStore.index_IDTriple.*
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
@@ -21,7 +22,6 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
     var firstLeaf = NodeManager.NodeNullPointer
-
     override fun safeToFolder(filename: String) {
         throw Exception("not implemented")
     }
@@ -144,4 +144,3 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
     override fun printContents() {
     }
 }
-

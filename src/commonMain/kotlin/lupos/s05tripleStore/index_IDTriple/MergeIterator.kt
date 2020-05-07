@@ -1,4 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
+
+import lupos.s00misc.Coverage
+
 class MergeIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterator() {
     //assuming no duplicates in each input
     var flag = 0
@@ -67,6 +70,5 @@ class MergeIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterat
             }
         }
         return value[component]
+    }
 }
-}
-
