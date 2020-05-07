@@ -230,7 +230,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Triple Store") to listOf(
                 ChooseableOptionDirectory("MapMapList", "commonS05MapMapListMain"),
-                ChooseableOptionDirectory("SingleList", "commonS05SingleListMain")
+                ChooseableOptionDirectory("SingleList", "commonS05SingleListMain"),
+                ChooseableOptionDirectory("BPlusTree", "commonS05BPlusTreeMain")
         ),
         ChooseableGroup("P2P") to listOf(
                 ChooseableOptionDirectory("Dummy", "commonS12DummyMain"),

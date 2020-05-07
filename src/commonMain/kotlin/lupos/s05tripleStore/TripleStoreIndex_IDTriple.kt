@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
     companion object {
-        val NodeNullPointer = 0x8FFFFFFF.toInt()
+        val NodeNullPointer = 0x7FFFFFFF.toInt()
         val allNodes = MyListGeneric<Node?>()
 
         fun getNode(idx: Int): Node {
@@ -74,39 +74,41 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
         throw Exception("not implemented")
     }
 
-class IteratorS(it:TripleIterator):ColumnIterator(){
-init{
-next={
-var tmp:Value?=null
-if(it.hasNext()){
-tmp=it.nextS()
-}
-/*return*/tmp
-}
-}
-}
-class IteratorP(it:TripleIterator):ColumnIterator(){
-init{
-next={
-var tmp:Value?=null
-if(it.hasNext()){
-tmp=it.nextP()
-}
-/*return*/tmp
-}
-}
-}
-class IteratorO(it:TripleIterator):ColumnIterator(){
-init{
-next={
-var tmp:Value?=null
-if(it.hasNext()){
-tmp=it.nextO()
-}
-/*return*/tmp
-}
-}
-}
+    class IteratorS(it: TripleIterator) : ColumnIterator() {
+        init {
+            next = {
+                var tmp: Value? = null
+                if (it.hasNext()) {
+                    tmp = it.nextS()
+                }
+                /*return*/tmp
+            }
+        }
+    }
+
+    class IteratorP(it: TripleIterator) : ColumnIterator() {
+        init {
+            next = {
+                var tmp: Value? = null
+                if (it.hasNext()) {
+                    tmp = it.nextP()
+                }
+                /*return*/tmp
+            }
+        }
+    }
+
+    class IteratorO(it: TripleIterator) : ColumnIterator() {
+        init {
+            next = {
+                var tmp: Value? = null
+                if (it.hasNext()) {
+                    tmp = it.nextO()
+                }
+                /*return*/tmp
+            }
+        }
+    }
 
     override fun getIterator(query: Query, filter: List<Value>, projection: List<String>): ColumnIteratorRow {
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -117,11 +119,9 @@ tmp=it.nextO()
         }
         var res = ColumnIteratorRow(columns)
         if (filter.size == 0) {
-            if (firstLeaf == NodeNullPointer) {
-                return res
-            } else {
-val node=(getNode(firstLeaf) as NodeLeaf)!!
-SanityCheck.check { filter.size == 0 }
+            if (firstLeaf != NodeNullPointer) {
+                val node = (getNode(firstLeaf) as NodeLeaf)!!
+                SanityCheck.check { filter.size == 0 }
                 if (projection[0] != "_") {
                     columns[projection[0]] = ColumnIteratorDebug(0, projection[0], IteratorS(node.iterator()))
                     if (projection[1] != "_") {
@@ -137,6 +137,7 @@ SanityCheck.check { filter.size == 0 }
                     SanityCheck.check { projection[2] == "_" }
                 }
             }
+            return res
         }
         throw Exception("not implemented")
     }
@@ -185,7 +186,6 @@ SanityCheck.check { filter.size == 0 }
     }
 
     override fun printContents() {
-        throw Exception("not implemented")
     }
 }
 
@@ -224,45 +224,49 @@ inline class NodeLeaf(val data: ByteArray) : Node {
         return NodeLeafIterator(this)
     }
 
-    inline fun read4(offset: Int): Int {
-        return ((data[offset].toInt() shl 24) or (data[offset + 1].toInt() shl 16) or (data[offset + 2].toInt() shl 8) or (data[offset + 3].toInt())).toInt()
+    fun read4(offset: Int): Int {
+        return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF))).toInt()
     }
 
-    inline fun read3(offset: Int): Int {
-        return ((data[offset].toInt() shl 16) or (data[offset + 1].toInt() shl 8) or (data[offset + 2].toInt())).toInt()
+    fun read3(offset: Int): Int {
+        return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF))).toInt()
     }
 
-    inline fun read2(offset: Int): Int {
-        return ((data[offset].toInt() shl 8) or (data[offset + 1].toInt())).toInt()
+    fun read2(offset: Int): Int {
+        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF))).toInt()
     }
 
-    inline fun read1(offset: Int): Int {
-        return data[offset].toInt()
+    fun read1(offset: Int): Int {
+        return (data[offset].toInt() and 0xFF)
     }
 
-    inline fun write4(offset: Int, d: Int) {
-        data[offset] = (d shr 24).toByte()
+    fun write4(offset: Int, d: Int) {
+        data[offset] = ((d shr 24) and 0xFF).toByte()
         data[offset + 1] = ((d shr 16) and 0xFF).toByte()
         data[offset + 2] = ((d shr 8) and 0xFF).toByte()
         data[offset + 3] = (d and 0xFF).toByte()
+        require(d == read4(offset), { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
     }
 
-    inline fun write3(offset: Int, d: Int) {
+    fun write3(offset: Int, d: Int) {
         data[offset] = ((d shr 16) and 0xFF).toByte()
         data[offset + 1] = ((d shr 8) and 0xFF).toByte()
         data[offset + 2] = (d and 0xFF).toByte()
+        require(d == read3(offset), { "$d ${read3(offset)}" })
     }
 
-    inline fun write2(offset: Int, d: Int) {
+    fun write2(offset: Int, d: Int) {
         data[offset] = ((d shr 8) and 0xFF).toByte()
         data[offset + 1] = (d and 0xFF).toByte()
+        require(d == read2(offset), { "$d ${read2(offset)}" })
     }
 
-    inline fun write1(offset: Int, d: Int) {
+    fun write1(offset: Int, d: Int) {
         data[offset] = (d and 0xFF).toByte()
+        require(d == read1(offset), { "$d ${read1(offset)}" })
     }
 
-    inline fun writeFullTriple(offset: Int, d: IntArray): Int {
+    fun writeFullTriple(offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -274,7 +278,7 @@ inline class NodeLeaf(val data: ByteArray) : Node {
         return 13
     }
 
-    inline fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+    fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written
@@ -494,9 +498,15 @@ class MergeIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterat
             }
             4 -> {
                 a.next()
+                if (!a.hasNext()) {
+                    flag = 0
+                }
             }
             5 -> {
                 b.next()
+                if (!b.hasNext()) {
+                    flag = 0
+                }
             }
         }
         return value[component]
