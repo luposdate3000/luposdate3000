@@ -8,7 +8,6 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
     var counter = IntArray(3)
     override fun hasNext() = remaining > 0
     override fun next(component: Int): Int {
-        println("read H1 at $offset")
         var header = node.read1(offset)
         var headerA = header and 0b11000000
         if (headerA == 0b0000000) {
@@ -29,19 +28,15 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
         for (i in 0 until 3) {
             when (counter[i]) {
                 1 -> {
-                    println("read d[$i]1 at $offset")
                     value[i] = value[i] xor node.read1(offset)
                 }
                 2 -> {
-                    println("read d[$i]2 at $offset")
                     value[i] = value[i] xor node.read2(offset)
                 }
                 3 -> {
-                    println("read d[$i]3 at $offset")
                     value[i] = value[i] xor node.read3(offset)
                 }
                 4 -> {
-                    println("read d[$i]4 at $offset")
                     value[i] = value[i] xor node.read4(offset)
                 }
             }

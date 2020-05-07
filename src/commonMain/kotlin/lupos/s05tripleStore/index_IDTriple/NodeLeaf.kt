@@ -84,13 +84,9 @@ inline class NodeLeaf(val data: ByteArray) : Node {
          * assuming enough space
          * return bytes written
          */
-        println("write H1 at $offset")
         write1(offset, 0b00111111)
-        println("write d[0]4 at ${offset + 1}")
         write4(offset + 1, d[0])
-        println("write d[1]4 at ${offset + 5}")
         write4(offset + 5, d[1])
-        println("write d[2]4 at ${offset + 9}")
         write4(offset + 9, d[2])
         debugList.add(d[0])
         debugList.add(d[1])
@@ -128,25 +124,21 @@ inline class NodeLeaf(val data: ByteArray) : Node {
         var flag = false
         if (b[0] >= (1 shl 24)) {
             header = 0b00110000
-            println("write d[0]4 at ${localOff}")
             write4(localOff, b[0])
             localOff += 4
             flag = true
         } else if (b[0] >= (1 shl 16)) {
             header = 0b00100000
-            println("write d[0]3 at ${localOff}")
             write3(localOff, b[0])
             localOff += 3
             flag = true
         } else if (b[0] >= (1 shl 8)) {
             header = 0b00010000
-            println("write d[0]2 at ${localOff}")
             write2(localOff, b[0])
             localOff += 2
             flag = true
         } else if (b[0] >= 0) {
             header = 0b00000000
-            println("write d[0]1 at ${localOff}")
             write1(localOff, b[0])
             localOff += 1
             flag = true
@@ -157,7 +149,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b01001100
             }
-            println("write d[1]4 at ${localOff}")
             write4(localOff, b[1])
             localOff += 4
             flag = true
@@ -167,7 +158,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b01001000
             }
-            println("write d[1]3 at ${localOff}")
             write3(localOff, b[1])
             localOff += 3
             flag = true
@@ -177,7 +167,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b01000100
             }
-            println("write d[1]2 at ${localOff}")
             write2(localOff, b[1])
             localOff += 2
             flag = true
@@ -187,7 +176,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b01000000
             }
-            println("write d[1]1 at ${localOff}")
             write1(localOff, b[1])
             localOff += 1
             flag = true
@@ -198,7 +186,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b10001100
             }
-            println("write d[2]4 at ${localOff}")
             write4(localOff, b[2])
             localOff += 4
             flag = true
@@ -208,7 +195,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b10001000
             }
-            println("write d[2]3 at ${localOff}")
             write3(localOff, b[2])
             localOff += 3
             flag = true
@@ -218,7 +204,6 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b10000100
             }
-            println("write d[2]2 at ${localOff}")
             write2(localOff, b[2])
             localOff += 2
             flag = true
@@ -228,12 +213,10 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             } else {
                 header = 0b10000000
             }
-            println("write d[2]1 at ${localOff}")
             write1(localOff, b[2])
             localOff += 1
             flag = true
         }
-        println("write H1 at ${offset}")
         write1(offset, header)
         require(flag)//otherwise this triple would equal the last one
         require(localOff > offset + 1)//at least ony byte must have been written additionally to the header
@@ -264,14 +247,14 @@ inline class NodeLeaf(val data: ByteArray) : Node {
             var it = iterator()
             var offset = 0
             for (i in debugList) {
-                println("original -> $i")
+//                println("original -> $i")
             }
             while (offset < debugList.size) {
                 require(it.hasNext())
                 var tmp = it.next()
-                println("retrieve -> ${tmp[0]}")
-                println("retrieve -> ${tmp[1]}")
-                println("retrieve -> ${tmp[2]}")
+//                println("retrieve -> ${tmp[0]}")
+//                println("retrieve -> ${tmp[1]}")
+//                println("retrieve -> ${tmp[2]}")
                 require(tmp[0] == debugList[offset])
                 require(tmp[1] == debugList[offset + 1])
                 require(tmp[2] == debugList[offset + 2])
