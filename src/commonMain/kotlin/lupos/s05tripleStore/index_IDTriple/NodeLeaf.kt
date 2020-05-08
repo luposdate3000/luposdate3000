@@ -5,7 +5,7 @@ import lupos.s00misc.Coverage
 
 var debugList = mutableListOf<Int>()
 
-inline class NodeLeaf(val data: ByteArray) : Node {
+inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
     /*
      * Bytes 0..3 : Number of stored Triples
      * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin

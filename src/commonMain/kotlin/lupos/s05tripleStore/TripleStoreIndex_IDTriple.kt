@@ -187,5 +187,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
     }
 
     override fun printContents() {
+        if (firstLeaf != NodeManager.NodeNullPointer) {
+            val node = NodeManager.getNode(firstLeaf) as NodeLeaf
+            var it = node.iterator()
+            while (it.hasNext()) {
+                var d = it.next()
+                println(d.map { it })
+            }
+        }
     }
 }
