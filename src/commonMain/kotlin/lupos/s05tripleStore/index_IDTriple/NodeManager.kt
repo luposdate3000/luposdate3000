@@ -6,6 +6,7 @@ import lupos.s00misc.Coverage
 object NodeManager {
     val NodeNullPointer = 0x7FFFFFFF.toInt()
     val allNodes = MyListGeneric<Node?>()
+
     fun getNode(idx: Int): Node {
         return allNodes[idx]!!
     }
@@ -40,27 +41,30 @@ object NodeManager {
         action(tmp, i)
     }
 
-    fun freeNode(node: Int) {
-        allNodes[node] = null
+    fun freeNode(nodeIdx: Int) {
+if(nodeIdx!=NodeNullPointer){
+        allNodes[nodeIdx] = null
+}
     }
 
     fun freeNodeAndAllRelated(nodeIdx: Int) {
-        var idx = nodeIdx
-        while (idx != NodeNullPointer) {
-            var node = allNodes[idx]!!
+println("releasing :: $nodeIdx")
+if(nodeIdx!=NodeNullPointer){
+            var node = allNodes[nodeIdx]!!
             when (node) {
                 is NodeLeaf -> {
-                    allNodes[idx] = null
-                    idx = node.getNextNode()
+freeNode(nodeIdx)
                 }
                 is NodeInner -> {
-                    allNodes[idx] = null
-                    //TODO release childs ...
+freeNode(nodeIdx)
+node.forEachChild{
+freeNodeAndAllRelated(it)
+}
                 }
                 else -> {
                     require(false)
                 }
             }
-        }
+}
     }
 }

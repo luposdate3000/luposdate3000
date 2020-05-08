@@ -123,15 +123,15 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         var localOff = offset + 1
         for (i in 0 until count) {
             if (d[i] >= (1 shl 24)) {
-                header = header or (0b00000011) shl (6 - i - i)
+                header = header or (0b00000011  shl (6 - i - i))
                 write4(localOff, d[i])
                 localOff += 4
             } else if (d[i] >= (1 shl 16)) {
-                header = header or (0b00000010) shl (6 - i - i)
+                header = header or (0b00000010  shl (6 - i - i))
                 write3(localOff, d[i])
                 localOff += 3
             } else if (d[i] >= (1 shl 8)) {
-                header = header or (0b00000001) shl (6 - i - i)
+                header = header or (0b00000001 shl (6 - i - i))
                 write2(localOff, d[i])
                 localOff += 2
             } else {
@@ -269,6 +269,51 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
 
     override fun iterator(): TripleIterator {
         return NodeManager.getNode(getFirstChild()).iterator()
+    }
+
+fun forEachChild(action:(Int)->Unit){
+        var remaining = getTripleCount()
+        var offset = 12
+var lastChildPointer=getFirstChild()
+action(lastChildPointer)
+        while (remaining > 0) {
+            var i = 0
+            while (i < 4 && remaining > 0) {
+                var header = read1(offset)
+                offset++
+                var headerA = header and 0b11000000
+                if (headerA == 0b0000000) {
+offset+=((header and 0b00110000) shr 4) +((header and 0b00001100) shr 2)+ ((header and 0b00000011))+3
+                } else if (headerA == 0b01000000) {
+offset+=((header and 0b00001100) shr 2)+((header and 0b00000011))+2
+                } else {
+offset+=((header and 0b00000011)) + 1
+                }
+                remaining--
+                i++
+            }
+            var headerB = read1(offset)
+            offset++
+            for (j in 0 until i) {
+                var h = ((headerB shr (6 - j - j)) and 0x03) + 1
+                when (h) {
+                    1 -> {
+                        lastChildPointer = lastChildPointer xor read1(offset)
+                    }
+                    2 -> {
+                        lastChildPointer = lastChildPointer xor read2(offset)
+                    }
+                    3 -> {
+                        lastChildPointer = lastChildPointer xor read3(offset)
+                    }
+                    4 -> {
+                        lastChildPointer = lastChildPointer xor read4(offset)
+                    }
+                }
+action(lastChildPointer)
+                offset += h
+            }
+        }
     }
 
     fun findIteratorN(checkTooSmall: (c: IntArray) -> Boolean, action: (Node) -> TripleIterator): TripleIterator {

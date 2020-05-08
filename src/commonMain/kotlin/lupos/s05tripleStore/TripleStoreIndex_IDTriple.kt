@@ -173,8 +173,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
                 }
                 node.initializeWith(iterator)
             }
-//            NodeManager.freeNodeAndAllRelated(root)
-            NodeManager.freeNodeAndAllRelated(firstLeaf)
+            NodeManager.freeNodeAndAllRelated(root)
             firstLeaf = newFirstLeaf
             require(currentLayer.size > 0)
             while (currentLayer.size > 1) {
@@ -210,8 +209,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
     }
 
     override fun clear() {
-//        NodeManager.freeNodeAndAllRelated(root)
-        NodeManager.freeNodeAndAllRelated(firstLeaf)
+        NodeManager.freeNodeAndAllRelated(root)
         firstLeaf = NodeManager.NodeNullPointer
         root = NodeManager.NodeNullPointer
         rootNode = null
