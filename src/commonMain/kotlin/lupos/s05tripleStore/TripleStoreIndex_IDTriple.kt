@@ -83,12 +83,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
             }
         }
         var res = ColumnIteratorRow(columns)
-//TODO->        val node = rootNode
-        var node:Node?=null
-if(firstLeaf!=NodeManager.NodeNullPointer){
-	node=NodeManager.getNode(firstLeaf)
-}
-//TODO<-
+        val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
                 if (node.iterator3(filter).hasNext()) {

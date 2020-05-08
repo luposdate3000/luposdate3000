@@ -99,10 +99,10 @@ EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                 data[idx.ordinal].import(dataImport.dataPOS, dataImport.idx, idx.tripleIndicees)
             }
 EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
-                data[idx.ordinal].import(dataImport.dataOSP, dataImport.idx, idx.tripleIndicees)
+                data[idx.ordinal].import(dataImport.dataPSO, dataImport.idx, idx.tripleIndicees)
             }
 EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
-                data[idx.ordinal].import(dataImport.dataPSO, dataImport.idx, idx.tripleIndicees)
+                data[idx.ordinal].import(dataImport.dataOSP, dataImport.idx, idx.tripleIndicees)
             }
 EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                 data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, idx.tripleIndicees)
