@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 
-import lupos.s05tripleStore.index_IDTriple.*
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -19,9 +18,15 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.index_IDTriple.*
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
     var firstLeaf = NodeManager.NodeNullPointer
+
+    companion object {
+        var storeIteratorCounter = 0L
+    }
+
     override fun safeToFolder(filename: String) {
         throw Exception("not implemented")
     }
@@ -66,7 +71,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
         }
     }
 
-    override fun getIterator(query: Query, filter: List<Value>, projection: List<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): ColumnIteratorRow {
+        SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
+        SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
@@ -74,16 +81,48 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
             }
         }
         var res = ColumnIteratorRow(columns)
-        if (filter.size == 0) {
-            if (firstLeaf != NodeManager.NodeNullPointer) {
-                val node = (NodeManager.getNode(firstLeaf) as NodeLeaf)
+        if (firstLeaf != NodeManager.NodeNullPointer) {
+            val node = NodeManager.getNode(firstLeaf) as NodeLeaf
+            if (filter.size == 3) {
+                if (node.iterator3(filter).hasNext()) {
+                    res.count = 1
+                }
+            } else if (filter.size == 2) {
+                if (projection[0] == "_") {
+                    var count = 0
+                    var it = node.iterator2(filter)
+                    while (it.hasNext()) {
+                        it.next()
+                        count++
+                    }
+                    res.count = count
+                } else {
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(node.iterator2(filter)))
+                }
+            } else if (filter.size == 1) {
+                if (projection[0] != "_") {
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(node.iterator1(filter)))
+                    if (projection[1] != "_") {
+                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(node.iterator1(filter)))
+                    }
+                } else {
+                    SanityCheck.check { projection[1] == "_" }
+                    var count = 0
+                    var it = node.iterator1(filter)
+                    while (it.hasNext()) {
+                        it.next()
+                        count++
+                    }
+                    res.count = count
+                }
+            } else {
                 SanityCheck.check { filter.size == 0 }
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(0, projection[0], IteratorS(node.iterator()))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(node.iterator()))
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(0, projection[1], IteratorP(node.iterator()))
+                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(node.iterator()))
                         if (projection[2] != "_") {
-                            columns[projection[2]] = ColumnIteratorDebug(0, projection[2], IteratorO(node.iterator()))
+                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(node.iterator()))
                         }
                     } else {
                         SanityCheck.check { projection[2] == "_" }
@@ -91,11 +130,17 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     SanityCheck.check { projection[2] == "_" }
+                    var count = 0
+                    var it = node.iterator()
+                    while (it.hasNext()) {
+                        it.next()
+                        count++
+                    }
+                    res.count = count
                 }
             }
-            return res
         }
-        throw Exception("not implemented")
+        return res
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {

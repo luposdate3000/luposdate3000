@@ -100,7 +100,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         }
     }
 
-    override fun getIterator(query: Query, filter: List<Value>, projection: List<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): ColumnIteratorRow {
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
 //BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)

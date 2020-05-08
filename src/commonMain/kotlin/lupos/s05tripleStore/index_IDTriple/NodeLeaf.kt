@@ -6,6 +6,17 @@ import lupos.s00misc.Coverage
 var debugList = mutableListOf<Int>()
 
 inline class NodeLeaf(val data: ByteArray) : Node {
+    /*
+     * Bytes 0..3 : Number of stored Triples
+     * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin
+     * afterwards :
+     *
+     * header (Bitlayout 7..0)
+     * bits 0..1: # Bytes _for S (00->1,01->2,10->3,11->4)
+     * bits 2..3: # Bytes _for P (00->1,01->2,10->3,11->4)
+     * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
+     * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
+     */
     fun setNextNode(node: Int) {
         write4(4, node)
     }
@@ -22,31 +33,32 @@ inline class NodeLeaf(val data: ByteArray) : Node {
         return read4(0)
     }
 
-    /*
-     * Bytes 0..3 : Number of stored Triples
-     * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of jave/kotlin
-     * afterwards :
-     *
-     * header (Bitlayout 7..0)
-     * bits 0..1: # Bytes _for S (00->1,01->2,10->3,11->4)
-     * bits 2..3: # Bytes _for P (00->1,01->2,10->3,11->4)
-     * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
-     * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
-     */
     fun iterator(): TripleIterator {
         return NodeLeafIterator(this)
     }
 
+    fun iterator3(prefix: IntArray): TripleIterator {
+        return NodeLeafIteratorPrefix3(this, prefix)
+    }
+
+    fun iterator2(prefix: IntArray): TripleIterator {
+        return NodeLeafIteratorPrefix2(this, prefix)
+    }
+
+    fun iterator1(prefix: IntArray): TripleIterator {
+        return NodeLeafIteratorPrefix1(this, prefix)
+    }
+
     fun read4(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF))).toInt()
+        return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
     }
 
     fun read3(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF))).toInt()
+        return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
     }
 
     fun read2(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF))).toInt()
+        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
     }
 
     fun read1(offset: Int): Int {
@@ -245,20 +257,20 @@ inline class NodeLeaf(val data: ByteArray) : Node {
         setNextNode(NodeManager.NodeNullPointer)
         SanityCheck {
             var it = iterator()
-            var offset = 0
+            var offset2 = 0
             for (i in debugList) {
 //                println("original -> $i")
             }
-            while (offset < debugList.size) {
+            while (offset2 < debugList.size) {
                 require(it.hasNext())
                 var tmp = it.next()
 //                println("retrieve -> ${tmp[0]}")
 //                println("retrieve -> ${tmp[1]}")
 //                println("retrieve -> ${tmp[2]}")
-                require(tmp[0] == debugList[offset])
-                require(tmp[1] == debugList[offset + 1])
-                require(tmp[2] == debugList[offset + 2])
-                offset += 3
+                require(tmp[0] == debugList[offset2])
+                require(tmp[1] == debugList[offset2 + 1])
+                require(tmp[2] == debugList[offset2 + 2])
+                offset2 += 3
             }
             require(!it.hasNext())
         }

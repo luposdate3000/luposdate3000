@@ -86,7 +86,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 projection.add((param as AOPVariable).name)
             }
         }
-        return data[idx.ordinal].getIterator(query, filter, projection)
+        return data[idx.ordinal].getIterator(query, IntArray(filter.size) { filter[it] }, projection)
     }
 
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {

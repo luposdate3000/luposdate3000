@@ -316,17 +316,17 @@ class MyMapStringIntPatriciaTrieDouble() {
                                 allOutNodes.add(0)
                                 allOutOffsets.add(0)
                             }
-			if(value!=undefinedValue){
-                            allOutNodes[value] = counter
-                            allOutOffsets[value] = i
-			}
+                            if (value != undefinedValue) {
+                                allOutNodes[value] = counter
+                                allOutOffsets[value] = i
+                            }
                         } else {
-                            while (value>= allNodes.size) {
+                            while (value >= allNodes.size) {
                                 allNodes.add(MyMapStringIntPatriciaTrieNode())
                             }
-if(value!=undefinedValue){
-                            allNodes[value].parent = counter
-}
+                            if (value != undefinedValue) {
+                                allNodes[value].parent = counter
+                            }
                         }
                     }
                 }

@@ -139,12 +139,12 @@ class MyListVALUEGDEF {
     }
 
     inline operator fun get(idx: Int): VALUE {
-        SanityCheck.check ({ idx < size },{"a"})
+        SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0
         while (offset + tmp.size <= idx) {
             offset += tmp.size
-            SanityCheck.check ({ tmp.next != null },{"b"})
+            SanityCheck.check({ tmp.next != null }, { "b" })
             tmp = tmp.next!!
         }
         return tmp.data[idx - offset] as VALUE
@@ -159,7 +159,7 @@ class MyListVALUEGDEF {
                 }
             } else {
 //remove page in the middle
-                SanityCheck.check ({ prev != tmp },{"c"})
+                SanityCheck.check({ prev != tmp }, { "c" })
                 prev.next = tmp.next
             }
         } else {
@@ -192,7 +192,7 @@ class MyListVALUEGDEF {
     }
 
     fun removeAt(idx: Int): VALUE {
-        SanityCheck.check ({ idx < size },{"d"})
+        SanityCheck.check({ idx < size }, { "d" })
         var prev = page
         var tmp = page
         var offset = 0
@@ -208,7 +208,7 @@ class MyListVALUEGDEF {
     }
 
     inline operator fun set(idx: Int, value: VALUE) {
-        SanityCheck.check ({ idx <= size },{"e"})
+        SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -236,7 +236,7 @@ class MyListVALUEGDEF {
     }
 
     fun add(idx: Int, value: VALUE) {
-        SanityCheck.check ({ idx <= size },{"f"})
+        SanityCheck.check({ idx <= size }, { "f" })
         if (idx == size) {
             if (lastpage.size < capacity) {
                 lastpage.data[lastpage.size] = value
@@ -313,8 +313,8 @@ class MyListVALUEGDEF {
             tmp = tmp.next!!
         }
         res.append("]")
-        SanityCheck.check( { totalsize == size },{"g"})
-        SanityCheck.check ({ tmp == lastpage },{"h"})
+        SanityCheck.check({ totalsize == size }, { "g" })
+        SanityCheck.check({ tmp == lastpage }, { "h" })
         return res.toString()
     }
 
@@ -360,7 +360,7 @@ class MyListVALUEGDEF {
         var data: ARRAYTYPE
 
         inline fun reserve(capacity: Int) {
-            SanityCheck.check ({ capacity <= MyListVALUE.capacity },{"i"})
+            SanityCheck.check({ capacity <= MyListVALUE.capacity }, { "i" })
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = ARRAYTYPE(capacity) ARRAYINITIALIZER
@@ -402,7 +402,7 @@ class MyListVALUEGDEF {
         }
 
         inline operator fun set(idx: Int, value: VALUE) {
-            SanityCheck.check ({ idx <= size },{"j"})
+            SanityCheck.check({ idx <= size }, { "j" })
             if (idx == size) {
                 add(value)
             } else {
@@ -422,7 +422,7 @@ class MyListVALUEGDEF {
 
         fun removeAt(idx: Int): VALUE {
             val res = data[idx]
-            SanityCheck.check ({ idx < size },{"k"})
+            SanityCheck.check({ idx < size }, { "k" })
             for (i in idx until size) {
                 data[i] = data[i + 1]
             }
