@@ -111,33 +111,33 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         if (count == 1) {
             if (params[0] is AOPConstant) {
                 if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0]) {
-                    index = EIndexPattern.S_0
+                    index = EIndexPattern.S_PO
                 } else {
-                    index = EIndexPattern.S_1
+                    index = EIndexPattern.S_OP
                 }
             } else if (params[1] is AOPConstant) {
                 if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
-                    index = EIndexPattern.P_0
+                    index = EIndexPattern.P_SO
                 } else {
-                    index = EIndexPattern.P_1
+                    index = EIndexPattern.P_OS
                 }
             } else {
                 SanityCheck.check { params[2] is AOPConstant }
                 if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
-                    index = EIndexPattern.O_0
+                    index = EIndexPattern.O_SP
                 } else {
-                    index = EIndexPattern.O_1
+                    index = EIndexPattern.O_PS
                 }
             }
         } else {
             SanityCheck.check { count == 2 }
             if (params[0] is AOPVariable) {
-                index = EIndexPattern.PO
+                index = EIndexPattern.PO_S
             } else if (params[1] is AOPVariable) {
-                index = EIndexPattern.SO
+                index = EIndexPattern.SO_P
             } else {
                 SanityCheck.check { params[2] is AOPVariable }
-                index = EIndexPattern.SP
+                index = EIndexPattern.SP_O
             }
         }
         println("choosen index for POPJoinWithStore $index")

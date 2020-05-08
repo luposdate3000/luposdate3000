@@ -91,22 +91,22 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
         when (idx) {
-            EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
+            EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
                 data[idx.ordinal].import(dataImport.dataSPO, dataImport.idx, order[idx.ordinal])
             }
-            EIndexPattern.SO, EIndexPattern.S_1 -> {
+            EIndexPattern.SO_P, EIndexPattern.S_OP -> {
                 data[idx.ordinal].import(dataImport.dataSOP, dataImport.idx, order[idx.ordinal])
             }
-            EIndexPattern.P_1, EIndexPattern.PO -> {
+            EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                 data[idx.ordinal].import(dataImport.dataPOS, dataImport.idx, order[idx.ordinal])
             }
-            EIndexPattern.O_0 -> {
+            EIndexPattern.O_SP -> {
                 data[idx.ordinal].import(dataImport.dataOSP, dataImport.idx, order[idx.ordinal])
             }
-            EIndexPattern.P_0 -> {
+            EIndexPattern.P_SO -> {
                 data[idx.ordinal].import(dataImport.dataPSO, dataImport.idx, order[idx.ordinal])
             }
-            EIndexPattern.O_1 -> {
+            EIndexPattern.O_PS -> {
                 data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, order[idx.ordinal])
             }
         }

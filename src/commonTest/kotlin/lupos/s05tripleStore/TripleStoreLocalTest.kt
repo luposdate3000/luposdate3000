@@ -263,7 +263,7 @@ object TripleStoreLocalTest {
 //---PO
                 for (valueInt in 0 until MAX_VALUE) {
                     for (valueInt2 in 0 until MAX_VALUE) {
-                        iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.PO)
+                        iterator = store.getIterator(query, arrayOf(AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.PO_S)
                         loopS@ while (true) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             val value = iterator.columns["v0"]!!.next()
@@ -275,7 +275,7 @@ object TripleStoreLocalTest {
                             key.data[2] = ValueInteger(valueInt2)
                             dataRetrieved.add(key)
                         }
-                        for (key in dataCommited[EIndexPattern.PO.ordinal]) {
+                        for (key in dataCommited[EIndexPattern.PO_S.ordinal]) {
                             var counter = 0
                             for (i in dataRetrieved.size - 1 downTo 0) {
                                 if (dataRetrieved[i] == key) {
@@ -296,7 +296,7 @@ object TripleStoreLocalTest {
 //---SO
                 for (valueInt in 0 until MAX_VALUE) {
                     for (valueInt2 in 0 until MAX_VALUE) {
-                        iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.SO)
+                        iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPVariable(query, "v0"), AOPConstant(query, ValueInteger(valueInt2))), EIndexPattern.SO_P)
                         loopP@ while (true) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             val value = iterator.columns["v0"]!!.next()
@@ -308,7 +308,7 @@ object TripleStoreLocalTest {
                             key.data[2] = ValueInteger(valueInt2)
                             dataRetrieved.add(key)
                         }
-                        for (key in dataCommited[EIndexPattern.SO.ordinal]) {
+                        for (key in dataCommited[EIndexPattern.SO_P.ordinal]) {
                             var counter = 0
                             for (i in dataRetrieved.size - 1 downTo 0) {
                                 if (dataRetrieved[i] == key) {
@@ -329,7 +329,7 @@ object TripleStoreLocalTest {
 //---SP
                 for (valueInt in 0 until MAX_VALUE) {
                     for (valueInt2 in 0 until MAX_VALUE) {
-                        iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2)), AOPVariable(query, "v0")), EIndexPattern.SP)
+                        iterator = store.getIterator(query, arrayOf(AOPConstant(query, ValueInteger(valueInt)), AOPConstant(query, ValueInteger(valueInt2)), AOPVariable(query, "v0")), EIndexPattern.SP_O)
                         loopO@ while (true) {
                             val key = MapKey(Array(3) { ResultSetDictionary.undefValue2 })
                             val value = iterator.columns["v0"]!!.next()
@@ -341,7 +341,7 @@ object TripleStoreLocalTest {
                             key.data[1] = ValueInteger(valueInt2)
                             dataRetrieved.add(key)
                         }
-                        for (key in dataCommited[EIndexPattern.SP.ordinal]) {
+                        for (key in dataCommited[EIndexPattern.SP_O.ordinal]) {
                             var counter = 0
                             for (i in dataRetrieved.size - 1 downTo 0) {
                                 if (dataRetrieved[i] == key) {

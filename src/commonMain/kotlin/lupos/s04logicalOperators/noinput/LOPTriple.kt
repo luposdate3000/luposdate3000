@@ -47,53 +47,59 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
     override fun cloneOP() = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
 
     companion object {
-        fun getIntex(children: Array<OPBase>, sortPriority: List<String>): EIndexPattern {
-            var res = EIndexPattern.SPO
+        fun getIndex(children: Array<OPBase>, sortPriority: List<String>): EIndexPattern {
+            /*
+             * always prefer P over S over O to access the best compressed triple store, which should be the fastest
+             */
+            var resString = ""
+            var res: EIndexPattern
             var count = 0
-            for (n in children) {
-                if (n is AOPConstant) {
-                    count++
+            val c0 = children[0]
+            val c1 = children[1]
+            val c2 = children[2]
+            //constants first
+            if (c1 is AOPConstant) {
+                resString += "P"
+            }
+            if (c0 is AOPConstant) {
+                resString += "S"
+            }
+            if (c2 is AOPConstant) {
+                resString += "O"
+            }
+            //than sort order
+            for (s in sortPriority) {
+                if (c0 is AOPVariable && c0.name == s) {
+                    resString += "S"
+                } else if (c1 is AOPVariable && c1.name == s) {
+                    resString += "P"
+                } else {
+                    require(c2 is AOPVariable && c2.name == s)
+                    resString += "O"
                 }
             }
-            when (count) {
-                1 -> {
-                    if (children[0] is AOPConstant) {
-                        if (sortPriority.size == 0 || (children[1] as AOPVariable).name == sortPriority[0]) {
-                            res = EIndexPattern.S_0
-                        } else {
-                            res = EIndexPattern.S_1
-                        }
-                    } else if (children[1] is AOPConstant) {
-                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0]) {
-                            res = EIndexPattern.P_0
-                        } else {
-                            res = EIndexPattern.P_1
-                        }
-                    } else {
-                        SanityCheck.check { children[2] is AOPConstant }
-                        if (sortPriority.size == 0 || (children[0] as AOPVariable).name == sortPriority[0]) {
-                            res = EIndexPattern.O_0
-                        } else {
-                            res = EIndexPattern.O_1
-                        }
-                    }
-                }
-                2 -> {
-                    if (children[0] !is AOPConstant) {
-                        res = EIndexPattern.PO
-                    } else if (children[1] !is AOPConstant) {
-                        res = EIndexPattern.SO
-                    } else {
-                        SanityCheck.check { children[2] !is AOPConstant }
-                        res = EIndexPattern.SP
-                    }
-                }
-                else -> {
-                    SanityCheck.check { count == 3 || count == 0 }
-                    res = EIndexPattern.SPO
-                }
+            //than columns which are used
+            if (c1 is AOPVariable && c1.name != "_" && !resString.contains("P")) {
+                resString += "P"
             }
-            return res
+            if (c0 is AOPVariable && c0.name != "_" && !resString.contains("S")) {
+                resString += "S"
+            }
+            if (c2 is AOPVariable && c2.name != "_" && !resString.contains("O")) {
+                resString += "O"
+            }
+            //at last fill the remaining columns
+            if (!resString.contains("P")) {
+                resString += "P"
+            }
+            if (!resString.contains("S")) {
+                resString += "S"
+            }
+            if (!resString.contains("O")) {
+                resString += "O"
+            }
+            require(resString.length == 3)
+            return EIndexPattern.valueOf(resString)
         }
     }
 }

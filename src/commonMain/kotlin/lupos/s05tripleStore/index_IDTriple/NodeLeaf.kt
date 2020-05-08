@@ -16,29 +16,32 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
      * bits 2..3: # Bytes _for P (00->1,01->2,10->3,11->4)
      * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
      * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
+     *
+     * absolute minimum is 21 used bytes for exactly 1 Triple/Node
      */
-override fun getFirstTriple(b:IntArray){
-b[0]=read4(9)
-b[1]=read4(13)
-b[2]=read4(17)
-}
-override    fun setNextNode(node: Int) {
+    override fun getFirstTriple(b: IntArray) {
+        b[0] = read4(9)
+        b[1] = read4(13)
+        b[2] = read4(17)
+    }
+
+    override fun setNextNode(node: Int) {
         write4(4, node)
     }
 
-override    fun getNextNode(): Int {
+    override fun getNextNode(): Int {
         return read4(4)
     }
 
-override    fun setTripleCount(count: Int) {
+    override fun setTripleCount(count: Int) {
         write4(0, count)
     }
 
-override    fun getTripleCount(): Int {
+    override fun getTripleCount(): Int {
         return read4(0)
     }
 
-override    fun iterator(): TripleIterator {
+    override fun iterator(): TripleIterator {
         return NodeLeafIterator(this)
     }
 
@@ -46,11 +49,11 @@ override    fun iterator(): TripleIterator {
         return NodeLeafIteratorPrefix3(this, prefix)
     }
 
-override    fun iterator2(prefix: IntArray): TripleIterator {
+    override fun iterator2(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix2(this, prefix)
     }
 
-override    fun iterator1(prefix: IntArray): TripleIterator {
+    override fun iterator1(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix1(this, prefix)
     }
 
@@ -75,25 +78,25 @@ override    fun iterator1(prefix: IntArray): TripleIterator {
         data[offset + 1] = ((d shr 16) and 0xFF).toByte()
         data[offset + 2] = ((d shr 8) and 0xFF).toByte()
         data[offset + 3] = (d and 0xFF).toByte()
-        SanityCheck.check({d == read4(offset)}, { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
+        SanityCheck.check({ d == read4(offset) }, { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
     }
 
     fun write3(offset: Int, d: Int) {
         data[offset] = ((d shr 16) and 0xFF).toByte()
         data[offset + 1] = ((d shr 8) and 0xFF).toByte()
         data[offset + 2] = (d and 0xFF).toByte()
-        SanityCheck.check({d == read3(offset)}, { "$d ${read3(offset)}" })
+        SanityCheck.check({ d == read3(offset) }, { "$d ${read3(offset)}" })
     }
 
     fun write2(offset: Int, d: Int) {
         data[offset] = ((d shr 8) and 0xFF).toByte()
         data[offset + 1] = (d and 0xFF).toByte()
-        SanityCheck.check({d == read2(offset)}, { "$d ${read2(offset)}" })
+        SanityCheck.check({ d == read2(offset) }, { "$d ${read2(offset)}" })
     }
 
     fun write1(offset: Int, d: Int) {
         data[offset] = (d and 0xFF).toByte()
-        SanityCheck.check({d == read1(offset)}, { "$d ${read1(offset)}" })
+        SanityCheck.check({ d == read1(offset) }, { "$d ${read1(offset)}" })
     }
 
     fun writeFullTriple(offset: Int, d: IntArray): Int {
@@ -126,15 +129,15 @@ override    fun iterator1(prefix: IntArray): TripleIterator {
         l[1] = d[1]
         l[2] = d[2]
         SanityCheck {
-            SanityCheck.check{d[0] >= 0}
-            SanityCheck.check{d[1] >= 0}
-            SanityCheck.check{d[2] >= 0}
-            SanityCheck.check{l[0] >= 0}
-            SanityCheck.check{l[1] >= 0}
-            SanityCheck.check{l[2] >= 0}
-            SanityCheck.check{b[0] >= 0}
-            SanityCheck.check{b[1] >= 0}
-            SanityCheck.check{b[2] >= 0}
+            SanityCheck.check { d[0] >= 0 }
+            SanityCheck.check { d[1] >= 0 }
+            SanityCheck.check { d[2] >= 0 }
+            SanityCheck.check { l[0] >= 0 }
+            SanityCheck.check { l[1] >= 0 }
+            SanityCheck.check { l[2] >= 0 }
+            SanityCheck.check { b[0] >= 0 }
+            SanityCheck.check { b[1] >= 0 }
+            SanityCheck.check { b[2] >= 0 }
         }
         var header = 0b00000000
         var localOff = offset + 1
@@ -187,7 +190,7 @@ override    fun iterator1(prefix: IntArray): TripleIterator {
             localOff += 2
             flag = true
         } else {
-SanityCheck.check{b[1] >= 0 || flag}
+            SanityCheck.check { b[1] >= 0 || flag }
             if (!flag) {
                 header = 0b01000000
             }
@@ -222,8 +225,8 @@ SanityCheck.check{b[1] >= 0 || flag}
             write2(localOff, b[2])
             localOff += 2
             flag = true
-        } else  {
-SanityCheck.check{b[2] >= 0 || flag}
+        } else {
+            SanityCheck.check { b[2] >= 0 || flag }
             if (!flag) {
                 header = 0b10000000
             }
@@ -232,8 +235,8 @@ SanityCheck.check{b[2] >= 0 || flag}
             flag = true
         }
         write1(offset, header)
-        SanityCheck.check{flag}//otherwise this triple would equal the last one
-        SanityCheck.check{localOff > offset + 1}//at least ony byte must have been written additionally to the header
+        SanityCheck.check { flag }//otherwise this triple would equal the last one
+        SanityCheck.check { localOff > offset + 1 }//at least ony byte must have been written additionally to the header
         return localOff - offset
     }
 
@@ -241,7 +244,7 @@ SanityCheck.check{b[2] >= 0 || flag}
         SanityCheck {
             debugListLeaf.clear()
         }
-        SanityCheck.check{iterator.hasNext()}
+        SanityCheck.check { iterator.hasNext() }
         var tripleCurrent = iterator.next()
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
         val tripleBuf = IntArray(3)
@@ -264,17 +267,17 @@ SanityCheck.check{b[2] >= 0 || flag}
 //                println("original -> $i")
             }
             while (offset2 < debugListLeaf.size) {
-                SanityCheck.check{it.hasNext()}
+                SanityCheck.check { it.hasNext() }
                 var tmp = it.next()
 //                println("retrieve -> ${tmp[0]}")
 //                println("retrieve -> ${tmp[1]}")
 //                println("retrieve -> ${tmp[2]}")
-                SanityCheck.check{tmp[0] == debugListLeaf[offset2]}
-                SanityCheck.check{tmp[1] == debugListLeaf[offset2 + 1]}
-                SanityCheck.check{tmp[2] == debugListLeaf[offset2 + 2]}
+                SanityCheck.check { tmp[0] == debugListLeaf[offset2] }
+                SanityCheck.check { tmp[1] == debugListLeaf[offset2 + 1] }
+                SanityCheck.check { tmp[2] == debugListLeaf[offset2 + 2] }
                 offset2 += 3
             }
-            SanityCheck.check{!it.hasNext()}
+            SanityCheck.check { !it.hasNext() }
         }
     }
 }

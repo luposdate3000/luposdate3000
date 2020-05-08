@@ -27,8 +27,9 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
      *
      * afterwards alternating 4x triple-group followed by 1x child-pointer-group
      * at the end there might be less than 4 triple-groups in front of the last child-pointer-group
+     *
+     * absolute minimum is 81 used bytes for exactly 4 Triple/Node
      */
-
     override fun getFirstTriple(b: IntArray) {
         NodeManager.getNode(getFirstChild()).getFirstTriple(b)
     }
@@ -277,12 +278,12 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         var remaining = getTripleCount()
         var offset = 12
         var childPointers = IntArray(4)
-var counter=IntArray(3)
-var value=IntArray(3)
+        var counter = IntArray(3)
+        var value = IntArray(3)
         var childToUse = -1
         while (remaining > 0) {
             var i = 0
-            while (i < 4 && remaining>0) {
+            while (i < 4 && remaining > 0) {
                 currentHeaderOffset = offset
                 var header = read1(offset)
                 offset++
@@ -327,7 +328,7 @@ var value=IntArray(3)
                         return action(NodeManager.getNode(lastChildPointer))
                     }
                     if (childToUse < 0) {
-                        childToUse = i-1
+                        childToUse = i - 1
                     }
                 }
                 remaining--
@@ -351,12 +352,12 @@ var value=IntArray(3)
                         childPointers[j] = lastChildPointer xor read4(offset)
                     }
                 }
-lastChildPointer=childPointers[j]
+                lastChildPointer = childPointers[j]
                 offset += h
             }
-if(childToUse>=0){
-return action(NodeManager.getNode(childPointers[childToUse]))
-}
+            if (childToUse >= 0) {
+                return action(NodeManager.getNode(childPointers[childToUse]))
+            }
             lastChildPointer = childPointers[3]
             lastHeaderOffset = currentHeaderOffset
         }
@@ -364,15 +365,15 @@ return action(NodeManager.getNode(childPointers[childToUse]))
         return action(NodeManager.getNode(getFirstChild()))
     }
 
-override    fun iterator3(prefix: IntArray): TripleIterator {
+    override fun iterator3(prefix: IntArray): TripleIterator {
         return findIteratorN({ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2]) }, { it.iterator3(prefix) })
     }
 
-override    fun iterator2(prefix: IntArray): TripleIterator {
+    override fun iterator2(prefix: IntArray): TripleIterator {
         return findIteratorN({ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) }, { it.iterator2(prefix) })
     }
 
-override    fun iterator1(prefix: IntArray): TripleIterator {
+    override fun iterator1(prefix: IntArray): TripleIterator {
         return findIteratorN({ (it[0] < prefix[0]) }, { it.iterator1(prefix) })
     }
 
@@ -380,7 +381,7 @@ override    fun iterator1(prefix: IntArray): TripleIterator {
         SanityCheck.check { childs.size > 0 }
         var current = childs.removeAt(0)
         setFirstChild(current.first)
-println("childPointer ${current.first}")
+        println("childPointer ${current.first}")
         var childLastPointer = current.first
         var offset = 12
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
@@ -392,11 +393,11 @@ println("childPointer ${current.first}")
         val tripleCurrent = IntArray(3)
         val tripleLast = IntArray(3)
         val tripleBuf = IntArray(3)
-        while (childs.size > 0 &&offset<offsetEnd) {
+        while (childs.size > 0 && offset < offsetEnd) {
             i = 0
-            while (i < 4 && childs.size > 0&&offset<offsetEnd) {
+            while (i < 4 && childs.size > 0 && offset < offsetEnd) {
                 current = childs.removeAt(0)
-println("childPointer ${current.first} $childLastPointer")
+                println("childPointer ${current.first} $childLastPointer")
                 childPointers[i] = current.first xor childLastPointer
                 childLastPointer = current.first
                 current.second.getFirstTriple(tripleCurrent)
@@ -409,7 +410,7 @@ println("childPointer ${current.first} $childLastPointer")
                 offset += bytesWritten
                 i++
             }
-println("i $i")
+            println("i $i")
             bytesWritten = writeChildPointers(offset, i, childPointers)
             offset += bytesWritten
         }

@@ -6,15 +6,15 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
     var remaining = node.getTripleCount()
     var offset = 8
     var counter = IntArray(3)
-var needsReset=true
+    var needsReset = true
     override fun hasNext() = remaining > 0
     override fun next(component: Int): Int {
-if(needsReset){
-needsReset=false
-value[0] = 0
-                value[1] = 0
-                value[2] = 0
-}
+        if (needsReset) {
+            needsReset = false
+            value[0] = 0
+            value[1] = 0
+            value[2] = 0
+        }
         var header = node.read1(offset)
         var headerA = header and 0b11000000
         if (headerA == 0b0000000) {
@@ -51,8 +51,8 @@ value[0] = 0
         }
         remaining--
         loop@ while (remaining == 0) {
-needsReset=true
-                offset = 8
+            needsReset = true
+            offset = 8
             var nextNodeIdx = node.getNextNode()
             if (nextNodeIdx != NodeManager.NodeNullPointer) {
                 val tmp = NodeManager.getNode(nextNodeIdx) as NodeLeaf

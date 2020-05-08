@@ -6,7 +6,6 @@ import lupos.s00misc.Coverage
 object NodeManager {
     val NodeNullPointer = 0x7FFFFFFF.toInt()
     val allNodes = MyListGeneric<Node?>()
-
     fun getNode(idx: Int): Node {
         return allNodes[idx]!!
     }
@@ -21,7 +20,7 @@ object NodeManager {
             }
             i++
         }
-        var tmp = NodeLeaf(ByteArray(100)) /*somethig small for tests, something large for real data*/
+        var tmp = NodeLeaf(ByteArray(50)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
         action(tmp, i)
     }
@@ -36,7 +35,7 @@ object NodeManager {
             }
             i++
         }
-        var tmp = NodeInner(ByteArray(150)) /*somethig small for tests, something large for real data*/
+        var tmp = NodeInner(ByteArray(100)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
         action(tmp, i)
     }
@@ -54,10 +53,10 @@ object NodeManager {
                     allNodes[idx] = null
                     idx = node.getNextNode()
                 }
-		is NodeInner ->{
-			allNodes[idx] = null
-			//TODO release childs ... 
-		}
+                is NodeInner -> {
+                    allNodes[idx] = null
+                    //TODO release childs ...
+                }
                 else -> {
                     require(false)
                 }

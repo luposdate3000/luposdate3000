@@ -119,13 +119,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             EIndexPattern.O -> {
                 return myHashCode("" + o, d)
             }
-            EIndexPattern.SP -> {
+            EIndexPattern.SP_O -> {
                 return myHashCode("" + s + "-" + p, d)
             }
-            EIndexPattern.SO -> {
+            EIndexPattern.SO_P -> {
                 return myHashCode("" + s + "-" + o, d)
             }
-            EIndexPattern.PO -> {
+            EIndexPattern.PO_S -> {
                 return myHashCode("" + p + "-" + o, d)
             }
             EIndexPattern.SPO -> {

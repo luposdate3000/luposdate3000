@@ -83,8 +83,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
             }
         }
         var res = ColumnIteratorRow(columns)
-        if (firstLeaf != NodeManager.NodeNullPointer) {
-            val node = NodeManager.getNode(firstLeaf) as NodeLeaf
+        val node = rootNode
+        if (node != null) {
             if (filter.size == 3) {
                 if (node.iterator3(filter).hasNext()) {
                     res.count = 1
@@ -176,7 +176,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
 //            NodeManager.freeNodeAndAllRelated(root)
             NodeManager.freeNodeAndAllRelated(firstLeaf)
             firstLeaf = newFirstLeaf
-require(currentLayer.size>0)
+            require(currentLayer.size > 0)
             while (currentLayer.size > 1) {
                 var tmp = mutableListOf<Pair<Int, Node>>()
                 var prev2: Node? = null

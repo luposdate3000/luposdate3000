@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
     init {
-        distinctIndices = arrayOf<EIndexPattern>(EIndexPattern.SPO, EIndexPattern.SO, EIndexPattern.PO, EIndexPattern.P_0, EIndexPattern.O_0, EIndexPattern.O_1)
+        distinctIndices = arrayOf<EIndexPattern>(EIndexPattern.SPO, EIndexPattern.SO_P, EIndexPattern.PO_S, EIndexPattern.P_SO, EIndexPattern.O_SP, EIndexPattern.O_PS)
         dataDistinct = arrayOf(/*return*/
 /*return*/                Pair("SPO", TripleStoreIndex_IDTriple()),
 /*return*/                Pair("SOP", TripleStoreIndex_IDTriple()),
@@ -33,22 +33,22 @@ class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
         data = Array(EIndexPattern.values().size) {
             val res: TripleStoreIndex
             when (EIndexPattern.values()[it]) {
-                EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
+                EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
                     res = dataDistinct[0].second
                 }
-                EIndexPattern.SO, EIndexPattern.S_1 -> {
+                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
                     res = dataDistinct[1].second
                 }
-                EIndexPattern.P_1, EIndexPattern.PO -> {
+                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                     res = dataDistinct[2].second
                 }
-                EIndexPattern.P_0 -> {
+                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
                     res = dataDistinct[3].second
                 }
-                EIndexPattern.O_0 -> {
+                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
                     res = dataDistinct[4].second
                 }
-                EIndexPattern.O_1 -> {
+                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                     res = dataDistinct[5].second
                 }
             }
@@ -57,22 +57,22 @@ class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
         order = Array(EIndexPattern.values().size) {
             val res: IntArray
             when (EIndexPattern.values()[it]) {
-                EIndexPattern.SPO, EIndexPattern.SP, EIndexPattern.S_0 -> {
+                EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
                     res = intArrayOf(0, 1, 2)
                 }
-                EIndexPattern.SO, EIndexPattern.S_1 -> {
+                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
                     res = intArrayOf(0, 2, 1)
                 }
-                EIndexPattern.P_1, EIndexPattern.PO -> {
+                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                     res = intArrayOf(1, 2, 0)
                 }
-                EIndexPattern.P_0 -> {
+                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
                     res = intArrayOf(1, 0, 2)
                 }
-                EIndexPattern.O_0 -> {
+                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
                     res = intArrayOf(2, 0, 1)
                 }
-                EIndexPattern.O_1 -> {
+                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                     res = intArrayOf(2, 1, 0)
                 }
             }
