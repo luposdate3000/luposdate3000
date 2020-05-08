@@ -19,60 +19,60 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
-class TripleStoreLocal(name: String) : TripleStoreLocalBase(name) {
+class TripleStoreLocalSingleList(name: String) : TripleStoreLocalBase(name) {
     init {
         distinctIndices = arrayOf<EIndexPattern>(EIndexPattern.SPO, EIndexPattern.SO_P, EIndexPattern.PO_S, EIndexPattern.P_SO, EIndexPattern.O_SP, EIndexPattern.O_PS)
-        dataDistinct = arrayOf(
-                Pair("SPO", TripleStoreIndex_MapMapList()),
-                Pair("SOP", TripleStoreIndex_MapMapList()),
-                Pair("POS", TripleStoreIndex_MapMapList()),
-                Pair("PSO", TripleStoreIndex_MapMapList()),
-                Pair("OSP", TripleStoreIndex_MapMapList()),
-                Pair("OPS", TripleStoreIndex_MapMapList())
+        dataDistinct = arrayOf(/*return*/
+/*return*/                Pair("SPO", TripleStoreIndex_SingleList()),
+/*return*/                Pair("SOP", TripleStoreIndex_SingleList()),
+/*return*/                Pair("POS", TripleStoreIndex_SingleList()),
+/*return*/                Pair("PSO", TripleStoreIndex_SingleList()),
+/*return*/                Pair("OSP", TripleStoreIndex_SingleList()),
+/*return*/                Pair("OPS", TripleStoreIndex_SingleList())
         )
-        data = Array(EIndexPattern.values().size) {
+data = Array(EIndexPattern.values().size) {
             val res: TripleStoreIndex
             when (EIndexPattern.values()[it]) {
                 EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
                     res = dataDistinct[0].second
                 }
-                EIndexPattern.SO_P, EIndexPattern.S_OP -> {
+                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
                     res = dataDistinct[1].second
                 }
-                EIndexPattern.P_OS, EIndexPattern.PO_S -> {
+                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                     res = dataDistinct[2].second
                 }
-                EIndexPattern.P_SO -> {
+                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
                     res = dataDistinct[3].second
                 }
-                EIndexPattern.O_SP -> {
+                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
                     res = dataDistinct[4].second
                 }
-                EIndexPattern.O_PS -> {
+                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                     res = dataDistinct[5].second
                 }
             }
 /*return*/res
         }
-        order = Array(EIndexPattern.values().size) {
+order = Array(EIndexPattern.values().size) {
             val res: IntArray
             when (EIndexPattern.values()[it]) {
                 EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
                     res = intArrayOf(0, 1, 2)
                 }
-                EIndexPattern.SO_P, EIndexPattern.S_OP -> {
+                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
                     res = intArrayOf(0, 2, 1)
                 }
-                EIndexPattern.P_OS, EIndexPattern.PO_S -> {
+                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                     res = intArrayOf(1, 2, 0)
                 }
-                EIndexPattern.P_SO -> {
+                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
                     res = intArrayOf(1, 0, 2)
                 }
-                EIndexPattern.O_SP -> {
+                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
                     res = intArrayOf(2, 0, 1)
                 }
-                EIndexPattern.O_PS -> {
+                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                     res = intArrayOf(2, 1, 0)
                 }
             }

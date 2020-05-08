@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 tasks.withType<KotlinCompile>().all {
-    kotlinOptions.jvmTarget = "14"
+    kotlinOptions.jvmTarget="14"
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
 }
 buildscript {
@@ -58,7 +57,6 @@ sourceSets["main"].java.srcDir("src/commonS00SanityChecksOnMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS03DictionaryMultiMapMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS05BPlusTreeMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS12DummyMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS14ClientNoneMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS15LocalMain/kotlin")

@@ -229,9 +229,9 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain")
         ),
         ChooseableGroup("Triple Store") to listOf(
-                ChooseableOptionDirectory("MapMapList", "commonS05MapMapListMain"),
-                ChooseableOptionDirectory("SingleList", "commonS05SingleListMain"),
-                ChooseableOptionDirectory("BPlusTree", "commonS05BPlusTreeMain")
+ChooseableOptionTypeAlias("MapMapList","lupos.s05tripleStore",listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
+ChooseableOptionTypeAlias("SingleList","lupos.s05tripleStore",listOf("TripleStoreLocal" to "TripleStoreLocalSingleList")),
+ChooseableOptionTypeAlias("BPlusTree","lupos.s05tripleStore",listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
         ),
         ChooseableGroup("P2P") to listOf(
                 ChooseableOptionDirectory("Dummy", "commonS12DummyMain"),
