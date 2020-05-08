@@ -23,7 +23,7 @@ import lupos.s05tripleStore.index_IDTriple.*
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
     var firstLeaf = NodeManager.NodeNullPointer
     var root = NodeManager.NodeNullPointer
-var rootNode:Node?=null
+    var rootNode: Node? = null
 
     companion object {
         var storeIteratorCounter = 0L
@@ -148,7 +148,6 @@ var rootNode:Node?=null
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         val iteratorImport = BulkImportIterator(dataImport, count, order)
         var iteratorStore: TripleIterator
-        var currentLayer = mutableListOf<Pair<Int, Node>>()
         if (firstLeaf == NodeManager.NodeNullPointer) {
             iteratorStore = EmptyIterator()
         } else {
@@ -156,6 +155,7 @@ var rootNode:Node?=null
         }
         val iterator = MergeIterator(iteratorImport, iteratorStore)
         if (iterator.hasNext()) {
+            var currentLayer = mutableListOf<Pair<Int, Node>>()
             var newFirstLeaf = NodeManager.NodeNullPointer
             var node2: NodeLeaf? = null
             NodeManager.allocateNodeLeaf { n, i ->
@@ -173,30 +173,32 @@ var rootNode:Node?=null
                 }
                 node.initializeWith(iterator)
             }
+//            NodeManager.freeNodeAndAllRelated(root)
             NodeManager.freeNodeAndAllRelated(firstLeaf)
             firstLeaf = newFirstLeaf
-        }
-        while (currentLayer.size > 1) {
-            var tmp = mutableListOf<Pair<Int, Node>>()
-            var prev2: Node? = null
-            NodeManager.allocateNodeInner { n, i ->
-                tmp.add(Pair(i, n))
-                n.initializeWith(currentLayer)
-                prev2 = n
-            }
-var             prev = prev2!!
-            while (currentLayer.size > 0) {
+require(currentLayer.size>0)
+            while (currentLayer.size > 1) {
+                var tmp = mutableListOf<Pair<Int, Node>>()
+                var prev2: Node? = null
                 NodeManager.allocateNodeInner { n, i ->
                     tmp.add(Pair(i, n))
                     n.initializeWith(currentLayer)
-                    prev.setNextNode(i)
-                    prev = n
+                    prev2 = n
                 }
+                var prev = prev2!!
+                while (currentLayer.size > 0) {
+                    NodeManager.allocateNodeInner { n, i ->
+                        tmp.add(Pair(i, n))
+                        n.initializeWith(currentLayer)
+                        prev.setNextNode(i)
+                        prev = n
+                    }
+                }
+                currentLayer = tmp
             }
-            currentLayer = tmp
+            root = currentLayer[0].first
+            rootNode = currentLayer[0].second
         }
-        root = currentLayer[0].first
-rootNode=currentLayer[0].second
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
@@ -212,7 +214,7 @@ rootNode=currentLayer[0].second
         NodeManager.freeNodeAndAllRelated(firstLeaf)
         firstLeaf = NodeManager.NodeNullPointer
         root = NodeManager.NodeNullPointer
-rootNode=null
+        rootNode = null
     }
 
     override fun printContents() {
