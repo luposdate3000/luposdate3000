@@ -22,6 +22,8 @@ import lupos.s05tripleStore.index_IDTriple.*
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
     var firstLeaf = NodeManager.NodeNullPointer
+    var root = NodeManager.NodeNullPointer
+var rootNode:Node?=null
 
     companion object {
         var storeIteratorCounter = 0L
@@ -146,6 +148,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         val iteratorImport = BulkImportIterator(dataImport, count, order)
         var iteratorStore: TripleIterator
+        var currentLayer = mutableListOf<Pair<Int, Node>>()
         if (firstLeaf == NodeManager.NodeNullPointer) {
             iteratorStore = EmptyIterator()
         } else {
@@ -158,6 +161,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
             NodeManager.allocateNodeLeaf { n, i ->
                 newFirstLeaf = i
                 node2 = n
+                currentLayer.add(Pair(i, n))
             }
             var node = node2!!
             node.initializeWith(iterator)
@@ -165,12 +169,34 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
                 NodeManager.allocateNodeLeaf { n, i ->
                     node.setNextNode(i)
                     node = n
+                    currentLayer.add(Pair(i, n))
                 }
                 node.initializeWith(iterator)
             }
             NodeManager.freeNodeAndAllRelated(firstLeaf)
             firstLeaf = newFirstLeaf
         }
+        while (currentLayer.size > 1) {
+            var tmp = mutableListOf<Pair<Int, Node>>()
+            var prev2: Node? = null
+            NodeManager.allocateNodeInner { n, i ->
+                tmp.add(Pair(i, n))
+                n.initializeWith(currentLayer)
+                prev2 = n
+            }
+var             prev = prev2!!
+            while (currentLayer.size > 0) {
+                NodeManager.allocateNodeInner { n, i ->
+                    tmp.add(Pair(i, n))
+                    n.initializeWith(currentLayer)
+                    prev.setNextNode(i)
+                    prev = n
+                }
+            }
+            currentLayer = tmp
+        }
+        root = currentLayer[0].first
+rootNode=currentLayer[0].second
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
@@ -182,8 +208,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
     }
 
     override fun clear() {
+//        NodeManager.freeNodeAndAllRelated(root)
         NodeManager.freeNodeAndAllRelated(firstLeaf)
         firstLeaf = NodeManager.NodeNullPointer
+        root = NodeManager.NodeNullPointer
+rootNode=null
     }
 
     override fun printContents() {

@@ -3,7 +3,7 @@ package lupos.s05tripleStore.index_IDTriple
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
 
-var debugList = mutableListOf<Int>()
+var debugListLeaf = mutableListOf<Int>()
 
 inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
     /*
@@ -17,35 +17,40 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
      * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
      * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
      */
-    fun setNextNode(node: Int) {
+override fun getFirstTriple(b:IntArray){
+b[0]=read4(9)
+b[1]=read4(13)
+b[2]=read4(17)
+}
+override    fun setNextNode(node: Int) {
         write4(4, node)
     }
 
-    fun getNextNode(): Int {
+override    fun getNextNode(): Int {
         return read4(4)
     }
 
-    fun setTripleCount(count: Int) {
+override    fun setTripleCount(count: Int) {
         write4(0, count)
     }
 
-    fun getTripleCount(): Int {
+override    fun getTripleCount(): Int {
         return read4(0)
     }
 
-    fun iterator(): TripleIterator {
+override    fun iterator(): TripleIterator {
         return NodeLeafIterator(this)
     }
 
-    fun iterator3(prefix: IntArray): TripleIterator {
+    override fun iterator3(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix3(this, prefix)
     }
 
-    fun iterator2(prefix: IntArray): TripleIterator {
+override    fun iterator2(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix2(this, prefix)
     }
 
-    fun iterator1(prefix: IntArray): TripleIterator {
+override    fun iterator1(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix1(this, prefix)
     }
 
@@ -100,9 +105,9 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
         write4(offset + 1, d[0])
         write4(offset + 5, d[1])
         write4(offset + 9, d[2])
-        debugList.add(d[0])
-        debugList.add(d[1])
-        debugList.add(d[2])
+        debugListLeaf.add(d[0])
+        debugListLeaf.add(d[1])
+        debugListLeaf.add(d[2])
         return 13
     }
 
@@ -111,9 +116,9 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
          * assuming enough space
          * returns bytes written
          */
-        debugList.add(d[0])
-        debugList.add(d[1])
-        debugList.add(d[2])
+        debugListLeaf.add(d[0])
+        debugListLeaf.add(d[1])
+        debugListLeaf.add(d[2])
         b[0] = l[0] xor d[0]
         b[1] = l[1] xor d[1]
         b[2] = l[2] xor d[2]
@@ -234,7 +239,7 @@ SanityCheck.check{b[2] >= 0 || flag}
 
     fun initializeWith(iterator: TripleIterator) {
         SanityCheck {
-            debugList.clear()
+            debugListLeaf.clear()
         }
         SanityCheck.check{iterator.hasNext()}
         var tripleCurrent = iterator.next()
@@ -255,18 +260,18 @@ SanityCheck.check{b[2] >= 0 || flag}
         SanityCheck {
             var it = iterator()
             var offset2 = 0
-            for (i in debugList) {
+            for (i in debugListLeaf) {
 //                println("original -> $i")
             }
-            while (offset2 < debugList.size) {
+            while (offset2 < debugListLeaf.size) {
                 SanityCheck.check{it.hasNext()}
                 var tmp = it.next()
 //                println("retrieve -> ${tmp[0]}")
 //                println("retrieve -> ${tmp[1]}")
 //                println("retrieve -> ${tmp[2]}")
-                SanityCheck.check{tmp[0] == debugList[offset2]}
-                SanityCheck.check{tmp[1] == debugList[offset2 + 1]}
-                SanityCheck.check{tmp[2] == debugList[offset2 + 2]}
+                SanityCheck.check{tmp[0] == debugListLeaf[offset2]}
+                SanityCheck.check{tmp[1] == debugListLeaf[offset2 + 1]}
+                SanityCheck.check{tmp[2] == debugListLeaf[offset2 + 2]}
                 offset2 += 3
             }
             SanityCheck.check{!it.hasNext()}
