@@ -70,25 +70,25 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
         data[offset + 1] = ((d shr 16) and 0xFF).toByte()
         data[offset + 2] = ((d shr 8) and 0xFF).toByte()
         data[offset + 3] = (d and 0xFF).toByte()
-        require(d == read4(offset), { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
+        SanityCheck.check({d == read4(offset)}, { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
     }
 
     fun write3(offset: Int, d: Int) {
         data[offset] = ((d shr 16) and 0xFF).toByte()
         data[offset + 1] = ((d shr 8) and 0xFF).toByte()
         data[offset + 2] = (d and 0xFF).toByte()
-        require(d == read3(offset), { "$d ${read3(offset)}" })
+        SanityCheck.check({d == read3(offset)}, { "$d ${read3(offset)}" })
     }
 
     fun write2(offset: Int, d: Int) {
         data[offset] = ((d shr 8) and 0xFF).toByte()
         data[offset + 1] = (d and 0xFF).toByte()
-        require(d == read2(offset), { "$d ${read2(offset)}" })
+        SanityCheck.check({d == read2(offset)}, { "$d ${read2(offset)}" })
     }
 
     fun write1(offset: Int, d: Int) {
         data[offset] = (d and 0xFF).toByte()
-        require(d == read1(offset), { "$d ${read1(offset)}" })
+        SanityCheck.check({d == read1(offset)}, { "$d ${read1(offset)}" })
     }
 
     fun writeFullTriple(offset: Int, d: IntArray): Int {
@@ -121,17 +121,17 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
         l[1] = d[1]
         l[2] = d[2]
         SanityCheck {
-            require(d[0] >= 0)
-            require(d[1] >= 0)
-            require(d[2] >= 0)
-            require(l[0] >= 0)
-            require(l[1] >= 0)
-            require(l[2] >= 0)
-            require(b[0] >= 0)
-            require(b[1] >= 0)
-            require(b[2] >= 0)
+            SanityCheck.check{d[0] >= 0}
+            SanityCheck.check{d[1] >= 0}
+            SanityCheck.check{d[2] >= 0}
+            SanityCheck.check{l[0] >= 0}
+            SanityCheck.check{l[1] >= 0}
+            SanityCheck.check{l[2] >= 0}
+            SanityCheck.check{b[0] >= 0}
+            SanityCheck.check{b[1] >= 0}
+            SanityCheck.check{b[2] >= 0}
         }
-        var header = 0
+        var header = 0b00000000
         var localOff = offset + 1
         var flag = false
         if (b[0] >= (1 shl 24)) {
@@ -150,7 +150,6 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             localOff += 2
             flag = true
         } else if (b[0] >= 0) {
-            header = 0b00000000
             write1(localOff, b[0])
             localOff += 1
             flag = true
@@ -182,10 +181,9 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             write2(localOff, b[1])
             localOff += 2
             flag = true
-        } else if (b[1] >= 0 || flag) {
-            if (flag) {
-                header = header or 0b00000000
-            } else {
+        } else {
+SanityCheck.check{b[1] >= 0 || flag}
+            if (!flag) {
                 header = 0b01000000
             }
             write1(localOff, b[1])
@@ -196,7 +194,7 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             if (flag) {
                 header = header or 0b00000011
             } else {
-                header = 0b10001100
+                header = 0b10000011
             }
             write4(localOff, b[2])
             localOff += 4
@@ -205,7 +203,7 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             if (flag) {
                 header = header or 0b00000010
             } else {
-                header = 0b10001000
+                header = 0b10000010
             }
             write3(localOff, b[2])
             localOff += 3
@@ -214,15 +212,14 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             if (flag) {
                 header = header or 0b00000001
             } else {
-                header = 0b10000100
+                header = 0b10000001
             }
             write2(localOff, b[2])
             localOff += 2
             flag = true
-        } else if (b[2] >= 0 || flag) {
-            if (flag) {
-                header = header or 0b00000000
-            } else {
+        } else  {
+SanityCheck.check{b[2] >= 0 || flag}
+            if (!flag) {
                 header = 0b10000000
             }
             write1(localOff, b[2])
@@ -230,8 +227,8 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             flag = true
         }
         write1(offset, header)
-        require(flag)//otherwise this triple would equal the last one
-        require(localOff > offset + 1)//at least ony byte must have been written additionally to the header
+        SanityCheck.check{flag}//otherwise this triple would equal the last one
+        SanityCheck.check{localOff > offset + 1}//at least ony byte must have been written additionally to the header
         return localOff - offset
     }
 
@@ -239,7 +236,7 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
         SanityCheck {
             debugList.clear()
         }
-        require(iterator.hasNext())
+        SanityCheck.check{iterator.hasNext()}
         var tripleCurrent = iterator.next()
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
         val tripleBuf = IntArray(3)
@@ -262,17 +259,17 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
 //                println("original -> $i")
             }
             while (offset2 < debugList.size) {
-                require(it.hasNext())
+                SanityCheck.check{it.hasNext()}
                 var tmp = it.next()
 //                println("retrieve -> ${tmp[0]}")
 //                println("retrieve -> ${tmp[1]}")
 //                println("retrieve -> ${tmp[2]}")
-                require(tmp[0] == debugList[offset2])
-                require(tmp[1] == debugList[offset2 + 1])
-                require(tmp[2] == debugList[offset2 + 2])
+                SanityCheck.check{tmp[0] == debugList[offset2]}
+                SanityCheck.check{tmp[1] == debugList[offset2 + 1]}
+                SanityCheck.check{tmp[2] == debugList[offset2 + 2]}
                 offset2 += 3
             }
-            require(!it.hasNext())
+            SanityCheck.check{!it.hasNext()}
         }
     }
 }
