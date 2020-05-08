@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
     init {
-        distinctIndices = arrayOf<EIndexPattern>(EIndexPattern.SPO, EIndexPattern.SO_P, EIndexPattern.PO_S, EIndexPattern.P_SO, EIndexPattern.O_SP, EIndexPattern.O_PS)
+        distinctIndices = arrayOf<EIndexPattern>(EIndexPattern.SPO, EIndexPattern.SOP, EIndexPattern.POS, EIndexPattern.PSO, EIndexPattern.OSP, EIndexPattern.OPS)
         dataDistinct = arrayOf(
                 Pair("SPO", TripleStoreIndex_MapMapList()),
                 Pair("SOP", TripleStoreIndex_MapMapList()),
@@ -50,30 +50,6 @@ data = Array(EIndexPattern.values().size) {
                 }
                 EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                     res = dataDistinct[5].second
-                }
-            }
-/*return*/res
-        }
-order = Array(EIndexPattern.values().size) {
-            val res: IntArray
-            when (EIndexPattern.values()[it]) {
-                EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
-                    res = intArrayOf(0, 1, 2)
-                }
-                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
-                    res = intArrayOf(0, 2, 1)
-                }
-                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
-                    res = intArrayOf(1, 2, 0)
-                }
-                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
-                    res = intArrayOf(1, 0, 2)
-                }
-                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
-                    res = intArrayOf(2, 0, 1)
-                }
-                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
-                    res = intArrayOf(2, 1, 0)
                 }
             }
 /*return*/res

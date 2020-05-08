@@ -50,8 +50,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     @JvmField
     var data = arrayOf<TripleStoreIndex>()
     @JvmField
-    var order = arrayOf<IntArray>()
-    @JvmField
     var dataDistinct = arrayOf<Pair<String, TripleStoreIndex>>()
 
     companion object {
@@ -76,7 +74,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
-            val i = order[idx.ordinal][ii]
+            val i = idx.tripleIndicees[ii]
             val param = params[i]
             if (param is AOPConstant) {
                 SanityCheck.check { filter.size == ii }
@@ -92,22 +90,22 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     fun import(dataImport: TripleStoreBulkImport, idx: EIndexPattern) {
         when (idx) {
             EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
-                data[idx.ordinal].import(dataImport.dataSPO, dataImport.idx, order[idx.ordinal])
+                data[idx.ordinal].import(dataImport.dataSPO, dataImport.idx, idx.tripleIndicees)
             }
-            EIndexPattern.SO_P, EIndexPattern.S_OP -> {
-                data[idx.ordinal].import(dataImport.dataSOP, dataImport.idx, order[idx.ordinal])
+EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
+                data[idx.ordinal].import(dataImport.dataSOP, dataImport.idx, idx.tripleIndicees)
             }
-            EIndexPattern.P_OS, EIndexPattern.PO_S -> {
-                data[idx.ordinal].import(dataImport.dataPOS, dataImport.idx, order[idx.ordinal])
+EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
+                data[idx.ordinal].import(dataImport.dataPOS, dataImport.idx, idx.tripleIndicees)
             }
-            EIndexPattern.O_SP -> {
-                data[idx.ordinal].import(dataImport.dataOSP, dataImport.idx, order[idx.ordinal])
+EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
+                data[idx.ordinal].import(dataImport.dataOSP, dataImport.idx, idx.tripleIndicees)
             }
-            EIndexPattern.P_SO -> {
-                data[idx.ordinal].import(dataImport.dataPSO, dataImport.idx, order[idx.ordinal])
+EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
+                data[idx.ordinal].import(dataImport.dataPSO, dataImport.idx, idx.tripleIndicees)
             }
-            EIndexPattern.O_PS -> {
-                data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, order[idx.ordinal])
+EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
+                data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, idx.tripleIndicees)
             }
         }
         println("imported $idx")
@@ -125,14 +123,14 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
                 if (insert != null) {
                     for (row in insert) {
-                        data[idx.ordinal].insert(row.key[order[idx.ordinal][0]], row.key[order[idx.ordinal][1]], row.key[order[idx.ordinal][2]])
+                        data[idx.ordinal].insert(row.key[idx.tripleIndicees[0]], row.key[idx.tripleIndicees[1]], row.key[idx.tripleIndicees[2]])
                     }
                     pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
                 if (delete != null) {
                     for (row in delete) {
-                        data[idx.ordinal].remove(row.key[order[idx.ordinal][0]], row.key[order[idx.ordinal][1]], row.key[order[idx.ordinal][2]])
+                        data[idx.ordinal].remove(row.key[idx.tripleIndicees[0]], row.key[idx.tripleIndicees[1]], row.key[idx.tripleIndicees[2]])
                     }
                     pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
                 }

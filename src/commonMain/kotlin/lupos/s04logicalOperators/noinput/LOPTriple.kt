@@ -77,7 +77,7 @@ resString+="_"
                 } else if (c1 is AOPVariable && c1.name == s) {
                     resString += "P"
                 } else {
-                    require(c2 is AOPVariable && c2.name == s)
+                    SanityCheck.check{c2 is AOPVariable && c2.name == s}
                     resString += "O"
                 }
             }

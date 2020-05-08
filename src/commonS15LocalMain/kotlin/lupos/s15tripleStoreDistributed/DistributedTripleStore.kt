@@ -57,15 +57,15 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 
     init {
         SanityCheck {
-            if (idx == EIndexPattern.SPO) {
-                if (children[0] is AOPVariable) {
-                    idx.keyIndices.map { SanityCheck.check { children[it] is AOPVariable } }
+            if (idx.keyIndices.size == 3) {
+                if (params[0] is AOPVariable) {
+                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    idx.keyIndices.map { SanityCheck.check { children[it] is AOPConstant } }
+                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                idx.keyIndices.map { SanityCheck.check { children[it] is AOPConstant } }
-                idx.valueIndices.map { SanityCheck.check { children[it] is AOPVariable } }
+                idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
+                idx.valueIndices.map { SanityCheck.check { params[it] is AOPVariable } }
             }
         }
     }
@@ -115,28 +115,29 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
         val projectedVariables = mutableListOf<String>()
-        if (idx == EIndexPattern.SPO) {
-            if (params[0] is AOPVariable) {
-                SanityCheck {
+        SanityCheck {
+            if (idx.keyIndices.size == 3) {
+                if (params[0] is AOPVariable) {
                     idx.keyIndices.map { SanityCheck.check { params[it] is AOPVariable } }
-                }
-                idx.keyIndices.map {
-                    val tmp = (params[it] as AOPVariable).name
-                    if (tmp != "_") {
-                        projectedVariables.add(tmp)
-                    }
-                }
-            } else {
-                SanityCheck {
+                } else {
                     idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
                 }
-            }
-        } else {
-            SanityCheck {
+            } else {
                 idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
                 idx.valueIndices.map { SanityCheck.check { params[it] is AOPVariable } }
             }
-            idx.valueIndices.map {
+        }
+        if (idx.keyIndices.size == 3) {
+if (params[0] is AOPVariable) {
+            idx.keyIndices.forEach {
+                val tmp = (params[it] as AOPVariable).name
+                if (tmp != "_") {
+                    projectedVariables.add(tmp)
+                }
+            }
+}
+        } else {
+            idx.valueIndices.forEach {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {
                     projectedVariables.add(tmp)
