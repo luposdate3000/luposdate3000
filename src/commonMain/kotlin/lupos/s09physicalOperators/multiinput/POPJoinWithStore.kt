@@ -31,7 +31,6 @@ import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s01io.*
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -55,7 +54,8 @@ import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.AOPAggregationBase
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
@@ -86,6 +86,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 
 

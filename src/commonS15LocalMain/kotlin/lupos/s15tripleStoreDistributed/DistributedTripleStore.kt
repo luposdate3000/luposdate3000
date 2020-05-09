@@ -88,7 +88,10 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
-import lupos.s14endpoint.*
+import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.endpointServer
+import lupos.s14endpoint.EndpointServerImpl
 
 
 

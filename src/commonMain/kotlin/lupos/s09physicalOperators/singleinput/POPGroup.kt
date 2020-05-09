@@ -56,7 +56,8 @@ import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.AOPAggregationBase
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID

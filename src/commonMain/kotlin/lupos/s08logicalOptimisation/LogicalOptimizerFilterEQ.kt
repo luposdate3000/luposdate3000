@@ -4,7 +4,11 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.multiinput.*
+import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGT
+import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID

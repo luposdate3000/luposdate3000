@@ -102,7 +102,10 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.*
+import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.endpointServer
+import lupos.s14endpoint.EndpointServerImpl
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 

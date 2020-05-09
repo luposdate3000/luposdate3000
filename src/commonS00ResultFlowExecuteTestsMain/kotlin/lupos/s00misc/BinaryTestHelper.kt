@@ -30,7 +30,6 @@ import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s01io.*
 import lupos.s02buildSyntaxTree.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.MyListValue
@@ -56,8 +55,8 @@ import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
+import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
@@ -69,6 +68,8 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGT
+import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
@@ -159,8 +160,12 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.*
+import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.endpointServer
+import lupos.s14endpoint.EndpointServerImpl
 import lupos.s15tripleStoreDistributed.*
+
 
 
 

@@ -37,7 +37,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s12p2p.P2P
-import lupos.s14endpoint.*
+import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.endpointServer
+import lupos.s14endpoint.EndpointServerImpl
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var i = 0

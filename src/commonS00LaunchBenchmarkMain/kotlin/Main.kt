@@ -34,7 +34,10 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s12p2p.P2P
-import lupos.s14endpoint.*
+import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.endpointServer
+import lupos.s14endpoint.EndpointServerImpl
 
 
 enum class Datasource {

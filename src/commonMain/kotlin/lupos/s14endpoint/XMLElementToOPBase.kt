@@ -53,8 +53,8 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.multiinput.*
+import lupos.s04arithmetikOperators.AOPAggregationBase
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
@@ -67,6 +67,8 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGT
 import lupos.s04arithmetikOperators.multiinput.AOPIn
 import lupos.s04arithmetikOperators.multiinput.AOPLT
 import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
