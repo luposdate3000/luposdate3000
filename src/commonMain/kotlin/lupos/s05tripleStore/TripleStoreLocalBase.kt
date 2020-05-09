@@ -18,6 +18,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.index_IDTriple.*
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
     class MapKey(@JvmField val key: Array<Value>) {
@@ -60,14 +61,16 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     fun safeToFolder(foldername: String) {
         println("TripleStoreLocalBase safeToFolder $foldername")
         dataDistinct.forEach {
-            it.second.safeToFolder(foldername + "/" + it.first + ".bin")
+            it.second.safeToFile(foldername + "/" + it.first + ".bin")
         }
+        NodeManager.safeToFile(foldername + "/nodemanager")
     }
 
     fun loadFromFolder(foldername: String) {
         dataDistinct.forEach {
-            it.second.loadFromFolder(foldername + "/" + it.first + ".bin")
+            it.second.loadFromFile(foldername + "/" + it.first + ".bin")
         }
+        NodeManager.loadFromFile(foldername + "/nodemanager")
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
@@ -92,19 +95,19 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
                 data[idx.ordinal].import(dataImport.dataSPO, dataImport.idx, idx.tripleIndicees)
             }
-EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
+            EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
                 data[idx.ordinal].import(dataImport.dataSOP, dataImport.idx, idx.tripleIndicees)
             }
-EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
+            EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
                 data[idx.ordinal].import(dataImport.dataPOS, dataImport.idx, idx.tripleIndicees)
             }
-EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
+            EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
                 data[idx.ordinal].import(dataImport.dataPSO, dataImport.idx, idx.tripleIndicees)
             }
-EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
+            EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
                 data[idx.ordinal].import(dataImport.dataOSP, dataImport.idx, idx.tripleIndicees)
             }
-EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
+            EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
                 data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, idx.tripleIndicees)
             }
         }

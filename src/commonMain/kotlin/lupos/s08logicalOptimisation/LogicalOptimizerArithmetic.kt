@@ -28,15 +28,15 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         if (node is AOPBase && node !is AOPValue) {
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
                 val outMap = mutableMapOf<String, ColumnIterator>()
-println("evaluating constant ::")
+                println("evaluating constant ::")
                 var value = node.evaluate(ColumnIteratorRow(outMap))()
-println("evaluating constant :: A $value")
+                println("evaluating constant :: A $value")
                 if (value is ValueError) {
                     value = ValueUndef()
                 }
-println("evaluating constant :: B $value")
+                println("evaluating constant :: B $value")
                 res = AOPConstant(query, value)
-println("evaluating constant :: C $res")
+                println("evaluating constant :: C $res")
                 onChange()
             }
         }

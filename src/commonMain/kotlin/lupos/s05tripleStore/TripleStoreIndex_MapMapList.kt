@@ -26,7 +26,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
     override fun printContents() {
     }
 
-    override fun safeToFolder(filename: String) {
+    override fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.size)
             val iterator0 = data.iterator()
@@ -47,7 +47,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex {
         }
     }
 
-    override fun loadFromFolder(filename: String) {
+    override fun loadFromFile(filename: String) {
         File(filename).dataInputStream { it ->
             val size0 = it.readInt()
             data.withFastInitializer { initData ->

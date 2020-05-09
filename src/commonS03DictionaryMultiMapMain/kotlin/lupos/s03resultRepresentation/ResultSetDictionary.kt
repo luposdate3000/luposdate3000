@@ -20,22 +20,20 @@ class ResultSetDictionary(val global: Boolean = false) {
         val mask5 = 0x3C000000.toInt()/*first 6 bit*/
         val filter3 = 0x0FFFFFFF.toInt()
         val filter5 = 0x03FFFFFF.toInt()
-        val flaggedValueLocalBnode =        0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
-        val flaggedValueLocalIri =          0x10000000.toInt()/*first 4 bit*/
-        val flaggedValueLocalTyped =        0x20000000.toInt()/*first 4 bit*/
-        val flaggedValueLocalInt =          0x30000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDecimal =      0x34000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDouble =       0x38000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalLangTagged =   0x3C000000.toInt()/*first 6 bit*/
-
-        val flaggedValueGlobalBnode =      0x40000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalIri =        0x50000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalTyped =      0x60000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalInt =        0x70000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDecimal =    0x74000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDouble =     0x78000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
+        val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
+        val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
+        val flaggedValueLocalInt = 0x30000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalDouble = 0x38000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalLangTagged = 0x3C000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalInt = 0x70000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
-
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt())/*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
         @JvmField
@@ -220,16 +218,16 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun createValue(value: ValueDefinition): Value {
-        var res:Value
-when (value) {
+        var res: Value
+        when (value) {
             is ValueUndef -> {
-               res= undefValue
+                res = undefValue
             }
             is ValueError -> {
-               res= errorValue
+                res = errorValue
             }
             is ValueBnode -> {
-               res= createNewBNode(value.value)
+                res = createNewBNode(value.value)
             }
             is ValueBoolean -> {
                 if (value.value) {
@@ -239,36 +237,36 @@ when (value) {
                 }
             }
             is ValueLanguageTaggedLiteral -> {
-               res= createLangTagged(value.content, value.language)
+                res = createLangTagged(value.content, value.language)
             }
             is ValueSimpleLiteral -> {
-               res= createTyped(value.content, "http://www.w3.org/2001/XMLSchema#string")
+                res = createTyped(value.content, "http://www.w3.org/2001/XMLSchema#string")
             }
             is ValueTypedLiteral -> {
-               res= createTyped(value.content, value.type_iri)
+                res = createTyped(value.content, value.type_iri)
             }
             is ValueDecimal -> {
-               res= createDecimal(value.value)
+                res = createDecimal(value.value)
             }
             is ValueDouble -> {
-               res= createDouble(value.value)
+                res = createDouble(value.value)
             }
             is ValueInteger -> {
-               res= createInteger(value.value)
+                res = createInteger(value.value)
             }
             is ValueIri -> {
-               res= createIri(value.iri)
+                res = createIri(value.iri)
             }
             is ValueDateTime -> {
                 val tmp = value.valueToString()
-               res= createTyped(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#dateTime>".length), "http://www.w3.org/2001/XMLSchema#dateTime")
+                res = createTyped(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#dateTime>".length), "http://www.w3.org/2001/XMLSchema#dateTime")
             }
         }
-SanityCheck{
-val tmp2=getValue(res)
-SanityCheck.check({(value is ValueBnode && tmp2 is ValueBnode)||(value is ValueError && tmp2 is ValueError)||tmp2==value||(value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri=="http://www.w3.org/2001/XMLSchema#string" && tmp2.content==value.content)},{"$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})"})
-}
-return res
+        SanityCheck {
+            val tmp2 = getValue(res)
+            SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})" })
+        }
+        return res
     }
 
     fun getValue(value: Value): ValueDefinition {

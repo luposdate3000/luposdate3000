@@ -67,9 +67,9 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             if (c2 is AOPConstant) {
                 resString += "O"
             }
-if(resString.length>0&&resString.length<3){
-resString+="_"
-}
+            if (resString.length > 0 && resString.length < 3) {
+                resString += "_"
+            }
             //than sort order
             for (s in sortPriority) {
                 if (c0 is AOPVariable && c0.name == s) {
@@ -77,7 +77,7 @@ resString+="_"
                 } else if (c1 is AOPVariable && c1.name == s) {
                     resString += "P"
                 } else {
-                    SanityCheck.check{c2 is AOPVariable && c2.name == s}
+                    SanityCheck.check { c2 is AOPVariable && c2.name == s }
                     resString += "O"
                 }
             }
@@ -101,7 +101,7 @@ resString+="_"
             if (!resString.contains("O")) {
                 resString += "O"
             }
-            require(resString.length == 3|| (resString.length==4 && resString.contains("_")))
+            require(resString.length == 3 || (resString.length == 4 && resString.contains("_")))
             return EIndexPattern.valueOf(resString)
         }
     }

@@ -2,7 +2,7 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-object SanityCheck {
+object SanityCheckOn {
     operator fun invoke(action: () -> Unit) = action()
     inline fun <T> helper(action: () -> T): T? = action()
     inline fun check(value: () -> Boolean, msg: () -> String) = require(value(), msg)

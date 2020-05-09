@@ -54,7 +54,7 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
             needsReset = true
             offset = 8
             var nextNodeIdx = node.getNextNode()
-            if (nextNodeIdx != NodeManager.NodeNullPointer) {
+            if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 val tmp = NodeManager.getNode(nextNodeIdx) as NodeLeaf
                 require(node != tmp)
                 node = tmp

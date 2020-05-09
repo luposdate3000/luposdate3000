@@ -123,11 +123,11 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         var localOff = offset + 1
         for (i in 0 until count) {
             if (d[i] >= (1 shl 24)) {
-                header = header or (0b00000011  shl (6 - i - i))
+                header = header or (0b00000011 shl (6 - i - i))
                 write4(localOff, d[i])
                 localOff += 4
             } else if (d[i] >= (1 shl 16)) {
-                header = header or (0b00000010  shl (6 - i - i))
+                header = header or (0b00000010 shl (6 - i - i))
                 write3(localOff, d[i])
                 localOff += 3
             } else if (d[i] >= (1 shl 8)) {
@@ -271,11 +271,11 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return NodeManager.getNode(getFirstChild()).iterator()
     }
 
-fun forEachChild(action:(Int)->Unit){
+    fun forEachChild(action: (Int) -> Unit) {
         var remaining = getTripleCount()
         var offset = 12
-var lastChildPointer=getFirstChild()
-action(lastChildPointer)
+        var lastChildPointer = getFirstChild()
+        action(lastChildPointer)
         while (remaining > 0) {
             var i = 0
             while (i < 4 && remaining > 0) {
@@ -283,11 +283,11 @@ action(lastChildPointer)
                 offset++
                 var headerA = header and 0b11000000
                 if (headerA == 0b0000000) {
-offset+=((header and 0b00110000) shr 4) +((header and 0b00001100) shr 2)+ ((header and 0b00000011))+3
+                    offset += ((header and 0b00110000) shr 4) + ((header and 0b00001100) shr 2) + ((header and 0b00000011)) + 3
                 } else if (headerA == 0b01000000) {
-offset+=((header and 0b00001100) shr 2)+((header and 0b00000011))+2
+                    offset += ((header and 0b00001100) shr 2) + ((header and 0b00000011)) + 2
                 } else {
-offset+=((header and 0b00000011)) + 1
+                    offset += ((header and 0b00000011)) + 1
                 }
                 remaining--
                 i++
@@ -310,7 +310,7 @@ offset+=((header and 0b00000011)) + 1
                         lastChildPointer = lastChildPointer xor read4(offset)
                     }
                 }
-action(lastChildPointer)
+                action(lastChildPointer)
                 offset += h
             }
         }
@@ -460,6 +460,6 @@ action(lastChildPointer)
             offset += bytesWritten
         }
         setTripleCount(triples)
-        setNextNode(NodeManager.NodeNullPointer)
+        setNextNode(NodeManager.nodeNullPointer)
     }
 }

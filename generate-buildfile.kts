@@ -206,8 +206,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("WarnkeFuzz", "jvmS00LaunchWarnkeFuzzMain")
         ),
         ChooseableGroup("Sanity Checks") to listOf(
-                ChooseableOptionDirectory("On", "commonS00SanityChecksOnMain"),
-                ChooseableOptionDirectory("Off", "commonS00SanityChecksOffMain")
+ChooseableOptionTypeAlias("On","lupos.s00misc",listOf("SanityCheck" to "SanityCheckOn")),
+ChooseableOptionTypeAlias("Off","lupos.s00misc",listOf("SanityCheck" to "SanityCheckOff"))
         ),
         ChooseableGroup("ResultFlow") to listOf(
                 ChooseableOptionDirectory("Fast", "commonS00ResultFlowFastMain"),
@@ -229,9 +229,9 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain")
         ),
         ChooseableGroup("Triple Store") to listOf(
-ChooseableOptionTypeAlias("MapMapList","lupos.s05tripleStore",listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
-ChooseableOptionTypeAlias("SingleList","lupos.s05tripleStore",listOf("TripleStoreLocal" to "TripleStoreLocalSingleList")),
-ChooseableOptionTypeAlias("BPlusTree","lupos.s05tripleStore",listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
+                ChooseableOptionTypeAlias("MapMapList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
+                ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList")),
+                ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
         ),
         ChooseableGroup("P2P") to listOf(
                 ChooseableOptionDirectory("Dummy", "commonS12DummyMain"),

@@ -21,20 +21,26 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.*
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
-    var firstLeaf = NodeManager.NodeNullPointer
-    var root = NodeManager.NodeNullPointer
+    var firstLeaf = NodeManager.nodeNullPointer
+    var root = NodeManager.nodeNullPointer
     var rootNode: Node? = null
 
     companion object {
         var storeIteratorCounter = 0L
     }
 
-    override fun safeToFolder(filename: String) {
-        throw Exception("not implemented")
+    override fun safeToFile(filename: String) {
+        File(filename).dataOutputStream { out ->
+            out.writeInt(firstLeaf)
+            out.writeInt(root)
+        }
     }
 
-    override fun loadFromFolder(filename: String) {
-        throw Exception("not implemented")
+    override fun loadFromFile(filename: String) {
+        File(filename).dataInputStream { fis ->
+            firstLeaf = fis.readInt()
+            root = fis.readInt()
+        }
     }
 
     class IteratorS(it: TripleIterator) : ColumnIterator() {
@@ -148,7 +154,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         val iteratorImport = BulkImportIterator(dataImport, count, order)
         var iteratorStore: TripleIterator
-        if (firstLeaf == NodeManager.NodeNullPointer) {
+        if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore = EmptyIterator()
         } else {
             iteratorStore = (NodeManager.getNode(firstLeaf) as NodeLeaf).iterator()
@@ -156,7 +162,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
         val iterator = MergeIterator(iteratorImport, iteratorStore)
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Pair<Int, Node>>()
-            var newFirstLeaf = NodeManager.NodeNullPointer
+            var newFirstLeaf = NodeManager.nodeNullPointer
             var node2: NodeLeaf? = null
             NodeManager.allocateNodeLeaf { n, i ->
                 newFirstLeaf = i
@@ -210,13 +216,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
 
     override fun clear() {
         NodeManager.freeNodeAndAllRelated(root)
-        firstLeaf = NodeManager.NodeNullPointer
-        root = NodeManager.NodeNullPointer
+        firstLeaf = NodeManager.nodeNullPointer
+        root = NodeManager.nodeNullPointer
         rootNode = null
     }
 
     override fun printContents() {
-        if (firstLeaf != NodeManager.NodeNullPointer) {
+        if (firstLeaf != NodeManager.nodeNullPointer) {
             val node = NodeManager.getNode(firstLeaf) as NodeLeaf
             var it = node.iterator()
             while (it.hasNext()) {

@@ -30,7 +30,7 @@ class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
                 Pair("OSP", TripleStoreIndex_MapMapList()),
                 Pair("OPS", TripleStoreIndex_MapMapList())
         )
-data = Array(EIndexPattern.values().size) {
+        data = Array(EIndexPattern.values().size) {
             val res: TripleStoreIndex
             when (EIndexPattern.values()[it]) {
                 EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {

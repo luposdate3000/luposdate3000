@@ -259,7 +259,7 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             triples++
         }
         setTripleCount(triples)
-        setNextNode(NodeManager.NodeNullPointer)
+        setNextNode(NodeManager.nodeNullPointer)
         SanityCheck {
             var it = iterator()
             var offset2 = 0

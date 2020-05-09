@@ -128,14 +128,14 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
         }
         if (idx.keyIndices.size == 3) {
-if (params[0] is AOPVariable) {
-            idx.keyIndices.forEach {
-                val tmp = (params[it] as AOPVariable).name
-                if (tmp != "_") {
-                    projectedVariables.add(tmp)
+            if (params[0] is AOPVariable) {
+                idx.keyIndices.forEach {
+                    val tmp = (params[it] as AOPVariable).name
+                    if (tmp != "_") {
+                        projectedVariables.add(tmp)
+                    }
                 }
             }
-}
         } else {
             idx.valueIndices.forEach {
                 val tmp = (params[it] as AOPVariable).name

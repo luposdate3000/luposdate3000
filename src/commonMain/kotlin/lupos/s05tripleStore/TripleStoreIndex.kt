@@ -20,8 +20,8 @@ import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.Query
 
 interface TripleStoreIndex {
-    fun safeToFolder(filename: String)
-    fun loadFromFolder(filename: String)
+    fun safeToFile(filename: String)
+    fun loadFromFile(filename: String)
     fun getIterator(query: Query, filter: IntArray, projection: List<String>): ColumnIteratorRow
     fun import(dataImport: IntArray, count: Int, order: IntArray)
     fun insert(a: Value, b: Value, c: Value)

@@ -32,7 +32,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
     fun nextInternal() {
         while (remaining == 0) {
             var nextNodeIdx = node.getNextNode()
-            if (nextNodeIdx != NodeManager.NodeNullPointer) {
+            if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 val tmp = NodeManager.getNode(nextNodeIdx) as NodeLeaf
                 require(node != tmp)
                 node = tmp

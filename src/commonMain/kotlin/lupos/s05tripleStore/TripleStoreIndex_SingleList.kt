@@ -27,7 +27,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     @JvmField
     val index2 = MyMapLongInt()
 
-    override fun safeToFolder(filename: String) {
+    override fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             data.forEach {
                 out.writeInt(it)
@@ -68,7 +68,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
     }
 
-    override fun loadFromFolder(filename: String) {
+    override fun loadFromFile(filename: String) {
         SanityCheck.check { data.size == 0 }
         val capacity = (File(filename).length() / 4).toInt()
         File(filename).dataInputStream { fis ->
