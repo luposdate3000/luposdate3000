@@ -4,9 +4,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {
-    companion object {
-        val capacity = 1024
-    }
 
     class MyListVALUEPageGDEF(val version: Int) {
         var next: MyListVALUEPageGDEF? = null
@@ -27,14 +24,14 @@ class MyListVALUEGDEF {
 
     fun shrinkToFit() {
         if (pagecount > 5) {
-            if (pagecount * capacity > size * 2) {
+            if (pagecount * ARRAY_LIST_BLOCK_CAPACITY > size * 2) {
                 var c = 1
                 val b = MyListVALUEPageGDEF(version)
                 var t = b
                 var it = iterator()
                 while (it.hasNext()) {
                     var j = 0
-                    while (it.hasNext() && j < capacity) {
+                    while (it.hasNext() && j < ARRAY_LIST_BLOCK_CAPACITY) {
                         t.data[j] = it.next()
                         j++
                     }
@@ -70,7 +67,7 @@ class MyListVALUEGDEF {
         var tmp = page
         while (i < size) {
             var j = tmp.size
-            while (tmp.size < capacity && i < size) {
+            while (tmp.size < ARRAY_LIST_BLOCK_CAPACITY && i < size) {
                 tmp.data[j] = init(i++)
                 j++
             }
@@ -106,7 +103,7 @@ class MyListVALUEGDEF {
 
     fun getNullPointer() = MyListVALUEFastAccess(page, 0, version - 1, 0)
     fun addAndGetPointer(value: VALUE): MyListVALUEFastAccessGUSE {
-        if (lastpage.size < capacity) {
+        if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
@@ -123,7 +120,7 @@ class MyListVALUEGDEF {
     }
 
     fun add(value: VALUE) {
-        if (lastpage.size < capacity) {
+        if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
@@ -210,7 +207,7 @@ class MyListVALUEGDEF {
     inline operator fun set(idx: Int, value: VALUE) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
-            if (lastpage.size < capacity) {
+            if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
@@ -238,7 +235,7 @@ class MyListVALUEGDEF {
     fun add(idx: Int, value: VALUE) {
         SanityCheck.check({ idx <= size }, { "f" })
         if (idx == size) {
-            if (lastpage.size < capacity) {
+            if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
@@ -257,7 +254,7 @@ class MyListVALUEGDEF {
                 t = idx - offset
                 tmp = tmp.next!!
             }
-            if (t == tmp.size && tmp.size < capacity) {
+            if (t == tmp.size && tmp.size < ARRAY_LIST_BLOCK_CAPACITY) {
                 tmp.data[t] = value
                 tmp.size++
             } else {
@@ -266,7 +263,7 @@ class MyListVALUEGDEF {
                     t = idx - offset
                     tmp = tmp.next!!
                 }
-                if (tmp.size < capacity) {
+                if (tmp.size < ARRAY_LIST_BLOCK_CAPACITY) {
                     for (i in tmp.size downTo t + 1) {
                         tmp.data[i] = tmp.data[i - 1]
                     }
@@ -278,7 +275,7 @@ class MyListVALUEGDEF {
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
-                    for (i in t until capacity) {
+                    for (i in t until ARRAY_LIST_BLOCK_CAPACITY) {
                         p.data[j] = tmp.data[i]
                         j++
                     }
@@ -360,7 +357,7 @@ class MyListVALUEGDEF {
         var data: ARRAYTYPE
 
         inline fun reserve(capacity: Int) {
-            SanityCheck.check({ capacity <= MyListVALUE.capacity }, { "i" })
+            SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = ARRAYTYPE(capacity) ARRAYINITIALIZER

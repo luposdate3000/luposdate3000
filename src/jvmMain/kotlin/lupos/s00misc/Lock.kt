@@ -10,7 +10,7 @@ class Lock {
     @JvmField
     val mutex = Mutex()
 
-    suspend inline fun <T> withLockSuspend(crossinline action: suspend () -> T): T {
+    suspend inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         try {
             mutex.lock()
             return action()
@@ -19,10 +19,10 @@ class Lock {
         }
     }
 
-    inline fun <T> withLock(crossinline action: suspend CoroutineScope.() -> T): T {
+    inline fun <T> withWriteLock(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         CoroutinesHelper.runBlock {
-            withLockSuspend {
+            withWriteLockSuspend {
                 res = action()
             }
         }

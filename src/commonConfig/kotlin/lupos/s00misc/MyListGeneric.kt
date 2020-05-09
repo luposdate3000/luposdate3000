@@ -6,9 +6,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Generic,<Generic>,<Generic>,Array<Any?>,{null} */
 class MyListGeneric<Generic> {
-    companion object {
-        val capacity = 1024
-    }
 
     class MyListGenericPage<Generic>(val version: Int) {
         var next: MyListGenericPage<Generic>? = null
@@ -29,14 +26,14 @@ class MyListGeneric<Generic> {
 
     fun shrinkToFit() {
         if (pagecount > 5) {
-            if (pagecount * capacity > size * 2) {
+            if (pagecount * ARRAY_LIST_BLOCK_CAPACITY > size * 2) {
                 var c = 1
                 val b = MyListGenericPage<Generic>(version)
                 var t = b
                 var it = iterator()
                 while (it.hasNext()) {
                     var j = 0
-                    while (it.hasNext() && j < capacity) {
+                    while (it.hasNext() && j < ARRAY_LIST_BLOCK_CAPACITY) {
                         t.data[j] = it.next()
                         j++
                     }
@@ -72,7 +69,7 @@ class MyListGeneric<Generic> {
         var tmp = page
         while (i < size) {
             var j = tmp.size
-            while (tmp.size < capacity && i < size) {
+            while (tmp.size < ARRAY_LIST_BLOCK_CAPACITY && i < size) {
                 tmp.data[j] = init(i++)
                 j++
             }
@@ -108,7 +105,7 @@ class MyListGeneric<Generic> {
 
     fun getNullPointer() = MyListGenericFastAccess(page, 0, version - 1, 0)
     fun addAndGetPointer(value: Generic): MyListGenericFastAccess<Generic> {
-        if (lastpage.size < capacity) {
+        if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
@@ -125,7 +122,7 @@ class MyListGeneric<Generic> {
     }
 
     fun add(value: Generic) {
-        if (lastpage.size < capacity) {
+        if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
             lastpage.data[lastpage.size] = value
             lastpage.size++
         } else {
@@ -212,7 +209,7 @@ class MyListGeneric<Generic> {
     inline operator fun set(idx: Int, value: Generic) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
-            if (lastpage.size < capacity) {
+            if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
@@ -240,7 +237,7 @@ class MyListGeneric<Generic> {
     fun add(idx: Int, value: Generic) {
         SanityCheck.check({ idx <= size }, { "f" })
         if (idx == size) {
-            if (lastpage.size < capacity) {
+            if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
                 lastpage.data[lastpage.size] = value
                 lastpage.size++
             } else {
@@ -259,7 +256,7 @@ class MyListGeneric<Generic> {
                 t = idx - offset
                 tmp = tmp.next!!
             }
-            if (t == tmp.size && tmp.size < capacity) {
+            if (t == tmp.size && tmp.size < ARRAY_LIST_BLOCK_CAPACITY) {
                 tmp.data[t] = value
                 tmp.size++
             } else {
@@ -268,7 +265,7 @@ class MyListGeneric<Generic> {
                     t = idx - offset
                     tmp = tmp.next!!
                 }
-                if (tmp.size < capacity) {
+                if (tmp.size < ARRAY_LIST_BLOCK_CAPACITY) {
                     for (i in tmp.size downTo t + 1) {
                         tmp.data[i] = tmp.data[i - 1]
                     }
@@ -280,7 +277,7 @@ class MyListGeneric<Generic> {
                     p.next = tmp.next
                     tmp.next = p
                     var j = 0
-                    for (i in t until capacity) {
+                    for (i in t until ARRAY_LIST_BLOCK_CAPACITY) {
                         p.data[j] = tmp.data[i]
                         j++
                     }
@@ -362,7 +359,7 @@ class MyListGeneric<Generic> {
         var data: Array<Any?>
 
         inline fun reserve(capacity: Int) {
-            SanityCheck.check({ capacity <= MyListGeneric.capacity }, { "i" })
+            SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {
                 this.capacity = capacity
                 val tmp = Array<Any?>(capacity) {null}

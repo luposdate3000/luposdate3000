@@ -11,8 +11,6 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.Lock
 import lupos.s04logicalOperators.Query
 
-typealias CoroutinesHelperMutex = Lock
-
 object CoroutinesHelperParallel {
     @JvmField
     val channelType = 2
@@ -25,7 +23,7 @@ object CoroutinesHelperParallel {
         action()
     }
 
-    inline fun createLock() = Lock()()
+    inline fun createLock() = Lock()
     inline fun runBlockWithLock(lock: CoroutinesHelperMutex, crossinline action: () -> Unit) = runBlocking {
         lock.withWriteLock {
             action()

@@ -8,7 +8,6 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
-typealias CoroutinesHelperMutex = Int
 
 object CoroutinesHelperSequential {
     @JvmField

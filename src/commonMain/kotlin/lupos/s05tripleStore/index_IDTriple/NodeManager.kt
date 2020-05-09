@@ -4,7 +4,6 @@ import lupos.s00misc.*
 import lupos.s00misc.Coverage
 
 object NodeManager {
-    val blockSize = 100
     val nodeNullPointer = 0x7FFFFFFF.toInt()
     val allNodes = MyListGeneric<Node?>()
 
@@ -53,13 +52,13 @@ object NodeManager {
                 val type = it.next()
                 when (type) {
                     NodeType.LEAF -> {
-                        val data = ByteArray(blockSize)
+                        val data = ByteArray(PAGE_SIZE_IN_BYTES)
                         fis.read(data)
                         val tmp = NodeLeaf(data)
                         allNodes.add(tmp)
                     }
                     NodeType.INNER -> {
-                        val data = ByteArray(blockSize)
+                        val data = ByteArray(PAGE_SIZE_IN_BYTES)
                         fis.read(data)
                         val tmp = NodeInner(data)
                         allNodes.add(tmp)
@@ -86,7 +85,7 @@ object NodeManager {
             }
             i++
         }
-        var tmp = NodeLeaf(ByteArray(blockSize)) /*somethig small for tests, something large for real data*/
+        var tmp = NodeLeaf(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
         allNodesTypes[i] = NodeType.LEAF
         action(tmp, i)
@@ -102,7 +101,7 @@ object NodeManager {
             }
             i++
         }
-        var tmp = NodeInner(ByteArray(blockSize)) /*somethig small for tests, something large for real data*/
+        var tmp = NodeInner(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
         allNodesTypes[i] = NodeType.INNER
         action(tmp, i)
