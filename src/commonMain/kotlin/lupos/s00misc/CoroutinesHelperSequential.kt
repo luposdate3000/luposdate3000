@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.Query
 
 typealias CoroutinesHelperMutex = Int
 
-object CoroutinesHelper {
+object CoroutinesHelperSequential {
     @JvmField
     val channelType = UNLIMITED
 

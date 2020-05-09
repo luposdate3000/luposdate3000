@@ -214,8 +214,8 @@ ChooseableOptionTypeAlias("Off","lupos.s00misc",listOf("SanityCheck" to "SanityC
                 ChooseableOptionDirectory("Tests", "commonS00ResultFlowExecuteTestsMain")
         ),
         ChooseableGroup("Execution") to listOf(
-                ChooseableOptionDirectory("Sequential", "commonS00ExecutionSequentialMain"),
-                ChooseableOptionDirectory("Parallel", "commonS00ExecutionParallelMain")
+ChooseableOptionTypeAlias("Sequential","lupos.s00misc",listOf("CoroutinesHelper" to "CoroutinesHelperSequential")),
+ChooseableOptionTypeAlias("Parallel","lupos.s00misc",listOf("CoroutinesHelper" to "CoroutinesHelperParallel"))
         ),
         ChooseableGroup("Buffer Manager Type") to listOf(
                 ChooseableOptionDirectory("Heap", "commonS01HeapMain"),

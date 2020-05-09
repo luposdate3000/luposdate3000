@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.Query
 
 typealias CoroutinesHelperMutex = Lock
 
-object CoroutinesHelper {
+object CoroutinesHelperParallel {
     @JvmField
     val channelType = 2
 
