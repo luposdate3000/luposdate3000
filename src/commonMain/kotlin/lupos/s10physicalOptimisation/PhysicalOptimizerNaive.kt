@@ -42,13 +42,16 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPModify
+import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.s04logicalOperators.singleinput.LOPOptional
 import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset

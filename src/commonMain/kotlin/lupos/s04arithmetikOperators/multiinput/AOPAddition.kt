@@ -31,7 +31,6 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator

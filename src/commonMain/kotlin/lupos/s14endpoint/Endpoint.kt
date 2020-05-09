@@ -92,7 +92,9 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.*
+import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.TripleStoreBulkImport
+import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.*

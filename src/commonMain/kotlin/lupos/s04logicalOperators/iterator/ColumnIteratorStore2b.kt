@@ -51,7 +51,9 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
-import lupos.s05tripleStore.*
+import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.TripleStoreBulkImport
+import lupos.s05tripleStore.TripleStoreLocalBase
 
 
 

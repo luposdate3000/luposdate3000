@@ -52,7 +52,8 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore2b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
-import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase

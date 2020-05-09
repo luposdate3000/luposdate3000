@@ -33,13 +33,21 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
+import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.s04logicalOperators.singleinput.LOPOptional
+import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
 
 class LogicalOptimizerOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerOptionalID) {

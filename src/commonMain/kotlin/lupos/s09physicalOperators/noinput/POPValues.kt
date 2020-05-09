@@ -60,7 +60,6 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
@@ -80,6 +79,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.noinput.LOPValues
+import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
