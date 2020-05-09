@@ -82,7 +82,12 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.*
+import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
+import lupos.s05tripleStore.index_IDTriple.MergeIterator
+import lupos.s05tripleStore.index_IDTriple.Node
+import lupos.s05tripleStore.index_IDTriple.NodeLeaf
+import lupos.s05tripleStore.index_IDTriple.NodeManager
+import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
 
 

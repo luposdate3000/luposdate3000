@@ -40,8 +40,8 @@ import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.rdf.*
 import lupos.s02buildSyntaxTree.rdf.ID_Triple
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser

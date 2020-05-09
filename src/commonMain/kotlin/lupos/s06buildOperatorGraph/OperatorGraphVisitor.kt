@@ -175,7 +175,12 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationSUM
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
@@ -184,6 +189,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC

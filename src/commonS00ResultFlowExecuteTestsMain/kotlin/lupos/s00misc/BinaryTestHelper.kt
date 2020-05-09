@@ -29,7 +29,7 @@ import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.*
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -75,7 +75,12 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationSUM
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
@@ -84,6 +89,8 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
@@ -96,10 +103,12 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTIMEZONE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
+import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
