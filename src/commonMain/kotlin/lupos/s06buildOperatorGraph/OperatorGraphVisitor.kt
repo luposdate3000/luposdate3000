@@ -143,7 +143,12 @@ import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
-import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1

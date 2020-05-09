@@ -31,7 +31,12 @@ import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.*
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.singleinput.*

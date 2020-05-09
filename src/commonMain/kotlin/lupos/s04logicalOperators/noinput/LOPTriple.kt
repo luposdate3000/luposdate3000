@@ -5,7 +5,12 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallSTRUUID
+import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
