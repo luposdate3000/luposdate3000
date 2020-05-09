@@ -147,7 +147,6 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 index = EIndexPattern.SP_O
             }
         }
-        println("choosen index for POPJoinWithStore $index")
         SanityCheck.check { indicesINBJ.size > 0 }
         SanityCheck.check { valuesAJ.size == indicesINBJ.size }
         val columnsInB = Array(variablINBO.size) { ColumnIterator() }
@@ -158,13 +157,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             valuesAJ[i] = columnsINAJ[i].next()
         }
         if (valuesAJ[0] != null) {
-            println("POPJoinWithStore valuesAO.nexx : ${valuesAO.map { "$it = ${query.dictionary.getValue(it!!).toSparql()}" }}")
-            println("POPJoinWithStore valuesAJ.nexx : ${valuesAJ.map { "$it = ${query.dictionary.getValue(it!!).toSparql()}" }}")
 //there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
             }
-            println("used params : ${params.map { it.toSparql() }}")
             var columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
@@ -172,7 +168,6 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             for (column in columnsOUT) {
                 column.onEmptyQueue = {
                     loopA@ while (true) {
-                        println("POPJoinWithStore onEmptyQueue loop")
                         var done = true
                         loopB@ for (i in 0 until variablINBO.size) {
                             val value = columnsInB[i].next()
@@ -182,17 +177,14 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 break@loopB
                             } else {
                                 columnsOUTB[i].queue.add(value)
-                                println("POPJoinWithStore columnsOUTB[$i] append : ${value}")
                             }
                         }
                         if (done) {
                             for (i in 0 until columnsOUTAO.size) {
                                 columnsOUTAO[i].queue.add(valuesAO[i]!!)
-                                println("POPJoinWithStore columnsOUTAO[$i] append : ${valuesAO[i]}")
                             }
                             for (i in 0 until columnsOUTAJ.size) {
                                 columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
-                                println("POPJoinWithStore columnsOUTAJ[$i] append : ${valuesAJ[i]}")
                             }
                             break@loopA
                         } else {
@@ -203,12 +195,9 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 valuesAJ[i] = columnsINAJ[i].next()
                             }
                             if (valuesAJ[0] != null) {
-                                println("POPJoinWithStore valuesAO.nexx : ${valuesAO.map { "$it = ${query.dictionary.getValue(it!!).toSparql()}" }}")
-                                println("POPJoinWithStore valuesAJ.nexx : ${valuesAJ.map { "$it = ${query.dictionary.getValue(it!!).toSparql()}" }}")
                                 for (i in 0 until indicesINBJ.size) {
                                     params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
                                 }
-                                println("used paramm : ${params.map { it.toSparql() }}")
                                 columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
                                 for (i in 0 until variablINBO.size) {
                                     columnsInB[i] = columnsInBRoot!!.columns[variablINBO[i]]!!

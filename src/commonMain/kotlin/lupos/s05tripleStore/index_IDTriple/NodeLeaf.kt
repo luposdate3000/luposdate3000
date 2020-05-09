@@ -264,14 +264,10 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
             var it = iterator()
             var offset2 = 0
             for (i in debugListLeaf) {
-//                println("original -> $i")
             }
             while (offset2 < debugListLeaf.size) {
                 SanityCheck.check { it.hasNext() }
                 var tmp = it.next()
-//                println("retrieve -> ${tmp[0]}")
-//                println("retrieve -> ${tmp[1]}")
-//                println("retrieve -> ${tmp[2]}")
                 SanityCheck.check { tmp[0] == debugListLeaf[offset2] }
                 SanityCheck.check { tmp[1] == debugListLeaf[offset2 + 1] }
                 SanityCheck.check { tmp[2] == debugListLeaf[offset2 + 2] }

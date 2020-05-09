@@ -8,7 +8,7 @@ triples=16384
 triples=524288
 triples=8388608
 
-./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Endpoint Off Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local Off BTree BTree None Empty
+./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Endpoint Off Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local Off BTree BTree None Empty 8196 1024 512
 ./tool-gradle-build.sh
 
 

@@ -59,7 +59,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun safeToFolder(foldername: String) {
-        println("TripleStoreLocalBase safeToFolder $foldername")
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
         }
@@ -111,8 +110,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 data[idx.ordinal].import(dataImport.dataOPS, dataImport.idx, idx.tripleIndicees)
             }
         }
-        println("imported $idx")
-        data[idx.ordinal].printContents()
     }
 
     @JvmField

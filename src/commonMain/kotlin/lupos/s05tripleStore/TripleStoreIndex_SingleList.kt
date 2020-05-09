@@ -139,30 +139,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
                     } else {
                         columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore1(data, idx))
                     }
-                } else {
-                    SanityCheck {
-                        CoroutinesHelper.runBlock {
-                            val ai = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
-                            val bi = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3b(data))
-                            var a = ai.next()
-                            var b = bi.next()
-                            println("store ::: $a $b")
-                            while (a != null) {
-                                if (a == filter[0] && b == filter[1]) {
-                                    throw Exception("found the requested data, but not within index ${key.toString(16)} ${filter[0].toString(16)} ${filter[1].toString(16)}")
-                                } else if (a == filter[1] && b == filter[0]) {
-                                    println("found the requested data, but not within index (inversed - may be correct?)")
-                                }
-                                var a2 = ai.next()
-                                var b2 = bi.next()
-                                if (a != a2 || b != b2) {
-                                    println("store ::: $a2 $b2")
-                                }
-                                a = a2
-                                b = b2
-                            }
-                        }
-                    }
                 }
             } else if (filter.size == 1) {
                 val idx = index1[filter[0]]
@@ -288,7 +264,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex {
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             SanityCheck {
-                println("start import ${count / 3}")
                 for (i in 1 until count / 3) {
                     val xx1 = (i - 1) * 3 + order[0]
                     val xx2 = i * 3 + order[0]

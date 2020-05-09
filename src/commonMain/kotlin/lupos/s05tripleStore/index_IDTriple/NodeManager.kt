@@ -116,7 +116,6 @@ object NodeManager {
     }
 
     fun freeNodeAndAllRelated(nodeIdx: Int) {
-        println("releasing :: $nodeIdx")
         if (nodeIdx != nodeNullPointer) {
             var node = allNodes[nodeIdx]!!
             when (node) {

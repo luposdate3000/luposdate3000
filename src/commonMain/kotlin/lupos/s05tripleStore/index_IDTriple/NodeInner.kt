@@ -426,7 +426,6 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         SanityCheck.check { childs.size > 0 }
         var current = childs.removeAt(0)
         setFirstChild(current.first)
-        println("childPointer ${current.first}")
         var childLastPointer = current.first
         var offset = 12
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
@@ -442,7 +441,6 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
             i = 0
             while (i < 4 && childs.size > 0 && offset < offsetEnd) {
                 current = childs.removeAt(0)
-                println("childPointer ${current.first} $childLastPointer")
                 childPointers[i] = current.first xor childLastPointer
                 childLastPointer = current.first
                 current.second.getFirstTriple(tripleCurrent)
@@ -455,7 +453,6 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 offset += bytesWritten
                 i++
             }
-            println("i $i")
             bytesWritten = writeChildPointers(offset, i, childPointers)
             offset += bytesWritten
         }
