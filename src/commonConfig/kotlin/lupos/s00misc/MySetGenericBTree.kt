@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
     var root: MySetGenericBTreeNode<Generic>? = null
     var size = 0

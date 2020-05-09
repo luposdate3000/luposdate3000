@@ -1,4 +1,5 @@
 package lupos.s10physicalOptimisation
+
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -14,7 +15,6 @@ import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"

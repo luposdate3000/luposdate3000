@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -12,8 +13,6 @@ import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueUndef
-
-
 
 val nodeGlobalDictionary = ResultSetDictionary(true)
 

@@ -1,8 +1,8 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
-
 
 class Lock {
     @JvmField

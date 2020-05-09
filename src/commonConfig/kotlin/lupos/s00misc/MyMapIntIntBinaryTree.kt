@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 /* Substitutions :: Int,Int,,,,,Int,Int */
 class MyMapIntIntBinaryTree() {
     @JvmField

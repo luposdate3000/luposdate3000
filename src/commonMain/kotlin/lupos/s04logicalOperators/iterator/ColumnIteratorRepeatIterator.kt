@@ -1,9 +1,8 @@
 package lupos.s04logicalOperators.iterator
+
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-
-
 
 class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : ColumnIterator() {
     var index = 0

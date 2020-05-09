@@ -1,6 +1,6 @@
 package lupos.s00misc
-import kotlin.jvm.JvmField
 
+import kotlin.jvm.JvmField
 
 class ThreadSafeMutableMap<k, v> {
     @JvmField

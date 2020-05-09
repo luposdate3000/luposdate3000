@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
@@ -17,10 +18,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-
-
-
-
 
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun toSparql(): String {

@@ -1,6 +1,6 @@
 package lupos.s00misc
-import lupos.s00misc.SanityCheck
 
+import lupos.s00misc.SanityCheck
 
 fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")

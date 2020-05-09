@@ -1,12 +1,11 @@
 package lupos.s11outputResult
+
 import lupos.s00misc.CoroutinesHelper
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-
-
 
 object QueryResultToEmptyString {
     operator fun invoke(node: POPBase): String {

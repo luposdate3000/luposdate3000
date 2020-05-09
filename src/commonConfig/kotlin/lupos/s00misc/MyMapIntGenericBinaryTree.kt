@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 /* Substitutions :: Int,Generic,<Generic>,<Generic>,,<Generic>,Int,Generic */
 class MyMapIntGenericBinaryTree<Generic>() {
     @JvmField

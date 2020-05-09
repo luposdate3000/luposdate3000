@@ -1,8 +1,7 @@
 package lupos.s04logicalOperators.iterator
+
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-
-
 
 object ColumnIteratorMultiValue {
     operator fun invoke(values: MyListValue) = ColumnIteratorMultiValue_1(values)

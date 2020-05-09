@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class NoMoreRandomException : Exception("no more Random available")
 class TestRandom(val buffer: DynamicByteArray) {
     fun randomAvailable(): Int {

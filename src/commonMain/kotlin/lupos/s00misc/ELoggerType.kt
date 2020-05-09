@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 enum class ELoggerType {
     RELEASE,
     BINARY_ENCODING,

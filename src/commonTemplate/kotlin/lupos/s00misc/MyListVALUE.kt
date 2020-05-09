@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {
     class MyListVALUEPageGDEF(val version: Int) {

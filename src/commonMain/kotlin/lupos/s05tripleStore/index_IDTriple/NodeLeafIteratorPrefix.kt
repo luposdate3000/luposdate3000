@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) : TripleIterator() {
     var remaining = node.getTripleCount()
     var offset = 8
@@ -28,7 +27,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
         return value[component]
     }
 
-    fun nextInternal() {
+    inline fun nextInternal() {
         while (remaining == 0) {
             var nextNodeIdx = node.getNextNode()
             if (nextNodeIdx != NodeManager.nodeNullPointer) {

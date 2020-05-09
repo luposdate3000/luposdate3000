@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EOperatorID
@@ -16,9 +17,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
-
-
-
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")

@@ -1,7 +1,7 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import kotlin.math.abs
-
 
 class XMLElement {
     // https://regex101.com

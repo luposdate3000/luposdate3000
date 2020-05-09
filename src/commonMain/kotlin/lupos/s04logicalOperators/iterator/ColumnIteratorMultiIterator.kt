@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.iterator
 
-
 class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIterator() {
     var index = 0
 

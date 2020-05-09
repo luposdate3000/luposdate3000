@@ -1,10 +1,10 @@
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 
 class LOPMakeBooleanResult(query: Query, child: OPBase) : LOPBase(query, EOperatorID.LOPMakeBooleanResultID, "LOPMakeBooleanResult", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {

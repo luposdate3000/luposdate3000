@@ -1,10 +1,9 @@
 package lupos.s04logicalOperators.iterator
+
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-
-
 
 class ColumnIteratorStore2b(val values: MyListValue, start: Int) : ColumnIterator() {
     var counterSecondary: Int

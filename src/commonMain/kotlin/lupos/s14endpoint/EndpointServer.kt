@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
@@ -94,8 +95,6 @@ import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
-
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {

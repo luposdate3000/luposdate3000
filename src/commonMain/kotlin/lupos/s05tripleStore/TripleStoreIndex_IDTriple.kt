@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
@@ -13,9 +14,6 @@ import lupos.s05tripleStore.index_IDTriple.Node
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
-
-
-
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex {
     var firstLeaf = NodeManager.nodeNullPointer

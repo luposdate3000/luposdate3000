@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
@@ -81,8 +82,6 @@ import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 import lupos.SparqlTestSuite
-
-
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object EndpointClientImpl {

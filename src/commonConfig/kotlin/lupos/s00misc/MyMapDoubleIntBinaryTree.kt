@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 /* Substitutions :: Double,Int,,,,,Double,Int */
 class MyMapDoubleIntBinaryTree() {
     @JvmField

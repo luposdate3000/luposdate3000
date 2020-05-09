@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
     var remaining = node.getTripleCount()
     var offset = 8

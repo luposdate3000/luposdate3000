@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
-import kotlin.jvm.JvmField
 
+import kotlin.jvm.JvmField
 
 /**
  * This is one element of the doubly linked list.

@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.rdf.Dictionary
@@ -8,7 +9,6 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.POPValuesImportBase
-
 
 class POPValuesImportTurtle : POPValuesImportBase {
     fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.noinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -7,8 +8,6 @@ import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-
 
 class LOPGraphOperation(query: Query,
                         @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,

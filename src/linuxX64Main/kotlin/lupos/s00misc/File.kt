@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import dirent.closedir
 import dirent.opendir
 import dirent.readdir
@@ -17,7 +18,6 @@ import stdio.fread
 import stdio.fwrite
 import stdio.luposfprintf
 import unistd.luposSTDINread
-
 
 class File(val filename: String) {
     companion object {

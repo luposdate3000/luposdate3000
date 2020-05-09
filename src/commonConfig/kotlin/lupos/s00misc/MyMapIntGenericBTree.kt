@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 class MyMapIntGenericBTree<GenericV>(val t: Int) {
     var root: MyMapIntGenericBTreeNode<GenericV>? = null
     var size = 0

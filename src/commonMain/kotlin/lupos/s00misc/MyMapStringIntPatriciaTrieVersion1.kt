@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MyMapStringIntPatriciaTrieVersion1() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {
         val children = mutableListOf<MyMapStringIntPatriciaTrieNode>()

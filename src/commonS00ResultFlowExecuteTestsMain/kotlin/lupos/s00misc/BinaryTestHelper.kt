@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.classNameToString
@@ -179,10 +180,6 @@ import lupos.s15tripleStoreDistributed.DistributedGraph
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.SparqlTestSuite
-
-
-
-
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
     ETripleStore(TripleStoreLocalTest::invoke),

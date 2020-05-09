@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -9,9 +10,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
-
-
 
 object Endpoint {
     suspend fun process_local_triple_import(query: Query, graphName: String, data: TripleStoreBulkImport, idx: EIndexPattern) {

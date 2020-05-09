@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 /* Substitutions :: Generic,<Generic>,<Generic>,Array<Any?>,{null} */
 class MyListGeneric<Generic> {
     class MyListGenericPage<Generic>(val version: Int) {

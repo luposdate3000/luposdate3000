@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class ThreadSafeUuid {
     companion object {
         var global_uuid = 0L

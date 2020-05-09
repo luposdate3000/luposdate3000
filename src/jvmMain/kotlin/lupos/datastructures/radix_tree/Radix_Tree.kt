@@ -1,4 +1,5 @@
 package lupos.datastructures.radix_tree
+
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min
@@ -8,7 +9,6 @@ import lupos.s01io.buffer.bufferManager
 import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.toBytesUTF
 import lupos.s01io.buffer.toStringUTF
-
 
 class NotFoundException : Exception()
 class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0), @JvmField var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField var v: V? = null) {

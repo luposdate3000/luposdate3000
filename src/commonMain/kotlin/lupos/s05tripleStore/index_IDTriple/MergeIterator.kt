@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 class MergeIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterator() {
     //assuming no duplicates in each input
     var flag = 0

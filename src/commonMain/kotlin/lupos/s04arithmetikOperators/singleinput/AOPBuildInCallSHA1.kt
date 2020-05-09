@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+
 import com.soywiz.krypto.sha1
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
@@ -11,8 +12,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child)) {

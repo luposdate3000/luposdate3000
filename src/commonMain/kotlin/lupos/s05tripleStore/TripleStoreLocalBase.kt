@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
@@ -16,9 +17,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.Node
 import lupos.s05tripleStore.index_IDTriple.NodeManager
-
-
-
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
     class MapKey(@JvmField val key: Array<Value>) {

@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
     var size = 0

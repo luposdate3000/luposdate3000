@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
@@ -88,8 +89,6 @@ import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 import lupos.SparqlTestSuite
-
-
 
 object EndpointClientImpl {
     @JvmField

@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 object OperatorGraphToLatex {
     class StackElement(val name: String) {
         var projectionHelper = ""

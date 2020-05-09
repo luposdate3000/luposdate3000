@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
@@ -18,9 +19,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
-
-
 
 class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorID.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data

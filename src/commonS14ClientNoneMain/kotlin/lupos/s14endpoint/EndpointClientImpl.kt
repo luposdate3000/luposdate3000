@@ -1,8 +1,7 @@
 package lupos.s14endpoint
+
 import lupos.s00misc.DynamicByteArray
 import lupos.s14endpoint.Endpoint
-
-
 
 object EndpointClientImpl {
     fun encodeParam(key: String, value: Any) = key + "=" + value

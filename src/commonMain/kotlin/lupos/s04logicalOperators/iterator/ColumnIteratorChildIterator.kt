@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.Value
 
+import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorChildIterator() : ColumnIterator() {
     val childs = mutableListOf(ColumnIterator())

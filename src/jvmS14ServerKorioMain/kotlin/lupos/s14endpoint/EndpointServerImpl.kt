@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
@@ -9,8 +10,6 @@ import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s14endpoint.Endpoint
-
-
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : EndpointServer(hostname, port) {

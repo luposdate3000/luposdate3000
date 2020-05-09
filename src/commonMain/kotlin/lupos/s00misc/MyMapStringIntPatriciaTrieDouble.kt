@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MyMapStringIntPatriciaTrieDouble() {
     val undefinedValue = -1
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()

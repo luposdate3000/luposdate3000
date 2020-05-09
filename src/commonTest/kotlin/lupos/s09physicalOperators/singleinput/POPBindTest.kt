@@ -1,12 +1,10 @@
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
-
-
-
 
 object POPBindTest {
     val MAX_VARIABLES = 4

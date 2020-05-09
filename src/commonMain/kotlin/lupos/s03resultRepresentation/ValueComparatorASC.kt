@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueComparatorASC
@@ -6,8 +7,6 @@ import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04logicalOperators.Query
-
-
 
 class ValueComparatorASC(val query: Query) : Comparator<Value> {
     override fun compare(aID: Value, bID: Value): Int {

@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
-import kotlin.jvm.JvmField
 
+import kotlin.jvm.JvmField
 
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 

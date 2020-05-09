@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import dirent.*
 import kotlin.jvm.JvmField
 import kotlin.native.concurrent.*
@@ -9,7 +10,6 @@ import kotlinx.cinterop.memScoped
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 import stdio.*
-
 
 class File {
     val filename: String

@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MyMapLongIntHash() {
     val bucket_shift = 16
     val bucket_count = 2 shl bucket_shift

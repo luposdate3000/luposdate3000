@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EIndexPattern
@@ -15,9 +16,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedGraph
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
-
-
 
 class POPGraphOperation(query: Query,
                         projectedVariables: List<String>,

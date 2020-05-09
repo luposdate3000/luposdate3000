@@ -1,8 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
+
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
-
-
 
 object NodeManager {
     val nodeNullPointer = 0x7FFFFFFF.toInt()
@@ -72,11 +71,11 @@ object NodeManager {
         }
     }
 
-    fun getNode(idx: Int): Node {
+    inline fun getNode(idx: Int): Node {
         return allNodes[idx]!!
     }
 
-    fun allocateNodeLeaf(action: (NodeLeaf, Int) -> Unit) {
+    inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
         val it = allNodes.iterator()
         var i = 0
         while (it.hasNext()) {
@@ -92,7 +91,7 @@ object NodeManager {
         action(tmp, i)
     }
 
-    fun allocateNodeInner(action: (NodeInner, Int) -> Unit) {
+    inline fun allocateNodeInner(crossinline action: (NodeInner, Int) -> Unit) {
         val it = allNodes.iterator()
         var i = 0
         while (it.hasNext()) {
@@ -108,7 +107,7 @@ object NodeManager {
         action(tmp, i)
     }
 
-    fun freeNode(nodeIdx: Int) {
+    inline fun freeNode(nodeIdx: Int) {
         if (nodeIdx != nodeNullPointer) {
             allNodes[nodeIdx] = null
             allNodesTypes[nodeIdx] = NodeType.NULL

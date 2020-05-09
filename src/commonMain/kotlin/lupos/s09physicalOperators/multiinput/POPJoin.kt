@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
@@ -8,10 +9,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-
-
-
-
 
 object POPJoin {
     fun crossProduct(dataO: Array<Array<MyListValue>>, dataJ: Array<Value?>, outO: Array<MutableList<ColumnIteratorChildIterator>>, outJ: MutableList<ColumnIteratorChildIterator>, countA: Int, countB: Int) {

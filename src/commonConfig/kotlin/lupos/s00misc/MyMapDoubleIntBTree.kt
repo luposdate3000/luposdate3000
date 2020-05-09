@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 class MyMapDoubleIntBTree(val t: Int) {
     var root: MyMapDoubleIntBTreeNode? = null
     var size = 0

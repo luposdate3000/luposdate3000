@@ -9,7 +9,6 @@ import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 
-
 enum class Datasource {
     LOAD, IMPORT
 }

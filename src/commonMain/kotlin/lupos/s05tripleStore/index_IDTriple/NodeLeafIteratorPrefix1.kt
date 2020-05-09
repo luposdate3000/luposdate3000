@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 class NodeLeafIteratorPrefix1(node: NodeLeaf, prefix: IntArray) : NodeLeafIteratorPrefix(node, prefix) {
     override fun checkTooSmall(): Boolean {
         return (valueNext[0] < prefix[0])

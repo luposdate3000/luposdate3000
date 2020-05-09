@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
-import lupos.s01io.buffer.ByteArrayPage
 
+import lupos.s01io.buffer.ByteArrayPage
 
 typealias Page = ByteArrayPage
 

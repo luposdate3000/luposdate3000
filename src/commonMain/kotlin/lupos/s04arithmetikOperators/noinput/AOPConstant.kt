@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
@@ -7,9 +8,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.Query
-
-
-
 
 class AOPConstant : AOPBase {
     val value: Value

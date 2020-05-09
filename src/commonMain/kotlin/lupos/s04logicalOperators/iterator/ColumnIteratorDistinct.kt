@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.Value
 
+import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
     //TODO only for_ single column .... replace with sort-distinct

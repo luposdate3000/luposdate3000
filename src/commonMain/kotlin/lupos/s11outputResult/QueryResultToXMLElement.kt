@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.SanityCheck
@@ -9,8 +10,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-
-
 
 object QueryResultToXMLElement {
     suspend fun toXML(node: POPBase): XMLElement {

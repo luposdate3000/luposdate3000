@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -7,7 +8,6 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 
 class LOPModify(query: Query,
                 @JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),

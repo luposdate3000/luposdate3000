@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 /* Substitutions :: Long,,,LongArray, */
 class MyListLong {
     class MyListLongPage(val version: Int) {

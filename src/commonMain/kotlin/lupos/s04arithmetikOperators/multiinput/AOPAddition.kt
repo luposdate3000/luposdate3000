@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
@@ -11,8 +12,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
-
 
 class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPAdditionID, "AOPAddition", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " + " + children[1].toSparql() + ")"

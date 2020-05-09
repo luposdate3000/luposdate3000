@@ -1,8 +1,6 @@
 package lupos.s05tripleStore
+
 import lupos.s00misc.EIndexPattern
-
-
-
 
 class TripleStoreLocalSingleList(name: String) : TripleStoreLocalBase(name) {
     init {

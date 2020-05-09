@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -25,9 +26,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
-
-
-
 
 class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, val params: Array<AOPBase>, val idx: EIndexPattern, val nodeNames: List<String>) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", arrayOf()) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, params, idx, nodeNames)

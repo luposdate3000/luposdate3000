@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MySetKEYBTreeGDEF(val t: Int) {
     var root: MySetKEYBTreeNodeGUSE? = null
     var size = 0

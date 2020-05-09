@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
@@ -8,7 +9,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s08logicalOptimisation.OptimizerBase
-
 
 class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterEQID) {
     override val classname = "LogicalOptimizerFilterEQ"

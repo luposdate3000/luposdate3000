@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 class BulkImportIterator(val data: IntArray, val count: Int, val order: IntArray) : TripleIterator() {
     var offset = 0
     override fun hasNext() = offset < count

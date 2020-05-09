@@ -1,7 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
+
 import lupos.s00misc.SanityCheck
-
-
 
 inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
     /*
@@ -58,23 +57,23 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return read4(0)
     }
 
-    fun read4(offset: Int): Int {
+    inline fun read4(offset: Int): Int {
         return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
     }
 
-    fun read3(offset: Int): Int {
+    inline fun read3(offset: Int): Int {
         return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
     }
 
-    fun read2(offset: Int): Int {
+    inline fun read2(offset: Int): Int {
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
     }
 
-    fun read1(offset: Int): Int {
+    inline fun read1(offset: Int): Int {
         return (data[offset].toInt() and 0xFF)
     }
 
-    fun write4(offset: Int, d: Int) {
+    inline fun write4(offset: Int, d: Int) {
         data[offset] = ((d shr 24) and 0xFF).toByte()
         data[offset + 1] = ((d shr 16) and 0xFF).toByte()
         data[offset + 2] = ((d shr 8) and 0xFF).toByte()
@@ -82,25 +81,25 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         SanityCheck.check({ d == read4(offset) }, { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
     }
 
-    fun write3(offset: Int, d: Int) {
+    inline fun write3(offset: Int, d: Int) {
         data[offset] = ((d shr 16) and 0xFF).toByte()
         data[offset + 1] = ((d shr 8) and 0xFF).toByte()
         data[offset + 2] = (d and 0xFF).toByte()
         SanityCheck.check({ d == read3(offset) }, { "$d ${read3(offset)}" })
     }
 
-    fun write2(offset: Int, d: Int) {
+    inline fun write2(offset: Int, d: Int) {
         data[offset] = ((d shr 8) and 0xFF).toByte()
         data[offset + 1] = (d and 0xFF).toByte()
         SanityCheck.check({ d == read2(offset) }, { "$d ${read2(offset)}" })
     }
 
-    fun write1(offset: Int, d: Int) {
+    inline fun write1(offset: Int, d: Int) {
         data[offset] = (d and 0xFF).toByte()
         SanityCheck.check({ d == read1(offset) }, { "$d ${read1(offset)}" })
     }
 
-    fun writeFullTriple(offset: Int, d: IntArray): Int {
+    inline fun writeFullTriple(offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -112,7 +111,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return 13
     }
 
-    fun writeChildPointers(offset: Int, count: Int, d: IntArray): Int {
+    inline fun writeChildPointers(offset: Int, count: Int, d: IntArray): Int {
         SanityCheck.check { count > 0 }
         SanityCheck.check { count <= 4 }
         SanityCheck.check { d[0] > 0 }
@@ -144,7 +143,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return localOff - offset
     }
 
-    fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+    inline fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written
@@ -271,7 +270,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return NodeManager.getNode(getFirstChild()).iterator()
     }
 
-    fun forEachChild(action: (Int) -> Unit) {
+    inline fun forEachChild(crossinline action: (Int) -> Unit) {
         var remaining = getTripleCount()
         var offset = 12
         var lastChildPointer = getFirstChild()
@@ -316,7 +315,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         }
     }
 
-    fun findIteratorN(checkTooSmall: (c: IntArray) -> Boolean, action: (Node) -> TripleIterator): TripleIterator {
+    inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean, crossinline action: (Node) -> TripleIterator): TripleIterator {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = -1
         var currentHeaderOffset = -1

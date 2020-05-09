@@ -1,4 +1,5 @@
 package lupos
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -43,9 +44,6 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s14endpoint.endpointServer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
-
-
 
 class SparqlTestSuite() {
     @JvmField

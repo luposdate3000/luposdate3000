@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.Value
 
+import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterator() {
     var index = 0

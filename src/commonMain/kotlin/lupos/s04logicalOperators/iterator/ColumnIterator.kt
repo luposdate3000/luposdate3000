@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.Value
 
+import lupos.s03resultRepresentation.Value
 
 open class ColumnIterator() {
     var next: suspend () -> Value? = ::_next

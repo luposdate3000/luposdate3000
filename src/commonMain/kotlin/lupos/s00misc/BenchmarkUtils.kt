@@ -1,7 +1,7 @@
 package lupos.s00misc
+
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
-
 
 enum class EBenchmark {
     HTTP,//contains all other

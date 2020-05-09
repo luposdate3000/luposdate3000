@@ -1,6 +1,6 @@
 package lupos.s00misc
-import java.lang.Runtime
 
+import java.lang.Runtime
 
 object MemoryStatistics {
     fun byteToGigabytes(bytes: Long): Double = (bytes.toDouble() / (1024.0 * 1024.0 * 1024.0))

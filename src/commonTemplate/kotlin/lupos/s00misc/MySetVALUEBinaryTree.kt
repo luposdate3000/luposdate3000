@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 /* Substitutions :: VALUE,GDEF,GUSE */
 class MySetVALUEBinaryTreeGDEF {
     @JvmField

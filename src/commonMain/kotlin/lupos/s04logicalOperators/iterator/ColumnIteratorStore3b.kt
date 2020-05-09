@@ -1,8 +1,7 @@
 package lupos.s04logicalOperators.iterator
+
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-
-
 
 class ColumnIteratorStore3b(val values: MyListValue) : ColumnIterator() {
     var counterPrimary: Int

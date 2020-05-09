@@ -1,8 +1,7 @@
 package lupos.s04logicalOperators.iterator
+
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-
-
 
 object ColumnIteratorRepeatIteratorTest {
     val MAX_VALUE = 10

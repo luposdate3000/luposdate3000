@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 object JenaWrapper {
     fun dropAll() {
     }

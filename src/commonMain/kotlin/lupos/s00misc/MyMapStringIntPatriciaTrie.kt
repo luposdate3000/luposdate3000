@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()
     var rootValue: Int = undefinedValue

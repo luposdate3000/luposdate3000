@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 abstract class TripleIterator() {
     var value = IntArray(3)
     abstract fun hasNext(): Boolean

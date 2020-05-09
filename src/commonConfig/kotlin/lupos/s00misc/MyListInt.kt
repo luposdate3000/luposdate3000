@@ -2,7 +2,6 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
-
 /* Substitutions :: Int,,,IntArray, */
 class MyListInt {
     class MyListIntPage(val version: Int) {

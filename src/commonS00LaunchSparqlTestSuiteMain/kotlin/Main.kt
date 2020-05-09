@@ -5,7 +5,6 @@ import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 import lupos.SparqlTestSuite
 
-
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     P2P.start(null)

@@ -1,7 +1,6 @@
 package lupos.s00misc
+
 import lupos.s00misc.File
-
-
 
 object Coverage {
     var verbose = true
