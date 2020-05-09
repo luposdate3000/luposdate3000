@@ -107,9 +107,11 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
         write4(offset + 1, d[0])
         write4(offset + 5, d[1])
         write4(offset + 9, d[2])
+SanityCheck{
         debugListLeaf.add(d[0])
         debugListLeaf.add(d[1])
         debugListLeaf.add(d[2])
+}
         return 13
     }
 
@@ -118,9 +120,11 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
          * assuming enough space
          * returns bytes written
          */
+SanityCheck{
         debugListLeaf.add(d[0])
         debugListLeaf.add(d[1])
         debugListLeaf.add(d[2])
+}
         b[0] = l[0] xor d[0]
         b[1] = l[1] xor d[1]
         b[2] = l[2] xor d[2]
