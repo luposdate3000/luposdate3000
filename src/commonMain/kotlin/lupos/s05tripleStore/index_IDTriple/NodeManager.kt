@@ -4,35 +4,30 @@ import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 
 object NodeManager {
-var firstFreeNode=0
+    var firstFreeNode = 0
     val nodeNullPointer = 0x7FFFFFFF.toInt()
     val allNodes = MyListGeneric<Node?>()
-    val allNodesTypes = MyListGeneric<NodeType>()
-
-    enum class NodeType {
-        LEAF,
-        INNER,
-        NULL
-    }
 
     fun safeToFile(filename: String) {
-        File(filename + ".type").dataOutputStream { out ->
-            out.writeInt(allNodesTypes.size)
-            allNodesTypes.forEach {
-                out.writeInt(it.ordinal)
-            }
-        }
-        File(filename + ".dat").dataOutputStream { out ->
-            var it = allNodes.iterator()
-            var it2 = allNodesTypes.iterator()
-            while (it.hasNext()) {
-                val type = it2.next()
-                when (type) {
-                    NodeType.LEAF -> {
-                        out.write(it.next() as ByteArray)
-                    }
-                    NodeType.INNER -> {
-                        out.write(it.next() as ByteArray)
+        File(filename + ".type").dataOutputStream { outType ->
+            File(filename + ".dat").dataOutputStream { out ->
+                outType.writeInt(allNodes.size)
+                var it = allNodes.iterator()
+                while (it.hasNext()) {
+                    var node = it.next()
+                    when (node) {
+                        is NodeLeaf -> {
+                            out.write(node as ByteArray)
+                            outType.writeInt(0)
+                        }
+                        is NodeInner -> {
+                            out.write(node as ByteArray)
+                            outType.writeInt(1)
+                        }
+                        else -> {
+                            require(node == null)
+                            outType.writeInt(2)
+                        }
                     }
                 }
             }
@@ -40,70 +35,65 @@ var firstFreeNode=0
     }
 
     fun loadFromFile(filename: String) {
-        var size = 0
-        File(filename + ".type").dataInputStream { fis ->
-            size = fis.readInt()
-            for (i in 0 until size) {
-                allNodesTypes.add(NodeType.values()[fis.readInt()])
-            }
-        }
-firstFreeNode=Int.MAX_VALUE
-        File(filename + ".dat").dataInputStream { fis ->
-            var it = allNodesTypes.iterator()
-            while (it.hasNext()) {
-                val type = it.next()
-                when (type) {
-                    NodeType.LEAF -> {
-                        val data = ByteArray(PAGE_SIZE_IN_BYTES)
-                        fis.read(data)
-                        val tmp = NodeLeaf(data)
-                        allNodes.add(tmp)
-                    }
-                    NodeType.INNER -> {
-                        val data = ByteArray(PAGE_SIZE_IN_BYTES)
-                        fis.read(data)
-                        val tmp = NodeInner(data)
-                        allNodes.add(tmp)
-                    }
-                    NodeType.NULL -> {
-if(allNodes.size<firstFreeNode){
-firstFreeNode=allNodes.size
-}
-                        allNodes.add(null)
+        firstFreeNode = Int.MAX_VALUE
+        File(filename + ".type").dataInputStream { fisType ->
+            File(filename + ".dat").dataInputStream { fis ->
+                val size = fisType.readInt()
+                for (i in 0 until size) {
+                    var type = fisType.readInt()
+                    when (type) {
+                        0 -> {
+                            val data = ByteArray(PAGE_SIZE_IN_BYTES)
+                            fis.read(data)
+                            val tmp = NodeLeaf(data)
+                            allNodes.add(tmp)
+                        }
+                        1 -> {
+                            val data = ByteArray(PAGE_SIZE_IN_BYTES)
+                            fis.read(data)
+                            val tmp = NodeInner(data)
+                            allNodes.add(tmp)
+                        }
+                        else -> {
+                            require(type == 2)
+                            if (allNodes.size < firstFreeNode) {
+                                firstFreeNode = allNodes.size
+                            }
+                            allNodes.add(null)
+                        }
                     }
                 }
             }
         }
-if(allNodes.size<firstFreeNode){
-firstFreeNode=allNodes.size
-}
+        if (allNodes.size < firstFreeNode) {
+            firstFreeNode = allNodes.size
+        }
     }
 
     inline fun getNode(idx: Int): Node {
         return allNodes[idx]!!
     }
 
-inline fun findFreeSlot():Int{
-var i = firstFreeNode
-if(firstFreeNode<allNodes.size){
-        val it = allNodes.iterator(firstFreeNode)
-        while (it.hasNext()) {
-            var current = it.next()
-            if (current == null) {
-                break
+    inline fun findFreeSlot(): Int {
+        var i = firstFreeNode
+        if (firstFreeNode < allNodes.size) {
+            val it = allNodes.iterator(firstFreeNode)
+            while (it.hasNext()) {
+                var current = it.next()
+                if (current == null) {
+                    break
+                }
+                i++
             }
-            i++
         }
-}
-firstFreeNode=i+1
-return i
-}
+        firstFreeNode = i + 1
+        return i
+    }
 
     inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
         var i = findFreeSlot()
         var tmp = NodeLeaf(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
-        allNodesTypes[i] = NodeType.LEAF
         action(tmp, i)
     }
 
@@ -111,17 +101,15 @@ return i
         var i = findFreeSlot()
         var tmp = NodeInner(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
-        allNodesTypes[i] = NodeType.INNER
         action(tmp, i)
     }
 
     inline fun freeNode(nodeIdx: Int) {
         if (nodeIdx != nodeNullPointer) {
             allNodes[nodeIdx] = null
-            allNodesTypes[nodeIdx] = NodeType.NULL
-if(nodeIdx<firstFreeNode){
-firstFreeNode=nodeIdx
-}
+            if (nodeIdx < firstFreeNode) {
+                firstFreeNode = nodeIdx
+            }
         }
     }
 

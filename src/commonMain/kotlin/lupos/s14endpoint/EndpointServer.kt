@@ -149,13 +149,13 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             bulk.sort()
             store.bulkImport(bulk)
 //>>>
-/*
+
 //	println("dumping dictionary - particia trie as debug")
 //	nodeGlobalDictionary.typedMap.debug()
         println("ready")
         Thread.sleep(20000)
         println("not ready ${bulk.idx}")
-*/
+
 //<<<
             return XMLElement("success $counter").toString()
         } catch (e: Throwable) {
