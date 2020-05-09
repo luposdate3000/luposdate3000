@@ -110,9 +110,14 @@ import lupos.s04logicalOperators.singleinput.LOPOptional
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s04logicalOperators.singleinput.modifiers.*
-import lupos.s09physicalOperators.multiinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPJoinMerge
+import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
+import lupos.s09physicalOperators.multiinput.POPJoinWithStore
+import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
