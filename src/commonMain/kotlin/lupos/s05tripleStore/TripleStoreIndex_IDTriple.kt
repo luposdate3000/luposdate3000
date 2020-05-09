@@ -45,7 +45,6 @@ import lupos.s03resultRepresentation.ValueComparatorDESC
 import lupos.s03resultRepresentation.ValueComparatorFast
 import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueError
@@ -84,6 +83,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
+import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.Node
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
