@@ -36,7 +36,24 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.iterator.*
+import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
+import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
+import lupos.s04logicalOperators.iterator.ColumnIteratorDistinct
+import lupos.s04logicalOperators.iterator.ColumnIteratorMergeSort
+import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
+import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.ColumnIteratorStore1
+import lupos.s04logicalOperators.iterator.ColumnIteratorStore2a
+import lupos.s04logicalOperators.iterator.ColumnIteratorStore2b
+import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
+import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
+import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -44,6 +61,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 
 
 class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPModifyID, "POPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
