@@ -8,7 +8,7 @@ class MySetDoubleBTree(val t: Int) {
     var root: MySetDoubleBTreeNode? = null
     var size = 0
 
-    constructor() : this(512)
+    constructor() : this(B_TREE_BRANCHING_FACTOR)
 
     class MySetDoubleBTreeNodeIterator(val node: MySetDoubleBTreeNode) : Iterator<Double> {
         var i = 0

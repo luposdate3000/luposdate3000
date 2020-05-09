@@ -6,7 +6,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Double,,,DoubleArray, */
 class MyListDouble {
-
     class MyListDoublePage(val version: Int) {
         var next: MyListDoublePage? = null
         var size = 0/*local*/

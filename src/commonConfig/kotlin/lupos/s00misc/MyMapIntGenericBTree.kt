@@ -13,7 +13,7 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
         size = 0
     }
 
-    constructor() : this(512)
+    constructor() : this(B_TREE_BRANCHING_FACTOR)
     constructor(d: Pair<Int, GenericV>) : this() {
         set(d.first, d.second)
     }

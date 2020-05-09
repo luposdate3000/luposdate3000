@@ -6,7 +6,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Int,,,IntArray, */
 class MyListInt {
-
     class MyListIntPage(val version: Int) {
         var next: MyListIntPage? = null
         var size = 0/*local*/

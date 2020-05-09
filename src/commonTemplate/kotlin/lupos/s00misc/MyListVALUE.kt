@@ -4,7 +4,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {
-
     class MyListVALUEPageGDEF(val version: Int) {
         var next: MyListVALUEPageGDEF? = null
         var size = 0/*local*/

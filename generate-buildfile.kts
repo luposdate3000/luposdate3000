@@ -55,8 +55,8 @@ class ChooseableOptionTypeAlias(label: String, val pkg: String, val aliasList: L
     override fun toString() = "TypeAlias($internalID)"
 }
 
-class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg +"."+ variableName) {
-    override fun toString() = "ConstantValue($internalID = variableValue)"
+class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg + "." + variableName) {
+    override fun toString() = "ConstantValue($internalID = $variableValue)"
 }
 
 class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
@@ -210,8 +210,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("WarnkeFuzz", "jvmS00LaunchWarnkeFuzzMain")
         ),
         ChooseableGroup("Sanity Checks") to listOf(
-                ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn","CoroutinesHelperMutex" to "Lock")),
-                ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff","CoroutinesHelperMutex" to "Lock"))
+                ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn", "CoroutinesHelperMutex" to "Lock")),
+                ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff", "CoroutinesHelperMutex" to "Lock"))
         ),
         ChooseableGroup("ResultFlow") to listOf(
                 ChooseableOptionDirectory("Fast", "commonS00ResultFlowFastMain"),
@@ -313,6 +313,10 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("ArrayList Block Capacity in Elements") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "5"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024")
+        ),
+        ChooseableGroup("BTree Branching Faktor") to listOf(
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "5"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
         )
 )
 val conflicts = listOf(
@@ -608,7 +612,7 @@ for (option in allChoosenOptions) {
             configFilesContent[option.pkg] = f!!
         }
         val fc = f!!
-        fc.append("const val ${option.variableName} = ${option.variableValue}")
+        fc.append("const val ${option.variableName} = ${option.variableValue}\n")
     }
 }
 for ((k, v) in configFilesContent) {

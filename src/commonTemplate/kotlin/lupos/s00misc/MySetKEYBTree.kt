@@ -6,7 +6,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
     var root: MySetKEYBTreeNodeGUSE? = null
     var size = 0
 
-    constructor() : this(512)
+    constructor() : this(B_TREE_BRANCHING_FACTOR)
 
     class MySetKEYBTreeNodeIteratorGDEF(val node: MySetKEYBTreeNodeGUSE) : Iterator<KEY> {
         var i = 0

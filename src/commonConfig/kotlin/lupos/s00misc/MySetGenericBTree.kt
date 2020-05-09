@@ -8,7 +8,7 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
     var root: MySetGenericBTreeNode<Generic>? = null
     var size = 0
 
-    constructor() : this(512)
+    constructor() : this(B_TREE_BRANCHING_FACTOR)
 
     class MySetGenericBTreeNodeIterator<Generic : Comparable<Generic>>(val node: MySetGenericBTreeNode<Generic>) : Iterator<Generic> {
         var i = 0

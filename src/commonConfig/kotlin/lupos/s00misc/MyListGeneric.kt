@@ -6,7 +6,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Generic,<Generic>,<Generic>,Array<Any?>,{null} */
 class MyListGeneric<Generic> {
-
     class MyListGenericPage<Generic>(val version: Int) {
         var next: MyListGenericPage<Generic>? = null
         var size = 0/*local*/

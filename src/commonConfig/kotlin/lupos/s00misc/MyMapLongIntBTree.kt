@@ -13,7 +13,7 @@ class MyMapLongIntBTree(val t: Int) {
         size = 0
     }
 
-    constructor() : this(512)
+    constructor() : this(B_TREE_BRANCHING_FACTOR)
     constructor(d: Pair<Long, Int>) : this() {
         set(d.first, d.second)
     }

@@ -8,7 +8,6 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 
-
 object CoroutinesHelperSequential {
     @JvmField
     val channelType = UNLIMITED

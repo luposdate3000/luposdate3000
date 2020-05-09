@@ -6,7 +6,6 @@ import lupos.s00misc.Coverage
 
 /* Substitutions :: Long,,,LongArray, */
 class MyListLong {
-
     class MyListLongPage(val version: Int) {
         var next: MyListLongPage? = null
         var size = 0/*local*/

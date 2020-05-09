@@ -8,7 +8,7 @@ class MySetLongBTree(val t: Int) {
     var root: MySetLongBTreeNode? = null
     var size = 0
 
-    constructor() : this(512)
+    constructor() : this(B_TREE_BRANCHING_FACTOR)
 
     class MySetLongBTreeNodeIterator(val node: MySetLongBTreeNode) : Iterator<Long> {
         var i = 0
