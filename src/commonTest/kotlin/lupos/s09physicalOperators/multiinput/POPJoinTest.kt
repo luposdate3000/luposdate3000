@@ -82,7 +82,8 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s09physicalOperators.noinput.*
+import lupos.s09physicalOperators.noinput.POPValuesImportBase
+import lupos.s09physicalOperators.noinput.POPValuesImportXML
 
 
 

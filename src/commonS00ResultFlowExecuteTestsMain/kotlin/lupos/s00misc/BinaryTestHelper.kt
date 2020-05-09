@@ -1,6 +1,5 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-import lupos.*
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -146,8 +145,9 @@ import lupos.s06buildOperatorGraph.*
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.multiinput.POPUnion
-import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPValuesImportBase
+import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
@@ -165,6 +165,7 @@ import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 import lupos.s15tripleStoreDistributed.*
+import lupos.SparqlTestSuite
 
 
 

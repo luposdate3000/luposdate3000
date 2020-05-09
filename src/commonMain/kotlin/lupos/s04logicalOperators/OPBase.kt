@@ -79,7 +79,8 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore2b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
-import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup

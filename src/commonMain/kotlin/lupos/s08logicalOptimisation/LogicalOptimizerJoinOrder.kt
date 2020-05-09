@@ -34,7 +34,8 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind

@@ -7,7 +7,6 @@ import java.nio.channels.FileChannel;
 import java.time.Duration
 import java.time.Instant
 import kotlinx.coroutines.*
-import lupos.*
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -74,6 +73,7 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
+import lupos.SparqlTestSuite
 
 
 

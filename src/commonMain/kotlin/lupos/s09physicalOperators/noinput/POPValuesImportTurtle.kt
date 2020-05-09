@@ -55,7 +55,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.noinput.*
+import lupos.s09physicalOperators.noinput.POPValuesImportBase
+import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s12p2p.P2P
