@@ -1,5 +1,4 @@
 package commonTest
-import kotlin.jvm.JvmField
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
@@ -20,7 +19,6 @@ import lupos.datastructures.b_plus_tree.I_B_Plus_Tree_KeyRangeSearch_OnlyKeys
 import lupos.datastructures.b_plus_tree.I_B_Plus_Tree_OnlyKeys
 import lupos.datastructures.b_plus_tree.NotFoundException
 import lupos.io.buffer.bufferManager
-import lupos.s04logicalOperators.Query
 
 
 class BPlusTreeTests {

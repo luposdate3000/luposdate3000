@@ -1,6 +1,5 @@
 package lupos.s00misc
 import java.lang.Runtime
-import lupos.s00misc.Coverage
 
 
 object MemoryStatistics {

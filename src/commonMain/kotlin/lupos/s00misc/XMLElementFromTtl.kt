@@ -1,11 +1,8 @@
 package lupos.s00misc
-import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s04logicalOperators.Query
 
 
 fun XMLElement.Companion.parseFromTtl(ttl: String): XMLElement? {

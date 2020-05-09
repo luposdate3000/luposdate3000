@@ -5,7 +5,6 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
-import lupos.s04logicalOperators.Query
 
 
 class EOF(index: Int) : Token("EOF", index)

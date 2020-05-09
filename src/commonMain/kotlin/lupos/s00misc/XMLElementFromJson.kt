@@ -1,8 +1,5 @@
 package lupos.s00misc
-import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
-import lupos.s04logicalOperators.Query
 
 
 fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {

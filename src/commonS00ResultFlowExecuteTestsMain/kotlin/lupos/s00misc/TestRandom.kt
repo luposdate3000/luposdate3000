@@ -1,5 +1,4 @@
 package lupos.s00misc
-import lupos.s00misc.Coverage
 
 
 class NoMoreRandomException : Exception("no more Random available")
