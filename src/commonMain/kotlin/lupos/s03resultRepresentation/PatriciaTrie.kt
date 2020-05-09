@@ -1,7 +1,7 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
+
 
 class PatriciaTrie {
     var nextValue = 0

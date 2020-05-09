@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.noinput
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
@@ -8,6 +7,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
 
 class LOPGraphOperation(query: Query,
                         @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,

@@ -1,8 +1,8 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
+
 
 class ThreadSafeMutableList<T>(@JvmField val values: MutableList<T> = mutableListOf<T>()) {
     @JvmField

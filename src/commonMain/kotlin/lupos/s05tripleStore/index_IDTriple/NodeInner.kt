@@ -1,7 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import lupos.s00misc.*
 import lupos.s00misc.Coverage
+
 
 inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
     /*

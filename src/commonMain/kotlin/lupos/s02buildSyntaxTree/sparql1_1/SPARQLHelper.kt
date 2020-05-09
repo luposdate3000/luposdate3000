@@ -1,5 +1,4 @@
 package lupos.s02buildSyntaxTree.sparql1_1
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
@@ -7,6 +6,7 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s04logicalOperators.Query
+
 
 enum class BuiltInFunctions {
     STR,

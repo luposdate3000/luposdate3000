@@ -1,8 +1,8 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
+
 
 fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")

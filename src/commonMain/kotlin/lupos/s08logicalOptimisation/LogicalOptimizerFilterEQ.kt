@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
@@ -13,6 +12,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s08logicalOptimisation.OptimizerBase
+
 
 class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterEQID) {
     override val classname = "LogicalOptimizerFilterEQ"

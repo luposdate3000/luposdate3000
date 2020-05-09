@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
@@ -9,6 +8,7 @@ import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
+
 
 class Lock {
     val mutex = cValue<pthread_mutex_t>()

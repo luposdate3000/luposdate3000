@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.CoroutineScope
@@ -10,6 +9,7 @@ import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Coverage
 import lupos.s00misc.Lock
 import lupos.s04logicalOperators.Query
+
 
 object CoroutinesHelperParallel {
     @JvmField

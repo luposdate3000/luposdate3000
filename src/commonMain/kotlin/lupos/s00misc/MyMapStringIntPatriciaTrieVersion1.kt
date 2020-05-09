@@ -1,6 +1,6 @@
 package lupos.s00misc
-
 import lupos.s00misc.Coverage
+
 
 class MyMapStringIntPatriciaTrieVersion1() {
     class MyMapStringIntPatriciaTrieNode(var key: String, var value: Int?) {

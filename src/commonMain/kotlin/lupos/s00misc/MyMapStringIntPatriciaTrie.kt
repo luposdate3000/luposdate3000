@@ -1,6 +1,6 @@
 package lupos.s00misc
-
 import lupos.s00misc.Coverage
+
 
 class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()

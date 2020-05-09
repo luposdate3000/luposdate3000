@@ -1,11 +1,11 @@
 package lupos.s02buildSyntaxTree.turtle
-
 import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import lupos.s04logicalOperators.Query
+
 
 class TurtleParser(@JvmField val consume_triple: (lupos.s02buildSyntaxTree.rdf.Triple) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...

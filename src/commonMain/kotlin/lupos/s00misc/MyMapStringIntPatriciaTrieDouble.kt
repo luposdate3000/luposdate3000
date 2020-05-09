@@ -1,6 +1,6 @@
 package lupos.s00misc
-
 import lupos.s00misc.Coverage
+
 
 class MyMapStringIntPatriciaTrieDouble() {
     val undefinedValue = -1

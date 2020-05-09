@@ -1,6 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import lupos.s00misc.Coverage
+
 
 class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
     var remaining = node.getTripleCount()

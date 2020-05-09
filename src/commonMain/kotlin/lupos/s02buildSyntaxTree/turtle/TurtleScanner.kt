@@ -1,5 +1,4 @@
 package lupos.s02buildSyntaxTree.turtle
-
 import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.ParseError
@@ -7,6 +6,7 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 import lupos.s04logicalOperators.Query
+
 
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
