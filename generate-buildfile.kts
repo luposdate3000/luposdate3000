@@ -307,15 +307,15 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
         ),
         ChooseableGroup("PageSize in Bytes") to listOf(
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "100"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "128"),
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "8196")
         ),
         ChooseableGroup("ArrayList Block Capacity in Elements") to listOf(
-                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "5"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024")
         ),
         ChooseableGroup("BTree Branching Faktor") to listOf(
-                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "5"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "8"),
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
         )
 )

@@ -7,6 +7,7 @@ import lupos.s00misc.MyListGeneric
 object NodeManager {
     val nodeNullPointer = 0x7FFFFFFF.toInt()
     val allNodes = MyListGeneric<Node?>()
+    val allNodesTypes = MyListGeneric<NodeType>()
 
     enum class NodeType {
         LEAF,
@@ -14,7 +15,6 @@ object NodeManager {
         NULL
     }
 
-    val allNodesTypes = mutableListOf<NodeType>()
     fun safeToFile(filename: String) {
         File(filename + ".type").dataOutputStream { out ->
             out.writeInt(allNodesTypes.size)
