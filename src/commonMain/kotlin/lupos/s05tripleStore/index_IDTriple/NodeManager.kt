@@ -122,10 +122,10 @@ object NodeManager {
                     freeNode(nodeIdx)
                 }
                 is NodeInner -> {
-                    freeNode(nodeIdx)
                     node.forEachChild {
                         freeNodeAndAllRelated(it)
                     }
+                    freeNode(nodeIdx)
                 }
                 else -> {
                     require(false)
