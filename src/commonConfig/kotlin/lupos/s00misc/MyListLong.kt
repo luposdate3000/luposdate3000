@@ -328,13 +328,27 @@ class MyListLong {
         }
     }
 
-    inline operator fun iterator(): MyListLongIterator {
-        return MyListLongIterator(this)
+    inline fun iterator(startidx: Int): MyListLongIterator {
+        return MyListLongIterator(this, startidx)
     }
 
-    class MyListLongIterator(@JvmField val data: MyListLong) : Iterator<Long> {
+    inline operator fun iterator(): MyListLongIterator {
+        return MyListLongIterator(this, 0)
+    }
+
+    class MyListLongIterator(@JvmField val data: MyListLong, startidx: Int) : Iterator<Long> {
         var tmp = data.page
         var idx = 0
+
+        init {
+            var i = 0
+            while (i + tmp.size < startidx) {
+                i += tmp.size
+                tmp = tmp.next!!
+            }
+            idx = startidx - i
+        }
+
         override fun hasNext() = idx < tmp.size || tmp.next != null
         override fun next(): Long {
             if (idx == tmp.size) {

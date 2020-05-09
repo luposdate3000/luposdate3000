@@ -328,13 +328,27 @@ class MyListGeneric<Generic> {
         }
     }
 
-    inline operator fun iterator(): MyListGenericIterator<Generic> {
-        return MyListGenericIterator(this)
+    inline fun iterator(startidx: Int): MyListGenericIterator<Generic> {
+        return MyListGenericIterator(this, startidx)
     }
 
-    class MyListGenericIterator<Generic>(@JvmField val data: MyListGeneric<Generic>) : Iterator<Generic> {
+    inline operator fun iterator(): MyListGenericIterator<Generic> {
+        return MyListGenericIterator(this, 0)
+    }
+
+    class MyListGenericIterator<Generic>(@JvmField val data: MyListGeneric<Generic>, startidx: Int) : Iterator<Generic> {
         var tmp = data.page
         var idx = 0
+
+        init {
+            var i = 0
+            while (i + tmp.size < startidx) {
+                i += tmp.size
+                tmp = tmp.next!!
+            }
+            idx = startidx - i
+        }
+
         override fun hasNext() = idx < tmp.size || tmp.next != null
         override fun next(): Generic {
             if (idx == tmp.size) {

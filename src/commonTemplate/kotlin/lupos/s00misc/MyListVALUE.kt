@@ -326,13 +326,27 @@ class MyListVALUEGDEF {
         }
     }
 
-    inline operator fun iterator(): MyListVALUEIteratorGUSE {
-        return MyListVALUEIterator(this)
+    inline fun iterator(startidx: Int): MyListVALUEIteratorGUSE {
+        return MyListVALUEIterator(this, startidx)
     }
 
-    class MyListVALUEIteratorGDEF(@JvmField val data: MyListVALUEGUSE) : Iterator<VALUE> {
+    inline operator fun iterator(): MyListVALUEIteratorGUSE {
+        return MyListVALUEIterator(this, 0)
+    }
+
+    class MyListVALUEIteratorGDEF(@JvmField val data: MyListVALUEGUSE, startidx: Int) : Iterator<VALUE> {
         var tmp = data.page
         var idx = 0
+
+        init {
+            var i = 0
+            while (i + tmp.size < startidx) {
+                i += tmp.size
+                tmp = tmp.next!!
+            }
+            idx = startidx - i
+        }
+
         override fun hasNext() = idx < tmp.size || tmp.next != null
         override fun next(): VALUE {
             if (idx == tmp.size) {

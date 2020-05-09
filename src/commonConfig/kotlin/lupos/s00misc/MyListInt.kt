@@ -328,13 +328,27 @@ class MyListInt {
         }
     }
 
-    inline operator fun iterator(): MyListIntIterator {
-        return MyListIntIterator(this)
+    inline fun iterator(startidx: Int): MyListIntIterator {
+        return MyListIntIterator(this, startidx)
     }
 
-    class MyListIntIterator(@JvmField val data: MyListInt) : Iterator<Int> {
+    inline operator fun iterator(): MyListIntIterator {
+        return MyListIntIterator(this, 0)
+    }
+
+    class MyListIntIterator(@JvmField val data: MyListInt, startidx: Int) : Iterator<Int> {
         var tmp = data.page
         var idx = 0
+
+        init {
+            var i = 0
+            while (i + tmp.size < startidx) {
+                i += tmp.size
+                tmp = tmp.next!!
+            }
+            idx = startidx - i
+        }
+
         override fun hasNext() = idx < tmp.size || tmp.next != null
         override fun next(): Int {
             if (idx == tmp.size) {

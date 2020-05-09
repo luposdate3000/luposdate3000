@@ -328,13 +328,27 @@ class MyListDouble {
         }
     }
 
-    inline operator fun iterator(): MyListDoubleIterator {
-        return MyListDoubleIterator(this)
+    inline fun iterator(startidx: Int): MyListDoubleIterator {
+        return MyListDoubleIterator(this, startidx)
     }
 
-    class MyListDoubleIterator(@JvmField val data: MyListDouble) : Iterator<Double> {
+    inline operator fun iterator(): MyListDoubleIterator {
+        return MyListDoubleIterator(this, 0)
+    }
+
+    class MyListDoubleIterator(@JvmField val data: MyListDouble, startidx: Int) : Iterator<Double> {
         var tmp = data.page
         var idx = 0
+
+        init {
+            var i = 0
+            while (i + tmp.size < startidx) {
+                i += tmp.size
+                tmp = tmp.next!!
+            }
+            idx = startidx - i
+        }
+
         override fun hasNext() = idx < tmp.size || tmp.next != null
         override fun next(): Double {
             if (idx == tmp.size) {

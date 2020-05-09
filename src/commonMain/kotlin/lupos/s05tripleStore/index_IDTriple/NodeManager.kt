@@ -4,6 +4,7 @@ import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 
 object NodeManager {
+var firstFreeNode=0
     val nodeNullPointer = 0x7FFFFFFF.toInt()
     val allNodes = MyListGeneric<Node?>()
     val allNodesTypes = MyListGeneric<NodeType>()
@@ -46,6 +47,7 @@ object NodeManager {
                 allNodesTypes.add(NodeType.values()[fis.readInt()])
             }
         }
+firstFreeNode=Int.MAX_VALUE
         File(filename + ".dat").dataInputStream { fis ->
             var it = allNodesTypes.iterator()
             while (it.hasNext()) {
@@ -64,20 +66,27 @@ object NodeManager {
                         allNodes.add(tmp)
                     }
                     NodeType.NULL -> {
+if(allNodes.size<firstFreeNode){
+firstFreeNode=allNodes.size
+}
                         allNodes.add(null)
                     }
                 }
             }
         }
+if(allNodes.size<firstFreeNode){
+firstFreeNode=allNodes.size
+}
     }
 
     inline fun getNode(idx: Int): Node {
         return allNodes[idx]!!
     }
 
-    inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
-        val it = allNodes.iterator()
-        var i = 0
+inline fun findFreeSlot():Int{
+var i = firstFreeNode
+if(firstFreeNode<allNodes.size){
+        val it = allNodes.iterator(firstFreeNode)
         while (it.hasNext()) {
             var current = it.next()
             if (current == null) {
@@ -85,6 +94,13 @@ object NodeManager {
             }
             i++
         }
+}
+firstFreeNode=i+1
+return i
+}
+
+    inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
+        var i = findFreeSlot()
         var tmp = NodeLeaf(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
         allNodesTypes[i] = NodeType.LEAF
@@ -92,15 +108,7 @@ object NodeManager {
     }
 
     inline fun allocateNodeInner(crossinline action: (NodeInner, Int) -> Unit) {
-        val it = allNodes.iterator()
-        var i = 0
-        while (it.hasNext()) {
-            var current = it.next()
-            if (current == null) {
-                break
-            }
-            i++
-        }
+        var i = findFreeSlot()
         var tmp = NodeInner(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
         allNodes[i] = tmp
         allNodesTypes[i] = NodeType.INNER
@@ -111,6 +119,9 @@ object NodeManager {
         if (nodeIdx != nodeNullPointer) {
             allNodes[nodeIdx] = null
             allNodesTypes[nodeIdx] = NodeType.NULL
+if(nodeIdx<firstFreeNode){
+firstFreeNode=nodeIdx
+}
         }
     }
 
