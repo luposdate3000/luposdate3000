@@ -24,35 +24,46 @@ class MergeIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterat
             3 -> {
                 if (a.value[0] < b.value[0] || (a.value[0] == b.value[0] && a.value[1] < b.value[1]) || (a.value[0] == b.value[0] && a.value[1] == b.value[1] && a.value[2] <= b.value[2])) {
                     if (a.value[0] == b.value[0] && a.value[1] == b.value[1] && a.value[2] == b.value[2]) {
-                        b.next()
                         if (!b.hasNext()) {
                             flag = 1
+                        } else {
+                            b.next()
                         }
                     }
                     value[0] = a.value[0]
                     value[1] = a.value[1]
                     value[2] = a.value[2]
-                    a.next()
                     if (!a.hasNext()) {
                         flag -= 1
+                    } else {
+                        a.next()
                     }
                 } else {
                     value[0] = b.value[0]
                     value[1] = b.value[1]
                     value[2] = b.value[2]
-                    b.next()
                     if (!b.hasNext()) {
                         flag = 1
+                    } else {
+                        b.next()
                     }
                 }
             }
             1 -> {
                 value = a.value
-                flag = 4
+                if (a.hasNext()) {
+                    flag = 4
+                } else {
+                    flag = 0
+                }
             }
             2 -> {
                 value = b.value
-                flag = 5
+                if (b.hasNext()) {
+                    flag = 5
+                } else {
+                    flag = 0
+                }
             }
             4 -> {
                 a.next()

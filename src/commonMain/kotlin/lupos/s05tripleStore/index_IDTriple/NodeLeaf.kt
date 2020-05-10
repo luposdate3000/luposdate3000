@@ -4,7 +4,7 @@ import lupos.s00misc.SanityCheck
 
 var debugListLeaf = mutableListOf<Int>()
 
-inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
+inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
     /*
      * Bytes 0..3 : Number of stored Triples
      * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin
@@ -18,41 +18,41 @@ inline class NodeLeaf(val data: ByteArray) : Node { //ByteBuffer??
      *
      * absolute minimum is 21 used bytes for exactly 1 Triple/Node
      */
-    override fun getFirstTriple(b: IntArray) {
+    fun getFirstTriple(b: IntArray) {
         b[0] = read4(9)
         b[1] = read4(13)
         b[2] = read4(17)
     }
 
-    override fun setNextNode(node: Int) {
+    fun setNextNode(node: Int) {
         write4(4, node)
     }
 
-    override fun getNextNode(): Int {
+    fun getNextNode(): Int {
         return read4(4)
     }
 
-    override fun setTripleCount(count: Int) {
+    fun setTripleCount(count: Int) {
         write4(0, count)
     }
 
-    override fun getTripleCount(): Int {
+    fun getTripleCount(): Int {
         return read4(0)
     }
 
-    override fun iterator(): TripleIterator {
+    fun iterator(): TripleIterator {
         return NodeLeafIterator(this)
     }
 
-    override fun iterator3(prefix: IntArray): TripleIterator {
+    fun iterator3(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix3(this, prefix)
     }
 
-    override fun iterator2(prefix: IntArray): TripleIterator {
+    fun iterator2(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix2(this, prefix)
     }
 
-    override fun iterator1(prefix: IntArray): TripleIterator {
+    fun iterator1(prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix1(this, prefix)
     }
 

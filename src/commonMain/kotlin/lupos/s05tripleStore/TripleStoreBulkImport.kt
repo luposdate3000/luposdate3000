@@ -29,57 +29,85 @@ class TripleStoreBulkImport {
     }
 
     fun full() = idx >= size
-    fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
-        //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
-        val aEnd = (off + mid) * 3
-        val bEnd = (off + count) * 3
-        var a = off * 3
-        var b = aEnd
-        var c = a
-        if (count < mid) {
-            b = a
-            a = aEnd
-        }
-        loop@ while (a < aEnd && b < bEnd) {
-            for (i in 0 until 3) {
-                if (source[a + orderBy[i]] < source[b + orderBy[i]]) {
-                    target[c++] = source[a++]
-                    target[c++] = source[a++]
-                    target[c++] = source[a++]
-                    continue@loop
-                } else if (source[a + orderBy[i]] > source[b + orderBy[i]]) {
-                    target[c++] = source[b++]
-                    target[c++] = source[b++]
-                    target[c++] = source[b++]
-                    continue@loop
-                }
+
+    companion object {
+        fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
+            //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
+            val aEnd = (off + mid) * 3
+            val bEnd = (off + count) * 3
+            var a = off * 3
+            var b = aEnd
+            var c = a
+            if (count < mid) {
+                b = a
+                a = aEnd
             }
-            target[c++] = source[a++]
-            target[c++] = source[a++]
-            target[c++] = source[a++]
-            target[c++] = source[b++]
-            target[c++] = source[b++]
-            target[c++] = source[b++]
+            loop@ while (a < aEnd && b < bEnd) {
+                for (i in 0 until 3) {
+                    if (source[a + orderBy[i]] < source[b + orderBy[i]]) {
+                        target[c++] = source[a++]
+                        target[c++] = source[a++]
+                        target[c++] = source[a++]
+                        continue@loop
+                    } else if (source[a + orderBy[i]] > source[b + orderBy[i]]) {
+                        target[c++] = source[b++]
+                        target[c++] = source[b++]
+                        target[c++] = source[b++]
+                        continue@loop
+                    }
+                }
+                target[c++] = source[a++]
+                target[c++] = source[a++]
+                target[c++] = source[a++]
+                target[c++] = source[b++]
+                target[c++] = source[b++]
+                target[c++] = source[b++]
+            }
+            while (a < aEnd) {
+                target[c++] = source[a++]
+                target[c++] = source[a++]
+                target[c++] = source[a++]
+            }
+            while (b < bEnd) {
+                target[c++] = source[b++]
+                target[c++] = source[b++]
+                target[c++] = source[b++]
+            }
         }
-        while (a < aEnd) {
-            target[c++] = source[a++]
-            target[c++] = source[a++]
-            target[c++] = source[a++]
-        }
-        while (b < bEnd) {
-            target[c++] = source[b++]
-            target[c++] = source[b++]
-            target[c++] = source[b++]
+
+        fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
+/*in the first step the data is moved into dataIdxB*/
+            var off = 0
+            var shift = 0
+            var count = 1 shl shift
+            var first = true
+            while (count / 2 < total) {
+                off = 0
+                shift++
+                count = 1 shl shift
+                var sourceIdx = dataIdxA
+                if (first) {
+                    first = false
+                    sourceIdx = firstIdx
+                }
+                while (off + count <= total) {
+                    mergeSort(data[sourceIdx], data[dataIdxB], off, count / 2, count, order)
+                    off += count
+                }
+                if (off < total) {
+                    mergeSort(data[sourceIdx], data[dataIdxB], off, count / 2, total - off, order)
+                }
+                var t = data[dataIdxA]
+                data[dataIdxA] = data[dataIdxB]
+                data[dataIdxB] = t
+            }
         }
     }
 
     fun sort() {
         BenchmarkUtils.start(EBenchmark.IMPORT_SORT)
-//the target data is sorted, but may contain duplicates, _if the input contains those
+        //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
-        var off = IntArray(3)
-        var shift = IntArray(3)
-        var count = IntArray(3)
         val orderSPO = intArrayOf(0, 1, 2)
         val orderSOP = intArrayOf(0, 2, 1)
         val orderPSO = intArrayOf(1, 0, 2)
@@ -97,30 +125,11 @@ class TripleStoreBulkImport {
         } else {
             for (j in 0 until 2) {
                 for (i in 0 until 3) {
-                    off[i] = 0
-                    shift[i] = 0
-                    count[i] = 1 shl shift[i]
-                    var first = true
-                    while (count[i] / 2 < total) {
-                        off[i] = 0
-                        shift[i]++
-                        count[i] = 1 shl shift[i]
-                        var sourceIdx = i
-                        if (first) {
-                            first = false
-                            sourceIdx = 8
-                        }
-                        while (off[i] + count[i] <= total) {
-                            mergeSort(data[sourceIdx], data[3 + i], off[i], count[i] / 2, count[i], orders[i * 2 + j])
-                            off[i] += count[i]
-                        }
-                        if (off[i] < total) {
-                            mergeSort(data[sourceIdx], data[3 + i], off[i], count[i] / 2, total - off[i], orders[i * 2 + j])
-                        }
-                        var t = data[i]
-                        data[i] = data[3 + i]
-                        data[3 + i] = t
-                    }
+                    val order = orders[i * 2 + j]
+                    val firstIdx = 8
+                    val dataIdxA = i
+                    val dataIdxB = i + 3
+                    sortUsingBuffers(firstIdx, dataIdxA, dataIdxB, data, total, order)
                 }
                 if (j == 0) {
                     dataSPO = data[0]

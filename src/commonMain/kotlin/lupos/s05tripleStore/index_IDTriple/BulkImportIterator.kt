@@ -2,8 +2,13 @@ package lupos.s05tripleStore.index_IDTriple
 
 class BulkImportIterator(val data: IntArray, val count: Int, val order: IntArray) : TripleIterator() {
     var offset = 0
-    override fun hasNext() = offset < count
+    override fun hasNext(): Boolean {
+        println("BulkImportIterator.hasNext() :: ${offset < count}")
+        return offset < count
+    }
+
     override fun next(component: Int): Int {
+        println("BulkImportIterator.next()")
         value[0] = data[offset + order[0]]
         value[1] = data[offset + order[1]]
         value[2] = data[offset + order[2]]

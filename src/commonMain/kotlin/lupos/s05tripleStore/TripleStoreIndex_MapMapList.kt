@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.Query
 
-class TripleStoreIndex_MapMapList : TripleStoreIndex {
+class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
 

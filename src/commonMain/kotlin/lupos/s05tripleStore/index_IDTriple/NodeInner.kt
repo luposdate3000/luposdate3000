@@ -2,7 +2,7 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.SanityCheck
 
-inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
+inline class NodeInner(val data: ByteArray) { //ByteBuffer??
     /*
      * Bitlayout 7..0
      * Bytes 0..3  : Number of stored Triples
@@ -29,7 +29,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
      *
      * absolute minimum is 81 used bytes for exactly 4 Triple/Node
      */
-    override fun getFirstTriple(b: IntArray) {
+    fun getFirstTriple(b: IntArray) {
         var node = this
         var done = false
         while (!done) {
@@ -50,19 +50,19 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return read4(8)
     }
 
-    override fun setNextNode(node: Int) {
+    fun setNextNode(node: Int) {
         write4(4, node)
     }
 
-    override fun getNextNode(): Int {
+    fun getNextNode(): Int {
         return read4(4)
     }
 
-    override fun setTripleCount(count: Int) {
+    fun setTripleCount(count: Int) {
         write4(0, count)
     }
 
-    override fun getTripleCount(): Int {
+    fun getTripleCount(): Int {
         return read4(0)
     }
 
@@ -275,7 +275,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return localOff - offset
     }
 
-    override fun iterator(): TripleIterator {
+    fun iterator(): TripleIterator {
         var iterator: TripleIterator? = null
         var node = this
         while (iterator == null) {
@@ -336,7 +336,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
     inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean, crossinline action: (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild()
-        var currentHeaderOffset = -1
+        var childLastPointerHeaderOffset = -1
         var remaining = getTripleCount()
         var offset = 12
         var childPointers = IntArray(4)
@@ -346,7 +346,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         while (remaining > 0) {
             var i = 0
             while (i < 4 && remaining > 0) {
-                currentHeaderOffset = offset
+                childLastPointerHeaderOffset = offset
                 var header = read1(offset)
                 offset++
                 var headerA = header and 0b11000000
@@ -422,12 +422,12 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 action(childPointers[childToUse])
                 return
             }
-            lastHeaderOffset = currentHeaderOffset
+            lastHeaderOffset = childLastPointerHeaderOffset
         }
         action(lastChildPointer)
     }
 
-    override fun iterator3(prefix: IntArray): TripleIterator {
+    fun iterator3(prefix: IntArray): TripleIterator {
         var node = this
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -444,7 +444,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return iterator!!
     }
 
-    override fun iterator2(prefix: IntArray): TripleIterator {
+    fun iterator2(prefix: IntArray): TripleIterator {
         var node = this
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -461,7 +461,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return iterator!!
     }
 
-    override fun iterator1(prefix: IntArray): TripleIterator {
+    fun iterator1(prefix: IntArray): TripleIterator {
         var node = this
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -478,16 +478,16 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         return iterator!!
     }
 
-    fun initializeWith(childs: MutableList<Pair<Int, Node>>) {
+    fun initializeWith(childs: MutableList<Int>) {
         var debugListChilds = mutableListOf<Int>()
         var debugListTriples = mutableListOf<IntArray>()
         SanityCheck.check { childs.size > 0 }
         var current = childs.removeAt(0)
+        var childLastPointer = current
         SanityCheck {
-            debugListChilds.add(current.first)
+            debugListChilds.add(childLastPointer)
         }
-        setFirstChild(current.first)
-        var childLastPointer = current.first
+        setFirstChild(childLastPointer)
         var offset = 12
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
         var triples = 0
@@ -502,11 +502,15 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
             while (i < 4 && childs.size > 0 && offset < offsetEnd) {
                 current = childs.removeAt(0)
                 SanityCheck {
-                    debugListChilds.add(current.first)
+                    debugListChilds.add(current)
                 }
-                childPointers[i] = current.first xor childLastPointer
-                childLastPointer = current.first
-                current.second.getFirstTriple(tripleCurrent)
+                childPointers[i] = childLastPointer xor current
+                childLastPointer = current
+                NodeManager.getNode(childLastPointer, {
+                    it.getFirstTriple(tripleCurrent)
+                }, {
+                    it.getFirstTriple(tripleCurrent)
+                })
                 debugListTriples.add(intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2]))
                 bytesWritten = writeDiffTriple(offset, tripleLast, tripleCurrent, tripleBuf)
                 offset += bytesWritten

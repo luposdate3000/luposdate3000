@@ -15,37 +15,9 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.Node
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
-    class MapKey(@JvmField val key: Array<Value>) {
-        val hashCodeValue: Int
-
-        init {
-            var res = 0
-            for (columnIndex in 0 until key.size) {
-                res += key[columnIndex].hashCode()
-            }
-            hashCodeValue = res
-        }
-
-        override fun hashCode(): Int {
-            return hashCodeValue
-        }
-
-        override fun equals(other: Any?): Boolean {
-            SanityCheck.check { other is MapKey }
-            SanityCheck.check { key.size == (other as MapKey).key.size }
-            for (columnIndex in 0 until key.size) {
-                if (key[columnIndex] != (other as MapKey).key[columnIndex]) {
-                    return false
-                }
-            }
-            return true
-        }
-    }
-
     @JvmField
     var data = arrayOf<TripleStoreIndex>()
     @JvmField
@@ -111,26 +83,33 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     @JvmField
-    val pendingModificationsInsert = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableSet<MapKey>>() }
+    val pendingModificationsInsert = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableList<Int>>() }
     @JvmField
-    val pendingModificationsDelete = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableSet<MapKey>>() }
+    val pendingModificationsRemove = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableList<Int>>() }
 
     fun commit(query: Query) {
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
-                val insert = pendingModificationsInsert[idx.ordinal][query.transactionID]
-                if (insert != null) {
-                    for (row in insert) {
-                        data[idx.ordinal].insert(row.key[idx.tripleIndicees[0]], row.key[idx.tripleIndicees[1]], row.key[idx.tripleIndicees[2]])
+                var list = pendingModificationsInsert[idx.ordinal][query.transactionID]
+                if (list != null) {
+                    var tmp = IntArray(list.size)
+                    var i = 0
+                    while (list.size > 0) {
+                        tmp[i] = list.removeAt(0)
+                        i++
                     }
+                    data[idx.ordinal].insertAsBulk(tmp)
                     pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
-                val delete = pendingModificationsDelete[idx.ordinal][query.transactionID]
-                if (delete != null) {
-                    for (row in delete) {
-                        data[idx.ordinal].remove(row.key[idx.tripleIndicees[0]], row.key[idx.tripleIndicees[1]], row.key[idx.tripleIndicees[2]])
+                list = pendingModificationsRemove[idx.ordinal][query.transactionID]
+                if (list != null) {
+                    while (list.size > 0) {
+                        val s = list.removeAt(0)
+                        val p = list.removeAt(0)
+                        val o = list.removeAt(0)
+                        data[idx.ordinal].remove(s, p, o)
                     }
-                    pendingModificationsDelete[idx.ordinal].remove(query.transactionID)
+                    pendingModificationsRemove[idx.ordinal].remove(query.transactionID)
                 }
             }
         }
@@ -142,38 +121,36 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
         for (idx in EIndexPattern.values()) {
             pendingModificationsInsert[idx.ordinal].clear()
-            pendingModificationsDelete[idx.ordinal].clear()
+            pendingModificationsRemove[idx.ordinal].clear()
         }
     }
 
     suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         SanityCheck.check { dataModify.size == 3 }
-        var tmp: MutableSet<MapKey>?
+        var tmp: MutableList<Int>?
         if (type == EModifyType.INSERT) {
             tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
         } else {
-            tmp = pendingModificationsDelete[idx.ordinal][query.transactionID]
+            tmp = pendingModificationsRemove[idx.ordinal][query.transactionID]
         }
         if (tmp == null) {
-            tmp = mutableSetOf<MapKey>()
+            tmp = mutableListOf<Int>()
             if (type == EModifyType.INSERT) {
                 pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
             } else {
-                pendingModificationsDelete[idx.ordinal][query.transactionID] = tmp
+                pendingModificationsRemove[idx.ordinal][query.transactionID] = tmp
             }
         }
         loop@ while (true) {
-            val k = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = dataModify[columnIndex].next()
                 if (v == null) {
                     SanityCheck.check { columnIndex == 0 }
                     break@loop
                 } else {
-                    k[columnIndex] = query.dictionary.valueToGlobal(v)
+                    tmp.add(query.dictionary.valueToGlobal(v))
                 }
             }
-            tmp.add(MapKey(k))
         }
     }
 }

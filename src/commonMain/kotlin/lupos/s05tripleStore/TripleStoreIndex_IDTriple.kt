@@ -10,15 +10,15 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
 import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
-import lupos.s05tripleStore.index_IDTriple.Node
+import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
-class TripleStoreIndex_IDTriple : TripleStoreIndex {
+class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var firstLeaf = NodeManager.nodeNullPointer
     var root = NodeManager.nodeNullPointer
-    var rootNode: Node? = null
+    var rootNode: NodeInner? = null
 
     companion object {
         var storeIteratorCounter = 0L
@@ -161,13 +161,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
         val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(iteratorImport, iteratorStore)
         if (iterator.hasNext()) {
-            var currentLayer = mutableListOf<Pair<Int, Node>>()
+            var currentLayer = mutableListOf<Int>()
             var newFirstLeaf = NodeManager.nodeNullPointer
             var node2: NodeLeaf? = null
             NodeManager.allocateNodeLeaf { n, i ->
                 newFirstLeaf = i
                 node2 = n
-                currentLayer.add(Pair(i, n))
+                currentLayer.add(i)
             }
             var node = node2!!
             node.initializeWith(iterator)
@@ -175,7 +175,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
                 NodeManager.allocateNodeLeaf { n, i ->
                     node.setNextNode(i)
                     node = n
-                    currentLayer.add(Pair(i, n))
+                    currentLayer.add(i)
                 }
                 node.initializeWith(iterator)
             }
@@ -183,17 +183,17 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
             firstLeaf = newFirstLeaf
             require(currentLayer.size > 0)
             while (currentLayer.size > 1) {
-                var tmp = mutableListOf<Pair<Int, Node>>()
-                var prev2: Node? = null
+                var tmp = mutableListOf<Int>()
+                var prev2: NodeInner? = null
                 NodeManager.allocateNodeInner { n, i ->
-                    tmp.add(Pair(i, n))
+                    tmp.add(i)
                     n.initializeWith(currentLayer)
                     prev2 = n
                 }
                 var prev = prev2!!
                 while (currentLayer.size > 0) {
                     NodeManager.allocateNodeInner { n, i ->
-                        tmp.add(Pair(i, n))
+                        tmp.add(i)
                         n.initializeWith(currentLayer)
                         prev.setNextNode(i)
                         prev = n
@@ -201,13 +201,27 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
                 }
                 currentLayer = tmp
             }
-            root = currentLayer[0].first
-            rootNode = currentLayer[0].second
+            root = currentLayer[0]
+            NodeManager.getNode(root, {
+                NodeManager.allocateNodeInner { n, i ->
+                    n.initializeWith(mutableListOf(root))
+                    rootNode = n
+                }
+            }, {
+                rootNode = it
+            })
         }
     }
 
+    override fun insertAsBulk(data: IntArray) {
+        println("size to import :: ${data.size}")
+        var d = arrayOf(data, IntArray(data.size))
+        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, intArrayOf(0, 1, 2))
+        import(d[0], data.size, intArrayOf(0, 1, 2))
+    }
+
     override fun insert(a: Value, b: Value, c: Value) {
-        throw Exception("not implemented")
+        throw Exception("unreachable")
     }
 
     override fun remove(a: Value, b: Value, c: Value) {

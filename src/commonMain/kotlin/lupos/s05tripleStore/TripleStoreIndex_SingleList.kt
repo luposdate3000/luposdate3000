@@ -23,7 +23,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
 import lupos.s04logicalOperators.Query
 
-class TripleStoreIndex_SingleList : TripleStoreIndex {
+class TripleStoreIndex_SingleList : TripleStoreIndex() {
     @JvmField
     var data = MyListInt()
     @JvmField
