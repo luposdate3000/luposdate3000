@@ -242,7 +242,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             })
         }
         val iteratorStore = iteratorStore2!!
-        val iterator = MinusIterator(DistinctIterator(iteratorImport), iteratorStore)
+        val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
         rebuildData(iterator)
     }
 

@@ -99,13 +99,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                 }
                 row[columnIndex] = v
             }
-            for (idx in EIndexPattern.values()) {
+            for (idx in TripleStoreLocalBase.distinctIndices) {
                 for (columnIndex in 0 until 3) {
                     map[idx.ordinal][columnIndex].add(row[columnIndex])
                 }
             }
         }
-        for (idx in EIndexPattern.values()) {
+        for (idx in TripleStoreLocalBase.distinctIndices) {
             if (map[idx.ordinal][0].size > 0) {
                 Endpoint.process_local_triple_modify(query, name, Array(3) { ColumnIteratorMultiValue(map[idx.ordinal][it]) }, idx, type)
             }
