@@ -4,118 +4,169 @@ import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 
 object NodeManager {
-    var firstFreeNode = 0
-    val nodeNullPointer = 0x7FFFFFFF.toInt()
-    val allNodes = MyListGeneric<Node?>()
+    val nodePointerTypeNull = 0x00000000.toInt()
+    val nodePointerTypeInner = 0x40000000.toInt()
+    val nodePointerTypeLeaf = 0x20000000.toInt()
+    val nodePointerTypeMask = 0x60000000.toInt()
+    val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
+    val nodeNullPointer = nodePointerValueMask
 
-    fun safeToFile(filename: String) {
-        File(filename + ".type").dataOutputStream { outType ->
-            File(filename + ".dat").dataOutputStream { out ->
-                outType.writeInt(allNodes.size)
-                var it = allNodes.iterator()
-                while (it.hasNext()) {
-                    var node = it.next()
-                    when (node) {
-                        is NodeLeaf -> {
-                            out.write(node as ByteArray)
-                            outType.writeInt(0)
-                        }
-                        is NodeInner -> {
-                            out.write(node as ByteArray)
-                            outType.writeInt(1)
-                        }
-                        else -> {
-                            require(node == null)
-                            outType.writeInt(2)
-                        }
+    init {
+        println("nodeNullPointer ${nodeNullPointer.toString(16)}")
+    }
+
+    val allNodesLeaf = MyListGeneric<NodeLeaf>()
+    val allNodesInner = MyListGeneric<NodeInner>()
+    var allNodesFreeListLeaf = mutableListOf<Int>()
+    var allNodesFreeListInner = mutableListOf<Int>()
+    inline fun <reified T> safeToFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>) {
+        val it1 = freeList.iterator()
+        val it2 = nodes.iterator()
+        var idx = Int.MAX_VALUE
+        var i = 0
+        if (it1.hasNext()) {
+            idx = it1.next()
+        }
+        File(filename).dataOutputStream { out ->
+            while (it2.hasNext()) {
+                var node = it2.next()
+                if (i < idx) {
+                    out.write(node as ByteArray)
+                } else {
+                    if (it1.hasNext()) {
+                        idx = it1.next()
                     }
-                }
-            }
-        }
-    }
-
-    fun loadFromFile(filename: String) {
-        firstFreeNode = Int.MAX_VALUE
-        File(filename + ".type").dataInputStream { fisType ->
-            File(filename + ".dat").dataInputStream { fis ->
-                val size = fisType.readInt()
-                for (i in 0 until size) {
-                    var type = fisType.readInt()
-                    when (type) {
-                        0 -> {
-                            val data = ByteArray(PAGE_SIZE_IN_BYTES)
-                            fis.read(data)
-                            val tmp = NodeLeaf(data)
-                            allNodes.add(tmp)
-                        }
-                        1 -> {
-                            val data = ByteArray(PAGE_SIZE_IN_BYTES)
-                            fis.read(data)
-                            val tmp = NodeInner(data)
-                            allNodes.add(tmp)
-                        }
-                        else -> {
-                            require(type == 2)
-                            if (allNodes.size < firstFreeNode) {
-                                firstFreeNode = allNodes.size
-                            }
-                            allNodes.add(null)
-                        }
-                    }
-                }
-            }
-        }
-        if (allNodes.size < firstFreeNode) {
-            firstFreeNode = allNodes.size
-        }
-    }
-
-    inline fun getNode(idx: Int): Node {
-        return allNodes[idx]!!
-    }
-
-    inline fun findFreeSlot(): Int {
-        var i = firstFreeNode
-        if (firstFreeNode < allNodes.size) {
-            val it = allNodes.iterator(firstFreeNode)
-            while (it.hasNext()) {
-                var current = it.next()
-                if (current == null) {
-                    break
                 }
                 i++
             }
         }
-        firstFreeNode = i + 1
-        return i
+    }
+
+    inline fun <reified T> loadFromFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, count: Int, crossinline action: (ByteArray) -> T) {
+        val it1 = freeList.iterator()
+        var idx = Int.MAX_VALUE
+        if (it1.hasNext()) {
+            idx = it1.next()
+        }
+        File(filename).dataInputStream { fis ->
+            for (i in 0 until count) {
+                val data = ByteArray(PAGE_SIZE_IN_BYTES)
+                if (i < idx) {
+                    fis.read(data)
+                } else {
+                    if (it1.hasNext()) {
+                        idx = it1.next()
+                    }
+                }
+                var node = action(data)
+                nodes.add(node)
+            }
+        }
+    }
+
+    fun safeToFile(filename: String) {
+        File(filename + ".header").dataOutputStream { out ->
+            out.writeInt(allNodesLeaf.size)
+            out.writeInt(allNodesInner.size)
+            out.writeInt(allNodesFreeListLeaf.size)
+            out.writeInt(allNodesFreeListInner.size)
+            for (i in allNodesFreeListLeaf) {
+                out.writeInt(i)
+            }
+            for (i in allNodesFreeListInner) {
+                out.writeInt(i)
+            }
+        }
+        safeToFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf)
+        safeToFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner)
+    }
+
+    fun loadFromFile(filename: String) {
+        var leafSize = 0
+        var innerSize = 0
+        var allNodesFreeListLeafSize = 0
+        var allNodesFreeListInnerSize = 0
+        File(filename + ".header").dataInputStream { fis ->
+            leafSize = fis.readInt()
+            innerSize = fis.readInt()
+            allNodesFreeListLeafSize = fis.readInt()
+            allNodesFreeListInnerSize = fis.readInt()
+            for (i in 0 until allNodesFreeListLeafSize) {
+                allNodesFreeListLeaf.add(fis.readInt())
+            }
+            for (i in 0 until allNodesFreeListInnerSize) {
+                allNodesFreeListInner.add(fis.readInt())
+            }
+        }
+        loadFromFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, leafSize, { NodeLeaf(it) })
+        loadFromFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, innerSize, { NodeInner(it) })
+    }
+
+    inline fun getNode(idx: Int): Node {
+        val nodePointerType = idx and nodePointerTypeMask
+        val nodePointerValue = idx and nodePointerValueMask
+        when (nodePointerType) {
+            nodePointerTypeInner -> {
+                return allNodesInner[nodePointerValue]
+            }
+            nodePointerTypeLeaf -> {
+                return allNodesLeaf[nodePointerValue]
+            }
+            else -> {
+                throw Exception("unreachable")
+            }
+        }
     }
 
     inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
-        var i = findFreeSlot()
-        var tmp = NodeLeaf(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
-        allNodes[i] = tmp
-        action(tmp, i)
+        var i = allNodesLeaf.size
+        if (allNodesFreeListLeaf.size > 0) {
+            i = allNodesFreeListLeaf.removeAt(0)
+            val node = allNodesLeaf[i]
+            node.setNextNode(nodeNullPointer)
+            node.setTripleCount(0)
+            action(node, i)
+        } else {
+            var node = NodeLeaf(ByteArray(PAGE_SIZE_IN_BYTES))
+            allNodesLeaf[i] = node
+            action(node, i)
+        }
     }
 
     inline fun allocateNodeInner(crossinline action: (NodeInner, Int) -> Unit) {
-        var i = findFreeSlot()
-        var tmp = NodeInner(ByteArray(PAGE_SIZE_IN_BYTES)) /*somethig small for tests, something large for real data*/
-        allNodes[i] = tmp
-        action(tmp, i)
+        var i = allNodesInner.size
+        if (allNodesFreeListInner.size > 0) {
+            i = allNodesFreeListInner.removeAt(0)
+            val node = allNodesInner[i]
+            node.setNextNode(nodeNullPointer)
+            node.setTripleCount(0)
+            action(node, i)
+        } else {
+            var node = NodeInner(ByteArray(PAGE_SIZE_IN_BYTES))
+            allNodesInner[i] = node
+            action(node, i)
+        }
     }
 
-    inline fun freeNode(nodeIdx: Int) {
-        if (nodeIdx != nodeNullPointer) {
-            allNodes[nodeIdx] = null
-            if (nodeIdx < firstFreeNode) {
-                firstFreeNode = nodeIdx
+    inline fun freeNode(idx: Int) {
+        val nodePointerType = idx and nodePointerTypeMask
+        val nodePointerValue = idx and nodePointerValueMask
+        when (nodePointerType) {
+            nodePointerTypeInner -> {
+                allNodesFreeListInner.add(nodePointerValue)
+            }
+            nodePointerTypeLeaf -> {
+                allNodesFreeListLeaf.add(nodePointerValue)
+            }
+            else -> {
+                throw Exception("unreachable")
             }
         }
     }
 
     fun freeNodeAndAllRelated(nodeIdx: Int) {
         if (nodeIdx != nodeNullPointer) {
-            var node = allNodes[nodeIdx]!!
+            var node = getNode(nodeIdx)
             when (node) {
                 is NodeLeaf -> {
                     freeNode(nodeIdx)

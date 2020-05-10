@@ -452,6 +452,23 @@ class SparqlTestSuite() {
                         }
                         query.commit()
                     }
+                    val query = Query()
+                    File("log/storetest").mkdirs()
+                    DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
+                    DistributedTripleStore.localStore.getDefaultGraph(query).clear()
+                    DistributedTripleStore.localStore.getDefaultGraph(query).loadFromFolder("log/storetest")
+                    var xmlGraphLoad: XMLElement? = null
+                    CoroutinesHelper.runBlock {
+                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                        query.commit()
+                        xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
+                    }
+                    if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput)) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
+                        return false
+                    }
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                 }

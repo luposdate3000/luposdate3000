@@ -315,7 +315,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         }
     }
 
-    inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean,crossinline action: (Int) -> TripleIterator): TripleIterator {
+    inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean, crossinline action: (Int) -> TripleIterator): TripleIterator {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild()
         var currentHeaderOffset = -1
@@ -449,7 +449,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 childLastPointer = current.first
                 current.second.getFirstTriple(tripleCurrent)
                 debugListTriples.add(intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2]))
-                    bytesWritten = writeDiffTriple(offset, tripleLast, tripleCurrent, tripleBuf)
+                bytesWritten = writeDiffTriple(offset, tripleLast, tripleCurrent, tripleBuf)
                 offset += bytesWritten
                 i++
                 triples++
@@ -482,11 +482,11 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 require(it[2] == debugListTriples[j][2])
                 /*return*/true
             }, {
-println("$it")
+                println("$it")
                 require(it == debugListChilds[debugListChilds.size - 1])
                 /*return*/ dummy
             })
-require(j==debugListTriples.size-1)
+            require(j == debugListTriples.size - 1)
             require(dummy === res)
             for (i in 0 until debugListTriples.size) {
                 println("i $i")
@@ -501,7 +501,7 @@ require(j==debugListTriples.size-1)
                     require(j < i + 4)/*read at most one block too much*/
                     /*return */ j < i
                 }, {
-println("$it")
+                    println("$it")
                     require(it == debugListChilds[i])
                     /*return*/ dummy
                 })
