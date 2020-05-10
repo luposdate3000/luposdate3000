@@ -161,6 +161,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(DistinctIterator(iteratorImport), iteratorStore)
+rebuildData(iterator)
+}
+fun rebuildData(iterator:TripleIterator){
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var newFirstLeaf = NodeManager.nodeNullPointer

@@ -94,8 +94,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 if (list != null) {
                     var tmp = IntArray(list.size)
                     var i = 0
-                    while (list.size > 0) {
-                        tmp[i] = list.removeAt(0)
+var it=list.iterator()
+                    while (it.hasNext()) {
+                        tmp[i] = it.next()
                         i++
                     }
                     data[idx.ordinal].insertAsBulk(tmp)
@@ -103,13 +104,15 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 }
                 list = pendingModificationsRemove[idx.ordinal][query.transactionID]
                 if (list != null) {
-                    while (list.size > 0) {
-                        val s = list.removeAt(0)
-                        val p = list.removeAt(0)
-                        val o = list.removeAt(0)
-                        data[idx.ordinal].remove(s, p, o)
+var tmp = IntArray(list.size)
+                    var i = 0
+var it=list.iterator()
+                    while (it.hasNext()) {
+                        tmp[i] = it.next()
+                        i++
                     }
-                    pendingModificationsRemove[idx.ordinal].remove(query.transactionID)
+                    data[idx.ordinal].removeAsBulk(tmp)
+                    pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
             }
         }
