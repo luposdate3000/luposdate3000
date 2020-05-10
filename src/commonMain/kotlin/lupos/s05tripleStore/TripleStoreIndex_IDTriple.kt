@@ -14,6 +14,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
+import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var firstLeaf = NodeManager.nodeNullPointer
@@ -159,7 +160,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             })
         }
         val iteratorStore = iteratorStore2!!
-        val iterator = MergeIterator(iteratorImport, iteratorStore)
+        val iterator = MergeIterator(DistinctIterator(iteratorImport), iteratorStore)
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var newFirstLeaf = NodeManager.nodeNullPointer
