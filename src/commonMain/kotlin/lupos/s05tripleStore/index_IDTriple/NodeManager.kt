@@ -19,7 +19,7 @@ object NodeManager {
     val allNodesInner = MyListGeneric<NodeInner>()
     var allNodesFreeListLeaf = mutableListOf<Int>()
     var allNodesFreeListInner = mutableListOf<Int>()
-    inline fun <reified T> safeToFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>) {
+    inline fun <T> safeToFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, crossinline action: (T) -> ByteArray) {
         val it1 = freeList.iterator()
         val it2 = nodes.iterator()
         var idx = Int.MAX_VALUE
@@ -31,7 +31,7 @@ object NodeManager {
             while (it2.hasNext()) {
                 var node = it2.next()
                 if (i < idx) {
-                    out.write(node as ByteArray)
+                    out.write(action(node))
                 } else {
                     if (it1.hasNext()) {
                         idx = it1.next()
@@ -42,7 +42,7 @@ object NodeManager {
         }
     }
 
-    inline fun <reified T> loadFromFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, count: Int, crossinline action: (ByteArray) -> T) {
+    inline fun <T> loadFromFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, count: Int, crossinline action: (ByteArray) -> T) {
         val it1 = freeList.iterator()
         var idx = Int.MAX_VALUE
         if (it1.hasNext()) {
@@ -64,7 +64,7 @@ object NodeManager {
         }
     }
 
-    fun safeToFile(filename: String) {
+    inline fun safeToFile(filename: String) {
         File(filename + ".header").dataOutputStream { out ->
             out.writeInt(allNodesLeaf.size)
             out.writeInt(allNodesInner.size)
@@ -77,40 +77,36 @@ object NodeManager {
                 out.writeInt(i)
             }
         }
-        safeToFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf)
-        safeToFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner)
+        safeToFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, { it as ByteArray })
+        safeToFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, { it as ByteArray })
     }
 
-    fun loadFromFile(filename: String) {
-        var leafSize = 0
-        var innerSize = 0
-        var allNodesFreeListLeafSize = 0
-        var allNodesFreeListInnerSize = 0
+    inline fun loadFromFile(filename: String) {
         File(filename + ".header").dataInputStream { fis ->
-            leafSize = fis.readInt()
-            innerSize = fis.readInt()
-            allNodesFreeListLeafSize = fis.readInt()
-            allNodesFreeListInnerSize = fis.readInt()
+            val leafSize = fis.readInt()
+            val innerSize = fis.readInt()
+            val allNodesFreeListLeafSize = fis.readInt()
+            val allNodesFreeListInnerSize = fis.readInt()
             for (i in 0 until allNodesFreeListLeafSize) {
                 allNodesFreeListLeaf.add(fis.readInt())
             }
             for (i in 0 until allNodesFreeListInnerSize) {
                 allNodesFreeListInner.add(fis.readInt())
             }
+            loadFromFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, leafSize, { NodeLeaf(it) })
+            loadFromFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, innerSize, { NodeInner(it) })
         }
-        loadFromFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, leafSize, { NodeLeaf(it) })
-        loadFromFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, innerSize, { NodeInner(it) })
     }
 
-    inline fun getNode(idx: Int): Node {
+    inline fun getNode(idx: Int, crossinline actionLeaf: (NodeLeaf) -> Unit, crossinline actionInner: (NodeInner) -> Unit) {
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
-                return allNodesInner[nodePointerValue]
+                actionInner(allNodesInner[nodePointerValue])
             }
             nodePointerTypeLeaf -> {
-                return allNodesLeaf[nodePointerValue]
+                actionLeaf(allNodesLeaf[nodePointerValue])
             }
             else -> {
                 throw Exception("unreachable")
@@ -125,11 +121,11 @@ object NodeManager {
             val node = allNodesLeaf[i]
             node.setNextNode(nodeNullPointer)
             node.setTripleCount(0)
-            action(node, i)
+            action(node, i or nodePointerTypeLeaf)
         } else {
             var node = NodeLeaf(ByteArray(PAGE_SIZE_IN_BYTES))
             allNodesLeaf[i] = node
-            action(node, i)
+            action(node, i or nodePointerTypeLeaf)
         }
     }
 
@@ -140,11 +136,11 @@ object NodeManager {
             val node = allNodesInner[i]
             node.setNextNode(nodeNullPointer)
             node.setTripleCount(0)
-            action(node, i)
+            action(node, i or nodePointerTypeInner)
         } else {
             var node = NodeInner(ByteArray(PAGE_SIZE_IN_BYTES))
             allNodesInner[i] = node
-            action(node, i)
+            action(node, i or nodePointerTypeInner)
         }
     }
 
@@ -166,21 +162,14 @@ object NodeManager {
 
     fun freeNodeAndAllRelated(nodeIdx: Int) {
         if (nodeIdx != nodeNullPointer) {
-            var node = getNode(nodeIdx)
-            when (node) {
-                is NodeLeaf -> {
-                    freeNode(nodeIdx)
+            getNode(nodeIdx, { node ->
+                freeNode(nodeIdx)
+            }, { node ->
+                node.forEachChild {
+                    freeNodeAndAllRelated(it)
                 }
-                is NodeInner -> {
-                    node.forEachChild {
-                        freeNodeAndAllRelated(it)
-                    }
-                    freeNode(nodeIdx)
-                }
-                else -> {
-                    require(false)
-                }
-            }
+                freeNode(nodeIdx)
+            })
         }
     }
 }

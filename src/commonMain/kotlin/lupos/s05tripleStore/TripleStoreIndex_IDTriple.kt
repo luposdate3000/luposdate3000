@@ -148,12 +148,17 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         val iteratorImport = BulkImportIterator(dataImport, count, order)
-        var iteratorStore: TripleIterator
+        var iteratorStore2: TripleIterator? = null
         if (firstLeaf == NodeManager.nodeNullPointer) {
-            iteratorStore = EmptyIterator()
+            iteratorStore2 = EmptyIterator()
         } else {
-            iteratorStore = (NodeManager.getNode(firstLeaf) as NodeLeaf).iterator()
+            NodeManager.getNode(firstLeaf, {
+                iteratorStore2 = it.iterator()
+            }, {
+                throw Exception("unreachable")
+            })
         }
+        val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(iteratorImport, iteratorStore)
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Pair<Int, Node>>()
@@ -218,12 +223,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex {
 
     override fun printContents() {
         if (firstLeaf != NodeManager.nodeNullPointer) {
-            val node = NodeManager.getNode(firstLeaf) as NodeLeaf
-            var it = node.iterator()
-            while (it.hasNext()) {
-                var d = it.next()
-                println(d.map { it })
-            }
+            NodeManager.getNode(firstLeaf, { node ->
+                var it = node.iterator()
+                while (it.hasNext()) {
+                    var d = it.next()
+                    println(d.map { it })
+                }
+            }, {
+                throw Exception("unreachable")
+            })
         }
     }
 }

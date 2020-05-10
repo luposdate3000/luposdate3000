@@ -53,10 +53,13 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
             offset = 8
             var nextNodeIdx = node.getNextNode()
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                val tmp = NodeManager.getNode(nextNodeIdx) as NodeLeaf
-                require(node != tmp)
-                node = tmp
-                remaining = node.getTripleCount()
+                NodeManager.getNode(nextNodeIdx, {
+                    require(node != it)
+                    node = it
+                    remaining = node.getTripleCount()
+                }, {
+                    throw Exception("unreachable")
+                })
             } else {
                 break@loop
             }

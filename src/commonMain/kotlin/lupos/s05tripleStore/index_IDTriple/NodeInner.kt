@@ -30,7 +30,16 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
      * absolute minimum is 81 used bytes for exactly 4 Triple/Node
      */
     override fun getFirstTriple(b: IntArray) {
-        NodeManager.getNode(getFirstChild()).getFirstTriple(b)
+        var node = this
+        var done = false
+        while (!done) {
+            NodeManager.getNode(node.getFirstChild(), {
+                it.getFirstTriple(b)
+                done = true
+            }, {
+                node = it
+            })
+        }
     }
 
     fun setFirstChild(node: Int) {
@@ -267,7 +276,16 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
     }
 
     override fun iterator(): TripleIterator {
-        return NodeManager.getNode(getFirstChild()).iterator()
+        var iterator: TripleIterator? = null
+        var node = this
+        while (iterator == null) {
+            NodeManager.getNode(node.getFirstChild(), {
+                iterator = it.iterator()
+            }, {
+                node = it
+            })
+        }
+        return iterator!!
     }
 
     inline fun forEachChild(crossinline action: (Int) -> Unit) {
@@ -315,7 +333,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
         }
     }
 
-    inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean, crossinline action: (Int) -> TripleIterator): TripleIterator {
+    inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean, crossinline action: (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild()
         var currentHeaderOffset = -1
@@ -369,7 +387,8 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                         if (lastHeaderOffset < 0) {
                             lastChildPointer = getFirstChild()
                         }
-                        return action(lastChildPointer)
+                        action(lastChildPointer)
+                        return
                     }
                     if (childToUse < 0) {
                         childToUse = i - 1
@@ -400,23 +419,63 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 offset += h
             }
             if (childToUse >= 0) {
-                return action(childPointers[childToUse])
+                action(childPointers[childToUse])
+                return
             }
             lastHeaderOffset = currentHeaderOffset
         }
-        return action(lastChildPointer)
+        action(lastChildPointer)
     }
 
     override fun iterator3(prefix: IntArray): TripleIterator {
-        return findIteratorN({ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2]) }, { NodeManager.getNode(it).iterator3(prefix) })
+        var node = this
+        var iterator: TripleIterator? = null
+        while (iterator == null) {
+            node.findIteratorN({
+                (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
+            }, {
+                NodeManager.getNode(it, {
+                    iterator = it.iterator3(prefix)
+                }, {
+                    node = it
+                })
+            })
+        }
+        return iterator!!
     }
 
     override fun iterator2(prefix: IntArray): TripleIterator {
-        return findIteratorN({ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) }, { NodeManager.getNode(it).iterator2(prefix) })
+        var node = this
+        var iterator: TripleIterator? = null
+        while (iterator == null) {
+            node.findIteratorN({
+                (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
+            }, {
+                NodeManager.getNode(it, {
+                    iterator = it.iterator2(prefix)
+                }, {
+                    node = it
+                })
+            })
+        }
+        return iterator!!
     }
 
     override fun iterator1(prefix: IntArray): TripleIterator {
-        return findIteratorN({ (it[0] < prefix[0]) }, { NodeManager.getNode(it).iterator1(prefix) })
+        var node = this
+        var iterator: TripleIterator? = null
+        while (iterator == null) {
+            node.findIteratorN({
+                (it[0] < prefix[0])
+            }, {
+                NodeManager.getNode(it, {
+                    iterator = it.iterator1(prefix)
+                }, {
+                    node = it
+                })
+            })
+        }
+        return iterator!!
     }
 
     fun initializeWith(childs: MutableList<Pair<Int, Node>>) {
@@ -471,7 +530,6 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 i++
             }
             require(i == debugListChilds.size)
-            var dummy = EmptyIterator()
             var j = -1
             var res = findIteratorN({
                 println("xx ${it.map { it }}")
@@ -484,10 +542,8 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
             }, {
                 println("$it")
                 require(it == debugListChilds[debugListChilds.size - 1])
-                /*return*/ dummy
             })
             require(j == debugListTriples.size - 1)
-            require(dummy === res)
             for (i in 0 until debugListTriples.size) {
                 println("i $i")
                 j = -1
@@ -503,9 +559,7 @@ inline class NodeInner(val data: ByteArray) : Node { //ByteBuffer??
                 }, {
                     println("$it")
                     require(it == debugListChilds[i])
-                    /*return*/ dummy
                 })
-                require(dummy === res)
             }
         }
     }

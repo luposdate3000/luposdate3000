@@ -452,6 +452,7 @@ class SparqlTestSuite() {
                         }
                         query.commit()
                     }
+/*
                     val query = Query()
                     File("log/storetest").mkdirs()
                     DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
@@ -469,6 +470,7 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
                         return false
                     }
+*/
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                 }

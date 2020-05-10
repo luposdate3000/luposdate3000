@@ -31,14 +31,17 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
         while (remaining == 0) {
             var nextNodeIdx = node.getNextNode()
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                val tmp = NodeManager.getNode(nextNodeIdx) as NodeLeaf
-                require(node != tmp)
-                node = tmp
-                remaining = node.getTripleCount()
-                valueNext[0] = 0
-                valueNext[1] = 0
-                valueNext[2] = 0
-                offset = 8
+                NodeManager.getNode(nextNodeIdx, {
+                    require(node != it)
+                    node = it
+                    remaining = node.getTripleCount()
+                    valueNext[0] = 0
+                    valueNext[1] = 0
+                    valueNext[2] = 0
+                    offset = 8
+                }, {
+                    throw Exception("unreachable")
+                })
             } else {
                 flag = false
                 return
