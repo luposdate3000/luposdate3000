@@ -15,18 +15,18 @@ abstract class TripleStoreIndex {
     abstract fun remove(a: Value, b: Value, c: Value)
     abstract fun clear()
     abstract fun printContents()
-    open fun insertAsBulk(data: IntArray) {
+    open fun insertAsBulk(data: IntArray, order: IntArray) {
         var i = 0
         while (i < data.size) {
-            insert(data[i], data[i + 1], data[i + 2])
+            insert(data[i + order[0]], data[i + order[1]], data[i + order[2]])
             i += 3
         }
     }
 
-    open fun removeAsBulk(data: IntArray) {
+    open fun removeAsBulk(data: IntArray, order: IntArray) {
         var i = 0
         while (i < data.size) {
-            remove(data[i], data[i + 1], data[i + 2])
+            remove(data[i + order[0]], data[i + order[1]], data[i + order[2]])
             i += 3
         }
     }

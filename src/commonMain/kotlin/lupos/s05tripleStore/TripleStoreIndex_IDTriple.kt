@@ -219,18 +219,18 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    override fun insertAsBulk(data: IntArray) {
+    override fun insertAsBulk(data: IntArray, order: IntArray) {
         println("size to import :: ${data.size}")
         var d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, intArrayOf(0, 1, 2))
-        import(d[0], data.size, intArrayOf(0, 1, 2))
+        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+        import(d[0], data.size, order)
     }
 
-    override fun removeAsBulk(data: IntArray) {
+    override fun removeAsBulk(data: IntArray, order: IntArray) {
         println("size to remove :: ${data.size}")
         var d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, intArrayOf(0, 1, 2))
-        val iteratorImport = BulkImportIterator(d[0], data.size, intArrayOf(0, 1, 2))
+        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+        val iteratorImport = BulkImportIterator(d[0], data.size, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()

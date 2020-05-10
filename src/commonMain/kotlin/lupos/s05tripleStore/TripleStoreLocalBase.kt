@@ -88,6 +88,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     val pendingModificationsRemove = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableList<Int>>() }
 
     fun commit(query: Query) {
+/*
+ * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
+ */
         CoroutinesHelper.runBlock {
             for (idx in EIndexPattern.values()) {
                 var list = pendingModificationsInsert[idx.ordinal][query.transactionID]
@@ -99,7 +102,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                         tmp[i] = it.next()
                         i++
                     }
-                    data[idx.ordinal].insertAsBulk(tmp)
+                    data[idx.ordinal].insertAsBulk(tmp, idx.tripleIndicees)
                     pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
                 list = pendingModificationsRemove[idx.ordinal][query.transactionID]
@@ -111,7 +114,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                         tmp[i] = it.next()
                         i++
                     }
-                    data[idx.ordinal].removeAsBulk(tmp)
+                    data[idx.ordinal].removeAsBulk(tmp, idx.tripleIndicees)
                     pendingModificationsInsert[idx.ordinal].remove(query.transactionID)
                 }
             }
@@ -129,6 +132,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+/*
+ * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
+ */
         SanityCheck.check { dataModify.size == 3 }
         var tmp: MutableList<Int>?
         if (type == EModifyType.INSERT) {
