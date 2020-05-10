@@ -113,6 +113,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
             }
         }
         for ((graphName, iterator) in data) {
+println("POPModify is accessing graph $graphName")
             val store = DistributedTripleStore.getNamedGraph(query, graphName)
             for (type in EModifyType.values()) {
                 if (iterator[type.ordinal][0].size > 0) {
