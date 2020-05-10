@@ -4,56 +4,56 @@ class MinusIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterat
     var flag = 0
 
     init {
-        if (a.hasNext()) {
-            a.next()
-            flag = 1
-            if (b.hasNext()) {
-                b.next()
-                nextInternal()
-            }
+        if (b.hasNext()) {
+            b.next()
         }
+        nextInternal()
     }
 
     fun nextInternal() {
-        flag = 1
-        while (true) {
-            if (b.value[0] > a.value[0]) {
-                break
-            } else if (b.value[0] < a.value[0]) {
-                if (a.hasNext()) {
-                    a.next()
-                } else {
-                    flag = 0
+        flag = 0
+        if (a.hasNext()) {
+            a.next()
+            flag = 1
+            while (true) {
+                if (b.value[0] > a.value[0]) {
                     break
-                }
-            } else if (b.value[1] > a.value[1]) {
-                break
-            } else if (b.value[1] < a.value[1]) {
-                if (a.hasNext()) {
-                    a.next()
-                } else {
-                    flag = 0
-                    break
-                }
-            } else if (b.value[2] > a.value[2]) {
-                break
-            } else {
-                if (a.hasNext()) {
-                    a.next()
-                    if (b.hasNext()) {
-                        b.next()
+                } else if (b.value[0] < a.value[0]) {
+                    if (a.hasNext()) {
+                        a.next()
                     } else {
+                        flag = 0
                         break
                     }
+                } else if (b.value[1] > a.value[1]) {
+                    break
+                } else if (b.value[1] < a.value[1]) {
+                    if (a.hasNext()) {
+                        a.next()
+                    } else {
+                        flag = 0
+                        break
+                    }
+                } else if (b.value[2] > a.value[2]) {
+                    break
                 } else {
-                    flag = 0
+                    if (a.hasNext()) {
+                        a.next()
+                        if (b.hasNext()) {
+                            b.next()
+                        } else {
+                            break
+                        }
+                    } else {
+                        flag = 0
+                        break
+                    }
+                }
+                if (b.hasNext()) {
+                    b.next()
+                } else {
                     break
                 }
-            }
-            if (b.hasNext()) {
-                b.next()
-            } else {
-                break
             }
         }
     }

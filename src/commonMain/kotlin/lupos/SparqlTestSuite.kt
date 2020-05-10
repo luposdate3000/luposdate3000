@@ -410,7 +410,7 @@ class SparqlTestSuite() {
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
-var ignoreJena=false
+        var ignoreJena = false
         try {
             try {
                 val query3 = Query()
@@ -473,12 +473,12 @@ var ignoreJena=false
                     }
 */
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
-try{
-                    JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-}catch(e:org.apache.jena.query.QueryException){
-e.printStackTrace()
-ignoreJena=true
-}
+                    try {
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
+                    } catch (e: org.apache.jena.query.QueryException) {
+                        e.printStackTrace()
+                        ignoreJena = true
+                    }
                 }
                 inputDataGraph.forEach {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
@@ -493,12 +493,12 @@ ignoreJena=true
                     }
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
-try{
-                    JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-}catch(e:org.apache.jena.query.QueryException){
-e.printStackTrace()
-ignoreJena=true
-}
+                    try {
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
+                    } catch (e: org.apache.jena.query.QueryException) {
+                        e.printStackTrace()
+                        ignoreJena = true
+                    }
                 }
                 if (services != null) {
                     for (s in services) {
@@ -580,20 +580,20 @@ ignoreJena=true
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
-if(!ignoreJena){
-                    val jenaResult = JenaWrapper.execQuery(toParse)
-                    val jenaXML = XMLElement.parseFromXml(jenaResult)
+                    if (!ignoreJena) {
+                        val jenaResult = JenaWrapper.execQuery(toParse)
+                        val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                    if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
-                        return false
+                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
+                            return false
+                        }
                     }
-}
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()

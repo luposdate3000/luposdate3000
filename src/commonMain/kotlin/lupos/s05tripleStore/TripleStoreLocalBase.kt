@@ -94,7 +94,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 if (list != null) {
                     var tmp = IntArray(list.size)
                     var i = 0
-var it=list.iterator()
+                    var it = list.iterator()
                     while (it.hasNext()) {
                         tmp[i] = it.next()
                         i++
@@ -104,9 +104,9 @@ var it=list.iterator()
                 }
                 list = pendingModificationsRemove[idx.ordinal][query.transactionID]
                 if (list != null) {
-var tmp = IntArray(list.size)
+                    var tmp = IntArray(list.size)
                     var i = 0
-var it=list.iterator()
+                    var it = list.iterator()
                     while (it.hasNext()) {
                         tmp[i] = it.next()
                         i++

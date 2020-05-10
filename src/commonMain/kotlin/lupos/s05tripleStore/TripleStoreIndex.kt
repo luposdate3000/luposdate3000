@@ -22,6 +22,7 @@ abstract class TripleStoreIndex {
             i += 3
         }
     }
+
     open fun removeAsBulk(data: IntArray) {
         var i = 0
         while (i < data.size) {

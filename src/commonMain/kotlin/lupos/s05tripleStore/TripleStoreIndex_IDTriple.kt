@@ -8,13 +8,14 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
+import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
+import lupos.s05tripleStore.index_IDTriple.MinusIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
-import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var firstLeaf = NodeManager.nodeNullPointer
@@ -161,9 +162,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(DistinctIterator(iteratorImport), iteratorStore)
-rebuildData(iterator)
-}
-fun rebuildData(iterator:TripleIterator){
+        rebuildData(iterator)
+    }
+
+    fun rebuildData(iterator: TripleIterator) {
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var newFirstLeaf = NodeManager.nodeNullPointer
@@ -222,6 +224,26 @@ fun rebuildData(iterator:TripleIterator){
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, intArrayOf(0, 1, 2))
         import(d[0], data.size, intArrayOf(0, 1, 2))
+    }
+
+    override fun removeAsBulk(data: IntArray) {
+        println("size to remove :: ${data.size}")
+        var d = arrayOf(data, IntArray(data.size))
+        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, intArrayOf(0, 1, 2))
+        val iteratorImport = BulkImportIterator(d[0], data.size, intArrayOf(0, 1, 2))
+        var iteratorStore2: TripleIterator? = null
+        if (firstLeaf == NodeManager.nodeNullPointer) {
+            iteratorStore2 = EmptyIterator()
+        } else {
+            NodeManager.getNode(firstLeaf, {
+                iteratorStore2 = it.iterator()
+            }, {
+                throw Exception("unreachable")
+            })
+        }
+        val iteratorStore = iteratorStore2!!
+        val iterator = MinusIterator(DistinctIterator(iteratorImport), iteratorStore)
+        rebuildData(iterator)
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
