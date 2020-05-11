@@ -17,8 +17,9 @@ open class RowIteratorFromColumn(val bundle: IteratorBundle) : RowIterator() {
             for (columnIndex in 0 until columns.size) {
                 var tmp = iterators[columnIndex].next()
                 if (tmp == null) {
-                    require(columnIndex == 0)
+                    require(columnIndex == 0,{iterators[columnIndex]})
                     res = -1
+break
                 } else {
                     buf[columnIndex] = tmp
                 }
