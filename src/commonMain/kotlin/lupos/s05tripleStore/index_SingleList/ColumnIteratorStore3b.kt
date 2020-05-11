@@ -1,9 +1,10 @@
-package lupos.s04logicalOperators.iterator
+package lupos.s05tripleStore.index_SingleList
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 
-class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
+class ColumnIteratorStore3b(val values: MyListValue) : ColumnIterator() {
     var counterPrimary: Int
     var counterSecondary: Int
     var counterTerniary: Int
@@ -21,7 +22,7 @@ class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
             counterTerniary = it.next() - 1
             next = {
                 valueC = it.next()
-                var res = valueC
+                var res = valueB
                 if (counterTerniary == 0) {
                     if (counterSecondary == 0) {
                         if (counterPrimary == 0) {

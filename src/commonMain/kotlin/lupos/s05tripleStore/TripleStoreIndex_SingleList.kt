@@ -15,12 +15,12 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorRow
-import lupos.s04logicalOperators.iterator.ColumnIteratorStore1
-import lupos.s04logicalOperators.iterator.ColumnIteratorStore2a
-import lupos.s04logicalOperators.iterator.ColumnIteratorStore2b
-import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
-import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
-import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
+import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
+import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2a
+import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2b
+import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3a
+import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3b
+import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3c
 import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_SingleList : TripleStoreIndex() {
