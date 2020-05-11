@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.ESortType
 import lupos.s00misc.MyListInt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -112,22 +113,27 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         var index: EIndexPattern
         SanityCheck.check { count > 0 }
         SanityCheck.check { count < 3 }
+        SanityCheck {
+            for (i in 0 until childB.mySortPriority.size) {
+                SanityCheck.check { childB.mySortPriority[i].sortType == ESortType.FAST }
+            }
+        }
         if (count == 1) {
             if (params[0] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0]) {
+                if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0].variableName) {
                     index = EIndexPattern.S_PO
                 } else {
                     index = EIndexPattern.S_OP
                 }
             } else if (params[1] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
+                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0].variableName) {
                     index = EIndexPattern.P_SO
                 } else {
                     index = EIndexPattern.P_OS
                 }
             } else {
                 SanityCheck.check { params[2] is AOPConstant }
-                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0]) {
+                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0].variableName) {
                     index = EIndexPattern.O_SP
                 } else {
                     index = EIndexPattern.O_PS

@@ -67,7 +67,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
             outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
         } else {
             SanityCheck.check { boundIndex != -1 }
-        val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
+            val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in 0 until variablesLocal.size) {
                 columnsLocal[variableIndex].onEmptyQueue = {
                     var done = false

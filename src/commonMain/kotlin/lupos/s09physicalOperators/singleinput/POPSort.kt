@@ -15,10 +15,10 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMergeSort
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s04logicalOperators.iterator.RowIteratorMerge
-import lupos.s04logicalOperators.iterator.RowIteratorBuf
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.s04logicalOperators.iterator.RowIterator
+import lupos.s04logicalOperators.iterator.RowIteratorBuf
+import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -29,10 +29,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {
         val variables = Array(sortBy.size) { sortBy[it].name }
-        var child: OPBase = this
-        for (i in 0 until variables.size) {
-            child = child.children[0]
-        }
+        var child = children[0]
         SanityCheck.check({ child !is POPSort })
         val sparql = child.toSparql()
         var res: String
@@ -73,11 +70,16 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
         } else {
             res.addAttribute("order", "DESC")
         }
+        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
+        res.addAttribute("providedSort", getPossibleSortPriorities().toString())
+        res.addAttribute("filteredSort", sortPriorities.toString())
+        res.addAttribute("selectedSort", mySortPriority.toString())
         res.addContent(childrenToXML())
         return res
     }
 
     override suspend fun evaluate(): IteratorBundle {
+/*if sortBy.size==0, than only use a fastComparator. This may happen, if there is a Distinct clause following */
         val child = children[0].evaluate()
         val variablesOut = getProvidedVariableNames()
         if (variablesOut.size == 0) {

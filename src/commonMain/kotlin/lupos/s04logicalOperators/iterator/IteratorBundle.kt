@@ -41,9 +41,9 @@ class IteratorBundle {
             if (mode == IteratorBundleMode.COLUMN) {
                 return _columns!!
             } else if (mode == IteratorBundleMode.ROW) {
-		if(_columns==null){
-			_columns=ColumnIteratorFromRow(_rows!!)
-		}
+                if (_columns == null) {
+                    _columns = ColumnIteratorFromRow(_rows!!)
+                }
                 return _columns!!
             } else {
                 throw Exception("not implemented")
@@ -54,9 +54,9 @@ class IteratorBundle {
             if (mode == IteratorBundleMode.ROW) {
                 return _rows!!
             } else if (mode == IteratorBundleMode.COLUMN) {
-		if(_rows==null){
-		_rows=RowIteratorFromColumn(this)
-		}
+                if (_rows == null) {
+                    _rows = RowIteratorFromColumn(this)
+                }
                 return _rows!!
             } else {
                 throw Exception("not implemented")

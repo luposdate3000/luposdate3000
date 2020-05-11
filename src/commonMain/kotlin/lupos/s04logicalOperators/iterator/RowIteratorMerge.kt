@@ -1,12 +1,12 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.Value
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.Value
 
-open class RowIteratorMerge(val a: RowIterator,val b: RowIterator,val comparator: Comparator<Value>,val compCount: Int) : RowIterator() {
+open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparator: Comparator<Value>, val compCount: Int) : RowIterator() {
     var flag = 3
-    var aIdx=-1
-    var bIdx=-1
+    var aIdx = -1
+    var bIdx = -1
 
     init {
         SanityCheck {
@@ -15,7 +15,7 @@ open class RowIteratorMerge(val a: RowIterator,val b: RowIterator,val comparator
                 require(a.columns[i] == b.columns[i])
             }
         }
-columns=a.columns
+        columns = a.columns
         next = {
             var res = -1
             when (flag) {
@@ -112,7 +112,7 @@ columns=a.columns
             i++
         }
         while (i < columns.size) {
-val            cmp = a.buf[aIdx + i] - b.buf[bIdx + i]
+            val cmp = a.buf[aIdx + i] - b.buf[bIdx + i]
             if (cmp < 0) {
                 actionA()
                 return

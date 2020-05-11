@@ -4,7 +4,9 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.ESortType
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.SortHelper
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -17,13 +19,15 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
-    var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for_ parent)
-    var mySortPriority = mutableListOf<String>()
-    fun addToPrefixFreeList(data: List<String>, target: MutableList<List<String>>) {
+    var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
+    var mySortPriority = mutableListOf<SortHelper>()
+    fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
         if (data.size > 0) {
             if (!target.contains(data)) {
                 var needToAdd = true
@@ -54,14 +58,14 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         }
     }
 
-    fun selectSortPriority(priority: List<String>) {
-        var tmp = mutableListOf<List<String>>()
+    fun selectSortPriority(priority: List<SortHelper>) {
+        var tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
             var size = x.size
             if (priority.size < size) {
                 size = priority.size
             }
-            var t = mutableListOf<String>()
+            var t = mutableListOf<SortHelper>()
             for (i in 0 until size) {
                 if (x[i] == priority[i]) {
                     t.add(x[i])
@@ -76,24 +80,28 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             }
             addToPrefixFreeList(t, tmp)
         }
-        if (tmp.size == 1) {
-            for (c in children) {
-                c.selectSortPriority(tmp[0])
-            }
-            mySortPriority.clear()
-            for (c in children) {
-                for (p in c.sortPriorities) {
-                    if (p.size > mySortPriority.size) {
-                        mySortPriority.clear()
-                        mySortPriority.addAll(p)
+        if (sortPriority == ESortPriority.SORT) {
+            mySortPriority.addAll(priority)
+        } else {
+            if (tmp.size == 1) {
+                for (c in children) {
+                    c.selectSortPriority(tmp[0])
+                }
+                mySortPriority.clear()
+                for (c in children) {
+                    for (p in c.sortPriorities) {
+                        if (p.size > mySortPriority.size) {
+                            mySortPriority.clear()
+                            mySortPriority.addAll(p)
+                        }
                     }
                 }
-            }
-            for (c in children) {
-                c.selectSortPriority(mySortPriority)
-            }
-            if (mySortPriority.size == 0) {
-                mySortPriority.addAll(tmp[0])
+                for (c in children) {
+                    c.selectSortPriority(mySortPriority)
+                }
+                if (mySortPriority.size == 0) {
+                    mySortPriority.addAll(tmp[0])
+                }
             }
         }
         sortPriorities = tmp
@@ -112,27 +120,27 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return sortPriorities.size <= 1
     }
 
-    fun getPossibleSortPriorities(): List<List<String>> {
+    fun getPossibleSortPriorities(): List<List<SortHelper>> {
 /*possibilities for_ next operator*/
-        val res = mutableListOf<List<String>>()
+        val res = mutableListOf<List<SortHelper>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {
                 val provided = getProvidedVariableNames()
                 when (provided.size) {
                     1 -> {
-                        res.add(provided)
+                        res.add(listOf(SortHelper(provided[0], ESortType.FAST)))
                     }
                     2 -> {
-                        res.add(provided)
-                        res.add(listOf(provided[1], provided[0]))
+                        res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
+                        res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
                     }
                     3 -> {
-                        res.add(provided)
-                        res.add(listOf(provided[0], provided[2], provided[1]))
-                        res.add(listOf(provided[1], provided[0], provided[2]))
-                        res.add(listOf(provided[1], provided[2], provided[0]))
-                        res.add(listOf(provided[2], provided[0], provided[1]))
-                        res.add(listOf(provided[2], provided[1], provided[0]))
+                        res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
+                        res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
+                        res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
+                        res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
+                        res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
+                        res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
                     }
                     else -> {
                         SanityCheck.check { provided.size == 0 }
@@ -142,7 +150,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             ESortPriority.SAME_AS_CHILD, ESortPriority.BIND -> {
                 val provided = getProvidedVariableNames()
                 for (x in children[0].getPossibleSortPriorities()) {
-                    val tmp = mutableListOf<String>()
+                    val tmp = mutableListOf<SortHelper>()
                     for (v in x) {
                         if (provided.contains(v)) {
                             tmp.add(v)
@@ -153,22 +161,45 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     addToPrefixFreeList(tmp, res)
                 }
             }
-            ESortPriority.PREVENT_ANY, ESortPriority.SORT -> {
-//TODO sort
+            ESortPriority.PREVENT_ANY -> {
+            }
+            ESortPriority.SORT -> {
+                var requiredVariables = mutableListOf<String>()
+                var sortType = ESortType.ASC
+                if (this is LOPSort) {
+                    if (!this.asc) {
+                        sortType = ESortType.DESC
+                    }
+                    requiredVariables.add(this.by.name)
+                } else if (this is POPSort) {
+                    if (!this.sortOrder) {
+                        sortType = ESortType.DESC
+                    }
+                    for (v in this.sortBy) {
+                        requiredVariables.add(v.name)
+                    }
+                } else {
+                    SanityCheck.check { false }
+                }
+                val tmp = mutableListOf<SortHelper>()
+                for (v in requiredVariables) {
+                    tmp.add(SortHelper(v, sortType))
+                }
+                res.add(tmp)
             }
             ESortPriority.JOIN -> {
-                val resTmp = Array(2) { mutableListOf<List<String>>() }
+                val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
                 val childA = children[0]
                 val childB = children[1]
                 val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
                 var provided = getProvidedVariableNames()
                 for (child in 0 until 2) {
                     for (x in children[child].getPossibleSortPriorities()) {
-                        val tmp = mutableListOf<String>()
+                        val tmp = mutableListOf<SortHelper>()
                         var countOnJoin = 0
                         for (v in x) {
                             if (provided.contains(v)) {
-                                if (columns[0].contains(v)) {
+                                if (columns[0].contains(v.variableName)) {
                                     countOnJoin++
                                 } else if (countOnJoin < columns[0].size) {
                                     break

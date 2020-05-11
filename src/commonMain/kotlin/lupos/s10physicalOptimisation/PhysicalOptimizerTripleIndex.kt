@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EOptimizerID
+import lupos.s00misc.ESortType
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
@@ -40,7 +41,12 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 }
 /*return*/res2
             }
-            res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority))
+            SanityCheck {
+                for (i in 0 until node.mySortPriority.size) {
+                    SanityCheck.check { node.mySortPriority[i].sortType == ESortType.FAST }
+                }
+            }
+            res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
         }

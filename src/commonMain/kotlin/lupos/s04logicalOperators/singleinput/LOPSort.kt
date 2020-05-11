@@ -19,6 +19,10 @@ class LOPSort(query: Query, @JvmField val asc: Boolean, @JvmField var by: AOPVar
         } else {
             res.addAttribute("order", "DESC")
         }
+        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
+        res.addAttribute("providedSort", getPossibleSortPriorities().toString())
+        res.addAttribute("filteredSort", sortPriorities.toString())
+        res.addAttribute("selectedSort", mySortPriority.toString())
         res.addContent(childrenToXML())
         return res
     }

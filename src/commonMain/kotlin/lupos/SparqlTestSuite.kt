@@ -579,22 +579,22 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     if (!ignoreJena) {
-try{
-                        val jenaResult = JenaWrapper.execQuery(toParse)
-                        val jenaXML = XMLElement.parseFromXml(jenaResult)
+                        try {
+                            val jenaResult = JenaWrapper.execQuery(toParse)
+                            val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
-                            return false
+                            if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
+                                return false
+                            }
+                        } catch (e: Throwable) {
+                            ignoreJena = true
                         }
-}catch(e:Throwable){
-ignoreJena=true
-}
                     }
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                     if (res) {
