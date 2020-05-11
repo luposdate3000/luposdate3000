@@ -226,14 +226,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {
-        println("size to import :: ${data.size}")
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         import(d[0], data.size, order)
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray) {
-        println("size to remove :: ${data.size}")
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         val iteratorImport = BulkImportIterator(d[0], data.size, order)

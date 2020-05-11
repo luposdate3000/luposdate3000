@@ -662,7 +662,9 @@ if((o is AOPVariable && o.name!="o") || o !is AOPVariable){
         }
         if (prefix != null) {
             for (i in 0 until childs.size) {
-                childs[i] = prefix.cloneOP().getLatestChild().setChild(childs[i])
+val tmp=prefix.cloneOP()
+tmp.getLatestChild().setChild(childs[i])
+                childs[i] = tmp
             }
         }
         return OPBaseCompound(query, childs.toTypedArray())

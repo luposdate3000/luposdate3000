@@ -13,9 +13,9 @@ class LogicalOptimizerRemovePrefix(query: Query) : OptimizerBase(query, EOptimiz
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is LOPPrefix) {
-            onChange()
             node.children[0].applyPrefix(node.name, node.iri)
             res = node.children[0]
+            onChange()
         }
 /*return*/res
     })

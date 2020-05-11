@@ -75,7 +75,6 @@ localSortPriority.remove(tmp.name)
             }
 /*return*/ tmp
         }
-println("columnsTmp :: ${columnsTmp.map{it}}")
         val index = LOPTriple.getIndex(paramsHelper, localSortPriority)
         for (i in 0 until 3) {
             val j = index.tripleIndicees[i]
@@ -83,7 +82,6 @@ println("columnsTmp :: ${columnsTmp.map{it}}")
             if (t is AOPVariable) {
                 val name = t.name
                 if (columnsTmp[0].contains(name)) {
-println("nameA $name")
 require(name!="_")
                     val it = ColumnIteratorQueue()
                     for (i in 0 until 3) {
@@ -103,7 +101,6 @@ require(name!="_")
                     }
                     outMap[name] = it
                 } else {
-println("nameB $name")
 require(columnsTmp[2].contains(name) || name=="_")
 if(name!="_"){
                     variablINBO.add(name)
@@ -116,7 +113,6 @@ if(name!="_"){
 }
         }
         for (name in tmp2) {
-println("nameC $name")
 require(columnsTmp[1].contains(name)|| name=="_")
 if(name!="_"){
             val it = ColumnIteratorQueue()

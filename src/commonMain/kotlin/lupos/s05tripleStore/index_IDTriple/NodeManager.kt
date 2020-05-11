@@ -11,11 +11,6 @@ object NodeManager {
     val nodePointerTypeMask = 0x60000000.toInt()
     val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
     val nodeNullPointer = nodePointerValueMask
-
-    init {
-        println("nodeNullPointer ${nodeNullPointer.toString(16)}")
-    }
-
     val allNodesLeaf = MyListGeneric<NodeLeaf>()
     val allNodesInner = MyListGeneric<NodeInner>()
     var allNodesFreeListLeaf = mutableListOf<Int>()

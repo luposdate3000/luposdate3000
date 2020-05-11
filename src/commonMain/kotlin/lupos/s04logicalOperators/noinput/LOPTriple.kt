@@ -54,7 +54,6 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             /*
              * always prefer P over S over O to access the best compressed triple store, which should be the fastest
              */
-println("getIndex ... ${children.map{it.toSparql()}} $sortPriority")
             var resString = ""
             var res: EIndexPattern
             var count = 0

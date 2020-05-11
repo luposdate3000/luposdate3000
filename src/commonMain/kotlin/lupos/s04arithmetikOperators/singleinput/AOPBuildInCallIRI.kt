@@ -22,6 +22,7 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         if (prefix == "") {
             this.prefix = iri
         }
+        children[0].applyPrefix(prefix,iri)
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)

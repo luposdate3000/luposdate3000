@@ -71,7 +71,6 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         val row = Array(variables.size) { ResultSetDictionary.undefValue }
         val data = mutableMapOf<String, Array<Array<MyListValue>>>()
         loop@ while (true) {
-            println("POPModify loop ${variables.map { it }}")
             for (columnIndex in 0 until variables.size) {
                 val value = columns[columnIndex].next()
                 if (value == null) {
@@ -80,7 +79,6 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                 }
                 row[columnIndex] = value
             }
-            println("POPModify accessing row :: ${row.map { it }}")
             for (action in modify) {
                 var graphVarIdx = 0
                 if (action.first.graphVar) {
@@ -116,7 +114,6 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
             }
         }
         for ((graphName, iterator) in data) {
-            println("POPModify is accessing graph $graphName")
             val store = DistributedTripleStore.getNamedGraph(query, graphName)
             for (type in EModifyType.values()) {
                 if (iterator[type.ordinal][0].size > 0) {
