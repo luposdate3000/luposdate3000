@@ -476,7 +476,6 @@ class SparqlTestSuite() {
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                     } catch (e: org.apache.jena.query.QueryException) {
-                        e.printStackTrace()
                         ignoreJena = true
                     }
                 }
@@ -496,7 +495,6 @@ class SparqlTestSuite() {
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                     } catch (e: org.apache.jena.query.QueryException) {
-                        e.printStackTrace()
                         ignoreJena = true
                     }
                 }
@@ -581,6 +579,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
                     if (!ignoreJena) {
+try{
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
@@ -593,6 +592,9 @@ class SparqlTestSuite() {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
                             return false
                         }
+}catch(e:Throwable){
+ignoreJena=true
+}
                     }
                     res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                     if (res) {
