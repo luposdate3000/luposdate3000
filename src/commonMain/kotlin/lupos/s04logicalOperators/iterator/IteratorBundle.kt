@@ -9,9 +9,9 @@ enum class IteratorBundleMode {
 }
 
 class IteratorBundle {
-    val mode: IteratorBundleMode
-    val _columns: Map<String, ColumnIterator>?
-    val _rows: RowIterator?
+    var mode: IteratorBundleMode
+    var _columns: Map<String, ColumnIterator>?
+    var _rows: RowIterator?
     fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
     fun hasCountMode() = mode == IteratorBundleMode.COUNT
     fun hasRowMode() = mode == IteratorBundleMode.ROW
@@ -41,7 +41,10 @@ class IteratorBundle {
             if (mode == IteratorBundleMode.COLUMN) {
                 return _columns!!
             } else if (mode == IteratorBundleMode.ROW) {
-                return ColumnIteratorFromRow(_rows!!)
+		if(_columns==null){
+			_columns=ColumnIteratorFromRow(_rows!!)
+		}
+                return _columns!!
             } else {
                 throw Exception("not implemented")
             }
@@ -51,7 +54,10 @@ class IteratorBundle {
             if (mode == IteratorBundleMode.ROW) {
                 return _rows!!
             } else if (mode == IteratorBundleMode.COLUMN) {
-                return RowIteratorFromColumn(this)
+		if(_rows==null){
+		_rows=RowIteratorFromColumn(this)
+		}
+                return _rows!!
             } else {
                 throw Exception("not implemented")
             }

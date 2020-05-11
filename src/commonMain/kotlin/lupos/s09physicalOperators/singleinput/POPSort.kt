@@ -15,6 +15,9 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMergeSort
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
+import lupos.s04logicalOperators.iterator.RowIterator
+import lupos.s04logicalOperators.iterator.RowIteratorMerge
+import lupos.s04logicalOperators.iterator.RowIteratorBuf
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -75,139 +78,165 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
     }
 
     override suspend fun evaluate(): IteratorBundle {
-        val variablestmp = getProvidedVariableNames()
-        if (variablestmp.size == 0) {
-            return children[0].evaluate()
+        val child = children[0].evaluate()
+        val variablesOut = getProvidedVariableNames()
+        if (variablesOut.size == 0) {
+            return child
         } else {
+            val columnNamesTmp = mutableListOf<String>()
+            val columnIteratorsTmp = mutableListOf<ColumnIterator>()
+            for (v in sortBy) {
+                columnNamesTmp.add(v.name)
+                columnIteratorsTmp.add(child.columns[v.name]!!)
+            }
+            for (v in variablesOut) {
+                if (!columnNamesTmp.contains(v)) {
+                    columnNamesTmp.add(v)
+                    columnIteratorsTmp.add(child.columns[v]!!)
+                }
+            }
+            val columnNames = columnNamesTmp.toTypedArray()
+            val columnIterators = columnIteratorsTmp.toTypedArray()
             var comparator: Comparator<Value>
-            val variables = Array(variablestmp.size) { variablestmp[it] }
             if (sortOrder) {
                 comparator = ValueComparatorASC(query)
             } else {
                 comparator = ValueComparatorDESC(query)
             }
-            val fastcomparator = ValueComparatorFast()
-            for (v in sortBy.size - 1 downTo 0) {
-                val highestPriority = sortBy[v].name
-                var index = 0
-                while (variables[index] != highestPriority) {
-                    index++
-                }
-                for (i in index downTo 1) {
-                    variables[i] = variables[i - 1]
-                }
-                variables[0] = highestPriority
-            }
-//variables string array is now sorted by column sort-priority
-            val comparators = Array(variables.size) {
-                var res: Comparator<Value>
-                if (it < sortBy.size) {
-                    res = comparator
-                } else {
-                    res = fastcomparator
-                }
-/*return*/res
-            }
-            val outMap = mutableMapOf<String, ColumnIterator>()
-            val child = children[0].evaluate()
-            val iterators = Array(variables.size) { child.columns[variables[it]]!! }
-//TODO leaves should contain more than a single row of data
-            val targetIterators = Array(variables.size) { mutableListOf<ColumnIterator?>() }
-//the array holds intances for_ every variable
-//the list index sqared is the depth of the merge sort. That means the index squared is the number of "leaves" in the mergesort-tree.
-//the intention is to have a balanced merge-sort tree
-            collectData@ while (true) {
-                var processDone = false
-                for (variableIndex in 0 until variables.size) {
-//insert new single page
-                    var next = iterators[variableIndex].next()
-                    if (next == null) {
-                        SanityCheck.check { variableIndex == 0 }
-                        break@collectData
-                    }
-                    val iter = ColumnIteratorRepeatValue(1, next)
-                    if (targetIterators[variableIndex].size == 0) {
-//previously there was no node with this amount of leaves
-                        targetIterators[variableIndex].add(iter)
-                        processDone = true
-                    } else if (targetIterators[variableIndex][0] == null) {
-//there was a node with this amount of leaves, but it already is included in a larger tree
-                        targetIterators[variableIndex][0] = iter
-                        processDone = true
-                    } else {
-//merge with another node with the same amount of leaves
-                        if (variableIndex > 0) {
-                            targetIterators[variableIndex][0] = ColumnIteratorMergeSort(targetIterators[variableIndex][0]!!, iter, comparators[variableIndex], targetIterators[variableIndex - 1][0]!! as ColumnIteratorMergeSort, null)
-                            (targetIterators[variableIndex - 1][0]!! as ColumnIteratorMergeSort).lowerPriority = targetIterators[variableIndex][0]!! as ColumnIteratorMergeSort
+            var buf1 = IntArray(columnNames.size * MERGE_SORT_MIN_ROWS)
+            var buf2 = IntArray(columnNames.size * MERGE_SORT_MIN_ROWS)
+            var done = false
+            var resultList = mutableListOf<RowIterator?>()
+            while (!done) {
+                var i = 0
+                loop@ while (i < MERGE_SORT_MIN_ROWS) {
+                    for (columnIndex in 0 until columnNames.size) {
+                        var tmp = columnIterators[columnIndex].next()
+                        if (tmp == null) {
+                            require(columnIndex == 0)
+                            done = true
+                            break@loop
                         } else {
-                            targetIterators[variableIndex][0] = ColumnIteratorMergeSort(targetIterators[variableIndex][0]!!, iter, comparators[variableIndex], null, null)
+                            buf1[i++] = tmp
                         }
                     }
                 }
-                if (!processDone) {
-                    processMergeTree(variables.size, targetIterators, 1, comparators)
-                }
-            }
-            //collect all partial merge-sort-trees to construct an as much as possible ballanced one
-            var index = 1
-            for (variableIndex in 0 until variables.size) {
-                targetIterators[variableIndex].add(null)
-            }
-            var limit = targetIterators[0].size
-            while (index < limit && targetIterators[0][index] == null) {
-                index++
-            }
-            while (index < limit) {
-                if (targetIterators[0][index] == null) {
-                    for (variableIndex in 0 until variables.size) {
-                        targetIterators[variableIndex][index] = targetIterators[variableIndex][index - 1]
+                var total = i / columnNames.size
+                var off = 0
+                var shift = 0
+                var size = 1 shl shift
+                var count = 0
+                var mid = 0
+                while (size / 2 < total) {
+                    off = 0
+                    shift++
+                    size = 1 shl shift
+                    while (off < total) {
+                        if (off + size <= total) {
+                            count = size
+                        } else {
+                            count = total - off
+                        }
+                        mid = size / 2
+                        val aEnd = (off + mid) * columnNames.size
+                        val bEnd = (off + count) * columnNames.size
+                        var a = off * columnNames.size
+                        var b = aEnd
+                        var c = a
+                        if (count < mid) {
+                            b = a
+                            a = aEnd
+                        }
+                        loop@ while (a < aEnd && b < bEnd) {
+                            for (i in 0 until columnNames.size) {
+                                var cmp = 0
+                                var j = 0
+                                while (j < sortBy.size) {
+                                    cmp = comparator.compare(buf1[a + i], buf1[b + i])
+                                    if (cmp < 0) {
+                                        for (j in 0 until columnNames.size) {
+                                            buf2[c++] = buf1[a++]
+                                        }
+                                        continue@loop
+                                    } else if (cmp > 0) {
+                                        for (j in 0 until columnNames.size) {
+                                            buf2[c++] = buf1[b++]
+                                        }
+                                        continue@loop
+                                    }
+                                    j++
+                                }
+                                while (j < columnNames.size) {
+                                    cmp = buf1[a + i] - buf1[b + i]
+                                    if (cmp < 0) {
+                                        for (j in 0 until columnNames.size) {
+                                            buf2[c++] = buf1[a++]
+                                        }
+                                        continue@loop
+                                    } else if (cmp > 0) {
+                                        for (j in 0 until columnNames.size) {
+                                            buf2[c++] = buf1[b++]
+                                        }
+                                        continue@loop
+                                    }
+                                    j++
+                                }
+                            }
+                            for (j in 0 until columnNames.size) {
+                                buf2[c++] = buf1[a++]
+                            }
+                            for (j in 0 until columnNames.size) {
+                                buf2[c++] = buf1[b++]
+                            }
+                        }
+                        while (a < aEnd) {
+                            buf2[c++] = buf1[a++]
+                        }
+                        while (b < bEnd) {
+                            buf2[c++] = buf1[b++]
+                        }
+                        off += size
                     }
+                    var t = buf1
+                    buf1 = buf2
+                    buf2 = t
+                }
+                var it = RowIteratorBuf(buf1, columnNames, i)
+                if (resultList.size == 0) {
+                    resultList.add(it)
+                } else if (resultList[0] == null) {
+                    resultList[0] = it
                 } else {
-                    processMergeTree(variables.size, targetIterators, index, comparators)
-                }
-                index++
-            }
-            if (limit == 1) {
-                for (variableIndex in 0 until variables.size) {
-                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], ColumnIterator())
-                }
-            } else {
-                for (variableIndex in 0 until variables.size) {
-                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], targetIterators[variableIndex][limit - 1]!!)
-                }
-            }
-            return IteratorBundle(outMap)
-        }
-    }
-
-    fun processMergeTree(variablesSize: Int, targetIterators: Array<MutableList<ColumnIterator?>>, index: Int, comparators: Array<Comparator<Value>>) {
-        var targetIndex = index
-        SanityCheck.check { targetIndex > 0 }
-        var processDone = false
-        while (!processDone) {
-            for (variableIndex in 0 until variablesSize) {
-                val iter = targetIterators[variableIndex][targetIndex - 1]
-                SanityCheck.check { iter != null }
-                if (targetIterators[variableIndex].size == targetIndex) {
-//the first merge-node with this amount of leaves
-                    targetIterators[variableIndex].add(iter)
-                    processDone = true
-                } else if (targetIterators[variableIndex][targetIndex] == null) {
-//there previously was a node with this amount of leaves, but it is already merged somewhere
-                    targetIterators[variableIndex][targetIndex] = iter
-                    processDone = true
-                } else {
-//merge with another node of same size - and continue to merge the result with other larger merge-trees
-                    if (variableIndex > 0) {
-                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter!!, comparators[variableIndex], targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort, null)
-                        (targetIterators[variableIndex - 1][targetIndex]!! as ColumnIteratorMergeSort).lowerPriority = targetIterators[variableIndex][targetIndex]!! as ColumnIteratorMergeSort
-                    } else {
-                        targetIterators[variableIndex][targetIndex] = ColumnIteratorMergeSort(targetIterators[variableIndex][targetIndex]!!, iter!!, comparators[variableIndex], null, null)
+                    resultList[0] = RowIteratorMerge(resultList[0]!!, it, comparator, sortBy.size)
+                    if (resultList[resultList.size - 1] != null) {
+                        resultList.add(null)
+                    }
+                    var j = 1
+                    while (j < resultList.size) {
+                        if (resultList[j] == null) {
+                            resultList[j] = resultList[j - 1]
+                            resultList[j - 1] = null
+                            break
+                        } else {
+                            resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
+                            resultList[j - 1] = null
+                        }
+                        j++
                     }
                 }
-                targetIterators[variableIndex][targetIndex - 1] = null
+                buf1 = IntArray(columnNames.size * MERGE_SORT_MIN_ROWS)
             }
-            targetIndex++
+            var j = 1
+            while (j < resultList.size) {
+                if (resultList[j] == null) {
+                    resultList[j] = resultList[j - 1]
+                } else {
+                    resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
+                }
+                j++
+            }
+            require(resultList.size > 0)
+            return IteratorBundle(resultList[resultList.size - 1]!!)
         }
     }
 }

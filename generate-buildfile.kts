@@ -308,15 +308,40 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("PageSize in Bytes") to listOf(
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "128"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "256"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "512"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "1024"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "2048"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "4096"),
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "8196")
         ),
         ChooseableGroup("ArrayList Block Capacity in Elements") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "16"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "32"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "64"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "128"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "256"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "512"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024")
         ),
         ChooseableGroup("BTree Branching Faktor") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "8"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "16"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "32"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "64"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "128"),
+                ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "256"),
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
+        ),
+        ChooseableGroup("Merge Sort Minimal Rows") to listOf(
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "8"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "16"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "32"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "64"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "128"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "256"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "512")
         )
 )
 val conflicts = listOf(
