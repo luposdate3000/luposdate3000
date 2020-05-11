@@ -540,7 +540,7 @@ class SparqlTestSuite() {
                 }
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
-                val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node) as POPBase
+                val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
                 File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter {
                     it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
                 }
@@ -598,7 +598,7 @@ class SparqlTestSuite() {
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
                         val query4 = Query()
-                        val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP) as POPBase
+                        val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
                         val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)

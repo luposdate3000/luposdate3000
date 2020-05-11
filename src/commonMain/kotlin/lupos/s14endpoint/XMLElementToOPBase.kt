@@ -74,6 +74,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
@@ -116,6 +117,13 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
 
 fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     when (node.tag) {
+        "OPBaseCompound" -> {
+            var childs = mutableListOf<OPBase>()
+            for (c in node["children"]!!.childs) {
+                childs.add(convertToOPBase(query, c, mapping))
+            }
+            return OPBaseCompound(query, childs.toTypedArray())
+        }
         "LOPSubGroup" -> {
             return LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }

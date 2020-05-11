@@ -7,11 +7,15 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
@@ -24,6 +28,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
     override fun cloneOP() = POPModifyData(query, projectedVariables, type, data)
     override fun toSparqlQuery() = toSparql()
+    override fun getProvidedVariableNames() = listOf<String>("?success")
     override fun toSparql(): String {
         var res = ""
         when (type) {
@@ -71,8 +76,6 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
             val graphLocal = DistributedTripleStore.getNamedGraph(query, graph)
             graphLocal.modify(Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
-        val res = IteratorBundle(mutableMapOf<String, ColumnIterator>())
-        res.count = 1
-        return res
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(true)))))
     }
 }

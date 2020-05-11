@@ -313,8 +313,6 @@ class POPGraphOperation(query: Query,
                 throw e
             }
         }
-        val res = IteratorBundle(mutableMapOf<String, ColumnIterator>())
-        res.count = 1
-        return res
+        return IteratorBundle(1)
     }
 }

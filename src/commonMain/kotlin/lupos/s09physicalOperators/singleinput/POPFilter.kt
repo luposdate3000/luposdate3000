@@ -39,11 +39,17 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
             localMap[variables[variableIndex]] = columnsLocal[variableIndex]
         }
-        val res = IteratorBundle(outMap)
-        val resLocal = IteratorBundle(localMap)
+        val res: IteratorBundle
+        val resLocal: IteratorBundle
+        if (localMap.size > 0) {
+            resLocal = IteratorBundle(localMap)
+        } else {
+            resLocal = IteratorBundle(0)
+        }
         val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
         val expression = (children[1] as AOPBase).evaluate(resLocal)
         if (variablesOut.size == 0) {
+            res = IteratorBundle(0)
             if (variables.size == 0) {
                 val value = expression()
                 res.hasNext = {
@@ -88,6 +94,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 }
             }
         } else {
+            res = IteratorBundle(outMap)
             for (variableIndex in 0 until variables.size) {
                 columnsLocal[variableIndex].onEmptyQueue = {
                     var done = false

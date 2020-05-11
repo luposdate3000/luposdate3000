@@ -15,13 +15,13 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2b
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3b
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3c
-import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_SingleList : TripleStoreIndex() {
     @JvmField
@@ -123,7 +123,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     val count = data[idx]
                     for (i in idx + 1 until idx + 1 + count) {
                         if (data[i] == filter[2]) {
-                            res.count = 1
+                            res = IteratorBundle(1)
                             break
                         }
                     }
@@ -133,7 +133,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 val idx = index2[key]
                 if (idx != null) {
                     if (projection[0] == "_") {
-                        res.count = data[idx]
+                        res = IteratorBundle(data[idx])
                     } else {
                         columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore1(data, idx))
                     }

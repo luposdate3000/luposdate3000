@@ -140,8 +140,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //---check for_ empty columns
         if (columnsINAJ.size == 0) {
             if (columnsINAO.size == 0 && columnsINBO.size == 0) {
-                res = IteratorBundle(outMap)
-                res.count = childA.count * childB.count
+                res = IteratorBundle(childA.count * childB.count)
             } else {
                 if (columnsINAO.size == 0) {
 //---no columns from a
@@ -366,7 +365,11 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     }
                 }
             }
-            res = IteratorBundle(outMap)
+            if (outMap.size > 0) {
+                res = IteratorBundle(outMap)
+            } else {
+                res = IteratorBundle(0)
+            }
             if (emptyColumnsWithJoin) {
                 res.hasNext = {
                     /*return*/outJ[0].next() != null

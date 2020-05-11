@@ -27,7 +27,7 @@ class KeyDistributionOptimizer(query: Query) : OptimizerBase(query, EOptimizerID
                 projectedVariables = node.getProvidedVariableNames()
             }
             onChange()
-            res = POPServiceIRI(query, projectedVariables, node.name, node.silent, optimizeInternal(node.children[0], null, onChange) as POPBase)
+            res = POPServiceIRI(query, projectedVariables, node.name, node.silent, optimizeInternal(node.children[0], null, onChange))
         }
 /*return*/res
     })

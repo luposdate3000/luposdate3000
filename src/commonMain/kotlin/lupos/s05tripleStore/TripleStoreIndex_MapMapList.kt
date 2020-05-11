@@ -85,13 +85,13 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     if (tmp1 != null) {
                         if (filter.size > 2) {
                             if (tmp1.contains(filter[2])) {
-                                res.count = 1
+                                res = IteratorBundle(1)
                             } else {
-                                res.count = 0
+                                res = IteratorBundle(0)
                             }
                         } else {
                             if (projection[0] == "_") {
-                                res.count = tmp1.size
+                                res = IteratorBundle(tmp1.size)
                             } else {
                                 columns[projection[0]] = ColumnIteratorDebug(-1, projection[0], ColumnIteratorMultiValue(tmp1.iterator()))
                             }

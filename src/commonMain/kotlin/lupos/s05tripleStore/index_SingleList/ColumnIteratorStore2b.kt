@@ -1,10 +1,10 @@
 package lupos.s05tripleStore.index_SingleList
-import lupos.s04logicalOperators.iterator.ColumnIterator
 
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class ColumnIteratorStore2b(val values: MyListValue, start: Int) : ColumnIterator() {
     var counterSecondary: Int

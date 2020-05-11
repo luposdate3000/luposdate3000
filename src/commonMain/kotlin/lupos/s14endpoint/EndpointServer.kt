@@ -252,7 +252,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
-        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
         if (logOperatorGraph) {
             println("----------")
@@ -275,7 +275,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     */
     suspend fun process_sparql_query_operator(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
-        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!) as POPBase
+        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         if (logOperatorGraph) {
             println("----------")

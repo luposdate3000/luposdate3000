@@ -37,7 +37,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val mask5 = 0x3C000000.toInt()/*first 6 bit*/
         val filter3 = 0x0FFFFFFF.toInt()
         val filter5 = 0x03FFFFFF.toInt()
-
         val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
@@ -52,7 +51,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
-
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt())/*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
         @JvmField

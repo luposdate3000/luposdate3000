@@ -183,6 +183,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
@@ -633,10 +634,8 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         if (childrenValues.isEmpty()) {
             return LOPNOOP(query) // empty query
         }
-        var opbase: OPBase = LOPNOOP(query)
-        var prefix: LOPPrefix? = null
-        var values: OPBase? = null
-        var lastQuery: OPBase? = null
+        var childs = mutableListOf<OPBase>()
+        var prefix: LOPPrefix? = null/*applied at the end*/
         for (q in childrenValues) {
             if (q is LOPPrefix) {
                 if (prefix == null) {
@@ -645,33 +644,21 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     prefix.getLatestChild().setChild(q)
                 }
             } else if (q is LOPValues) {
-                if (values == null) {
-                    values = q
+                if (childs.size > 0) {
+                    childs[childs.size - 1] = joinValuesAndQuery(q, childs[childs.size - 1])
                 } else {
-                    values = LOPJoin(query, values, q, false)
+                    childs.add(q)
                 }
             } else {
-                if (lastQuery == null) {
-                    lastQuery = q
-                } else {
-                    opbase = LOPJoin(query, opbase, joinValuesAndQuery(values, lastQuery), false)
-                    values = null
-                    lastQuery = q
-                }
+                childs.add(q)
             }
-        }
-        if (opbase is LOPNOOP) {
-            if (lastQuery != null) {
-                opbase = joinValuesAndQuery(values, lastQuery)
-            }
-        } else {
-            opbase = LOPJoin(query, opbase, joinValuesAndQuery(values, lastQuery!!), false)
         }
         if (prefix != null) {
-            prefix.getLatestChild().setChild(opbase)
-            return prefix
+            for (i in 0 until childs.size) {
+                childs[i] = prefix.cloneOP().getLatestChild().setChild(childs[i])
+            }
         }
-        return opbase
+        return OPBaseCompound(query, childs.toTypedArray())
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {

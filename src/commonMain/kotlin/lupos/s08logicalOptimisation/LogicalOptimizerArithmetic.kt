@@ -30,8 +30,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         var res = node
         if (node is AOPBase && node !is AOPValue) {
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
-                val outMap = mutableMapOf<String, ColumnIterator>()
-                var value = node.evaluate(IteratorBundle(outMap))()
+                var value = node.evaluate(IteratorBundle(0))()
                 if (value is ValueError) {
                     value = ValueUndef()
                 }

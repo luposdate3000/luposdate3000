@@ -85,12 +85,17 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 columns[s] = ColumnIterator()
             }
         }
-        var res = IteratorBundle(columns)
+        var res: IteratorBundle
+        if (columns.size > 0) {
+            res = IteratorBundle(columns)
+        } else {
+            res = IteratorBundle(0)
+        }
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
                 if (node.iterator3(filter).hasNext()) {
-                    res.count = 1
+                    res = IteratorBundle(1)
                 }
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
@@ -100,7 +105,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         it.next()
                         count++
                     }
-                    res.count = count
+                    res = IteratorBundle(count)
                 } else {
                     columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(node.iterator2(filter)))
                 }
@@ -118,7 +123,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         it.next()
                         count++
                     }
-                    res.count = count
+                    res = IteratorBundle(count)
                 }
             } else {
                 SanityCheck.check { filter.size == 0 }
@@ -141,7 +146,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         it.next()
                         count++
                     }
-                    res.count = count
+                    res = IteratorBundle(count)
                 }
             }
         }

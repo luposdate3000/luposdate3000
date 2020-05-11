@@ -121,13 +121,13 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore1
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore2a
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore2b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3a
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3b
 import lupos.s04logicalOperators.iterator.ColumnIteratorStore3c
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -1152,7 +1152,7 @@ suspend fun executeBinaryTest(random: TestRandom) {
             }
             node2 = lOptimizer.optimizeCall(node1)
             node3 = pOptimizer.optimizeCall(node2)
-            node4 = dOptimizer.optimizeCall(node3) as POPBase
+            node4 = dOptimizer.optimizeCall(node3)
             val sparql = node4.toSparqlQuery()
             globalSparql.add(sparql)
         } catch (e: Throwable) {
@@ -1220,7 +1220,7 @@ suspend fun executeBinaryTest(random: TestRandom) {
                     node1 = ast_node.visit(OperatorGraphVisitor(query))
                     node2 = lOptimizer.optimizeCall(node1)
                     node3 = pOptimizer.optimizeCall(node2)
-                    node4 = dOptimizer.optimizeCall(node3) as POPBase
+                    node4 = dOptimizer.optimizeCall(node3)
                     node5 = node4.cloneOP()
                     SanityCheck.checkEQ({ node4 }, { node5 })
                     node5 = node1.cloneOP()

@@ -92,6 +92,7 @@ enum class EOperatorID {
     LOPTripleID,
     LOPUnionID,
     LOPValuesID,
+    OPCompoundID,
     OPNothingID,
     POPBaseID,
     POPBindID,

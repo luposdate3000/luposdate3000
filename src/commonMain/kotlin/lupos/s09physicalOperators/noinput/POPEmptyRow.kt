@@ -13,9 +13,6 @@ class POPEmptyRow(query: Query, projectedVariables: List<String>) : POPBase(quer
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
     override suspend fun evaluate(): IteratorBundle {
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val res = IteratorBundle(outMap)
-        res.count = 1
-        return res
+        return IteratorBundle(1)
     }
 }
