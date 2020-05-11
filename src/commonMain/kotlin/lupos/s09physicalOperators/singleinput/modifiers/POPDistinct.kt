@@ -3,6 +3,7 @@ package lupos.s09physicalOperators.singleinput.modifiers
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -27,8 +28,16 @@ class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase)
 
     override fun cloneOP() = POPDistinct(query, projectedVariables, children[0].cloneOP())
     override suspend fun evaluate(): IteratorBundle {
-        val sort = POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, children[0])
-        val child = sort.evaluate()
+        var child: IteratorBundle
+        val flag = true
+        SanityCheck.check{mySortPriority.size <= projectedVariables.size}
+        if (mySortPriority.size == projectedVariables.size) {
+SanityCheck.check{mySortPriority.map{it.variableName}.containsAll(projectedVariables)}
+            child = children[0].evaluate()
+        } else {
+            val sort = POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, children[0])
+            child = sort.evaluate()
+        }
         val reduced = RowIteratorReduced(child.rows)
         return IteratorBundle(reduced)
     }

@@ -153,7 +153,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
                     for (v in x) {
-                        if (provided.contains(v)) {
+                        if (provided.contains(v.variableName)) {
                             tmp.add(v)
                         } else {
                             break
@@ -199,7 +199,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                         val tmp = mutableListOf<SortHelper>()
                         var countOnJoin = 0
                         for (v in x) {
-                            if (provided.contains(v)) {
+                            if (provided.contains(v.variableName)) {
                                 if (columns[0].contains(v.variableName)) {
                                     countOnJoin++
                                 } else if (countOnJoin < columns[0].size) {
