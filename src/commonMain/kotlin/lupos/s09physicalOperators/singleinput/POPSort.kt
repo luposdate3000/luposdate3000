@@ -110,9 +110,10 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
             var buf2 = IntArray(columnNames.size * MERGE_SORT_MIN_ROWS)
             var done = false
             var resultList = mutableListOf<RowIterator?>()
+println("sort .. $MERGE_SORT_MIN_ROWS")
             while (!done) {
                 var i = 0
-                loop@ while (i < MERGE_SORT_MIN_ROWS) {
+                loop@ while (i < MERGE_SORT_MIN_ROWS) {//TODO fix this as "buf1.size"
                     for (columnIndex in 0 until columnNames.size) {
                         var tmp = columnIterators[columnIndex].next()
                         if (tmp == null) {
@@ -125,12 +126,14 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                     }
                 }
                 var total = i / columnNames.size
+println("total $total")
                 var off = 0
                 var shift = 0
                 var size = 1 shl shift
                 var count = 0
                 var mid = 0
                 while (size / 2 < total) {
+println("size $size")
                     off = 0
                     shift++
                     size = 1 shl shift
@@ -146,6 +149,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                         var a = off * columnNames.size
                         var b = aEnd
                         var c = a
+println("off $off -- $a $b $bEnd")
                         if (count < mid) {
                             b = a
                             a = aEnd
@@ -205,13 +209,18 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                     buf2 = t
                 }
                 var it = RowIteratorBuf(buf1, columnNames, i)
+if(i>0||resultList.size == 0){
                 if (resultList.size == 0) {
+println("... add first")
                     resultList.add(it)
                 } else if (resultList[0] == null) {
+println("... add at [0]")
                     resultList[0] = it
                 } else {
                     resultList[0] = RowIteratorMerge(resultList[0]!!, it, comparator, sortBy.size)
+println("... merge new and 0 into 0")
                     if (resultList[resultList.size - 1] != null) {
+println("... make space")
                         resultList.add(null)
                     }
                     var j = 1
@@ -219,26 +228,32 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                         if (resultList[j] == null) {
                             resultList[j] = resultList[j - 1]
                             resultList[j - 1] = null
+println("... move ${j-1} $j")
                             break
                         } else {
                             resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
                             resultList[j - 1] = null
+println("... merge ${j-1} and $j into $j")
                         }
                         j++
                     }
+}
                 }
                 buf1 = IntArray(columnNames.size * MERGE_SORT_MIN_ROWS)
             }
             var j = 1
             while (j < resultList.size) {
                 if (resultList[j] == null) {
+println("... collect ${j-1} into $j")
                     resultList[j] = resultList[j - 1]
                 } else if (resultList[j - 1] != null) {
                     resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
+println("... collectmerge ${j-1} and $j into $j")
                 }
                 j++
             }
             require(resultList.size > 0)
+println("... use ${resultList.size - 1}")
             return IteratorBundle(resultList[resultList.size - 1]!!)
         }
     }

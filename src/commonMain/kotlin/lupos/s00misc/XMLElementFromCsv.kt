@@ -27,7 +27,7 @@ fun XMLElement.Companion.parseFromCsv(csv: String): XMLElement? {
         }
         val nodeResult = XMLElement("result")
         nodeResults.addContent(nodeResult)
-        val values = line.split("\t")
+        val values = line.split(",")
         for (variable in variables) {
             if (values.size > variable.second) {
                 parseBindingFromString(nodeResult, values[variable.second], variable.first)
