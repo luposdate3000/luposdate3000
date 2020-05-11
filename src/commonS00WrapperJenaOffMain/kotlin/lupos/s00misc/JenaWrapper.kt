@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 object JenaWrapper {
     fun dropAll() {
     }

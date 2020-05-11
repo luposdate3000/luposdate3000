@@ -2,6 +2,8 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MyMapDoubleIntBTree(val t: Int) {
     var root: MyMapDoubleIntBTreeNode? = null
     var size = 0

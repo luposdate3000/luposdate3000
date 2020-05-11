@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement

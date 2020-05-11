@@ -1,6 +1,7 @@
 package lupos.s12p2p
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ThreadSafeMutableList

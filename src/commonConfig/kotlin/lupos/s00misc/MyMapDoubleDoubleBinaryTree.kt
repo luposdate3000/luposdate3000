@@ -2,6 +2,8 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 /* Substitutions :: Double,Double,,,,,Double,Double */
 class MyMapDoubleDoubleBinaryTree() {
     @JvmField

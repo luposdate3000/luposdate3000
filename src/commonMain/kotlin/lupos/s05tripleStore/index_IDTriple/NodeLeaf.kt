@@ -1,5 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 
 var debugListLeaf = mutableListOf<Int>()
@@ -16,7 +17,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
      * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
      * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
      *
-     * absolute minimum is 21 used bytes for exactly 1 Triple/Node
+     * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
     fun getFirstTriple(b: IntArray) {
         b[0] = read4(9)

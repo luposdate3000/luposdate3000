@@ -1,5 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 
 inline class NodeInner(val data: ByteArray) { //ByteBuffer??
@@ -16,7 +17,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
      * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
      * triple-group-data: 1-12 Bytes 
      *
-     * child-pointer-group: (may be only partially used if Number of stored tiples is reached)
+     * child-pointer-group: (may be only partially used if_ Number of stored tiples is reached)
      * assuming consecutive child-pointers are never the same
      * bits 0..1 # Bytes _for 1st child-pointer (00->1,01->2,10->3,11->4)
      * bits 2..3 # Bytes _for 2st child-pointer (00->1,01->2,10->3,11->4)
@@ -27,7 +28,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
      * afterwards alternating 4x triple-group followed by 1x child-pointer-group
      * at the end there might be less than 4 triple-groups in front of the last child-pointer-group
      *
-     * absolute minimum is 81 used bytes for exactly 4 Triple/Node
+     * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
      */
     fun getFirstTriple(b: IntArray) {
         var node = this

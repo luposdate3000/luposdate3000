@@ -1,5 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 

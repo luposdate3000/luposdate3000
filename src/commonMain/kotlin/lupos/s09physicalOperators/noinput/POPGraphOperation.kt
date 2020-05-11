@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EIndexPattern

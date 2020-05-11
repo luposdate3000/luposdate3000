@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 
 open class RowIteratorBuf(buf: IntArray, columns: Array<String>, val size: Int) : RowIterator() {

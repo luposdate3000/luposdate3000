@@ -2,6 +2,8 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 /* Substitutions :: GenericK,GenericV,<GenericK : Comparable<GenericK>, GenericV>,<GenericK, GenericV>,<GenericK>,<GenericV>,Generic,Generic */
 class MyMapGenericGenericBinaryTree<GenericK : Comparable<GenericK>, GenericV>() {
     @JvmField

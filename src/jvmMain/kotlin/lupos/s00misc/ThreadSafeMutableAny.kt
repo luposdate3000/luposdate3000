@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 
 class ThreadSafeMutableAny<T>(@JvmField var value: T) {
     fun get(): T {

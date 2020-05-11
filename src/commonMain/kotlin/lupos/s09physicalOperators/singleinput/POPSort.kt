@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
@@ -79,7 +80,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
     }
 
     override suspend fun evaluate(): IteratorBundle {
-/*if sortBy.size==0, than only use a fastComparator. This may happen, if there is a Distinct clause following */
+/*if_ sortBy.size==0, than only use a fastComparator. This may happen, _if there is a Distinct clause following */
         val child = children[0].evaluate()
         val variablesOut = getProvidedVariableNames()
         if (variablesOut.size == 0) {

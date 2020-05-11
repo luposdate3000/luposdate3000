@@ -2,6 +2,8 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t: Int) {
     var root: MyMapGenericGenericBTreeNode<GenericK, GenericV>? = null
     var size = 0

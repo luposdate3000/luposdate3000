@@ -3,6 +3,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
+import lupos.s00misc.Coverage
 
 class Lock {
     @JvmField

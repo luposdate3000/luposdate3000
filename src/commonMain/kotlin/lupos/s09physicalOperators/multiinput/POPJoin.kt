@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.multiinput
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value

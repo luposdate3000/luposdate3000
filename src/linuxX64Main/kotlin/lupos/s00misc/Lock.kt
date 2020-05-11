@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
+import lupos.s00misc.Coverage
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t

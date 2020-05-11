@@ -1,5 +1,6 @@
 package lupos.s01io.buffer
 
+import lupos.s00misc.Coverage
 import lupos.s01io.buffer.ByteArrayPage
 
 typealias Page = ByteArrayPage

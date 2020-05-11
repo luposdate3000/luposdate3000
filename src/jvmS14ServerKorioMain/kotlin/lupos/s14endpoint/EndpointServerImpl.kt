@@ -6,6 +6,7 @@ import com.soywiz.korio.net.http.HttpServer
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger

@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
     return XMLElement.parseFromXmlHelper(xml)?.first()
 }

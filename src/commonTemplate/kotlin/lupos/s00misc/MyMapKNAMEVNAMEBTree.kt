@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
     var size = 0

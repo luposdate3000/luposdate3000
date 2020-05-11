@@ -2,6 +2,8 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MySetLongBTree(val t: Int) {
     var root: MySetLongBTreeNode? = null
     var size = 0

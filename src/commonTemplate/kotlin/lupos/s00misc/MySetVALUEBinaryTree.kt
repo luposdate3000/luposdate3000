@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 /* Substitutions :: VALUE,GDEF,GUSE */
 class MySetVALUEBinaryTreeGDEF {
     @JvmField

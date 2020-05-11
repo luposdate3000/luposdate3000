@@ -7,6 +7,7 @@ import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 
 class File(@JvmField val filename: String) {
     companion object {

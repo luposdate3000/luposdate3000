@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.DynamicByteArray
 import lupos.s14endpoint.Endpoint
 

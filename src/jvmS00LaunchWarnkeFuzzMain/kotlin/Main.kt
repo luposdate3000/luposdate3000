@@ -2,6 +2,7 @@ import java.net.ConnectException
 import java.time.Duration
 import java.time.Instant
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.File
 import lupos.s03resultRepresentation.Value

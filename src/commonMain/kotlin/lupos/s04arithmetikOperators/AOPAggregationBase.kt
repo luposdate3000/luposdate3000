@@ -1,5 +1,6 @@
 package lupos.s04arithmetikOperators
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s04arithmetikOperators.AOPBase

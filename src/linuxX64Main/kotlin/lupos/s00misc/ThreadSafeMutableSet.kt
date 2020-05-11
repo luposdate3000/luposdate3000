@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
+import lupos.s00misc.Coverage
 
 class ThreadSafeMutableSet<T>() {
     val global_values = AtomicReference(mutableSetOf<T>().freeze())

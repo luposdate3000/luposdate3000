@@ -1,5 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.Coverage
+
 abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) : TripleIterator() {
     var remaining = node.getTripleCount()
     var offset = 8

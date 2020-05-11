@@ -2,6 +2,8 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
     var root: MySetGenericBTreeNode<Generic>? = null
     var size = 0

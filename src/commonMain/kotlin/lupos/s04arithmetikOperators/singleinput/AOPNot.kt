@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean

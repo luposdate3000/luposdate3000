@@ -3,6 +3,7 @@ import dev.fuzzit.javafuzz.core.Fuzzer
 import java.time.Duration
 import java.time.Instant
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.executeBinaryTest
 import lupos.s00misc.File

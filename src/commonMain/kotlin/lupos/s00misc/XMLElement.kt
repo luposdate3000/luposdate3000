@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import kotlin.math.abs
+import lupos.s00misc.Coverage
 
 class XMLElement {
     // https://regex101.com

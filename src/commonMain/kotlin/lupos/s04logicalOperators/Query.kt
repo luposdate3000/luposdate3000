@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore

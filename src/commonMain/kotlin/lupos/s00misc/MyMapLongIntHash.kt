@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 class MyMapLongIntHash() {
     val bucket_shift = 16
     val bucket_count = 2 shl bucket_shift
