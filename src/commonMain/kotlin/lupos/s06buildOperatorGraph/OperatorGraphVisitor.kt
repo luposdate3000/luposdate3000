@@ -334,9 +334,15 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 val s = templateLocal.children[0] as AOPBase
                 val p = templateLocal.children[1] as AOPBase
                 val o = templateLocal.children[2] as AOPBase
+if((s is AOPVariable && s.name!="s") || s !is AOPVariable){
                 tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
+}
+if((p is AOPVariable && p.name!="p") || p !is AOPVariable){
                 tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
+}
+if((o is AOPVariable && o.name!="o") || o !is AOPVariable){
                 tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
+}
             } else {
                 throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             }
@@ -1322,7 +1328,8 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         } else {
             var tmp: OPBase? = null
             for (c in node.using) {
-                val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c, false)
+val t=parseGroup(node.children)
+                val tmp2 = setGraphNameForAllTriples(t, c, false)
                 if (tmp == null) {
                     tmp = tmp2
                 } else {

@@ -19,6 +19,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -61,39 +62,69 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         val variablINBO = mutableListOf<String>()
         val indicesINBJ = MyListInt()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val tmp = mutableListOf<String>()
-        tmp.addAll(childB.getProvidedVariableNames())
-        for (name in childA.getProvidedVariableNames()) {
-            val it = ColumnIteratorQueue()
-            if (tmp.contains(name)) {
-                for (i in 0 until 3) {
-                    val cc = childB.children[i]
-                    if (cc is AOPVariable && cc.name == name) {
-                        indicesINBJ.add(i)
-                        break
-                    }
-                }
-                tmp.remove(name)
-                if (projectedVariables.contains(name)) {
-                    columnsOUT.add(it)
-                    columnsINAJ.add(0, childAv.columns[name]!!)
-                    columnsOUTAJ.add(0, it)
-                } else {
-                    columnsINAJ.add(childAv.columns[name]!!)
-                }
-            } else {
-                columnsOUT.add(it)
-                columnsOUTAO.add(0, it)
-                columnsINAO.add(0, childAv.columns[name]!!)
+        val tmp2 = mutableListOf<String>()
+tmp2.addAll(childA.getProvidedVariableNames())
+        val columnsTmp = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
+var localSortPriority=mutableListOf<String>()
+localSortPriority.addAll(childB.mySortPriority.map{it.variableName})
+        val paramsHelper = Array<OPBase>(3) {
+            var tmp = childB.children[it] as AOPBase
+            if (tmp is AOPVariable && columnsTmp[0].contains(tmp.name)) {
+localSortPriority.remove(tmp.name)
+                tmp = AOPConstant(query, 0)
             }
-            outMap[name] = it
+/*return*/ tmp
         }
-        for (name in tmp) {
-            variablINBO.add(name)
+println("columnsTmp :: ${columnsTmp.map{it}}")
+        val index = LOPTriple.getIndex(paramsHelper, localSortPriority)
+        for (i in 0 until 3) {
+            val j = index.tripleIndicees[i]
+            val t = childB.children[j]
+            if (t is AOPVariable) {
+                val name = t.name
+                if (columnsTmp[0].contains(name)) {
+println("nameA $name")
+require(name!="_")
+                    val it = ColumnIteratorQueue()
+                    for (i in 0 until 3) {
+                        val cc = childB.children[i]
+                        if (cc is AOPVariable && cc.name == name) {
+                            indicesINBJ.add(i)
+                            break
+                        }
+                    }
+                    tmp2.remove(name)
+                    if (projectedVariables.contains(name)) {
+                        columnsOUT.add(it)
+                        columnsINAJ.add(0, childAv.columns[name]!!)
+                        columnsOUTAJ.add(0, it)
+                    } else {
+                        columnsINAJ.add(childAv.columns[name]!!)
+                    }
+                    outMap[name] = it
+                } else {
+println("nameB $name")
+require(columnsTmp[2].contains(name) || name=="_")
+if(name!="_"){
+                    variablINBO.add(name)
+                    val it = ColumnIteratorQueue()
+                    columnsOUTB.add(it)
+                    columnsOUT.add(it)
+                    outMap[name] = it
+                }
+            }
+}
+        }
+        for (name in tmp2) {
+println("nameC $name")
+require(columnsTmp[1].contains(name)|| name=="_")
+if(name!="_"){
             val it = ColumnIteratorQueue()
-            columnsOUTB.add(it)
             columnsOUT.add(it)
+            columnsOUTAO.add(0, it)
+            columnsINAO.add(0, childAv.columns[name]!!)
             outMap[name] = it
+}
         }
         SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
@@ -111,44 +142,11 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             params[indicesINBJ[i]] = AOPConstant(query, ResultSetDictionary.undefValue2)
             count++
         }
-        var index: EIndexPattern
         SanityCheck.check { count > 0 }
         SanityCheck.check { count < 3 }
         SanityCheck {
             for (i in 0 until childB.mySortPriority.size) {
                 SanityCheck.check { childB.mySortPriority[i].sortType == ESortType.FAST }
-            }
-        }
-        if (count == 1) {
-            if (params[0] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (params[1] as AOPVariable).name == childB.mySortPriority[0].variableName) {
-                    index = EIndexPattern.S_PO
-                } else {
-                    index = EIndexPattern.S_OP
-                }
-            } else if (params[1] is AOPConstant) {
-                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0].variableName) {
-                    index = EIndexPattern.P_SO
-                } else {
-                    index = EIndexPattern.P_OS
-                }
-            } else {
-                SanityCheck.check { params[2] is AOPConstant }
-                if (childB.mySortPriority.size == 0 || (params[0] as AOPVariable).name == childB.mySortPriority[0].variableName) {
-                    index = EIndexPattern.O_SP
-                } else {
-                    index = EIndexPattern.O_PS
-                }
-            }
-        } else {
-            SanityCheck.check { count == 2 }
-            if (params[0] is AOPVariable) {
-                index = EIndexPattern.PO_S
-            } else if (params[1] is AOPVariable) {
-                index = EIndexPattern.SO_P
-            } else {
-                SanityCheck.check { params[2] is AOPVariable }
-                index = EIndexPattern.SP_O
             }
         }
         SanityCheck.check { indicesINBJ.size > 0 }
