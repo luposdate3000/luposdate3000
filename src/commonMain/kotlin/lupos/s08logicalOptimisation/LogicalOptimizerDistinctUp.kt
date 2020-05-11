@@ -4,6 +4,7 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s08logicalOptimisation.OptimizerBase
@@ -17,7 +18,7 @@ class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizer
                 res = node.children[0]
                 onChange()
             }
-        } else if (node !is LOPUnion) {
+        } else if (node !is LOPUnion && node !is OPBaseCompound) {
             for (i in node.children.indices) {
                 val c = node.children[i]
                 if (c is LOPDistinct && c.getProvidedVariableNames().containsAll(node.getProvidedVariableNames())) {

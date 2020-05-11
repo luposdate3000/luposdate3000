@@ -142,14 +142,14 @@ abstract sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField
 class ValueLanguageTaggedLiteral(delimiter: String, content: String, val language: String) : ValueStringBase(delimiter, content) {
     override fun toXMLElement() = XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
     override fun valueToString() = delimiter + content + delimiter + "@" + language
-    override fun equals(other: Any?): Boolean = other is ValueLanguageTaggedLiteral && delimiter == other.delimiter && language == other.language && content == other.content
+    override fun equals(other: Any?): Boolean = other is ValueLanguageTaggedLiteral && language == other.language && content == other.content
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + language.hashCode()
 }
 
 class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(delimiter, content) {
     override fun toXMLElement() = XMLElement("ValueSimpleLiteral").addAttribute("delimiter", delimiter).addAttribute("content", content)
     override fun valueToString() = delimiter + content + delimiter
-    override fun equals(other: Any?): Boolean = other is ValueSimpleLiteral && delimiter == other.delimiter && content == other.content
+    override fun equals(other: Any?): Boolean = other is ValueSimpleLiteral && content == other.content
     override fun hashCode() = delimiter.hashCode() + content.hashCode()
 }
 
@@ -182,7 +182,7 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
 
     override fun toXMLElement() = XMLElement("ValueTypedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)
     override fun valueToString() = delimiter + content + delimiter + "^^<" + type_iri + ">"
-    override fun equals(other: Any?): Boolean = other is ValueTypedLiteral && delimiter == other.delimiter && type_iri == other.type_iri && content == other.content
+    override fun equals(other: Any?): Boolean = other is ValueTypedLiteral && type_iri == other.type_iri && content == other.content
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + type_iri.hashCode()
 }
 
