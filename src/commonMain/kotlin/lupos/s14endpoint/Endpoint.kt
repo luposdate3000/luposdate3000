@@ -5,7 +5,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
@@ -23,7 +23,7 @@ object Endpoint {
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, params, idx, type)
     }
 
-    fun process_local_triple_get(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
+    fun process_local_triple_get(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
     }
 

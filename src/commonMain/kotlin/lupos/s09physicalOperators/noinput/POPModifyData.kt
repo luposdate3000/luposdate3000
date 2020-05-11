@@ -12,7 +12,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -55,7 +55,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         return res
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MyListValue>>()
         for (t in data) {
             for (i in 0 until 3) {
@@ -71,7 +71,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
             val graphLocal = DistributedTripleStore.getNamedGraph(query, graph)
             graphLocal.modify(Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
-        val res = ColumnIteratorRow(mutableMapOf<String, ColumnIterator>())
+        val res = IteratorBundle(mutableMapOf<String, ColumnIterator>())
         res.count = 1
         return res
     }

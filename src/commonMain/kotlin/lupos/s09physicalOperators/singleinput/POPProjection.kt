@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -28,7 +28,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
     override fun equals(other: Any?): Boolean = other is POPProjection && projectedVariables.equals(other.projectedVariables) && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -44,7 +44,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
                 }
             }
             val column = child.columns[variables2[0]]!!
-            val res = ColumnIteratorRow(outMap)
+            val res = IteratorBundle(outMap)
             res.hasNext = {
                 /*return*/                column.next() != null
             }
@@ -54,7 +54,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
                 SanityCheck.check { child.columns[variable] != null }
                 outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
             }
-            return ColumnIteratorRow(outMap)
+            return IteratorBundle(outMap)
         }
     }
 }

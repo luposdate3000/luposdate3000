@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -41,7 +41,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val variablesOut = getProvidedVariableNames()
         val variablesLocal = getProvidedVariableNamesInternal()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -60,8 +60,8 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         val columnsOut = Array(variablesOut.size) {
             /*return*/            localMap[variablesOut[it]] as ColumnIteratorQueue
         }
-        val res = ColumnIteratorRow(outMap)
-        val expression = (children[1] as AOPBase).evaluate(ColumnIteratorRow(localMap))
+        val res = IteratorBundle(outMap)
+        val expression = (children[1] as AOPBase).evaluate(IteratorBundle(localMap))
         SanityCheck.check { variablesLocal.size != 0 }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))

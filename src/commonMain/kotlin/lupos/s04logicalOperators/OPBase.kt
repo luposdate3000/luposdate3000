@@ -13,13 +13,13 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
-    open suspend fun evaluate(): ColumnIteratorRow = throw Exception("not implemented $classname.evaluate")
+    open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
     var sortPriorities = mutableListOf<List<String>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<String>()

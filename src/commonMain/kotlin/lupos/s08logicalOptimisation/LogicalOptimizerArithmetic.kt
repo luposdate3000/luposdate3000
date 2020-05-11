@@ -10,7 +10,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
@@ -31,7 +31,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         if (node is AOPBase && node !is AOPValue) {
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
                 val outMap = mutableMapOf<String, ColumnIterator>()
-                var value = node.evaluate(ColumnIteratorRow(outMap))()
+                var value = node.evaluate(IteratorBundle(outMap))()
                 if (value is ValueError) {
                     value = ValueUndef()
                 }

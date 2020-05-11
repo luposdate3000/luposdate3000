@@ -5,7 +5,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -31,7 +31,7 @@ class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverNa
 
     override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         TODO("not implemented")
     }
 

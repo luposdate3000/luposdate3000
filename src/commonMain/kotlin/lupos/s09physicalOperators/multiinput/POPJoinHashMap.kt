@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -78,7 +78,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         var count = 0
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
 //--- obtain child columns
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
@@ -90,7 +90,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         val outJ = mutableListOf<ColumnIteratorChildIterator>()
         val outIterators = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        var res: ColumnIteratorRow?
+        var res: IteratorBundle?
         val tmp = mutableListOf<String>()
         var t: ColumnIteratorChildIterator
         tmp.addAll(children[1].getProvidedVariableNames())
@@ -140,7 +140,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //---check for_ empty columns
         if (columnsINAJ.size == 0) {
             if (columnsINAO.size == 0 && columnsINBO.size == 0) {
-                res = ColumnIteratorRow(outMap)
+                res = IteratorBundle(outMap)
                 res.count = childA.count * childB.count
             } else {
                 if (columnsINAO.size == 0) {
@@ -203,7 +203,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                         }
                     }
                 }
-                res = ColumnIteratorRow(outMap)
+                res = IteratorBundle(outMap)
             }
         } else {
             //---join on at least one column
@@ -366,7 +366,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     }
                 }
             }
-            res = ColumnIteratorRow(outMap)
+            res = IteratorBundle(outMap)
             if (emptyColumnsWithJoin) {
                 res.hasNext = {
                     /*return*/outJ[0].next() != null

@@ -5,7 +5,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
 import lupos.s05tripleStore.index_IDTriple.DistinctIterator
@@ -76,7 +76,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -85,7 +85,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 columns[s] = ColumnIterator()
             }
         }
-        var res = ColumnIteratorRow(columns)
+        var res = IteratorBundle(columns)
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {

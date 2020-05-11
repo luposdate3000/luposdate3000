@@ -14,7 +14,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -42,7 +42,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return true
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         SanityCheck.check { !optional }
 //setup columns
         val child = Array(2) { children[it].evaluate() }
@@ -120,7 +120,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
             }
         }
-        val res = ColumnIteratorRow(outMap)
+        val res = IteratorBundle(outMap)
         if (emptyColumnsWithJoin) {
             res.hasNext = {
                 /*return*/columnsOUTJ[0].next() != null

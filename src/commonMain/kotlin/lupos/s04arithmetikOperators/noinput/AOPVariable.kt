@@ -10,7 +10,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -21,7 +21,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name)
     override fun cloneOP() = this
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         var tmp = row.columns[name]
         var res: () -> ValueDefinition
         if (tmp == null) {
@@ -38,7 +38,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         return res
     }
 
-    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+    override fun evaluateID(row: IteratorBundle): () -> Value {
         var tmp = row.columns[name]
         var res: () -> Value
         if (tmp == null) {

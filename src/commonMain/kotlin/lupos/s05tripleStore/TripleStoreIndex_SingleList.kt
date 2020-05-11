@@ -14,7 +14,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2b
@@ -104,7 +104,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): ColumnIteratorRow {
+    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
 //BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
@@ -114,7 +114,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 columns[s] = ColumnIterator()
             }
         }
-        var res = ColumnIteratorRow(columns)
+        var res = IteratorBundle(columns)
         if (data.size > 0) {
             if (filter.size == 3) {
                 val key = (filter[0].toLong() shl 32) + filter[1]

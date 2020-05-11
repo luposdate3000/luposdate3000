@@ -3,7 +3,7 @@ package lupos.s09physicalOperators.noinput
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -12,9 +12,9 @@ class POPEmptyRow(query: Query, projectedVariables: List<String>) : POPBase(quer
     override fun cloneOP() = POPEmptyRow(query, projectedVariables)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val res = ColumnIteratorRow(outMap)
+        val res = IteratorBundle(outMap)
         res.count = 1
         return res
     }

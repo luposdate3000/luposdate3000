@@ -13,7 +13,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 
@@ -42,7 +42,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         NodeManager.loadFromFile(foldername + "/nodemanager")
     }
 
-    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
+    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {

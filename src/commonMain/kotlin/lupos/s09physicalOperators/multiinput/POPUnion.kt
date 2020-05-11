@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -16,7 +16,7 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
     override fun cloneOP() = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val variables = getProvidedVariableNames()
         SanityCheck.check { children[0].getProvidedVariableNames().containsAll(variables) }
         SanityCheck.check { children[1].getProvidedVariableNames().containsAll(variables) }
@@ -26,6 +26,6 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
         for (variable in variables) {
             outMap[variable] = ColumnIteratorDebug(uuid, variable, ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!)))
         }
-        return ColumnIteratorRow(outMap)
+        return IteratorBundle(outMap)
     }
 }

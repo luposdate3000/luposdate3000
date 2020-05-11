@@ -7,7 +7,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.Endpoint
@@ -46,7 +46,7 @@ object P2P {
 //TODO("stream create/clear/delete of graph to all nodes")
     }
 
-    fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): ColumnIteratorRow {
+    fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         if (node == endpointServer!!.fullname) {
             return Endpoint.process_local_triple_get(query, graphName, params, idx)
         } else {

@@ -9,7 +9,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
@@ -124,7 +124,7 @@ class POPGraphOperation(query: Query,
         target.modify(iterator, EModifyType.INSERT)
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         try {
             when (action) {
                 EGraphOperationType.CLEAR -> {
@@ -313,7 +313,7 @@ class POPGraphOperation(query: Query,
                 throw e
             }
         }
-        val res = ColumnIteratorRow(mutableMapOf<String, ColumnIterator>())
+        val res = IteratorBundle(mutableMapOf<String, ColumnIterator>())
         res.count = 1
         return res
     }

@@ -9,7 +9,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -37,7 +37,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         return true
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { projectedVariables.size == 1 }
         SanityCheck.check { children[0].getProvidedVariableNames().size == 1 }
@@ -103,7 +103,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                 /*return*/ value
             }
         }
-        return ColumnIteratorRow(outMap)
+        return IteratorBundle(outMap)
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

@@ -2,7 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.runBlocking
 
-class ColumnIteratorRow(val columns: Map<String, ColumnIterator>) {
+class IteratorBundle(val columns: Map<String, ColumnIterator>) {
     suspend fun _hasNext(): Boolean {
         if (counter > 0) {
             counter--

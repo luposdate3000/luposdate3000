@@ -15,7 +15,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -45,7 +45,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         return true
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         val childAv = children[0].evaluate()
@@ -207,7 +207,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 }
             }
         }
-        return ColumnIteratorRow(outMap)
+        return IteratorBundle(outMap)
     }
 
     override fun toXMLElement(): XMLElement {

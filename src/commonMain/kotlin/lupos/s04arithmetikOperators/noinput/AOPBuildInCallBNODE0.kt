@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -22,7 +22,7 @@ class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildIn
         return other is AOPBuildInCallBNODE0
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             /*return*/ValueBnode("" + uuid + localbnode.next())
         }

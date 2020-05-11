@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -24,7 +24,7 @@ class AOPGEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
         return true
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
@@ -43,7 +43,7 @@ class AOPGEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
         }
     }
 
-    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+    override fun evaluateID(row: IteratorBundle): () -> Value {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {

@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMergeSort
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -74,7 +74,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
         return res
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val variablestmp = getProvidedVariableNames()
         if (variablestmp.size == 0) {
             return children[0].evaluate()
@@ -176,7 +176,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                     outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], targetIterators[variableIndex][limit - 1]!!)
                 }
             }
-            return ColumnIteratorRow(outMap)
+            return IteratorBundle(outMap)
         }
     }
 

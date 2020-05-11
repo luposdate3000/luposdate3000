@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -159,9 +159,9 @@ class POPGroup : POPBase {
         }
     }
 
-    class MapRow(val iterators: ColumnIteratorRow, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
+    class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
@@ -184,7 +184,7 @@ class POPGroup : POPBase {
             for (columnIndex in 0 until valueColumnNames.size) {
                 localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
             }
-            val row = ColumnIteratorRow(localMap)
+            val row = IteratorBundle(localMap)
             val localAggregations = Array(aggregations.size) {
                 val tmp = aggregations[it].createIterator(row)
                 localMap["#" + aggregations[it].uuid] = tmp
@@ -241,7 +241,7 @@ class POPGroup : POPBase {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
                     }
-                    val row = ColumnIteratorRow(localMap)
+                    val row = IteratorBundle(localMap)
                     val localAggregations = Array(aggregations.size) {
                         val tmp = aggregations[it].createIterator(row)
                         localMap["#" + aggregations[it].uuid] = tmp
@@ -274,7 +274,7 @@ class POPGroup : POPBase {
                 outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, ColumnIteratorMultiValue(outValues[columnIndex]))
             }
         }
-        return ColumnIteratorRow(outMap)
+        return IteratorBundle(outMap)
     }
 
     override fun toXMLElement(): XMLElement {

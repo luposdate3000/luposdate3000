@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 class AOPConstant : AOPBase {
@@ -23,13 +23,13 @@ class AOPConstant : AOPBase {
     override fun toXMLElement() = query.dictionary.getValue(value).toXMLElement()
     override fun toSparql(): String = query.dictionary.getValue(value).valueToString() ?: ""
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             /*return*/query.dictionary.getValue(value)
         }
     }
 
-    override fun evaluateID(row: ColumnIteratorRow): () -> Value {
+    override fun evaluateID(row: IteratorBundle): () -> Value {
         return {
             /*return*/value
         }

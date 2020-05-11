@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -35,7 +35,7 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
         return true
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         TODO("not implemented")
     }
 

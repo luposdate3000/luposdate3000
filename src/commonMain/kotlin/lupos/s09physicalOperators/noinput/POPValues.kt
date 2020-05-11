@@ -14,7 +14,7 @@ import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -118,7 +118,7 @@ open class POPValues : POPBase {
 
     override fun getProvidedVariableNamesInternal() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
         for (name in variables) {
             val tmp = ColumnIteratorMultiValue(data[name]!!)
@@ -130,7 +130,7 @@ open class POPValues : POPBase {
             }
             outMap[name] = ColumnIteratorDebug(uuid, name, tmp)
         }
-        return ColumnIteratorRow(outMap)
+        return IteratorBundle(outMap)
     }
 
     override fun toXMLElement(): XMLElement {

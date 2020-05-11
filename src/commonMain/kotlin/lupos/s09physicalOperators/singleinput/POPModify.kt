@@ -14,7 +14,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -63,7 +63,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate()
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
@@ -123,6 +123,6 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                 }
             }
         }
-        return ColumnIteratorRow(mapOf("?success" to ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(true)))))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(true)))))
     }
 }

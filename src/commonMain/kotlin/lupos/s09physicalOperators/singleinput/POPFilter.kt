@@ -7,7 +7,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -26,7 +26,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override suspend fun evaluate(): ColumnIteratorRow {
+    override suspend fun evaluate(): IteratorBundle {
 //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
@@ -39,8 +39,8 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
             localMap[variables[variableIndex]] = columnsLocal[variableIndex]
         }
-        val res = ColumnIteratorRow(outMap)
-        val resLocal = ColumnIteratorRow(localMap)
+        val res = IteratorBundle(outMap)
+        val resLocal = IteratorBundle(localMap)
         val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
         val expression = (children[1] as AOPBase).evaluate(resLocal)
         if (variablesOut.size == 0) {

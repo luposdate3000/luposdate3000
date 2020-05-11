@@ -15,7 +15,7 @@ import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
-import lupos.s04logicalOperators.iterator.ColumnIteratorRow
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
@@ -43,7 +43,7 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
         return true
     }
 
-    override fun createIterator(row: ColumnIteratorRow): ColumnIteratorAggregate {
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
@@ -68,7 +68,7 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
         return res
     }
 
-    override fun evaluate(row: ColumnIteratorRow): () -> ValueDefinition {
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
             /*return*/tmp.value
