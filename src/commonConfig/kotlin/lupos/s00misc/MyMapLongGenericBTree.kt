@@ -265,9 +265,9 @@ class MyMapLongGenericBTree<GenericV>(val t: Int) {
 
         fun splitChild(i: Int, y: MyMapLongGenericBTreeNode<GenericV>) {
             val z = if (y is MyMapLongGenericBTreeNodeLeaf<GenericV>) {
-                MyMapLongGenericBTreeNodeLeaf<GenericV>(y.t)
+                /*return*/        MyMapLongGenericBTreeNodeLeaf<GenericV>(y.t)
             } else {
-                MyMapLongGenericBTreeNodeNonLeaf<GenericV>(y.t)
+/*return*/                MyMapLongGenericBTreeNodeNonLeaf<GenericV>(y.t)
             }
             z.n = t - 1
             for (j in 0 until t - 1) {

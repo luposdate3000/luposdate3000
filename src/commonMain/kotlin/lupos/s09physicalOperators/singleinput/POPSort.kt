@@ -233,7 +233,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
             while (j < resultList.size) {
                 if (resultList[j] == null) {
                     resultList[j] = resultList[j - 1]
-                } else {
+                } else if (resultList[j - 1] != null) {
                     resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
                 }
                 j++

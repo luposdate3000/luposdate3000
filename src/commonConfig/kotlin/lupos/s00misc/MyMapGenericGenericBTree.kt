@@ -265,9 +265,9 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
 
         fun splitChild(i: Int, y: MyMapGenericGenericBTreeNode<GenericK, GenericV>) {
             val z = if (y is MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>) {
-                MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>(y.t)
+                /*return*/        MyMapGenericGenericBTreeNodeLeaf<GenericK, GenericV>(y.t)
             } else {
-                MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>(y.t)
+/*return*/                MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>(y.t)
             }
             z.n = t - 1
             for (j in 0 until t - 1) {

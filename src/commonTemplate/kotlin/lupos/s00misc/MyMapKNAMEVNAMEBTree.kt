@@ -263,9 +263,9 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
 
         fun splitChild(i: Int, y: MyMapKNAMEVNAMEBTreeNodeGUSE) {
             val z = if (y is MyMapKNAMEVNAMEBTreeNodeLeafGUSE) {
-                MyMapKNAMEVNAMEBTreeNodeLeafGUSE(y.t)
+                /*return*/        MyMapKNAMEVNAMEBTreeNodeLeafGUSE(y.t)
             } else {
-                MyMapKNAMEVNAMEBTreeNodeNonLeafGUSE(y.t)
+/*return*/                MyMapKNAMEVNAMEBTreeNodeNonLeafGUSE(y.t)
             }
             z.n = t - 1
             for (j in 0 until t - 1) {

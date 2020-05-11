@@ -265,9 +265,9 @@ class MyMapDoubleIntBTree(val t: Int) {
 
         fun splitChild(i: Int, y: MyMapDoubleIntBTreeNode) {
             val z = if (y is MyMapDoubleIntBTreeNodeLeaf) {
-                MyMapDoubleIntBTreeNodeLeaf(y.t)
+                /*return*/        MyMapDoubleIntBTreeNodeLeaf(y.t)
             } else {
-                MyMapDoubleIntBTreeNodeNonLeaf(y.t)
+/*return*/                MyMapDoubleIntBTreeNodeNonLeaf(y.t)
             }
             z.n = t - 1
             for (j in 0 until t - 1) {

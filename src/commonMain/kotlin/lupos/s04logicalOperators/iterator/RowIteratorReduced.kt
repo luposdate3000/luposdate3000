@@ -23,6 +23,7 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
                     off = child.next()
                     if (off < 0) {
                         close()
+                        break
                     } else {
                         for (i in 0 until columns.size) {
                             if (buf[i] != child.buf[off + i]) {

@@ -329,7 +329,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         var result: OPBase? = null
         for (t in template) {
             val templateLocal = t.visit(this)
-            var tmp: OPBase = child
+            var tmp: OPBase = child.cloneOP()
             if (templateLocal is LOPTriple) {
                 val s = templateLocal.children[0] as AOPBase
                 val p = templateLocal.children[1] as AOPBase

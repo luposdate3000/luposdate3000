@@ -433,7 +433,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         var iterator: TripleIterator? = null
         while (iterator == null) {
             node.findIteratorN({
-                (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
+                /*return*/                (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
                 NodeManager.getNode(it, {
                     iterator = it.iterator3(prefix)
@@ -450,7 +450,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         var iterator: TripleIterator? = null
         while (iterator == null) {
             node.findIteratorN({
-                (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
+                /*return*/        (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
                     iterator = it.iterator2(prefix)
@@ -467,7 +467,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         var iterator: TripleIterator? = null
         while (iterator == null) {
             node.findIteratorN({
-                (it[0] < prefix[0])
+                /*return*/ (it[0] < prefix[0])
             }, {
                 NodeManager.getNode(it, {
                     iterator = it.iterator1(prefix)
@@ -560,7 +560,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                     require(it[1] == debugListTriples[j][1])
                     require(it[2] == debugListTriples[j][2])
                     require(j < i + 4)/*read at most one block too much*/
-                    /*return */ j < i
+                    /*return*/ j < i
                 }, {
                     println("$it")
                     require(it == debugListChilds[i])

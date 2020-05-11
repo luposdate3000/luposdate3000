@@ -16,6 +16,9 @@ class XMLElement {
                 filename.endsWith(".tsv") -> {
                     return XMLElement.parseFromTsv(data)
                 }
+                filename.endsWith(".csv") -> {
+                    return XMLElement.parseFromCsv(data)
+                }
                 filename.endsWith(".ttl") -> {
                     return XMLElement.parseFromTtl(data)
                 }
