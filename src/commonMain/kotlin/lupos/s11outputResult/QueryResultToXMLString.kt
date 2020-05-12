@@ -26,22 +26,22 @@ object QueryResultToXMLString {
     operator fun invoke(rootNode: OPBase): String {
         var res = StringBuilder()
         val nodes: Array<OPBase>
-var columnProjectionOrder=listOf<List<String>>()
+        var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
-columnProjectionOrder=rootNode.columnProjectionOrder
+            columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf<OPBase>(rootNode)
         }
         for (i in 0 until nodes.size) {
-val node=nodes[i]
-val columnNames:List<String>
-if(columnProjectionOrder[i].size>0){
-columnNames=columnProjectionOrder[i]
-require(columnNames.containsAll(node.getProvidedVariableNames()))
-}else{
-columnNames=node.getProvidedVariableNames()
-}
+            val node = nodes[i]
+            val columnNames: List<String>
+            if (columnProjectionOrder[i].size > 0) {
+                columnNames = columnProjectionOrder[i]
+                require(columnNames.containsAll(node.getProvidedVariableNames()))
+            } else {
+                columnNames = node.getProvidedVariableNames()
+            }
             CoroutinesHelper.runBlock {
                 val child = node.evaluate()
                 res.append("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")

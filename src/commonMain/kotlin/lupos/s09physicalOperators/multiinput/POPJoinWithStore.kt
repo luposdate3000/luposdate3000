@@ -18,8 +18,8 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -63,14 +63,14 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         val indicesINBJ = MyListInt()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp2 = mutableListOf<String>()
-tmp2.addAll(childA.getProvidedVariableNames())
+        tmp2.addAll(childA.getProvidedVariableNames())
         val columnsTmp = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-var localSortPriority=mutableListOf<String>()
-localSortPriority.addAll(childB.mySortPriority.map{it.variableName})
+        var localSortPriority = mutableListOf<String>()
+        localSortPriority.addAll(childB.mySortPriority.map { it.variableName })
         val paramsHelper = Array<OPBase>(3) {
             var tmp = childB.children[it] as AOPBase
             if (tmp is AOPVariable && columnsTmp[0].contains(tmp.name)) {
-localSortPriority.remove(tmp.name)
+                localSortPriority.remove(tmp.name)
                 tmp = AOPConstant(query, 0)
             }
 /*return*/ tmp
@@ -82,7 +82,7 @@ localSortPriority.remove(tmp.name)
             if (t is AOPVariable) {
                 val name = t.name
                 if (columnsTmp[0].contains(name)) {
-require(name!="_")
+                    require(name != "_")
                     val it = ColumnIteratorQueue()
                     for (i in 0 until 3) {
                         val cc = childB.children[i]
@@ -101,26 +101,26 @@ require(name!="_")
                     }
                     outMap[name] = it
                 } else {
-require(columnsTmp[2].contains(name) || name=="_")
-if(name!="_"){
-                    variablINBO.add(name)
-                    val it = ColumnIteratorQueue()
-                    columnsOUTB.add(it)
-                    columnsOUT.add(it)
-                    outMap[name] = it
+                    require(columnsTmp[2].contains(name) || name == "_")
+                    if (name != "_") {
+                        variablINBO.add(name)
+                        val it = ColumnIteratorQueue()
+                        columnsOUTB.add(it)
+                        columnsOUT.add(it)
+                        outMap[name] = it
+                    }
                 }
             }
-}
         }
         for (name in tmp2) {
-require(columnsTmp[1].contains(name)|| name=="_")
-if(name!="_"){
-            val it = ColumnIteratorQueue()
-            columnsOUT.add(it)
-            columnsOUTAO.add(0, it)
-            columnsINAO.add(0, childAv.columns[name]!!)
-            outMap[name] = it
-}
+            require(columnsTmp[1].contains(name) || name == "_")
+            if (name != "_") {
+                val it = ColumnIteratorQueue()
+                columnsOUT.add(it)
+                columnsOUTAO.add(0, it)
+                columnsINAO.add(0, childAv.columns[name]!!)
+                outMap[name] = it
+            }
         }
         SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)

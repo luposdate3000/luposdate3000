@@ -30,9 +30,9 @@ class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase)
     override suspend fun evaluate(): IteratorBundle {
         var child: IteratorBundle
         val flag = true
-        SanityCheck.check{mySortPriority.size <= projectedVariables.size}
+        SanityCheck.check { mySortPriority.size <= projectedVariables.size }
         if (mySortPriority.size == projectedVariables.size) {
-SanityCheck.check{mySortPriority.map{it.variableName}.containsAll(projectedVariables)}
+            SanityCheck.check { mySortPriority.map { it.variableName }.containsAll(projectedVariables) }
             child = children[0].evaluate()
         } else {
             val sort = POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, children[0])

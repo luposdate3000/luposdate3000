@@ -4,8 +4,8 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
@@ -19,7 +19,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
         if (node is LOPFilter) {
             var child = node.children[0]
             if (child is LOPMinus) {
-                if (child.children[0].getProvidedVariableNames().containsAll(node.children[1].getRequiredVariableNamesRecoursive())) {
+                if (child.children[0].getProvidedVariableNames().containsAll(node.children[1].getRequiredVariableNamesRecoursive()) && child.tmpFakeVariables.intersect(node.children[1].getRequiredVariableNamesRecoursive()).size == 0) {
                     child.children[0] = LOPFilter(query, node.children[1] as AOPBase, child.children[0])
                     res = child
                     onChange()

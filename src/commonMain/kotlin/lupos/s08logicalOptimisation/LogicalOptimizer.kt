@@ -15,7 +15,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
 //split all filters containing AND as main operator
                     LogicalOptimizerFilterSplitAND(query)//
             ),
-arrayOf<OptimizerBase>(
+            arrayOf<OptimizerBase>(
 //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query)//
             ),

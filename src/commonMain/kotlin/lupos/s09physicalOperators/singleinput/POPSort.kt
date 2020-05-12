@@ -205,29 +205,29 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
                     buf2 = t
                 }
                 var it = RowIteratorBuf(buf1, columnNames, i)
-if(i>0||resultList.size == 0){
-                if (resultList.size == 0) {
-                    resultList.add(it)
-                } else if (resultList[0] == null) {
-                    resultList[0] = it
-                } else {
-                    resultList[0] = RowIteratorMerge(resultList[0]!!, it, comparator, sortBy.size)
-                    if (resultList[resultList.size - 1] != null) {
-                        resultList.add(null)
-                    }
-                    var j = 1
-                    while (j < resultList.size) {
-                        if (resultList[j] == null) {
-                            resultList[j] = resultList[j - 1]
-                            resultList[j - 1] = null
-                            break
-                        } else {
-                            resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
-                            resultList[j - 1] = null
+                if (i > 0 || resultList.size == 0) {
+                    if (resultList.size == 0) {
+                        resultList.add(it)
+                    } else if (resultList[0] == null) {
+                        resultList[0] = it
+                    } else {
+                        resultList[0] = RowIteratorMerge(resultList[0]!!, it, comparator, sortBy.size)
+                        if (resultList[resultList.size - 1] != null) {
+                            resultList.add(null)
                         }
-                        j++
+                        var j = 1
+                        while (j < resultList.size) {
+                            if (resultList[j] == null) {
+                                resultList[j] = resultList[j - 1]
+                                resultList[j - 1] = null
+                                break
+                            } else {
+                                resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, sortBy.size)
+                                resultList[j - 1] = null
+                            }
+                            j++
+                        }
                     }
-}
                 }
                 buf1 = IntArray(columnNames.size * MERGE_SORT_MIN_ROWS)
             }

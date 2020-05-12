@@ -102,7 +102,7 @@ class XMLElement {
         return null
     }
 
-    override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other,true,true,true)
+    override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other, true, true, true)
     fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
             return false
@@ -135,7 +135,7 @@ class XMLElement {
         return true
     }
 
-    fun myEqualsUnclean(other: XMLElement?,fixStringType:Boolean,fixNumbers:Boolean,fixSortOrder:Boolean): Boolean {
+    fun myEqualsUnclean(other: XMLElement?, fixStringType: Boolean, fixNumbers: Boolean, fixSortOrder: Boolean): Boolean {
         if (other == null) {
             return false
         }
@@ -171,12 +171,12 @@ class XMLElement {
         }
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
-        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer"&&fixNumbers) {
+        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer" && fixNumbers) {
             if (c1.toInt() != c2.toInt()) {
                 return false
             }
 //<<-- avoid bugs in JENA
-        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") &&fixNumbers) {
+        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") && fixNumbers) {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001) {
@@ -185,29 +185,29 @@ class XMLElement {
         } else if (c1 != c2) {
             return false
         }
-if(fixSortOrder){
-        for (c in childs) {
-            var found = false
-            for (d in other.childs) {
-                if (c.myEqualsUnclean(d,fixStringType,fixNumbers,fixSortOrder)) {
-                    found = true
-                    break
+        if (fixSortOrder) {
+            for (c in childs) {
+                var found = false
+                for (d in other.childs) {
+                    if (c.myEqualsUnclean(d, fixStringType, fixNumbers, fixSortOrder)) {
+                        found = true
+                        break
+                    }
+                }
+                if (!found) {
+                    return false
                 }
             }
-            if (!found) {
-                return false
+        } else {
+            var i = 0
+            for (c in childs) {
+                var d = other.childs[i]
+                if (!c.myEquals(d)) {
+                    return false
+                }
+                i++
             }
         }
-}else{
-var i=0
-for (c in childs) {
-            var d = other.childs[i]
-            if (!c.myEquals(d)) {
-                return false
-            }
-            i++
-        }
-}
         return true
     }
 
@@ -216,7 +216,7 @@ for (c in childs) {
         return this
     }
 
-fun addContentClean(s: String): XMLElement {
+    fun addContentClean(s: String): XMLElement {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -226,7 +226,7 @@ fun addContentClean(s: String): XMLElement {
             val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
             res = res.replace(match.value, replacement)
         }
-addContent(res)
+        addContent(res)
         return this
     }
 

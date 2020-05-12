@@ -7,7 +7,7 @@ enum class ESortPriority {
     ANY_PROVIDED_VARIABLE,
     PREVENT_ANY,
     JOIN,
-MINUS,
+    MINUS,
     UNION,
     BIND,
     SORT

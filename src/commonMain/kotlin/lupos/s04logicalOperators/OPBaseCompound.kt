@@ -29,8 +29,8 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
             var y = XMLElement("columnProjectionOrder")
             x.addContent(y)
             for (cpo in cpos) {
-var z = XMLElement("columnProjectionOrderElement")
-            y.addContent(z)
+                var z = XMLElement("columnProjectionOrderElement")
+                y.addContent(z)
                 z.addContent(cpo)
             }
         }

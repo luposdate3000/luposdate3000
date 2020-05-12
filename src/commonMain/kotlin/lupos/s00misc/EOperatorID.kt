@@ -150,10 +150,10 @@ val EOperatorIDLOP = arrayOf(
         EOperatorID.LOPTripleID,
         EOperatorID.LOPUnionID,
         EOperatorID.LOPValuesID,
-EOperatorID.LOPMinusID
+        EOperatorID.LOPMinusID
 )
 val EOperatorIDPOP = arrayOf(
-EOperatorID.POPMinusID,
+        EOperatorID.POPMinusID,
         EOperatorID.POPBindID,
         EOperatorID.POPDistinctID,
         EOperatorID.POPEmptyRowID,

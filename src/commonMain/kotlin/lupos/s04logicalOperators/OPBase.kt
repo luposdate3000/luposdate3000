@@ -239,7 +239,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 val tmp = children[1].getPossibleSortPriorities()
                 for (x in children[0].getPossibleSortPriorities()) {
                     if (tmp.contains(x)) {
-                        SanityCheck.check { getProvidedVariableNames().containsAll(x.map{it.variableName}) }
+                        SanityCheck.check { getProvidedVariableNames().containsAll(x.map { it.variableName }) }
                         addToPrefixFreeList(x, res)
                     }
                 }
@@ -300,20 +300,20 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
-try{
-        res.addAttribute("uuid", "" + uuid)
-        if (this !is AOPBase) {
-            res.addAttribute("providedVariables", getProvidedVariableNames().toString())
-            res.addAttribute("providedSort", getPossibleSortPriorities().toString())
-            res.addAttribute("filteredSort", sortPriorities.toString())
-            res.addAttribute("selectedSort", mySortPriority.toString())
+        try {
+            res.addAttribute("uuid", "" + uuid)
+            if (this !is AOPBase) {
+                res.addAttribute("providedVariables", getProvidedVariableNames().toString())
+                res.addAttribute("providedSort", getPossibleSortPriorities().toString())
+                res.addAttribute("filteredSort", sortPriorities.toString())
+                res.addAttribute("selectedSort", mySortPriority.toString())
+            }
+            if (children.size > 0) {
+                res.addContent(childrenToXML())
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
-        if (children.size > 0) {
-            res.addContent(childrenToXML())
-        }
-}catch(e:Throwable){
-e.printStackTrace()
-}
         return res
     }
 

@@ -75,7 +75,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             }
             //than sort order
             for (s in sortPriority) {
-require(s!="_")
+                require(s != "_")
                 if (c0 is AOPVariable && c0.name == s) {
                     resString += "S"
                 } else if (c1 is AOPVariable && c1.name == s) {

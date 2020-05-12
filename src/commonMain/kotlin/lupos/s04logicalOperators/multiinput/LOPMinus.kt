@@ -7,9 +7,9 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPMinus(query: Query, first: OPBase, second: OPBase) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
- override fun getProvidedVariableNames() = children[0].getProvidedVariableNames() 
-override fun getRequiredVariableNames()=listOf<String>()
+class LOPMinus(query: Query, first: OPBase, second: OPBase, var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()
+    override fun getRequiredVariableNames() = listOf<String>()
     override fun equals(other: Any?): Boolean {
         if (other !is LOPMinus) {
             return false
@@ -22,5 +22,5 @@ override fun getRequiredVariableNames()=listOf<String>()
         return true
     }
 
-    override fun cloneOP() = LOPMinus(query, children[0].cloneOP(), children[1].cloneOP())
+    override fun cloneOP() = LOPMinus(query, children[0].cloneOP(), children[1].cloneOP(), tmpFakeVariables.toMutableList())
 }

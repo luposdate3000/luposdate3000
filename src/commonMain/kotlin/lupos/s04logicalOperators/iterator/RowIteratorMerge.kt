@@ -22,14 +22,14 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
             when (flag) {
                 1 -> {//call next on a, b is empty
                     res = a.next()
-buf = a.buf
+                    buf = a.buf
                     if (res < 0) {
                         flag = 0
                     }
                 }
                 2 -> {//call next on b, a is empty
                     res = b.next()
-buf = b.buf
+                    buf = b.buf
                     if (res < 0) {
                         flag = 0
                     }

@@ -8,6 +8,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
@@ -28,6 +29,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPMinus
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
@@ -99,6 +101,9 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
                 is LOPUnion -> {
                     res = POPUnion(query, projectedVariables, node.children[0], node.children[1])
+                }
+                is LOPMinus -> {
+                    res = POPMinus(query, projectedVariables, node.children[0], node.children[1])
                 }
                 is LOPSort -> {
                     if (parent !is LOPSort) {

@@ -177,8 +177,8 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -669,19 +669,19 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
         }
         var columnProjectionOrder = mutableListOf<List<String>>()
-            for (i in 0 until childs.size) {
-                var x = childs[i]
-                val list = mutableListOf<String>()
-                while (x is LOPPrefix || x is LOPSubGroup || x is LOPNOOP) {
-                    x = x.children[0]
-                }
-                if (x is LOPProjection) {
-                    list.addAll(x.variables.map { it.name })
-                } else {
-                    println("no force-selected column order ?!? ...")
-                }
-                columnProjectionOrder.add(list)
+        for (i in 0 until childs.size) {
+            var x = childs[i]
+            val list = mutableListOf<String>()
+            while (x is LOPPrefix || x is LOPSubGroup || x is LOPNOOP) {
+                x = x.children[0]
             }
+            if (x is LOPProjection) {
+                list.addAll(x.variables.map { it.name })
+            } else {
+                println("no force-selected column order ?!? ...")
+            }
+            columnProjectionOrder.add(list)
+        }
         return OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
     }
 
@@ -1485,7 +1485,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
         SanityCheck.checkEQ({ childrenValues.size }, { 2 })
-        return LOPMinus(query, childrenValues[0], childrenValues[1])
+        return LOPMinus(query, childrenValues[0], childrenValues[1], listOf())
     }
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {

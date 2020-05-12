@@ -58,31 +58,31 @@ class SparqlTestSuite() {
             var prefix = "resources/sp2b/"
             File(prefix + "config.csv").forEachLine {
                 val line = it.split(",")
-if(line.size>3){
-val triplesCount=line[0]
-                val queryFile = prefix + line[1]
-                val inputFile = prefix + line[2]
-                val outputFile = prefix + line[3]
-                if (!File(outputFile).exists()) {
-                    try {
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
-                        val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
-                        val jenaXML = XMLElement.parseFromXml(jenaResult)!!
-                        File(outputFile).printWriter {
-                            it.println(jenaXML.toPrettyString())
+                if (line.size > 3) {
+                    val triplesCount = line[0]
+                    val queryFile = prefix + line[1]
+                    val inputFile = prefix + line[2]
+                    val outputFile = prefix + line[3]
+                    if (!File(outputFile).exists()) {
+                        try {
+                            JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
+                            val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
+                            val jenaXML = XMLElement.parseFromXml(jenaResult)!!
+                            File(outputFile).printWriter {
+                                it.println(jenaXML.toPrettyString())
+                            }
+                        } catch (e: Throwable) {
+                            e.printStackTrace()
+                        } finally {
+                            JenaWrapper.dropAll()
                         }
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                    } finally {
-                        JenaWrapper.dropAll()
+                    }
+                    CoroutinesHelper.runBlock {
+                        GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile + "-" + triplesCount })
+                        parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                     }
                 }
-                CoroutinesHelper.runBlock {
-GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount })
-                    parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
-                }
             }
-}
         }
         nodeGlobalDictionary.printContents()
         nodeGlobalDictionary.typedMap.safeToFile("log/dict_1")
@@ -454,7 +454,7 @@ GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount 
                             val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                             xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         }
-                        if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput)) {
+                        if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(BulkImport)" })
@@ -480,7 +480,7 @@ GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount 
                         query.commit()
                         xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                     }
-                    if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput)) {
+                    if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput,true,true,true)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
@@ -571,7 +571,7 @@ GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount 
                     var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
                     val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                     var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
-                    if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual)) {
+                    if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
@@ -598,7 +598,7 @@ GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount 
                             val jenaResult = JenaWrapper.execQuery(toParse)
                             val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                            if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult)) {
+                            if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
@@ -632,20 +632,30 @@ GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount 
                             res = false
                         }
                     } else {
-                        if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget)) {
-val containsOrderBy=toParse.contains("ORDER",true)
+                        val containsOrderBy = toParse.contains("ORDER", true)
+                        val correctIfIgnoreOrderBy = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, false, false, true)
+                        val correctIfIgnoreString = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, false, true)
+                        val correctIfIgnoreNumber = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, true)
+                        val correctIfIgnoreAllExceptOrder = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, false)
+                        if (correctIfIgnoreNumber) {
                             if (expectedResult) {
-if(containsOrderBy){
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
-}else{
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Simplified)" })
-}
+                                if (containsOrderBy) {
+                                    if (correctIfIgnoreAllExceptOrder) {
+                                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
+                                    } else {
+                                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
+                                    }
+                                } else if (correctIfIgnoreOrderBy) {
+                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
+                                } else if (correctIfIgnoreString) {
+                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(String)" })
+                                } else if (correctIfIgnoreNumber) {
+                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Number & String)" })
+                                } else {
+                                    throw Exception("unreachable")
+                                }
                             } else {
-if(containsOrderBy){
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Unordered)" })
-}else{
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Simplified)" })
-}
                             }
                         } else {
                             if (expectedResult) {

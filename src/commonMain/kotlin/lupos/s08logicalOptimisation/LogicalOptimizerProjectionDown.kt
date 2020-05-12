@@ -5,8 +5,8 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -35,14 +35,26 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
             val variables = node.variables.distinct().map { it.name }.toMutableList()
             val child = node.children[0]
             when (child) {
-is LOPMinus->{
-val variablesA=node.variables.map{it.name}.intersect(child.children[0].getProvidedVariableNames())
-val variablesB=node.variables.map{it.name}.intersect(child.children[1].getProvidedVariableNames())
- child.children[0] = LOPProjection(query, variablesA.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
- child.children[1] = LOPProjection(query, variablesB.map { AOPVariable(query, it) }.toMutableList(), child.children[1])
-res=child
-onChange()
-}
+                is LOPMinus -> {
+                    val variables = child.children[0].getProvidedVariableNames().intersect(child.children[1].getProvidedVariableNames())
+                    if (!variables.containsAll(child.children[0].getProvidedVariableNames())) {
+                        child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                        onChange()
+                    }
+                    if (!variables.containsAll(child.children[1].getProvidedVariableNames())) {
+                        child.children[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[1])
+                        onChange()
+                    }
+                    val tmp = mutableListOf<String>()
+                    for (v in child.tmpFakeVariables) {
+                        if (!variables.contains(v)) {
+                            onChange()
+                        } else {
+                            tmp.add(v)
+                        }
+                    }
+                    child.tmpFakeVariables = tmp
+                }
                 is LOPUnion -> {
                     child.children[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.children[0])
                     child.children[1] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.children[1])

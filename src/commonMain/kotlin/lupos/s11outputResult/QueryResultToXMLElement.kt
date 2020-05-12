@@ -15,23 +15,23 @@ object QueryResultToXMLElement {
     suspend fun toXML(rootNode: OPBase): XMLElement {
         var res = mutableListOf<XMLElement>()
         val nodes: Array<OPBase>
-var columnProjectionOrder:List<List<String>>
+        var columnProjectionOrder: List<List<String>>
         if (rootNode is OPBaseCompound) {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
-columnProjectionOrder=rootNode.columnProjectionOrder
+            columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf<OPBase>(rootNode)
-columnProjectionOrder=listOf(listOf<String>())
+            columnProjectionOrder = listOf(listOf<String>())
         }
         for (i in 0 until nodes.size) {
-val node=nodes[i]
-val columnNames:List<String>
-if(columnProjectionOrder[i].size>0){
-columnNames=columnProjectionOrder[i]
-require(columnNames.containsAll(node.getProvidedVariableNames()))
-}else{
-columnNames=node.getProvidedVariableNames()
-}
+            val node = nodes[i]
+            val columnNames: List<String>
+            if (columnProjectionOrder[i].size > 0) {
+                columnNames = columnProjectionOrder[i]
+                require(columnNames.containsAll(node.getProvidedVariableNames()))
+            } else {
+                columnNames = node.getProvidedVariableNames()
+            }
             val child = node.evaluate()
             val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")

@@ -104,7 +104,7 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     @JvmField
     val fullname = hostname + ":" + port
 
-fun cleanString(s: String): String {
+    fun cleanString(s: String): String {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -116,9 +116,10 @@ fun cleanString(s: String): String {
         }
         return res
     }
+
     fun process_turtle_input_helper(dict: MyMapStringIntPatriciaTrie, v: String): Value {
         try {
-            val v2=cleanString(v)
+            val v2 = cleanString(v)
             BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
             if (v2.startsWith("_:")) {
                 return dict.getOrCreate(v2, { nodeGlobalDictionary.createNewBNode() })
