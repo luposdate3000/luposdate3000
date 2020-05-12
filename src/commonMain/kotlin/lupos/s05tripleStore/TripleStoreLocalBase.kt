@@ -37,10 +37,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun loadFromFolder(foldername: String) {
+        NodeManager.loadFromFile(foldername + "/nodemanager")
         dataDistinct.forEach {
             it.second.loadFromFile(foldername + "/" + it.first + ".bin")
         }
-        NodeManager.loadFromFile(foldername + "/nodemanager")
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {

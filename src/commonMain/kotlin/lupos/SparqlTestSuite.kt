@@ -468,11 +468,10 @@ class SparqlTestSuite() {
                         }
                         query.commit()
                     }
-/*
                     val query = Query()
                     File("log/storetest").mkdirs()
                     DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
-                    DistributedTripleStore.localStore.getDefaultGraph(query).clear()
+/*
                     DistributedTripleStore.localStore.getDefaultGraph(query).loadFromFolder("log/storetest")
                     var xmlGraphLoad: XMLElement? = null
                     CoroutinesHelper.runBlock {

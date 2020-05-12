@@ -1,10 +1,10 @@
 package lupos.s05tripleStore
 
+import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
+import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
@@ -24,6 +24,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var firstLeaf = NodeManager.nodeNullPointer
     var root = NodeManager.nodeNullPointer
     var rootNode: NodeInner? = null
+    var pendingImport = mutableListOf<Int?>()
 
     companion object {
         var storeIteratorCounter = 0L
@@ -38,9 +39,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun loadFromFile(filename: String) {
+        pendingImport.clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
             root = fis.readInt()
+            NodeManager.getNode(root, {
+                throw Exception("unreachable")
+            }, {
+                rootNode = it
+            })
         }
     }
 
@@ -158,7 +165,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    var pendingImport = mutableListOf<Int?>()
     fun importHelper(a: TripleIterator, b: TripleIterator): Int {
         return importHelper(MergeIterator(a, b))
     }
@@ -199,7 +205,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     fun flush() {
-BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
+        BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
         if (pendingImport.size > 0) {
             var j = 1
             while (j < pendingImport.size) {
@@ -221,51 +227,53 @@ BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
             }, {
                 rebuildData(DistinctIterator(it.iterator()))
             })
-NodeManager.freeAllLeaves(newFirstLeaf)
+            NodeManager.freeAllLeaves(newFirstLeaf)
             pendingImport.clear()
         }
-BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
-        val iteratorImport = BulkImportIterator(dataImport, count, order)
-        val iterator = DistinctIterator(iteratorImport)
-        var newFirstLeaf = importHelper(iterator)
-        if (firstLeaf != NodeManager.nodeNullPointer) {
-            pendingImport.add(firstLeaf)
-            firstLeaf = NodeManager.nodeNullPointer
-            NodeManager.freeAllInnerNodes(root)
-            root = NodeManager.nodeNullPointer
-            rootNode = null
-        }
-        if (pendingImport.size == 0) {
-            pendingImport.add(newFirstLeaf)
-        } else if (pendingImport[0] == null) {
-            pendingImport[0] = newFirstLeaf
-        } else {
-            pendingImport[0] = importHelper(pendingImport[0]!!, newFirstLeaf)
-            if (pendingImport[pendingImport.size - 1] != null) {
-                pendingImport.add(null)
+        BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
+        if (count > 0) {
+            val iteratorImport = BulkImportIterator(dataImport, count, order)
+            val iterator = DistinctIterator(iteratorImport)
+            var newFirstLeaf = importHelper(iterator)
+            if (firstLeaf != NodeManager.nodeNullPointer) {
+                pendingImport.add(firstLeaf)
+                firstLeaf = NodeManager.nodeNullPointer
+                NodeManager.freeAllInnerNodes(root)
+                root = NodeManager.nodeNullPointer
+                rootNode = null
             }
-            var j = 1
-            while (j < pendingImport.size) {
-                if (pendingImport[j] == null) {
-                    pendingImport[j] = pendingImport[j - 1]
-                    pendingImport[j - 1] = null
-                    break
-                } else {
-                    val a = pendingImport[j]!!
-                    val b = pendingImport[j - 1]!!
-                    pendingImport[j] = importHelper(a, b)
-                    NodeManager.freeAllLeaves(a)
-                    NodeManager.freeAllLeaves(b)
-                    pendingImport[j - 1] = null
+            if (pendingImport.size == 0) {
+                pendingImport.add(newFirstLeaf)
+            } else if (pendingImport[0] == null) {
+                pendingImport[0] = newFirstLeaf
+            } else {
+                pendingImport[0] = importHelper(pendingImport[0]!!, newFirstLeaf)
+                if (pendingImport[pendingImport.size - 1] != null) {
+                    pendingImport.add(null)
                 }
-                j++
+                var j = 1
+                while (j < pendingImport.size) {
+                    if (pendingImport[j] == null) {
+                        pendingImport[j] = pendingImport[j - 1]
+                        pendingImport[j - 1] = null
+                        break
+                    } else {
+                        val a = pendingImport[j]!!
+                        val b = pendingImport[j - 1]!!
+                        pendingImport[j] = importHelper(a, b)
+                        NodeManager.freeAllLeaves(a)
+                        NodeManager.freeAllLeaves(b)
+                        pendingImport[j - 1] = null
+                    }
+                    j++
+                }
             }
         }
-BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
     }
 
     fun rebuildData(iterator: TripleIterator) {
@@ -288,7 +296,6 @@ BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
                 }
                 node.initializeWith(iterator)
             }
-            NodeManager.freeNodeAndAllRelated(root)
             firstLeaf = newFirstLeaf
             require(currentLayer.size > 0)
             while (currentLayer.size > 1) {
@@ -310,11 +317,11 @@ BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
                 }
                 currentLayer = tmp
             }
-            root = currentLayer[0]
-            NodeManager.getNode(root, {
+            NodeManager.getNode(currentLayer[0], {
                 NodeManager.allocateNodeInner { n, i ->
-                    n.initializeWith(mutableListOf(root))
+                    n.initializeWith(mutableListOf(currentLayer[0]))
                     rootNode = n
+                    root = i
                 }
             }, {
                 rootNode = it
@@ -323,7 +330,7 @@ BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {
-flush()
+        flush()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         val iteratorImport = BulkImportIterator(d[0], data.size, order)
@@ -339,11 +346,13 @@ flush()
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
+        var oldroot = root
         rebuildData(iterator)
+        NodeManager.freeNodeAndAllRelated(oldroot)
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray) {
-flush()
+        flush()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         val iteratorImport = BulkImportIterator(d[0], data.size, order)
@@ -359,7 +368,9 @@ flush()
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
+        var oldroot = root
         rebuildData(iterator)
+        NodeManager.freeNodeAndAllRelated(oldroot)
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
@@ -371,7 +382,7 @@ flush()
     }
 
     override fun clear() {
-flush()
+        flush()
         NodeManager.freeNodeAndAllRelated(root)
         firstLeaf = NodeManager.nodeNullPointer
         root = NodeManager.nodeNullPointer
