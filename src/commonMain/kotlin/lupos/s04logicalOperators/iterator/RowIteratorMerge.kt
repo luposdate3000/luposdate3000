@@ -28,10 +28,9 @@ if(next<0){
 done=true
 break
 }
-                    for (i in 0 until columns.size) {
-                        buf1[i] = a.buf[next + columnMapping[i]]
+                    for (j in 0 until columns.size) {
+                        buf1[i++] = a.buf[next + columnMapping[j]]
                     }
-                    i += columns.size
                 }
                 var total = i / columns.size
                 var off = 0

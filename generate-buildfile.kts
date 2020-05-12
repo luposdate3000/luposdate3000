@@ -335,13 +335,13 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
         ),
         ChooseableGroup("Merge Sort Minimal Rows") to listOf(
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "8"),
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "16"),
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "32"),
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "64"),
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "128"),
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "256"),
-                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "MERGE_SORT_MIN_ROWS", "512")
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "8"),
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "16"),
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "32"),
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "64"),
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "128"),
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "256"),
+                ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "512")
         )
 )
 val conflicts = listOf(
