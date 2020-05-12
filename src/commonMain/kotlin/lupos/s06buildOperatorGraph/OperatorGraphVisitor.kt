@@ -660,14 +660,26 @@ if((o is AOPVariable && o.name!="o") || o !is AOPVariable){
                 childs.add(q)
             }
         }
+var columnProjectionOrder=mutableListOf<List<String>>()
         if (prefix != null) {
             for (i in 0 until childs.size) {
 val tmp=prefix.cloneOP()
 tmp.getLatestChild().setChild(childs[i])
                 childs[i] = tmp
+var x=childs[i]
+val list=mutableListOf<String>()
+while(x is LOPPrefix || x is LOPSubGroup || x is LOPNOOP){
+x=x.children[0]
+}
+if(x is LOPProjection){
+list.addAll(x.variables.map{it.name})
+}else{
+println("no force-selected column order ?!? ...")
+}
+columnProjectionOrder.add(list)
             }
         }
-        return OPBaseCompound(query, childs.toTypedArray())
+        return OPBaseCompound(query, childs.toTypedArray(),columnProjectionOrder)
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {

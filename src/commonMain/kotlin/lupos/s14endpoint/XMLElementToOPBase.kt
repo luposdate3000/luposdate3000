@@ -123,7 +123,16 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping))
             }
-            return OPBaseCompound(query, childs.toTypedArray())
+            val cpos = mutableListOf<List<String>>()
+            val x = node["columnProjectionOrders"]!!
+            for (a in x.childs) {
+                val list = mutableListOf<String>()
+                cpos.add(list)
+                for (b in a.childs) {
+                    list.add(b.content)
+                }
+            }
+            return OPBaseCompound(query, childs.toTypedArray(), cpos)
         }
         "LOPSubGroup" -> {
             return LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))

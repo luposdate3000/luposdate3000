@@ -19,6 +19,21 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
-class OPBaseCompound(query: Query, children: Array<OPBase>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
-    override fun cloneOP() = OPBaseCompound(query, children.map { it.cloneOP() }.toTypedArray())
+class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
+    override fun cloneOP() = OPBaseCompound(query, children.map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
+    override fun toXMLElement(): XMLElement {
+        var res = super.toXMLElement()
+        var x = XMLElement("columnProjectionOrders")
+        res.addContent(x)
+        for (cpos in columnProjectionOrder) {
+            var y = XMLElement("columnProjectionOrder")
+            x.addContent(y)
+            for (cpo in cpos) {
+var z = XMLElement("columnProjectionOrderElement")
+            y.addContent(z)
+                z.addContent(cpo)
+            }
+        }
+        return res
+    }
 }
