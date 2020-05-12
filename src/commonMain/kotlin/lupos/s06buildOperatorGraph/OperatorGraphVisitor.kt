@@ -334,15 +334,15 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 val s = templateLocal.children[0] as AOPBase
                 val p = templateLocal.children[1] as AOPBase
                 val o = templateLocal.children[2] as AOPBase
-if((s is AOPVariable && s.name!="s") || s !is AOPVariable){
-                tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
-}
-if((p is AOPVariable && p.name!="p") || p !is AOPVariable){
-                tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
-}
-if((o is AOPVariable && o.name!="o") || o !is AOPVariable){
-                tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
-}
+                if ((s is AOPVariable && s.name != "s") || s !is AOPVariable) {
+                    tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
+                }
+                if ((p is AOPVariable && p.name != "p") || p !is AOPVariable) {
+                    tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
+                }
+                if ((o is AOPVariable && o.name != "o") || o !is AOPVariable) {
+                    tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
+                }
             } else {
                 throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             }
@@ -660,26 +660,28 @@ if((o is AOPVariable && o.name!="o") || o !is AOPVariable){
                 childs.add(q)
             }
         }
-var columnProjectionOrder=mutableListOf<List<String>>()
         if (prefix != null) {
             for (i in 0 until childs.size) {
-val tmp=prefix.cloneOP()
-tmp.getLatestChild().setChild(childs[i])
+                val tmp = prefix.cloneOP()
+                tmp.getLatestChild().setChild(childs[i])
                 childs[i] = tmp
-var x=childs[i]
-val list=mutableListOf<String>()
-while(x is LOPPrefix || x is LOPSubGroup || x is LOPNOOP){
-x=x.children[0]
-}
-if(x is LOPProjection){
-list.addAll(x.variables.map{it.name})
-}else{
-println("no force-selected column order ?!? ...")
-}
-columnProjectionOrder.add(list)
             }
         }
-        return OPBaseCompound(query, childs.toTypedArray(),columnProjectionOrder)
+        var columnProjectionOrder = mutableListOf<List<String>>()
+            for (i in 0 until childs.size) {
+                var x = childs[i]
+                val list = mutableListOf<String>()
+                while (x is LOPPrefix || x is LOPSubGroup || x is LOPNOOP) {
+                    x = x.children[0]
+                }
+                if (x is LOPProjection) {
+                    list.addAll(x.variables.map { it.name })
+                } else {
+                    println("no force-selected column order ?!? ...")
+                }
+                columnProjectionOrder.add(list)
+            }
+        return OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {
@@ -1342,7 +1344,7 @@ columnProjectionOrder.add(list)
         } else {
             var tmp: OPBase? = null
             for (c in node.using) {
-val t=parseGroup(node.children)
+                val t = parseGroup(node.children)
                 val tmp2 = setGraphNameForAllTriples(t, c, false)
                 if (tmp == null) {
                     tmp = tmp2
