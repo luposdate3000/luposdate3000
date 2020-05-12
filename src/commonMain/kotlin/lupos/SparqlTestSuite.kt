@@ -490,7 +490,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-                    } catch (e: org.apache.jena.query.QueryException) {
+                    } catch (e: Throwable) {
                         ignoreJena = true
                     }
                 }
@@ -509,7 +509,7 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-                    } catch (e: org.apache.jena.query.QueryException) {
+                    } catch (e: Throwable) {
                         ignoreJena = true
                     }
                 }

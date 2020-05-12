@@ -73,8 +73,8 @@ object NodeManager {
                 out.writeInt(i)
             }
         }
-        safeToFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, { it as ByteArray })
-        safeToFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, { it as ByteArray })
+        safeToFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, { it.toByteArray() })
+        safeToFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, { it.toByteArray() })
     }
 
     inline fun loadFromFile(filename: String) {

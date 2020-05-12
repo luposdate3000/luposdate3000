@@ -15,21 +15,16 @@ versions=( "Single_BTree_Empty" )
 p=$(pwd)/benchmark_results/sp2b
 mkdir -p $p
 
-
-#find resources/sp2b/ -name "*.sparql" > log/queries
-echo "resources/sp2b/q1.sparql" > log/queries
-echo "resources/sp2b/q3a.sparql" >> log/queries
-echo "resources/sp2b/q3b.sparql" >> log/queries
-echo "resources/sp2b/q3c.sparql" >> log/queries
-echo "resources/sp2b/q6.sparql" >> log/queries
-echo "resources/sp2b/q10.sparql" >> log/queries
-echo "resources/sp2b/q12a.sparql" >> log/queries
-echo "resources/sp2b/q12b.sparql" >> log/queries
-echo "resources/sp2b/q12c.sparql" >> log/queries
-
-#!!!!!!!!!!!!
-echo "resources/sp2b/q12c.sparql" > log/queries
-#!!!!!!!!!!!!
+ls resources/sp2b/q*.sparql | grep -v "-" > log/queries
+#echo "resources/sp2b/q1.sparql" > log/queries
+#echo "resources/sp2b/q3a.sparql" >> log/queries
+#echo "resources/sp2b/q3b.sparql" >> log/queries
+#echo "resources/sp2b/q3c.sparql" >> log/queries
+#echo "resources/sp2b/q6.sparql" >> log/queries
+#echo "resources/sp2b/q10.sparql" >> log/queries
+#echo "resources/sp2b/q12a.sparql" >> log/queries
+#echo "resources/sp2b/q12b.sparql" >> log/queries
+#echo "resources/sp2b/q12c.sparql" >> log/queries
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
@@ -51,8 +46,7 @@ do
 			then
 				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" > log/benchtmp/x
 			else
-				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" > log/benchtmp/x
-#				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" > log/benchtmp/x
+				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" > log/benchtmp/x
 			fi
 			cat log/benchtmp/x | grep "sparql,$triples," >> $p/luposdate-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.queries
