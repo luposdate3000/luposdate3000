@@ -678,9 +678,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             if (x is LOPProjection) {
                 list.addAll(x.variables.map { it.name })
             } else {
-SanityCheck{
-                println("debug no force-selected column order ?!? ...")
-}
+                SanityCheck {
+                    println("debug no force-selected column order ?!? ...")
+                }
             }
             columnProjectionOrder.add(list)
         }

@@ -37,8 +37,8 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
             when (child) {
                 is LOPMinus -> {
                     val variablesB = child.children[0].getProvidedVariableNames().intersect(child.children[1].getProvidedVariableNames())
-			val variablesA=variablesB.toMutableList()
-		variablesA.addAll(node.variables.map{it.name})
+                    val variablesA = variablesB.toMutableList()
+                    variablesA.addAll(node.variables.map { it.name })
                     if (!variablesA.containsAll(child.children[0].getProvidedVariableNames())) {
                         child.children[0] = LOPProjection(query, variablesA.map { AOPVariable(query, it) }.distinct().toMutableList(), child.children[0])
                         onChange()

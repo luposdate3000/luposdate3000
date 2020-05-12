@@ -55,9 +55,9 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                 var res = -1
                 loop@ while (true) {
                     when (flag) {
-0->{
-break@loop
-}
+                        0 -> {
+                            break@loop
+                        }
                         1 -> {//nothing to remove left
                             aIdx = a1.next()
                             if (aIdx < 0) {

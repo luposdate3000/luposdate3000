@@ -604,43 +604,43 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
     }
 
     fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode, depth: Int) {
-SanityCheck{
-        when (node) {
-            is MyMapStringIntPatriciaTrieNode2 -> {
-                var i = 0
-                if (node.childs0 != null) {
-                    i++
-                }
-                if (node.childs1 != null) {
-                    i++
-                }
-                println("debug ${prefix}${node.str}:2@${node.str.length}-${depth}+$i,${2 - i}#2")
-                if (node.childs0 != null) {
-                    debugInternal(prefix + " ", node.childs0!!, depth + 1)
-                }
-                if (node.childs1 != null) {
-                    debugInternal(prefix + " ", node.childs1!!, depth + 1)
-                }
-            }
-            is MyMapStringIntPatriciaTrieNodeN -> {
-                var i = 0
-                for (c in node.childs) {
-                    if (c != null) {
+        SanityCheck {
+            when (node) {
+                is MyMapStringIntPatriciaTrieNode2 -> {
+                    var i = 0
+                    if (node.childs0 != null) {
                         i++
                     }
-                }
-                println("debug ${prefix}${node.str}:${node.childs.size}@${node.str.length}-${depth}+$i,${node.childs.size - i}#N")
-                for (c in node.childs) {
-                    if (c != null) {
-                        debugInternal(prefix + " ", c, depth + 1)
+                    if (node.childs1 != null) {
+                        i++
+                    }
+                    println("debug ${prefix}${node.str}:2@${node.str.length}-${depth}+$i,${2 - i}#2")
+                    if (node.childs0 != null) {
+                        debugInternal(prefix + " ", node.childs0!!, depth + 1)
+                    }
+                    if (node.childs1 != null) {
+                        debugInternal(prefix + " ", node.childs1!!, depth + 1)
                     }
                 }
-            }
-            else -> {
-                require(false)
+                is MyMapStringIntPatriciaTrieNodeN -> {
+                    var i = 0
+                    for (c in node.childs) {
+                        if (c != null) {
+                            i++
+                        }
+                    }
+                    println("debug ${prefix}${node.str}:${node.childs.size}@${node.str.length}-${depth}+$i,${node.childs.size - i}#N")
+                    for (c in node.childs) {
+                        if (c != null) {
+                            debugInternal(prefix + " ", c, depth + 1)
+                        }
+                    }
+                }
+                else -> {
+                    require(false)
+                }
             }
         }
-}
     }
 
     fun debug() = debugInternal("", root, 0)

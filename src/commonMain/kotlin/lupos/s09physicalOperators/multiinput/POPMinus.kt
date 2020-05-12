@@ -27,8 +27,8 @@ class POPMinus(query: Query, projectedVariables: List<String>, childA: OPBase, c
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
-        val rowA=childA.rows
-        val rowB=childB.rows
-        return IteratorBundle(RowIteratorMinus(rowA,rowB,projectedVariables.toTypedArray()))
+        val rowA = childA.rows
+        val rowB = childB.rows
+        return IteratorBundle(RowIteratorMinus(rowA, rowB, projectedVariables.toTypedArray()))
     }
 }

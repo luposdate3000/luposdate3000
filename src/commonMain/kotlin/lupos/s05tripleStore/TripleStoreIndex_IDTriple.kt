@@ -3,6 +3,8 @@ package lupos.s05tripleStore
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.BenchmarkUtils
+import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
@@ -28,6 +30,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun safeToFile(filename: String) {
+        flush()
         File(filename).dataOutputStream { out ->
             out.writeInt(firstLeaf)
             out.writeInt(root)
@@ -78,6 +81,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
+        flush()
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -154,21 +158,114 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        val iteratorImport = BulkImportIterator(dataImport, count, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = it.iterator()
-            }, {
-                throw Exception("unreachable")
-            })
+    var pendingImport = mutableListOf<Int?>()
+    fun importHelper(a: TripleIterator, b: TripleIterator): Int {
+        return importHelper(MergeIterator(a, b))
+    }
+
+    fun importHelper(a: Int, b: Int): Int {
+        var nodeA: NodeLeaf? = null
+        var nodeB: NodeLeaf? = null
+        NodeManager.getNode(a, {
+            nodeA = it
+        }, {
+            throw Exception("unreachable")
+        })
+        NodeManager.getNode(b, {
+            nodeB = it
+        }, {
+            throw Exception("unreachable")
+        })
+        return importHelper(MergeIterator(nodeA!!.iterator(), nodeB!!.iterator()))
+    }
+
+    fun importHelper(iterator: TripleIterator): Int {
+        var res = NodeManager.nodeNullPointer
+        var node2: NodeLeaf? = null
+        NodeManager.allocateNodeLeaf { n, i ->
+            res = i
+            node2 = n
         }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MergeIterator(DistinctIterator(iteratorImport), iteratorStore)
-        rebuildData(iterator)
+        var node = node2!!
+        node.initializeWith(iterator)
+        while (iterator.hasNext()) {
+            NodeManager.allocateNodeLeaf { n, i ->
+                node.setNextNode(i)
+                node = n
+            }
+            node.initializeWith(iterator)
+        }
+        return res
+    }
+
+    fun flush() {
+BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
+        if (pendingImport.size > 0) {
+            var j = 1
+            while (j < pendingImport.size) {
+                if (pendingImport[j] == null) {
+                    pendingImport[j] = pendingImport[j - 1]
+                } else if (pendingImport[j - 1] != null) {
+                    val a = pendingImport[j]!!
+                    val b = pendingImport[j - 1]!!
+                    pendingImport[j] = importHelper(a, b)
+                    NodeManager.freeAllLeaves(a)
+                    NodeManager.freeAllLeaves(b)
+                }
+                j++
+            }
+            require(pendingImport.size > 0)
+            val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
+            NodeManager.getNode(newFirstLeaf, {
+                rebuildData(DistinctIterator(it.iterator()))
+            }, {
+                rebuildData(DistinctIterator(it.iterator()))
+            })
+NodeManager.freeAllLeaves(newFirstLeaf)
+            pendingImport.clear()
+        }
+BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
+    }
+
+    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
+        val iteratorImport = BulkImportIterator(dataImport, count, order)
+        val iterator = DistinctIterator(iteratorImport)
+        var newFirstLeaf = importHelper(iterator)
+        if (firstLeaf != NodeManager.nodeNullPointer) {
+            pendingImport.add(firstLeaf)
+            firstLeaf = NodeManager.nodeNullPointer
+            NodeManager.freeAllInnerNodes(root)
+            root = NodeManager.nodeNullPointer
+            rootNode = null
+        }
+        if (pendingImport.size == 0) {
+            pendingImport.add(newFirstLeaf)
+        } else if (pendingImport[0] == null) {
+            pendingImport[0] = newFirstLeaf
+        } else {
+            pendingImport[0] = importHelper(pendingImport[0]!!, newFirstLeaf)
+            if (pendingImport[pendingImport.size - 1] != null) {
+                pendingImport.add(null)
+            }
+            var j = 1
+            while (j < pendingImport.size) {
+                if (pendingImport[j] == null) {
+                    pendingImport[j] = pendingImport[j - 1]
+                    pendingImport[j - 1] = null
+                    break
+                } else {
+                    val a = pendingImport[j]!!
+                    val b = pendingImport[j - 1]!!
+                    pendingImport[j] = importHelper(a, b)
+                    NodeManager.freeAllLeaves(a)
+                    NodeManager.freeAllLeaves(b)
+                    pendingImport[j - 1] = null
+                }
+                j++
+            }
+        }
+BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
     }
 
     fun rebuildData(iterator: TripleIterator) {
@@ -226,12 +323,27 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {
+flush()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        import(d[0], data.size, order)
+        val iteratorImport = BulkImportIterator(d[0], data.size, order)
+        var iteratorStore2: TripleIterator? = null
+        if (firstLeaf == NodeManager.nodeNullPointer) {
+            iteratorStore2 = EmptyIterator()
+        } else {
+            NodeManager.getNode(firstLeaf, {
+                iteratorStore2 = it.iterator()
+            }, {
+                throw Exception("unreachable")
+            })
+        }
+        val iteratorStore = iteratorStore2!!
+        val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
+        rebuildData(iterator)
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray) {
+flush()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         val iteratorImport = BulkImportIterator(d[0], data.size, order)
@@ -259,6 +371,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun clear() {
+flush()
         NodeManager.freeNodeAndAllRelated(root)
         firstLeaf = NodeManager.nodeNullPointer
         root = NodeManager.nodeNullPointer

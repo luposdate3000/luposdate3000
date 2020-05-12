@@ -33,7 +33,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
         }
-        NodeManager.safeToFile(foldername + "/nodemanager")
+        NodeManager.safeToFile(foldername + "/nodemanager")//required to be called AFTER the individual indicees, to be able to perform some cleanups there
     }
 
     fun loadFromFolder(foldername: String) {

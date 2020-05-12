@@ -102,7 +102,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
             } else {
                 comparator = ValueComparatorDESC(query)
             }
-return IteratorBundle(RowIteratorMerge(child.rows,comparator,sortBy.size,columnNames))
+            return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
         }
     }
 }

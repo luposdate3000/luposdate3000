@@ -37,9 +37,9 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsLocal = Array(variables.size) { ColumnIteratorQueue() }
         for (variableIndex in 0 until variables.size) {
-if(projectedVariables.contains(variables[variableIndex])){
-            outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
-}
+            if (projectedVariables.contains(variables[variableIndex])) {
+                outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
+            }
             localMap[variables[variableIndex]] = columnsLocal[variableIndex]
         }
         val res: IteratorBundle

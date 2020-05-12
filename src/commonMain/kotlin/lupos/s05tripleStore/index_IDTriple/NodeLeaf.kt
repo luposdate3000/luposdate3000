@@ -25,8 +25,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         b[2] = read4(17)
     }
 
-fun toByteArray()=this.data
-
+    fun toByteArray() = this.data
     fun setNextNode(node: Int) {
         write4(4, node)
     }

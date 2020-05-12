@@ -168,4 +168,30 @@ object NodeManager {
             })
         }
     }
+
+    fun freeAllInnerNodes(nodeIdx: Int) {
+        if (nodeIdx != nodeNullPointer) {
+            getNode(nodeIdx, { node ->
+                throw Exception("unreachable")
+            }, { node ->
+                node.forEachChild {
+                    freeAllInnerNodes(it)
+                }
+                freeNode(nodeIdx)
+            })
+        }
+    }
+
+    fun freeAllLeaves(nodeIdx: Int) {
+        var idx = nodeIdx
+        while (idx != nodeNullPointer) {
+            getNode(idx, { node ->
+                val tmp = node.getNextNode()
+                freeNode(idx)
+                idx = tmp
+            }, { node ->
+                throw Exception("unreachable")
+            })
+        }
+    }
 }

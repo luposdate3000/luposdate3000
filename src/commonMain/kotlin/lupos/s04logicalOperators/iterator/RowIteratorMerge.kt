@@ -23,11 +23,11 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
             while (!done) {
                 var i = 0
                 while (i < buf1.size) {
-                val next = a.next()
-if(next<0){
-done=true
-break
-}
+                    val next = a.next()
+                    if (next < 0) {
+                        done = true
+                        break
+                    }
                     for (j in 0 until columns.size) {
                         buf1[i++] = a.buf[next + columnMapping[j]]
                     }
@@ -147,8 +147,6 @@ break
                     resultList[j] = RowIteratorMerge(resultList[j]!!, resultList[j - 1]!!, comparator, compCount)
                 }
                 j++
-
-
             }
             require(resultList.size > 0)
             return resultList[resultList.size - 1]!!

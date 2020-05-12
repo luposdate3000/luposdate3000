@@ -193,16 +193,16 @@ class MyMapStringIntPatriciaTrieVersion1() {
     }
 
     fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode, depth: Int) {
-SanityCheck{
-        if (node.value != null) {
-            println("debug ${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}=${node.value}")
-        } else {
-            println("debug ${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}")
+        SanityCheck {
+            if (node.value != null) {
+                println("debug ${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}=${node.value}")
+            } else {
+                println("debug ${prefix}${node.key}:${node.children.size}@${node.key.length}-${depth}")
+            }
+            for (c in node.children) {
+                debugInternal(prefix + " ", c, depth + 1)
+            }
         }
-        for (c in node.children) {
-            debugInternal(prefix + " ", c, depth + 1)
-        }
-}
     }
 
     fun debug() = debugInternal("", root, 0)
