@@ -36,13 +36,15 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
             val child = node.children[0]
             when (child) {
                 is LOPMinus -> {
-                    val variables = child.children[0].getProvidedVariableNames().intersect(child.children[1].getProvidedVariableNames())
-                    if (!variables.containsAll(child.children[0].getProvidedVariableNames())) {
-                        child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                    val variablesB = child.children[0].getProvidedVariableNames().intersect(child.children[1].getProvidedVariableNames())
+			val variablesA=variablesB.toMutableList()
+		variablesA.addAll(node.variables.map{it.name})
+                    if (!variablesA.containsAll(child.children[0].getProvidedVariableNames())) {
+                        child.children[0] = LOPProjection(query, variablesA.map { AOPVariable(query, it) }.distinct().toMutableList(), child.children[0])
                         onChange()
                     }
-                    if (!variables.containsAll(child.children[1].getProvidedVariableNames())) {
-                        child.children[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[1])
+                    if (!variablesB.containsAll(child.children[1].getProvidedVariableNames())) {
+                        child.children[1] = LOPProjection(query, variablesB.map { AOPVariable(query, it) }.distinct().toMutableList(), child.children[1])
                         onChange()
                     }
                     val tmp = mutableListOf<String>()

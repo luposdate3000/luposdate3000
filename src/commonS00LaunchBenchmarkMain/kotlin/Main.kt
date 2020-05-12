@@ -46,10 +46,12 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             printBenchmarkLine("resources/sp2b/persistence-import-rebuild.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_REBUILD_MAP), 1, numberOfTriples, originalTripleSize)
             printBenchmarkLine("resources/sp2b/persistence-import-merge.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_MERGE_DATA), 1, numberOfTriples, originalTripleSize)
             printBenchmarkLine("resources/sp2b/persistence-import-parse.sparql", time - BenchmarkUtils.getTime(EBenchmark.IMPORT_MERGE_DATA) - BenchmarkUtils.getTime(EBenchmark.IMPORT_REBUILD_MAP) - BenchmarkUtils.getTime(EBenchmark.IMPORT_DICT) - BenchmarkUtils.getTime(EBenchmark.IMPORT_SORT), 1, numberOfTriples, originalTripleSize)
+/*
             val timer2 = Monotonic.markNow()
             endpointServer!!.process_persistence_store(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/sp2b/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
+*/
         }
     }
     for (queryFile in queryFiles) {

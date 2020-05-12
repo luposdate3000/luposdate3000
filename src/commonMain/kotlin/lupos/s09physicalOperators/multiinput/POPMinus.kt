@@ -10,6 +10,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.s04logicalOperators.iterator.RowIteratorMinus
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -24,13 +25,10 @@ class POPMinus(query: Query, projectedVariables: List<String>, childA: OPBase, c
         SanityCheck.check { children[0].getProvidedVariableNames().containsAll(variables) }
         SanityCheck.check { children[1].getProvidedVariableNames().containsAll(variables) }
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val sortA = POPSort(query, projectedVariables, projectedVariables.map { AOPVariable(query, it) }.toTypedArray(), true, children[0])
-        val sortB = POPSort(query, projectedVariables, projectedVariables.map { AOPVariable(query, it) }.toTypedArray(), true, children[1])
-        val childA = sortA.evaluate()
-        val childB = sortB.evaluate()
-        for (variable in variables) {
-            outMap[variable] = ColumnIteratorDebug(uuid, variable, ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!)))
-        }
-        return IteratorBundle(outMap)
+        val childA = children[0].evaluate()
+        val childB = children[1].evaluate()
+        val rowA=childA.rows
+        val rowB=childB.rows
+        return IteratorBundle(RowIteratorMinus(rowA,rowB))
     }
 }

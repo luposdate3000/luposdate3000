@@ -96,10 +96,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         columnsOUT.add(it)
                         columnsINAJ.add(0, childAv.columns[name]!!)
                         columnsOUTAJ.add(0, it)
+                        outMap[name] = it
                     } else {
                         columnsINAJ.add(childAv.columns[name]!!)
                     }
-                    outMap[name] = it
                 } else {
                     require(columnsTmp[2].contains(name) || name == "_")
                     if (name != "_") {
@@ -138,15 +138,15 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             params[indicesINBJ[i]] = AOPConstant(query, ResultSetDictionary.undefValue2)
             count++
         }
-        SanityCheck.check { count > 0 }
-        SanityCheck.check { count < 3 }
         SanityCheck {
+            SanityCheck.check { count > 0 }
+            SanityCheck.check { count < 3 }
             for (i in 0 until childB.mySortPriority.size) {
                 SanityCheck.check { childB.mySortPriority[i].sortType == ESortType.FAST }
             }
+            SanityCheck.check { indicesINBJ.size > 0 }
+            SanityCheck.check { valuesAJ.size == indicesINBJ.size }
         }
-        SanityCheck.check { indicesINBJ.size > 0 }
-        SanityCheck.check { valuesAJ.size == indicesINBJ.size }
         val columnsInB = Array(variablINBO.size) { ColumnIterator() }
         for (i in 0 until columnsINAO.size) {
             valuesAO[i] = columnsINAO[i].next()

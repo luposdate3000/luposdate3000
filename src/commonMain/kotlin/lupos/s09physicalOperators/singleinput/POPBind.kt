@@ -52,7 +52,9 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         var boundIndex = -1
         for (variableIndex in 0 until variablesLocal.size) {
             localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
+if(projectedVariables.contains(variablesLocal[variableIndex])){
             outMap[variablesLocal[variableIndex]] = ColumnIteratorDebug(uuid, variablesLocal[variableIndex], columnsLocal[variableIndex])
+}
             if (variablesLocal[variableIndex] == name.name) {
                 boundIndex = variableIndex
             }
