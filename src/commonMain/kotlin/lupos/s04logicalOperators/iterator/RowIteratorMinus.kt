@@ -6,7 +6,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueComparatorFast
 
-open class RowIteratorMinus(val a: RowIterator, val b: RowIterator) : RowIterator() {
+open class RowIteratorMinus(val a: RowIterator, val b: RowIterator,projection:Array<String>) : RowIterator() {
     var flag = 2
     var aIdx = -1
     var bIdx = -1
@@ -34,52 +34,67 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator) : RowIterato
                 columnsB.add(b.columns[j])
             }
         }
-        columns = columnsA.toTypedArray()
-runBlocking {
-println("${columns.map{it}} ${a.columns.map{it}} ${columnsB.toTypedArray()}")
-        val a1 = RowIteratorMerge(a, ValueComparatorFast(),compCount, columns)
-        val b1 = RowIteratorMerge(b, ValueComparatorFast(),compCount, columnsB.toTypedArray())
-        bIdx = b1.next()
-        if (bIdx < 0) {
-            flag = 1
-        }
-        next = {
-            var res = -1
-            loop@ while (flag > 0 && res == -1) {
-                when (flag) {
-                    1 -> {//nothing to remove left
-                        res = a.next()
-                        buf = a.buf
-                        if (res < 0) {
-                            flag = 0
-                        }
-                        break@loop
-                    }
-                    2 -> {
-                        aIdx = a.next()
-                        buf = a.buf
-                        if (aIdx >= 0) {
-                            for (i in 0 until compCount) {
-                                if (buf[i] < b.buf[i]) {
-                                    res = aIdx
-                                    break@loop
-                                } else if (buf[i] > b.buf[i]) {
-                                    bIdx = b.next()
-                                    if (bIdx < 0) {
-                                        flag = 1
-                                    }
-                                    continue@loop
-                                }
-                            }
-                        } else {
-                            flag = 0
+        columns = projection
+val mapping=IntArray(projection.size)
+for(i in 0 until projection.size){
+for(j in 0 until a.columns.size){
+if(projection[i]==a.columns[j]){
+mapping[i]=j
+}
+}
+}
+buf=IntArray(mapping.size)
+        runBlocking {
+            println("${columns.map { it }} ${a.columns.map { it }} ${columnsB.toTypedArray()}")
+            val a1 = RowIteratorMerge(a, ValueComparatorFast(), compCount, columnsA.toTypedArray())
+            val b1 = RowIteratorMerge(b, ValueComparatorFast(), compCount, columnsB.toTypedArray())
+            bIdx = b1.next()
+            if (bIdx < 0) {
+                flag = 1
+            }
+            next = {
+                var res = -1
+                loop@ while (flag > 0 && res == -1) {
+                    when (flag) {
+                        1 -> {//nothing to remove left
+                            aIdx = a.next()
+                            if (aIdx < 0) {
+                                flag = 0
+                            }else{
+for(i in 0 until mapping.size){
+buf[i]=a.buf[mapping[i]+aIdx]
+}
+res=0
+}
                             break@loop
+                        }
+                        2 -> {
+                            aIdx = a.next()
+                            if (aIdx >= 0) {
+                                for (i in 0 until compCount) {
+                                    if (buf[i] < b.buf[i]) {
+                                        res = 0
+for(i in 0 until mapping.size){
+buf[i]=a.buf[mapping[i]+aIdx]
+}
+                                        break@loop
+                                    } else if (buf[i] > b.buf[i]) {
+                                        bIdx = b.next()
+                                        if (bIdx < 0) {
+                                            flag = 1
+                                        }
+                                        continue@loop
+                                    }
+                                }
+                            } else {
+                                flag = 0
+                                break@loop
+                            }
                         }
                     }
                 }
+                /*return*/ res
             }
-            /*return*/ res
         }
-}
     }
 }
