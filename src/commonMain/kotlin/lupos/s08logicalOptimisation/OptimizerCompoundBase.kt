@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -18,6 +19,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             while (d) {
                 d = false
                 for (o in opt) {
+println("${o.optimizerID} $tmp")
                     var c = true
                     while (c) {
                         c = false
@@ -29,6 +31,9 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                             }
                         })
                     }
+SanityCheck{
+tmp.syntaxVerifyAllVariableExists(listOf(), false)
+}
                 }
             }
         }

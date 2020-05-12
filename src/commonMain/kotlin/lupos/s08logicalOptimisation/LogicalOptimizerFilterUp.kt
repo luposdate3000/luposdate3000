@@ -4,6 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04logicalOperators.multiinput.LOPUnion
+import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
@@ -24,7 +25,7 @@ class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerID
                     break
                 }
             }
-        } else if (node !is LOPFilter) {
+        } else if (node !is LOPFilter && node !is LOPMinus) {
             for (idx in 0 until node.children.size) {
                 val child = node.children[idx]
                 if (child is LOPFilter && node.getProvidedVariableNames().containsAll(child.children[1].getRequiredVariableNamesRecoursive())) {

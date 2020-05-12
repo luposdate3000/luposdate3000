@@ -178,6 +178,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
+import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -1483,7 +1484,8 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        return LOPMinus(query, childrenValues[0], childrenValues[1])
     }
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {

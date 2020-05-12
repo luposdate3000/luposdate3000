@@ -93,6 +93,7 @@ enum class EOperatorID {
     LOPSubGroupID,
     LOPTripleID,
     LOPUnionID,
+    LOPMinusID,
     LOPValuesID,
     OPCompoundID,
     OPNothingID,
@@ -119,6 +120,7 @@ enum class EOperatorID {
     POPSortID,
     POPTripleStoreIteratorBaseID,
     POPUnionID,
+    POPMinusID,
     POPValuesID,
     TripleStoreIteratorGlobalID
 }
@@ -147,9 +149,11 @@ val EOperatorIDLOP = arrayOf(
         EOperatorID.LOPSubGroupID,
         EOperatorID.LOPTripleID,
         EOperatorID.LOPUnionID,
-        EOperatorID.LOPValuesID
+        EOperatorID.LOPValuesID,
+EOperatorID.LOPMinusID
 )
 val EOperatorIDPOP = arrayOf(
+EOperatorID.POPMinusID,
         EOperatorID.POPBindID,
         EOperatorID.POPDistinctID,
         EOperatorID.POPEmptyRowID,

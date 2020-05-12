@@ -5,6 +5,7 @@ import lupos.s00misc.Coverage
 
 enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnChange: Boolean) {
     LogicalOptimizerID(false, true),
+    LogicalOptimizerDetectMinusID(false, true),
     LogicalOptimizerColumnSortOrderID(true, true),
     LogicalOptimizerRemoveProjectionID(true, true),
     LogicalOptimizerJoinOrderID(true, false),

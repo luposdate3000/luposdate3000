@@ -1251,7 +1251,7 @@ suspend fun executeBinaryTest(random: TestRandom) {
                             throw e
                         e2 = e
                     }
-                    if (!expected.myEqualsUnclean(output)) {
+                    if (!expected.myEqualsUnclean(output,true,true,true)) {
                         println(node1)
                         println(node2)
                         println(node3)

@@ -102,7 +102,7 @@ class XMLElement {
         return null
     }
 
-    override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other)
+    override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other,true,true,true)
     fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
             return false
@@ -135,7 +135,7 @@ class XMLElement {
         return true
     }
 
-    fun myEqualsUnclean(other: XMLElement?): Boolean {
+    fun myEqualsUnclean(other: XMLElement?,fixStringType:Boolean,fixNumbers:Boolean,fixSortOrder:Boolean): Boolean {
         if (other == null) {
             return false
         }
@@ -158,10 +158,10 @@ class XMLElement {
             return false
         }
         if (tag != "sparql") {
-            if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"] == null) {
+            if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"] == null && fixStringType) {
                 other.attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
             }
-            if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"] == null) {
+            if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"] == null && fixStringType) {
                 attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
             }
 //<<-- avoid bugs in JENA
@@ -171,12 +171,12 @@ class XMLElement {
         }
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
-        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer") {
+        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer"&&fixNumbers) {
             if (c1.toInt() != c2.toInt()) {
                 return false
             }
 //<<-- avoid bugs in JENA
-        } else if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
+        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") &&fixNumbers) {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001) {
@@ -185,10 +185,11 @@ class XMLElement {
         } else if (c1 != c2) {
             return false
         }
+if(fixSortOrder){
         for (c in childs) {
             var found = false
             for (d in other.childs) {
-                if (c.myEqualsUnclean(d)) {
+                if (c.myEqualsUnclean(d,fixStringType,fixNumbers,fixSortOrder)) {
                     found = true
                     break
                 }
@@ -197,6 +198,16 @@ class XMLElement {
                 return false
             }
         }
+}else{
+var i=0
+for (c in childs) {
+            var d = other.childs[i]
+            if (!c.myEquals(d)) {
+                return false
+            }
+            i++
+        }
+}
         return true
     }
 
