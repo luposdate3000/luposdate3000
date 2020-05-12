@@ -633,10 +633,19 @@ GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount 
                         }
                     } else {
                         if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget)) {
+val containsOrderBy=toParse.contains("ORDER",true)
                             if (expectedResult) {
+if(containsOrderBy){
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
+}else{
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Simplified)" })
+}
                             } else {
+if(containsOrderBy){
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Unordered)" })
+}else{
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Simplified)" })
+}
                             }
                         } else {
                             if (expectedResult) {

@@ -97,7 +97,6 @@ buf = b.buf
                     }
                 }
             }
-println("result:: $res $aIdx $bIdx ${buf==a.buf} ${buf==b.buf} $flag")
             /*return*/ res
         }
     }
@@ -107,11 +106,9 @@ println("result:: $res $aIdx $bIdx ${buf==a.buf} ${buf==b.buf} $flag")
         while (i < compCount) {
             val cmp = comparator.compare(a.buf[aIdx + i], b.buf[bIdx + i])
             if (cmp < 0) {
-println("choose A")
                 actionA()
                 return
             } else if (cmp > 0) {
-println("choose B")
                 actionB()
                 return
             }
@@ -120,17 +117,14 @@ println("choose B")
         while (i < columns.size) {
             val cmp = a.buf[aIdx + i] - b.buf[bIdx + i]
             if (cmp < 0) {
-println("choose A fast")
                 actionA()
                 return
             } else if (cmp > 0) {
-println("choose B fast")
                 actionB()
                 return
             }
             i++
         }
-println("equal ... choose A")
         actionA()
     }
 }

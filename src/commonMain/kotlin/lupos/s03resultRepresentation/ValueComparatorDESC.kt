@@ -14,7 +14,6 @@ class ValueComparatorDESC(val query: Query) : Comparator<Value> {
         val a = query.dictionary.getValue(aID)
         val b = query.dictionary.getValue(bID)
         try {
-println("ValueComparatorDESC compareing")
             return b.compareTo(a)
         } catch (e: Throwable) {
             if (a is ValueUndef || a is ValueError) {

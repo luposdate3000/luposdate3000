@@ -14,7 +14,6 @@ class ValueComparatorASC(val query: Query) : Comparator<Value> {
         val a = query.dictionary.getValue(aID)
         val b = query.dictionary.getValue(bID)
         try {
-println("ValueComparatorASC compareing ${a.toSparql()} ${b.toSparql()}, choose ${a.compareTo(b)}")
             return a.compareTo(b)
         } catch (e: Throwable) {
             if (a is ValueUndef || a is ValueError) {
