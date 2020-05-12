@@ -21,7 +21,7 @@ class File(@JvmField val filename: String) {
             }
         }
     }
-
+    fun exists()=java.io.File(filename).exists()
     fun mkdirs() = java.io.File(filename).mkdirs()
     fun deleteRecursively() = java.io.File(filename).deleteRecursively()
     fun length() = java.io.File(filename).length()

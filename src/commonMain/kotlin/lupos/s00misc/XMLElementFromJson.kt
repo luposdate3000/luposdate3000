@@ -73,12 +73,12 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                                     nodeBinding.addAttribute("datatype", attributes["datatype"]!!)
                                 }
                                 if (attributes["xml:lang"] != null) {
-                                    nodeBinding.addAttribute("xml:lang", attributes["xml:lang"]!!.toLowerCase())
+                                    nodeBinding.addAttribute("xml:lang", attributes["xml:lang"]!!)
                                 }
                             }
                         }
                         if (attributes["value"] != null) {
-                            nodeBinding.addContent(attributes["value"]!!)
+                            nodeBinding.addContentClean(attributes["value"]!!)
                         }
                         attributes.clear()
                         nodeBinding = null
@@ -120,7 +120,7 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                             return nodeSparql
                         }
                         val nodeSparql2 = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
-                        val node = XMLElement("boolean").addContent(token2.value)
+                        val node = XMLElement("boolean").addContentClean(token2.value)
                         nodeSparql2.addContent(nodeHead)
                         nodeSparql2.addContent(node)
                         return nodeSparql2

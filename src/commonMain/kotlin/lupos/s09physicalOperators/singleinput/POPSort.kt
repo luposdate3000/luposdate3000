@@ -208,6 +208,17 @@ println("off $off -- $a $b $bEnd")
                     buf1 = buf2
                     buf2 = t
                 }
+SanityCheck{
+println("chunk :: ")
+for(j in 0 until i/columnNames.size){
+var s=""
+for(k in 0 until columnNames.size){
+val v=query.dictionary.getValue(buf1[j*columnNames.size+k])
+s+=v.toSparql()+" "
+}
+println(s)
+}
+}
                 var it = RowIteratorBuf(buf1, columnNames, i)
 if(i>0||resultList.size == 0){
                 if (resultList.size == 0) {

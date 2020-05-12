@@ -55,16 +55,34 @@ class SparqlTestSuite() {
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-            val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7", "q12b-1", "q12b-2", "q12b-3", "q12b-4")
-            val inputDataFile = "resources/sp2b/sp2b.n3"
-            for (f in sp2bFiles) {
-                GlobalLogger.log(ELoggerType.RELEASE, { "  Test: sp2b/$f" })
-                val queryFile = "resources/sp2b/$f.sparql"
-                val resultFile = "resources/sp2b/$f.srx"
+            var prefix = "resources/sp2b/"
+            File(prefix + "config.csv").forEachLine {
+                val line = it.split(",")
+if(line.size>3){
+val triplesCount=line[0]
+                val queryFile = prefix + line[1]
+                val inputFile = prefix + line[2]
+                val outputFile = prefix + line[3]
+                if (!File(outputFile).exists()) {
+                    try {
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
+                        val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
+                        val jenaXML = XMLElement.parseFromXml(jenaResult)!!
+                        File(outputFile).printWriter {
+                            it.println(jenaXML.toPrettyString())
+                        }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    } finally {
+                        JenaWrapper.dropAll()
+                    }
+                }
                 CoroutinesHelper.runBlock {
-                    parseSPARQLAndEvaluate("sp2b/$f", true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile+"-"+triplesCount })
+                    parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                 }
             }
+}
         }
         nodeGlobalDictionary.printContents()
         nodeGlobalDictionary.typedMap.safeToFile("log/dict_1")
@@ -144,9 +162,6 @@ class SparqlTestSuite() {
                     val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                     name.forEach {
                         GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + (Dictionary[it] as SimpleLiteral).content })
-                        if ((Dictionary[it] as SimpleLiteral).content.compareTo("(pp28a) Diamond, with loop -- (:p/:p)?") == 0) {
-                            GlobalLogger.log(ELoggerType.DEBUG, { "found" })
-                        }
                     }
                     numberOfTests++
                     if (!testOneEntry(data, it, newprefix)) {

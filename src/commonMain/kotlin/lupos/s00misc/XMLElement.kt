@@ -45,25 +45,25 @@ class XMLElement {
                     if (idx >= 0) {
                         val data = value.substring(1, idx)
                         val type = value.substring(idx + 4, value.length - 1)
-                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
+                        nodeBinding.addContent(XMLElement("literal").addContentClean(data).addAttribute("datatype", type))
                     } else {
                         val idx2 = value.lastIndexOf("\"@")
                         if (idx2 >= 0) {
                             val data = value.substring(1, idx2)
                             val lang = value.substring(idx2 + 2, value.length)
-                            nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                            nodeBinding.addContent(XMLElement("literal").addContentClean(data).addAttribute("xml:lang", lang))
                         } else {
-                            nodeBinding.addContent(XMLElement("literal").addContent(value))
+                            nodeBinding.addContent(XMLElement("literal").addContentClean(value))
                         }
                     }
                 } else if (value.startsWith("<") && value.endsWith(">")) {
-                    nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
+                    nodeBinding.addContent(XMLElement("uri").addContentClean(value.substring(1, value.length - 1)))
                 } else if (value.startsWith("_:")) {
-                    nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
+                    nodeBinding.addContent(XMLElement("bnode").addContentClean(value.substring(2, value.length)))
                 } else if (value.startsWith("\"") && value.endsWith("\"")) {
-                    nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+                    nodeBinding.addContent(XMLElement("literal").addContentClean(value.substring(1, value.length - 1)))
                 } else {
-                    val literal = XMLElement("literal").addContent(value)
+                    val literal = XMLElement("literal").addContentClean(value)
                     if ("""[0-9]+""".toRegex().matches(value)) {
                         literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer")
                     }
@@ -202,6 +202,20 @@ class XMLElement {
 
     fun addAttribute(name: String, value: String): XMLElement {
         attributes[decodeText(name)] = decodeText(value)
+        return this
+    }
+
+fun addContentClean(s: String): XMLElement {
+        var res: String = s
+        while (true) {
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
+            if (match == null) {
+                break
+            }
+            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
+            res = res.replace(match.value, replacement)
+        }
+addContent(res)
         return this
     }
 

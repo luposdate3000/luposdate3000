@@ -32,7 +32,7 @@ fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
             """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
                     if (attrMatch.groups[1]!!.value == "xml:lang") {
-                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
+                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                     } else {
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                     }
@@ -41,7 +41,7 @@ fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
             """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
                     if (attrMatch.groups[1]!!.value == "xml:lang") {
-                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
+                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                     } else {
                         childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                     }
@@ -60,7 +60,7 @@ fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
             if (content != "") {
                 val tmp = parseFromXmlHelper(content)
                 if (tmp == null) {
-                    childNode.addContent(content)
+                    childNode.addContentClean(content)
                 } else {
                     childNode.addContent(tmp)
                 }
