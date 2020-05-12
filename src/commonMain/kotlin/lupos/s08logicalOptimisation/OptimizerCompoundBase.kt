@@ -31,7 +31,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                         })
                     }
                     SanityCheck {
-                        println(o.optimizerID)
+                        println("debug ${o.optimizerID}")
                         tmp.syntaxVerifyAllVariableExists(listOf(), false)
                     }
                 }

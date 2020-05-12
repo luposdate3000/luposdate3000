@@ -96,7 +96,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 var b = bi.next()
                 var c = ci.next()
                 while (a != null) {
-                    println("store content ::: $a $b $c")
+                    println("debug store content ::: $a $b $c")
                     a = ai.next()
                     b = bi.next()
                     c = ci.next()

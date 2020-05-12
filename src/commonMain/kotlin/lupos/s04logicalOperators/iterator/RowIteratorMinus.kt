@@ -45,11 +45,9 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
         }
         buf = IntArray(mapping.size)
         runBlocking {
-            println("${columns.map { it }} ${a.columns.map { it }} ${columnsB.toTypedArray()}")
             val a1 = RowIteratorMerge(a, ValueComparatorFast(), compCount, columnsA.toTypedArray())
             val b1 = RowIteratorMerge(b, ValueComparatorFast(), compCount, columnsB.toTypedArray())
             bIdx = b1.next()
-println("RowIteratorMinus call B next ${bIdx}")
             if (bIdx < 0) {
                 flag = 1
             }
@@ -62,7 +60,6 @@ break@loop
 }
                         1 -> {//nothing to remove left
                             aIdx = a1.next()
-println("RowIteratorMinus call A next ${aIdx}")
                             if (aIdx < 0) {
                                 flag = 0
                             } else {
@@ -75,7 +72,6 @@ println("RowIteratorMinus call A next ${aIdx}")
                         }
                         2 -> {
                             aIdx = a1.next()
-println("RowIteratorMinus call A next ${aIdx}")
                             if (aIdx >= 0) {
                                 for (i in 0 until compCount) {
                                     if (buf[i] < b1.buf[i]) {
@@ -86,14 +82,12 @@ println("RowIteratorMinus call A next ${aIdx}")
                                         break@loop
                                     } else if (buf[i] > b1.buf[i]) {
                                         bIdx = b1.next()
-println("RowIteratorMinus call B next ${bIdx}")
                                         if (bIdx < 0) {
                                             flag = 1
                                         }
                                         continue@loop
                                     }
                                 }
-println("same ?!?")
                             } else {
                                 flag = 0
                                 break@loop

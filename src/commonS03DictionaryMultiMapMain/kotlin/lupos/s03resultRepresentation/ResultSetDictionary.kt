@@ -346,6 +346,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun printContents() {
+SanityCheck{
         var base: Int
         if (global) {
             base = mask1
@@ -353,23 +354,24 @@ class ResultSetDictionary(val global: Boolean = false) {
             base = 0
         }
         for (i in 0 until iriMap.size) {
-            println("dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}")
+            println("debug dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}")
         }
         for (i in 0 until typedMap.size) {
-            println("dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
+            println("debug dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
         }
         for (i in 0 until intList.size) {
-            println("dict - int :: ${i + base + flaggedValueLocalInt} -> ${intList[i]}")
+            println("debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intList[i]}")
         }
         for (i in 0 until decimalList.size) {
-            println("dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalList[i]}")
+            println("debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalList[i]}")
         }
         for (i in 0 until doubleList.size) {
-            println("dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
+            println("debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
         }
         for (i in 0 until langTaggedMap.size) {
-            println("dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
+            println("debug dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
         }
+}
     }
 
     fun valueToGlobal(value: Value): Value {

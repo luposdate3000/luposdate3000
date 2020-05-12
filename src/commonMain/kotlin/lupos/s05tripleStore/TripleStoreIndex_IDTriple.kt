@@ -271,7 +271,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var it = node.iterator()
                 while (it.hasNext()) {
                     var d = it.next()
-                    println(d.map { it })
+                    println("debug ${d.map { it }}")
                 }
             }, {
                 throw Exception("unreachable")

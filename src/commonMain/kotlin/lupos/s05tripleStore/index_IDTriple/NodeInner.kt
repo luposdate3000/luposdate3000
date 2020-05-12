@@ -532,7 +532,7 @@ fun toByteArray()=data
             require(debugListTriples.size == debugListChilds.size - 1)
             var i = 0
             this.forEachChild {
-                println("it $it")
+                println("debug it $it")
                 require(debugListChilds.size >= i)
                 require(it == debugListChilds[i])
                 i++
@@ -540,7 +540,7 @@ fun toByteArray()=data
             require(i == debugListChilds.size)
             var j = -1
             var res = findIteratorN({
-                println("xx ${it.map { it }}")
+                println("debug xx ${it.map { it }}")
                 j++
                 require(j < debugListTriples.size)
                 require(it[0] == debugListTriples[j][0])
@@ -548,15 +548,15 @@ fun toByteArray()=data
                 require(it[2] == debugListTriples[j][2])
                 /*return*/true
             }, {
-                println("$it")
+                println("debug $it")
                 require(it == debugListChilds[debugListChilds.size - 1])
             })
             require(j == debugListTriples.size - 1)
             for (i in 0 until debugListTriples.size) {
-                println("i $i")
+                println("debug i $i")
                 j = -1
                 var res = findIteratorN({
-                    println("xx ${it.map { it }}")
+                    println("debug xx ${it.map { it }}")
                     j++
                     require(j < debugListTriples.size)
                     require(it[0] == debugListTriples[j][0])
@@ -565,7 +565,7 @@ fun toByteArray()=data
                     require(j < i + 4)/*read at most one block too much*/
                     /*return*/ j < i
                 }, {
-                    println("$it")
+                    println("debug $it")
                     require(it == debugListChilds[i])
                 })
             }
