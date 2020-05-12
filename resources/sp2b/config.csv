@@ -19,6 +19,9 @@
 200,q4.sparql,sp2b-200.n3,q4-200.srx
 200,q5a.sparql,sp2b-200.n3,q5a-200.srx
 200,q5b.sparql,sp2b-200.n3,q5b-200.srx
+200,q6-1.sparql,sp2b-200.n3,q6-1-200.srx
+200,q6-2.sparql,sp2b-200.n3,q6-2-200.srx
+200,q6-3.sparql,sp2b-200.n3,q6-3-200.srx
 200,q6.sparql,sp2b-200.n3,q6-200.srx
 200,q7.sparql,sp2b-200.n3,q7-200.srx
 200,q8.sparql,sp2b-200.n3,q8-200.srx
@@ -44,6 +47,9 @@
 500,q4.sparql,sp2b-500.n3,q4-500.srx
 500,q5a.sparql,sp2b-500.n3,q5a-500.srx
 500,q5b.sparql,sp2b-500.n3,q5b-500.srx
+500,q6-1.sparql,sp2b-500.n3,q6-1-500.srx
+500,q6-2.sparql,sp2b-500.n3,q6-2-500.srx
+500,q6-3.sparql,sp2b-500.n3,q6-3-500.srx
 500,q6.sparql,sp2b-500.n3,q6-500.srx
 500,q7.sparql,sp2b-500.n3,q7-500.srx
 500,q8.sparql,sp2b-500.n3,q8-500.srx
