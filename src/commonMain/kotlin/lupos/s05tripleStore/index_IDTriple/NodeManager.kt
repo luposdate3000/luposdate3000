@@ -230,7 +230,6 @@ object NodeManager {
     }
 
     inline fun freeNode(idx: Int) {
-        println("debug NodeManager ${idx.toString(16)} free")
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
