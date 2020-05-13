@@ -1,0 +1,2 @@
+improved join order
+removed unnecessary projection directly after a join

@@ -7,7 +7,7 @@ class MyMapStringIntPatriciaTrieDouble() {
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()
     var rootValue: Int = undefinedValue
     var size: Int = 0
-        get() = allNodes.size
+        get() = allOutNodes.size
     val allNodes = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
     val allOutNodes = MyListInt()//index in allNodes
     val allOutOffsets = MyListInt()//index in allNodesChilds
@@ -78,7 +78,7 @@ class MyMapStringIntPatriciaTrieDouble() {
 
     fun walkInternal(_key: String, create: Boolean): Int {
         if (_key == "") {
-            if (rootValue == undefinedValue) {
+            if (create && rootValue == undefinedValue) {
                 rootValue = allOutNodes.size
                 allOutNodes.add(-1)
                 allOutOffsets.add(-1)

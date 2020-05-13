@@ -134,22 +134,17 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             variablesJ.add(variable)
                         }
                     }
-println("ProjectionDown into Join a .. $variables $variablesJ $variablesA $variablesB")
 val flag=variables.containsAll(variablesJ)
                     variables.addAll(variablesJ)
-println("ProjectionDown into Join b .. ${variables.distinct()}")
                     if (!variables.containsAll(variablesA)) {
-println("ProjectionDown into Join c .. ${variablesA}")
-                        child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
+                        child.children[0] = LOPProjection(query, variables.intersect(variablesA).distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
                         onChange()
                     }
                     if (!variables.containsAll(variablesB)) {
-println("ProjectionDown into Join d .. ${variablesB}")
-                        child.children[1] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
+                        child.children[1] = LOPProjection(query, variables.intersect(variablesB).distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
                         onChange()
                     }
 if(flag){
-println("ProjectionDown into Join e")
 res=child
 onChange()
 }

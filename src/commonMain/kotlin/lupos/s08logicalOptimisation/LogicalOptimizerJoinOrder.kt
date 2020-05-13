@@ -31,12 +31,9 @@ class Plan : Comparable<Plan> {
         }
         columns = c
         cost = columns
-        println(asString())
     }
 
     inline fun sqr(i: Int) = i * i
-
-    fun asString() = "$this $cost $depth $columns ${variables.map { it }}"
 
     constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
         child = null
@@ -67,12 +64,10 @@ class Plan : Comparable<Plan> {
             cost = sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
         }
 	//cost calculation ... the least cost for deepest partial results
-        println(asString() + " from ${plans[childA]!!} ${plans[childB]!!}")
     }
 
     override operator fun compareTo(other: Plan): Int {
         var res = cost.compareTo(other.cost)
-        println("compare ${this.asString()} ${other.asString()} $res")
         return res
     }
 
@@ -107,7 +102,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             if (a and targetInv == 0) {
                 val b = target xor a
                 if (a < b) {
-                    println("compareing ${(a or 0x40000000).toString(2)} ${(b or 0x40000000).toString(2)} for ${(target or 0x40000000).toString(2)}")
                     val newPlan = Plan(plans, a, b, variables)
                     if (plans[target] == null) {
                         plans[target] = newPlan
