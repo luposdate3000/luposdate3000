@@ -79,7 +79,7 @@ object LogicalOptimizerJoinOrderStore {
                     loop@ for (p in provided) {
                         for (s in allVariablesOrdered.indices) {
                             if (p == allVariablesOrdered[s]) {
-                                score -=s
+                                score -=s*s
                                 continue@loop
                             }
                         }

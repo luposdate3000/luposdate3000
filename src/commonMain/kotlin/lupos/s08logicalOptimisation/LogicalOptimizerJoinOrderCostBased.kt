@@ -125,7 +125,6 @@ object LogicalOptimizerJoinOrderCostBased {
             }
             for (t in root.getProvidedVariableNames()) {
                 /*this loop makes sure, that variables referenced after all of these joins are considered unavoidable*/
-                require(allVariables.contains(t))
                 for (j in allVariables.indices) {
                     if (allVariables[j] == t) {
                         allVariablesCounters[j]++
