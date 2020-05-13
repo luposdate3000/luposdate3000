@@ -101,7 +101,8 @@ object LogicalOptimizerJoinOrderCostBased {
     }
 
     operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): OPBase? {
-        if (allChilds.size > 2 && allChilds.size < 30) {
+        SanityCheck.check { allChilds.size > 2 }
+        if (allChilds.size < 30) {
             val allVariables = mutableListOf<String>()
             val allVariablesCounters = mutableListOf<Int>()
             val plans = arrayOfNulls<Plan?>(1 shl allChilds.size)

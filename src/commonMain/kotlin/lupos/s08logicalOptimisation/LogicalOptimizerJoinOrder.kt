@@ -27,10 +27,22 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         var res: OPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             val allChilds = findAllJoinsInChildren(node)
-            var result = LogicalOptimizerJoinOrderCostBased(allChilds, node)
-            if (result != null && result != res) {
-                res = result
-                onChange()
+            if (allChilds.size > 2) {
+                var result = LogicalOptimizerJoinOrderStore(allChilds, node)
+                if (result != null) {
+                    if (result != res) {
+                        res = result
+                        onChange()
+                    }
+                } else {
+                    result = LogicalOptimizerJoinOrderCostBased(allChilds, node)
+                    if (result != null) {
+                        if (result != res) {
+                            res = result
+                            onChange()
+                        }
+                    }
+                }
             }
         }
         /*return*/ res
