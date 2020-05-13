@@ -19,15 +19,8 @@ set logscale y
 
 set title "$query"
 plot \
- 'tmp/$query.luposdate-016-b2841382ba6cfa5475c773f699e58c3937e14c35-internal.csv' using 2:6 title "luposdate3000 016" with linespoints, \
- 'tmp/$query.luposdate-017-b3be67fb75117794500a208aa3b5c700e411b994-internal.csv' using 2:6 title "luposdate3000 017" with linespoints, \
- 'tmp/$query.luposdate-018-b1a45f6b37e27080045b19ade26f5a2b81230e62-internal.csv' using 2:6 title "luposdate3000 018" with linespoints, \
- 'tmp/$query.luposdate-021-MapMap_BinaryTree_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021MapMap" with linespoints, \
- 'tmp/$query.luposdate-021-Single_BinaryTree_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleBinary" with linespoints, \
- 'tmp/$query.luposdate-021-Single_HashMap_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashEmpty" with linespoints, \
- 'tmp/$query.luposdate-021-Single_HashMap_EmptyWithDictionary-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashDict" with linespoints, \
- 'tmp/$query.luposdate-021-Single_HashMap_XML-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashXml" with linespoints, \
  'tmp/$query.luposdate-026-Multi_BPlusTree_Empty-dbd5ac3d2c616386ca37991099a82a92fb41c660-internal.csv' using 2:6 title "luposdate3000 026" with linespoints, \
+ 'tmp/$query.luposdate-Multi_BPlusTree_Empty-e95ab361aa4f0db2e6cefa54a5698ae68c0f0677-internal.csv' using 2:6 title "luposdate3000 027" with linespoints, \
  'tmp/$query.jena-internal.csv' using 2:6 title "jena" with linespoints
 EOF
 
