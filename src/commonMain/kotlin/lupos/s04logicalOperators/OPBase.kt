@@ -18,18 +18,19 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
-    open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
-    abstract fun cloneOP(): OPBase
+    var onlyExistenceRequired = false
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
+    open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
+    abstract fun cloneOP(): OPBase
     fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
         if (data.size > 0) {
             if (!target.contains(data)) {
@@ -124,9 +125,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                                 }
                             }
                         }
-if(this !is LOPTriple && this !is LOPSort && this !is LOPDistinct){
-                        require(foundfullchild)
-}
+                        if (this !is LOPTriple && this !is LOPSort && this !is LOPDistinct) {
+                            require(foundfullchild)
+                        }
                     }
                 }
             }
@@ -333,6 +334,7 @@ if(this !is LOPTriple && this !is LOPSort && this !is LOPDistinct){
                 res.addAttribute("providedSort", getPossibleSortPriorities().toString())
                 res.addAttribute("filteredSort", sortPriorities.toString())
                 res.addAttribute("selectedSort", mySortPriority.toString())
+                res.addAttribute("existOnly", "" + onlyExistenceRequired)
             }
             if (children.size > 0) {
                 res.addContent(childrenToXML())

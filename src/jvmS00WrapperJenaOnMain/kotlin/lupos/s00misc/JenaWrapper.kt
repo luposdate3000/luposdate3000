@@ -5,10 +5,10 @@ import lupos.s00misc.Coverage
 import org.apache.jena.query.*
 import org.apache.jena.rdf.model.*
 import org.apache.jena.riot.*
+import org.apache.jena.sparql.algebra.optimize.*
+import org.apache.jena.sparql.mgt.*
 import org.apache.jena.update.*
 import org.apache.jena.util.*
-import org.apache.jena.sparql.mgt.*
-import org.apache.jena.sparql.algebra.optimize.*
 
 object JenaWrapper {
     var dataset = DatasetFactory.createTxnMem()
@@ -25,13 +25,13 @@ object JenaWrapper {
     }
 
     fun execQuery(queryString: String): String {
-println("Jena optimized query >>")
+        println("Jena optimized query >>")
         var res = ""
         try {
             val query = QueryFactory.create(queryString)
             val qexec = QueryExecutionFactory.create(query, dataset)
-qexec.getContext().set(ARQ.symLogExec,true) 
-qexec.getContext().set(ARQ.symLogExec,Explain.InfoLevel.FINE) 
+            qexec.getContext().set(ARQ.symLogExec, true)
+            qexec.getContext().set(ARQ.symLogExec, Explain.InfoLevel.FINE)
             if (query.isSelectType()) {
                 val results = qexec.execSelect()
                 val stream = ByteArrayOutputStream()
@@ -49,16 +49,15 @@ qexec.getContext().set(ARQ.symLogExec,Explain.InfoLevel.FINE)
             } else if (query.isJsonType()) {
             } else if (query.isConstructQuad()) {
             }
-println("------")
-val plan=QueryExecutionFactory.createPlan(query,dataset.asDatasetGraph(),null)
-val op=plan.getOp()
-val op2=Optimize.optimize(op,qexec.getContext())
-println(op2)
-
+            println("------")
+            val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
+            val op = plan.getOp()
+            val op2 = Optimize.optimize(op, qexec.getContext())
+            println(op2)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
-println("Jena optimized query <<")
+        println("Jena optimized query <<")
         return res
     }
 

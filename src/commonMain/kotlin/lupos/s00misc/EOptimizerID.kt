@@ -10,6 +10,7 @@ enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnC
     LogicalOptimizerRemoveProjectionID(true, true),
     LogicalOptimizerJoinOrderID(true, false),
     LogicalOptimizerUnionUpID(true, true),
+    LogicalOptimizerExistsID(true, true),
     LogicalOptimizerArithmeticID(false, true),
     LogicalOptimizerFilterDownID(true, true),
     LogicalOptimizerFilterEQID(true, true),

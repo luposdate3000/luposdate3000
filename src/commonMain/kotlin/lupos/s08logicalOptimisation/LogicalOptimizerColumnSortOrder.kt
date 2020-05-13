@@ -15,7 +15,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
             hadChange = true
             onChange()
         }
-        if (!hadChange && !done &&(parent==null || parent.sortPriorities.size<=1)) {
+        if (!hadChange && !done && (parent == null || parent.sortPriorities.size <= 1)) {
             var maxSize = 0
             for (x in node.sortPriorities) {
                 if (x.size > maxSize) {

@@ -39,6 +39,10 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterUp(query)//
             ),
             arrayOf<OptimizerBase>(
+//calculate if only count or real data is required. this must happen before join order optimisation
+                    LogicalOptimizerExists(query)//
+            ),
+            arrayOf<OptimizerBase>(
 //join order must stant alone otherwise there are lots of recalulations
                     LogicalOptimizerJoinOrder(query)//
             ),

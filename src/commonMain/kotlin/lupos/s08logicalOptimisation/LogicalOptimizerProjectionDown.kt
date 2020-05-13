@@ -134,7 +134,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             variablesJ.add(variable)
                         }
                     }
-val flag=variables.containsAll(variablesJ)
+                    val flag = variables.containsAll(variablesJ)
                     variables.addAll(variablesJ)
                     if (!variables.containsAll(variablesA)) {
                         child.children[0] = LOPProjection(query, variables.intersect(variablesA).distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
@@ -144,10 +144,10 @@ val flag=variables.containsAll(variablesJ)
                         child.children[1] = LOPProjection(query, variables.intersect(variablesB).distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
                         onChange()
                     }
-if(flag){
-res=child
-onChange()
-}
+                    if (flag) {
+                        res = child
+                        onChange()
+                    }
                 }
                 else -> {
                 }

@@ -293,7 +293,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 }
             }
         }
-        val childNode = visitQueryBase(node, bind, bindIsAggregate, reduced,distinct)
+        val childNode = visitQueryBase(node, bind, bindIsAggregate, reduced, distinct)
         result.getLatestChild().setChild(childNode)
         if (select.size == 0) {
             for (s in childNode.getProvidedVariableNames()) {
@@ -357,7 +357,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         return LOPDistinct(query, result)
     }
 
-    fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean,distinct:Boolean): OPBase {
+    fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean, distinct: Boolean): OPBase {
         var bind = bindp
         val result = LOPNOOP(query)
         if (node.existsLimit()) {
@@ -366,10 +366,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         if (node.existsOffset()) {
             result.getLatestChild().setChild(LOPOffset(query, node.offset))
         }
-if(distinct){
-result.getLatestChild().setChild(LOPDistinct(query))
-}
-else        if (reduced) {
+        if (distinct) {
+            result.getLatestChild().setChild(LOPDistinct(query))
+        } else if (reduced) {
             result.getLatestChild().setChild(LOPReduced(query))
         }
         if (node.existsOrderBy()) {
