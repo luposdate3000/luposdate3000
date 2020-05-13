@@ -1,7 +1,7 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx30g"
 
-triples=1024
+triples=65536
 
 rm -rf log/benchtmp
 mkdir -p log/benchtmp

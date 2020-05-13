@@ -134,27 +134,25 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             variablesJ.add(variable)
                         }
                     }
+println("ProjectionDown into Join a .. $variables $variablesJ $variablesA $variablesB")
+val flag=variables.containsAll(variablesJ)
                     variables.addAll(variablesJ)
+println("ProjectionDown into Join b .. ${variables.distinct()}")
                     if (!variables.containsAll(variablesA)) {
-                        val variables2 = mutableListOf<String>()
-                        for (variable in variables.distinct()) {
-                            if (variablesA.contains(variable)) {
-                                variables2.add(variable)
-                            }
-                        }
-                        child.children[0] = LOPProjection(query, variables2.distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
+println("ProjectionDown into Join c .. ${variablesA}")
+                        child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
                         onChange()
                     }
                     if (!variables.containsAll(variablesB)) {
-                        val variables2 = mutableListOf<String>()
-                        for (variable in variables.distinct()) {
-                            if (variablesB.contains(variable)) {
-                                variables2.add(variable)
-                            }
-                        }
-                        child.children[1] = LOPProjection(query, variables2.distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
+println("ProjectionDown into Join d .. ${variablesB}")
+                        child.children[1] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
                         onChange()
                     }
+if(flag){
+println("ProjectionDown into Join e")
+res=child
+onChange()
+}
                 }
                 else -> {
                 }

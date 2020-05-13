@@ -15,42 +15,64 @@ class Plan : Comparable<Plan> {
     val variables: Array<Int>
     val columns: Int
     val cost: Int
+    val depth: Int
 
     constructor(child: OPBase, variables: Array<Int>, allVariables: List<Int>) {
+        depth = 1
         this.child = child
         childs = null
         this.variables = variables
         var c = 0
         for (i in 0 until variables.size) {
-            if (allVariables[i] > variables[i] && variables[i] > 0) {
+            val t = variables[i]
+            if (t > 0 && allVariables[i] > t) {
                 c++
             }
         }
         columns = c
         cost = columns
+        println(asString())
     }
 
     inline fun sqr(i: Int) = i * i
+
+    fun asString() = "$this $cost $depth $columns ${variables.map { it }}"
 
     constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
         child = null
         childs = Pair(childA, childB)
         val va = plans[childA]!!.variables
         val vb = plans[childB]!!.variables
+        val depthA = plans[childA]!!.depth
+        val depthB = plans[childB]!!.depth
+        if (depthB > depthA) {
+            depth = depthB + 1
+        } else {
+            depth = depthA + 1
+        }
         this.variables = Array(allVariables.size) { va[it] + vb[it] }
         var c = 0
         for (i in 0 until variables.size) {
             val t = va[i] + vb[i]
-            if (allVariables[i] > t && t > 0) {
+            if (t > 0 && allVariables[i] > t) {
                 c++
             }
         }
         columns = c
-        cost = sqr(plans[childA]!!.columns) + sqr(plans[childB]!!.columns)
+        if (depthA == depthB) {
+            cost = sqr(plans[childA]!!.columns + plans[childB]!!.columns)
+        } else if (depthA < depthB) {
+            cost = sqr(plans[childA]!!.columns + plans[childB]!!.columns + plans[childB]!!.columns)
+        } else {
+            cost = sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
+        }
+	//cost calculation ... the least cost for deepest partial results
+        println(asString() + " from ${plans[childA]!!} ${plans[childB]!!}")
     }
 
     override operator fun compareTo(other: Plan): Int {
         var res = cost.compareTo(other.cost)
+        println("compare ${this.asString()} ${other.asString()} $res")
         return res
     }
 
@@ -81,9 +103,11 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
+            //the other half is already calculated due to the inverse
             if (a and targetInv == 0) {
-                val b = target - a
-                if (b != 0) {
+                val b = target xor a
+                if (a < b) {
+                    println("compareing ${(a or 0x40000000).toString(2)} ${(b or 0x40000000).toString(2)} for ${(target or 0x40000000).toString(2)}")
                     val newPlan = Plan(plans, a, b, variables)
                     if (plans[target] == null) {
                         plans[target] = newPlan
@@ -120,6 +144,16 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                         }
                     }
                 }
+                for (t in node.getProvidedVariableNames()) {
+                    /*this loop makes sure, that variables referenced after all of these joins are considered unavoidable*/
+                    require(allVariables.contains(t))
+                    for (j in allVariables.indices) {
+                        if (allVariables[j] == t) {
+                            allVariablesCounters[j]++
+                            break
+                        }
+                    }
+                }
                 for (i in allChilds.indices) {
                     val variables = Array(allVariables.size) { 0 }
                     val tmp = allChilds[i].getProvidedVariableNames()
@@ -146,6 +180,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 }
             }
         }
-/*return*/res
+        /*return*/ res
     })
 }
