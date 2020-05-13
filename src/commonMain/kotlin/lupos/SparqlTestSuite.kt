@@ -425,7 +425,7 @@ class SparqlTestSuite() {
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
-//if(testName!="sq11 - Subquery limit per resource"){
+//if(testName!="resources/sp2b/q12b-1.sparql"){
 //return true
 //}
         var ignoreJena = false

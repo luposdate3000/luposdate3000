@@ -382,14 +382,14 @@ val additionalSources = mapOf(
         ChooseableOption("commonS14ClientKtorMain") to listOf(
                 ChooseableOptionDependency("io.ktor:ktor-client-core:$ktorVersion"),
                 ChooseableOptionDependency("io.ktor:ktor-client-cio:$ktorVersion"),
-                ChooseableOptionDependency("io.ktor:ktor-client-logging:$ktorVersion"),
-                ChooseableOptionDependency("org.slf4j:slf4j-nop:1.7.25")
+                ChooseableOptionDependency("io.ktor:ktor-client-logging:$ktorVersion")
         ),
         ChooseableOption("jvmMain") to listOf(
                 ChooseableOptionDependency("com.soywiz.korlibs.klock:klock:1.7.0"),
                 ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
                 ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
-                ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+                ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
+                ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25")
         ),
         ChooseableOption("jvmS00LaunchJavaFuzzMain") to listOf(
                 ChooseableOptionDependency("dev.fuzzit.javafuzz:core:1.22"),

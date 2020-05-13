@@ -19,6 +19,8 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s09physicalOperators.singleinput.POPSort
@@ -82,6 +84,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             addToPrefixFreeList(t, tmp)
         }
         if (sortPriority == ESortPriority.SORT) {
+            mySortPriority.clear()
             mySortPriority.addAll(priority)
         } else {
             if (tmp.size == 1) {
@@ -102,6 +105,29 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 }
                 if (mySortPriority.size == 0) {
                     mySortPriority.addAll(tmp[0])
+                }
+                SanityCheck {
+                    if (mySortPriority.size > 0) {
+                        var foundfullchild = false
+                        for (c in children) {
+                            for (p in c.sortPriorities) {
+                                var fullchild = true
+                                for (i in 0 until mySortPriority.size) {
+                                    if (p.size > i) {
+                                        require(p[i] == mySortPriority[i])
+                                    } else {
+                                        fullchild = false
+                                    }
+                                }
+                                if (fullchild) {
+                                    foundfullchild = true
+                                }
+                            }
+                        }
+if(this !is LOPTriple && this !is LOPSort && this !is LOPDistinct){
+                        require(foundfullchild)
+}
+                    }
                 }
             }
         }
