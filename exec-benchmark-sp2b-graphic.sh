@@ -27,7 +27,7 @@ plot \
  'tmp/$query.luposdate-021-Single_HashMap_Empty-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashEmpty" with linespoints, \
  'tmp/$query.luposdate-021-Single_HashMap_EmptyWithDictionary-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashDict" with linespoints, \
  'tmp/$query.luposdate-021-Single_HashMap_XML-b52417bab6a0d08968d145ba21c4b69e082d5e43-internal.csv' using 2:6 title "luposdate3000 021SingleHashXml" with linespoints, \
- 'tmp/$query.luposdate-Single_BTree_Empty-03384502cd11bff2879728ab9ede22e0efec7ef4-internal.csv' using 2:6 title "luposdate3000 025" with linespoints, \
+ 'tmp/$query.luposdate-026-Multi_BPlusTree_Empty-dbd5ac3d2c616386ca37991099a82a92fb41c660-internal.csv' using 2:6 title "luposdate3000 026" with linespoints, \
  'tmp/$query.jena-internal.csv' using 2:6 title "jena" with linespoints
 EOF
 
