@@ -22,6 +22,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
 //remove all filters testing for_ equality by renaming one of the variables
+		LogicalOptimizerRemoveNOOP(query),// remove noops first, to be able to do a better choice
                     LogicalOptimizerFilterEQ(query)//
             ),
             arrayOf<OptimizerBase>(

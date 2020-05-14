@@ -8,6 +8,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s08logicalOptimisation.OptimizerBase
 
@@ -21,8 +22,18 @@ class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID
                 val v1 = filter.children[0]
                 val v2 = filter.children[1]
                 if (v1 is AOPVariable && v2 is AOPVariable) {
-                    node.replaceVariableWithAnother(node, v1.name, v2.name)
-                    res = LOPBind(query, v1, v2, node.children[0])
+                    if (parent != null) {
+                        if (parent is LOPProjection && parent.variables.map { it.name }.contains(v1.name)) {
+                            node.replaceVariableWithAnother(node, v2.name, v1.name)
+                            res = LOPBind(query, v2, v1, node.children[0])
+                        } else {
+                            node.replaceVariableWithAnother(node, v1.name, v2.name)
+                            res = LOPBind(query, v1, v2, node.children[0])
+                        }
+                    } else {
+                        node.replaceVariableWithAnother(node, v1.name, v2.name)
+                        res = LOPBind(query, v1, v2, node.children[0])
+                    }
                     onChange()
                 }
             }
