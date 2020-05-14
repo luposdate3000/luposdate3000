@@ -96,19 +96,19 @@ open class POPValues : POPBase {
         variables = v
         var columns = Array(variables.size) { MyListValue() }
         data = mutableMapOf<String, MyListValue>()
-if(projectedVariables.size==0){
-rows=d.size
-}else{
-        for (variableIndex in 0 until variables.size) {
-            data[variables[variableIndex]] = columns[variableIndex]
-        }
-        d.forEach {
+        if (projectedVariables.size == 0) {
+            rows = d.size
+        } else {
             for (variableIndex in 0 until variables.size) {
-                columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
+                data[variables[variableIndex]] = columns[variableIndex]
             }
+            d.forEach {
+                for (variableIndex in 0 until variables.size) {
+                    columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
+                }
+            }
+            rows = -1
         }
-        rows = -1
-}
     }
 
     constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MyListValue>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
@@ -168,7 +168,7 @@ rows=d.size
     override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val xmlvariables = XMLElement("variables")
-res.addAttribute("rows",""+rows)
+        res.addAttribute("rows", "" + rows)
         res.addContent(xmlvariables)
         val bindings = XMLElement("bindings")
         res.addContent(bindings)

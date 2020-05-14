@@ -1,22 +1,22 @@
 package lupos.s08logicalOptimisation
 
 import kotlinx.coroutines.runBlocking
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.noinput.OPEmptyRow
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerStoreToValuesID) {
     override val classname = "LogicalOptimizerStoreToValues"
@@ -30,7 +30,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                         variables.add(c.name)
                     }
                 }
-println("called LogicalOptimizerStoreToValues ${variables.size} ${node.uuid}")
+                println("called LogicalOptimizerStoreToValues ${variables.size} ${node.uuid}")
                 if (variables.size == 0) {
                     val idx = LOPTriple.getIndex(node.children, listOf<String>())
                     val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
@@ -69,7 +69,7 @@ println("called LogicalOptimizerStoreToValues ${variables.size} ${node.uuid}")
                     } else if (i < 5) {
                         var constants = mutableListOf<AOPValue>()
                         for (j in 0 until i) {
-                            constants.add(AOPValue(query,listOf(AOPConstant(query, data[j]))))
+                            constants.add(AOPValue(query, listOf(AOPConstant(query, data[j]))))
                         }
                         res = LOPValues(query, listOf(AOPVariable(query, variables[0])), constants)
                         onChange()

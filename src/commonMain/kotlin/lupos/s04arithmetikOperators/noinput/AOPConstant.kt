@@ -22,16 +22,17 @@ class AOPConstant : AOPBase {
         value = value2
     }
 
-    override fun toXMLElement() :XMLElement{
-var tmp=query.dictionary.getValue(value)
-println("blablabla $tmp")
-if(tmp is ValueBnode){
-var res=XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
-return res
-}else{
-return tmp.toXMLElement()
-}
-}
+    override fun toXMLElement(): XMLElement {
+        var tmp = query.dictionary.getValue(value)
+        println("blablabla $tmp")
+        if (tmp is ValueBnode) {
+            var res = XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
+            return res
+        } else {
+            return tmp.toXMLElement()
+        }
+    }
+
     override fun toSparql(): String = query.dictionary.getValue(value).valueToString() ?: ""
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

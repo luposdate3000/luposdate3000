@@ -291,7 +291,8 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     companion object {
         private val global_uuid = ThreadSafeUuid()
-}
+    }
+
     fun replaceVariableWithUndef(node: OPBase, name: String): OPBase {
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, ResultSetDictionary.undefValue2)
@@ -312,7 +313,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return node
     }
 
-    fun replaceVariableWithConstant(node: OPBase, name: String, value:Value): OPBase {
+    fun replaceVariableWithConstant(node: OPBase, name: String, value: Value): OPBase {
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, value)
         }

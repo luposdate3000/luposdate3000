@@ -136,13 +136,13 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             }
             return OPBaseCompound(query, childs.toTypedArray(), cpos)
         }
-"OPNothing"->{
-var list=mutableListOf<String>()
-for(c in node.childs){
-list.add(c.content)
-}
-return OPNothing(query,list)
-}
+        "OPNothing" -> {
+            var list = mutableListOf<String>()
+            for (c in node.childs) {
+                list.add(c.content)
+            }
+            return OPNothing(query, list)
+        }
         "LOPSubGroup" -> {
             return LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
@@ -226,7 +226,7 @@ return OPNothing(query,list)
             return AOPConstant(query, ValueUndef())
         }
         "ValueBnode" -> {
-println(node)
+            println(node)
             return AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
         }
         "AOPVariable" -> {
@@ -427,24 +427,24 @@ println(node)
             return POPDistinct(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPValues" -> {
-val rows=node.attributes["rows"]!!.toInt()
-if(rows==-1){
-            val vars = mutableListOf<String>()
-            val vals = mutableListOf<List<String?>>()
-            node["variables"]!!.childs.forEach {
-                vars.add(it.attributes["name"]!!)
-            }
-            node["bindings"]!!.childs.forEach {
-                val exp = arrayOfNulls<String?>(vars.size)
-                it.childs.forEach {
-                    exp[vars.indexOf(it.attributes["name"]!!)] = it.attributes["content"]
+            val rows = node.attributes["rows"]!!.toInt()
+            if (rows == -1) {
+                val vars = mutableListOf<String>()
+                val vals = mutableListOf<List<String?>>()
+                node["variables"]!!.childs.forEach {
+                    vars.add(it.attributes["name"]!!)
                 }
-                vals.add(exp.toList())
+                node["bindings"]!!.childs.forEach {
+                    val exp = arrayOfNulls<String?>(vars.size)
+                    it.childs.forEach {
+                        exp[vars.indexOf(it.attributes["name"]!!)] = it.attributes["content"]
+                    }
+                    vals.add(exp.toList())
+                }
+                return POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
+            } else {
+                return POPValues(query, rows)
             }
-            return POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
-}else{
-return POPValues(query,rows)
-}
         }
         "POPEmptyRow" -> {
             return POPEmptyRow(query, createProjectedVariables(query, node, mapping))

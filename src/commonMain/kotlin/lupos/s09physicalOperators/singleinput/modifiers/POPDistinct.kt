@@ -28,21 +28,21 @@ class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase)
 
     override fun cloneOP() = POPDistinct(query, projectedVariables, children[0].cloneOP())
     override suspend fun evaluate(): IteratorBundle {
-if(projectedVariables.size>0){
-        var child: IteratorBundle
-        val flag = true
-        SanityCheck.check { mySortPriority.size <= projectedVariables.size }
-        if (mySortPriority.size == projectedVariables.size) {
-            SanityCheck.check { mySortPriority.map { it.variableName }.containsAll(projectedVariables) }
-            child = children[0].evaluate()
+        if (projectedVariables.size > 0) {
+            var child: IteratorBundle
+            val flag = true
+            SanityCheck.check { mySortPriority.size <= projectedVariables.size }
+            if (mySortPriority.size == projectedVariables.size) {
+                SanityCheck.check { mySortPriority.map { it.variableName }.containsAll(projectedVariables) }
+                child = children[0].evaluate()
+            } else {
+                val sort = POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, children[0])
+                child = sort.evaluate()
+            }
+            val reduced = RowIteratorReduced(child.rows)
+            return IteratorBundle(reduced)
         } else {
-            val sort = POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, children[0])
-            child = sort.evaluate()
+            return children[0].evaluate()
         }
-        val reduced = RowIteratorReduced(child.rows)
-        return IteratorBundle(reduced)
-    }else{
-return children[0].evaluate()
-}
-}
+    }
 }

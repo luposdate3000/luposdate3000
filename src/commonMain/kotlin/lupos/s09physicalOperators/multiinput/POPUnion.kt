@@ -24,16 +24,16 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
-if(variables.size>0){
-        for (variable in variables) {
-            outMap[variable] = ColumnIteratorDebug(uuid, variable, ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!)))
+        if (variables.size > 0) {
+            for (variable in variables) {
+                outMap[variable] = ColumnIteratorDebug(uuid, variable, ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!)))
+            }
+            return IteratorBundle(outMap)
+        } else {
+            SanityCheck.check { childA.hasCountMode() && childB.hasCountMode() }
+            var res = IteratorBundle(0)
+            res.hasNext = { childA.hasNext() || childB.hasNext() }
+            return res
         }
-        return IteratorBundle(outMap)
-}else{
-SanityCheck.check{childA.hasCountMode()&&childB.hasCountMode()}
-var res=IteratorBundle(0)
-res.hasNext={childA.hasNext()||childB.hasNext()}
-return res
-}
     }
 }

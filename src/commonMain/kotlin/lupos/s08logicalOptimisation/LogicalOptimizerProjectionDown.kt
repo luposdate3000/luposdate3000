@@ -3,16 +3,16 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
@@ -48,16 +48,16 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             }
                         }
                     }
-for(c in child.children){
-val cc=c as AOPValue
-var list=mutableListOf<AOPConstant>()
-for (i in 0 until mapping.size) {
-list.add(cc.children[i] as AOPConstant)
-}
-values.add(AOPValue(query,list))
-}
+                    for (c in child.children) {
+                        val cc = c as AOPValue
+                        var list = mutableListOf<AOPConstant>()
+                        for (i in 0 until mapping.size) {
+                            list.add(cc.children[i] as AOPConstant)
+                        }
+                        values.add(AOPValue(query, list))
+                    }
                     res = LOPValues(query, node.variables, values)
-onChange()
+                    onChange()
                 }
                 is LOPMinus -> {
                     val variablesB = child.children[0].getProvidedVariableNames().intersect(child.children[1].getProvidedVariableNames())

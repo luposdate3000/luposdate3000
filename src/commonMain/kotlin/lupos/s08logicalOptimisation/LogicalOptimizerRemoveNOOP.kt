@@ -1,20 +1,21 @@
 package lupos.s08logicalOptimisation
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04arithmetikOperators.noinput.AOPConstant
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveNOOPID) {
@@ -58,9 +59,9 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 res = node.children[0]
                 onChange()
             }
-}else if(node is LOPFilter && node.children[1] is AOPConstant && (node.children[1] as AOPConstant).value==ResultSetDictionary.booleanFalseValue){
-res = OPNothing(query, node.getProvidedVariableNames())
-                onChange()
+        } else if (node is LOPFilter && node.children[1] is AOPConstant && (node.children[1] as AOPConstant).value == ResultSetDictionary.booleanFalseValue) {
+            res = OPNothing(query, node.getProvidedVariableNames())
+            onChange()
         } else if (node is LOPMinus) {
             if (node.children[0] is OPNothing) {
                 res = OPNothing(query, node.getProvidedVariableNames())

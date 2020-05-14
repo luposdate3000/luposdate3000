@@ -18,6 +18,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             arrayOf<OptimizerBase>(
 //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query),//
+                    LogicalOptimizerFilterDown(query),//
             ),
             arrayOf<OptimizerBase>(
 //remove all filters testing for_ equality by renaming one of the variables

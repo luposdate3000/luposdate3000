@@ -342,9 +342,9 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             } else {
                 throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             }
-tmp = LOPBind(query, AOPVariable(query, "s"), AOPVariable(query, "#s"), tmp)//prevent name clash during optimisation
-tmp = LOPBind(query, AOPVariable(query, "p"), AOPVariable(query, "#p"), tmp)
-tmp = LOPBind(query, AOPVariable(query, "o"), AOPVariable(query, "#o"), tmp)
+            tmp = LOPBind(query, AOPVariable(query, "s"), AOPVariable(query, "#s"), tmp)//prevent name clash during optimisation
+            tmp = LOPBind(query, AOPVariable(query, "p"), AOPVariable(query, "#p"), tmp)
+            tmp = LOPBind(query, AOPVariable(query, "o"), AOPVariable(query, "#o"), tmp)
             tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)
             if (result == null) {
                 result = tmp

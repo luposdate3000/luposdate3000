@@ -48,7 +48,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         } else {
                             var flag = true
                             for (i in 0 until columns[0].size) {
-                                if ((childA.mySortPriority.size>i&&childA.mySortPriority[i] != node.mySortPriority[i] )||(childB.mySortPriority.size>i&& childB.mySortPriority[i] != node.mySortPriority[i])) {
+                                if ((childA.mySortPriority.size > i && childA.mySortPriority[i] != node.mySortPriority[i]) || (childB.mySortPriority.size > i && childB.mySortPriority[i] != node.mySortPriority[i])) {
                                     flag = false
                                     break
                                 }

@@ -72,14 +72,14 @@ object LogicalOptimizerJoinOrderStore {
                 var maxI = 0
                 var i = 0
                 while (i < queue.size) {
-                    var score = allVariablesOrdered.size*allVariablesOrdered.size
+                    var score = allVariablesOrdered.size * allVariablesOrdered.size
 //score is better, if there are more constants
 //otherwise the variables which are most recently used within the query are preferred
                     var provided = queue[i].getProvidedVariableNames()
                     loop@ for (p in provided) {
                         for (s in allVariablesOrdered.indices) {
                             if (p == allVariablesOrdered[s]) {
-                                score -=s*s
+                                score -= s * s
                                 continue@loop
                             }
                         }
