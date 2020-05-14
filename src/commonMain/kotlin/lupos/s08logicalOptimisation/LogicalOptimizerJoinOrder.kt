@@ -1,10 +1,11 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
@@ -16,6 +17,13 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         for (c in node.children) {
             if (c is LOPJoin && !c.optional) {
                 res.addAll(findAllJoinsInChildren(c))
+            } else if (c is LOPProjection) {
+                var d = c.children[0]
+                if (d is LOPJoin&&!d.optional) {
+                    res.addAll(findAllJoinsInChildren(d))
+                } else {
+                    res.add(c)
+                }
             } else {
                 res.add(c)
             }
@@ -48,18 +56,18 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             queue.addAll(res)
             res.clear()
             variables.clear()
-            loop@ for (nodes in queue) {
-                val v = nodes[0].getProvidedVariableNames()
+            loop@ for (childs in queue) {
+                val v = childs[0].getProvidedVariableNames()
                 if (res.size > 0) {
                     for (i in 0 until variables.size) {
                         if (variables[i].containsAll(v)) {
-                            res[i].addAll(nodes)
+                            res[i].addAll(childs)
                             continue@loop
                         }
                     }
                     for (i in 0 until variables.size) {
                         if (v.containsAll(variables[i])) {
-                            res[i].addAll(nodes)
+                            res[i].addAll(childs)
                             variables[i] = v
                             done = false
                             //this somehow beaks in terms of efficiency if there is one child, with all variables provided ..
@@ -67,14 +75,14 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                         }
                     }
                 }
-                res.add(nodes)
+                res.add(childs)
                 variables.add(v)
             }
         }
         return res
     }
 
-    fun applyOptimisation(nodes: List<OPBase>,root:LOPJoin): OPBase {
+    fun applyOptimisation(nodes: List<OPBase>, root: LOPJoin): OPBase {
         if (nodes.size > 2) {
             var result = LogicalOptimizerJoinOrderStore(nodes, root)
             if (result != null) {
@@ -86,9 +94,9 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             }
             throw Exception("unreachable")
         } else if (nodes.size == 2) {
-            var res= LOPJoin(root.query, nodes[0], nodes[1], false)
-res.onlyExistenceRequired=root.onlyExistenceRequired
-return res
+            var res = LOPJoin(root.query, nodes[0], nodes[1], false)
+            res.onlyExistenceRequired = root.onlyExistenceRequired
+            return res
         } else {
             require(nodes.size == 1)
             return nodes[0]
@@ -98,18 +106,22 @@ return res
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
+var originalProvided=node.getProvidedVariableNames()
             val allChilds2 = findAllJoinsInChildren(node)
             if (allChilds2.size > 2) {
                 val allChilds3 = clusterizeChildren(allChilds2)
                 val allChilds4 = mutableListOf<OPBase>()
                 for (child in allChilds3) {
-                    allChilds4.add(applyOptimisation(child,node))
+                    allChilds4.add(applyOptimisation(child, node))
                 }
-                var result=applyOptimisation(allChilds4,node)
-if(result!=res){
-onChange()
-res=result
+                var result = applyOptimisation(allChilds4, node)
+                if (result != res) {
+                    onChange()
+if(!originalProvided.containsAll(result.getProvidedVariableNames())){
+result=LOPProjection(query,originalProvided.map{AOPVariable(query,it)}.toMutableList(),result)
 }
+                    res = result
+                }
             }
         }
         /*return*/ res

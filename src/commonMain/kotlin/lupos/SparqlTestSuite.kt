@@ -425,7 +425,7 @@ class SparqlTestSuite() {
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
-//if(testName!="resources/sp2b/q12b-1.sparql"){
+//if(testName!="resources/sp2b/q12b.sparql"){
 //return true
 //}
         var ignoreJena = false

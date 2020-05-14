@@ -17,7 +17,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
 //search for_ structures, which form the minus-operator
-                    LogicalOptimizerDetectMinus(query)//
+                    LogicalOptimizerDetectMinus(query),//
             ),
             arrayOf<OptimizerBase>(
 //remove all filters testing for_ equality by renaming one of the variables
@@ -28,6 +28,10 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerArithmetic(query)//
             ),
             arrayOf<OptimizerBase>(
+LogicalOptimizerFilterDown(query),//
+ LogicalOptimizerProjectionDown(query),//
+),
+arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerDistinctUp(query),//
@@ -36,7 +40,8 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerUnionUp(query),//
-                    LogicalOptimizerFilterUp(query)//
+                    LogicalOptimizerFilterUp(query),//
+                    LogicalOptimizerProjectionDown(query),//
             ),
             arrayOf<OptimizerBase>(
 //calculate if only count or real data is required. this must happen before join order optimisation
@@ -54,13 +59,13 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterMergeAND(query)//
             ),
             arrayOf<OptimizerBase>(
-//try to remove any unnecessary projection operator, never query unused columns
+//try to remove any unnecessary projection operator, never used columns
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerFilterIntoTriple(query)//
             ),
             arrayOf<OptimizerBase>(
-//calculate the sort order of the columns, as a prerequisite _for physical optimisation
+//calculate the natural sort order of the columns, as a prerequisite _for physical optimisation
                     LogicalOptimizerColumnSortOrder(query)//
             )
     )
