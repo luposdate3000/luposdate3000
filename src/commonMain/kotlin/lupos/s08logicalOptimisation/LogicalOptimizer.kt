@@ -36,16 +36,18 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerBindToFilter(query)//
             ),
             arrayOf<OptimizerBase>(
+                    LogicalOptimizerUnionUp(query),//
                     LogicalOptimizerProjectionDown(query),//
             ),
             arrayOf<OptimizerBase>(
 //replace variables with constants, _if there are just a few in the store, afterwards eliminate constants
                     LogicalOptimizerStoreToValues(query),//
                     LogicalOptimizerBindUp(query),//
-                    LogicalOptimizerBindToFilter(query),//
                     LogicalOptimizerArithmetic(query),//
+                    LogicalOptimizerBindToFilter(query),//
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
+LogicalOptimizerRemoveNOOP(query),//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerProjectionDown(query),//
@@ -55,7 +57,6 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
 //force as much as possible joins to be next to each other
-                    LogicalOptimizerUnionUp(query),//
                     LogicalOptimizerProjectionUp(query),//
                     LogicalOptimizerFilterUp(query),//
             ),

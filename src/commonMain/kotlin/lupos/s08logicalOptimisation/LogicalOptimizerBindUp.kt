@@ -60,17 +60,13 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
                 }
             }
         } else if (node is LOPProjection) {
-/*
             val child0 = node.children[0]
-            if (child0 is LOPBind) {
-                val child01 = child0.children[1]
-                if (child01 is AOPVariable && !node.getProvidedVariableNames().contains(child01.name)) {
-                    node.replaceVariableWithAnother(child0.children[0], child01.name, child0.name.name)
-node.children[0]=child0.children[0]
-                    onChange()
-                }
+            if (child0 is LOPBind && node.variables.map { it.name }.contains(child0.name.name) && node.variables.map { it.name }.contains(child0.getRequiredVariableNames())) {
+                node.children[0] = child0.children[0]
+                child0.children[0] = node
+                res = child0
+                onChange()
             }
-*/
         } else if (node is LOPLimit || node is LOPOffset || node is LOPJoin) {
             for (i in 0 until node.children.size) {
                 val child = node.children[i]
