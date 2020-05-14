@@ -59,7 +59,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         var counter = 0
         while (true) {
             counter++
-            endpointServer!!.process_sparql_query(query).toString()
+            endpointServer!!.process_sparql_query(query,true).toString()
             time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             if (time > minimumTime) {
                 break
