@@ -226,7 +226,6 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             return AOPConstant(query, ValueUndef())
         }
         "ValueBnode" -> {
-            println(node)
             return AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
         }
         "AOPVariable" -> {
