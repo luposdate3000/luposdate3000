@@ -426,6 +426,8 @@ return OPNothing(query,list)
             return POPDistinct(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPValues" -> {
+val rows=node.attributes["rows"]!!.toInt()
+if(rows==-1){
             val vars = mutableListOf<String>()
             val vals = mutableListOf<List<String?>>()
             node["variables"]!!.childs.forEach {
@@ -439,6 +441,9 @@ return OPNothing(query,list)
                 vals.add(exp.toList())
             }
             return POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
+}else{
+return POPValues(query,rows)
+}
         }
         "POPEmptyRow" -> {
             return POPEmptyRow(query, createProjectedVariables(query, node, mapping))

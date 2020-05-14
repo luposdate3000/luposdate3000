@@ -291,6 +291,35 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     companion object {
         private val global_uuid = ThreadSafeUuid()
+}
+    fun replaceVariableWithUndef(node: OPBase, name: String): OPBase {
+        if (node is AOPVariable && node.name == name) {
+            return AOPConstant(query, ResultSetDictionary.undefValue2)
+        }
+        for (i in 0 until node.children.size) {
+            node.children[i] = replaceVariableWithUndef(node.children[i], name)
+        }
+        return node
+    }
+
+    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
+        if (node is AOPVariable && node.name == name) {
+            return AOPVariable(query, name2)
+        }
+        for (i in 0 until node.children.size) {
+            node.children[i] = replaceVariableWithAnother(node.children[i], name, name2)
+        }
+        return node
+    }
+
+    fun replaceVariableWithConstant(node: OPBase, name: String, value:Value): OPBase {
+        if (node is AOPVariable && node.name == name) {
+            return AOPConstant(query, value)
+        }
+        for (i in 0 until node.children.size) {
+            node.children[i] = replaceVariableWithConstant(node.children[i], name, value)
+        }
+        return node
     }
 
     @JvmField
@@ -351,26 +380,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             res.addContent(c.toXMLElement())
         }
         return res
-    }
-
-    fun replaceVariableWithUndef(node: OPBase, name: String): OPBase {
-        if (node is AOPVariable && node.name == name) {
-            return AOPConstant(query, ResultSetDictionary.undefValue2)
-        }
-        for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithUndef(node.children[i], name)
-        }
-        return node
-    }
-
-    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
-        if (node is AOPVariable && node.name == name) {
-            return AOPVariable(query, name2)
-        }
-        for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithAnother(node.children[i], name, name2)
-        }
-        return node
     }
 
     fun syntaxVerifyAllVariableExistsAutocorrect() {

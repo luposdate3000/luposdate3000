@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+
 import kotlinx.coroutines.runBlocking
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -21,60 +22,60 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
     override val classname = "LogicalOptimizerStoreToValues"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-
         if (node is LOPTriple) {
-runBlocking{
-            var variables = mutableListOf<String>()
-            for (c in node.children) {
-                if (c is AOPVariable) {
-                    variables.add(c.name)
+            runBlocking {
+                var variables = mutableListOf<String>()
+                for (c in node.children) {
+                    if (c is AOPVariable) {
+                        variables.add(c.name)
+                    }
+                }
+println("called LogicalOptimizerStoreToValues ${variables.size} ${node.uuid}")
+                if (variables.size == 0) {
+                    val idx = LOPTriple.getIndex(node.children, listOf<String>())
+                    val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
+                    val tmp2 = tmp.evaluate()
+                    require(tmp2.hasCountMode())
+                    if (tmp2.count > 0) {
+                        res = OPEmptyRow(query)
+                    } else {
+                        res = OPNothing(query, node.getProvidedVariableNames())
+                    }
+                    onChange()
+                } else if (variables.size == 1) {
+                    val idx = LOPTriple.getIndex(node.children, listOf<String>())
+                    val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
+                    val tmp2 = tmp.evaluate()
+                    val columns = tmp2.columns
+                    require(columns.size == 1)
+                    val data = IntArray(5)
+                    var i = 0
+                    val iterator = columns[variables[0]]!!
+                    while (i < data.size) {
+                        val t = iterator.next()
+                        if (t != null) {
+                            data[i] = t
+                            i++
+                        } else {
+                            break
+                        }
+                    }
+                    if (i == 0) {
+                        res = OPNothing(query, node.getProvidedVariableNames())
+                        onChange()
+                    } else if (i == 1) {
+                        res = LOPBind(query, AOPVariable(query, variables[0]), AOPConstant(query, data[0]))
+                        onChange()
+                    } else if (i < 5) {
+                        var constants = mutableListOf<AOPValue>()
+                        for (j in 0 until i) {
+                            constants.add(AOPValue(query,listOf(AOPConstant(query, data[j]))))
+                        }
+                        res = LOPValues(query, listOf(AOPVariable(query, variables[0])), constants)
+                        onChange()
+                    }
                 }
             }
-            if (variables.size == 0) {
-                val idx = LOPTriple.getIndex(node.children, listOf<String>())
-                val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
-                val tmp2 = tmp.evaluate()
-                require(tmp2.hasCountMode())
-                if (tmp2.count > 0) {
-                    res = OPEmptyRow(query)
-                } else {
-                    res = OPNothing(query,node.getProvidedVariableNames())
-                }
-                onChange()
-            } else if (variables.size == 1) {
-                val idx = LOPTriple.getIndex(node.children, listOf<String>())
-                val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
-                val tmp2 = tmp.evaluate()
-                val columns = tmp2.columns
-                require(columns.size == 1)
-                val data = IntArray(5)
-                var i = 0
-val iterator=columns[variables[0]]!!
-                while (i < data.size) {
-val t=iterator.next()
-if(t!=null){
-                    data[i] = t
-                    i++
-}else{
-break
-}
-                }
-                if (i == 0) {
-                    res = OPNothing(query,node.getProvidedVariableNames())
-                    onChange()
-                } else if (i == 1) {
-                    res = LOPBind(query, AOPVariable(query, variables[0]), AOPConstant(query, data[0]))
-                    onChange()
-                } else if (i < 5) {
-var constants=mutableListOf<AOPConstant>()
-for(j in 0 until i){
-constants.add(AOPConstant(query,data[j]))
-}
-                    res = LOPValues(query, listOf(AOPVariable(query, variables[0])),listOf(AOPValue(query,constants)))
-                    onChange()
-                }
-            }
-}
         }
 /*return*/res
     })

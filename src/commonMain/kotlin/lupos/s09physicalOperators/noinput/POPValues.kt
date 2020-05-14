@@ -26,6 +26,8 @@ open class POPValues : POPBase {
     val variables: List<String>
     @JvmField
     val data: Map<String, MyListValue>
+    @JvmField
+    val rows: Int
 
     override fun toSparql(): String {
         var res = "VALUES("
@@ -76,12 +78,27 @@ open class POPValues : POPBase {
         return true
     }
 
-    override fun cloneOP() = POPValues(query, projectedVariables, variables, data)
+    override fun cloneOP(): POPValues {
+        if (rows == -1) {
+            return POPValues(query, rows)
+        } else {
+            return POPValues(query, projectedVariables, variables, data)
+        }
+    }
+
+    constructor(query: Query, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+        variables = listOf<String>()
+        data = mapOf<String, MyListValue>()
+        rows = count
+    }
 
     constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         var columns = Array(variables.size) { MyListValue() }
         data = mutableMapOf<String, MyListValue>()
+if(projectedVariables.size==0){
+rows=d.size
+}else{
         for (variableIndex in 0 until variables.size) {
             data[variables[variableIndex]] = columns[variableIndex]
         }
@@ -90,53 +107,68 @@ open class POPValues : POPBase {
                 columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
             }
         }
+        rows = -1
+}
     }
 
     constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MyListValue>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
+        rows = -1
     }
 
     constructor(query: Query, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
-        val tmpVariables = mutableListOf<String>()
-        for (name in values.variables) {
-            tmpVariables.add(name.name)
-        }
-        variables = tmpVariables
-        var columns = Array(variables.size) { MyListValue() }
-        data = mutableMapOf<String, MyListValue>()
-        for (variableIndex in 0 until variables.size) {
-            data[variables[variableIndex]] = columns[variableIndex]
-        }
-        for (v in values.children) {
-            SanityCheck.check({ v is AOPValue })
-            val it = v.children.iterator()
-            for (variableIndex in 0 until variables.size) {
-                columns[variableIndex].add((it.next() as AOPConstant).value)
+        if (projectedVariables.size == 0) {
+            variables = listOf<String>()
+            data = mapOf<String, MyListValue>()
+            rows = values.children.size
+        } else {
+            val tmpVariables = mutableListOf<String>()
+            for (name in values.variables) {
+                tmpVariables.add(name.name)
             }
+            variables = tmpVariables
+            var columns = Array(variables.size) { MyListValue() }
+            data = mutableMapOf<String, MyListValue>()
+            for (variableIndex in 0 until variables.size) {
+                data[variables[variableIndex]] = columns[variableIndex]
+            }
+            for (v in values.children) {
+                SanityCheck.check({ v is AOPValue })
+                val it = v.children.iterator()
+                for (variableIndex in 0 until variables.size) {
+                    columns[variableIndex].add((it.next() as AOPConstant).value)
+                }
+            }
+            rows = -1
         }
     }
 
     override fun getProvidedVariableNamesInternal() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
     override suspend fun evaluate(): IteratorBundle {
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        for (name in variables) {
-            val tmp = ColumnIteratorMultiValue(data[name]!!)
-            tmp.close = {
-                tmp._close()
-                for (variable in variables) {
-                    outMap[variable]!!.close()
+        if (rows == -1) {
+            val outMap = mutableMapOf<String, ColumnIterator>()
+            for (name in variables) {
+                val tmp = ColumnIteratorMultiValue(data[name]!!)
+                tmp.close = {
+                    tmp._close()
+                    for (variable in variables) {
+                        outMap[variable]!!.close()
+                    }
                 }
+                outMap[name] = ColumnIteratorDebug(uuid, name, tmp)
             }
-            outMap[name] = ColumnIteratorDebug(uuid, name, tmp)
+            return IteratorBundle(outMap)
+        } else {
+            return IteratorBundle(rows)
         }
-        return IteratorBundle(outMap)
     }
 
     override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val xmlvariables = XMLElement("variables")
+res.addAttribute("rows",""+rows)
         res.addContent(xmlvariables)
         val bindings = XMLElement("bindings")
         res.addContent(bindings)

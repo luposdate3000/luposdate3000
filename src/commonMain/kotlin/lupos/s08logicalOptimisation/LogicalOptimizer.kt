@@ -35,17 +35,14 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerBindToFilter(query)//
             ),
             arrayOf<OptimizerBase>(
-//this removes all unnecessary variables from triple store part 1
+//replace variables with constants, _if there are just a few in the store, afterwards eliminate constants
+                    LogicalOptimizerStoreToValues(query),//
+                    LogicalOptimizerBindUp(query),//
+                    LogicalOptimizerBindToFilter(query),//
+                    LogicalOptimizerArithmetic(query),//
+                    LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
-),
-            arrayOf<OptimizerBase>(
-//this removes all unnecessary variables from triple store part 2
-                            LogicalOptimizerProjectionDown (query),//
-            ),
-            arrayOf<OptimizerBase>(
-//replace variables with constants, if there are just a few in the store
-                    LogicalOptimizerStoreToValues(query),//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveNOOP(query),//

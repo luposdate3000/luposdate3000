@@ -1,2 +1,3 @@
 improved join order
 removed unnecessary projection directly after a join
+optimizer :: replace small triple-store results directly during the operator-graph optimisation

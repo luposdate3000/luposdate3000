@@ -19,9 +19,12 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             while (d) {
                 d = false
                 for (o in opt) {
+println("${o.classname}")
                     var c = true
                     while (c) {
                         c = false
+var debug=tmp.cloneOP()
+var p=tmp.getProvidedVariableNames()
                         tmp = o.optimizeInternal(tmp, null, {
                             if (o.optimizerID.repeatOnChange) {
                                 c = true
@@ -29,6 +32,11 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                                 onChange()
                             }
                         })
+var p2=tmp.getProvidedVariableNames()
+if(p.size!=p2.size){
+println("$p -> $p2")
+println(debug)
+}
                     }
                     SanityCheck {
                         println("debug ${o.optimizerID}")
