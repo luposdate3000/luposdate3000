@@ -22,7 +22,7 @@ ls resources/sp2b/q*.sparql | grep -v "-" > log/queries
 #echo "resources/sp2b/q3c.sparql" >> log/queries
 #echo "resources/sp2b/q6.sparql" >> log/queries
 #echo "resources/sp2b/q10.sparql" >> log/queries
-echo "resources/sp2b/q12a.sparql" > log/queries
+#echo "resources/sp2b/q12a.sparql" >> log/queries
 #echo "resources/sp2b/q12b.sparql" >> log/queries
 #echo "resources/sp2b/q12c.sparql" >> log/queries
 
