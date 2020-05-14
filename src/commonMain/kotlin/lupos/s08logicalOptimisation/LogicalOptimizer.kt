@@ -29,6 +29,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
 LogicalOptimizerFilterDown(query),//
+LogicalOptimizerFilterIntoTriple(query)//
  LogicalOptimizerProjectionDown(query),//
 ),
 arrayOf<OptimizerBase>(
@@ -43,6 +44,9 @@ arrayOf<OptimizerBase>(
                     LogicalOptimizerFilterUp(query),//
                     LogicalOptimizerProjectionDown(query),//
             ),
+arracOf<OptimizerBase>(
+LogicalOptimizerStoreToValues(query),//
+),
             arrayOf<OptimizerBase>(
 //calculate if only count or real data is required. this must happen before join order optimisation
                     LogicalOptimizerExists(query)//

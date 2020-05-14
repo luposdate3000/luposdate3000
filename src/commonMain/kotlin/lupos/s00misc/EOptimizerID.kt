@@ -29,5 +29,6 @@ enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnC
     PhysicalOptimizerJoinTypeID(false, true),
     PhysicalOptimizerNaiveID(false, true),
     KeyDistributionOptimizerID(false, true),
-    LogicalOptimizerDistinctUpID(false, true)
+    LogicalOptimizerDistinctUpID(false, true),
+LogicalOptimizerStoreToValuesID(true,false),
 }
