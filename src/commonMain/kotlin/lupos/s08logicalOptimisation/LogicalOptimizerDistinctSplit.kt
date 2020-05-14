@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
@@ -55,6 +55,20 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                 }
             } else if (child is LOPFilter) {
                 child.children[0] = LOPSortAny(query, node.possibleSortOrder, child.children[0])
+                res = child
+                onChange()
+            } else if (child is LOPBind && child.children[1] is AOPVariable) {
+                var varNameOut = child.name.name
+                var varNameIn = (child.children[1] as AOPVariable).name
+                var tmp = mutableListOf<SortHelper>()
+                for (c in node.possibleSortOrder) {
+                    if (c.variableName == varNameOut) {
+                        tmp.add(SortHelper(varNameIn, c.sortType))
+                    } else {
+                        tmp.add(c)
+                    }
+                }
+child.children[0] = LOPSortAny(query, tmp, child.children[0])
                 res = child
                 onChange()
             }
