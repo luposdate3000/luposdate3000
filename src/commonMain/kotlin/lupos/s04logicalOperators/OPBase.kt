@@ -32,6 +32,15 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     var mySortPriority = mutableListOf<SortHelper>()
     open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
+
+fun getChildrenCountRecoursive():Int{
+var res=children.size
+for(c in children){
+res+=c.getChildrenCountRecoursive()
+}
+return res
+}
+
     fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
         if (data.size > 0) {
             if (!target.contains(data)) {

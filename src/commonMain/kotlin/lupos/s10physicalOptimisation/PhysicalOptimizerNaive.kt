@@ -100,7 +100,13 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPGroup(query, projectedVariables, node.by, node.bindings, node.children[0])
                 }
                 is LOPUnion -> {
+var countA=node.children[0].getChildrenCountRecoursive()
+var countB=node.children[1].getChildrenCountRecoursive()
+if(countA<countB){
                     res = POPUnion(query, projectedVariables, node.children[0], node.children[1])
+}else{
+res = POPUnion(query, projectedVariables, node.children[1], node.children[0])
+}
                 }
                 is LOPMinus -> {
                     res = POPMinus(query, projectedVariables, node.children[0], node.children[1])
