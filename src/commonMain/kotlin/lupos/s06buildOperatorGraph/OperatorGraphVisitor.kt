@@ -309,13 +309,11 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         val child = visitSelectBase(node, node.select, false, false)
         val template = mutableListOf<ASTNode>()
         for (v in child.getProvidedVariableNames()) {
-            template.add(ASTTriple(ASTVar("s"), ASTVar("p"), ASTVar(v)))
-            template.add(ASTTriple(ASTVar("s"), ASTVar(v), ASTVar("o")))
-            template.add(ASTTriple(ASTVar(v), ASTVar("p"), ASTVar("o")))
+            template.add(ASTTriple(ASTVar("#s"), ASTVar("#p"), ASTVar(v)))
+            template.add(ASTTriple(ASTVar("#s"), ASTVar(v), ASTVar("#o")))
+            template.add(ASTTriple(ASTVar(v), ASTVar("#p"), ASTVar("#o")))
         }
-        val itr = template.iterator()
-        val array = Array(template.size) { itr.next() }
-        return visitConstructBase(child, array)
+        return visitConstructBase(child, template.toTypedArray())
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
@@ -332,18 +330,21 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 val s = templateLocal.children[0] as AOPBase
                 val p = templateLocal.children[1] as AOPBase
                 val o = templateLocal.children[2] as AOPBase
-                if ((s is AOPVariable && s.name != "s") || s !is AOPVariable) {
-                    tmp = LOPBind(query, AOPVariable(query, "s"), s, tmp)
+                if ((s is AOPVariable && s.name != "#s") || s !is AOPVariable) {
+                    tmp = LOPBind(query, AOPVariable(query, "#s"), s, tmp)
                 }
-                if ((p is AOPVariable && p.name != "p") || p !is AOPVariable) {
-                    tmp = LOPBind(query, AOPVariable(query, "p"), p, tmp)
+                if ((p is AOPVariable && p.name != "#p") || p !is AOPVariable) {
+                    tmp = LOPBind(query, AOPVariable(query, "#p"), p, tmp)
                 }
-                if ((o is AOPVariable && o.name != "o") || o !is AOPVariable) {
-                    tmp = LOPBind(query, AOPVariable(query, "o"), o, tmp)
+                if ((o is AOPVariable && o.name != "#o") || o !is AOPVariable) {
+                    tmp = LOPBind(query, AOPVariable(query, "#o"), o, tmp)
                 }
             } else {
                 throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             }
+tmp = LOPBind(query, AOPVariable(query, "s"), AOPVariable(query, "#s"), tmp)//prevent name clash during optimisation
+tmp = LOPBind(query, AOPVariable(query, "p"), AOPVariable(query, "#p"), tmp)
+tmp = LOPBind(query, AOPVariable(query, "o"), AOPVariable(query, "#o"), tmp)
             tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)
             if (result == null) {
                 result = tmp

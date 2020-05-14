@@ -8,11 +8,16 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.noinput.LOPGraphOperation
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.*
+import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s08logicalOptimisation.OptimizerBase
 
@@ -20,21 +25,20 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
     override val classname = "LogicalOptimizerBindUp"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-println("LogicalOptimizerBindUp ${node.classname}")
         if (node is LOPBind) {
-if(node.children[1] !is AOPConstant){
-            val child = node.children[0]
-            if (child is LOPBind) {
-                if (child.children[1] is AOPConstant) {
-                    node.children[0] = child.children[0]
-                    child.children[0] = node
-                    res = child
-                    onChange()
+            if (node.children[1] !is AOPConstant) {
+                val child = node.children[0]
+                if (child is LOPBind) {
+                    if (child.children[1] is AOPConstant) {
+                        if (!node.children[1].getRequiredVariableNamesRecoursive().contains(child.name.name)) {
+                            node.children[0] = child.children[0]
+                            child.children[0] = node
+                            res = child
+                            onChange()
+                        }
+                    }
                 }
             }
-}
-        } else if (node is LOPUnion) {
-            /*nothing here*/
         } else if (node is LOPMinus) {
             val child = node.children[0]
             if (child is LOPBind && child.children[1] is AOPConstant) {
@@ -56,27 +60,29 @@ if(node.children[1] !is AOPConstant){
                 }
             }
         } else if (node is LOPProjection) {
+/*
             val child0 = node.children[0]
             if (child0 is LOPBind) {
                 val child01 = child0.children[1]
                 if (child01 is AOPVariable && !node.getProvidedVariableNames().contains(child01.name)) {
                     node.replaceVariableWithAnother(child0.children[0], child01.name, child0.name.name)
-                    res = child0.children[0]
+node.children[0]=child0.children[0]
                     onChange()
                 }
             }
-        } else {
+*/
+        } else if(node is LOPLimit || node is LOPOffset|| node is LOPJoin){
             for (i in 0 until node.children.size) {
                 val child = node.children[i]
                 if (child is LOPBind && child.children[1] is AOPConstant) {
-                    node.children[i] = child.children[i]
-                    child.children[i] = node
+                    node.children[i] = child.children[0]
+                    child.children[0] = node
                     res = child
                     onChange()
                     break
                 }
             }
-        }
+}
 /*return*/res
     })
 }

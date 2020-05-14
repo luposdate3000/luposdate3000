@@ -28,6 +28,7 @@ class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase)
 
     override fun cloneOP() = POPDistinct(query, projectedVariables, children[0].cloneOP())
     override suspend fun evaluate(): IteratorBundle {
+if(projectedVariables.size>0){
         var child: IteratorBundle
         val flag = true
         SanityCheck.check { mySortPriority.size <= projectedVariables.size }
@@ -40,5 +41,8 @@ class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase)
         }
         val reduced = RowIteratorReduced(child.rows)
         return IteratorBundle(reduced)
-    }
+    }else{
+return children[0].evaluate()
+}
+}
 }

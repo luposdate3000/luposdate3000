@@ -35,14 +35,19 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerBindToFilter(query)//
             ),
             arrayOf<OptimizerBase>(
+                    LogicalOptimizerProjectionDown(query),//
+            ),
+            arrayOf<OptimizerBase>(
 //replace variables with constants, _if there are just a few in the store, afterwards eliminate constants
                     LogicalOptimizerStoreToValues(query),//
                     LogicalOptimizerBindUp(query),//
                     LogicalOptimizerBindToFilter(query),//
                     LogicalOptimizerArithmetic(query),//
-                    LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerProjectionDown(query),//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveNOOP(query),//
