@@ -83,7 +83,7 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
         }
     }
 
-    override fun toXMLElement() = XMLElement("ValueBnode").addAttribute("value", "" + value)
+    override fun toXMLElement() = XMLElement("ValueBoolean").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     override fun equals(other: Any?) = (other is ValueBoolean) && value == other.value
     override fun toDouble() = throw Exception("cannot cast ValueBoolean to Double")

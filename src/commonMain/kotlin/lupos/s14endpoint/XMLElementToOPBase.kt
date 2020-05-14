@@ -226,7 +226,8 @@ return OPNothing(query,list)
             return AOPConstant(query, ValueUndef())
         }
         "ValueBnode" -> {
-            return AOPConstant(query, ValueBnode(node.attributes["value"]!!))
+println(node)
+            return AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
         }
         "AOPVariable" -> {
             return AOPVariable(query, node.attributes["name"]!!)
