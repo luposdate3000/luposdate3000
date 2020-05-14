@@ -83,6 +83,13 @@ LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerFilterIntoTriple(query)//
             ),
             arrayOf<OptimizerBase>(
+//calculate the natural sort order of the columns, as a prerequisite _for distinct calculation
+                    LogicalOptimizerColumnSortOrder(query)//
+            ),
+arrayOf<OptimizerBase>(
+LogicalOptimizerDistinctSplit(query)//
+),
+            arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here
                     LogicalOptimizerColumnSortOrder(query)//
             )

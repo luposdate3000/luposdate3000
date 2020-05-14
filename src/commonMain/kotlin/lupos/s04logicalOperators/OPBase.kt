@@ -24,6 +24,7 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
@@ -164,6 +165,9 @@ return res
         val res = mutableListOf<List<SortHelper>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {
+if(mySortPriority.size>0){
+res.add(mySortPriority)
+}else{
                 val provided = getProvidedVariableNames()
                 when (provided.size) {
                     1 -> {
@@ -184,6 +188,7 @@ return res
                     else -> {
                         SanityCheck.check { provided.size == 0 }
                     }
+}
                 }
             }
             ESortPriority.SAME_AS_CHILD, ESortPriority.BIND -> {
@@ -205,7 +210,9 @@ return res
             ESortPriority.SORT -> {
                 var requiredVariables = mutableListOf<String>()
                 var sortType = ESortType.ASC
-                if (this is LOPSort) {
+if(this is LOPSortAny){
+res.add(this.possibleSortOrder)
+}else                if (this is LOPSort) {
                     if (!this.asc) {
                         sortType = ESortType.DESC
                     }

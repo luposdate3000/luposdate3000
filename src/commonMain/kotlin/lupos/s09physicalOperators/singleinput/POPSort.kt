@@ -90,11 +90,18 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
             for (v in sortBy) {
                 columnNamesTmp.add(v.name)
             }
-            for (v in variablesOut) {
+            for (v in mySortPriority.map{it.variableName}) {
+if(variablesOut.contains(v)){
                 if (!columnNamesTmp.contains(v)) {
                     columnNamesTmp.add(v)
                 }
+}
             }
+for(v in variablesOut){
+ if (!columnNamesTmp.contains(v)) {
+                    columnNamesTmp.add(v)
+                }
+}
             val columnNames = columnNamesTmp.toTypedArray()
             var comparator: Comparator<Value>
             if (sortOrder) {

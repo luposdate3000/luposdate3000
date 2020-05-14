@@ -25,7 +25,9 @@ import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -37,6 +39,7 @@ import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
+import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -65,6 +68,24 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 projectedVariables = node.getProvidedVariableNames()
             }
             when (node) {
+is LOPSortAny->{
+val child=node.children[0]
+val v1=node.possibleSortOrder
+val v2=child.mySortPriority
+var flag=v1.size==v2.size
+var i=0
+while(flag && i<v1.size){
+if(v1[i].variableName!=v2[i].variableName || v1[i].sortType!=v2[i].sortType){
+flag=false
+}
+i++
+}
+if(flag){
+res=child
+}else{
+res=POPSort(query,projectedVariables,arrayOf<AOPVariable>(),true,child)
+}
+}
                 is LOPGraphOperation -> {
                     res = POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
                 }
@@ -92,6 +113,9 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
                 is LOPDistinct -> {
                     res = POPDistinct(query, projectedVariables, node.children[0])
+                }
+                is LOPReduced -> {
+                    res = POPReduced(query, projectedVariables, node.children[0])
                 }
                 is LOPOffset -> {
                     res = POPOffset(query, projectedVariables, node.offset, node.children[0])
