@@ -28,6 +28,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     var onlyExistenceRequired = false
+var alreadyCheckedStore=-1L
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
     open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")

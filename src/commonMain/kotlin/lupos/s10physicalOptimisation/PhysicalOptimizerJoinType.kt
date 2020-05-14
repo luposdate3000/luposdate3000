@@ -11,6 +11,7 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
+import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
@@ -80,8 +81,14 @@ res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
                     }
                 }
             }
+if(node.onlyExistenceRequired){
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
+res=POPReduced(query,projectedVariables,res)
+}
+            res.mySortPriority = node.mySortPriority
+            res.sortPriorities = node.sortPriorities
+onChange()
         }
 /*return*/ res
     })

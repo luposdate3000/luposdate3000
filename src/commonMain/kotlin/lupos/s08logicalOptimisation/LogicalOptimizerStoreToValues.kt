@@ -23,6 +23,17 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPTriple) {
+var hashCode=0L
+for(c in node.children){
+hashCode+=c.uuid+c.toString().hashCode()
+}
+if(hashCode==-1L){
+//just avoid this flag ...
+hashCode=0L
+}
+if(node.alreadyCheckedStore!=hashCode){
+node.alreadyCheckedStore=hashCode
+//dont query the same statements twice ... 
             runBlocking {
                 var variables = mutableListOf<String>()
                 for (c in node.children) {
@@ -75,6 +86,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                     }
                 }
             }
+}
         }
 /*return*/res
     })
