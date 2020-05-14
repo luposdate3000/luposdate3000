@@ -9,11 +9,11 @@ import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPNothing(query)), ESortPriority.PREVENT_ANY) {
+class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.PREVENT_ANY) {
     override fun childrenToVerifyCount() = 1
     var bindings = mutableListOf<Pair<String, AOPBase>>()
 
@@ -33,7 +33,7 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
                 this.bindings.add(Pair(b.name.name, b.children[1] as AOPBase))
                 b = b.children[0]
             } else {
-                SanityCheck.check { b is OPNothing }
+                SanityCheck.check { b is OPEmptyRow }
                 break
             }
         }

@@ -1,5 +1,6 @@
 package lupos.s11outputResult
 
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.MyMapIntInt
@@ -35,6 +36,11 @@ object QueryResultToXMLString {
         }
         for (i in 0 until nodes.size) {
             val node = nodes[i]
+                res.append("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
+if(node is OPNothing){
+res.append(" <head/>\n")
+res.append(" <results/>\n")
+}else{
             val columnNames: List<String>
             if (columnProjectionOrder[i].size > 0) {
                 columnNames = columnProjectionOrder[i]
@@ -44,7 +50,6 @@ object QueryResultToXMLString {
             }
             CoroutinesHelper.runBlock {
                 val child = node.evaluate()
-                res.append("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     res.append(" <head/>\n")
@@ -58,11 +63,11 @@ object QueryResultToXMLString {
                     var bnodeMapSize = 0
                     val columns = variables.map { child.columns[it] }.toTypedArray()
                     if (variables.size == 0) {
-                        res.append(" <head/>\n  <results>\n")
+                        res.append(" <head/>\n <results>\n")
                         for (i in 0 until child.count) {
-                            res.append("   <result/>\n")
+                            res.append("  <result/>\n")
                         }
-                        res.append("  </results>\n")
+                        res.append(" </results>\n")
                     } else {
                         res.append(" <head>\n")
                         for (variable in variables) {
@@ -171,6 +176,7 @@ object QueryResultToXMLString {
                         res.append(" <results/>\n")
                     }
                 }
+}
                 res.append("</sparql>\n")
             }
         }

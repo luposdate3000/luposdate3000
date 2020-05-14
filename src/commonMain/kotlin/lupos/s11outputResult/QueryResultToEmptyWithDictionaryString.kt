@@ -1,5 +1,6 @@
 package lupos.s11outputResult
 
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
@@ -18,6 +19,7 @@ object QueryResultToEmptyWithDictionaryString {
             nodes = arrayOf<OPBase>(rootNode)
         }
         for (node in nodes) {
+if(node !is OPNothing){
             CoroutinesHelper.runBlock {
                 val child = node.evaluate()
                 val variables = node.getProvidedVariableNames().toTypedArray()
@@ -39,6 +41,7 @@ object QueryResultToEmptyWithDictionaryString {
                             }
                         }
                     }
+}
                 }
             }
         }

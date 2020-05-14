@@ -183,7 +183,7 @@ import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
@@ -1179,7 +1179,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
         }
         when (node) {
-            is OPNothing -> {
+            is OPEmptyRow -> {
                 return node
             }
             is LOPTriple -> {
@@ -1205,10 +1205,10 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-        var res: OPBase = OPNothing(query)
+        var res: OPBase = OPEmptyRow(query)
         for (c in childrenValues) {
             val tmp = setGraphNameForAllTriples(c, node.iriOrVar, false)
-            if (res is OPNothing) {
+            if (res is OPEmptyRow) {
                 res = tmp
             } else {
                 res = LOPJoin(query, res, tmp, false)

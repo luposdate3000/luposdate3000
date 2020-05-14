@@ -1,5 +1,6 @@
 package lupos.s11outputResult
 
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.SanityCheck
@@ -25,6 +26,13 @@ object QueryResultToXMLElement {
         }
         for (i in 0 until nodes.size) {
             val node = nodes[i]
+            val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
+            val nodeHead = XMLElement("head")
+            nodeSparql.addContent(nodeHead)
+if(node is OPNothing){
+val nodeResults = XMLElement("results")
+                nodeSparql.addContent(nodeResults)
+}else{
             val columnNames: List<String>
             if (columnProjectionOrder[i].size > 0) {
                 columnNames = columnProjectionOrder[i]
@@ -33,9 +41,6 @@ object QueryResultToXMLElement {
                 columnNames = node.getProvidedVariableNames()
             }
             val child = node.evaluate()
-            val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
-            val nodeHead = XMLElement("head")
-            nodeSparql.addContent(nodeHead)
             val variables = columnNames.toTypedArray()
             if (variables.size == 1 && variables[0] == "?boolean") {
                 val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!).valueToString()!!
@@ -104,8 +109,9 @@ object QueryResultToXMLElement {
                     }
                 }
             }
-            res.add(nodeSparql)
         }
+            res.add(nodeSparql)
+}
         if (res.size == 1) {
             return res[0]
         }

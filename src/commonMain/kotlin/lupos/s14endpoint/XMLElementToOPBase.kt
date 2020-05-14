@@ -74,6 +74,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
@@ -135,6 +136,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             }
             return OPBaseCompound(query, childs.toTypedArray(), cpos)
         }
+"OPNothing"->{
+return OPNothing(query)
+}
         "LOPSubGroup" -> {
             return LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }

@@ -5,6 +5,7 @@ import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -19,6 +20,7 @@ object QueryResultToEmptyString {
             nodes = arrayOf<OPBase>(rootNode)
         }
         for (node in nodes) {
+if(node !is OPNothing){
             CoroutinesHelper.runBlock {
                 val child = node.evaluate()
                 val variables = node.getProvidedVariableNames().toTypedArray()
@@ -40,6 +42,7 @@ object QueryResultToEmptyString {
                         }
                     }
                 }
+}
             }
         }
         return res.toString()

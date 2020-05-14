@@ -11,6 +11,8 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -21,22 +23,31 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
     override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
     override suspend fun evaluate(): IteratorBundle {
-//TODO rows without any column
-        val variables = children[0].getProvidedVariableNames()
+        var flag = true
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val child = children[0].evaluate()
-        val tmp: ColumnIteratorRepeatValue
-        if (variables.size > 0) {
-            tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.columns[variables[0]]!!.next() != null)))
+        val variables = children[0].getProvidedVariableNames()
+var child:IteratorBundle?=null
+        if (children[0] is OPNothing) {
+            flag = false
+        } else if (children[0] is OPEmptyRow) {
+            flag = true
         } else {
-            tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(child.hasNext())))
+            child = children[0].evaluate()
+            if (variables.size > 0) {
+                flag = child.columns[variables[0]]!!.next() != null
+            } else {
+                flag = child.hasNext()
+            }
         }
+        val tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(flag)))
+if(child!=null){
         tmp.close = {
             tmp._close()
             for (variable in variables) {
                 child.columns[variable]!!.close()
             }
         }
+}
         outMap["?boolean"] = ColumnIteratorDebug(uuid, "?success", tmp)
         return IteratorBundle(outMap)
     }

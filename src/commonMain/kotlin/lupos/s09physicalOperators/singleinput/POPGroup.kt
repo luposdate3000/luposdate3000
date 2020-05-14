@@ -20,7 +20,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -46,7 +46,7 @@ class POPGroup : POPBase {
 
     override fun cloneOP(): POPGroup {
         if (bindings.size > 0) {
-            var tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[0].first), bindings[0].second, OPNothing(query))
+            var tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[0].first), bindings[0].second, OPEmptyRow(query))
             for (bp in 1 until bindings.size) {
                 tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[0].first), bindings[0].second, tmpBindings)
             }

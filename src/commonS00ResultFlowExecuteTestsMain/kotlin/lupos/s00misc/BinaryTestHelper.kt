@@ -133,7 +133,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -342,8 +342,8 @@ suspend fun fromBinary(query: Query, random: TestRandom): OPBase {
     try {
         var id = random.nextInt(EOperatorID.values().size, false)
         val operatorID = EOperatorID.values()[id]
-        if (operatorID == EOperatorID.OPNothingID)
-            return OPNothing(query)
+        if (operatorID == EOperatorID.OPEmptyRowID)
+            return OPEmptyRow(query)
         if (EOperatorIDLOP.contains(operatorID))
             return fromBinaryLOP(query, random)
         if (EOperatorIDPOP.contains(operatorID))
@@ -353,7 +353,7 @@ suspend fun fromBinary(query: Query, random: TestRandom): OPBase {
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
     }
-    return OPNothing(query)
+    return OPEmptyRow(query)
 }
 
 suspend fun fromBinaryPOPLOP(query: Query, random: TestRandom): OPBase {
@@ -361,8 +361,8 @@ suspend fun fromBinaryPOPLOP(query: Query, random: TestRandom): OPBase {
         val poploplist = EOperatorIDPOP + EOperatorIDLOP
         var id = random.nextInt(poploplist.size)
         val operatorID = poploplist[id]
-        if (operatorID == EOperatorID.OPNothingID)
-            return OPNothing(query)
+        if (operatorID == EOperatorID.OPEmptyRowID)
+            return OPEmptyRow(query)
         if (EOperatorIDLOP.contains(operatorID))
             return fromBinaryLOP(query, random)
         if (EOperatorIDPOP.contains(operatorID))
@@ -370,7 +370,7 @@ suspend fun fromBinaryPOPLOP(query: Query, random: TestRandom): OPBase {
     } catch (e: ArrayIndexOutOfBoundsException) {
         hadArrayIndexOutOfBoundsException = true
     }
-    return OPNothing(query)
+    return OPEmptyRow(query)
 }
 
 suspend fun fromBinaryPOP(query: Query, random: TestRandom): POPBase {
@@ -1092,11 +1092,11 @@ suspend fun executeBinaryTest(filename: String, detailedLog: Boolean) {
 
 suspend fun executeBinaryTest(random: TestRandom) {
     val query = Query()
-    var node1: OPBase = OPNothing(query)
-    var node2: OPBase = OPNothing(query)
-    var node3: OPBase = OPNothing(query)
-    var node4: OPBase = OPNothing(query)
-    var node5: OPBase = OPNothing(query)
+    var node1: OPBase = OPEmptyRow(query)
+    var node2: OPBase = OPEmptyRow(query)
+    var node3: OPBase = OPEmptyRow(query)
+    var node4: OPBase = OPEmptyRow(query)
+    var node5: OPBase = OPEmptyRow(query)
     val lOptimizer = LogicalOptimizer(query)
     val pOptimizer = PhysicalOptimizer(query)
     val dOptimizer = KeyDistributionOptimizer(query)
@@ -1142,10 +1142,10 @@ suspend fun executeBinaryTest(random: TestRandom) {
                     }
                     query.commit()
                 }
-                node1 = OPNothing(query)
-                node2 = OPNothing(query)
-                node3 = OPNothing(query)
-                node4 = OPNothing(query)
+                node1 = OPEmptyRow(query)
+                node2 = OPEmptyRow(query)
+                node3 = OPEmptyRow(query)
+                node4 = OPEmptyRow(query)
                 node1 = fromBinaryPOPLOP(query, random)
             } catch (e: ExceptionTopLevelOperator) {
                 node1 = e.data
@@ -1205,11 +1205,11 @@ suspend fun executeBinaryTest(random: TestRandom) {
                 var e2: Throwable? = null
                 var output = XMLElement("crashed")
                 var isUpdate = false
-                node1 = OPNothing(query)
-                node2 = OPNothing(query)
-                node3 = OPNothing(query)
-                node4 = OPNothing(query)
-                node5 = OPNothing(query)
+                node1 = OPEmptyRow(query)
+                node2 = OPEmptyRow(query)
+                node3 = OPEmptyRow(query)
+                node4 = OPEmptyRow(query)
+                node5 = OPEmptyRow(query)
                 try {
                     //println("sparql::" + sparql)
                     val lcit = LexerCharIterator(sparql)

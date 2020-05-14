@@ -28,11 +28,6 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerArithmetic(query)//
             ),
             arrayOf<OptimizerBase>(
-LogicalOptimizerFilterDown(query),//
-LogicalOptimizerFilterIntoTriple(query)//
- LogicalOptimizerProjectionDown(query),//
-),
-arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerDistinctUp(query),//
@@ -40,15 +35,29 @@ arrayOf<OptimizerBase>(
                     LogicalOptimizerBindToFilter(query)//
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerUnionUp(query),//
-                    LogicalOptimizerFilterUp(query),//
-                    LogicalOptimizerProjectionDown(query),//
-            ),
-arracOf<OptimizerBase>(
-LogicalOptimizerStoreToValues(query),//
+//this removes all unnecessary variables from triple store part 1
+                    LogicalOptimizerFilterDown(query),//
+                    LogicalOptimizerFilterIntoTriple(query),//
 ),
             arrayOf<OptimizerBase>(
-//calculate if only count or real data is required. this must happen before join order optimisation
+//this removes all unnecessary variables from triple store part 2
+                            LogicalOptimizerProjectionDown (query),//
+            ),
+            arrayOf<OptimizerBase>(
+//replace variables with constants, if there are just a few in the store
+                    LogicalOptimizerStoreToValues(query),//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerRemoveNOOP(query),//
+            ),
+            arrayOf<OptimizerBase>(
+//force as much as possible joins to be next to each other
+                    LogicalOptimizerUnionUp(query),//
+                    LogicalOptimizerProjectionUp(query),//
+                    LogicalOptimizerFilterUp(query),//
+            ),
+            arrayOf<OptimizerBase>(
+//calculate if only count or real data is required. this must happen directly before join order optimisation
                     LogicalOptimizerExists(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -56,6 +65,7 @@ LogicalOptimizerStoreToValues(query),//
                     LogicalOptimizerJoinOrder(query)//
             ),
             arrayOf<OptimizerBase>(
+//put the filters between the joins
                     LogicalOptimizerFilterDown(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -69,7 +79,7 @@ LogicalOptimizerStoreToValues(query),//
                     LogicalOptimizerFilterIntoTriple(query)//
             ),
             arrayOf<OptimizerBase>(
-//calculate the natural sort order of the columns, as a prerequisite _for physical optimisation
+//calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here
                     LogicalOptimizerColumnSortOrder(query)//
             )
     )

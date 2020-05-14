@@ -7,8 +7,13 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
+
+class EmptyResultException():Exception("")
+val emptyResultException=EmptyResultException()
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname = "LogicalOptimizerJoinOrder"
@@ -24,6 +29,11 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 } else {
                     res.add(c)
                 }
+            } else if(c is OPNothing){
+//there can not be any result, if one of the children does not have any output.
+throw emptyResultException
+            } else if(c is OPEmptyRow){
+//skip those unnecessary joins, without any observeable effekt
             } else {
                 res.add(c)
             }
@@ -106,6 +116,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
+try{
 var originalProvided=node.getProvidedVariableNames()
             val allChilds2 = findAllJoinsInChildren(node)
             if (allChilds2.size > 2) {
@@ -123,6 +134,9 @@ result=LOPProjection(query,originalProvided.map{AOPVariable(query,it)}.toMutable
                     res = result
                 }
             }
+}catch(e:EmptyResultException){
+res=OPNothing(query)
+}
         }
         /*return*/ res
     })
