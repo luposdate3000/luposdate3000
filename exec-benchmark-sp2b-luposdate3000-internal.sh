@@ -50,6 +50,7 @@ do
 			fi
 			cat log/benchtmp/x | grep "sparql,$triples," >> $p/luposdate-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.queries
+			mv log/benchtmp/x log/benchtmp/x-$triples
 		fi
 		i=1
 	done

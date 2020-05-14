@@ -24,7 +24,7 @@ object LogicalOptimizerJoinOrderStore {
             var lastVariableCount = queue[0].getProvidedVariableNames().size
             for (i in queue.indices) {
                 val tmp = queue[i].getProvidedVariableNames().size
-                if (tmp < lastVariableCount) {
+                if (tmp <= lastVariableCount) {
                     lastVariableCount = tmp
                     lastVariable = i
                 }
