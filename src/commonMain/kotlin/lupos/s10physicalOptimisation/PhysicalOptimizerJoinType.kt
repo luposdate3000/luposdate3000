@@ -13,6 +13,7 @@ import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
+import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
@@ -63,7 +64,11 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         }
                     }
                     if (res is LOPJoin) {
-                        if (childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+if(projectedVariables.size==0&&childA is LOPTriple){
+res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
+}else if(projectedVariables.size==0&&childB is LOPTriple){
+res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
+}else                        if (childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
                         } else if (childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
