@@ -116,8 +116,8 @@ throw emptyResultException
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
-try{
 var originalProvided=node.getProvidedVariableNames()
+try{
             val allChilds2 = findAllJoinsInChildren(node)
             if (allChilds2.size > 2) {
                 val allChilds3 = clusterizeChildren(allChilds2)
@@ -135,7 +135,7 @@ result=LOPProjection(query,originalProvided.map{AOPVariable(query,it)}.toMutable
                 }
             }
 }catch(e:EmptyResultException){
-res=OPNothing(query)
+res=OPNothing(query,originalProvided)
 }
         }
         /*return*/ res

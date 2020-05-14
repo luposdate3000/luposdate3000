@@ -27,7 +27,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 for (i in node.children.indices) {
                     var c = node.children[i]
                     if (c is OPNothing) {
-                        res = OPNothing(query)
+                        res = OPNothing(query,node.getProvidedVariableNames())
                         onChange()
                         break
                     } else if (c is OPEmptyRow) {
@@ -38,7 +38,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 }
             } else {
                 if (node.children[0] is OPNothing) {
-                    res = OPNothing(query)
+                    res = OPNothing(query,node.getProvidedVariableNames())
                     onChange()
                 } else if (node.children[0] is OPEmptyRow) {
                     res = node.children[1]
@@ -58,7 +58,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
             }
         } else if (node is LOPMinus) {
             if (node.children[0] is OPNothing) {
-                res = OPNothing(query)
+                res = OPNothing(query,node.getProvidedVariableNames())
                 onChange()
             } else if (node.children[0] is OPEmptyRow) {
                 res = node.children[0]
@@ -67,7 +67,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 res = node.children[0]
                 onChange()
             } else if (node.children[1] is OPEmptyRow){
-                res = OPNothing(query)
+                res = OPNothing(query,node.getProvidedVariableNames())
                 onChange()
             }
         }else if(node.children.size>0 && node !is LOPMakeBooleanResult){

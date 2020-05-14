@@ -38,7 +38,7 @@ runBlocking{
                 if (tmp2.count > 0) {
                     res = OPEmptyRow(query)
                 } else {
-                    res = OPNothing(query)
+                    res = OPNothing(query,node.getProvidedVariableNames())
                 }
                 onChange()
             } else if (variables.size == 1) {
@@ -60,7 +60,7 @@ break
 }
                 }
                 if (i == 0) {
-                    res = OPNothing(query)
+                    res = OPNothing(query,node.getProvidedVariableNames())
                     onChange()
                 } else if (i == 1) {
                     res = LOPBind(query, AOPVariable(query, variables[0]), AOPConstant(query, data[0]))

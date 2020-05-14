@@ -38,7 +38,18 @@ object QueryResultToXMLString {
             val node = nodes[i]
                 res.append("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
 if(node is OPNothing){
+val variables=node.getProvidedVariableNames()
+if(variables.size==0){
 res.append(" <head/>\n")
+}else{
+res.append(" <head>\n")
+for (variable in variables) {
+                            res.append("  <variable name=\"")
+                            res.append(variable)
+                            res.append("\">\n")
+                        }
+res.append(" </head>\n")
+}
 res.append(" <results/>\n")
 }else{
             val columnNames: List<String>

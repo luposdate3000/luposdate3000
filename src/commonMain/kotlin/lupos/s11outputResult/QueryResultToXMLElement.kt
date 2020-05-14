@@ -32,6 +32,9 @@ object QueryResultToXMLElement {
 if(node is OPNothing){
 val nodeResults = XMLElement("results")
                 nodeSparql.addContent(nodeResults)
+for (variable in node.getProvidedVariableNames()) {
+                    nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
+                }
 }else{
             val columnNames: List<String>
             if (columnProjectionOrder[i].size > 0) {

@@ -137,7 +137,11 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             return OPBaseCompound(query, childs.toTypedArray(), cpos)
         }
 "OPNothing"->{
-return OPNothing(query)
+var list=mutableListOf<String>()
+for(c in node.childs){
+list.add(c.content)
+}
+return OPNothing(query,list)
 }
         "LOPSubGroup" -> {
             return LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
