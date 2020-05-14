@@ -48,42 +48,23 @@ object LogicalOptimizerJoinOrderStore {
                     }
                 }
             }
-            var allVariablesOrdered = mutableListOf<String>()
-            var allVariablesOrderedCounters = mutableListOf<Int>()
-            require(allVariables.size == allVariablesCounters.size)
-            while (allVariables.size > 0) {
-                var max = allVariablesCounters[0]
-                var maxI = 0
-                var i = 1
-                while (i < allVariables.size) {
-                    if (allVariablesCounters[i] > max || (allVariablesCounters[i] == max && allVariables[maxI] > allVariables[i])) {
-                        max = allVariablesCounters[i]
-                        maxI = i
-                    }
-                    i++
-                }
-                allVariablesOrdered.add(allVariables.removeAt(maxI))
-                allVariablesOrderedCounters.add(allVariablesCounters.removeAt(maxI))
-                require(allVariables.size == allVariablesCounters.size)
-            }
+            var allVariablesOrdered=mutableListOf<String>()
+	allVariablesOrdered.addAll(lastChild.getProvidedVariableNames())
             val result = mutableListOf<OPBase>()
             while (queue.size > 0) {
                 var max = -1
                 var maxI = 0
                 var i = 0
                 while (i < queue.size) {
-                    var score = allVariablesOrdered.size * allVariablesOrdered.size
-//score is better, if there are more constants
-//otherwise the variables which are most recently used within the query are preferred
                     var provided = queue[i].getProvidedVariableNames()
+                    var score = provided.size
                     loop@ for (p in provided) {
                         for (s in allVariablesOrdered.indices) {
                             if (p == allVariablesOrdered[s]) {
-                                score -= s * s
+score+=provided.size-s+100
                                 continue@loop
                             }
                         }
-                        throw Exception("unreachable")
                     }
                     if (score > max) {
                         maxI = i
@@ -100,14 +81,12 @@ object LogicalOptimizerJoinOrderStore {
                 allVariablesOrdered.addAll(tmp)
                 result.add(node)
             }
-            var res = result.removeAt(0)
+            var res = lastChild
             while (result.size > 0) {
                 val b = result.removeAt(0)
                 res = LOPJoin(root.query, res, b, false)
                 res.onlyExistenceRequired = true
             }
-            res = LOPJoin(root.query, res, lastChild, false)
-            res.onlyExistenceRequired = true
             return res
         }
         return null

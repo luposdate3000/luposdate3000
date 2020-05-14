@@ -54,7 +54,6 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         SanityCheck { projectedVariables.size == 0 }
         val childAv = children[0].evaluate()
         val childA = children[0]
-        val index = EIndexPattern.SPO
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array(3) { childB.children[it] as AOPBase }
         var res = IteratorBundle(0)
@@ -64,20 +63,22 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
             if (p is AOPVariable&&p.name!="_") {
                 mappingHelper.add(i)
                 iteratorsHelper.add(childAv.columns[p.name]!!)
+params[i]=AOPConstant(query,0)
             }
         }
+        val index = LOPTriple.getIndex(params.map{it as OPBase}.toTypedArray(),listOf())
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
         SanityCheck { mapping.size > 0 }
         for (i in 0 until mapping.size) {
-            var tmp =  iterators[mapping[i]].next()
+            var tmp =  iterators[i].next()
             if (tmp == null) {
                 done = true
                 require(i == 0)
                 break
             } else {
-                params[i] = AOPConstant(query,tmp)
+                params[mapping[i]] = AOPConstant(query,tmp)
             }
         }
         if (!done) {
@@ -87,13 +88,13 @@ val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
                 var t = iteratorB.hasNext()
                 while (!t && !done) {
                     for (i in 0 until mapping.size) {
- var tmp =  iterators[mapping[i]].next() 
+ var tmp =  iterators[i].next() 
                         if (tmp == null) {
                             done = true
                             require(i == 0)
                             break
                         } else {
-                            params[i] =AOPConstant(query,tmp)
+                            params[mapping[i]] =AOPConstant(query,tmp)
                         }
                     }
 if(!done){

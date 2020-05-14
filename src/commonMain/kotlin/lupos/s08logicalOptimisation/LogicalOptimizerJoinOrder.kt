@@ -26,16 +26,19 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 res.addAll(findAllJoinsInChildren(c))
             } else if (c is LOPProjection) {
                 var d = c.children[0]
+while(d is LOPProjection){
+d=d.children[0]
+}
                 if (d is LOPJoin && !d.optional) {
                     res.addAll(findAllJoinsInChildren(d))
                 } else {
-                    res.add(c)
+                    res.add(d)
                 }
             } else if (c is OPNothing) {
-//there can not be any result, if one of the children does not have any output.
+                //there can not be any result, if one of the children does not have any output.
                 throw emptyResultException
             } else if (c is OPEmptyRow) {
-//skip those unnecessary joins, without any observeable effekt
+                //skip those unnecessary joins, without any observeable effekt
             } else {
                 res.add(c)
             }
@@ -122,8 +125,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
-
-
 var result:OPBase?=null
 if(node.onlyExistenceRequired){
 //dont not prefer merge join for ask-queries, as this makes it harder later, to avoid any materialisation
