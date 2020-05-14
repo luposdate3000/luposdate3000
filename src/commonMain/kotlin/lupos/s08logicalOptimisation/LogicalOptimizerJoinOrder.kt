@@ -60,6 +60,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             res.add(mutableListOf(node))
             variables.add(v)
         }
+println("clusterize A $variables")
         var queue = mutableListOf<MutableList<OPBase>>()
         var done = false
         while (!done) {
@@ -90,6 +91,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 res.add(childs)
                 variables.add(v)
             }
+println("clusterize B $variables")
         }
         return res
     }

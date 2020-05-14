@@ -44,7 +44,17 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                     }
                     child = child.children[0]
                 }
-                if (child !is LOPGroup && child !is LOPUnion && child.children.size > 0) {
+                if (child is LOPUnion) {
+                    var a = child.children[0]
+                    var b = child.children[1]
+                    for (filterIndex in 0 until filters.size) {
+                        val filter = filters[filterIndex]
+                        a = LOPFilter(query, filter, a)
+                        b = LOPFilter(query, filter, b)
+                        res = LOPUnion(query, a, b)
+                        onChange()
+                    }
+                } else if (child !is LOPGroup && child.children.size > 0) {
                     loop@ for (targetIndex in 0 until child.children.size) {
                         val target = child.children[targetIndex]
                         for (filterIndex in 0 until filters.size) {
