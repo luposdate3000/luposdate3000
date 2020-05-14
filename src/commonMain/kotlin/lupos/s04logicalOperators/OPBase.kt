@@ -20,6 +20,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
@@ -400,6 +401,14 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
+SanityCheck{
+if(this is LOPProjection){
+require(children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()),{"$classname $uuid"})
+}
+if(children.size==1){
+require(children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()),{"$classname $uuid"})
+}
+}
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }

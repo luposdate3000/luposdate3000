@@ -30,7 +30,6 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                         variables.add(c.name)
                     }
                 }
-                println("called LogicalOptimizerStoreToValues ${variables.size} ${node.uuid}")
                 if (variables.size == 0) {
                     val idx = LOPTriple.getIndex(node.children, listOf<String>())
                     val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)

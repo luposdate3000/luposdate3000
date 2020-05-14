@@ -9,6 +9,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s08logicalOptimisation.OptimizerBase
 
@@ -16,9 +17,17 @@ class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimiz
     override val classname = "LogicalOptimizerBindToFilter"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-        if (node is LOPBind && (node.children[0].getProvidedVariableNames().contains(node.name.name))) {
-            res = LOPFilter(query, AOPEQ(query, AOPVariable(query, node.name.name), node.children[1] as AOPBase), node.children[0])
-            onChange()
+        if (node is LOPBind) {
+            var v = node.children[0].getProvidedVariableNames()
+            if (v.contains(node.name.name)) {
+                val v2 = mutableListOf<String>()
+                v2.addAll(v)
+                v2.remove(node.name.name)
+println("before2 $node")
+                node.children[0] = LOPProjection(query, v2.map { AOPVariable(query, it) }.toMutableList(), LOPFilter(query, AOPEQ(query, AOPVariable(query, node.name.name), node.children[1] as AOPBase), node.children[0]))
+println("after2 $node")
+                onChange()
+            }
         }
 /*return*/res
     })

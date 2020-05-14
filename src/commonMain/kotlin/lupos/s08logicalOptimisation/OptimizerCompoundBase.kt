@@ -19,6 +19,9 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             while (d) {
                 d = false
                 for (o in opt) {
+                    SanityCheck {
+                        println("debug ${o.optimizerID}")
+                    }
                     var c = true
                     while (c) {
                         c = false
@@ -29,13 +32,9 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                                 onChange()
                             }
                         })
-                    }
                     SanityCheck {
-                        println("debug ${o.optimizerID}")
                         tmp.syntaxVerifyAllVariableExists(listOf(), false)
-if(o.optimizerID==EOptimizerID.LogicalOptimizerBindToFilterID){
-println(tmp)
-}
+                    }
                     }
                 }
             }

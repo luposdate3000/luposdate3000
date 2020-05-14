@@ -31,9 +31,11 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
                 if (child is LOPBind) {
                     if (child.children[1] is AOPConstant) {
                         if (!node.children[1].getRequiredVariableNamesRecoursive().contains(child.name.name)) {
+println("beforeA $node")
                             node.children[0] = child.children[0]
                             child.children[0] = node
                             res = child
+println("afterA $res")
                             onChange()
                         }
                     }
@@ -42,9 +44,11 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
         } else if (node is LOPMinus) {
             val child = node.children[0]
             if (child is LOPBind && child.children[1] is AOPConstant) {
+println("beforeB $node")
                 node.children[0] = child.children[0]
                 child.children[0] = node
                 res = child
+println("afterB $res")
                 onChange()
             }
         } else if (node is LOPFilter) {
@@ -52,29 +56,38 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
             if (child0 is LOPBind) {
                 val child01 = child0.children[1]
                 if (child01 is AOPConstant) {
+println("beforeC $node")
                     node.replaceVariableWithConstant(node.children[1], child0.name.name, child01.value)
                     node.children[0] = child0.children[0]
                     child0.children[0] = node
                     res = child0
+println("afterC $res")
                     onChange()
                 }
             }
         } else if (node is LOPProjection) {
             val child0 = node.children[0]
-            if (child0 is LOPBind && node.variables.map { it.name }.contains(child0.name.name) && node.variables.map { it.name }.contains(child0.getRequiredVariableNames())) {
-                node.children[0] = child0.children[0]
-                child0.children[0] = node
-                res = child0
-                onChange()
+            if (child0 is LOPBind) {
+val variables=node.variables.map { it.name }.toMutableList()
+                if (variables.contains(child0.name.name) && variables.containsAll(child0.getRequiredVariableNames())) {
+println("beforeD $node")
+variables.remove(child0.name.name)
+child0.children[0]=LOPProjection(query,variables.map{AOPVariable(query,it)}.toMutableList(),child0.children[0])
+res=child0
+println("afterD $res")
+                    onChange()
+                }
             }
         } else if (node is LOPLimit || node is LOPOffset || node is LOPJoin) {
             for (i in 0 until node.children.size) {
                 val child = node.children[i]
                 if (child is LOPBind && child.children[1] is AOPConstant) {
+println("beforeE $node")
                     node.children[i] = child.children[0]
                     child.children[0] = node
                     res = child
                     onChange()
+println("afterE $res")
                     break
                 }
             }

@@ -2,6 +2,7 @@ package lupos.s08logicalOptimisation
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -13,7 +14,13 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
         for (i in node.children.indices) {
             val tmp = optimizeInternal(node.children[i], node, onChange)
             node.updateChildren(i, tmp)
+SanityCheck {
+                        tmp.syntaxVerifyAllVariableExists(listOf(), false)
+                    }
         }
+SanityCheck {
+                        node.syntaxVerifyAllVariableExists(listOf(), false)
+                    }
         return optimize(node, parent, onChange)
     }
 
