@@ -19,6 +19,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
 //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query),//
                     LogicalOptimizerFilterDown(query),//
+   LogicalOptimizerProjectionDown(query),//
             ),
             arrayOf<OptimizerBase>(
 //remove all filters testing for_ equality by renaming one of the variables
@@ -34,6 +35,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerDistinctUp(query),//
                     LogicalOptimizerOptional(query),//
+LogicalOptimizerRemoveBindVariable(query),//
                     LogicalOptimizerBindToFilter(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -45,7 +47,8 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerStoreToValues(query),//
                     LogicalOptimizerBindUp(query),//
                     LogicalOptimizerArithmetic(query),//
-                    LogicalOptimizerBindToFilter(query),//
+                    LogicalOptimizerRemoveBindVariable(query),//
+LogicalOptimizerBindToFilter(query),//
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
 LogicalOptimizerRemoveNOOP(query),//
@@ -81,7 +84,8 @@ LogicalOptimizerRemoveNOOP(query),//
 //try to remove any unnecessary projection operator, never used columns
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
-                    LogicalOptimizerFilterIntoTriple(query)//
+                    LogicalOptimizerFilterIntoTriple(query),//
+LogicalOptimizerRemoveBindVariable(query),//
             ),
             arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for distinct calculation

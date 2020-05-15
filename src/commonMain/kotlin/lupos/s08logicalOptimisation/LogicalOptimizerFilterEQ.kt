@@ -24,14 +24,14 @@ class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID
                 if (v1 is AOPVariable && v2 is AOPVariable) {
                     if (parent != null) {
                         if (parent is LOPProjection && parent.variables.map { it.name }.contains(v1.name)) {
-                            node.replaceVariableWithAnother(node, v2.name, v1.name)
+                            node.replaceVariableWithAnother(node.children[0], v2.name, v1.name,node,0)
                             res = LOPBind(query, v2, v1, node.children[0])
                         } else {
-                            node.replaceVariableWithAnother(node, v1.name, v2.name)
+                            node.replaceVariableWithAnother(node.children[0], v1.name, v2.name,node,0)
                             res = LOPBind(query, v1, v2, node.children[0])
                         }
                     } else {
-                        node.replaceVariableWithAnother(node, v1.name, v2.name)
+                        node.replaceVariableWithAnother(node.children[0], v1.name, v2.name,node,0)
                         res = LOPBind(query, v1, v2, node.children[0])
                     }
                     onChange()

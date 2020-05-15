@@ -29,19 +29,19 @@ import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     var onlyExistenceRequired = false
-var alreadyCheckedStore=-1L
+    var alreadyCheckedStore = -1L
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
     open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
 
-fun getChildrenCountRecoursive():Int{
-var res=children.size
-for(c in children){
-res+=c.getChildrenCountRecoursive()
-}
-return res
-}
+    fun getChildrenCountRecoursive(): Int {
+        var res = children.size
+        for (c in children) {
+            res += c.getChildrenCountRecoursive()
+        }
+        return res
+    }
 
     fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
         if (data.size > 0) {
@@ -165,33 +165,33 @@ return res
         val res = mutableListOf<List<SortHelper>>()
         when (sortPriority) {
             ESortPriority.ANY_PROVIDED_VARIABLE -> {
-if(mySortPriority.size>0){
-res.add(mySortPriority)
-}else{
-                val provided = getProvidedVariableNames()
-                when (provided.size) {
-                    1 -> {
-                        res.add(listOf(SortHelper(provided[0], ESortType.FAST)))
+                if (mySortPriority.size > 0) {
+                    res.add(mySortPriority)
+                } else {
+                    val provided = getProvidedVariableNames()
+                    when (provided.size) {
+                        1 -> {
+                            res.add(listOf(SortHelper(provided[0], ESortType.FAST)))
+                        }
+                        2 -> {
+                            res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
+                        }
+                        3 -> {
+                            res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
+                        }
+                        else -> {
+                            SanityCheck.check { provided.size == 0 }
+                        }
                     }
-                    2 -> {
-                        res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
-                        res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
-                    }
-                    3 -> {
-                        res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
-                        res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
-                        res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
-                        res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
-                        res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
-                        res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
-                    }
-                    else -> {
-                        SanityCheck.check { provided.size == 0 }
-                    }
-}
                 }
             }
-            ESortPriority.SAME_AS_CHILD, ESortPriority.BIND -> {
+            ESortPriority.SAME_AS_CHILD, ESortPriority.BIND, ESortPriority.MINUS -> {
                 val provided = getProvidedVariableNames()
                 for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
@@ -210,9 +210,9 @@ res.add(mySortPriority)
             ESortPriority.SORT -> {
                 var requiredVariables = mutableListOf<String>()
                 var sortType = ESortType.ASC
-if(this is LOPSortAny){
-res.add(this.possibleSortOrder)
-}else                if (this is LOPSort) {
+                if (this is LOPSortAny) {
+                    res.add(this.possibleSortOrder)
+                } else if (this is LOPSort) {
                     if (!this.asc) {
                         sortType = ESortType.DESC
                     }
@@ -321,12 +321,40 @@ res.add(this.possibleSortOrder)
         return node
     }
 
-    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
-        if (node is AOPVariable && node.name == name) {
+    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String, parent: OPBase, parentIdx: Int): OPBase {
+        require(parent.children[parentIdx] == node)
+        println("repaceing $name -> $name2")
+        if (node is LOPBind && node.name.name == name) {
+            var exp = node.children[1]
+                println("cascaderemove before $parent")
+            if (exp is AOPVariable) {
+                replaceVariableWithAnother(node.children[0], exp.name, node.name.name, node, 0)
+                parent.children[parentIdx] = node.children[0]
+            } else {
+                parent.children[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.children[1] as AOPBase, node.children[0])
+            }
+        var res= replaceVariableWithAnother(parent.children[parentIdx], name, name2, parent, parentIdx)
+                println("cascaderemove after $parent")
+return res
+        } else if (node is LOPProjection) {
+            for (i in 0 until node.variables.size) {
+                if (node.variables[i].name == name) {
+                    println("cascaderemove before $parent")
+                    node.variables[i] = AOPVariable(query, name2)
+                    println("cascaderemove after $parent")
+                }
+            }
+        } else if (node is LOPSort) {
+            if (node.by.name == name) {
+                println("cascaderemove before $parent")
+                node.by = AOPVariable(query, name2)
+                println("cascaderemove after $parent")
+            }
+        } else if (node is AOPVariable && node.name == name) {
             return AOPVariable(query, name2)
         }
         for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithAnother(node.children[i], name, name2)
+            node.children[i] = replaceVariableWithAnother(node.children[i], name, name2, node, i)
         }
         return node
     }
@@ -418,14 +446,14 @@ res.add(this.possibleSortOrder)
     }
 
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
-SanityCheck{
-if(this is LOPProjection){
-require(children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()),{"$classname $uuid"})
-}
-if(children.size==1){
-require(children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()),{"$classname $uuid"})
-}
-}
+        SanityCheck {
+            if (this is LOPProjection) {
+                require(children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()), { "$classname $uuid" })
+            }
+            if (children.size == 1) {
+                require(children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()), { "$classname $uuid" })
+            }
+        }
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }

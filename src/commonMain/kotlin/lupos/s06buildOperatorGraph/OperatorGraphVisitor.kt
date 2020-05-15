@@ -339,6 +339,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 if ((o is AOPVariable && o.name != "#o") || o !is AOPVariable) {
                     tmp = LOPBind(query, AOPVariable(query, "#o"), o, tmp)
                 }
+tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "#s"), AOPVariable(query, "#p"), AOPVariable(query, "#o")), tmp)
             } else {
                 throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
             }
