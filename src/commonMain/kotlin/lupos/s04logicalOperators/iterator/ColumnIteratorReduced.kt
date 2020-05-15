@@ -3,18 +3,17 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 
-class ColumnIteratorDistinct(val child: ColumnIterator) : ColumnIterator() {
-    //TODO only for_ single column .... replace with sort-distinct
+class ColumnIteratorReduced(val child: ColumnIterator) : ColumnIterator() {
     var last: Value? = null
 
     init {
         next = {
             var res = child.next()
-            while (last != null && last == res) {
+            while (res != null && last == res) {
                 res = child.next()
             }
             last = res
-/*return*/res
+            /*return*/res
         }
         close = {
             child.close()

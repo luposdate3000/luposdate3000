@@ -8,7 +8,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorDistinct
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorReduced
 import lupos.s04logicalOperators.OPBase
