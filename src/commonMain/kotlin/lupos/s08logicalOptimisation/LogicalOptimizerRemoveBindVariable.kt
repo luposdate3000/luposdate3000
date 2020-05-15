@@ -20,10 +20,8 @@ class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EO
                 if (exp is AOPVariable) {
 var provided=node.getProvidedVariableNames()
 if(!provided.contains(exp.name)){
-println("remove before $node")
 node.replaceVariableWithAnother(child.children[0],exp.name,child.name.name,child,0)
 node.children[0]=child.children[0]
-println("remove after $node")
 onChange()
 }
                 }

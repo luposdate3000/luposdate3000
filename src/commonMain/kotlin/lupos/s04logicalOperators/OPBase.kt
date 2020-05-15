@@ -323,10 +323,8 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     fun replaceVariableWithAnother(node: OPBase, name: String, name2: String, parent: OPBase, parentIdx: Int): OPBase {
         require(parent.children[parentIdx] == node)
-        println("repaceing $name -> $name2")
         if (node is LOPBind && node.name.name == name) {
             var exp = node.children[1]
-                println("cascaderemove before $parent")
             if (exp is AOPVariable) {
                 replaceVariableWithAnother(node.children[0], exp.name, node.name.name, node, 0)
                 parent.children[parentIdx] = node.children[0]
@@ -334,21 +332,16 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 parent.children[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.children[1] as AOPBase, node.children[0])
             }
         var res= replaceVariableWithAnother(parent.children[parentIdx], name, name2, parent, parentIdx)
-                println("cascaderemove after $parent")
 return res
         } else if (node is LOPProjection) {
             for (i in 0 until node.variables.size) {
                 if (node.variables[i].name == name) {
-                    println("cascaderemove before $parent")
                     node.variables[i] = AOPVariable(query, name2)
-                    println("cascaderemove after $parent")
                 }
             }
         } else if (node is LOPSort) {
             if (node.by.name == name) {
-                println("cascaderemove before $parent")
                 node.by = AOPVariable(query, name2)
-                println("cascaderemove after $parent")
             }
         } else if (node is AOPVariable && node.name == name) {
             return AOPVariable(query, name2)

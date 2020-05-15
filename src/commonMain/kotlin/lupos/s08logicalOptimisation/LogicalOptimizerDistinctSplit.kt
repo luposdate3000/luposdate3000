@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
@@ -37,8 +38,10 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                         variables.addAll(columns[2])
                         res = LOPReduced(query, LOPSortAny(query, variables.map { SortHelper(it, ESortType.FAST) }, child))
                         onChange()
+                        println("LogicalOptimizerDistinctSplit A $res")
                     } else {
                         res = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, child))
+                        println("LogicalOptimizerDistinctSplit B $res")
                         onChange()
                     }
                 }
@@ -47,9 +50,30 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
             val variables = node.possibleSortOrder.map { it.variableName }
             val child = node.children[0]
             if (child is LOPJoin) {
-                if (child.children[0].getProvidedVariableNames().containsAll(variables) && child.children[1].getProvidedVariableNames().containsAll(variables)) {
-                    child.children[0] = LOPSortAny(query, node.possibleSortOrder, child.children[0])
-                    child.children[1] = LOPSortAny(query, node.possibleSortOrder, child.children[1])
+                var flag = true
+                var provided = child.children[0].getProvidedVariableNames().distinct()
+                var i = 0
+var aList=mutableListOf<SortHelper>()
+var bList=mutableListOf<SortHelper>()
+                while (flag && i < provided.size) {
+                    if (!provided.contains(variables[i])) {
+                        flag = false
+                    }
+aList.add(node.possibleSortOrder[i])
+                    i++
+                }
+                provided = child.children[1].getProvidedVariableNames().distinct()
+                i = 0
+                while (flag && i < provided.size) {
+                    if (!provided.contains(variables[i])) {
+                        flag = false
+                    }
+bList.add(node.possibleSortOrder[i])
+                    i++
+                }
+                if (flag) {
+                    child.children[0] = LOPSortAny(query, aList, child.children[0])
+                    child.children[1] = LOPSortAny(query, bList, child.children[1])
                     res = child
                     onChange()
                 }
