@@ -26,9 +26,9 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 res.addAll(findAllJoinsInChildren(c))
             } else if (c is LOPProjection) {
                 var d = c.children[0]
-while(d is LOPProjection){
-d=d.children[0]
-}
+                while (d is LOPProjection) {
+                    d = d.children[0]
+                }
                 if (d is LOPJoin && !d.optional) {
                     res.addAll(findAllJoinsInChildren(d))
                 } else {
@@ -125,19 +125,19 @@ d=d.children[0]
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
-var result:OPBase?=null
-if(node.onlyExistenceRequired){
+                    var result: OPBase? = null
+                    if (node.onlyExistenceRequired) {
 //dont not prefer merge join for ask-queries, as this makes it harder later, to avoid any materialisation
-result = LogicalOptimizerJoinOrderStore(allChilds2, node)
-}
-if(result==null){
-                    val allChilds3 = clusterizeChildren(allChilds2)
-                    val allChilds4 = mutableListOf<OPBase>()
-                    for (child in allChilds3) {
-                        allChilds4.add(applyOptimisation(child, node))
+                        result = LogicalOptimizerJoinOrderStore(allChilds2, node)
                     }
-                    result = applyOptimisation(allChilds4, node)
-}
+                    if (result == null) {
+                        val allChilds3 = clusterizeChildren(allChilds2)
+                        val allChilds4 = mutableListOf<OPBase>()
+                        for (child in allChilds3) {
+                            allChilds4.add(applyOptimisation(child, node))
+                        }
+                        result = applyOptimisation(allChilds4, node)
+                    }
                     if (result!! != res) {
                         onChange()
                         if (!originalProvided.containsAll(result!!.getProvidedVariableNames())) {

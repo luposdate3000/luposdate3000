@@ -60,46 +60,46 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         val mappingHelper = mutableListOf<Int>()
         for (i in 0 until 3) {
             val p = params[i]
-            if (p is AOPVariable&&p.name!="_") {
+            if (p is AOPVariable && p.name != "_") {
                 mappingHelper.add(i)
                 iteratorsHelper.add(childAv.columns[p.name]!!)
-params[i]=AOPConstant(query,0)
+                params[i] = AOPConstant(query, 0)
             }
         }
-        val index = LOPTriple.getIndex(params.map{it as OPBase}.toTypedArray(),listOf())
+        val index = LOPTriple.getIndex(params.map { it as OPBase }.toTypedArray(), listOf())
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
         SanityCheck { mapping.size > 0 }
         for (i in 0 until mapping.size) {
-            var tmp =  iterators[i].next()
+            var tmp = iterators[i].next()
             if (tmp == null) {
                 done = true
                 require(i == 0)
                 break
             } else {
-                params[mapping[i]] = AOPConstant(query,tmp)
+                params[mapping[i]] = AOPConstant(query, tmp)
             }
         }
         if (!done) {
-val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
+            val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
             var iteratorB = distributedStore.getIterator(params, index).evaluate()
             res.hasNext = {
                 var t = iteratorB.hasNext()
                 while (!t && !done) {
                     for (i in 0 until mapping.size) {
- var tmp =  iterators[i].next() 
+                        var tmp = iterators[i].next()
                         if (tmp == null) {
                             done = true
                             require(i == 0)
                             break
                         } else {
-                            params[mapping[i]] =AOPConstant(query,tmp)
+                            params[mapping[i]] = AOPConstant(query, tmp)
                         }
                     }
-if(!done){
-                    iteratorB = distributedStore.getIterator(params, index).evaluate()
-}
+                    if (!done) {
+                        iteratorB = distributedStore.getIterator(params, index).evaluate()
+                    }
                 }
                 /*return*/ t
             }

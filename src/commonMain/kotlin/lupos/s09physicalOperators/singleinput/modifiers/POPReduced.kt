@@ -28,11 +28,11 @@ class POPReduced(query: Query, projectedVariables: List<String>, child: OPBase) 
 
     override fun cloneOP() = POPReduced(query, projectedVariables, children[0].cloneOP())
     override suspend fun evaluate(): IteratorBundle {
-        if (projectedVariables.size ==1) {
+        if (projectedVariables.size == 1) {
             val child = children[0].evaluate()
             val reduced = ColumnIteratorReduced(child.columns[projectedVariables[0]]!!)
             return IteratorBundle(mapOf(projectedVariables[0] to reduced))
-        } else         if (projectedVariables.size > 0) {
+        } else if (projectedVariables.size > 0) {
             val child = children[0].evaluate()
             val reduced = RowIteratorReduced(child.rows)
             return IteratorBundle(reduced)

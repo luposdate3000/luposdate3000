@@ -91,9 +91,9 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
-import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
+import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPGroup

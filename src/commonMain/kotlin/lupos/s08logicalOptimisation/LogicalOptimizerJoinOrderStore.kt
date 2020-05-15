@@ -48,8 +48,8 @@ object LogicalOptimizerJoinOrderStore {
                     }
                 }
             }
-            var allVariablesOrdered=mutableListOf<String>()
-	allVariablesOrdered.addAll(lastChild.getProvidedVariableNames())
+            var allVariablesOrdered = mutableListOf<String>()
+            allVariablesOrdered.addAll(lastChild.getProvidedVariableNames())
             val result = mutableListOf<OPBase>()
             while (queue.size > 0) {
                 var max = -1
@@ -61,7 +61,7 @@ object LogicalOptimizerJoinOrderStore {
                     loop@ for (p in provided) {
                         for (s in allVariablesOrdered.indices) {
                             if (p == allVariablesOrdered[s]) {
-score+=provided.size-s+100
+                                score += provided.size - s + 100
                                 continue@loop
                             }
                         }

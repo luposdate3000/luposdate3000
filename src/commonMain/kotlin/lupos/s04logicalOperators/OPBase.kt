@@ -20,8 +20,8 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
@@ -34,7 +34,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     var mySortPriority = mutableListOf<SortHelper>()
     open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
-
     fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
@@ -144,9 +143,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 }
             }
         }
-SanityCheck{
-require(getProvidedVariableNames().containsAll(mySortPriority.map{it.variableName}))
-}
+        SanityCheck {
+            require(getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }))
+        }
         sortPriorities = tmp
     }
 
@@ -334,8 +333,8 @@ require(getProvidedVariableNames().containsAll(mySortPriority.map{it.variableNam
             } else {
                 parent.children[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.children[1] as AOPBase, node.children[0])
             }
-        var res= replaceVariableWithAnother(parent.children[parentIdx], name, name2, parent, parentIdx)
-return res
+            var res = replaceVariableWithAnother(parent.children[parentIdx], name, name2, parent, parentIdx)
+            return res
         } else if (node is LOPProjection) {
             for (i in 0 until node.variables.size) {
                 if (node.variables[i].name == name) {

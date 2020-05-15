@@ -2,8 +2,8 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.ExecuteOptimizer
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
@@ -12,11 +12,11 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
-import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
 import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
@@ -66,11 +66,11 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         }
                     }
                     if (res is LOPJoin) {
-if(projectedVariables.size==0&&childA is LOPTriple){
-res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
-}else if(projectedVariables.size==0&&childB is LOPTriple){
-res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
-}else                        if (childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        if (projectedVariables.size == 0 && childA is LOPTriple) {
+                            res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
+                        } else if (projectedVariables.size == 0 && childB is LOPTriple) {
+                            res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
+                        } else if (childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
                         } else if (childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
@@ -82,16 +82,16 @@ res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
                     }
                 }
             }
-if(node.onlyExistenceRequired){
-SanityCheck{res.getProvidedVariableNames().containsAll(node.mySortPriority.map{it.variableName})}
+            if (node.onlyExistenceRequired) {
+                SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
+                res.mySortPriority = node.mySortPriority
+                res.sortPriorities = node.sortPriorities
+                res = POPReduced(query, projectedVariables, res)
+            }
+            SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
-res=POPReduced(query,projectedVariables,res)
-}
-SanityCheck{res.getProvidedVariableNames().containsAll(node.mySortPriority.map{it.variableName})}
-            res.mySortPriority = node.mySortPriority
-            res.sortPriorities = node.sortPriorities
-onChange()
+            onChange()
         }
 /*return*/ res
     })

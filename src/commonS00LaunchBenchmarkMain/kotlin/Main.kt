@@ -54,7 +54,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     }
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-            endpointServer!!.process_sparql_query(query,true).toString()
+        endpointServer!!.process_sparql_query(query, true).toString()
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0

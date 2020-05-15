@@ -62,11 +62,11 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
         } else if (node is LOPProjection) {
             val child0 = node.children[0]
             if (child0 is LOPBind) {
-val variables=node.variables.map { it.name }.toMutableList()
+                val variables = node.variables.map { it.name }.toMutableList()
                 if (variables.contains(child0.name.name) && variables.containsAll(child0.getRequiredVariableNames())) {
-variables.remove(child0.name.name)
-child0.children[0]=LOPProjection(query,variables.map{AOPVariable(query,it)}.toMutableList(),child0.children[0])
-res=child0
+                    variables.remove(child0.name.name)
+                    child0.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child0.children[0])
+                    res = child0
                     onChange()
                 }
             }

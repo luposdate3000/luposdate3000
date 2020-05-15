@@ -48,7 +48,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 }
             }
             res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
-SanityCheck{res.getProvidedVariableNames().containsAll(node.mySortPriority.map{it.variableName})}
+            SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
         }

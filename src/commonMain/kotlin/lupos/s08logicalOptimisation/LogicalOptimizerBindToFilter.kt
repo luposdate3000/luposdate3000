@@ -9,8 +9,8 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindToFilterID) {

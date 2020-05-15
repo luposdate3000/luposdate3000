@@ -12,7 +12,6 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 
 class LogicalOptimizerRemoveProjection(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveProjectionID) {
     override val classname = "LogicalOptimizerRemoveProjection"
-
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPProjection) {

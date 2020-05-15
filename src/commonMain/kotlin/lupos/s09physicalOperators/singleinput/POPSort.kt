@@ -14,7 +14,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
-import lupos.s04logicalOperators.iterator.ColumnIteratorMergeSort
+import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
@@ -80,35 +80,40 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
     }
 
     override suspend fun evaluate(): IteratorBundle {
-/*if_ sortBy.size==0, than only use a fastComparator. This may happen, _if there is a Distinct clause following */
         val child = children[0].evaluate()
         val variablesOut = getProvidedVariableNames()
+        var comparator: Comparator<Value>
+        if (sortOrder) {
+            comparator = ValueComparatorASC(query)
+        } else {
+            comparator = ValueComparatorDESC(query)
+        }
         if (variablesOut.size == 0) {
             return child
+        } else if (variablesOut.size == 1) {
+            if (sortBy.size == 1) {
+                return IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
+            } else {
+                return IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
+            }
         } else {
             val columnNamesTmp = mutableListOf<String>()
             for (v in sortBy) {
                 columnNamesTmp.add(v.name)
             }
-            for (v in mySortPriority.map{it.variableName}) {
-if(variablesOut.contains(v)){
+            for (v in mySortPriority.map { it.variableName }) {
+                if (variablesOut.contains(v)) {
+                    if (!columnNamesTmp.contains(v)) {
+                        columnNamesTmp.add(v)
+                    }
+                }
+            }
+            for (v in variablesOut) {
                 if (!columnNamesTmp.contains(v)) {
                     columnNamesTmp.add(v)
                 }
-}
             }
-for(v in variablesOut){
- if (!columnNamesTmp.contains(v)) {
-                    columnNamesTmp.add(v)
-                }
-}
             val columnNames = columnNamesTmp.toTypedArray()
-            var comparator: Comparator<Value>
-            if (sortOrder) {
-                comparator = ValueComparatorASC(query)
-            } else {
-                comparator = ValueComparatorDESC(query)
-            }
             return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
         }
     }

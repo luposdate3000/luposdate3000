@@ -19,11 +19,11 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
 //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query),//
                     LogicalOptimizerFilterDown(query),//
-   LogicalOptimizerProjectionDown(query),//
+                    LogicalOptimizerProjectionDown(query),//
             ),
             arrayOf<OptimizerBase>(
 //remove all filters testing for_ equality by renaming one of the variables
-		LogicalOptimizerRemoveNOOP(query),// remove noops first, to be able to do a better choice
+                    LogicalOptimizerRemoveNOOP(query),// remove noops first, to be able to do a better choice
                     LogicalOptimizerFilterEQ(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -35,7 +35,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerDistinctUp(query),//
                     LogicalOptimizerOptional(query),//
-LogicalOptimizerRemoveBindVariable(query),//
+                    LogicalOptimizerRemoveBindVariable(query),//
                     LogicalOptimizerBindToFilter(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -48,10 +48,10 @@ LogicalOptimizerRemoveBindVariable(query),//
                     LogicalOptimizerBindUp(query),//
                     LogicalOptimizerArithmetic(query),//
                     LogicalOptimizerRemoveBindVariable(query),//
-LogicalOptimizerBindToFilter(query),//
+                    LogicalOptimizerBindToFilter(query),//
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
-LogicalOptimizerRemoveNOOP(query),//
+                    LogicalOptimizerRemoveNOOP(query),//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerProjectionDown(query),//
@@ -85,19 +85,19 @@ LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
-LogicalOptimizerRemoveBindVariable(query),//
+                    LogicalOptimizerRemoveBindVariable(query),//
             ),
             arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for distinct calculation
                     LogicalOptimizerColumnSortOrder(query)//
             ),
-arrayOf<OptimizerBase>(
-LogicalOptimizerDistinctSplit(query),//
-LogicalOptimizerProjectionDown(query),//
-),
-arrayOf<OptimizerBase>(
-LogicalOptimizerRemoveProjection(query),//
-),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerDistinctSplit(query),//
+                    LogicalOptimizerProjectionDown(query),//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerRemoveProjection(query),//
+            ),
             arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here
                     LogicalOptimizerColumnSortOrder(query)//

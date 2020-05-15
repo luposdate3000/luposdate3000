@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-class LOPSortAny(query: Query,val possibleSortOrder:List<SortHelper> ,child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriority.SORT) {
+class LOPSortAny(query: Query, val possibleSortOrder: List<SortHelper>, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriority.SORT) {
     override fun equals(other: Any?): Boolean {
         if (other !is LOPSortAny) {
             return false
@@ -22,5 +22,5 @@ class LOPSortAny(query: Query,val possibleSortOrder:List<SortHelper> ,child: OPB
         return true
     }
 
-    override fun cloneOP() = LOPSortAny(query,possibleSortOrder, children[0].cloneOP())
+    override fun cloneOP() = LOPSortAny(query, possibleSortOrder, children[0].cloneOP())
 }

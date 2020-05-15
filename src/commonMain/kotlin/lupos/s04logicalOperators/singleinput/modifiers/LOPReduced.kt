@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPReduced(query: Query, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPReducedID, "LOPReduced", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
-var hadPushDown=false
+    var hadPushDown = false
     override fun equals(other: Any?): Boolean {
         if (other !is LOPReduced) {
             return false

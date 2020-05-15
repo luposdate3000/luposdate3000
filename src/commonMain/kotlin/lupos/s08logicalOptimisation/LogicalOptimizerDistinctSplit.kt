@@ -1,22 +1,21 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
-import lupos.s00misc.SortHelper
 import lupos.s00misc.ExecuteOptimizer
-import lupos.s04logicalOperators.singleinput.modifiers.*
-import lupos.s04logicalOperators.singleinput.*
+import lupos.s00misc.SortHelper
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctSplitID) {
     override val classname = "LogicalOptimizerDistinctSplit"
-
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPDistinct) {
@@ -92,12 +91,12 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
             if (child is LOPReduced) {
                 res = child
                 onChange()
-            } else if (child is LOPProjection && child.children[0]is LOPMinus) {
-val child2=child.children[0]//as LOPMinus
-child2.children[0]=LOPReduced(query,LOPProjection(query,child.variables.toMutableList(),child2.children[0]))
-child2.children[1]=LOPReduced(query,LOPProjection(query,child.variables.toMutableList(),child2.children[1]))
-res=child
-onChange()
+            } else if (child is LOPProjection && child.children[0] is LOPMinus) {
+                val child2 = child.children[0]//as LOPMinus
+                child2.children[0] = LOPReduced(query, LOPProjection(query, child.variables.toMutableList(), child2.children[0]))
+                child2.children[1] = LOPReduced(query, LOPProjection(query, child.variables.toMutableList(), child2.children[1]))
+                res = child
+                onChange()
             } else if (!node.hadPushDown) {
                 node.hadPushDown = true
                 if (child is LOPProjection) {
