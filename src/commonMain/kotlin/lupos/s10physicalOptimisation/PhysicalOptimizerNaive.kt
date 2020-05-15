@@ -1,5 +1,6 @@
 package lupos.s10physicalOptimisation
 
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
@@ -170,6 +171,7 @@ res = POPUnion(query, projectedVariables, node.children[1], node.children[0])
             }
         } finally {
             if (change) {
+SanityCheck{res.getProvidedVariableNames().containsAll(node.mySortPriority.map{it.variableName})}
                 res.mySortPriority = node.mySortPriority
                 res.sortPriorities = node.sortPriorities
                 onChange()

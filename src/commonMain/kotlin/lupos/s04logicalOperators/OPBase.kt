@@ -144,6 +144,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 }
             }
         }
+SanityCheck{
+require(getProvidedVariableNames().containsAll(mySortPriority.map{it.variableName}))
+}
         sortPriorities = tmp
     }
 

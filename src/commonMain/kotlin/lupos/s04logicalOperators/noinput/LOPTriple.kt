@@ -80,8 +80,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
                     resString += "S"
                 } else if (c1 is AOPVariable && c1.name == s) {
                     resString += "P"
-                } else {
-                    SanityCheck.check { c2 is AOPVariable && c2.name == s }
+                } else if(c2 is AOPVariable && c2.name == s){
                     resString += "O"
                 }
             }
@@ -105,7 +104,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             if (!resString.contains("O")) {
                 resString += "O"
             }
-            require(resString.length == 3 || (resString.length == 4 && resString.contains("_")))
+            require(resString.length == 3 || (resString.length == 4 && resString.contains("_")),{"${resString} ${children.map{it.toSparql()}} $sortPriority"})
             return EIndexPattern.valueOf(resString)
         }
     }

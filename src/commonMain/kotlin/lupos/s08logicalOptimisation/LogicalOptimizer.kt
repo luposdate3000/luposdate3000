@@ -92,7 +92,11 @@ LogicalOptimizerRemoveBindVariable(query),//
                     LogicalOptimizerColumnSortOrder(query)//
             ),
 arrayOf<OptimizerBase>(
-LogicalOptimizerDistinctSplit(query)//
+LogicalOptimizerDistinctSplit(query),//
+LogicalOptimizerProjectionDown(query),//
+),
+arrayOf<OptimizerBase>(
+LogicalOptimizerRemoveProjection(query),//
 ),
             arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here

@@ -81,17 +81,23 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                 res = child
                 onChange()
             }
-}else if (node is LOPMinus){
-if(!node.hadReducedPushDown){
-node.hadReducedPushDown=true
-node.children[1]=LOPReduced(query, node.children[1])
-onChange()
-}
+        } else if (node is LOPMinus) {
+            if (!node.hadReducedPushDown) {
+                node.hadReducedPushDown = true
+                node.children[1] = LOPReduced(query, node.children[1])
+                onChange()
+            }
         } else if (node is LOPReduced) {
             val child = node.children[0]
             if (child is LOPReduced) {
                 res = child
                 onChange()
+            } else if (child is LOPProjection && child.children[0]is LOPMinus) {
+val child2=child.children[0]//as LOPMinus
+child2.children[0]=LOPReduced(query,LOPProjection(query,child.variables.toMutableList(),child2.children[0]))
+child2.children[1]=LOPReduced(query,LOPProjection(query,child.variables.toMutableList(),child2.children[1]))
+res=child
+onChange()
             } else if (!node.hadPushDown) {
                 node.hadPushDown = true
                 if (child is LOPProjection) {
@@ -118,10 +124,10 @@ onChange()
                     child.children[0] = LOPReduced(query, child.children[0])
                     res = child
                     onChange()
-                }else if (child is LOPSortAny){
-child.children[0] = LOPReduced(query, child.children[0])
- onChange()
-}
+                } else if (child is LOPSortAny) {
+                    child.children[0] = LOPReduced(query, child.children[0])
+                    onChange()
+                }
             }
         }
 /*return*/res
