@@ -6,17 +6,20 @@ import lupos.s00misc.ExecuteOptimizer
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerExistsID) {
     override val classname = "LogicalOptimizerExists"
-    fun applyRecoursive(node: OPBase) {
+    fun applyRecoursive(node: OPBase,askFlag:Boolean) {
         if (node !is LOPLimit && node !is LOPOffset) {
+if(askFlag){
+node.partOfAskQuery=true
+}
             node.onlyExistenceRequired = true
             for (c in node.children) {
-                applyRecoursive(c)
+                applyRecoursive(c,askFlag)
             }
         }
     }
@@ -24,8 +27,13 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is LOPMakeBooleanResult) {
+            if (!node.partOfAskQuery) {
+                applyRecoursive(node,true)
+                onChange()
+            }
+        }else        if (node is LOPDistinct || node is LOPReduced) {
             if (!node.onlyExistenceRequired) {
-                applyRecoursive(node)
+                applyRecoursive(node,false)
                 onChange()
             }
         }

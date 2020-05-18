@@ -66,7 +66,7 @@ object ColumnIteratorMerge {
                 buf1 = buf2
                 buf2 = t
             }
-            var it = ColumnIteratorMultiValue(buf1)
+            var it = ColumnIteratorMultiValue(buf1,total)
             if (i > 0 || resultList.size == 0) {
                 if (resultList.size == 0) {
                     resultList.add(it)
@@ -167,7 +167,7 @@ object ColumnIteratorMerge {
                 buf1 = buf2
                 buf2 = t
             }
-            var it = ColumnIteratorMultiValue(buf1)
+            var it = ColumnIteratorMultiValue(buf1,total)
             if (i > 0 || resultList.size == 0) {
                 if (resultList.size == 0) {
                     resultList.add(it)
@@ -314,7 +314,7 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
                         res = bBuf
                         flag = 2
                     } else {
-                        if (aBuf < bBuf) {
+                        if (aBuf!! < bBuf!!) {
                             res = aBuf
                             flag = 4
                         } else {
@@ -329,7 +329,7 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
                         res = aBuf
                         flag = 1
                     } else {
-                        if (aBuf < bBuf) {
+                        if (aBuf!! < bBuf!!) {
                             res = aBuf
                             flag = 4
                         } else {
@@ -350,7 +350,7 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
                         res = bBuf
                         flag = 2
                     } else {
-                        if (aBuf < bBuf) {
+                        if (aBuf!! < bBuf!!) {
                             res = aBuf
                             flag = 4
                         } else {

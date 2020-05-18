@@ -47,38 +47,53 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
         } else if (node is LOPSortAny) {
             val variables = node.possibleSortOrder.map { it.variableName }
             val child = node.children[0]
-            if (child is LOPJoin) {
-                var flag = true
-                var provided = child.children[0].getProvidedVariableNames().distinct()
-                var i = 0
-                var aList = mutableListOf<SortHelper>()
-                var bList = mutableListOf<SortHelper>()
-                while (flag && i < provided.size) {
-                    if (!provided.contains(variables[i])) {
-                        flag = false
-                    }
-                    aList.add(node.possibleSortOrder[i])
-                    i++
+            var flag = node.possibleSortOrder.size == child.mySortPriority.size
+            var i = 0
+            while (flag && i < child.mySortPriority.size) {
+                if (child.mySortPriority[i].variableName != node.possibleSortOrder[i].variableName || child.mySortPriority[i].sortType != node.possibleSortOrder[i].sortType) {
+                    flag = false
                 }
-                provided = child.children[1].getProvidedVariableNames().distinct()
-                i = 0
-                while (flag && i < provided.size) {
-                    if (!provided.contains(variables[i])) {
-                        flag = false
+                i++
+            }
+            if (flag) {
+                res = child
+                onChange()
+            } else {
+                if (child is LOPJoin) {
+/*
+                    var flag = true
+                    var provided = child.children[0].getProvidedVariableNames().distinct()
+                    var i = 0
+                    var aList = mutableListOf<SortHelper>()
+                    var bList = mutableListOf<SortHelper>()
+                    while (flag && i < provided.size && i < variables.size) {
+                        if (!provided.contains(variables[i])) {
+                            flag = false
+                        }
+                        aList.add(node.possibleSortOrder[i])
+                        i++
                     }
-                    bList.add(node.possibleSortOrder[i])
-                    i++
-                }
-                if (flag) {
-                    child.children[0] = LOPSortAny(query, aList, child.children[0])
-                    child.children[1] = LOPSortAny(query, bList, child.children[1])
+                    provided = child.children[1].getProvidedVariableNames().distinct()
+                    i = 0
+                    while (flag && i < provided.size && i < variables.size) {
+                        if (!provided.contains(variables[i])) {
+                            flag = false
+                        }
+                        bList.add(node.possibleSortOrder[i])
+                        i++
+                    }
+                    if (flag) {
+                        child.children[0] = LOPSortAny(query, aList, child.children[0])
+                        child.children[1] = LOPSortAny(query, bList, child.children[1])
+                        res = child
+                        onChange()
+                    }
+*/
+                } else if (child is LOPFilter) {
+                    child.children[0] = LOPSortAny(query, node.possibleSortOrder, child.children[0])
                     res = child
                     onChange()
                 }
-            } else if (child is LOPFilter) {
-                child.children[0] = LOPSortAny(query, node.possibleSortOrder, child.children[0])
-                res = child
-                onChange()
             }
         } else if (node is LOPMinus) {
             if (!node.hadReducedPushDown) {
@@ -100,7 +115,11 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
             } else if (!node.hadPushDown) {
                 node.hadPushDown = true
                 if (child is LOPProjection) {
-                    child.children[0] = LOPReduced(query, child.children[0])
+                    if (node.partOfAskQuery) {
+                        child.children[0] = LOPReduced(query, child.children[0])
+                    } else if (child.variables.size == 1) {
+                        child.children[0] = LOPReduced(query, LOPSortAny(query, mutableListOf(SortHelper(child.variables[0].name, ESortType.FAST)), child.children[0]))
+                    }
                     onChange()
                 } else if (child is LOPTriple) {
                     res = child
