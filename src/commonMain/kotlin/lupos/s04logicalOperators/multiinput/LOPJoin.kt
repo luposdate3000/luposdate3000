@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -41,5 +42,9 @@ class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optiona
             }
             return res
         }
+    }
+
+    override fun calculateHistogram(): HistogramResult {
+        throw Exception("unreachable - this should be calculated during join order ... ")
     }
 }

@@ -6,6 +6,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -28,4 +29,9 @@ class LOPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     }
 
     override fun cloneOP() = LOPModifyData(query, type, data)
+    override fun calculateHistogram(): HistogramResult {
+        var res = HistogramResult()
+        res.count = 1
+        return res
+    }
 }

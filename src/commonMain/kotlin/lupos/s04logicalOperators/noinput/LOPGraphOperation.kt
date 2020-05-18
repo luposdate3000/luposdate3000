@@ -6,6 +6,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -44,4 +45,9 @@ class LOPGraphOperation(query: Query,
     }
 
     override fun cloneOP() = LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)
+    override fun calculateHistogram(): HistogramResult {
+        var res = HistogramResult()
+        res.count = 1
+        return res
+    }
 }

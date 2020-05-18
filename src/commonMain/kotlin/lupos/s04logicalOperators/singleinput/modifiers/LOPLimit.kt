@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
@@ -27,4 +28,19 @@ class LOPLimit(query: Query, @JvmField val limit: Int, child: OPBase = OPEmptyRo
     }
 
     override fun cloneOP() = LOPLimit(query, limit, children[0].cloneOP())
+    override fun calculateHistogram(): HistogramResult {
+        var res = HistogramResult()
+        var childHistogram = children[0].getHistogram()
+        res.variableNames.addAll(childHistogram.variableNames)
+        res.distinct.addAll(childHistogram.distinct)
+        res.count = childHistogram.count
+        if (res.count > limit) {
+            var scale = limit.toDouble() / res.count.toDouble()
+            for (i in 0 until res.distinct.size) {
+                res.distinct[i] = (res.distinct[i].toDouble() * scale).toInt()
+            }
+            res.count = limit
+        }
+        return res
+    }
 }

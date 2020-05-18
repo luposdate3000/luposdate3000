@@ -29,12 +29,12 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                 hashCode += c.uuid + c.toString().hashCode()
             }
             if (hashCode == -1L) {
-//just avoid this flag ...
+                //just avoid this flag ...
                 hashCode = 0L
             }
             if (node.alreadyCheckedStore != hashCode) {
                 node.alreadyCheckedStore = hashCode
-//dont query the same statements twice ... 
+                //dont query the same statements twice ... 
                 runBlocking {
                     var variables = mutableListOf<String>()
                     for (c in node.children) {

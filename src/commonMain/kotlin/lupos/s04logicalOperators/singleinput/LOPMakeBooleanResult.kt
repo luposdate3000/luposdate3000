@@ -3,6 +3,7 @@ package lupos.s04logicalOperators.singleinput
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -25,4 +26,11 @@ class LOPMakeBooleanResult(query: Query, child: OPBase) : LOPBase(query, EOperat
     }
 
     override fun cloneOP() = LOPMakeBooleanResult(query, children[0].cloneOP())
+    override fun calculateHistogram(): HistogramResult {
+        var res = HistogramResult()
+        res.variableNames.add("?boolean")
+        res.distinct.add(1)
+        res.count = 1
+        return res
+    }
 }

@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -29,4 +30,12 @@ class LOPServiceIRI(query: Query, @JvmField val name: String, @JvmField val sile
     }
 
     override fun cloneOP() = LOPServiceIRI(query, name, silent, children[0].cloneOP())
+    override fun calculateHistogram(): HistogramResult {
+        var res = HistogramResult()
+        var childHistogram = children[0].getHistogram()
+        res.variableNames.addAll(childHistogram.variableNames)
+        res.distinct.addAll(childHistogram.distinct)
+        res.count = childHistogram.count
+        return res
+    }
 }

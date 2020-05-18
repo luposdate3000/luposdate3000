@@ -6,8 +6,10 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
+import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -46,4 +48,17 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
     }
 
     override fun cloneOP() = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
+    override fun calculateHistogram(): HistogramResult {
+        var res = HistogramResult()
+        res.variableNames.addAll(getProvidedVariableNames())
+        for (v in 0 until res.variableNames.size) {
+            var localSet = mutableSetOf<Value>()
+            for (row in children) {
+                localSet.add((row.children[v] as AOPConstant).value)
+            }
+            res.distinct.add(localSet.size)
+        }
+        res.count = children.size
+        return res
+    }
 }

@@ -84,10 +84,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 if (columnsTmp[0].contains(name)) {
                     SanityCheck.check { name != "_" }
                     val it = ColumnIteratorQueue()
-                    for (i in 0 until 3) {
-                        val cc = childB.children[i]
+                    for (k in 0 until 3) {
+                        val cc = childB.children[k]
                         if (cc is AOPVariable && cc.name == name) {
-                            indicesINBJ.add(i)
+                            indicesINBJ.add(k)
                             break
                         }
                     }
@@ -198,7 +198,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 }
                                 columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
                                 for (i in 0 until variablINBO.size) {
-                                    columnsInB[i] = columnsInBRoot!!.columns[variablINBO[i]]!!
+                                    columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                 }
                             } else {
                                 break@loopA

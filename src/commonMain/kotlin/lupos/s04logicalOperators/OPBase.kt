@@ -33,6 +33,15 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     var alreadyCheckedStore = -1L
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
+    var histogramResult: HistogramResult? = null
+    fun getHistogram(): HistogramResult {
+        if (histogramResult == null) {
+            histogramResult = calculateHistogram()
+        }
+        return histogramResult!!
+    }
+
+    abstract fun calculateHistogram(): HistogramResult
     open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
     abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {

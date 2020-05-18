@@ -13,6 +13,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -36,4 +37,6 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
         }
         return res
     }
+
+    override fun calculateHistogram(): HistogramResult = throw Exception("unreachable")
 }

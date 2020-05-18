@@ -127,7 +127,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 if (allChilds2.size > 2) {
                     var result: OPBase? = null
                     if (node.onlyExistenceRequired) {
-//dont not prefer merge join for ask-queries, as this makes it harder later, to avoid any materialisation
+                        //dont not prefer merge join for ask-queries, as this makes it harder later, to avoid any materialisation
                         result = LogicalOptimizerJoinOrderStore(allChilds2, node)
                     }
                     if (result == null) {
@@ -138,12 +138,12 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                         }
                         result = applyOptimisation(allChilds4, node)
                     }
-                    if (result!! != res) {
+                    if (result != res) {
                         onChange()
-                        if (!originalProvided.containsAll(result!!.getProvidedVariableNames())) {
-                            result = LOPProjection(query, originalProvided.map { AOPVariable(query, it) }.toMutableList(), result!!)
+                        if (!originalProvided.containsAll(result.getProvidedVariableNames())) {
+                            result = LOPProjection(query, originalProvided.map { AOPVariable(query, it) }.toMutableList(), result)
                         }
-                        res = result!!
+                        res = result
                     }
                 }
             } catch (e: EmptyResultException) {
