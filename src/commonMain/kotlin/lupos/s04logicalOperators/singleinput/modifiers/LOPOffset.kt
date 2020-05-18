@@ -31,14 +31,21 @@ class LOPOffset(query: Query, @JvmField val offset: Int, child: OPBase = OPEmpty
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
-        childHistogram.values.forEach { k, v ->
-            if (v > childHistogram.count - offset) {
-                res.values[k] = childHistogram.count - offset
-            } else {
-                res.values[k] = v
+        res.count = childHistogram.count - offset
+        if (res.count < 0) {
+            res.count = 0
+            childHistogram.values.forEach { k, v ->
+                res.values[k] = 0
+            }
+        } else {
+            childHistogram.values.forEach { k, v ->
+                if (v > childHistogram.count - offset) {
+                    res.values[k] = childHistogram.count - offset
+                } else {
+                    res.values[k] = v
+                }
             }
         }
-        res.count = childHistogram.count - offset
         return res
     }
 }

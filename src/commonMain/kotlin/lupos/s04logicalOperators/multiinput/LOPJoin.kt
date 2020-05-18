@@ -43,53 +43,64 @@ class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optiona
             return res
         }
 
-        fun mergeHistograms(a: HistogramResult, b: HistogramResult,optional:Boolean): HistogramResult {
+        fun mergeHistograms(a: HistogramResult, b: HistogramResult, optional: Boolean): HistogramResult {
             var res = HistogramResult()
-            var columns = getColumns(a.values.keys.toList(),b.values.keys.toList())
-            if (columns[0].size == 0) {
-                res.count = a.count * b.count
-                a.values.forEach { k, v ->
+            var columns = getColumns(a.values.keys.toList(), b.values.keys.toList())
+            var c0 = a.count.toDouble()
+            var c1 = b.count.toDouble()
+            var estimatedResults = c0 * c1
+            var tmpMap = mutableMapOf<String, Int>()
+            for (v in columns[0]) {
+                val av = a.values[v]!!
+                val bv = b.values[v]!!
+if(av==0){
+estimatedResults=0.0
+tmpMap[v]=0
+}else if(bv==0){
+estimatedResults=0.0
+tmpMap[v]=0
+}else                if (av < bv) {
+                    //not all rows from b get a match
+                    val diff = bv - av
+                    val eliminatedRows = (diff / bv) * c1
+                    estimatedResults -= eliminatedRows
+                    tmpMap[v] = av
+                } else {
+                    //not all rows from a get a match
+                    val diff = av - bv
+                    val eliminatedRows = (diff / av) * c0
+                    estimatedResults -= eliminatedRows
+                    tmpMap[v] = bv
+                }
+            }
+            if (estimatedResults < 0.0) {
+                estimatedResults = 0.0
+            }
+            if (optional) {
+                estimatedResults += a.count.toDouble()
+                if (estimatedResults > c0 * c1) {
+                    estimatedResults = c0 * c1
+                }
+            }
+            res.count = estimatedResults.toInt()
+            for (v in columns[1]) {
+                tmpMap[v] = a.values[v]!!
+            }
+            for (v in columns[2]) {
+                tmpMap[v] = b.values[v]!!
+            }
+            tmpMap.forEach { k, v ->
+                if (v > res.count) {
+                    res.values[k] = res.count
+                } else {
                     res.values[k] = v
                 }
-                b.values.forEach { k, v ->
-                    res.values[k] = v
-                }
-            } else {
-                var d0 = 1.0//distinct in a
-                var c0 = a.count.toDouble()
-                var d1 = 1.0//distinct in b
-                var c1 = b.count.toDouble()
-                for (v in columns[0]) {
-                    d0 = d0 * a.values[v]!!.toDouble()
-                    d1 = d1 * b.values[v]!!.toDouble()
-                    if (a.values[v]!! < b.values[v]!! || optional) {
-                        res.values[v] = a.values[v]!!
-                    } else {
-                        res.values[v] = b.values[v]!!
-                    }
-                }
-                if (d0 > c0) {
-                    d0 = c0
-                }
-                if (d1 > c1) {
-                    d1 = c1
-                }
-                var estimatedMatches = d0 * d1
-                var estimatedRowsPerMatch0 = c0 / d0
-                var estimatedRowsPerMatch1 = c1 / d1
-                for (v in columns[1]) {
-                    res.values[v] = a.values[v]!!
-                }
-                for (v in columns[2]) {
-                    res.values[v] = b.values[v]!!
-                }
-                res.count = (estimatedMatches * estimatedRowsPerMatch0 * estimatedRowsPerMatch1).toInt() + 1
             }
             return res
         }
     }
 
     override fun calculateHistogram(): HistogramResult {
-        return mergeHistograms(children[0].getHistogram(), children[1].getHistogram(),optional)
+        return mergeHistograms(children[0].getHistogram(), children[1].getHistogram(), optional)
     }
 }

@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 
-object LogicalOptimizerJoinOrderCostBased {
+object LogicalOptimizerJoinOrderCostBasedOnVariable {
     class Plan : Comparable<Plan> {
         val child: OPBase?
         val childs: Pair<Int, Int>?
@@ -147,9 +147,9 @@ object LogicalOptimizerJoinOrderCostBased {
                 plans[key] = Plan(allChilds[i], variables, allVariablesCounters)
                 key *= 2
             }
-            for (i in 1 until plans.size) {
-                optimize(plans, i, allVariablesCounters)
-            }
+for(i in 0 until plans.size){
+            optimize(plans, i, allVariablesCounters)
+}
             val bestPlan = plans[plans.size - 1]!!
             return bestPlan.toOPBase(plans)
         }

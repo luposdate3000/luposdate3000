@@ -3,6 +3,7 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
+import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
@@ -18,8 +19,12 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
                 node.partOfAskQuery = true
             }
             node.onlyExistenceRequired = true
-            for (c in node.children) {
-                applyRecoursive(c, askFlag)
+            if (node is LOPMinus) {
+                applyRecoursive(node.children[0], askFlag)
+            } else {
+                for (c in node.children) {
+                    applyRecoursive(c, askFlag)
+                }
             }
         }
     }

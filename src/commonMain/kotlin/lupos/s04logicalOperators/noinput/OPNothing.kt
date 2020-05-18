@@ -30,9 +30,9 @@ class OPNothing(query: Query, val myProvidedVariableNames: List<String>) : LOPBa
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 0
-for(v in myProvidedVariableNames){
-res.values[v]=0
-}
+        for (v in myProvidedVariableNames) {
+            res.values[v] = 0
+        }
         return res
     }
 }

@@ -63,37 +63,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             res.add(mutableListOf(node))
             variables.add(v)
         }
-        var queue = mutableListOf<MutableList<OPBase>>()
-        var done = false
-        while (!done) {
-            done = true
-            queue.clear()
-            queue.addAll(res)
-            res.clear()
-            variables.clear()
-            loop@ for (childs in queue) {
-                val v = childs[0].getProvidedVariableNames()
-                if (res.size > 0) {
-                    for (i in 0 until variables.size) {
-                        if (variables[i].containsAll(v)) {
-                            res[i].addAll(childs)
-                            continue@loop
-                        }
-                    }
-                    for (i in 0 until variables.size) {
-                        if (v.containsAll(variables[i])) {
-                            res[i].addAll(childs)
-                            variables[i] = v
-                            done = false
-                            //this somehow beaks in terms of efficiency if there is one child, with all variables provided ..
-                            continue@loop
-                        }
-                    }
-                }
-                res.add(childs)
-                variables.add(v)
-            }
-        }
         return res
     }
 
@@ -103,7 +72,11 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             if (result != null) {
                 return result
             }
-            result = LogicalOptimizerJoinOrderCostBased(nodes, root)
+            result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
+            if (result != null) {
+                return result
+            }
+            result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
             if (result != null) {
                 return result
             }
@@ -126,7 +99,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
                     var result: OPBase? = null
-                    if (node.onlyExistenceRequired) {
+                    if (result == null && node.onlyExistenceRequired) {
                         //dont not prefer merge join for ask-queries, as this makes it harder later, to avoid any materialisation
                         result = LogicalOptimizerJoinOrderStore(allChilds2, node)
                     }
