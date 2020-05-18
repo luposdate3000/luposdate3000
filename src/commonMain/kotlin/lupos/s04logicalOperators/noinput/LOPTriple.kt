@@ -130,6 +130,9 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             res.count = childHistogram.first
             res.values[v] = childHistogram.second
         }
+if(res.count==-1){
+res.count=0
+}
         SanityCheck.check { res.count != -1 }
         return res
     }

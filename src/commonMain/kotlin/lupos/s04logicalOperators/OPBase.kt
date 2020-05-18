@@ -37,12 +37,18 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
-        }
+        }else{
+		var v1 = getProvidedVariableNames()
+            var v2 = histogramResult!!.values.keys.toList()
+if(!v1.containsAll(v2)||!v2.containsAll(v1)){
+histogramResult = calculateHistogram()
+}
+	}
         SanityCheck {
             var v1 = getProvidedVariableNames()
             var v2 = histogramResult!!.values.keys
-            SanityCheck.check { v1.containsAll(v2) }
-            SanityCheck.check { v2.containsAll(v1) }
+            SanityCheck.check ({ v1.containsAll(v2) },{"getHistogramSanity1 $classname $v1 $v2"})
+            SanityCheck.check ({ v2.containsAll(v1) },{"getHistogramSanity2 $classname $v1 $v2"})
         }
         return histogramResult!!
     }
@@ -428,6 +434,14 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 res.addAttribute("selectedSort", mySortPriority.toString())
                 res.addAttribute("existOnly", "" + onlyExistenceRequired)
             }
+if(this is LOPBase){
+try{
+var h=getHistogram()
+res.addAttribute("histogram","${h.count} - ${h.values}")
+}catch(e:Throwable){
+e.printStackTrace()
+}
+}
             if (children.size > 0) {
                 res.addContent(childrenToXML())
             }
