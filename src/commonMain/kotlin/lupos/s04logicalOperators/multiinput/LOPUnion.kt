@@ -26,23 +26,9 @@ class LOPUnion(query: Query, first: OPBase, second: OPBase) : LOPBase(query, EOp
         var res = HistogramResult()
         var childHistogram0 = children[0].getHistogram()
         var childHistogram1 = children[1].getHistogram()
-        res.variableNames.addAll(getProvidedVariableNames())
         res.count = childHistogram0.count + childHistogram1.count
-        for (v in res.variableNames) {
-            var distinct = -1
-            for (j in 0 until childHistogram0.variableNames.size) {
-                if (childHistogram0.variableNames[j] == v) {
-                    distinct = childHistogram0.distinct[j]
-                    break
-                }
-            }
-            for (j in 0 until childHistogram1.variableNames.size) {
-                if (childHistogram1.variableNames[j] == v) {
-                    distinct += childHistogram1.distinct[j]
-                    break
-                }
-            }
-            res.distinct.add(distinct)
+        for (v in getProvidedVariableNames()) {
+            res.values[v] = childHistogram0.values[v]!! + childHistogram1.values[v]!!
         }
         return res
     }

@@ -50,11 +50,8 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
-        for (i in 0 until childHistogram.variableNames.size) {
-            if (variables.contains(childHistogram.variableNames[i])) {
-                res.variableNames.add(childHistogram.variableNames[i])
-                res.distinct.add(childHistogram.distinct[i])
-            }
+        for (v in variables) {
+            res.values[v.name] = childHistogram.values[v.name]!!
         }
         res.count = childHistogram.count
         return res

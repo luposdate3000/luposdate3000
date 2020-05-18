@@ -43,6 +43,29 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
+    fun getHistogram(query: Query, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        var variableCount = 0
+        val filter = mutableListOf<Int>()
+        for (ii in 0 until 3) {
+            val i = idx.tripleIndicees[ii]
+            val param = params[i]
+            if (param is AOPConstant) {
+                SanityCheck.check { filter.size == ii }
+                filter.add(nodeGlobalDictionary.valueToGlobal(param.value))
+            } else if (param is AOPVariable) {
+                SanityCheck {
+                    if (param.name != "_") {
+                        variableCount++
+                    }
+                }
+            } else {
+                throw Exception("unreachable")
+            }
+        }
+        SanityCheck.check { variableCount == 1 }
+        return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] }, )
+    }
+
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()

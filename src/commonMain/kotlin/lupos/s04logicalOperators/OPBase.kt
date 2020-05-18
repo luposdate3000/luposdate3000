@@ -38,6 +38,12 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
         }
+        SanityCheck {
+            var v1 = getProvidedVariableNames()
+            var v2 = histogramResult!!.values.keys
+            SanityCheck.check { v1.containsAll(v2) }
+            SanityCheck.check { v2.containsAll(v1) }
+        }
         return histogramResult!!
     }
 

@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators
 
 class HistogramResult {
-    var variableNames = mutableListOf<String>()
-    var distinct = mutableListOf<Int>()
+    var values = mutableMapOf<String, Int>()
     var count = 0
 }

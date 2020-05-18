@@ -31,15 +31,17 @@ class LOPLimit(query: Query, @JvmField val limit: Int, child: OPBase = OPEmptyRo
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
-        res.variableNames.addAll(childHistogram.variableNames)
-        res.distinct.addAll(childHistogram.distinct)
         res.count = childHistogram.count
         if (res.count > limit) {
-            var scale = limit.toDouble() / res.count.toDouble()
-            for (i in 0 until res.distinct.size) {
-                res.distinct[i] = (res.distinct[i].toDouble() * scale).toInt()
-            }
             res.count = limit
+            var scale = limit.toDouble() / res.count.toDouble()
+            childHistogram.values.forEach { k, v ->
+                res.values[k] = (v.toDouble() * scale).toInt()
+            }
+        } else {
+            childHistogram.values.forEach { k, v ->
+                res.values[k] = v
+            }
         }
         return res
     }

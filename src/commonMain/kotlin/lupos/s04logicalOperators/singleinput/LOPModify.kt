@@ -52,8 +52,7 @@ class LOPModify(query: Query,
     override fun cloneOP() = LOPModify(query, insert, delete, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
-        res.variableNames.add("?boolean")
-        res.distinct.add(1)
+        res.values["?boolean"] = 1
         res.count = 1
         return res
     }

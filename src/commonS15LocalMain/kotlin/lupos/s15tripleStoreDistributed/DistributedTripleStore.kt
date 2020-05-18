@@ -151,6 +151,41 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         }
         return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx)
     }
+
+    fun getHistogram(params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        SanityCheck {
+            if (idx.keyIndices.size == 3) {
+                if (params[0] is AOPVariable) {
+                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                } else {
+                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
+                }
+            } else {
+                idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
+                idx.valueIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+            }
+            var variableNames = 0
+            if (idx.keyIndices.size == 3) {
+                if (params[0] is AOPVariable) {
+                    idx.keyIndices.forEach {
+                        val tmp = (params[it] as AOPVariable).name
+                        if (tmp != "_") {
+                            variableNames++
+                        }
+                    }
+                }
+            } else {
+                idx.valueIndices.forEach {
+                    val tmp = (params[it] as AOPVariable).name
+                    if (tmp != "_") {
+                        variableNames++
+                    }
+                }
+            }
+            SanityCheck { variableNames == 1 }
+        }
+        return Endpoint.process_local_histogram_get(query, name, params, idx)
+    }
 }
 
 object DistributedTripleStore {

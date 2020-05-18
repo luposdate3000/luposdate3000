@@ -42,9 +42,54 @@ class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optiona
             }
             return res
         }
+
+        fun mergeHistograms(a: HistogramResult, b: HistogramResult,optional:Boolean): HistogramResult {
+            var res = HistogramResult()
+            var columns = getColumns(a.values.keys.toList(),b.values.keys.toList())
+            if (columns[0].size == 0) {
+                res.count = a.count * b.count
+                a.values.forEach { k, v ->
+                    res.values[k] = v
+                }
+                b.values.forEach { k, v ->
+                    res.values[k] = v
+                }
+            } else {
+                var d0 = 1.0//distinct in a
+                var c0 = a.count.toDouble()
+                var d1 = 1.0//distinct in b
+                var c1 = b.count.toDouble()
+                for (v in columns[0]) {
+                    d0 = d0 * a.values[v]!!.toDouble()
+                    d1 = d1 * b.values[v]!!.toDouble()
+                    if (a.values[v]!! < b.values[v]!! || optional) {
+                        res.values[v] = a.values[v]!!
+                    } else {
+                        res.values[v] = b.values[v]!!
+                    }
+                }
+                if (d0 > c0) {
+                    d0 = c0
+                }
+                if (d1 > c1) {
+                    d1 = c1
+                }
+                var estimatedMatches = d0 * d1
+                var estimatedRowsPerMatch0 = c0 / d0
+                var estimatedRowsPerMatch1 = c1 / d1
+                for (v in columns[1]) {
+                    res.values[v] = a.values[v]!!
+                }
+                for (v in columns[2]) {
+                    res.values[v] = b.values[v]!!
+                }
+                res.count = (estimatedMatches * estimatedRowsPerMatch0 * estimatedRowsPerMatch1).toInt() + 1
+            }
+            return res
+        }
     }
 
     override fun calculateHistogram(): HistogramResult {
-        throw Exception("unreachable - this should be calculated during join order ... ")
+        return mergeHistograms(children[0].getHistogram(), children[1].getHistogram(),optional)
     }
 }

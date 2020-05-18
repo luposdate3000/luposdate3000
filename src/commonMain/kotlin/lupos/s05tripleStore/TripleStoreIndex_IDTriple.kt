@@ -11,6 +11,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
+import lupos.s05tripleStore.index_IDTriple.Count1PassThroughIterator
 import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
@@ -25,6 +26,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var root = NodeManager.nodeNullPointer
     var rootNode: NodeInner? = null
     var pendingImport = mutableListOf<Int?>()
+    var countPrimary = 0
+    var distinctPrimary = 0
 
     companion object {
         var storeIteratorCounter = 0L
@@ -35,6 +38,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         File(filename).dataOutputStream { out ->
             out.writeInt(firstLeaf)
             out.writeInt(root)
+            out.writeInt(countPrimary)
+            out.writeInt(distinctPrimary)
         }
     }
 
@@ -43,6 +48,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
             root = fis.readInt()
+            countPrimary = fis.readInt()
+            distinctPrimary = fis.readInt()
             NodeManager.getNode(root, {
                 throw Exception("unreachable")
             }, {
@@ -84,6 +91,53 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 /*return*/tmp
             }
+        }
+    }
+
+    override fun getHistogram(query: Query, filter: IntArray): Pair<Int, Int> {
+        val node = rootNode
+        if (node != null) {
+            when (filter.size) {
+                0 -> {
+                    return Pair(countPrimary, distinctPrimary)
+                }
+                1 -> {
+                    var iterator = node.iterator1(filter)
+                    var count = 0
+                    var distinct = 0
+                    if (iterator.hasNext()) {
+                        var lastValue = iterator.next(1)
+                        distinct++
+                        count++
+                        while (iterator.hasNext()) {
+                            var value = iterator.next(1)
+                            count++
+                            if (value != lastValue) {
+                                distinct++
+                            }
+                            lastValue = value
+                        }
+                    }
+                    return Pair(count, distinct)
+                }
+                2 -> {
+                    var iterator = node.iterator2(filter)
+                    var count = 0
+                    while (iterator.hasNext()) {
+                        iterator.next()
+                        count++
+                    }
+                    return Pair(count, count)
+                }
+                3 -> {
+                    return Pair(1, 1)
+                }
+                else -> {
+                    throw Exception("unreachable")
+                }
+            }
+        } else {
+            return Pair(0, 0)
         }
     }
 
@@ -276,7 +330,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
     }
 
-    fun rebuildData(iterator: TripleIterator) {
+    fun rebuildData(_iterator: TripleIterator) {
+        val iterator = Count1PassThroughIterator(_iterator)
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var newFirstLeaf = NodeManager.nodeNullPointer
@@ -327,6 +382,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 rootNode = it
             })
         }
+        countPrimary = iterator.count
+        distinctPrimary = iterator.distinct
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {

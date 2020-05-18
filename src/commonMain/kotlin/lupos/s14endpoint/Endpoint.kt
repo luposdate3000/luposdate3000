@@ -28,6 +28,10 @@ object Endpoint {
         return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
     }
 
+    fun process_local_histogram_get(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params, idx)
+    }
+
     fun process_local_graph_clear_all(query: Query) {
         DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames()) {

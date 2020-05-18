@@ -23,7 +23,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
     override val classname = "LogicalOptimizerStoreToValues"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-        if (node is LOPTriple) {
+        if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L
             for (c in node.children) {
                 hashCode += c.uuid + c.toString().hashCode()

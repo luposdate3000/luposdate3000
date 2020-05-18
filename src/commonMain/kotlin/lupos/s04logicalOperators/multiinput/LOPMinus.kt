@@ -26,11 +26,6 @@ class LOPMinus(query: Query, first: OPBase, second: OPBase, var tmpFakeVariables
 
     override fun cloneOP() = LOPMinus(query, children[0].cloneOP(), children[1].cloneOP(), tmpFakeVariables.toMutableList())
     override fun calculateHistogram(): HistogramResult {
-        var res = HistogramResult()
-        var childHistogram = children[0].getHistogram()
-        res.variableNames.addAll(childHistogram.variableNames)
-        res.distinct.addAll(childHistogram.distinct)
-        res.count = childHistogram.count
-        return res
+        return children[0].getHistogram()
     }
 }

@@ -25,11 +25,6 @@ class LOPReduced(query: Query, child: OPBase = OPEmptyRow(query)) : LOPBase(quer
 
     override fun cloneOP() = LOPReduced(query, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
-        var res = HistogramResult()
-        var childHistogram = children[0].getHistogram()
-        res.variableNames.addAll(childHistogram.variableNames)
-        res.distinct.addAll(childHistogram.distinct)
-        res.count = childHistogram.count
-        return res
+        return children[0].getHistogram()
     }
 }

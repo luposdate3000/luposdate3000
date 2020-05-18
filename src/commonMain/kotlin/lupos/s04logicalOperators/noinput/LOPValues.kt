@@ -50,13 +50,13 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
     override fun cloneOP() = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
-        res.variableNames.addAll(getProvidedVariableNames())
-        for (v in 0 until res.variableNames.size) {
+        var p = getProvidedVariableNames()
+        for (i in 0 until p.size) {
             var localSet = mutableSetOf<Value>()
             for (row in children) {
-                localSet.add((row.children[v] as AOPConstant).value)
+                localSet.add((row.children[i] as AOPConstant).value)
             }
-            res.distinct.add(localSet.size)
+            res.values[p[i]] = localSet.size
         }
         res.count = children.size
         return res

@@ -14,6 +14,7 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
@@ -110,5 +111,26 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
         }
     }
 
-    override fun calculateHistogram(): HistogramResult = throw Exception("not implemented")
+    override fun calculateHistogram(): HistogramResult {
+        SanityCheck { !graphVar }
+        var res = HistogramResult()
+        res.count = -1
+        var store = DistributedTripleStore.getNamedGraph(query, graph)
+        for (v in getProvidedVariableNames()) {
+            val params = Array(3) {
+                var t = children[it]
+                if (t is AOPVariable && t.name != v) {
+                    t = AOPVariable(query, "_")
+                }
+                /*return*/t as AOPBase
+            }
+            var idx = getIndex(params.map { it as AOPBase }.toTypedArray(), listOf<String>())
+            var childHistogram = store.getHistogram(params, idx)
+            SanityCheck.check { res.count == -1 || res.count == childHistogram.first }
+            res.count = childHistogram.first
+            res.values[v] = childHistogram.second
+        }
+        SanityCheck.check { res.count != -1 }
+        return res
+    }
 }

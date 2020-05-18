@@ -36,24 +36,19 @@ class LOPBind(query: Query, @JvmField val name: AOPVariable, expression: AOPBase
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
-        res.variableNames.addAll(childHistogram.variableNames)
-        res.distinct.addAll(childHistogram.distinct)
-        res.count = childHistogram.count
-        var requiredVariables = getRequiredVariableNames()
         var distinct = 1
-        for (r in requiredVariables) {
-            for (i in 0 until childHistogram.variableNames.size) {
-                if (childHistogram.variableNames[i] == r) {
-                    distinct = distinct * childHistogram.distinct[i]
-                    break
-                }
+        var requiredVariables = getRequiredVariableNames()
+        childHistogram.values.forEach { k, v ->
+            res.values[k] = v
+            if (requiredVariables.contains(k)) {
+                distinct *= v
             }
         }
+        res.count = childHistogram.count
         if (distinct > res.count) {
             distinct = res.count
         }
-        res.variableNames.add(name.name)
-        res.distinct.add(distinct)
+        res.values[name.name] = distinct
         return res
     }
 }

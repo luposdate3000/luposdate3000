@@ -135,9 +135,8 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
     override fun cloneOP() = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
-        res.variableNames.addAll(getProvidedVariableNames())
-        for (i in 0 until res.variableNames.size) {
-            res.distinct.add(1)
+        for (v in getProvidedVariableNames()) {
+            res.values[v] = 1
         }
         res.count = 1
         return res

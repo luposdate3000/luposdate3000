@@ -342,6 +342,10 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "128"),
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "256"),
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "512")
+        ),
+        ChooseableGroup("Replace small triple-store results during optimisation phase") to listOf(
+                ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "true"),
+                ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "false")
         )
 )
 val conflicts = listOf(
