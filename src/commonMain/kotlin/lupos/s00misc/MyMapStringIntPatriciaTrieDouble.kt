@@ -246,8 +246,8 @@ class MyMapStringIntPatriciaTrieDouble() {
             }
             for (i in 0 until allOutNodes.size) {
                 var tmp = this[i]
-                require(tmp == list[i], { "old value changed ${list[i]} -> ${tmp}" })
-                require(this[tmp] == i, { "error in path .. $tmp $i ${this[tmp]}" })
+                SanityCheck.check({ tmp == list[i] }, { "old value changed ${list[i]} -> ${tmp}" })
+                SanityCheck.check({ this[tmp] == i }, { "error in path .. $tmp $i ${this[tmp]}" })
             }
         }
         return res

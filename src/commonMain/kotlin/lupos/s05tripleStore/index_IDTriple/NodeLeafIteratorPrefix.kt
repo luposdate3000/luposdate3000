@@ -1,6 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 
 abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) : TripleIterator() {
     var remaining = node.getTripleCount()
@@ -34,7 +35,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
             var nextNodeIdx = node.getNextNode()
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(nextNodeIdx, {
-                    require(node != it)
+                    SanityCheck.check { node != it }
                     node = it
                     remaining = node.getTripleCount()
                     valueNext[0] = 0
@@ -60,7 +61,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
             counter[1] = ((header and 0b00001100) shr 2) + 1
             counter[2] = ((header and 0b00000011)) + 1
         } else {
-            require(headerA == 0b10000000)
+            SanityCheck.check { headerA == 0b10000000 }
             counter[0] = 0
             counter[1] = 0
             counter[2] = ((header and 0b00000011)) + 1

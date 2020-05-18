@@ -3,6 +3,7 @@ package lupos.s11outputResult
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.MyMapIntInt
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
@@ -55,7 +56,7 @@ object QueryResultToXMLString {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].size > 0) {
                     columnNames = columnProjectionOrder[i]
-                    require(columnNames.containsAll(node.getProvidedVariableNames()))
+                    SanityCheck.check { columnNames.containsAll(node.getProvidedVariableNames()) }
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

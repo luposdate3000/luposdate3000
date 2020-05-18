@@ -358,11 +358,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
-        require(false, { "insert is not implemented" })
+        throw Exception("not implemented")
     }
 
     override fun remove(a: Value, b: Value, c: Value) {
-        require(false, { "remove is not implemented" })
+        throw Exception("not implemented")
     }
 
     override fun clear() {

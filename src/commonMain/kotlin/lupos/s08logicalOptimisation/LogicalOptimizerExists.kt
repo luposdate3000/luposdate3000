@@ -12,14 +12,14 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerExistsID) {
     override val classname = "LogicalOptimizerExists"
-    fun applyRecoursive(node: OPBase,askFlag:Boolean) {
+    fun applyRecoursive(node: OPBase, askFlag: Boolean) {
         if (node !is LOPLimit && node !is LOPOffset) {
-if(askFlag){
-node.partOfAskQuery=true
-}
+            if (askFlag) {
+                node.partOfAskQuery = true
+            }
             node.onlyExistenceRequired = true
             for (c in node.children) {
-                applyRecoursive(c,askFlag)
+                applyRecoursive(c, askFlag)
             }
         }
     }
@@ -28,12 +28,12 @@ node.partOfAskQuery=true
         var res = node
         if (node is LOPMakeBooleanResult) {
             if (!node.partOfAskQuery) {
-                applyRecoursive(node,true)
+                applyRecoursive(node, true)
                 onChange()
             }
-        }else        if (node is LOPDistinct || node is LOPReduced) {
+        } else if (node is LOPDistinct || node is LOPReduced) {
             if (!node.onlyExistenceRequired) {
-                applyRecoursive(node,false)
+                applyRecoursive(node, false)
                 onChange()
             }
         }

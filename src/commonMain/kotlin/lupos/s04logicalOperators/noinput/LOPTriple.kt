@@ -75,7 +75,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             }
             //than sort order
             for (s in sortPriority) {
-                require(s != "_")
+                SanityCheck.check { s != "_" }
                 if (c0 is AOPVariable && c0.name == s) {
                     resString += "S"
                 } else if (c1 is AOPVariable && c1.name == s) {
@@ -104,7 +104,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             if (!resString.contains("O")) {
                 resString += "O"
             }
-            require(resString.length == 3 || (resString.length == 4 && resString.contains("_")), { "${resString} ${children.map { it.toSparql() }} $sortPriority" })
+            SanityCheck.check({ resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "${resString} ${children.map { it.toSparql() }} $sortPriority" })
             return EIndexPattern.valueOf(resString)
         }
     }

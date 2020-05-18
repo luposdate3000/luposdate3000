@@ -82,7 +82,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             if (t is AOPVariable) {
                 val name = t.name
                 if (columnsTmp[0].contains(name)) {
-                    require(name != "_")
+                    SanityCheck.check { name != "_" }
                     val it = ColumnIteratorQueue()
                     for (i in 0 until 3) {
                         val cc = childB.children[i]
@@ -101,7 +101,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         columnsINAJ.add(childAv.columns[name]!!)
                     }
                 } else {
-                    require(columnsTmp[2].contains(name) || name == "_")
+                    SanityCheck.check { columnsTmp[2].contains(name) || name == "_" }
                     if (name != "_") {
                         variablINBO.add(name)
                         val it = ColumnIteratorQueue()
@@ -113,7 +113,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
         }
         for (name in tmp2) {
-            require(columnsTmp[1].contains(name) || name == "_")
+            SanityCheck.check { columnsTmp[1].contains(name) || name == "_" }
             if (name != "_") {
                 val it = ColumnIteratorQueue()
                 columnsOUT.add(it)

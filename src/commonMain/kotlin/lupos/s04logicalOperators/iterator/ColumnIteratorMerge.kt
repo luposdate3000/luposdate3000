@@ -66,7 +66,7 @@ object ColumnIteratorMerge {
                 buf1 = buf2
                 buf2 = t
             }
-            var it = ColumnIteratorMultiValue(buf1,total)
+            var it = ColumnIteratorMultiValue(buf1, total)
             if (i > 0 || resultList.size == 0) {
                 if (resultList.size == 0) {
                     resultList.add(it)
@@ -102,7 +102,7 @@ object ColumnIteratorMerge {
             }
             j++
         }
-        require(resultList.size > 0)
+        SanityCheck.check { resultList.size > 0 }
         return resultList[resultList.size - 1]!!
     }
 
@@ -167,7 +167,7 @@ object ColumnIteratorMerge {
                 buf1 = buf2
                 buf2 = t
             }
-            var it = ColumnIteratorMultiValue(buf1,total)
+            var it = ColumnIteratorMultiValue(buf1, total)
             if (i > 0 || resultList.size == 0) {
                 if (resultList.size == 0) {
                     resultList.add(it)
@@ -203,7 +203,7 @@ object ColumnIteratorMerge {
             }
             j++
         }
-        require(resultList.size > 0)
+        SanityCheck.check { resultList.size > 0 }
         return resultList[resultList.size - 1]!!
     }
 }

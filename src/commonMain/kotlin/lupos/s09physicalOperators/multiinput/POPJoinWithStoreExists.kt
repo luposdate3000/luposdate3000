@@ -75,7 +75,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
             var tmp = iterators[i].next()
             if (tmp == null) {
                 done = true
-                require(i == 0)
+                SanityCheck.check { i == 0 }
                 break
             } else {
                 params[mapping[i]] = AOPConstant(query, tmp)
@@ -86,13 +86,13 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
             var iteratorB = distributedStore.getIterator(params, index).evaluate()
             res.hasNext = {
                 var t = iteratorB.hasNext()
-                while (!t && !done) {
+                loop@ while (!t && !done) {
                     for (i in 0 until mapping.size) {
                         var tmp = iterators[i].next()
                         if (tmp == null) {
                             done = true
-                            require(i == 0)
-                            break
+                            SanityCheck.check { i == 0 }
+                            break@loop
                         } else {
                             params[mapping[i]] = AOPConstant(query, tmp)
                         }

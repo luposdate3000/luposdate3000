@@ -29,7 +29,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     var onlyExistenceRequired = false /* ask / distinct / reduced */
-var partOfAskQuery=false /*if true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
+    var partOfAskQuery = false /*if true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     var alreadyCheckedStore = -1L
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
@@ -109,14 +109,14 @@ var partOfAskQuery=false /*if true, prefer join with store, otherwiese perform f
                     for (p in c.sortPriorities) {
                         if (p.size > mySortPriority.size) {
                             mySortPriority.clear()
-var provided=getProvidedVariableNames()
-for(x in p){
-if(provided.contains(x.variableName)){
-                            mySortPriority.add(x)
-}else{
-break
-}
-}
+                            var provided = getProvidedVariableNames()
+                            for (x in p) {
+                                if (provided.contains(x.variableName)) {
+                                    mySortPriority.add(x)
+                                } else {
+                                    break
+                                }
+                            }
                         }
                     }
                 }
@@ -134,7 +134,7 @@ break
                                 var fullchild = true
                                 for (i in 0 until mySortPriority.size) {
                                     if (p.size > i) {
-                                        require(p[i] == mySortPriority[i])
+                                        SanityCheck.check { p[i] == mySortPriority[i] }
                                     } else {
                                         fullchild = false
                                     }
@@ -145,15 +145,13 @@ break
                             }
                         }
                         if (this !is LOPTriple && this !is LOPSort && this !is LOPDistinct) {
-                            require(foundfullchild)
+                            SanityCheck.check { foundfullchild }
                         }
                     }
                 }
             }
         }
-        SanityCheck {
-            require(getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }),{"$this"})
-        }
+        SanityCheck.check({ getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
 
@@ -332,7 +330,7 @@ break
     }
 
     fun replaceVariableWithAnother(node: OPBase, name: String, name2: String, parent: OPBase, parentIdx: Int): OPBase {
-        require(parent.children[parentIdx] == node)
+        SanityCheck.check { parent.children[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
             var exp = node.children[1]
             if (exp is AOPVariable) {
@@ -451,10 +449,10 @@ break
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
         SanityCheck {
             if (this is LOPProjection) {
-                require(children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()), { "$classname $uuid" })
+                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()) }, { "$classname $uuid" })
             }
             if (children.size == 1) {
-                require(children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()), { "$classname $uuid" })
+                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()) }, { "$classname $uuid" })
             }
         }
         for (i in 0 until childrenToVerifyCount()) {

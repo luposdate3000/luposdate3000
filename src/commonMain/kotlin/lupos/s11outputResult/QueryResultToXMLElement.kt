@@ -39,7 +39,7 @@ object QueryResultToXMLElement {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].size > 0) {
                     columnNames = columnProjectionOrder[i]
-                    require(columnNames.containsAll(node.getProvidedVariableNames()))
+                    SanityCheck.check { columnNames.containsAll(node.getProvidedVariableNames()) }
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

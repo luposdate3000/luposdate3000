@@ -220,7 +220,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 j++
             }
-            require(pendingImport.size > 0)
+            SanityCheck.check { pendingImport.size > 0 }
             val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
             NodeManager.getNode(newFirstLeaf, {
                 rebuildData(DistinctIterator(it.iterator()))
@@ -297,7 +297,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 node.initializeWith(iterator)
             }
             firstLeaf = newFirstLeaf
-            require(currentLayer.size > 0)
+            SanityCheck.check { currentLayer.size > 0 }
             while (currentLayer.size > 1) {
                 var tmp = mutableListOf<Int>()
                 var prev2: NodeInner? = null

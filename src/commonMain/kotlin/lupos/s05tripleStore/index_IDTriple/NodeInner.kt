@@ -362,7 +362,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                     counter[1] = ((header and 0b00001100) shr 2) + 1
                     counter[2] = ((header and 0b00000011)) + 1
                 } else {
-                    require(headerA == 0b10000000)
+                    SanityCheck.check { headerA == 0b10000000 }
                     counter[0] = 0
                     counter[1] = 0
                     counter[2] = ((header and 0b00000011)) + 1
@@ -528,44 +528,44 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         SanityCheck {
             println(debugListChilds)
             println(debugListTriples.map { it.map { it } })
-            require(debugListTriples.size == debugListChilds.size - 1)
+            SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
             var i = 0
             this.forEachChild {
                 println("debug it $it")
-                require(debugListChilds.size >= i)
-                require(it == debugListChilds[i])
+                SanityCheck.check { debugListChilds.size >= i }
+                SanityCheck.check { it == debugListChilds[i] }
                 i++
             }
-            require(i == debugListChilds.size)
+            SanityCheck.check { i == debugListChilds.size }
             var j = -1
             var res = findIteratorN({
                 println("debug xx ${it.map { it }}")
                 j++
-                require(j < debugListTriples.size)
-                require(it[0] == debugListTriples[j][0])
-                require(it[1] == debugListTriples[j][1])
-                require(it[2] == debugListTriples[j][2])
+                SanityCheck.check { j < debugListTriples.size }
+                SanityCheck.check { it[0] == debugListTriples[j][0] }
+                SanityCheck.check { it[1] == debugListTriples[j][1] }
+                SanityCheck.check { it[2] == debugListTriples[j][2] }
                 /*return*/true
             }, {
                 println("debug $it")
-                require(it == debugListChilds[debugListChilds.size - 1])
+                SanityCheck.check { it == debugListChilds[debugListChilds.size - 1] }
             })
-            require(j == debugListTriples.size - 1)
+            SanityCheck.check { j == debugListTriples.size - 1 }
             for (i in 0 until debugListTriples.size) {
                 println("debug i $i")
                 j = -1
                 var res = findIteratorN({
                     println("debug xx ${it.map { it }}")
                     j++
-                    require(j < debugListTriples.size)
-                    require(it[0] == debugListTriples[j][0])
-                    require(it[1] == debugListTriples[j][1])
-                    require(it[2] == debugListTriples[j][2])
-                    require(j < i + 4)/*read at most one block too much*/
+                    SanityCheck.check { j < debugListTriples.size }
+                    SanityCheck.check { it[0] == debugListTriples[j][0] }
+                    SanityCheck.check { it[1] == debugListTriples[j][1] }
+                    SanityCheck.check { it[2] == debugListTriples[j][2] }
+                    SanityCheck.check { j < i + 4 }/*read at most one block too much*/
                     /*return*/ j < i
                 }, {
                     println("debug $it")
-                    require(it == debugListChilds[i])
+                    SanityCheck.check { it == debugListChilds[i] }
                 })
             }
         }

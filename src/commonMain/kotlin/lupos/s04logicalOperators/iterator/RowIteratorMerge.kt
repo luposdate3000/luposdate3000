@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.Value
 open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparator: Comparator<Value>, val compCount: Int) : RowIterator() {
     companion object {
         suspend operator fun invoke(a: RowIterator, comparator: Comparator<Value>, compCount: Int, columns: Array<String>): RowIterator {
-            require(columns.size == a.columns.size)
+            SanityCheck.check { columns.size == a.columns.size }
             var buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
@@ -148,7 +148,7 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
                 }
                 j++
             }
-            require(resultList.size > 0)
+            SanityCheck.check { resultList.size > 0 }
             return resultList[resultList.size - 1]!!
         }
     }
@@ -159,9 +159,9 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
 
     init {
         SanityCheck {
-            require(a.columns.size == b.columns.size)
+            SanityCheck.check { a.columns.size == b.columns.size }
             for (i in 0 until a.columns.size) {
-                require(a.columns[i] == b.columns[i])
+                SanityCheck.check { a.columns[i] == b.columns[i] }
             }
         }
         columns = a.columns

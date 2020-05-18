@@ -2,6 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 
 enum class IteratorBundleMode {
     COUNT,
@@ -18,7 +19,7 @@ class IteratorBundle {
     fun hasRowMode() = mode == IteratorBundleMode.ROW
 
     constructor (columns: Map<String, ColumnIterator>) {
-        require(columns.size > 0)
+        SanityCheck.check { columns.size > 0 }
         _rows = null
         _columns = columns
         mode = IteratorBundleMode.COLUMN
@@ -76,7 +77,7 @@ class IteratorBundle {
     var counter = 0
     var count: Int = 0
         get() {
-            require(mode == IteratorBundleMode.COUNT)
+            SanityCheck.check { mode == IteratorBundleMode.COUNT }
             if (counter > 0) {
                 return counter
             } else {

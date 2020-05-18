@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 
 object ColumnIteratorMultiValue {
-    operator fun invoke(values: IntArray,size:Int) = ColumnIteratorMultiValue_3(values,size)
+    operator fun invoke(values: IntArray, size: Int) = ColumnIteratorMultiValue_3(values, size)
     operator fun invoke(values: MyListValue) = ColumnIteratorMultiValue_1(values)
     operator fun invoke(iterator: Iterator<Value>) = ColumnIteratorMultiValue_2(iterator)
 }
@@ -26,7 +26,7 @@ class ColumnIteratorMultiValue_1(val values: MyListValue) : ColumnIterator() {
     }
 }
 
-class ColumnIteratorMultiValue_3(val values: IntArray,val size:Int) : ColumnIterator() {
+class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIterator() {
     var index = 0
 
     init {

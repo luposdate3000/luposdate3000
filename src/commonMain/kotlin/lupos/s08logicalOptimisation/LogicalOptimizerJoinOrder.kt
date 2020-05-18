@@ -113,7 +113,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             res.onlyExistenceRequired = root.onlyExistenceRequired
             return res
         } else {
-            require(nodes.size == 1)
+            SanityCheck.check { nodes.size == 1 }
             return nodes[0]
         }
     }

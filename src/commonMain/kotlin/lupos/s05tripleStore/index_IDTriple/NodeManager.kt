@@ -86,7 +86,7 @@ object NodeManager {
                             leaves[x and nodePointerValueMask]++
                         }
                     }, {
-                        require(false)
+                        throw Exception("unreachable")
                     })
                 }
             }
@@ -98,16 +98,16 @@ object NodeManager {
                     count0++
                 } else {
                     println("debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i")
-                    require(i == 1 || i == -10000)
+                    SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
             }
-            require(count0 == nullpointers)//there must be an equal amount of start and end leaves
+            SanityCheck.check { count0 == nullpointers }//there must be an equal amount of start and end leaves
             println("debug nullpointers $nullpointers")
             for (i in 0 until allNodesInner.size) {
                 if (!allNodesFreeListInner.contains(i)) {
                     getNode(i or nodePointerTypeInner, {
-                        require(false)
+                        throw Exception("unreachable")
                     }, {
                         it.forEachChild {
                             val nodePointerType = it and nodePointerTypeMask
@@ -116,7 +116,7 @@ object NodeManager {
                                 inner[nodePointerValue]++
                                 println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             } else {
-                                require(nodePointerType == nodePointerTypeLeaf)
+                                SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
                                 leavesFromInner[nodePointerValue]++
                                 println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             }
@@ -127,7 +127,7 @@ object NodeManager {
             j = 0
             for (i in leavesFromInner) {
                 println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
-                require(i == 1 || i == -10000)
+                SanityCheck.check { i == 1 || i == -10000 }
                 j++
             }
             count0 = 0
@@ -137,14 +137,14 @@ object NodeManager {
                     count0++
                 } else {
                     println("debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i")
-                    require(i == 1 || i == -10000)
+                    SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
             }
         }
     }
 
-    inline fun safeToFile(filename: String) {
+    fun safeToFile(filename: String) {
         debug()
         File(filename + ".header").dataOutputStream { out ->
             out.writeInt(allNodesLeaf.size)
@@ -234,11 +234,11 @@ object NodeManager {
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
-                require(!allNodesFreeListInner.contains(nodePointerValue))
+                SanityCheck.check { !allNodesFreeListInner.contains(nodePointerValue) }
                 allNodesFreeListInner.add(nodePointerValue)
             }
             nodePointerTypeLeaf -> {
-                require(!allNodesFreeListLeaf.contains(nodePointerValue))
+                SanityCheck.check { !allNodesFreeListLeaf.contains(nodePointerValue) }
                 allNodesFreeListLeaf.add(nodePointerValue)
             }
             else -> {
