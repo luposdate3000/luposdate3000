@@ -21,10 +21,10 @@ object LogicalOptimizerJoinOrderStore {
             val queue = mutableListOf<OPBase>()
             queue.addAll(allChilds)
             var lastVariable = 0
-            var lastVariableCount = queue[0].getProvidedVariableNames().size
+            var lastVariableCount = Int.MAX_VALUE
             for (i in queue.indices) {
                 val tmp = queue[i].getProvidedVariableNames().size
-                if (tmp <= lastVariableCount) {
+                if (tmp < lastVariableCount || (tmp==lastVariableCount && queue[i].getHistogram().count<queue[lastVariable].getHistogram().count)) {
                     lastVariableCount = tmp
                     lastVariable = i
                 }
