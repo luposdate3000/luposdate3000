@@ -6,7 +6,7 @@ triples=65536
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
 
-./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Benchmark Off Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local Off BTree BTree None Empty 8196 1024 512 512 false
+./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Benchmark Off Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local Off BTree BTree None Empty 8196 1024 512 512 true
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 

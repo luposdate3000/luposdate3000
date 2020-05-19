@@ -66,13 +66,13 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         }
                     }
                     if (res is LOPJoin) {
-                        if (projectedVariables.size == 0 && childA is LOPTriple) {
+                        if (node.partOfAskQuery&&projectedVariables.size == 0 && childA is LOPTriple) {
                             res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
-                        } else if (projectedVariables.size == 0 && childB is LOPTriple) {
+                        } else if (node.partOfAskQuery&&projectedVariables.size == 0 && childB is LOPTriple) {
                             res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
-                        } else if (childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        } else if (node.partOfAskQuery&&childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
-                        } else if (childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        } else if (node.partOfAskQuery&&childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
                         } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                             res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
