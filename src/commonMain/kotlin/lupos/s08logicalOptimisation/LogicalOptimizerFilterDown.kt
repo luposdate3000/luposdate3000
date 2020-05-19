@@ -5,6 +5,7 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -55,6 +56,21 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                         onChange()
                     }
                 } else if (child !is LOPGroup && child.children.size > 0) {
+var flag=true
+if(child is LOPJoin){
+if(child.optional){
+var provided=child.children[1].getProvidedVariableNames()
+for(filter in filters){
+for(v in filter.getRequiredVariableNamesRecoursive()){
+if(provided.contains(v))
+//prevent any filters from beeing pulled down if those require variables out of the optional join-part
+flag=false
+break
+}
+}
+}
+}
+if(flag){
                     loop@ for (targetIndex in 0 until child.children.size) {
                         val target = child.children[targetIndex]
                         for (filterIndex in 0 until filters.size) {
@@ -70,6 +86,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                                 break@loop
                             }
                         }
+}
                     }
                 }
             }

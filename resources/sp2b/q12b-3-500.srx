@@ -8,7 +8,7 @@
  <results>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article2</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article9</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b0</bnode>
@@ -22,7 +22,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article3</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b1</bnode>
@@ -36,7 +36,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article7</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article7</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b2</bnode>
@@ -50,7 +50,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article5</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b3</bnode>
@@ -64,7 +64,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article5</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b4</bnode>
@@ -78,7 +78,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b5</bnode>
@@ -92,7 +92,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article1</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b6</bnode>
@@ -106,7 +106,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article10</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article4</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b7</bnode>
@@ -120,7 +120,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b8</bnode>
@@ -134,7 +134,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article4</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article7</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b9</bnode>
@@ -148,7 +148,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article4</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article1</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b10</bnode>
@@ -162,7 +162,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article6</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article2</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b11</bnode>
@@ -176,7 +176,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article10</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b12</bnode>
@@ -190,7 +190,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article5</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article6</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b13</bnode>
@@ -204,7 +204,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article8</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b14</bnode>
@@ -218,21 +218,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article3</uri>
-   </binding>
-   <binding name="erdoes">
-    <bnode>b14</bnode>
-   </binding>
-   <binding name="author">
-    <uri>http://localhost/persons/Paul_Erdoes</uri>
-   </binding>
-   <binding name="name">
-    <literal>Paul Erdoes</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article7</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b15</bnode>
@@ -246,7 +232,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article10</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article8</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b16</bnode>
@@ -260,7 +246,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article10</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b17</bnode>
@@ -274,7 +260,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article2</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article1</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b18</bnode>
@@ -288,7 +274,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article1</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article4</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b19</bnode>
@@ -302,7 +288,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article3</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b20</bnode>
@@ -316,7 +302,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article8</uri>
+    <uri>http://localhost/publications/articles/Journal1/1942/Article5</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b21</bnode>
@@ -330,7 +316,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b22</bnode>
@@ -344,7 +330,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article8</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article9</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b23</bnode>
@@ -358,7 +344,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b24</bnode>
@@ -372,7 +358,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b25</bnode>
@@ -386,7 +372,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b26</bnode>
@@ -400,7 +386,21 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1942/Article9</uri>
+    <uri>http://localhost/publications/articles/Journal1/1941/Article3</uri>
+   </binding>
+   <binding name="erdoes">
+    <bnode>b26</bnode>
+   </binding>
+   <binding name="author">
+    <uri>http://localhost/persons/Paul_Erdoes</uri>
+   </binding>
+   <binding name="name">
+    <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article2</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b27</bnode>
@@ -414,7 +414,7 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1941/Article9</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
    </binding>
    <binding name="erdoes">
     <bnode>b28</bnode>
@@ -434,7 +434,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b3</bnode>
+    <bnode>b5</bnode>
    </binding>
    <binding name="name">
     <literal>Edmondo Rommelfanger</literal>
@@ -448,7 +448,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b5</bnode>
+    <bnode>b8</bnode>
    </binding>
    <binding name="name">
     <literal>Martina Mcclary</literal>
@@ -462,7 +462,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b19</bnode>
+    <bnode>b10</bnode>
    </binding>
    <binding name="name">
     <literal>Yemena Knebel</literal>
@@ -476,7 +476,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b18</bnode>
+    <bnode>b11</bnode>
    </binding>
    <binding name="name">
     <literal>Kozue Efthimiou</literal>
@@ -490,7 +490,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b9</bnode>
+    <bnode>b19</bnode>
    </binding>
    <binding name="name">
     <literal>Satoru Beaumont</literal>
@@ -504,7 +504,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b25</bnode>
+    <bnode>b24</bnode>
    </binding>
    <binding name="name">
     <literal>Ashley Kesselring</literal>
@@ -518,7 +518,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b6</bnode>
+    <bnode>b18</bnode>
    </binding>
    <binding name="name">
     <literal>Mya Swilley</literal>
@@ -532,7 +532,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b14</bnode>
+    <bnode>b26</bnode>
    </binding>
    <binding name="name">
     <literal>Pilib Seu</literal>
@@ -546,7 +546,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b27</bnode>
+    <bnode>b0</bnode>
    </binding>
    <binding name="name">
     <literal>Angha Bievenue</literal>
@@ -560,7 +560,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b4</bnode>
+    <bnode>b3</bnode>
    </binding>
    <binding name="name">
     <literal>Dorel Brandt</literal>
@@ -574,7 +574,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b10</bnode>
+    <bnode>b7</bnode>
    </binding>
    <binding name="name">
     <literal>Prebrana Kekiwi</literal>
@@ -588,7 +588,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b1</bnode>
+    <bnode>b20</bnode>
    </binding>
    <binding name="name">
     <literal>Dama Leino</literal>
@@ -602,7 +602,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b20</bnode>
+    <bnode>b4</bnode>
    </binding>
    <binding name="name">
     <literal>Akina Jang</literal>
@@ -616,7 +616,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b8</bnode>
+    <bnode>b28</bnode>
    </binding>
    <binding name="name">
     <literal>Cecil Kochler</literal>
@@ -630,7 +630,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b17</bnode>
+    <bnode>b22</bnode>
    </binding>
    <binding name="name">
     <literal>Tatsukichi Gerstenberger</literal>
@@ -644,7 +644,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b21</bnode>
+    <bnode>b14</bnode>
    </binding>
    <binding name="name">
     <literal>Vasilista Hamic</literal>
@@ -658,7 +658,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b15</bnode>
+    <bnode>b2</bnode>
    </binding>
    <binding name="name">
     <literal>Phaethon Gearon</literal>
@@ -672,7 +672,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b2</bnode>
+    <bnode>b9</bnode>
    </binding>
    <binding name="name">
     <literal>Miranda Leinen</literal>
@@ -686,7 +686,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b11</bnode>
+    <bnode>b13</bnode>
    </binding>
    <binding name="name">
     <literal>Trina Sjerven</literal>
@@ -700,7 +700,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b26</bnode>
+    <bnode>b1</bnode>
    </binding>
    <binding name="name">
     <literal>Fahroni Anglea</literal>
@@ -714,7 +714,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b24</bnode>
+    <bnode>b25</bnode>
    </binding>
    <binding name="name">
     <literal>Adamanta Schlitt</literal>
@@ -728,7 +728,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b22</bnode>
+    <bnode>b6</bnode>
    </binding>
    <binding name="name">
     <literal>Amalia Krajcik</literal>
@@ -742,7 +742,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b0</bnode>
+    <bnode>b27</bnode>
    </binding>
    <binding name="name">
     <literal>Melisa Patriarco</literal>
@@ -756,7 +756,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b28</bnode>
+    <bnode>b23</bnode>
    </binding>
    <binding name="name">
     <literal>Motoyasu Calligy</literal>
@@ -770,7 +770,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b23</bnode>
+    <bnode>b16</bnode>
    </binding>
    <binding name="name">
     <literal>Lone Pavese</literal>
@@ -784,7 +784,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b12</bnode>
+    <bnode>b15</bnode>
    </binding>
    <binding name="name">
     <literal>Eupeithes Bevens</literal>
@@ -798,7 +798,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b16</bnode>
+    <bnode>b17</bnode>
    </binding>
    <binding name="name">
     <literal>Firdaus Casavez</literal>
@@ -812,7 +812,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b13</bnode>
+    <bnode>b21</bnode>
    </binding>
    <binding name="name">
     <literal>Booker Spiker</literal>
@@ -826,7 +826,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b7</bnode>
+    <bnode>b12</bnode>
    </binding>
    <binding name="name">
     <literal>Kichibei Opitz</literal>
@@ -840,7 +840,7 @@
     <uri>http://localhost/persons/Paul_Erdoes</uri>
    </binding>
    <binding name="author">
-    <bnode>b14</bnode>
+    <bnode>b26</bnode>
    </binding>
    <binding name="name">
     <literal>Pilib Seu</literal>

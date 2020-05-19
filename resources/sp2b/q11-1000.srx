@@ -1,0 +1,58 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="ee"/>
+ </head>
+ <results>
+  <result>
+   <binding name="ee">
+    <literal>http://www.measurage.tld/pasturage/thurifer.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.mendelism.tld/leavening/embrocation.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.nethermost.tld/retrogressions/eliminates.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.neurological.tld/flashings/oops.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.nippy.tld/occulters/blubberer.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.nonspecialized.tld/squads/tantalums.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.oops.tld/chippering/photospherically.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.overabundant.tld/easeful/cognize.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.overbites.tld/giros/podgy.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.overdrinking.tld/demarcators/tasselling.html</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

@@ -2,7 +2,7 @@
 touch config.csv2
 rm config.csv2
 
-for triples in 200 500
+for triples in 1 200 500 700 900 1000 1400
 do
 	(
 		cd /opt/sp2b/bin
@@ -17,6 +17,6 @@ done
 echo 0,x1.sparql,x1.ttl,x1.srx >> config.csv2
 echo 0,x2.sparql,x2.ttl,x2.srx >> config.csv2
 
-cat config.csv2 | sort | uniq > config.csv
+cat config.csv2 | sort -n | uniq > config.csv
 rm config.csv2
 

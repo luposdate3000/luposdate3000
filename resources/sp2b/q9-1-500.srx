@@ -30,111 +30,6 @@
   </result>
   <result>
    <binding name="predicate">
-    <uri>http://swrc.ontoware.org/ontology#editor</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
-    <uri>http://purl.org/dc/elements/1.1/creator</uri>
-   </binding>
-  </result>
-  <result>
-   <binding name="predicate">
     <uri>http://purl.org/dc/elements/1.1/creator</uri>
    </binding>
   </result>
@@ -255,6 +150,66 @@
   </result>
   <result>
    <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
     <uri>http://swrc.ontoware.org/ontology#editor</uri>
    </binding>
   </result>
@@ -266,6 +221,51 @@
   <result>
    <binding name="predicate">
     <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="predicate">
+    <uri>http://swrc.ontoware.org/ontology#editor</uri>
    </binding>
   </result>
   <result>

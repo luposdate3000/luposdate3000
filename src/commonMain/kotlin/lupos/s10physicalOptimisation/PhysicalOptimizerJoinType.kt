@@ -82,12 +82,6 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                     }
                 }
             }
-            if (node.onlyExistenceRequired) {
-                SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
-                res.mySortPriority = node.mySortPriority
-                res.sortPriorities = node.sortPriorities
-                res = POPReduced(query, projectedVariables, res)
-            }
             SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities

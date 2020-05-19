@@ -7,10 +7,21 @@
  <results>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article20</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article16</uri>
    </binding>
    <binding name="author">
     <bnode>b0</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Trina Sjerven</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article20</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b1</bnode>
    </binding>
    <binding name="name">
     <literal>Kozue Efthimiou</literal>
@@ -18,43 +29,10 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article14</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b1</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Dorel Brandt</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b2</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Cecil Kochler</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b3</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Adamanta Schlitt</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
     <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
    </binding>
    <binding name="author">
-    <bnode>b4</bnode>
+    <bnode>b2</bnode>
    </binding>
    <binding name="name">
     <literal>Tatsukichi Gerstenberger</literal>
@@ -62,21 +40,10 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article12</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b5</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Prebrana Kekiwi</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
     <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
    </binding>
    <binding name="author">
-    <bnode>b6</bnode>
+    <bnode>b3</bnode>
    </binding>
    <binding name="name">
     <literal>Pilib Seu</literal>
@@ -84,46 +51,13 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
    </binding>
    <binding name="author">
-    <bnode>b7</bnode>
+    <bnode>b4</bnode>
    </binding>
    <binding name="name">
-    <literal>Martina Mcclary</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b8</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Ashley Kesselring</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b9</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Fahroni Anglea</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article19</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b10</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Juriaan Schremp</literal>
+    <literal>Adamanta Schlitt</literal>
    </binding>
   </result>
   <result>
@@ -131,7 +65,7 @@
     <uri>http://localhost/publications/articles/Journal1/1940/Article13</uri>
    </binding>
    <binding name="author">
-    <bnode>b11</bnode>
+    <bnode>b5</bnode>
    </binding>
    <binding name="name">
     <literal>Korechika Mamer</literal>
@@ -139,13 +73,79 @@
   </result>
   <result>
    <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b6</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ashley Kesselring</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article14</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b7</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dorel Brandt</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
     <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b8</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Akina Jang</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b9</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Edmondo Rommelfanger</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Amalia Krajcik</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article11</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dell Kosel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article12</uri>
    </binding>
    <binding name="author">
     <bnode>b12</bnode>
    </binding>
    <binding name="name">
-    <literal>Akina Jang</literal>
+    <literal>Prebrana Kekiwi</literal>
    </binding>
   </result>
   <result>
@@ -161,13 +161,35 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article16</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article19</uri>
    </binding>
    <binding name="author">
     <bnode>b14</bnode>
    </binding>
    <binding name="name">
-    <literal>Trina Sjerven</literal>
+    <literal>Juriaan Schremp</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b15</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cecil Kochler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b16</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Martina Mcclary</literal>
    </binding>
   </result>
   <result>
@@ -175,7 +197,7 @@
     <uri>http://localhost/publications/articles/Journal1/1940/Article18</uri>
    </binding>
    <binding name="author">
-    <bnode>b15</bnode>
+    <bnode>b17</bnode>
    </binding>
    <binding name="name">
     <literal>Mya Swilley</literal>
@@ -183,46 +205,13 @@
   </result>
   <result>
    <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b16</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Amalia Krajcik</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article17</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b17</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Caden Failing</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
    </binding>
    <binding name="author">
     <bnode>b18</bnode>
    </binding>
    <binding name="name">
-    <literal>Edmondo Rommelfanger</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="document">
-    <uri>http://localhost/publications/articles/Journal1/1940/Article11</uri>
-   </binding>
-   <binding name="author">
-    <bnode>b19</bnode>
-   </binding>
-   <binding name="name">
-    <literal>Dell Kosel</literal>
+    <literal>Fahroni Anglea</literal>
    </binding>
   </result>
   <result>
@@ -333,6 +322,17 @@
    </binding>
    <binding name="name">
     <literal>Paul Erdoes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article17</uri>
+   </binding>
+   <binding name="author">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Caden Failing</literal>
    </binding>
   </result>
  </results>

@@ -257,7 +257,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Include Jena Wrapper") to listOf(
                 ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
-                ChooseableOptionDirectory("Off", "commonS00WrapperJenaOffMain")
+ChooseableOptionTypeAlias("Off","lupos.s00misc",listOf("JenaWrapper" to "JenaWrapperOff"))
         ),
         ChooseableGroup("Set Implementation") to listOf(
                 ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(

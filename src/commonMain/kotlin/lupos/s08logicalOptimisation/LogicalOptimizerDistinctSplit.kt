@@ -132,7 +132,6 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                 } else if (child is LOPUnion) {
                     child.children[0] = LOPReduced(query, child.children[0])
                     child.children[1] = LOPReduced(query, child.children[1])
-                    res = child
                     onChange()
                 } else if (child is LOPMinus) {
                     child.children[0] = LOPReduced(query, child.children[0])
