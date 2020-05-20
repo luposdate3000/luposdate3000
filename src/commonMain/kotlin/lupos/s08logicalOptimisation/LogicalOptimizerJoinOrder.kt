@@ -35,7 +35,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                     res.add(d)
                 }
             } else if (c is OPNothing) {
-                //there can not be any result, if one of the children does not have any output.
+                //there can not be any result, if_ one of the children does not have any output.
                 throw emptyResultException
             } else if (c is OPEmptyRow) {
                 //skip those unnecessary joins, without any observeable effekt
@@ -100,7 +100,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 if (allChilds2.size > 2) {
                     var result: OPBase? = null
                     if (result == null && node.onlyExistenceRequired) {
-                        //dont not prefer merge join for ask-queries, as this makes it harder later, to avoid any materialisation
+                        //dont not prefer merge join for_ ask-queries, as this makes it harder later, to avoid any materialisation
                         result = LogicalOptimizerJoinOrderStore(allChilds2, node)
                     }
                     if (result == null) {

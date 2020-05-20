@@ -29,7 +29,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     var onlyExistenceRequired = false /* ask / distinct / reduced */
-    var partOfAskQuery = false /*if true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
+    var partOfAskQuery = false /*if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     var alreadyCheckedStore = -1L
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
@@ -234,7 +234,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     addToPrefixFreeList(tmp, res)
                 }
             }
-            ESortPriority.PREVENT_ANY,ESortPriority.UNION -> {
+            ESortPriority.PREVENT_ANY, ESortPriority.UNION -> {
             }
             ESortPriority.SORT -> {
                 var requiredVariables = mutableListOf<String>()

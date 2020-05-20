@@ -65,30 +65,30 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterUp(query),//
             ),
             arrayOf<OptimizerBase>(
-                    //calculate if only count or real data is required. this must happen directly before join order optimisation
+                    //calculate if_ only count or real data is required. this must happen directly before join order optimisation{
                     LogicalOptimizerExists(query)//
             ),
             arrayOf<OptimizerBase>(
-                    //join order must stant alone otherwise there are lots of recalulations
+//join order must stant alone otherwise there are lots of recalulations
                     LogicalOptimizerJoinOrder(query)//
             ),
             arrayOf<OptimizerBase>(
-                    //put the filters between the joins
+//put the filters between the joins
                     LogicalOptimizerFilterDown(query)//
             ),
             arrayOf<OptimizerBase>(
-                    //merge consecutive filters into a single AND connected one
+//merge consecutive filters into a single AND connected one
                     LogicalOptimizerFilterMergeAND(query)//
             ),
             arrayOf<OptimizerBase>(
-                    //try to remove any unnecessary projection operator, never used columns
+//try to remove any unnecessary projection operator, never used columns
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
                     LogicalOptimizerRemoveBindVariable(query),//
             ),
             arrayOf<OptimizerBase>(
-                    //calculate the natural sort order of the columns, as a prerequisite _for distinct calculation
+//calculate the natural sort order of the columns, as a prerequisite _for distinct calculation
                     LogicalOptimizerColumnSortOrder(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -99,7 +99,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemoveProjection(query),//
             ),
             arrayOf<OptimizerBase>(
-                    //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here
+//calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here
                     LogicalOptimizerColumnSortOrder(query)//
             )
     )

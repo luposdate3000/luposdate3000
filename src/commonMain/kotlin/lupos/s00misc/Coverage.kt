@@ -1,11 +1,13 @@
 package lupos.s00misc
 
 import lupos.s00misc.File
-enum class ECoverage{
-Disabled,
-Count,
-Verbose
+
+enum class ECoverage {
+    Disabled,
+    Count,
+    Verbose
 }
+
 object Coverage {
     val CoverageMapGenerated = mutableMapOf<Int, String>()
     val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
@@ -39,8 +41,8 @@ object Coverage {
     fun funStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} funStart")
             else
                 println("funStart $counter")
@@ -50,8 +52,8 @@ object Coverage {
     fun forLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} forLoopStart")
             else
                 println("forLoopStart $counter")
@@ -61,8 +63,8 @@ object Coverage {
     fun forEachLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} forEachLoopStart")
             else
                 println("forEachLoopStart $counter")
@@ -72,8 +74,8 @@ object Coverage {
     fun whileLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} whileLoopStart")
             else
                 println("whileLoopStart $counter")
@@ -84,8 +86,8 @@ object Coverage {
         lastcounter = counter
         counters[counter]++
         counters[CoverageMapWhenCaseGenerated[counter]!!]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} whenCaseStart")
             else
                 println("whenCaseStart $counter")
@@ -95,8 +97,8 @@ object Coverage {
     fun ifStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} ifStart")
             else
                 println("ifStart $counter")
@@ -106,8 +108,8 @@ object Coverage {
     fun statementStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
-        if (COVERAGE_MODE!=ECoverage.Disabled) {
-            if (COVERAGE_MODE==ECoverage.Verbose)
+        if (COVERAGE_MODE != ECoverage.Disabled) {
+            if (COVERAGE_MODE == ECoverage.Verbose)
                 println("${CoverageMapGenerated[counter]} statementStart")
             else
                 println("statementStart $counter")

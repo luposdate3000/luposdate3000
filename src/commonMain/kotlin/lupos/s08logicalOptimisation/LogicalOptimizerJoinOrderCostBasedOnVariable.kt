@@ -64,7 +64,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             } else {
                 cost = sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
             }
-            //cost calculation ... the least cost for deepest partial results
+            //cost calculation ... the least cost for_ deepest partial results
         }
 
         override operator fun compareTo(other: Plan): Int {

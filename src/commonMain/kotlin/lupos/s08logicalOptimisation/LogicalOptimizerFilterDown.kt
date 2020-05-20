@@ -62,10 +62,11 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                             var provided = child.children[1].getProvidedVariableNames()
                             for (filter in filters) {
                                 for (v in filter.getRequiredVariableNamesRecoursive()) {
-                                    if (provided.contains(v))
-//prevent any filters from beeing pulled down if those require variables out of the optional join-part
+                                    if (provided.contains(v)) {
+//prevent any filters from beeing pulled down _if those require variables out of the optional join-part
                                         flag = false
-                                    break
+                                        break
+                                    }
                                 }
                             }
                         }

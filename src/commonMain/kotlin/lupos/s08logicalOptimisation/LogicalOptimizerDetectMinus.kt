@@ -23,7 +23,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                 val node10 = node1.children[0]
                 if (node10 is AOPBuildInCallBOUND) {
                     //there exists a filter, such that the variable is NOT bound.
-                    //now search for an optional join, where this variable is bound only in the optional part
+                    //now search for_ an optional join, where this variable is bound only in the optional part
                     val variableName = (node10.children[0] as AOPVariable).name
                     searchForOptionalJoin(node, variableName, { p, i ->
                         val a = p.children[i].children[0]
@@ -41,7 +41,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                 }
             }
         }
-/*return*/res
+/*return*/ res
     })
 
     fun searchForOptionalJoin(node: OPBase, variableName: String, action: (OPBase, Int) -> Unit) {
