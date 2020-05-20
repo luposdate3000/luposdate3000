@@ -1,5 +1,7 @@
 #!/bin/kscript
+import java.util.concurrent.TimeUnit
 import java.io.File
+import java.lang.ProcessBuilder.Redirect
 
 abstract class ChooseableOption(val label: String, val internalID: String) : Comparable<ChooseableOption> {
     companion object {
@@ -55,8 +57,12 @@ class ChooseableOptionTypeAlias(label: String, val pkg: String, val aliasList: L
     override fun toString() = "TypeAlias($internalID)"
 }
 
-class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg + "." + variableName) {
+class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg + "." + variableName + variableValue) {
     override fun toString() = "ConstantValue($internalID = $variableValue)"
+}
+
+class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String) : ChooseableOption(label, "common" + internalID) {
+    override fun toString() = "ExternalScript($scriptName)"
 }
 
 class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
@@ -64,6 +70,7 @@ class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
     override fun hashCode() = name.hashCode()
     override operator fun compareTo(other: ChooseableGroup) = name.compareTo(other.name)
 }
+
 
 var allChoicesString = ""
 var choicesCount = 0
@@ -346,6 +353,15 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Replace small triple-store results during optimisation phase") to listOf(
                 ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "true"),
                 ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "false")
+        ),
+        ChooseableGroup("Code Coverage mode") to listOf(
+                ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Disabled"),
+                ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Count"),
+                ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Verbose")
+        ),
+        ChooseableGroup("Generate Code-Coverage-Code") to listOf(
+                ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn"),
+                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff")
         )
 )
 val conflicts = listOf(
@@ -354,7 +370,8 @@ val conflicts = listOf(
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchSparqlTestSuiteMain", "commonS00ResultFlowExecuteTestsMain")
+        setOf("commonS00LaunchSparqlTestSuiteMain", "commonS00ResultFlowExecuteTestsMain"),
+        setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
 )
 val platformPrefix = mapOf(
         "jvm" to listOf("common", "jvm"),
@@ -504,7 +521,7 @@ fun addAdditionalSources() {
 
 println("result choices :: ")
 for (option in allChoosenOptions.sorted())
-    println(option)
+    println(option.toString() + " :: " + option.internalID)
 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
 
 File("build.gradle.kts").printWriter().use { out ->
@@ -648,6 +665,25 @@ for ((k, v) in configFilesContent) {
     File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
     File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
         out.print(v.toString())
+    }
+}
+fun String.runCommand(workingDir: File? = null) {
+    val process = ProcessBuilder(*split(" ").toTypedArray())
+            .directory(workingDir)
+            .redirectOutput(Redirect.INHERIT)
+            .redirectError(Redirect.INHERIT)
+            .start()
+    if (!process.waitFor(60, TimeUnit.SECONDS)) {
+        process.destroy()
+        throw RuntimeException("execution timed out: $this")
+    }
+    if (process.exitValue() != 0) {
+        throw RuntimeException("execution failed with code ${process.exitValue()}: $this")
+    }
+}
+for (option in allChoosenOptions) {
+    if (option is ChoosableOptionExternalScript) {
+        option.scriptName.runCommand()
     }
 }
 
