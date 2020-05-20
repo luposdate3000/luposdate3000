@@ -156,7 +156,7 @@ class MyMapStringIntPatriciaTrieVersion1() {
         var queueNode = mutableListOf<MyMapStringIntPatriciaTrieNode>()
         var queueCount = MyListInt()
         File(filename).dataInputStream { fis ->
-            val len = fis.readShort()
+            var len = fis.readShort()
             if (len > 0) {
                 queueNode.add(root)
                 queueCount.add(len.toInt())
@@ -172,7 +172,7 @@ class MyMapStringIntPatriciaTrieVersion1() {
                     queueNode.removeAt(0)
                     queueCount.removeAt(0)
                 }
-                val len = fis.readShort()
+                len = fis.readShort()
                 val key = StringBuilder()
                 var c = fis.readChar()
                 while (c.toInt() > 1) {

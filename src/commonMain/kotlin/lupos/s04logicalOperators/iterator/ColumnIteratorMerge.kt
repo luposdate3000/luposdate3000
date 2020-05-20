@@ -22,11 +22,11 @@ object ColumnIteratorMerge {
                 }
             }
             var total = i
-            var off = 0
+            var off: Int
             var shift = 0
             var size = 1 shl shift
-            var count = 0
-            var mid = 0
+            var count: Int
+            var mid: Int
             while (size / 2 < total) {
                 off = 0
                 shift++
@@ -40,22 +40,22 @@ object ColumnIteratorMerge {
                     mid = size / 2
                     val aEnd = (off + mid)
                     val bEnd = (off + count)
-                    var a = off
+                    var a_ = off
                     var b = aEnd
-                    var c = a
+                    var c = a_
                     if (count < mid) {
-                        b = a
-                        a = aEnd
+                        b = a_
+                        a_ = aEnd
                     }
-                    loop@ while (a < aEnd && b < bEnd) {
-                        if (comparator.compare(buf1[a], buf1[b]) < 0) {
-                            buf2[c++] = buf1[a++]
+                    loop@ while (a_ < aEnd && b < bEnd) {
+                        if (comparator.compare(buf1[a_], buf1[b]) < 0) {
+                            buf2[c++] = buf1[a_++]
                         } else {
                             buf2[c++] = buf1[b++]
                         }
                     }
-                    while (a < aEnd) {
-                        buf2[c++] = buf1[a++]
+                    while (a_ < aEnd) {
+                        buf2[c++] = buf1[a_++]
                     }
                     while (b < bEnd) {
                         buf2[c++] = buf1[b++]
@@ -123,11 +123,11 @@ object ColumnIteratorMerge {
                 }
             }
             var total = i
-            var off = 0
+            var off: Int
             var shift = 0
             var size = 1 shl shift
-            var count = 0
-            var mid = 0
+            var count: Int
+            var mid: Int
             while (size / 2 < total) {
                 off = 0
                 shift++
@@ -141,22 +141,22 @@ object ColumnIteratorMerge {
                     mid = size / 2
                     val aEnd = (off + mid)
                     val bEnd = (off + count)
-                    var a = off
+                    var a_ = off
                     var b = aEnd
-                    var c = a
+                    var c = a_
                     if (count < mid) {
-                        b = a
-                        a = aEnd
+                        b = a_
+                        a_ = aEnd
                     }
-                    loop@ while (a < aEnd && b < bEnd) {
-                        if (buf1[a] < buf1[b]) {
-                            buf2[c++] = buf1[a++]
+                    loop@ while (a_ < aEnd && b < bEnd) {
+                        if (buf1[a_] < buf1[b]) {
+                            buf2[c++] = buf1[a_++]
                         } else {
                             buf2[c++] = buf1[b++]
                         }
                     }
-                    while (a < aEnd) {
-                        buf2[c++] = buf1[a++]
+                    while (a_ < aEnd) {
+                        buf2[c++] = buf1[a_++]
                     }
                     while (b < bEnd) {
                         buf2[c++] = buf1[b++]

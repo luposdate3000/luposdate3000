@@ -55,7 +55,7 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
                 return
             }
             request.replaceHeader("Content-Type", "text/html")
-            var responseBytes: ByteArray? = null
+            var responseBytes: ByteArray?
             var data = StringBuilder()
             request.handler { it ->
                 //BenchmarkUtils.start(EBenchmark.HTTP_HANDLER)
@@ -67,7 +67,7 @@ class EndpointServerImpl(hostname: String = "localhost", port: Int = 80) : Endpo
                     try {
                         val singleParams = mutableMapOf<String, String>()
                         params.forEach { k, v ->
-                            singleParams[k] = v?.first()
+                            singleParams[k] = v.first()
                         }
                         responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams)
                     } catch (e: Throwable) {

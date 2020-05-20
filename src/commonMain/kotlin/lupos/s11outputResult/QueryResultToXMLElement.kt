@@ -59,7 +59,7 @@ object QueryResultToXMLElement {
                         nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
                     }
                     if (variables.size == 0) {
-                        for (i in 0 until child.count) {
+                        for (j in 0 until child.count) {
                             val nodeResult = XMLElement("result")
                             nodeResults.addContent(nodeResult)
                         }

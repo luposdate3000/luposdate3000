@@ -273,7 +273,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     SanityCheck.check { (dataImport[xx1] < dataImport[xx2]) || (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] < dataImport[xx4]) || (dataImport[xx1] == dataImport[xx2] && dataImport[xx3] == dataImport[xx4] && dataImport[xx5] <= dataImport[xx6]) }
                 }
             }
-            val count3 = count * 3
             val iteratorsA: Array<ColumnIterator>
             if (data.size == 0) {
                 iteratorsA = arrayOf(ColumnIterator(), ColumnIterator(), ColumnIterator())
@@ -295,7 +294,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     var a2 = ia.next()
                     var b2 = ib.next()
                     var c2 = ic.next()
-                    SanityCheck.check { (a2 == null) || (a!! < a2!!) || ((a!! == a2!!) && (b!! < b2!!)) || ((a!! == a2!!) && (b!! == b2!!) && (c!! < c2!!)) }
+                    SanityCheck.check { (a2 == null) || (a!! < a2) || ((a == a2) && (b!! < b2!!)) || ((a == a2) && (b == b2) && (c!! < c2!!)) }
                     a = a2
                     b = b2
                     c = c2

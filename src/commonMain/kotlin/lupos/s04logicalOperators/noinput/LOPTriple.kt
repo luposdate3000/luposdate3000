@@ -57,8 +57,6 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
              * always prefer P over S over O to access the best compressed triple store, which should be the fastest
              */
             var resString = ""
-            var res: EIndexPattern
-            var count = 0
             val c0 = children[0]
             val c1 = children[1]
             val c2 = children[2]
@@ -124,7 +122,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
                 }
                 /*return*/t as AOPBase
             }
-            var idx = getIndex(params.map { it as AOPBase }.toTypedArray(), listOf<String>())
+            var idx = getIndex(params.map { it as OPBase }.toTypedArray(), listOf<String>())
             var childHistogram = store.getHistogram(params, idx)
             SanityCheck.check { res.count == -1 || res.count == childHistogram.first }
             res.count = childHistogram.first

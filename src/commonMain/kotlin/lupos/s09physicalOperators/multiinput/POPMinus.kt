@@ -24,7 +24,6 @@ class POPMinus(query: Query, projectedVariables: List<String>, childA: OPBase, c
         val variables = getProvidedVariableNames()
         SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(variables) }, { toString() })
         SanityCheck.check({ children[1].getProvidedVariableNames().containsAll(variables) }, { toString() })
-        val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate()
         val childB = children[1].evaluate()
         val rowA = childA.rows

@@ -45,7 +45,6 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                 }
             }
         } else if (node is LOPSortAny) {
-            val variables = node.possibleSortOrder.map { it.variableName }
             val child = node.children[0]
             var flag = node.possibleSortOrder.size == child.mySortPriority.size
             var i = 0

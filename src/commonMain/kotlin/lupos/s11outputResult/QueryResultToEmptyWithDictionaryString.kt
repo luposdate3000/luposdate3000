@@ -27,7 +27,6 @@ object QueryResultToEmptyWithDictionaryString {
                         node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!)
                         child.columns["?boolean"]!!.close()
                     } else {
-                        val bnodeMap = mutableMapOf<String, String>()
                         val columns = variables.map { child.columns[it] }.toTypedArray()
                         if (variables.size == 0) {
                         } else {

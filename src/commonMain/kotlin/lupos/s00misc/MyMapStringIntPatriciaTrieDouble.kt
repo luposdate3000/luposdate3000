@@ -86,8 +86,6 @@ class MyMapStringIntPatriciaTrieDouble() {
             return rootValue
         } else {
             var key = _key
-            var prev: MyMapStringIntPatriciaTrieNode? = null
-            var prevIdx = -1
             var nextNode = root
             var nextNodeIdx = 0
             loop@ while (true) {
@@ -118,8 +116,6 @@ class MyMapStringIntPatriciaTrieDouble() {
                             return result
                         } else if (commonKey.length == childKey.length) {
                             if (childNodeIdx != 0) {
-                                prev = node
-                                prevIdx = nodeIdx
                                 nextNode = childNode
                                 nextNodeIdx = childNodeIdx
                                 key = key.substring(childKey.length, key.length)

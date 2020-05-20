@@ -453,7 +453,7 @@ class SparqlTestSuite() {
                         var xmlGraphBulk: XMLElement? = null
                         CoroutinesHelper.runBlock {
                             val query = Query()
-                            val bulkData = endpointServer!!.process_turtle_input(inputDataFileName)
+                            endpointServer!!.process_turtle_input(inputDataFileName)
                             val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                             xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         }
@@ -603,7 +603,7 @@ class SparqlTestSuite() {
                             if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML!!.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })

@@ -76,7 +76,7 @@ object QueryResultToXMLString {
                         val columns = variables.map { child.columns[it] }.toTypedArray()
                         if (variables.size == 0) {
                             res.append(" <head/>\n <results>\n")
-                            for (i in 0 until child.count) {
+                            for (j in 0 until child.count) {
                                 res.append("  <result/>\n")
                             }
                             res.append(" </results>\n")

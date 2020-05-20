@@ -66,7 +66,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }
             for (i in 0 until data.size) {
-                if (data[i] != ResultSetDictionary.undefValue && (other as MapKey).data[i] != ResultSetDictionary.undefValue && data[i] != (other as MapKey).data[i]) {
+                if (data[i] != ResultSetDictionary.undefValue && (other as MapKey).data[i] != ResultSetDictionary.undefValue && data[i] != other.data[i]) {
                     return false
                 }
             }

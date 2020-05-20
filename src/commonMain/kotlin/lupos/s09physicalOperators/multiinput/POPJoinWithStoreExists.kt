@@ -53,7 +53,6 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         SanityCheck.check { !childB.graphVar }
         SanityCheck { projectedVariables.size == 0 }
         val childAv = children[0].evaluate()
-        val childA = children[0]
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array(3) { childB.children[it] as AOPBase }
         var res = IteratorBundle(0)

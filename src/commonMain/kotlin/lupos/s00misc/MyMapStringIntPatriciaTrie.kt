@@ -271,7 +271,6 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                             newNode.arr3 = onCreate()
                                             node.childs[childIdx] = newNode
                                             node.arr[childCount + childIdx] = undefinedValue
-                                            var debugtmp = node.str.length
                                             node.str = node.str.substring(0, childKeyStart) + commonKey + node.str.substring(childKeyEnd, node.str.length)
                                             SanityCheck.check { node.str.length > commonKey.length || childCount == 1 }
                                             for (j in childIdx + 1 until childCount) {
@@ -563,7 +562,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                 }
                 when (node) {
                     is MyMapStringIntPatriciaTrieNode2 -> {
-                        val dummy = fis.readInt()
+                        fis.readInt()
                         node.arr2 = fis.readInt()
                         if (node.arr2 != undefinedValue) {
                             size++

@@ -76,8 +76,8 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                                 for (i in 0 until compCount) {
                                     if (buf[i] < b1.buf[i]) {
                                         res = 0
-                                        for (i in 0 until mapping.size) {
-                                            buf[i] = a1.buf[mapping[i] + aIdx]
+                                        for (k in 0 until mapping.size) {
+                                            buf[k] = a1.buf[mapping[k] + aIdx]
                                         }
                                         break@loop
                                     } else if (buf[i] > b1.buf[i]) {

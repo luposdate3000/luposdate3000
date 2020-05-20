@@ -33,11 +33,11 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
                     }
                 }
                 var total = i / columns.size
-                var off = 0
+                var off: Int
                 var shift = 0
                 var size = 1 shl shift
-                var count = 0
-                var mid = 0
+                var count: Int
+                var mid: Int
                 while (size / 2 < total) {
                     off = 0
                     shift++
@@ -51,26 +51,26 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
                         mid = size / 2
                         val aEnd = (off + mid) * columns.size
                         val bEnd = (off + count) * columns.size
-                        var a = off * columns.size
+                        var a_ = off * columns.size
                         var b = aEnd
-                        var c = a
+                        var c = a_
                         if (count < mid) {
-                            b = a
-                            a = aEnd
+                            b = a_
+                            a_ = aEnd
                         }
-                        loop@ while (a < aEnd && b < bEnd) {
-                            for (i in 0 until columns.size) {
-                                var cmp = 0
+                        loop@ while (a_ < aEnd && b < bEnd) {
+                            for (l in 0 until columns.size) {
+                                var cmp: Int
                                 var j = 0
                                 while (j < compCount) {
-                                    cmp = comparator.compare(buf1[a + i], buf1[b + i])
+                                    cmp = comparator.compare(buf1[a_ + l], buf1[b + l])
                                     if (cmp < 0) {
-                                        for (j in 0 until columns.size) {
-                                            buf2[c++] = buf1[a++]
+                                        for (k in 0 until columns.size) {
+                                            buf2[c++] = buf1[a_++]
                                         }
                                         continue@loop
                                     } else if (cmp > 0) {
-                                        for (j in 0 until columns.size) {
+                                        for (k in 0 until columns.size) {
                                             buf2[c++] = buf1[b++]
                                         }
                                         continue@loop
@@ -78,14 +78,14 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
                                     j++
                                 }
                                 while (j < columns.size) {
-                                    cmp = buf1[a + i] - buf1[b + i]
+                                    cmp = buf1[a_ + l] - buf1[b + l]
                                     if (cmp < 0) {
-                                        for (j in 0 until columns.size) {
-                                            buf2[c++] = buf1[a++]
+                                        for (k in 0 until columns.size) {
+                                            buf2[c++] = buf1[a_++]
                                         }
                                         continue@loop
                                     } else if (cmp > 0) {
-                                        for (j in 0 until columns.size) {
+                                        for (k in 0 until columns.size) {
                                             buf2[c++] = buf1[b++]
                                         }
                                         continue@loop
@@ -94,14 +94,14 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
                                 }
                             }
                             for (j in 0 until columns.size) {
-                                buf2[c++] = buf1[a++]
+                                buf2[c++] = buf1[a_++]
                             }
                             for (j in 0 until columns.size) {
                                 buf2[c++] = buf1[b++]
                             }
                         }
-                        while (a < aEnd) {
-                            buf2[c++] = buf1[a++]
+                        while (a_ < aEnd) {
+                            buf2[c++] = buf1[a_++]
                         }
                         while (b < bEnd) {
                             buf2[c++] = buf1[b++]

@@ -105,7 +105,7 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
     override fun hashCode() = value.hashCode()
 }
 
-abstract sealed class ValueNumeric() : ValueDefinition()
+sealed class ValueNumeric() : ValueDefinition()
 class ValueUndef() : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueUndef")
     override fun valueToString() = null
@@ -126,7 +126,7 @@ class ValueError() : ValueDefinition() {
     override fun hashCode() = 0
 }
 
-abstract sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
+sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueStringBase) {
             throw Exception("type error")

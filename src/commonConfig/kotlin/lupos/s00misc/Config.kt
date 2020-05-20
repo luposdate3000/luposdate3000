@@ -18,4 +18,4 @@ typealias MyMapDoubleInt = MyMapDoubleIntBTree
 
 const val ARRAY_LIST_BLOCK_CAPACITY = 8
 const val B_TREE_BRANCHING_FACTOR = 8
-const val COVERAGE_MODE = ECoverage.Disabled
+val COVERAGE_MODE = ECoverage.Disabled

@@ -34,7 +34,7 @@ class File(@JvmField val filename: String) {
     }
 
     fun readAsDynamicByteArray(): DynamicByteArray {
-        var res: DynamicByteArray? = null
+        var res: DynamicByteArray?
         java.io.File(filename).inputStream().use { instream ->
             val data = instream.readBytes()
             res = DynamicByteArray(data)
@@ -60,7 +60,7 @@ class File(@JvmField val filename: String) {
             val fos = FileOutputStream(filename);
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
-            action(dos!!)
+            action(dos)
         } finally {
             dos?.close()
         }
@@ -72,7 +72,7 @@ class File(@JvmField val filename: String) {
             val fis = FileInputStream(filename)
             val bis = BufferedInputStream(fis)
             dis = DataInputStream(bis)
-            action(dis!!)
+            action(dis)
         } finally {
             dis?.close()
         }
@@ -106,17 +106,20 @@ class File(@JvmField val filename: String) {
         }
         val input1 = BufferedInputStream(FileInputStream(file1))
         val input2 = BufferedInputStream(FileInputStream(file2))
-        var ch = input1.read()
-        while (EOF != ch) {
-            val ch2 = input2.read()
-            if (ch != ch2) {
-                return false
+        try {
+            var ch = input1.read()
+            while (EOF != ch) {
+                val ch2 = input2.read()
+                if (ch != ch2) {
+                    return false
+                }
+                ch = input1.read()
             }
-            ch = input1.read()
+            val ch2 = input2.read()
+            return ch2 == EOF
+        } finally {
+            input1.close()
+            input2.close()
         }
-        val ch2 = input2.read()
-        return ch2 == EOF
-        input1.close()
-        input2.close()
     }
 }

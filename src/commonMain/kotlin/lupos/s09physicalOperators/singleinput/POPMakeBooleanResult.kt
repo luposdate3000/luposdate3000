@@ -23,7 +23,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
     override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
     override suspend fun evaluate(): IteratorBundle {
-        var flag = true
+        var flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = children[0].getProvidedVariableNames()
         var child: IteratorBundle? = null

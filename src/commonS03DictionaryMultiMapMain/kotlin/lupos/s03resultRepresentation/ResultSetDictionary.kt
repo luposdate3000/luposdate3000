@@ -297,7 +297,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         var bit3 = value and mask3
         if (bit3 == flaggedValueLocalIri) {
-            res = ValueIri(dict.iriMap[value and filter3]!!)
+            res = ValueIri(dict.iriMap[value and filter3])
         } else if (bit3 == flaggedValueLocalBnode) {
             when (value) {
                 0 -> {
@@ -317,7 +317,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         } else if (bit3 == flaggedValueLocalTyped) {
-            val tmp = dict.typedMap[value and filter3]!!
+            val tmp = dict.typedMap[value and filter3]
             var idx = tmp.indexOf(">")
             var type = tmp.substring(0, idx)
             var content = tmp.substring(idx + 1, tmp.length)
@@ -329,13 +329,13 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             var bit5 = value and mask5
             if (bit5 == flaggedValueLocalInt) {
-                res = ValueInteger(dict.intList[value and filter5]!!)
+                res = ValueInteger(dict.intList[value and filter5])
             } else if (bit5 == flaggedValueLocalDecimal) {
-                res = ValueDecimal(dict.decimalList[value and filter5]!!)
+                res = ValueDecimal(dict.decimalList[value and filter5])
             } else if (bit5 == flaggedValueLocalDouble) {
-                res = ValueDouble(dict.doubleList[value and filter5]!!)
+                res = ValueDouble(dict.doubleList[value and filter5])
             } else {
-                val tmp = dict.langTaggedMap[value and filter5]!!
+                val tmp = dict.langTaggedMap[value and filter5]
                 var idx = tmp.indexOf("@")
                 var lang = tmp.substring(0, idx)
                 var content = tmp.substring(idx + 1, tmp.length)

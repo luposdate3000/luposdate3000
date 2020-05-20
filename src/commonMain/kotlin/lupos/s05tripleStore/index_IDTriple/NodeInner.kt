@@ -367,25 +367,24 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                     counter[1] = 0
                     counter[2] = ((header and 0b00000011)) + 1
                 }
-                for (i in 0 until 3) {
-                    when (counter[i]) {
+                for (j in 0 until 3) {
+                    when (counter[j]) {
                         1 -> {
-                            value[i] = value[i] xor read1(offset)
+                            value[j] = value[j] xor read1(offset)
                         }
                         2 -> {
-                            value[i] = value[i] xor read2(offset)
+                            value[j] = value[j] xor read2(offset)
                         }
                         3 -> {
-                            value[i] = value[i] xor read3(offset)
+                            value[j] = value[j] xor read3(offset)
                         }
                         4 -> {
-                            value[i] = value[i] xor read4(offset)
+                            value[j] = value[j] xor read4(offset)
                         }
                     }
-                    offset += counter[i]
+                    offset += counter[j]
                 }
                 if (!checkTooSmall(value)) {
-                    var j = -1
                     if (i == 0) {
                         if (lastHeaderOffset < 0) {
                             lastChildPointer = getFirstChild()
@@ -529,16 +528,16 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             println(debugListChilds)
             println(debugListTriples.map { it.map { it } })
             SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
-            var i = 0
+            var k = 0
             this.forEachChild {
                 println("debug it $it")
-                SanityCheck.check { debugListChilds.size >= i }
-                SanityCheck.check { it == debugListChilds[i] }
-                i++
+                SanityCheck.check { debugListChilds.size >= k }
+                SanityCheck.check { it == debugListChilds[k] }
+                k++
             }
-            SanityCheck.check { i == debugListChilds.size }
+            SanityCheck.check { k == debugListChilds.size }
             var j = -1
-            var res = findIteratorN({
+            findIteratorN({
                 println("debug xx ${it.map { it }}")
                 j++
                 SanityCheck.check { j < debugListTriples.size }
@@ -551,21 +550,21 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                 SanityCheck.check { it == debugListChilds[debugListChilds.size - 1] }
             })
             SanityCheck.check { j == debugListTriples.size - 1 }
-            for (i in 0 until debugListTriples.size) {
-                println("debug i $i")
+            for (l in 0 until debugListTriples.size) {
+                println("debug l $l")
                 j = -1
-                var res = findIteratorN({
+                findIteratorN({
                     println("debug xx ${it.map { it }}")
                     j++
                     SanityCheck.check { j < debugListTriples.size }
                     SanityCheck.check { it[0] == debugListTriples[j][0] }
                     SanityCheck.check { it[1] == debugListTriples[j][1] }
                     SanityCheck.check { it[2] == debugListTriples[j][2] }
-                    SanityCheck.check { j < i + 4 }/*read at most one block too much*/
-                    /*return*/ j < i
+                    SanityCheck.check { j < l + 4 }/*read at most one block too much*/
+                    /*return*/ j < l
                 }, {
                     println("debug $it")
-                    SanityCheck.check { it == debugListChilds[i] }
+                    SanityCheck.check { it == debugListChilds[l] }
                 })
             }
         }
