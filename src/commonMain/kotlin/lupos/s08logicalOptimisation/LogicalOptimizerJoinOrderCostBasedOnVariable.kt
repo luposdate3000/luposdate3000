@@ -147,9 +147,9 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 plans[key] = Plan(allChilds[i], variables, allVariablesCounters)
                 key *= 2
             }
-for(i in 0 until plans.size){
-            optimize(plans, i, allVariablesCounters)
-}
+            for (i in 0 until plans.size) {
+                optimize(plans, i, allVariablesCounters)
+            }
             val bestPlan = plans[plans.size - 1]!!
             return bestPlan.toOPBase(plans)
         }

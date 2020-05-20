@@ -97,6 +97,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveProjection(query),//
+                    LogicalOptimizerDistinctSplit(query),//
             ),
             arrayOf<OptimizerBase>(
                     //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here

@@ -11,18 +11,17 @@ import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 
 object LogicalOptimizerJoinOrderCostBasedOnHistogram {
-
     operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): OPBase? {
         SanityCheck.check { allChilds.size > 0 }
         val nodes = mutableListOf<OPBase>()
         nodes.addAll(allChilds)
         loop2@ while (nodes.size > 1) {
-println("LogicalOptimizerJoinOrderCostBasedOnHistogram loop")
-var x=0
-for(c in nodes){
-println("$x ${c.getHistogram().count} ${c.getHistogram().values}")
-x++
-}
+            println("LogicalOptimizerJoinOrderCostBasedOnHistogram loop")
+            var x = 0
+            for (c in nodes) {
+                println("$x ${c.getHistogram().count} ${c.getHistogram().values}")
+                x++
+            }
             var bestA = -1
             var bestB = -1
             var h: HistogramResult? = null
@@ -33,7 +32,7 @@ x++
                     var ch1 = nodes[j].getHistogram()
                     var h2 = LOPJoin.mergeHistograms(ch0, ch1, false)
                     var r2 = h2.count.toDouble() / (ch0.count.toDouble() * ch1.count.toDouble())
-println("merge $i $j -> ${h2.count}, $r2")
+                    println("merge $i $j -> ${h2.count}, $r2")
                     if (h == null || r2 < r) {
                         bestA = i
                         bestB = j

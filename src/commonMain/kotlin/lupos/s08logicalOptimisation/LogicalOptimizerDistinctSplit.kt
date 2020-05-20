@@ -49,13 +49,13 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
             val child = node.children[0]
             var flag = node.possibleSortOrder.size == child.mySortPriority.size
             var i = 0
-            while (flag && i < child.mySortPriority.size) {
+            while (flag && i < child.mySortPriority.size && i < node.possibleSortOrder.size) {
                 if (child.mySortPriority[i].variableName != node.possibleSortOrder[i].variableName || child.mySortPriority[i].sortType != node.possibleSortOrder[i].sortType) {
                     flag = false
                 }
                 i++
             }
-            if (flag) {
+            if (flag && child !is LOPUnion) {
                 res = child
                 onChange()
             } else {
