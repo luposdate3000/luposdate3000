@@ -658,13 +658,16 @@ for (option in allChoosenOptions) {
             configFilesContent[option.pkg] = f!!
         }
         val fc = f!!
-        fc.append("const val ${option.variableName} = ${option.variableValue}\n")
-    }
-}
-for ((k, v) in configFilesContent) {
-    File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
-    File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
-        out.print(v.toString())
+        if (option.variableValue.startsWith("\"")) {
+            fc.append("const val ${option.variableName} = ${option.variableValue}\n")
+        } else {
+            try {
+                var x = option.variableValue.toDouble()
+                fc.append("const val ${option.variableName} = ${option.variableValue}\n")
+            } catch (e: Throwable) {
+                fc.append("val ${option.variableName} = ${option.variableValue}\n")
+            }
+        }
     }
 }
 fun String.runCommand(workingDir: File? = null) {
@@ -684,6 +687,12 @@ fun String.runCommand(workingDir: File? = null) {
 for (option in allChoosenOptions) {
     if (option is ChoosableOptionExternalScript) {
         option.scriptName.runCommand()
+    }
+}
+for ((k, v) in configFilesContent) {
+    File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
+    File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
+        out.print(v.toString())
     }
 }
 

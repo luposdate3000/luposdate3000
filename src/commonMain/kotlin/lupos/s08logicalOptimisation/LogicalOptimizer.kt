@@ -19,7 +19,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query),//
                     LogicalOptimizerFilterDown(query),//
-                    LogicalOptimizerProjectionDown(query),//
+                    LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(
                     //remove all filters testing for_ equality by renaming one of the variables
@@ -40,7 +40,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerUnionUp(query),//
-                    LogicalOptimizerProjectionDown(query),//
+                    LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(
                     //replace variables with constants, _if there are just a few in the store, afterwards eliminate constants
@@ -51,18 +51,18 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerBindToFilter(query),//
                     LogicalOptimizerFilterDown(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
-                    LogicalOptimizerRemoveNOOP(query),//
+                    LogicalOptimizerRemoveNOOP(query)//
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerProjectionDown(query),//
+                    LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerRemoveNOOP(query),//
+                    LogicalOptimizerRemoveNOOP(query)//
             ),
             arrayOf<OptimizerBase>(
                     //force as much as possible joins to be next to each other
                     LogicalOptimizerProjectionUp(query),//
-                    LogicalOptimizerFilterUp(query),//
+                    LogicalOptimizerFilterUp(query)//
             ),
             arrayOf<OptimizerBase>(
                     //calculate if_ only count or real data is required. this must happen directly before join order optimisation{
@@ -85,7 +85,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
-                    LogicalOptimizerRemoveBindVariable(query),//
+                    LogicalOptimizerRemoveBindVariable(query)//
             ),
             arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for distinct calculation
@@ -93,10 +93,10 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerDistinctSplit(query),//
-                    LogicalOptimizerProjectionDown(query),//
+                    LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerRemoveProjection(query),//
+                    LogicalOptimizerRemoveProjection(query)//
             ),
             arrayOf<OptimizerBase>(
 //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here

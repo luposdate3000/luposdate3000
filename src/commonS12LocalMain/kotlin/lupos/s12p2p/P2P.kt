@@ -43,7 +43,7 @@ object P2P {
         Endpoint.process_local_graph_operation(query, name, type)
     }
 
-    fun execTripleGet(query: Query, resultSet: ResultSet node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase {
+    fun execTripleGet(query: Query, resultSet: ResultSet, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): POPBase {
         return Endpoint.process_local_triple_get(query, resultSet, graphName, params, idx)
     }
 

@@ -63,7 +63,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             }
         }
         SanityCheck.check { variableCount == 1 }
-        return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] }, )
+        return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] })
     }
 
     fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
