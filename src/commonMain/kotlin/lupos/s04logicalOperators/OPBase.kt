@@ -234,7 +234,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                     addToPrefixFreeList(tmp, res)
                 }
             }
-            ESortPriority.PREVENT_ANY -> {
+            ESortPriority.PREVENT_ANY,ESortPriority.UNION -> {
             }
             ESortPriority.SORT -> {
                 var requiredVariables = mutableListOf<String>()
@@ -306,15 +306,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                             addToPrefixFreeList(resTmp[child][i], res)
                             break
                         }
-                    }
-                }
-            }
-            ESortPriority.UNION -> {
-                val tmp = children[1].getPossibleSortPriorities()
-                for (x in children[0].getPossibleSortPriorities()) {
-                    if (tmp.contains(x)) {
-                        SanityCheck.check { getProvidedVariableNames().containsAll(x.map { it.variableName }) }
-                        addToPrefixFreeList(x, res)
                     }
                 }
             }
