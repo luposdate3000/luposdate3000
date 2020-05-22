@@ -21,6 +21,8 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
@@ -66,6 +68,14 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 onChange()
             } else {
                 when (child) {
+is LOPReduced->{
+node.children[0]=child.children[0]
+res=LOPReduced(query,node)
+}
+is LOPDistinct->{
+node.children[0]=child.children[0]
+res=LOPReduced(query,node)
+}
                     is LOPValues -> {
                         val values = mutableListOf<AOPValue>()
                         val mapping = IntArray(variables.size)

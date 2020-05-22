@@ -94,7 +94,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                 }
             }
         }
-        return res.distinct()
+        return res.intersect(children[0].getProvidedVariableNames()).distinct()
     }
 
     override fun cloneOP(): POPModify {
