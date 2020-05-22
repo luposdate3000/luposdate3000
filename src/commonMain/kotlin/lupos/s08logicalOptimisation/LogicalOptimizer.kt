@@ -95,9 +95,6 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemoveBindVariable(query)//
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerColumnSortOrder(query)//
-            ),
-            arrayOf<OptimizerBase>(
                     LogicalOptimizerMinusAddSort(query),//
                     LogicalOptimizerDistinctSplit(query)//
             ),

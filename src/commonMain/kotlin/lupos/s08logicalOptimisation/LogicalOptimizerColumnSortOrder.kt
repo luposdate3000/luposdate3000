@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import lupos.s00misc.SortHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
@@ -18,30 +19,37 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
         }
         if (!hadChange && !done) {
             for (c in node.children) {
-                if (c.sortPriorities.size > 1) {
+                if (c.sortPriorities.size > 1 && c !is LOPTriple) {
                     done = true
                     break
                 }
             }
             if (!done) {
-if(node !is LOPTriple || (node is LOPTriple && (parent==null || parent.sortPriorities.size<=1))){
-                var maxSize = 0
-                for (x in node.sortPriorities) {
-                    if (x.size > maxSize) {
-                        maxSize = x.size
-                    }
-                }
-                if (maxSize > 0) {
+var flag=true
+if(node is LOPTriple && parent!=null){
+if(!parent.sortPrioritiesInitialized || parent.sortPriorities.size > 1){
+//let the parent-operator choose first ..
+flag=false
+}
+}
+                if (flag){
+                    var maxSize = 0
                     for (x in node.sortPriorities) {
-                        if (x.size == maxSize) {
-                            node.selectSortPriority(x)
-                            break
+                        if (x.size > maxSize) {
+                            maxSize = x.size
+                        }
+                    }
+                    if (maxSize > 0) {
+                        for (x in node.sortPriorities) {
+                            if (x.size == maxSize) {
+                                node.selectSortPriority(x)
+                                break
+                            }
                         }
                     }
                 }
             }
         }
-}
 /*return*/res
     })
 }

@@ -31,6 +31,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     var onlyExistenceRequired = false /* ask / distinct / reduced */
     var partOfAskQuery = false /*if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     var alreadyCheckedStore = -1L
+var sortPrioritiesInitialized=false
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
     var histogramResult: HistogramResult? = null
@@ -186,6 +187,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 }
             }
         }
+sortPrioritiesInitialized=true
         return sortPriorities.size <= 1
     }
 
