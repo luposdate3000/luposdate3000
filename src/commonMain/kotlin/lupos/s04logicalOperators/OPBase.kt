@@ -166,7 +166,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                             }
                         }
                         if (this !is LOPTriple && this !is LOPSort && this !is LOPDistinct) {
-                            SanityCheck.check { foundfullchild }
+                            SanityCheck.check( { foundfullchild },{this.toString()})
                         }
                     }
                 }
