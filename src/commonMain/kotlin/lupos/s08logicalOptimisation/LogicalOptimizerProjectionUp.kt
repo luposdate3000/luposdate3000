@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
@@ -24,6 +25,17 @@ class LogicalOptimizerProjectionUp(query: Query) : OptimizerBase(query, EOptimiz
     override val classname = "LogicalOptimizerProjectionUp"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
+        if (node !is LOPProjection && node !is OPBaseCompound && node !is LOPUnion && node !is LOPMinus) {
+            for (i in 0 until node.children.size) {
+                val child = node.children[i]
+                if (child is LOPProjection) {
+                    res = LOPProjection(query, node.getProvidedVariableNames().map { AOPVariable(query, it) }.toMutableList(), node)
+                    node.children[i] = child.children[0]
+                    onChange()
+                    break
+                }
+            }
+        }
         /*return*/res
     })
 }

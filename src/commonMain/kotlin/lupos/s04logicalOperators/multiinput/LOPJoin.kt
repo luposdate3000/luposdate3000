@@ -49,47 +49,38 @@ class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optiona
             var c0 = a.count.toDouble()
             var c1 = b.count.toDouble()
             var estimatedResults = c0 * c1
-            println("mergeHistograms worstcase: $estimatedResults ($c0 $c1)")
             var tmpMap = mutableMapOf<String, Int>()
             for (v in columns[0]) {
                 val av = a.values[v]!!.toDouble()
                 val bv = b.values[v]!!.toDouble()
                 if (av == 0.0) {
                     estimatedResults = 0.0
-                    println("bestcase A : $estimatedResults")
                     tmpMap[v] = 0
                 } else if (bv == 0.0) {
                     estimatedResults = 0.0
-                    println("bestcase B : $estimatedResults")
                     tmpMap[v] = 0
                 } else if (av < bv) {
                     //not all rows from b get a match
                     val diff = bv - av
                     estimatedResults = estimatedResults * (1 - diff / bv)
-                    println("found join column A $estimatedResults $av $bv $diff ${diff / bv}")
                     tmpMap[v] = av.toInt()
                 } else {
                     //not all rows from a get a match
                     val diff = av - bv
                     estimatedResults = estimatedResults * (1 - diff / av)
-                    println("found join column B $estimatedResults $av $bv $diff ${diff / bv}")
                     tmpMap[v] = bv.toInt()
                 }
             }
             if (estimatedResults < 0.0) {
-                println("negative estimation?!? : $estimatedResults")
                 estimatedResults = 0.0
             }
             if (optional) {
-                println("optional before : $estimatedResults")
                 estimatedResults += c0
                 if (estimatedResults > c0 * c1) {
                     estimatedResults = c0 * c1
                 }
-                println("optional after : $estimatedResults")
             }
             res.count = (estimatedResults + 0.9999).toInt()
-            println("mergeHistograms using :: $estimatedResults ${res.count}")
             for (v in columns[1]) {
                 tmpMap[v] = a.values[v]!!
             }

@@ -4,7 +4,10 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
 enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnChange: Boolean) {
+    LogicalOptimizerMinusAddSortID(true, true),
     LogicalOptimizerDistinctSplitID(true, true),
+    LogicalOptimizerSortDownID(true, true),
+    LogicalOptimizerReducedDownID(true, true),
     LogicalOptimizerID(false, true),
     LogicalOptimizerDetectMinusID(false, true),
     LogicalOptimizerColumnSortOrderID(true, true),

@@ -31,7 +31,53 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         }
     }
 
-    override fun equals(other: Any?): Boolean = other is POPModify && modify.equals(other.modify) && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPModify) {
+            return false
+        }
+        if (modify.size != other.modify.size) {
+            return false
+        }
+        for (i in 0 until modify.size) {
+            if (modify[i] != other.modify[i]) {
+                return false
+            }
+        }
+        if (children[0] != other.children[0]) {
+            return false
+        }
+        return true
+    }
+
+    override fun toSparql(): String {
+        var res = StringBuilder()
+        var insertions = StringBuilder()
+        var deletions = StringBuilder()
+        for (m in modify) {
+            if (m.second == EModifyType.INSERT) {
+                insertions.append(m.first.toSparql() + ".")
+            } else {
+                deletions.append(m.first.toSparql() + ".")
+            }
+        }
+        var istring = insertions.toString()
+        var dstring = deletions.toString()
+        if (istring.length > 0) {
+            res.append("INSERT{")
+            res.append(istring)
+            res.append("}")
+        }
+        if (dstring.length > 0) {
+            res.append("DELETE{")
+            res.append(dstring)
+            res.append("}")
+        }
+        res.append("WHERE{")
+        res.append(children[0].toSparql())
+        res.append("}")
+        return res.toString()
+    }
+
     override fun toSparqlQuery() = toSparql()
     override fun getProvidedVariableNames() = listOf<String>("?success")
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()

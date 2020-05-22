@@ -22,7 +22,19 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         return "{SELECT * {" + sparql + " FILTER (" + children[1].toSparql() + ")}}"
     }
 
-    override fun equals(other: Any?): Boolean = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPFilter) {
+            return false
+        }
+        if (children[0] != other.children[0]) {
+            return false
+        }
+        if (children[1] != other.children[1]) {
+            return false
+        }
+        return true
+    }
+
     override fun childrenToVerifyCount() = 1
     override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()

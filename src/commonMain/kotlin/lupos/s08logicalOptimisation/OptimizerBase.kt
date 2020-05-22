@@ -14,12 +14,6 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
         for (i in node.children.indices) {
             val tmp = optimizeInternal(node.children[i], node, onChange)
             node.updateChildren(i, tmp)
-            SanityCheck {
-                tmp.syntaxVerifyAllVariableExists(listOf(), false)
-            }
-        }
-        SanityCheck {
-            node.syntaxVerifyAllVariableExists(listOf(), false)
         }
         return optimize(node, parent, onChange)
     }

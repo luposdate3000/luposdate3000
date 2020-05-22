@@ -39,14 +39,6 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
                     }
                 }
             }
-        } else if (node is LOPMinus) {
-            val child = node.children[0]
-            if (child is LOPBind && child.children[1] is AOPConstant) {
-                node.children[0] = child.children[0]
-                child.children[0] = node
-                res = child
-                onChange()
-            }
         } else if (node is LOPFilter) {
             val child0 = node.children[0]
             if (child0 is LOPBind) {
@@ -69,6 +61,14 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
                     res = child0
                     onChange()
                 }
+            }
+        } else if (node is LOPMinus) {
+            val child = node.children[0]
+            if (child is LOPBind && child.children[1] is AOPConstant) {
+                node.children[0] = child.children[0]
+                child.children[0] = node
+                res = child
+                onChange()
             }
         } else if (node is LOPLimit || node is LOPOffset || node is LOPJoin) {
             for (i in 0 until node.children.size) {

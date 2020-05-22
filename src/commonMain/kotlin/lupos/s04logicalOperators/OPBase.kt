@@ -469,10 +469,10 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
         SanityCheck {
             if (this is LOPProjection) {
-                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()) }, { "$classname $uuid" })
+                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()) }, { "$classname $uuid $this" })
             }
             if (children.size == 1) {
-                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()) }, { "$classname $uuid" })
+                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()) }, { "$classname $uuid $this" })
             }
         }
         for (i in 0 until childrenToVerifyCount()) {

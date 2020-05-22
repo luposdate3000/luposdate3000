@@ -39,4 +39,40 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
     }
 
     override fun calculateHistogram(): HistogramResult = throw Exception("unreachable")
+    override fun equals(other: Any?): Boolean {
+        if (other !is OPBaseCompound) {
+            return false
+        }
+        if (children.size != other.children.size) {
+            return false
+        }
+        for (i in 0 until children.size) {
+            if (children[i] != other.children[i]) {
+                return false
+            }
+        }
+        if (columnProjectionOrder.size != other.columnProjectionOrder.size) {
+            return false
+        }
+        for (i in 0 until columnProjectionOrder.size) {
+            if (columnProjectionOrder[i].size != other.columnProjectionOrder[i].size) {
+                return false
+            }
+            for (j in 0 until columnProjectionOrder[i].size) {
+                if (columnProjectionOrder[i][j] != other.columnProjectionOrder[i][j]) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    override fun toSparqlQuery() = toSparql()
+    override fun toSparql(): String {
+        var res = StringBuilder()
+        for (c in children) {
+            res.append(c.toSparqlQuery() + "\n")
+        }
+        return res.toString()
+    }
 }

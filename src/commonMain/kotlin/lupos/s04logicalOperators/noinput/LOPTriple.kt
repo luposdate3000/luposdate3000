@@ -14,9 +14,17 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
+    override fun toSparql(): String {
+        if (graph == PersistentStoreLocal.defaultGraphName) {
+            return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
+        }
+        return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
+    }
+
     override fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames() = listOf<String>()
     override fun getProvidedVariableNames(): List<String> {

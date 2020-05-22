@@ -10,6 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
@@ -40,7 +41,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
             if (columns[0].size == 0) {
                 /*cartesian product*/
-                res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
+                res = POPJoinCartesianProduct(query, projectedVariables, childA, childB, false)
             } else {
                 if (node.optional) {
                     res = POPJoinHashMap(query, projectedVariables, childA, childB, true)

@@ -45,9 +45,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
         }
         buf = IntArray(mapping.size)
         runBlocking {
-            val a1 = RowIteratorMerge(a, ValueComparatorFast(), compCount, columnsA.toTypedArray())
-            val b1 = RowIteratorMerge(b, ValueComparatorFast(), compCount, columnsB.toTypedArray())
-            bIdx = b1.next()
+            bIdx = b.next()
             if (bIdx < 0) {
                 flag = 1
             }
@@ -59,29 +57,29 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                             break@loop
                         }
                         1 -> {//nothing to remove left
-                            aIdx = a1.next()
+                            aIdx = a.next()
                             if (aIdx < 0) {
                                 flag = 0
                             } else {
                                 res = 0
                                 for (i in 0 until mapping.size) {
-                                    buf[i] = a1.buf[mapping[i] + aIdx]
+                                    buf[i] = a.buf[mapping[i] + aIdx]
                                 }
                             }
                             break@loop
                         }
                         2 -> {
-                            aIdx = a1.next()
+                            aIdx = a.next()
                             if (aIdx >= 0) {
                                 for (i in 0 until compCount) {
-                                    if (buf[i] < b1.buf[i]) {
+                                    if (buf[i] < b.buf[i]) {
                                         res = 0
                                         for (k in 0 until mapping.size) {
-                                            buf[k] = a1.buf[mapping[k] + aIdx]
+                                            buf[k] = a.buf[mapping[k] + aIdx]
                                         }
                                         break@loop
-                                    } else if (buf[i] > b1.buf[i]) {
-                                        bIdx = b1.next()
+                                    } else if (buf[i] > b.buf[i]) {
+                                        bIdx = b.next()
                                         if (bIdx < 0) {
                                             flag = 1
                                         }

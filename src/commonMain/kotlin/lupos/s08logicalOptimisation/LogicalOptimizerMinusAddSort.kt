@@ -1,0 +1,32 @@
+package lupos.s08logicalOptimisation
+
+import lupos.s00misc.Coverage
+import lupos.s00misc.EOptimizerID
+import lupos.s00misc.ESortType
+import lupos.s00misc.ExecuteOptimizer
+import lupos.s00misc.SortHelper
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.multiinput.*
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.*
+import lupos.s08logicalOptimisation.OptimizerBase
+
+class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerMinusAddSortID) {
+    override val classname = "LogicalOptimizerMinusAddSort"
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+        var res: OPBase = node
+        if (node is LOPMinus) {
+            if (!node.hadReducedPushDown) {
+                node.hadReducedPushDown = true
+                val provided = node.children[0].getProvidedVariableNames().intersect(node.children[1].getProvidedVariableNames())
+                node.children[1] = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[1])))
+                node.children[0] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[0])
+                onChange()
+            }
+        }
+/*return*/res
+    })
+}

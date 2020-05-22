@@ -415,19 +415,7 @@ class SparqlTestSuite() {
     @JvmField
     var i = 0
 
-    suspend fun parseSPARQLAndEvaluate(//
-            testName: String,//
-            expectedResult: Boolean,//
-            queryFile: String, //
-            inputDataFileName: String?, //
-            resultDataFileName: String?, //
-            services: List<Map<String, String>>?,//
-            inputDataGraph: MutableList<MutableMap<String, String>>,//
-            outputDataGraph: MutableList<MutableMap<String, String>>//
-    ): Boolean {
-//if(testName!="resources/sp2b/q12b.sparql"){
-//return true
-//}
+    suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
         var ignoreJena = false
         try {
             try {
@@ -540,9 +528,11 @@ class SparqlTestSuite() {
                 File("log/${testName2}-Logical-Operator-Graph.tex").printWriter {
                     it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
                 }
+                SanityCheck.check({ lop_node == lop_node.cloneOP() }, { lop_node.toString() + " - " + lop_node.cloneOP().toString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph optimized" })
                 val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
+                SanityCheck.check { lop_node2 == lop_node2.cloneOP() }
                 File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriter {
                     it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
                 }
@@ -550,12 +540,16 @@ class SparqlTestSuite() {
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Physical Operator Graph" })
                 val pop_optimizer = PhysicalOptimizer(query)
                 val pop_node = pop_optimizer.optimizeCall(lop_node2)
+                SanityCheck.check({ pop_node == pop_node.cloneOP() }, { pop_node.toString() + " - " + pop_node.cloneOP().toString() })
+                SanityCheck { pop_node.toSparqlQuery() }
                 File("log/${testName2}-Physical-Operator-Graph.tex").printWriter {
                     it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
                 }
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
                 val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
+                SanityCheck.check { pop_distributed_node == pop_distributed_node.cloneOP() }
+                SanityCheck { pop_distributed_node.toSparqlQuery() }
                 File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter {
                     it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
                 }

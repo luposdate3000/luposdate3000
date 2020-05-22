@@ -31,6 +31,33 @@ import lupos.s14endpoint.Endpoint
 
 class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
+    override fun equals(other: Any?): Boolean {
+        if (other !is TripleStoreIteratorGlobal) {
+            return false
+        }
+        if (graphName != other.graphName) {
+            return false
+        }
+        if (idx != other.idx) {
+            return false
+        }
+        if (!projectedVariables.containsAll(other.projectedVariables)) {
+            return false
+        }
+        if (!other.projectedVariables.containsAll(projectedVariables)) {
+            return false
+        }
+        if (children.size != other.children.size) {
+            return false
+        }
+        for (i in 0 until children.size) {
+            if (children[i] != other.children[i]) {
+                return false
+            }
+        }
+        return true
+    }
+
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
             addAttribute("uuid", "" + uuid).//
             addAttribute("name", graphName).//

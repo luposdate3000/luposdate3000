@@ -36,16 +36,18 @@ open class POPValues : POPBase {
         }
         res += ") {"
         var columns = Array(variables.size) { data[variables[it]] }
-        for (i in 0 until columns[0]!!.size) {
-            res += "("
-            for (v in 0 until variables.size) {
-                if (columns[v]!![i] == ResultSetDictionary.undefValue) {
-                    res += "UNDEF "
-                } else {
-                    res += query.dictionary.getValue(columns[v]!![i]).valueToString() + " "
+        if (columns.size > 0) {
+            for (i in 0 until columns[0]!!.size) {
+                res += "("
+                for (v in 0 until variables.size) {
+                    if (columns[v]!![i] == ResultSetDictionary.undefValue) {
+                        res += "UNDEF "
+                    } else {
+                        res += query.dictionary.getValue(columns[v]!![i]).valueToString() + " "
+                    }
                 }
+                res += ")"
             }
-            res += ")"
         }
         res += "}"
         return res
@@ -55,22 +57,27 @@ open class POPValues : POPBase {
         if (other !is POPValues) {
             return false
         }
-        if (variables.size != other.variables.size) {
+        if (rows != other.rows) {
             return false
         }
-        for (v in variables) {
-            if (!other.variables.contains(v)) {
+        if (rows == -1) {
+            if (variables.size != other.variables.size) {
                 return false
             }
-            if (data[v]!!.size != other.data[v]!!.size) {
-                return false
-            }
-            var columns1 = Array(variables.size) { data[variables[it]] }
-            var columns2 = Array(variables.size) { other.data[variables[it]] }
-            for (vIndex in 0 until variables.size) {
-                for (i in 0 until columns1[0]!!.size) {
-                    if (columns1[vIndex]!![i] != columns2[vIndex]!![i]) {
-                        return false
+            for (v in variables) {
+                if (!other.variables.contains(v)) {
+                    return false
+                }
+                if (data[v]!!.size != other.data[v]!!.size) {
+                    return false
+                }
+                var columns1 = Array(variables.size) { data[variables[it]] }
+                var columns2 = Array(variables.size) { other.data[variables[it]] }
+                for (vIndex in 0 until variables.size) {
+                    for (i in 0 until columns1[0]!!.size) {
+                        if (columns1[vIndex]!![i] != columns2[vIndex]!![i]) {
+                            return false
+                        }
                     }
                 }
             }
@@ -79,7 +86,7 @@ open class POPValues : POPBase {
     }
 
     override fun cloneOP(): POPValues {
-        if (rows == -1) {
+        if (rows != -1) {
             return POPValues(query, rows)
         } else {
             return POPValues(query, projectedVariables, variables, data)

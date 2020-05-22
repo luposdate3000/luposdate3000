@@ -1301,7 +1301,12 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     for (c2 in c.children) {
                         when {
                             c2 is ASTTriple -> {
-                                modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri, true))
+                                var nameOrVar = c.iriOrVar
+                                if (nameOrVar is ASTIri) {
+                                    modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), nameOrVar.iri, false))
+                                } else if (nameOrVar is ASTVar) {
+                                    modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), nameOrVar.name, true))
+                                }
                             }
                             else -> {
                                 throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")

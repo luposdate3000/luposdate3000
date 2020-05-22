@@ -61,3 +61,9 @@ if (sonarqubeoutput) {
   </file>
 </coverage>
 */
+
+/*
+
+cat coverage1350544473.cov | grep "^0," | grep -v "macosX64" | grep -v "linuxX64" | grep -v "jvmS14ServerKorio" | grep -v "jvmS14ClientKorio" | grep -v "jvmS00WrapperJenaOn" | grep -v "jvmS00LaunchWarnkeFuzz" | grep -v "jvmS00LaunchJavaFuzz" | grep -v "jvmMain/kotlin/lupos/s00misc/ThreadSafe" | grep -v "Lock.kt" | grep -v Test | grep -v "src/commonMain/kotlin/lupos/s00misc/CoroutinesHelper" | grep -v "src/commonMain/kotlin/lupos/s01io" | grep -v "s05tripleStore/TripleStoreIndex_SingleList.kt" | grep -v "src/commonMain/kotlin/lupos/s05tripleStore/TripleStoreLocalMapMapList.kt" | grep -v "s11outputResult/QueryResultTo" | grep -v "s12p2p/POPService" | grep -v "mmonS00LaunchBenchmarkMain" | grep -v "monS00LaunchEndpointMain" | grep -v "mmonS03DictionaryObjectMapMain" | grep -v "ommonS12DummyMain/kotlin" | grep -v "commonS14ClientKtorMain" | grep -v "ommonS15DistributedMain" | grep -v "apStringIntPatriciaTrieVersion1.kt" | grep -v "gleinput/LOPService" | grep -v "05tripleStore/index_SingleLis" | grep -v "leStoreIndex_MapMapList" | grep -v "ripleStoreLocalSingleList" | grep -v "POPValuesImpor"
+
+*/

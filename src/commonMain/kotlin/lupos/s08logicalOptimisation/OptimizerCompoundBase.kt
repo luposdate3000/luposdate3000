@@ -32,9 +32,9 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                                 onChange()
                             }
                         })
-                        SanityCheck {
-                            tmp.syntaxVerifyAllVariableExists(listOf(), false)
-                        }
+                    }
+                    SanityCheck {
+                        tmp.syntaxVerifyAllVariableExists(listOf(), false)
                     }
                 }
             }

@@ -17,8 +17,12 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     //search for_ structures, which form the minus-operator
-                    LogicalOptimizerDetectMinus(query),//
-                    LogicalOptimizerFilterDown(query),//
+                    LogicalOptimizerDetectMinus(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerFilterDown(query)//
+            ),
+            arrayOf<OptimizerBase>(
                     LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(
@@ -61,8 +65,11 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     //force as much as possible joins to be next to each other
-                    LogicalOptimizerProjectionUp(query),//
                     LogicalOptimizerFilterUp(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    //force as much as possible joins to be next to each other
+                    LogicalOptimizerProjectionUp(query),//
             ),
             arrayOf<OptimizerBase>(
                     //calculate if_ only count or real data is required. this must happen directly before join order optimisation{
@@ -92,7 +99,10 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerColumnSortOrder(query)//
             ),
             arrayOf<OptimizerBase>(
+                    LogicalOptimizerMinusAddSort(query),//
                     LogicalOptimizerDistinctSplit(query),//
+                    LogicalOptimizerSortDown(query),//
+                    LogicalOptimizerReducedDown(query),//
                     LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(

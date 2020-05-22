@@ -357,11 +357,13 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Code Coverage mode") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Disabled"),
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Count"),
-                ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Verbose")
+                ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Verbose"),
+                ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.VeryVerbose")
         ),
         ChooseableGroup("Generate Code-Coverage-Code") to listOf(
                 ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn"),
-                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff")
+                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff"),
+                ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange")
         )
 )
 val conflicts = listOf(
