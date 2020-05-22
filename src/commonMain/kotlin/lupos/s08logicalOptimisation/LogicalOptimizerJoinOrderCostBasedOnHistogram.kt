@@ -74,7 +74,7 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                 bestA = bestA_1
                 bestB = bestB_1
             } else {
-                    //otherwise choose join with least amount of expected rows
+                //otherwise choose join with least amount of expected rows
                 bestA = bestA_2
                 bestB = bestB_2
             }

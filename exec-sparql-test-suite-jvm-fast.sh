@@ -2,7 +2,7 @@
 export JAVA_OPTS="-Xmx30g"
 pkill java
 port="3030"
-./generate-buildfile.kts 1.4.255-SNAPSHOT jvm SparqlTestSuite On Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local On BTree BTree Count Empty 8196 1024 512 512 false ECoverage.Count
+./generate-buildfile.kts 1.4.255-SNAPSHOT jvm SparqlTestSuite On Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local On BTree BTree Count Empty 8196 1024 512 512 true ECoverage.Count On
 ./tool-gradle-build.sh
 function execJvm
 {

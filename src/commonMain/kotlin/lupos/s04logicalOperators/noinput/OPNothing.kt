@@ -11,6 +11,7 @@ import lupos.s04logicalOperators.Query
 
 class OPNothing(query: Query, val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorID.OPNothingID, "OPNothing", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames() = myProvidedVariableNames
+    override fun toSparql() = "{}"
     override fun toXMLElement(): XMLElement {
         var res = super.toXMLElement()
         for (v in myProvidedVariableNames) {
