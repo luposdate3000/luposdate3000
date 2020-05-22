@@ -27,10 +27,10 @@ class LogicalOptimizerSortDown(query: Query) : OptimizerBase(query, EOptimizerID
             } else if (child is LOPSortAny || child is LOPSort) {
                 node.children[0] = child.children[0]
                 onChange()
-            }else if(child is LOPReduced){
-node.children[0]=child.children[0]
-res= LOPReduced(query,node)
-}
+            } else if (child is LOPReduced) {
+                node.children[0] = child.children[0]
+                res = LOPReduced(query, node)
+            }
         }
 /*return*/res
     })

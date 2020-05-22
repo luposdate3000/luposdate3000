@@ -23,7 +23,7 @@ class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimiz
                 node.hadSortPushDown = true
                 val provided = node.children[0].getProvidedVariableNames().intersect(node.children[1].getProvidedVariableNames())
                 node.children[1] = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[1])))
-                node.children[0] = LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) },LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[0]))
+                node.children[0] = LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[0]))
                 onChange()
             }
         }

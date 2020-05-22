@@ -31,7 +31,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     var onlyExistenceRequired = false /* ask / distinct / reduced */
     var partOfAskQuery = false /*if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     var alreadyCheckedStore = -1L
-var sortPrioritiesInitialized=false
+    var sortPrioritiesInitialized = false
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
     var mySortPriority = mutableListOf<SortHelper>()
     var histogramResult: HistogramResult? = null
@@ -167,7 +167,7 @@ var sortPrioritiesInitialized=false
                             }
                         }
                         if (this !is LOPTriple && this !is LOPSort && this !is LOPDistinct) {
-                            SanityCheck.check( { foundfullchild },{this.toString()})
+                            SanityCheck.check({ foundfullchild }, { this.toString() })
                         }
                     }
                 }
@@ -187,7 +187,7 @@ var sortPrioritiesInitialized=false
                 }
             }
         }
-sortPrioritiesInitialized=true
+        sortPrioritiesInitialized = true
         return sortPriorities.size <= 1
     }
 
