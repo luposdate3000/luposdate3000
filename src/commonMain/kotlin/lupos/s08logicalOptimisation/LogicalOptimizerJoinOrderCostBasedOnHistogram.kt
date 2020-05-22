@@ -20,16 +20,20 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             for (c in nodes) {
                 x++
             }
-            var bestA_1 = -1
-            var bestB_1 = -1
+            var bestA_1 = 0
+            var bestB_1 = 1
             var h_1: HistogramResult? = null
             var r_1 = 1.0
-            var bestA_2 = -1
-            var bestB_2 = -1
+            var bestA_2 = 0
+            var bestB_2 = 1
             var h_2: HistogramResult? = null
             var r_2 = Int.MAX_VALUE
             for (i in 0 until nodes.size) {
                 for (j in i + 1 until nodes.size) {
+var p0=nodes[i].getProvidedVariableNames()
+var p1=nodes[j].getProvidedVariableNames()
+if(p0.intersect(p1).size>0){
+//prevent any cross-product without any join-variable - except very last joins, where cross-product is unavoidable
                     var ch0 = nodes[i].getHistogram()
                     var ch1 = nodes[j].getHistogram()
                     var h2 = LOPJoin.mergeHistograms(ch0, ch1, false)
@@ -46,6 +50,7 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                         h_2 = h2
                         r_2 = h2.count
                     }
+}
                 }
             }
 var bestA:Int
