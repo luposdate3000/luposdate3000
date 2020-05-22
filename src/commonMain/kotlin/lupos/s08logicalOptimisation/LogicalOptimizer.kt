@@ -105,7 +105,16 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerReducedDown(query)//
             ),
             arrayOf<OptimizerBase>(
-LogicalOptimizerProjectionDown(query)//
+                    LogicalOptimizerProjectionDown(query)//this may reduce the projected variables inside both minus-operator-childs ... afterwards pull down again
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerRemoveProjection(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerReducedDown(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerProjectionDown(query)//
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerRemoveProjection(query)//

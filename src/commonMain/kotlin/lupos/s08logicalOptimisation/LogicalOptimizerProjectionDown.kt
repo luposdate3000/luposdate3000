@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.SortHelper
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ExecuteOptimizer
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -21,6 +22,7 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s08logicalOptimisation.OptimizerBase
@@ -32,15 +34,26 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
         if (node is LOPReduced) {
             val child = node.children[0]
             if (child is LOPProjection) {
-//move projection into Minus if duplicates are removed anyway
+                //move projection into Minus if duplicates are removed anyway
                 val child2 = child.children[0]
                 if (child2 is LOPMinus) {
-                   res=child2
-		child2.children[0]=LOPProjection(query,child.variables,child2.children[0])
-		child2.children[1]=LOPProjection(query,child.variables,child2.children[1])
-                }
+                    res = child2
+                    child2.children[0] = LOPProjection(query, child.variables, child2.children[0])
+                    child2.children[1] = LOPProjection(query, child.variables, child2.children[1])
+onChange()
+                }else if(child2 is LOPSortAny){
+val p=child.variables.map{it.name}
+val list=mutableListOf<SortHelper>()
+for(x in child2.possibleSortOrder){
+if(p.contains(x.variableName)){
+list.add(x)
+}
+}
+node.children[0]=LOPSortAny(query,list,LOPProjection(query, child.variables,child2.children[0]))
+onChange()
+		}
             }
-        }else        if (node is LOPMakeBooleanResult) {
+        } else if (node is LOPMakeBooleanResult) {
             val child = node.children[0]
             if (child !is LOPProjection && child.getProvidedVariableNames().size > 0) {
                 node.children[0] = LOPProjection(query, mutableListOf<AOPVariable>(), node.children[0])
