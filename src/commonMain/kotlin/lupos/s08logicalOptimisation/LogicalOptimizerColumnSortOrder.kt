@@ -28,7 +28,6 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
         }
         var done = node.initializeSortPriorities {
             hadChange = true
-            println("initializing ${node.uuid} ${node.sortPriorities}")
             onChange()
         }
         if (!hadChange && !done) {
@@ -46,29 +45,18 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                         flag = false
                     }
                 }
-if(node.uuid==79259L){
-println("verify??? 79259 ${parent!=null} ${parent?.sortPrioritiesInitialized} ${parent?.sortPriorities} ${parent?.uuid} $flag ${node.classname}")
-}
                 if (flag) {
                     var maxSize = 0
                     if (node.children.size > 0 && node !is LOPTriple) {
-                        println("start filter ${node.uuid} ${node.sortPriorities}")
-                        for (c in node.children) {
-                            println("print childs ${c.uuid} ${c.sortPriorities}")
-                        }
                         //filter only valid sort orders based on children, which may had an update
                         var tmp = mutableListOf<List<SortHelper>>()
                         loop@ for (x in node.sortPriorities) {
-                            println("iterating :: $x")
                             var maxI = 0
                             for (c in node.children) {
-                                println("nextchild :: ${c.sortPriorities}")
                                 loop2@ for (p in c.sortPriorities) {
-                                    println("childpossibility :: ${p}")
                                     var i = 0
                                     while (i < x.size && i < p.size) {
                                         if (x[i] != p[i]) {
-                                            println("failed :: $i")
                                             if (i > maxI) {
                                                 maxI = i
                                             }
@@ -76,7 +64,6 @@ println("verify??? 79259 ${parent!=null} ${parent?.sortPrioritiesInitialized} ${
                                         }
                                         i++
                                     }
-                                    println("added :: $x")
                                     tmp.add(x)
                                     continue@loop
                                 }
@@ -90,7 +77,6 @@ tmp.add(y)
                             }
                         }
                         if (node.sortPriorities != tmp) {
-                            println("filtered ${node.uuid} ${node.sortPriorities} -> $tmp")
                             node.sortPriorities = tmp
                             onChange()
                         }
@@ -103,7 +89,6 @@ tmp.add(y)
                     if (maxSize > 0) {
                         for (x in node.sortPriorities) {
                             if (x.size == maxSize) {
-                                println("selecting ${node.uuid} $x")
                                 node.selectSortPriority(x)
                                 break
                             }

@@ -29,7 +29,18 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
     override val classname = "LogicalOptimizerProjectionDown"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
-        if (node is LOPMakeBooleanResult) {
+        if (node is LOPReduced) {
+            val child = node.children[0]
+            if (child is LOPProjection) {
+//move projection into Minus if duplicates are removed anyway
+                val child2 = child.children[0]
+                if (child2 is LOPMinus) {
+                   res=child2
+		child2.children[0]=LOPProjection(query,child.variables,child2.children[0])
+		child2.children[1]=LOPProjection(query,child.variables,child2.children[1])
+                }
+            }
+        }else        if (node is LOPMakeBooleanResult) {
             val child = node.children[0]
             if (child !is LOPProjection && child.getProvidedVariableNames().size > 0) {
                 node.children[0] = LOPProjection(query, mutableListOf<AOPVariable>(), node.children[0])
