@@ -56,13 +56,19 @@ class SparqlTestSuite() {
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
             var prefix = "resources/sp2b/"
+            var lastinput: String? = null
             File(prefix + "config.csv").forEachLine {
                 val line = it.split(",")
                 if (line.size > 3) {
                     val triplesCount = line[0]
                     val queryFile = prefix + line[1]
-                    val inputFile = prefix + line[2]
+                    var inputFile = prefix + line[2]
                     val outputFile = prefix + line[3]
+                    if (lastinput == inputFile) {
+                        inputFile = "#keep-data#"
+                    } else {
+                        lastinput = inputFile
+                    }
                     if (!File(outputFile).exists()) {
                         try {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
@@ -419,49 +425,51 @@ class SparqlTestSuite() {
         var ignoreJena = false
         try {
             try {
-                val query3 = Query()
-                DistributedTripleStore.clearGraph(query3, PersistentStoreLocal.defaultGraphName)
-                query3.commit()
                 val toParse = readFileOrNull(queryFile)!!
                 if (toParse.contains("service", true)) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
                     return false
                 }
-                val inputData = readFileOrNull(inputDataFileName)
                 val resultData = readFileOrNull(resultDataFileName)
-                val query2 = Query()
-                P2P.execGraphClearAll(query2)
-                query2.commit()
-                if (inputData != null && inputDataFileName != null) {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
-                    if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
-                        var xmlGraphBulk: XMLElement? = null
-                        CoroutinesHelper.runBlock {
+                if (inputDataFileName != "#keep-data#") {
+                    val query3 = Query()
+                    DistributedTripleStore.clearGraph(query3, PersistentStoreLocal.defaultGraphName)
+                    query3.commit()
+                    JenaWrapper.dropAll()
+                    val inputData = readFileOrNull(inputDataFileName)
+                    val query2 = Query()
+                    P2P.execGraphClearAll(query2)
+                    query2.commit()
+                    if (inputData != null && inputDataFileName != null) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
+                        var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
+                        if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
+                            var xmlGraphBulk: XMLElement? = null
+                            CoroutinesHelper.runBlock {
+                                val query = Query()
+                                endpointServer!!.process_turtle_input(inputDataFileName)
+                                val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                                xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
+                            }
+                            if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(BulkImport)" })
+                                return false
+                            }
+                        } else {
                             val query = Query()
-                            endpointServer!!.process_turtle_input(inputDataFileName)
-                            val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                            xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
+                            CoroutinesHelper.runBlock {
+                                val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
+                                DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                            }
+                            query.commit()
                         }
-                        if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(BulkImport)" })
-                            return false
-                        }
-                    } else {
                         val query = Query()
-                        CoroutinesHelper.runBlock {
-                            val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                            DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-                        }
-                        query.commit()
-                    }
-                    val query = Query()
-                    File("log/storetest").mkdirs()
-                    DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
+                        File("log/storetest").mkdirs()
+                        DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
 /*
                     DistributedTripleStore.localStore.getDefaultGraph(query).loadFromFolder("log/storetest")
                     var xmlGraphLoad: XMLElement? = null
@@ -477,38 +485,39 @@ class SparqlTestSuite() {
                         return false
                     }
 */
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
-                    try {
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-                    } catch (e: Throwable) {
-                        ignoreJena = true
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
+                        try {
+                            JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
+                        } catch (e: Throwable) {
+                            ignoreJena = true
+                        }
                     }
-                }
-                inputDataGraph.forEach {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
-                    val inputData2 = readFileOrNull(it["filename"])
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData2 })
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
-                    val query = Query()
-                    CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                    inputDataGraph.forEach {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
+                        val inputData2 = readFileOrNull(it["filename"])
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData2 })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
+                        var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
+                        val query = Query()
+                        CoroutinesHelper.runBlock {
+                            val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
+                            DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                        }
+                        query.commit()
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
+                        try {
+                            JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
+                        } catch (e: Throwable) {
+                            ignoreJena = true
+                        }
                     }
-                    query.commit()
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
-                    try {
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-                    } catch (e: Throwable) {
-                        ignoreJena = true
-                    }
-                }
-                if (services != null) {
-                    for (s in services) {
-                        val n = s["name"]!!
-                        val fn = s["filename"]!!
-                        val fc = readFileOrNull(fn)!!
+                    if (services != null) {
+                        for (s in services) {
+                            val n = s["name"]!!
+                            val fn = s["filename"]!!
+                            val fc = readFileOrNull(fn)!!
 //                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
+                        }
                     }
                 }
                 val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
@@ -703,7 +712,6 @@ class SparqlTestSuite() {
             }
         } finally {
             ColumnIteratorDebug.debug()
-            JenaWrapper.dropAll()
         }
     }
 }
