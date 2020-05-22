@@ -178,7 +178,7 @@ var sortPrioritiesInitialized=false
     }
 
     fun initializeSortPriorities(onChange: () -> Unit): Boolean {
-        if (sortPriorities.size == 0) {
+        if (!sortPrioritiesInitialized) {
             sortPriorities.addAll(getPossibleSortPriorities())
             if (sortPriorities.size > 0) {
                 onChange()

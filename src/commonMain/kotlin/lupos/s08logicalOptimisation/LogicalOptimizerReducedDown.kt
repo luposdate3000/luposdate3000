@@ -29,8 +29,18 @@ class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimize
                         child.children[0] = LOPReduced(query, child.children[0])
                     onChange()
                 } else if (child is LOPTriple) {
+var flag=true
+for(c in child.children){
+if(c is AOPVariable && c.name=="_"){
+flag=false
+break
+}
+}
+if(flag){
+//keep the reduced, if there is a blank variable in the triple-pattern
                     res = child
                     onChange()
+}
                 } else if (child is LOPJoin) {
                     child.children[0] = LOPReduced(query, child.children[0])
                     child.children[1] = LOPReduced(query, child.children[1])

@@ -15,6 +15,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
         var hadChange = false
         var done = node.initializeSortPriorities {
             hadChange = true
+            println("initializing ${node.uuid}")
             onChange()
         }
         if (!hadChange && !done) {
@@ -25,15 +26,38 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                 }
             }
             if (!done) {
-var flag=true
-if(node is LOPTriple && parent!=null){
-if(!parent.sortPrioritiesInitialized || parent.sortPriorities.size > 1){
+                var flag = true
+                if (node is LOPTriple && parent != null) {
+                    if (!parent.sortPrioritiesInitialized || parent.sortPriorities.size > 1) {
 //let the parent-operator choose first ..
-flag=false
-}
-}
-                if (flag){
+                        flag = false
+                    }
+                }
+                if (flag) {
                     var maxSize = 0
+                    if (node.children.size > 0) {
+//filter only valid sort orders based on chlidren, which may had an update
+                        var tmp = mutableListOf<List<SortHelper>>()
+                        for (x in node.sortPriorities) {
+                            loop@ for (c in node.children) {
+                                loop2@ for (p in c.sortPriorities) {
+                                    var i = 0
+                                    while (i < x.size && i < p.size) {
+                                        if (x[i] != p[i]) {
+                                            continue@loop2
+                                        }
+                                        i++
+                                    }
+                                    tmp.add(x)
+                                    continue@loop
+                                }
+                            }
+                        }
+                        if (node.sortPriorities.size != tmp.size) {
+                            node.sortPriorities = tmp
+                            onChange()
+                        }
+                    }
                     for (x in node.sortPriorities) {
                         if (x.size > maxSize) {
                             maxSize = x.size
@@ -42,6 +66,7 @@ flag=false
                     if (maxSize > 0) {
                         for (x in node.sortPriorities) {
                             if (x.size == maxSize) {
+                                println("selecting ${node.uuid} $x")
                                 node.selectSortPriority(x)
                                 break
                             }

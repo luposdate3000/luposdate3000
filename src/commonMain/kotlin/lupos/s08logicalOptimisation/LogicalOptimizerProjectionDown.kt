@@ -68,14 +68,14 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 onChange()
             } else {
                 when (child) {
-is LOPReduced->{
-node.children[0]=child.children[0]
-res=LOPReduced(query,node)
-}
-is LOPDistinct->{
-node.children[0]=child.children[0]
-res=LOPReduced(query,node)
-}
+                    is LOPReduced -> {
+                        node.children[0] = child.children[0]
+                        res = LOPReduced(query, node)
+                    }
+                    is LOPDistinct -> {
+                        node.children[0] = child.children[0]
+                        res = LOPReduced(query, node)
+                    }
                     is LOPValues -> {
                         val values = mutableListOf<AOPValue>()
                         val mapping = IntArray(variables.size)
@@ -98,12 +98,12 @@ res=LOPReduced(query,node)
                         onChange()
                     }
                     is LOPMinus -> {
-val p0=child.children[0].getProvidedVariableNames()
-val p1=child.children[1].getProvidedVariableNames()
-var target=node.variables.map { it.name }.distinct().toMutableList()
-target.addAll(p0.intersect(p1))
-var newFake=mutableListOf<String>()
-for (v in child.tmpFakeVariables) {
+                        val p0 = child.children[0].getProvidedVariableNames()
+                        val p1 = child.children[1].getProvidedVariableNames()
+                        var target = node.variables.map { it.name }.distinct().toMutableList()
+                        target.addAll(p0.intersect(p1))
+                        var newFake = mutableListOf<String>()
+                        for (v in child.tmpFakeVariables) {
                             if (!target.contains(v)) {
                                 onChange()
                             } else {
