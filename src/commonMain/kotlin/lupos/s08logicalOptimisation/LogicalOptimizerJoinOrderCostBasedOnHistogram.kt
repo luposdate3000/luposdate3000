@@ -20,24 +20,45 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             for (c in nodes) {
                 x++
             }
-            var bestA = -1
-            var bestB = -1
-            var h: HistogramResult? = null
-            var r = 1.0
+            var bestA_1 = -1
+            var bestB_1 = -1
+            var h_1: HistogramResult? = null
+            var r_1 = 1.0
+            var bestA_2 = -1
+            var bestB_2 = -1
+            var h_2: HistogramResult? = null
+            var r_2 = Int.MAX_VALUE
             for (i in 0 until nodes.size) {
                 for (j in i + 1 until nodes.size) {
                     var ch0 = nodes[i].getHistogram()
                     var ch1 = nodes[j].getHistogram()
                     var h2 = LOPJoin.mergeHistograms(ch0, ch1, false)
                     var r2 = h2.count.toDouble() / (ch0.count.toDouble() * ch1.count.toDouble())
-                    if (h == null || r2 < r) {
-                        bestA = i
-                        bestB = j
-                        h = h2
-                        r = r2
+                    if (h_1 == null || r2 < r_1) {
+                        bestA_1 = i
+                        bestB_1 = j
+                        h_1 = h2
+                        r_1 = r2
+                    }
+                    if (h_2 == null || h2.count<r_2) {
+                        bestA_2 = i
+                        bestB_2 = j
+                        h_2 = h2
+                        r_2 = h2.count
                     }
                 }
             }
+var bestA:Int
+var bestB:Int
+if(r_1<0.6){
+//prefer the joins with strong result-count-reduction
+bestA=bestA_1
+bestB=bestB_1
+}else{
+//otherwise choose join with least amount of expected rows
+bestA=bestA_2
+bestB=bestB_2
+}
             var b = nodes.removeAt(bestB)//first remove at the end of list
             var a = nodes.removeAt(bestA)//afterwards in front of b otherwise, the index would be wrong
             var c = LOPJoin(root.query, a, b, false)

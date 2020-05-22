@@ -10,6 +10,7 @@ import lupos.s04logicalOperators.Query
 
 class LOPMinus(query: Query, first: OPBase, second: OPBase, var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
     var hadReducedPushDown = false
+    var hadSortPushDown = false
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()
     override fun getRequiredVariableNames() = listOf<String>()
     override fun equals(other: Any?): Boolean {

@@ -19,11 +19,11 @@ class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimiz
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPMinus) {
-            if (!node.hadReducedPushDown) {
-                node.hadReducedPushDown = true
+            if (!node.hadSortPushDown) {
+                node.hadSortPushDown = true
                 val provided = node.children[0].getProvidedVariableNames().intersect(node.children[1].getProvidedVariableNames())
                 node.children[1] = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[1])))
-                node.children[0] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[0])
+                node.children[0] = LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) },LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[0]))
                 onChange()
             }
         }

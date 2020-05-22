@@ -20,26 +20,17 @@ class LogicalOptimizerSortDown(query: Query) : OptimizerBase(query, EOptimizerID
         var res: OPBase = node
         if (node is LOPSortAny) {
             val child = node.children[0]
-            var flag = node.possibleSortOrder.size == child.mySortPriority.size
-            var i = 0
-            while (flag && i < child.mySortPriority.size && i < node.possibleSortOrder.size) {
-                if (child.mySortPriority[i].variableName != node.possibleSortOrder[i].variableName || child.mySortPriority[i].sortType != node.possibleSortOrder[i].sortType) {
-                    flag = false
-                }
-                i++
-            }
-            if (flag && child !is LOPUnion) {
-//remove unnecessary sort
-                res = child
-                onChange()
-            } else if (child is LOPFilter) {
+            if (child is LOPFilter) {
                 child.children[0] = LOPSortAny(query, node.possibleSortOrder, child.children[0])
                 res = child
                 onChange()
             } else if (child is LOPSortAny || child is LOPSort) {
                 node.children[0] = child.children[0]
                 onChange()
-            }
+            }else if(child is LOPReduced){
+node.children[0]=child.children[0]
+res= LOPReduced(query,node)
+}
         }
 /*return*/res
     })

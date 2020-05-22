@@ -23,20 +23,10 @@ class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimize
             if (child is LOPReduced) {
                 res = child
                 onChange()
-            } else if (child is LOPProjection && child.children[0] is LOPMinus) {
-                val child2 = child.children[0]//as LOPMinus
-                child2.children[0] = LOPReduced(query, LOPProjection(query, child.variables.toMutableList(), child2.children[0]))
-                child2.children[1] = LOPReduced(query, LOPProjection(query, child.variables.toMutableList(), child2.children[1]))
-                res = child
-                onChange()
             } else if (!node.hadPushDown) {
                 node.hadPushDown = true
                 if (child is LOPProjection) {
-                    if (node.partOfAskQuery) {
                         child.children[0] = LOPReduced(query, child.children[0])
-                    } else if (child.variables.size == 1) {
-                        child.children[0] = LOPReduced(query, LOPSortAny(query, mutableListOf(SortHelper(child.variables[0].name, ESortType.FAST)), child.children[0]))
-                    }
                     onChange()
                 } else if (child is LOPTriple) {
                     res = child

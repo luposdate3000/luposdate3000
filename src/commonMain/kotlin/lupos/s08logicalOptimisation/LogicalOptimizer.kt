@@ -100,8 +100,12 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerMinusAddSort(query),//
-                    LogicalOptimizerDistinctSplit(query),//
-                    LogicalOptimizerSortDown(query),//
+                    LogicalOptimizerDistinctSplit(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerSortDown(query)//
+            ),
+            arrayOf<OptimizerBase>(
                     LogicalOptimizerReducedDown(query)//
             ),
             arrayOf<OptimizerBase>(
