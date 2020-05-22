@@ -11,6 +11,18 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
     abstract val classname: String
     abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase
     fun optimizeInternal(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+        SanityCheck {
+            if (parent != null) {
+                var found = false
+                for (c in parent.children) {
+                    if (c === node) {
+                        found = true
+                        break
+                    }
+                }
+                require(found)
+            }
+        }
         for (i in node.children.indices) {
             val tmp = optimizeInternal(node.children[i], node, onChange)
             node.updateChildren(i, tmp)

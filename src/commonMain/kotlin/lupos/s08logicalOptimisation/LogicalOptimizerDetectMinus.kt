@@ -33,7 +33,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                         if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
                             p.children[i] = LOPMinus(query, a, b, tmpFakeVariables)
                         } else {
-                            p.children[i] = LOPMinus(query, a, LOPJoin(query, a, b, false), tmpFakeVariables)//put all the variables into the subtracting child too - to be able to process the filters
+                            p.children[i] = LOPMinus(query, a, LOPJoin(query, a.cloneOP(), b, false), tmpFakeVariables)//put all the variables into the subtracting child too - to be able to process the filters
                         }
                         res = node.children[0] // remove the !bound part
                         onChange()
