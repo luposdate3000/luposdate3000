@@ -219,9 +219,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn", "CoroutinesHelperMutex" to "Lock")),
                 ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff", "CoroutinesHelperMutex" to "Lock"))
         ),
-        ChooseableGroup("ResultFlow") to listOf(
-                ChooseableOptionDirectory("Fast", "commonS00ResultFlowFastMain")
-        ),
         ChooseableGroup("Execution") to listOf(
                 ChooseableOptionTypeAlias("Sequential", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperSequential")),
                 ChooseableOptionTypeAlias("Parallel", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperParallel"))
@@ -354,6 +351,9 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn"),
                 ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff"),
                 ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange")
+        ),
+        ChooseableGroup("ServerCommunication implementation") to listOf(
+                ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain")
         )
 )
 val conflicts = listOf(

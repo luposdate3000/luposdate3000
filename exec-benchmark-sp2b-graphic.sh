@@ -20,7 +20,8 @@ set logscale y
 set title "$query"
 plot \
  'tmp/$query.luposdate-026-Multi_BPlusTree_Empty-dbd5ac3d2c616386ca37991099a82a92fb41c660-internal.csv' using 2:6 title "luposdate3000 026" with linespoints, \
- 'tmp/$query.luposdate-Multi_BPlusTree_Empty-5ac83e25105ad317a49e83937e15b742c015eb4e-internal.csv' using 2:6 title "luposdate3000 027" with linespoints, \
+ 'tmp/$query.luposdate-027-Multi_BPlusTree_Empty-5ac83e25105ad317a49e83937e15b742c015eb4e-internal.csv' using 2:6 title "luposdate3000 027" with linespoints, \
+ 'tmp/$query.luposdate-Multi_BPlusTree_Empty-2d6131517f75828a200dce7012453f71b09adc14-internal.csv' using 2:6 title "luposdate3000 028" with linespoints, \
  'tmp/$query.jena-internal.csv' using 2:6 title "jena" with linespoints
 EOF
 
