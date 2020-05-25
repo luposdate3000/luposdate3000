@@ -27,7 +27,6 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s12p2p.P2P
-import lupos.s14endpoint.Endpoint
 
 class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
@@ -103,14 +102,14 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     override suspend fun evaluate(): IteratorBundle {
-        return Endpoint.process_local_triple_get(query, graphName, Array(3) { children[it] as AOPBase }, idx)
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, Array(3) { children[it] as AOPBase }, idx)
     }
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
     suspend fun bulkImport(data: TripleStoreBulkImport) {
         for (idx in TripleStoreLocalBase.distinctIndices) {
-            Endpoint.process_local_triple_import(query, name, data, idx)
+            DistributedTripleStore.localStore.getNamedGraph(query, name).import(data, idx)
         }
     }
 
@@ -135,7 +134,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         }
         for (idx in TripleStoreLocalBase.distinctIndices) {
             if (map[idx.ordinal][0].size > 0) {
-                Endpoint.process_local_triple_modify(query, name, Array(3) { ColumnIteratorMultiValue(map[idx.ordinal][it]) }, idx, type)
+                DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[idx.ordinal][it]) }, idx, type)
             }
         }
     }
@@ -211,7 +210,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
             SanityCheck { variableNames == 1 }
         }
-        return Endpoint.process_local_histogram_get(query, name, params, idx)
+        return DistributedTripleStore.localStore.getNamedGraph(query, name).getHistogram(query, params, idx)
     }
 }
 

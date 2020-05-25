@@ -9,14 +9,13 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
-import lupos.s14endpoint.Endpoint
 
 @UseExperimental(ExperimentalStdlibApi::class)
-object HttpEndpointLauncher{
+object HttpEndpointLauncher {
     @JvmField
     var server: HttpServer? = null
 
-suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
+    suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
         when (path) {
             "/sparql/query" -> {
                 if (isPost) {
@@ -53,33 +52,33 @@ suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<Str
                 return HttpEndpoint.persistence_load(data)
             }
         }
-throw Exception("$path unknown http-request")
+        throw Exception("$path unknown http-request")
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
-            val params = request.getParams
-            request.replaceHeader("Connection", "close")
-            request.replaceHeader("Content-Type", "text/html")
-            var responseBytes: ByteArray
-            var data = StringBuilder()
-            request.handler { it ->
-                data.append(it.decodeToString())
-            }
-            request.endHandler {
-                CoroutinesHelper.runBlock {
-                    try {
-                        val singleParams = mutableMapOf<String, String>()
-                        params.forEach { k, v ->
-                            singleParams[k] = v.first()
-                        }
-                        responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams).encodeToByteArray()
-                    } catch (e: Throwable) {
-                        responseBytes = e.toString().encodeToByteArray()
-                        request.setStatus(500)
+        val params = request.getParams
+        request.replaceHeader("Connection", "close")
+        request.replaceHeader("Content-Type", "text/html")
+        var responseBytes: ByteArray
+        var data = StringBuilder()
+        request.handler { it ->
+            data.append(it.decodeToString())
+        }
+        request.endHandler {
+            CoroutinesHelper.runBlock {
+                try {
+                    val singleParams = mutableMapOf<String, String>()
+                    params.forEach { k, v ->
+                        singleParams[k] = v.first()
                     }
-                    request.end(responseBytes)
+                    responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams).encodeToByteArray()
+                } catch (e: Throwable) {
+                    responseBytes = e.toString().encodeToByteArray()
+                    request.setStatus(500)
                 }
+                request.end(responseBytes)
             }
+        }
     }
 
     suspend fun start(hostname: String = "localhost", port: Int = 80) {

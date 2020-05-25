@@ -6,7 +6,6 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s12p2p.P2P
-import lupos.s14endpoint.Endpoint
 import lupos.s16network.HttpEndpointLauncher
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {

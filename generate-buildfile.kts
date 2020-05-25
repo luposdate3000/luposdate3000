@@ -245,8 +245,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
         ),
         ChooseableGroup("P2P") to listOf(
-                ChooseableOptionDirectory("Dummy", "commonS12DummyMain"),
-                ChooseableOptionDirectory("Local", "commonS12LocalMain")
+                ChooseableOptionDirectory("Dummy", "commonS12DummyMain")
         ),
         ChooseableGroup("Server implementation") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
@@ -259,8 +258,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionSymbolic("Ktor", "nativeS14ClientKtorTarget")
         ),
         ChooseableGroup("Triple Store Interface") to listOf(
-                ChooseableOptionDirectory("Local", "commonS15LocalMain"),
-                ChooseableOptionDirectory("Distributed", "commonS15DistributedMain")
+                ChooseableOptionDirectory("Local", "commonS15LocalMain")
         ),
         ChooseableGroup("Include Jena Wrapper") to listOf(
                 ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
@@ -367,10 +365,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         )
 )
 val conflicts = listOf(
-        setOf("commonS12LocalMain", "commonS15DistributedMain"),
-        setOf("commonS12LocalMain", "jvmS16HttpEndpointKorioMain"),
-        setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
-        setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonS00LaunchSparqlTestSuiteMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")

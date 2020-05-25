@@ -90,16 +90,14 @@ import lupos.s09physicalOperators.noinput.POPValuesImportBase
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.*
+import lupos.s11outputResult.QueryResultToString
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 /*this object transforms the text input to the response-body*/
 object HttpEndpoint {
-
     fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
@@ -204,7 +202,7 @@ object HttpEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
-        val res = QueryResultToXMLString(pop_distributed_node)
+        val res = QueryResultToString(pop_distributed_node)
         q.commit()
         return res
     }
@@ -221,11 +219,12 @@ object HttpEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
         }
-        val res = QueryResultToXMLString(pop_node)
+        val res = QueryResultToString(pop_node)
         q.commit()
         return res
     }
-fun persistence_store(foldername: String): String {
+
+    fun persistence_store(foldername: String): String {
         File(foldername).deleteRecursively()
         File(foldername).mkdirs()
         BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
@@ -244,7 +243,7 @@ fun persistence_store(foldername: String): String {
         }
         var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_TRIPLE_STORE)
         return "success $timeDict $timeStore"
-   }
+    }
 
     fun persistence_load(foldername: String): String {
         MemoryStatistics.print("before load")

@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s14endpoint.Endpoint
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object P2P {
     /*
@@ -24,31 +24,44 @@ object P2P {
     val knownClientsLock = CoroutinesHelper.createLock()
 
     fun execCommit(query: Query) {
-        Endpoint.process_local_commit(query)
+        DistributedTripleStore.localStore.commit(query)
 //        TODO("stream commit to all nodes in transaction")
     }
 
     suspend fun execTripleModify(query: Query, node: String, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         if (node == "localhost") {
-            Endpoint.process_local_triple_modify(query, graphName, data, idx, type)
+            DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
         } else {
 //TODO("stream modify to specific node")
         }
     }
 
     fun execGraphClearAll(query: Query) {
-        Endpoint.process_local_graph_clear_all(query)
+        DistributedTripleStore.localStore.getDefaultGraph(query).clear()
+        for (g in DistributedTripleStore.getGraphNames()) {
+            DistributedTripleStore.dropGraph(query, g)
+        }
 //TODO("stream clear all to all nodes")
     }
 
     fun execGraphOperation(query: Query, graphName: String, type: EGraphOperationType) {
-        Endpoint.process_local_graph_operation(query, graphName, type)
+        when (type) {
+            EGraphOperationType.CLEAR -> {
+                DistributedTripleStore.localStore.clearGraph(query, graphName)
+            }
+            EGraphOperationType.CREATE -> {
+                DistributedTripleStore.localStore.createGraph(query, graphName)
+            }
+            EGraphOperationType.DROP -> {
+                DistributedTripleStore.localStore.dropGraph(query, graphName)
+            }
+        }
 //TODO("stream create/clear/delete of graph to all nodes")
     }
 
     fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         if (node == "localhost") {
-            return Endpoint.process_local_triple_get(query, graphName, params, idx)
+            return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
         } else {
             TODO("request triple stream from node network")
         }
