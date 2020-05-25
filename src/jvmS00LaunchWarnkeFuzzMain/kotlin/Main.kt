@@ -13,6 +13,7 @@ import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 import lupos.s16network.ServerCommunicationSend
+
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
     ServerCommunicationSend.start(null)

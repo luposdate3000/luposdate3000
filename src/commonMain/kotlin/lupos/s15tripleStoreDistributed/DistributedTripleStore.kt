@@ -102,7 +102,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     override suspend fun evaluate(): IteratorBundle {
-return ServerCommunicationSend.tripleGet(query, graphName,Array(3) { children[it] as AOPBase }, idx)
+        return ServerCommunicationSend.tripleGet(query, graphName, Array(3) { children[it] as AOPBase }, idx)
     }
 }
 
@@ -210,7 +210,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
             SanityCheck { variableNames == 1 }
         }
-return ServerCommunicationSend.histogramGet(query, name,params, idx)
+        return ServerCommunicationSend.histogramGet(query, name, params, idx)
     }
 }
 

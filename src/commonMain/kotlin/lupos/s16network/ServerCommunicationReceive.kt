@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
@@ -26,23 +27,25 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
+
 object ServerCommunicationReceive {
-fun commit(query:Query){ 
-DistributedTripleStore.localStore.commit(query)
-}
-suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
-DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
+    fun commit(query: Query) {
+        DistributedTripleStore.localStore.commit(query)
+    }
+
+    suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
     }
 
     fun graphClearAll(query: Query) {
-DistributedTripleStore.localStore.getDefaultGraph(query).clear()
+        DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames()) {
             DistributedTripleStore.dropGraph(query, g)
         }
     }
 
     fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
-when (type) {
+        when (type) {
             EGraphOperationType.CLEAR -> {
                 DistributedTripleStore.localStore.clearGraph(query, graphName)
             }
@@ -55,12 +58,14 @@ when (type) {
         }
     }
 
-    fun tripleGet(query: Query,  graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
-return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
+    fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
     }
-fun histogramGet(query: Query,  graphName: String,params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int>{
-return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params, idx)
-}
-fun start(bootstrap:String?=null){
-}
+
+    fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params, idx)
+    }
+
+    fun start(bootstrap: String? = null) {
+    }
 }

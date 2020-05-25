@@ -5,8 +5,8 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
-import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.HttpEndpointLauncher
+import lupos.s16network.ServerCommunicationSend
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var i = 0

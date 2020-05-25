@@ -1,4 +1,3 @@
-import lupos.s16network.ServerCommunicationSend
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.DynamicByteArray
@@ -10,6 +9,7 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
+import lupos.s16network.ServerCommunicationSend
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")

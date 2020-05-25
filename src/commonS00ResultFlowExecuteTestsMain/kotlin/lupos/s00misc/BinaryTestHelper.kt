@@ -170,7 +170,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s16network.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s14endpoint.Endpoint
@@ -179,6 +178,7 @@ import lupos.s14endpoint.EndpointServerImpl
 import lupos.s15tripleStoreDistributed.DistributedGraph
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+import lupos.s16network.*
 import lupos.SparqlTestSuite
 
 enum class TestCase(val action: suspend (TestRandom) -> Unit) {
