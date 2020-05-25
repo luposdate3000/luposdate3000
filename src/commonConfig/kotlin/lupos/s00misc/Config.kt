@@ -16,6 +16,6 @@ typealias MyMapLongInt = MyMapLongIntBTree
 typealias MyMapIntInt = MyMapIntIntBTree
 typealias MyMapDoubleInt = MyMapDoubleIntBTree
 
-const val ARRAY_LIST_BLOCK_CAPACITY = 1024
-const val B_TREE_BRANCHING_FACTOR = 512
-val COVERAGE_MODE = ECoverage.Count
+const val ARRAY_LIST_BLOCK_CAPACITY = 8
+const val B_TREE_BRANCHING_FACTOR = 8
+val COVERAGE_MODE = ECoverage.Disabled

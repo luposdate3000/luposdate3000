@@ -13,6 +13,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
+import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
@@ -43,43 +44,53 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                 /*cartesian product*/
                 res = POPJoinCartesianProduct(query, projectedVariables, childA, childB, false)
             } else {
-                if (node.optional) {
-                    res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
-                } else {
-                    if (node.mySortPriority.size >= columns[0].size) {
-                        if (projectedVariables.size == 1 && childA.getProvidedVariableNames().size == 1 && childB.getProvidedVariableNames().size == 1 && childA.getProvidedVariableNames()[0] == projectedVariables[0] && childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
-                            res = POPJoinMergeSingleColumn(query, projectedVariables, childA, childB, false)
+                if (node.mySortPriority.size >= columns[0].size) {
+                    if (projectedVariables.size == 1 && childA.getProvidedVariableNames().size == 1 && childB.getProvidedVariableNames().size == 1 && childA.getProvidedVariableNames()[0] == projectedVariables[0] && childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
+                        if (node.optional) {
+                            res = POPJoinMergeOptional(query, projectedVariables, childA, childB, true)
                         } else {
-                            var flag = true
-                            for (i in 0 until columns[0].size) {
-                                if ((childA.mySortPriority.size > i && childA.mySortPriority[i] != node.mySortPriority[i]) || (childB.mySortPriority.size > i && childB.mySortPriority[i] != node.mySortPriority[i])) {
-                                    flag = false
-                                    break
-                                }
+                            res = POPJoinMergeSingleColumn(query, projectedVariables, childA, childB, false)
+                        }
+                    } else {
+                        var flag = true
+                        for (i in 0 until columns[0].size) {
+                            if ((childA.mySortPriority.size > i && childA.mySortPriority[i] != node.mySortPriority[i]) || (childB.mySortPriority.size > i && childB.mySortPriority[i] != node.mySortPriority[i])) {
+                                flag = false
+                                break
                             }
-                            if (flag) {
-                                if (childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        }
+                        if (flag) {
+                            if (childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                                if (node.optional) {
+                                    res = POPJoinMergeOptional(query, projectedVariables, childA, childB, true)
+                                } else {
                                     res = POPJoinMerge(query, projectedVariables, childA, childB, false)
+                                }
+                            } else {
+                                if (node.optional) {
+                                    res = POPJoinMergeOptional(query, projectedVariables, childA, childB, true)
                                 } else {
                                     res = POPJoinMerge(query, projectedVariables, childB, childA, false)
                                 }
                             }
                         }
                     }
-                    if (res is LOPJoin) {
-                        if (node.partOfAskQuery && projectedVariables.size == 0 && childA is LOPTriple) {
-                            res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
-                        } else if (node.partOfAskQuery && projectedVariables.size == 0 && childB is LOPTriple) {
-                            res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
-                        } else if (node.partOfAskQuery && childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                            res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
-                        } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                            res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
-                        } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                            res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
-                        } else {
-                            res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
-                        }
+                }
+                if (res is LOPJoin) {
+                    if (node.optional) {
+                        res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
+                    } else if (node.partOfAskQuery && projectedVariables.size == 0 && childA is LOPTriple) {
+                        res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
+                    } else if (node.partOfAskQuery && projectedVariables.size == 0 && childB is LOPTriple) {
+                        res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
+                    } else if (node.partOfAskQuery && childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
+                    } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
+                    } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
+                        res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
+                    } else {
+                        res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
                     }
                 }
             }

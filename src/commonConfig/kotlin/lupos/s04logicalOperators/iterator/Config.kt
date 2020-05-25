@@ -4,4 +4,4 @@ package lupos.s04logicalOperators.iterator
 /* DO NOT MODIFY DIRECTLY */
 typealias ColumnIteratorDebug = ColumnIteratorDebugCount
 
-const val MERGE_SORT_MIN_ROWS = 512
+const val MERGE_SORT_MIN_ROWS = 8

@@ -83,6 +83,7 @@ import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
+import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
@@ -468,6 +469,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "POPJoinMerge" -> {
             return POPJoinMerge(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+        }
+        "POPJoinMergeOptional" -> {
+            return POPJoinMergeOptional(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinMergeSingleColumn" -> {
             return POPJoinMergeSingleColumn(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
