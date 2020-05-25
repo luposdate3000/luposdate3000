@@ -2,7 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04logicalOperators.OPBase
@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 
 class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterMergeANDID) {
     override val classname = "LogicalOptimizerFilterMergeAND"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPFilter) {
             val child = node.children[0]
@@ -20,6 +20,6 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
                 onChange()
             }
         }
-/*return*/res
-    })
+return res
+    }
 }

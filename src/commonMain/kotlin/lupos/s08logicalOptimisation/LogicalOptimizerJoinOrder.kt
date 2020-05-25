@@ -2,7 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -91,7 +91,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         }
     }
 
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             var originalProvided = node.getProvidedVariableNames()
@@ -123,6 +123,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 res = OPNothing(query, originalProvided)
             }
         }
-        /*return*/ res
-    })
+        return res
+    }
 }

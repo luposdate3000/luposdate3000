@@ -3,7 +3,7 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -18,7 +18,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res = node
         if (node is LOPTriple) {
             val projectedVariables: List<String>
@@ -52,6 +52,6 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
         }
-/*return*/res
-    })
+return res
+    }
 }

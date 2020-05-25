@@ -2,7 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
@@ -11,7 +11,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerUnionUpID) {
     override val classname = "LogicalOptimizerUnionUp"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPJoin) {
             val childA = node.children[0]
@@ -22,6 +22,6 @@ class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.
                 res = LOPUnion(query, LOPJoin(query, childA, childB.children[0], node.optional), LOPJoin(query, childA.cloneOP(), childB.children[1], node.optional))
             }
         }
-/*return*/res
-    })
+return res
+    }
 }

@@ -2,7 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPNot
@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.singleinput.*
 
 class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDetectMinusID) {
     override val classname = "LogicalOptimizerDetectMinus"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPFilter) {
             val node1 = node.children[1]
@@ -41,8 +41,8 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                 }
             }
         }
-/*return*/ res
-    })
+return res
+    }
 
     fun searchForOptionalJoin(node: OPBase, variableName: String, action: (OPBase, Int) -> Unit) {
         for (c in 0 until node.children.size) {

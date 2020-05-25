@@ -2,7 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -15,7 +15,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindToFilterID) {
     override val classname = "LogicalOptimizerBindToFilter"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPBind) {
             var v = node.children[0].getProvidedVariableNames()
@@ -27,6 +27,6 @@ class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimiz
                 onChange()
             }
         }
-/*return*/res
-    })
+return res
+    }
 }

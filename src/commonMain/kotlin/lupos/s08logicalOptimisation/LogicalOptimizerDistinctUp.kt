@@ -2,7 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
@@ -14,7 +14,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctUpID) {
     override val classname = "LogicalOptimizerDistinctUp"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPDistinct) {
             if (node.children[0] is LOPDistinct) {
@@ -32,6 +32,6 @@ class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizer
                 }
             }
         }
-/*return*/res
-    })
+return res
+    }
 }

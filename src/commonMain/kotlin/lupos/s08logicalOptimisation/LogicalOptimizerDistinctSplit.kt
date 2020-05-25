@@ -3,7 +3,7 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
-import lupos.s00misc.ExecuteOptimizer
+
 import lupos.s00misc.SortHelper
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.*
@@ -16,7 +16,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctSplitID) {
     override val classname = "LogicalOptimizerDistinctSplit"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
         var res: OPBase = node
         if (node is LOPDistinct) {
             val child = node.children[0]
@@ -45,6 +45,6 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                 }
             }
         }
-/*return*/res
-    })
+return res
+    }
 }
