@@ -104,10 +104,12 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                         keyCopy[i] = key[0][i]
                     }
                     val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
+                    println("thekey:: ${keyCopy.map { it }}")
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                    findNextKey(key, columnsINJ, columnsINO)
-                    if (key[0][0] == null || key[1][0] == null) {
+                    println("thecount :: $countA $countB")
+                    done = findNextKey(key, columnsINJ, columnsINO)
+                    if (done) {
                         for (iterator2 in outIterators) {
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
@@ -126,9 +128,18 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
     }
 
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
-        var count = 0
         SanityCheck.check { keyCopy[0] != null }
-        if (key[0] != null) {
+            for (i in 0 until columnsINJ.size) {
+                if (key[i] != keyCopy[i]) {
+/* this is an optional element without a match */
+                    for (j in 0 until columnsINO.size) {
+                        data[j].add(ResultSetDictionary.undefValue)
+                    }
+                    return 1
+                }
+            }
+        var count = 0
+/* at least 1 matching row */
             loop@ while (true) {
                 count++
                 for (i in 0 until columnsINO.size) {
@@ -144,38 +155,16 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                     }
                 }
             }
-        } else {
-            for (i in 0 until columnsINO.size) {
-                data[i].add(ResultSetDictionary.undefValue)
-            }
-            count = 1
-        }
         return count
     }
 
     inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
-        var done = true
         if (key[0][0] != null && key[1][0] != null) {
-            done = false
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]!!
                     val b = key[1][i]!!
-                    if (a < b) {
-                        for (j in 0 until columnsINO[0].size) {
-                            columnsINO[0][j].next()
-                        }
-                        for (j in 0 until columnsINJ[0].size) {
-                            key[0][j] = columnsINJ[0][j].next()
-                            SanityCheck.check { key[0][j] != ResultSetDictionary.undefValue }
-                            done = key[0][j] == null
-                            if (done) {
-                                SanityCheck.check { j == 0 }
-                                break@loop
-                            }
-                        }
-                        continue@loop
-                    } else if (a > b) {
+                    if (a > b) {
                         for (j in 0 until columnsINO[1].size) {
                             columnsINO[1][j].next()
                         }
@@ -192,10 +181,8 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                 }
                 break@loop
             }
-        } else if (key[0][0] != null) {
-            done = false
         }
-        return done
+        return key[0][0] == null
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
