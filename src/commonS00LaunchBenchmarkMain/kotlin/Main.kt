@@ -5,8 +5,8 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
-import lupos.s12p2p.P2P
 import lupos.s16network.HttpEndpoint
+import lupos.s16network.ServerCommunicationSend
 
 enum class Datasource {
     LOAD, IMPORT
@@ -18,7 +18,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    P2P.start(null)
+    ServerCommunicationSend.start(null)
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]

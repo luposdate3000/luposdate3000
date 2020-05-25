@@ -39,7 +39,6 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXMLElement
-import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -438,7 +437,7 @@ class SparqlTestSuite() {
                     JenaWrapper.dropAll()
                     val inputData = readFileOrNull(inputDataFileName)
                     val query2 = Query()
-                    P2P.execGraphClearAll(query2)
+                    ServerCommunicationSend.graphClearAll(query2)
                     query2.commit()
                     if (inputData != null && inputDataFileName != null) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
@@ -516,7 +515,7 @@ class SparqlTestSuite() {
                             val n = s["name"]!!
                             val fn = s["filename"]!!
                             val fc = readFileOrNull(fn)!!
-//                        P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
+//                        ServerCommunicationSend.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                         }
                     }
                 }

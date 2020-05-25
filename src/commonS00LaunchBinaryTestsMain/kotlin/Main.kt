@@ -1,3 +1,4 @@
+import lupos.s16network.ServerCommunicationSend
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.DynamicByteArray
@@ -6,14 +7,13 @@ import lupos.s00misc.File
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.endpointServer
 import lupos.s14endpoint.EndpointServerImpl
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
-    P2P.start(null)
+    ServerCommunicationSend.start(null)
     mapOf(/*return*/
             /*return*/testDictionaryVarName to "DictionaryVarName.txt",
 /*return*/testDictionaryValue to "DictionaryValue.txt"

@@ -213,7 +213,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("BinaryTests", "commonS00LaunchBinaryTestsMain"),
                 ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                 ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
-                ChooseableOptionDirectory("JavaFuzz", "jvmS00LaunchJavaFuzzMain"),
                 ChooseableOptionDirectory("WarnkeFuzz", "jvmS00LaunchWarnkeFuzzMain")
         ),
         ChooseableGroup("Sanity Checks") to listOf(
@@ -221,8 +220,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff", "CoroutinesHelperMutex" to "Lock"))
         ),
         ChooseableGroup("ResultFlow") to listOf(
-                ChooseableOptionDirectory("Fast", "commonS00ResultFlowFastMain"),
-                ChooseableOptionDirectory("Tests", "commonS00ResultFlowExecuteTestsMain")
+                ChooseableOptionDirectory("Fast", "commonS00ResultFlowFastMain")
         ),
         ChooseableGroup("Execution") to listOf(
                 ChooseableOptionTypeAlias("Sequential", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperSequential")),
@@ -244,10 +242,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList")),
                 ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
         ),
-        ChooseableGroup("P2P") to listOf(
-                ChooseableOptionDirectory("Dummy", "commonS12DummyMain")
-        ),
-        ChooseableGroup("Server implementation") to listOf(
+        ChooseableGroup("HttpEndpoint implementation") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
                 ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
         ),
@@ -256,9 +251,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("None", "commonS14ClientNoneMain"),
                 ChooseableOptionSymbolic("Ktor", "jvmS14ClientKtorTarget"),
                 ChooseableOptionSymbolic("Ktor", "nativeS14ClientKtorTarget")
-        ),
-        ChooseableGroup("Triple Store Interface") to listOf(
-                ChooseableOptionDirectory("Local", "commonS15LocalMain")
         ),
         ChooseableGroup("Include Jena Wrapper") to listOf(
                 ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
@@ -365,8 +357,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         )
 )
 val conflicts = listOf(
-        setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
-        setOf("commonS00LaunchSparqlTestSuiteMain", "commonS00ResultFlowExecuteTestsMain"),
         setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
 )
 val platformPrefix = mapOf(
@@ -387,12 +377,6 @@ val additionalSources = mapOf(
                 ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
                 ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
         ),
-        ChooseableOption("commonS00ResultFlowExecuteTestsMain") to listOf(
-                ChooseableOptionDirectory("commonTest")
-        ),
-        ChooseableOption("commonS00LaunchBinaryTestsMain") to listOf(
-                ChooseableOptionDirectory("commonS00ResultFlowExecuteTestsMain")
-        ),
         ChooseableOption("commonS01HeapMain") to listOf(
                 ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
         ),
@@ -408,17 +392,9 @@ val additionalSources = mapOf(
                 ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
                 ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25")
         ),
-        ChooseableOption("jvmS00LaunchJavaFuzzMain") to listOf(
-                ChooseableOptionDependency("dev.fuzzit.javafuzz:core:1.22"),
-                ChooseableOptionDependency("org.jacoco:org.jacoco.agent:0.8.5:runtime"),
-                ChooseableOptionDirectory("commonS00ResultFlowExecuteTestsMain")
-        ),
         ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
                 ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
                 ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
-        ),
-        ChooseableOption("jvmS00LaunchWarnkeFuzzMain") to listOf(
-                ChooseableOptionDirectory("commonS00ResultFlowExecuteTestsMain")
         ),
         ChooseableOption("jvmS01BufferMemoryMappedMain") to listOf(
                 ChooseableOptionDirectory("commonS01BufferDiskbasedMain")

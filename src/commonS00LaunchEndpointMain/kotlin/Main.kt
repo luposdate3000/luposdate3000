@@ -5,7 +5,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
-import lupos.s12p2p.P2P
+import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.HttpEndpointLauncher
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
@@ -28,7 +28,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         HttpEndpointLauncher.start(hostname)
     }
     launch(Dispatchers.Default) {
-        P2P.start(bootStrapServer)
+        ServerCommunicationSend.start(bootStrapServer)
     }
     while (true) {
         delay(1000)

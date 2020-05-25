@@ -26,7 +26,7 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s12p2p.P2P
+import lupos.s16network.*
 
 class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
@@ -102,7 +102,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     override suspend fun evaluate(): IteratorBundle {
-        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, Array(3) { children[it] as AOPBase }, idx)
+return ServerCommunicationSend.tripleGet(query, graphName,Array(3) { children[it] as AOPBase }, idx)
     }
 }
 
@@ -210,7 +210,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
             SanityCheck { variableNames == 1 }
         }
-        return DistributedTripleStore.localStore.getNamedGraph(query, name).getHistogram(query, params, idx)
+return ServerCommunicationSend.histogramGet(query, name,params, idx)
     }
 }
 
@@ -223,17 +223,17 @@ object DistributedTripleStore {
     }
 
     fun createGraph(query: Query, name: String): DistributedGraph {
-        P2P.execGraphOperation(query, name, EGraphOperationType.CREATE)
+        ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CREATE)
         return DistributedGraph(query, name)
     }
 
     fun dropGraph(query: Query, name: String) {
-        P2P.execGraphOperation(query, name, EGraphOperationType.DROP)
+        ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.DROP)
     }
 
     fun clearGraph(query: Query, name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
-        P2P.execGraphOperation(query, name, EGraphOperationType.CLEAR)
+        ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CLEAR)
     }
 
     fun getNamedGraph(query: Query, name: String): DistributedGraph {
@@ -248,6 +248,6 @@ object DistributedTripleStore {
     }
 
     fun commit(query: Query) {
-        P2P.execCommit(query)
+        ServerCommunicationSend.commit(query)
     }
 }

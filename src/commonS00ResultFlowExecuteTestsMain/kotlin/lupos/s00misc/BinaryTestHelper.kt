@@ -170,7 +170,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s12p2p.*
+import lupos.s16network.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s14endpoint.Endpoint
@@ -1197,7 +1197,7 @@ suspend fun executeBinaryTest(random: TestRandom) {
                 ExecuteOptimizer.enabledOptimizers[k] = v
             }
         val jena = JenaRequest()
-        P2P.execGraphClearAll(query)
+        ServerCommunicationSend.graphClearAll(query)
         query.commit()
         try {
             for (sparql in globalSparql) {

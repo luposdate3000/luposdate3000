@@ -1,9 +1,9 @@
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s12p2p.P2P
 import lupos.SparqlTestSuite
+import lupos.s16network.ServerCommunicationSend
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    P2P.start(null)
+    ServerCommunicationSend.start(null)
     SparqlTestSuite().testMain()
 }
