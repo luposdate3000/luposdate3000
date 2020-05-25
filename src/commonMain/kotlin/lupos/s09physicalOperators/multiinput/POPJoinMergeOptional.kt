@@ -129,32 +129,32 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
 
     inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         SanityCheck.check { keyCopy[0] != null }
-            for (i in 0 until columnsINJ.size) {
-                if (key[i] != keyCopy[i]) {
+        for (i in 0 until columnsINJ.size) {
+            if (key[i] != keyCopy[i]) {
 /* this is an optional element without a match */
-                    for (j in 0 until columnsINO.size) {
-                        data[j].add(ResultSetDictionary.undefValue)
-                    }
-                    return 1
+                for (j in 0 until columnsINO.size) {
+                    data[j].add(ResultSetDictionary.undefValue)
                 }
+                return 1
             }
+        }
         var count = 0
 /* at least 1 matching row */
-            loop@ while (true) {
-                count++
-                for (i in 0 until columnsINO.size) {
-                    data[i].add(columnsINO[i].next()!!)
-                }
-                for (i in 0 until columnsINJ.size) {
-                    key[i] = columnsINJ[i].next()
-                    SanityCheck.check { key[i] != ResultSetDictionary.undefValue }
-                }
-                for (i in 0 until columnsINJ.size) {
-                    if (key[i] != keyCopy[i]) {
-                        break@loop
-                    }
+        loop@ while (true) {
+            count++
+            for (i in 0 until columnsINO.size) {
+                data[i].add(columnsINO[i].next()!!)
+            }
+            for (i in 0 until columnsINJ.size) {
+                key[i] = columnsINJ[i].next()
+                SanityCheck.check { key[i] != ResultSetDictionary.undefValue }
+            }
+            for (i in 0 until columnsINJ.size) {
+                if (key[i] != keyCopy[i]) {
+                    break@loop
                 }
             }
+        }
         return count
     }
 

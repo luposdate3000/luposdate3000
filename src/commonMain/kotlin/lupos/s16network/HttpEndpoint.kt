@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
@@ -95,9 +96,9 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-object HttpEndpoint{
-
-fun helper_clean_string(s: String): String {
+object HttpEndpoint {
+    /*this object transforms the text input to the response-body*/
+    fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -124,8 +125,7 @@ fun helper_clean_string(s: String): String {
         }
     }
 
-
-suspend fun import_turtle_files(fileNames: String): String {
+    suspend fun import_turtle_files(fileNames: String): String {
         try {
             val query = Query()
             var bulk = TripleStoreBulkImport()
@@ -138,7 +138,7 @@ suspend fun import_turtle_files(fileNames: String): String {
                 val tit = TurtleScanner(lcit)
                 val ltit = LookAheadTokenIterator(tit, 3)
                 TurtleParserWithStringTriples({ s, p, o ->
-counter++
+                    counter++
                     bulk.insert(
                             helper_import_turtle_files(dict, s),
                             helper_import_turtle_files(dict, p),
@@ -160,12 +160,67 @@ counter++
             throw e
         }
     }
-suspend fun import_xml_data(data: String): String {
+
+    suspend fun import_xml_data(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()
         return XMLElement("success").toString()
+    }
+
+    suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
+        val q = Query()
+        GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
+        GlobalLogger.log(ELoggerType.DEBUG, { query })
+        GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val ast_node = parser.expr()
+        GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
+        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
+        val lop_node = ast_node.visit(OperatorGraphVisitor(q))
+        GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
+        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
+        val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
+        GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
+        GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
+        val pop_optimizer = PhysicalOptimizer(q)
+        val pop_node = pop_optimizer.optimizeCall(lop_node2)
+        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
+        GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
+        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
+        GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
+        if (logOperatorGraph) {
+            println("----------")
+            println(query)
+            println(">>>>>>>>>>")
+            println(pop_distributed_node.toXMLElement().toString())
+            println("<<<<<<<<<<")
+            println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
+        }
+        val res = QueryResultToXMLString(pop_distributed_node)
+        q.commit()
+        return res
+    }
+
+    suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
+        val q = Query()
+        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
+        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
+        if (logOperatorGraph) {
+            println("----------")
+            println(query)
+            println(">>>>>>>>>>")
+            println(pop_node.toXMLElement().toString())
+            println("<<<<<<<<<<")
+            println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
+        }
+        val res = QueryResultToXMLString(pop_node)
+        q.commit()
+        return res
     }
 }

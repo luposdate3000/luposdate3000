@@ -105,121 +105,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     @JvmField
     val fullname = hostname + ":" + port
 
-
-    /*
-    incoming sparql benchmark
-    */
-    suspend fun process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): String {
-        BenchmarkUtils.start(EBenchmark.QUERY)
-        var time: Double
-        var counter = 0
-        while (true) {
-            counter++
-            process_sparql_query(query).toString()
-            time = BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
-            if (time * 1000.0 > timeoutMilliSeconds) {
-                break
-            }
-        }
-        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter).toString()
-    }
-
-    /*
-    incoming sparql benchmark for_ jena db compare
-    */
-    suspend fun jena_process_sparql_benchmark(query: String, timeoutMilliSeconds: Double): String {
-        BenchmarkUtils.start(EBenchmark.QUERY)
-        var time: Double
-        var counter = 0
-        while (true) {
-            counter++
-            JenaWrapper.execQuery(query)
-            time = BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
-            if (time * 1000.0 > timeoutMilliSeconds) {
-                break
-            }
-        }
-        return XMLElement("benchmark").addAttribute("time", "" + time).addAttribute("count", "" + counter).toString()
-    }
-
-    /*
-    incoming bulk import
-    */
-    suspend fun jena_process_turtle_input(filenames: String): String {
-        JenaWrapper.loadFromFile(filenames)
-        return XMLElement("success").toString()
-    }
-
-    /*
-    incoming sparql
-    */
-    suspend fun process_sparql_query(query: String, logOperatorGraph: Boolean = false): String {
-//BenchmarkUtils.start(EBenchmark.QUERY)
-//BenchmarkUtils.start(EBenchmark.QUERY_GENERATE)
-        val q = Query()
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
-        GlobalLogger.log(ELoggerType.DEBUG, { query })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
-//BenchmarkUtils.start(EBenchmark.QUERY_STRING2AST)
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val ast_node = parser.expr()
-//BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_STRING2AST)
-//BenchmarkUtils.start(EBenchmark.QUERY_AST2OPERATOR)
-        GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
-        val lop_node = ast_node.visit(OperatorGraphVisitor(q))
-//BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_AST2OPERATOR)
-//BenchmarkUtils.start(EBenchmark.QUERY_OPTIMIZE)
-        GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
-        val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
-        GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
-        val pop_optimizer = PhysicalOptimizer(q)
-        val pop_node = pop_optimizer.optimizeCall(lop_node2)
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
-        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
-        if (logOperatorGraph) {
-            println("----------")
-            println(query)
-            println(">>>>>>>>>>")
-            println(pop_distributed_node.toXMLElement().toString())
-            println("<<<<<<<<<<")
-            println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
-        }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_OPTIMIZE)
-//BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY_GENERATE)
-        val res = QueryResultToXMLString(pop_distributed_node)
-        q.commit()
-//BenchmarkUtils.elapsedSeconds(EBenchmark.QUERY)
-        return res
-    }
-
-    /*
-    incoming sparql
-    */
-    suspend fun process_sparql_query_operator(query: String, logOperatorGraph: Boolean = false): String {
-        val q = Query()
-        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
-        if (logOperatorGraph) {
-            println("----------")
-            println(query)
-            println(">>>>>>>>>>")
-            println(pop_node.toXMLElement().toString())
-            println("<<<<<<<<<<")
-            println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
-        }
-        val res = QueryResultToXMLString(pop_node)
-        q.commit()
-        return res
-    }
-
     abstract suspend fun start()
     /*
     any incoming request - further selection, what actually is the request
@@ -230,37 +115,16 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             "/sparql/query" -> {
                 if (isPost) {
-                    return process_sparql_query(data, true).encodeToByteArray()
+                    return HttpEndpoint.evaluate_sparql_query_string(data, true).encodeToByteArray()
                 } else {
-                    return process_sparql_query(params["query"]!!, true).encodeToByteArray()
+                    return HttpEndpoint.evaluate_sparql_query_string(params["query"]!!, true).encodeToByteArray()
                 }
             }
             "/sparql/operator" -> {
                 if (isPost) {
-                    return process_sparql_query_operator(data, true).encodeToByteArray()
+                    return HttpEndpoint.evaluate_sparql_query_operator_xml(data, true).encodeToByteArray()
                 } else {
-                    return process_sparql_query_operator(params["query"]!!, true).encodeToByteArray()
-                }
-            }
-            "/sparql/benchmark" -> {
-                if (isPost) {
-                    return process_sparql_benchmark(data, params["timeout"]!!.toDouble()).encodeToByteArray()
-                } else {
-                    return process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).encodeToByteArray()
-                }
-            }
-            "/jena/benchmark" -> {
-                if (isPost) {
-                    return jena_process_sparql_benchmark(data, params["timeout"]!!.toDouble()).encodeToByteArray()
-                } else {
-                    return jena_process_sparql_benchmark(params["query"]!!, params["timeout"]!!.toDouble()).encodeToByteArray()
-                }
-            }
-            "/jena/turtle" -> {
-                if (isPost) {
-                    return jena_process_turtle_input(data).encodeToByteArray()
-                } else {
-                    return jena_process_turtle_input(params["query"]!!).encodeToByteArray()
+                    return HttpEndpoint.evaluate_sparql_query_operator_xml(params["query"]!!, true).encodeToByteArray()
                 }
             }
             "/import/turtle" -> {
