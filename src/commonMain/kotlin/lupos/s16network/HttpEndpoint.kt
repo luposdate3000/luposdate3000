@@ -94,10 +94,12 @@ import lupos.s11outputResult.*
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
+/*this object transforms the text input to the response-body*/
 object HttpEndpoint {
-    /*this object transforms the text input to the response-body*/
+
     fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
@@ -222,5 +224,44 @@ object HttpEndpoint {
         val res = QueryResultToXMLString(pop_node)
         q.commit()
         return res
+    }
+fun persistence_store(foldername: String): String {
+        File(foldername).deleteRecursively()
+        File(foldername).mkdirs()
+        BenchmarkUtils.start(EBenchmark.SAVE_DICTIONARY)
+        nodeGlobalDictionary.safeToFolder(foldername)
+        var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_DICTIONARY)
+        BenchmarkUtils.start(EBenchmark.SAVE_TRIPLE_STORE)
+        val stores = DistributedTripleStore.localStore.stores
+        var idx = 0
+        File(foldername + "/stores.txt").printWriter { out ->
+            stores.keys.forEach { name ->
+                val store = stores[name]!!
+                File(foldername + "/$idx").mkdirs()
+                store.safeToFolder(foldername + "/$idx")
+                idx++
+            }
+        }
+        var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.SAVE_TRIPLE_STORE)
+        return "success $timeDict $timeStore"
+   }
+
+    fun persistence_load(foldername: String): String {
+        MemoryStatistics.print("before load")
+        BenchmarkUtils.start(EBenchmark.LOAD_DICTIONARY)
+        nodeGlobalDictionary.loadFromFolder(foldername)
+        var timeDict = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_DICTIONARY)
+        MemoryStatistics.print("after load dictionary")
+        BenchmarkUtils.start(EBenchmark.LOAD_TRIPLE_STORE)
+        val stores = DistributedTripleStore.localStore.stores
+        var idx = 0
+        File(foldername + "/stores.txt").forEachLine { name ->
+            val store = stores[name]!!
+            store.loadFromFolder(foldername + "/$idx")
+            idx++
+        }
+        var timeStore = BenchmarkUtils.elapsedSeconds(EBenchmark.LOAD_TRIPLE_STORE)
+        MemoryStatistics.print("after load triplestore")
+        return "success $timeDict $timeStore"
     }
 }

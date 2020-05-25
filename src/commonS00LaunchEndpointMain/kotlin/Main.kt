@@ -7,8 +7,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
-import lupos.s14endpoint.endpointServer
-import lupos.s14endpoint.EndpointServerImpl
+import lupos.s16network.HttpEndpointLauncher
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var i = 0
@@ -27,9 +26,10 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         i++
     }
     launch(Dispatchers.Default) {
-        endpointServer = EndpointServerImpl(hostname)
+        HttpEndpointLauncher.start(hostname)
+    }
+    launch(Dispatchers.Default) {
         P2P.start(bootStrapServer)
-        endpointServer!!.start()
     }
     while (true) {
         delay(1000)

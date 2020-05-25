@@ -249,8 +249,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("Local", "commonS12LocalMain")
         ),
         ChooseableGroup("Server implementation") to listOf(
-                ChooseableOptionDirectory("Korio", "jvmS14ServerKorioMain"),
-                ChooseableOptionDirectory("None", "commonS14ServerNoneMain")
+                ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
+                ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
         ),
         ChooseableGroup("Client implementation") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS14ClientKorioMain"),
@@ -368,7 +368,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
 )
 val conflicts = listOf(
         setOf("commonS12LocalMain", "commonS15DistributedMain"),
-        setOf("commonS12LocalMain", "jvmS14ServerKorioMain"),
+        setOf("commonS12LocalMain", "jvmS16HttpEndpointKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKorioMain"),
         setOf("commonS12LocalMain", "jvmS14ClientKtorTarget", "nativeS14ClientKtorTarget"),
         setOf("commonS00LaunchEndpointMain", "commonS00ResultFlowExecuteTestsMain"),
@@ -445,7 +445,7 @@ val additionalSources = mapOf(
                 ChooseableOptionDependency("io.ktor:ktor-client-logging-jvm:$ktorVersion"),
                 ChooseableOptionDependency("io.ktor:ktor-client-core-jvm:$ktorVersion")
         ),
-        ChooseableOption("jvmS14ServerKorioMain") to listOf(
+        ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
                 ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
         ),
         ChooseableOption("jvmS14ClientKorioMain") to listOf(

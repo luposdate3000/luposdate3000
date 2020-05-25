@@ -12,7 +12,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s14endpoint.Endpoint
-import lupos.s14endpoint.endpointServer
 
 object P2P {
     /*
@@ -30,7 +29,7 @@ object P2P {
     }
 
     suspend fun execTripleModify(query: Query, node: String, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
-        if (node == endpointServer!!.fullname) {
+        if (node == "localhost") {
             Endpoint.process_local_triple_modify(query, graphName, data, idx, type)
         } else {
 //TODO("stream modify to specific node")
@@ -48,7 +47,7 @@ object P2P {
     }
 
     fun execTripleGet(query: Query, node: String, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
-        if (node == endpointServer!!.fullname) {
+        if (node == "localhost") {
             return Endpoint.process_local_triple_get(query, graphName, params, idx)
         } else {
             TODO("request triple stream from node network")
@@ -68,7 +67,7 @@ object P2P {
     }
 
     suspend fun start(bootstrap: String?) {
-        knownClients.add(endpointServer!!.fullname)
+        knownClients.add("localhost")
 //TODO("broadcast that this node wants to join, obtain a list of all known clients, and perform the data redistribution")
     }
 }
