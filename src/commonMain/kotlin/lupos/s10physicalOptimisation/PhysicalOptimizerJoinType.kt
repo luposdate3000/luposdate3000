@@ -2,7 +2,6 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -24,7 +23,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         val projectedVariables: List<String>
         if (parent is LOPProjection) {
@@ -99,6 +98,6 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             res.sortPriorities = node.sortPriorities
             onChange()
         }
-return res
+        return res
     }
 }

@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s00misc.SortHelper
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
@@ -29,7 +28,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
     override val classname = "LogicalOptimizerProjectionDown"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPReduced) {
             val child = node.children[0]
@@ -244,6 +243,6 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                 }
             }
         }
-return res
+        return res
     }
 }

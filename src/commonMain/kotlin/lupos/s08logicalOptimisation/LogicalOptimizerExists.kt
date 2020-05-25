@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -29,7 +28,7 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
         }
     }
 
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         if (node is LOPMakeBooleanResult) {
             if (!node.partOfAskQuery) {
@@ -42,6 +41,6 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
                 onChange()
             }
         }
-return res
+        return res
     }
 }

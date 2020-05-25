@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
@@ -27,7 +26,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         return node is AOPAggregationBase
     }
 
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         if (node is AOPBase && node !is AOPValue) {
             if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
@@ -39,6 +38,6 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
                 onChange()
             }
         }
-return res
+        return res
     }
 }

@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -11,7 +10,7 @@ import lupos.s04logicalOperators.Query
 
 class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerColumnSortOrderID) {
     override val classname = "LogicalOptimizerColumnSortOrder"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         var hadChange = false
         SanityCheck {
@@ -97,6 +96,6 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                 }
             }
         }
-return res
+        return res
     }
 }

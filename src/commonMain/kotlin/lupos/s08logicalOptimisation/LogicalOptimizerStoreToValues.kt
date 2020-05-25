@@ -3,7 +3,6 @@ package lupos.s08logicalOptimisation
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -21,7 +20,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerStoreToValuesID) {
     override val classname = "LogicalOptimizerStoreToValues"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L
@@ -89,6 +88,6 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                 }
             }
         }
-return res
+        return res
     }
 }

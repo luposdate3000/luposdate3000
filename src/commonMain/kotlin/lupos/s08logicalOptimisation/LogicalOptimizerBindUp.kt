@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -23,7 +22,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindUpID) {
     override val classname = "LogicalOptimizerBindUp"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPBind) {
             if (node.children[1] !is AOPConstant) {
@@ -82,6 +81,6 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
                 }
             }
         }
-return res
+        return res
     }
 }

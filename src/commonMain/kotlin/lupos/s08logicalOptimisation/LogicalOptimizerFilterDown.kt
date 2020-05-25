@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
@@ -15,7 +14,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterDownID) {
     override val classname = "LogicalOptimizerFilterDown"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPFilter) {
             var child = node.children[0]
@@ -92,6 +91,6 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                 }
             }
         }
-return res
+        return res
     }
 }

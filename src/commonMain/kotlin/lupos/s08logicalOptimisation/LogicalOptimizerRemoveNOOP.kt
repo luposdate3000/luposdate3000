@@ -2,7 +2,6 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -20,7 +19,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveNOOPID) {
     override val classname = "LogicalOptimizerRemoveNOOP"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         if (node is LOPNOOP || node is LOPSubGroup) {
             onChange()
@@ -85,6 +84,6 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 }
             }
         }
-return res
+        return res
     }
 }

@@ -3,7 +3,6 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
-
 import lupos.s00misc.SortHelper
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.*
@@ -16,7 +15,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerReducedDownID) {
     override val classname = "LogicalOptimizerReducedDown"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) :OPBase{
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPReduced) {
             val child = node.children[0]
@@ -64,6 +63,6 @@ class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimize
                 }
             }
         }
-return res
+        return res
     }
 }
