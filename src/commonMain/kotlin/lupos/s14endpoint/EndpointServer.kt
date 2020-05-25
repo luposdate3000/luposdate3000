@@ -95,6 +95,7 @@ import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s16network.*
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 abstract class EndpointServer(@JvmField val hostname: String = "localhost", @JvmField val port: Int = 80) {
@@ -104,91 +105,6 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
     @JvmField
     val fullname = hostname + ":" + port
 
-    fun cleanString(s: String): String {
-        var res: String = s
-        while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-            if (match == null) {
-                break
-            }
-            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
-            res = res.replace(match.value, replacement)
-        }
-        return res
-    }
-
-    fun process_turtle_input_helper(dict: MyMapStringIntPatriciaTrie, v: String): Value {
-        try {
-            val v2 = cleanString(v)
-            BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
-            if (v2.startsWith("_:")) {
-                return dict.getOrCreate(v2, { nodeGlobalDictionary.createNewBNode() })
-            } else {
-                return nodeGlobalDictionary.createValue(v2)
-            }
-        } finally {
-            BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICT)
-        }
-    }
-
-    /*
-    incoming bulk import
-    */
-    suspend fun process_turtle_input(fileNames: String): String {
-        try {
-            val query = Query()
-            var bulk = TripleStoreBulkImport()
-            var counter = 0
-            var store = DistributedTripleStore.getDefaultGraph(query)
-            val dict = MyMapStringIntPatriciaTrie()
-            for (fileName in fileNames.split(";")) {
-                val data = File(fileName).readAsString()
-                val lcit = LexerCharIterator(data)
-                val tit = TurtleScanner(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                TurtleParserWithStringTriples({ s, p, o ->
-                    bulk.insert(
-                            process_turtle_input_helper(dict, s),
-                            process_turtle_input_helper(dict, p),
-                            process_turtle_input_helper(dict, o))
-                    if (bulk.full()) {
-                        CoroutinesHelper.runBlock {
-                            bulk.sort()
-                            store.bulkImport(bulk)
-                            bulk.reset()
-                        }
-                    }
-                }, ltit).turtleDoc()
-            }
-            bulk.sort()
-            store.bulkImport(bulk)
-//>>>
-/*
-//	println("dumping dictionary - particia trie as debug")
-//	nodeGlobalDictionary.typedMap.debug()
-        println("debug ready")
-        Thread.sleep(20000)
-        println("debug not ready ${bulk.idx}")
-*/
-//<<<
-            return XMLElement("success $counter").toString()
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            throw e
-        }
-    }
-
-    /*
-    incoming bulk import
-    */
-    suspend fun process_xml_input(data: String): String {
-        val query = Query()
-        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate()
-        val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
-        query.commit()
-        return XMLElement("success").toString()
-    }
 
     /*
     incoming sparql benchmark
@@ -349,16 +265,16 @@ abstract class EndpointServer(@JvmField val hostname: String = "localhost", @Jvm
             }
             "/import/turtle" -> {
                 if (isPost) {
-                    return process_turtle_input(data).encodeToByteArray()
+                    return HttpEndpoint.import_turtle_files(data).encodeToByteArray()
                 } else {
-                    return process_turtle_input(params["query"]!!).encodeToByteArray()
+                    return HttpEndpoint.import_turtle_files(params["query"]!!).encodeToByteArray()
                 }
             }
             "/import/xml" -> {
                 if (isPost) {
-                    return process_xml_input(data).encodeToByteArray()
+                    return HttpEndpoint.import_xml_data(data).encodeToByteArray()
                 } else {
-                    return process_xml_input(params["query"]!!).encodeToByteArray()
+                    return HttpEndpoint.import_xml_data(params["query"]!!).encodeToByteArray()
                 }
             }
             "/persistence/store" -> {

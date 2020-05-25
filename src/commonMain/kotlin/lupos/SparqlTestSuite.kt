@@ -44,6 +44,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s14endpoint.endpointServer
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s16network.*
 
 class SparqlTestSuite() {
     @JvmField
@@ -449,7 +450,7 @@ class SparqlTestSuite() {
                             var xmlGraphBulk: XMLElement? = null
                             CoroutinesHelper.runBlock {
                                 val query = Query()
-                                endpointServer!!.process_turtle_input(inputDataFileName)
+                                HttpEndpoint.import_turtle_files(inputDataFileName)
                                 val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                                 xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                             }
