@@ -157,7 +157,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
 /*
- * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
+ * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
  */
         SanityCheck.check { dataModify.size == 3 }
         var tmp: MutableList<Int>?
@@ -185,5 +185,28 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 }
             }
         }
+    }
+    suspend fun modify(query: Query, dataModify: MutableList<Value>, idx: EIndexPattern, type: EModifyType) {
+/*
+ * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
+ */
+        SanityCheck.check { dataModify.size == 3 }
+        var tmp: MutableList<Int>?
+        if (type == EModifyType.INSERT) {
+            tmp = pendingModificationsInsert[idx.ordinal][query.transactionID]
+        } else {
+            tmp = pendingModificationsRemove[idx.ordinal][query.transactionID]
+        }
+        if (tmp == null) {
+            tmp = mutableListOf<Int>()
+            if (type == EModifyType.INSERT) {
+                pendingModificationsInsert[idx.ordinal][query.transactionID] = tmp
+            } else {
+                pendingModificationsRemove[idx.ordinal][query.transactionID] = tmp
+            }
+        }
+for(v in dataModify){
+tmp.add(query.dictionary.valueToGlobal(v))
+}
     }
 }

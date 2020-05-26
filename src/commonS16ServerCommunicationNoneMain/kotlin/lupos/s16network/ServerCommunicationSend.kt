@@ -26,33 +26,45 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
+import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationSend {
     fun commit(query: Query) {
-        ServerCommunicationReceive.commit(query)
+DistributedTripleStore.localStore.commit(query)
     }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
-        ServerCommunicationReceive.tripleModify(query, graphName, data, idx, type)
+ DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
     }
 
     fun graphClearAll(query: Query) {
-        ServerCommunicationReceive.graphClearAll(query)
-    }
+ DistributedTripleStore.localStore.getDefaultGraph(query).clear()
+        for (g in DistributedTripleStore.getGraphNames()) {
+            DistributedTripleStore.dropGraph(query, g)
+        }    }
 
     fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
-        ServerCommunicationReceive.graphOperation(query, graphName, type)
+when (type) {
+            EGraphOperationType.CLEAR -> {
+                DistributedTripleStore.localStore.clearGraph(query, graphName)
+            }
+            EGraphOperationType.CREATE -> {
+                DistributedTripleStore.localStore.createGraph(query, graphName)
+            }
+            EGraphOperationType.DROP -> {
+                DistributedTripleStore.localStore.dropGraph(query, graphName)
+            }
+        }
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
-        return ServerCommunicationReceive.tripleGet(query, graphName, params, idx)
+return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
     }
 
     fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
-        return ServerCommunicationReceive.histogramGet(query, graphName, params, idx)
+ return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params, idx)
     }
 
-    fun start(bootstrap: String? = null) {
-        ServerCommunicationReceive.start(bootstrap)
+fun start(hostname: String="localhost", port: Int=NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
     }
 }

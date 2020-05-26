@@ -13,7 +13,7 @@ import lupos.s16network.ServerCommunicationSend
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     endpointServer = EndpointServerImpl("localhost")
-    ServerCommunicationSend.start(null)
+    ServerCommunicationSend.start()
     mapOf(/*return*/
             /*return*/testDictionaryVarName to "DictionaryVarName.txt",
 /*return*/testDictionaryValue to "DictionaryValue.txt"

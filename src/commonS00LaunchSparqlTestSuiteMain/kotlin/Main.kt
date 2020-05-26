@@ -4,6 +4,6 @@ import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    ServerCommunicationSend.start(null)
+    ServerCommunicationSend.start()
     SparqlTestSuite().testMain()
 }

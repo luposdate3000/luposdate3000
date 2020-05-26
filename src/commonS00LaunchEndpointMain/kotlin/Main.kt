@@ -28,7 +28,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
         HttpEndpointLauncher.start(hostname)
     }
     launch(Dispatchers.Default) {
-        ServerCommunicationSend.start(bootStrapServer)
+        ServerCommunicationSend.start(hostname,lupos.s16network.NETWORK_DEFAULT_PORT,bootStrapServer)
     }
     while (true) {
         delay(1000)
