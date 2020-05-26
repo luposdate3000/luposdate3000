@@ -1,6 +1,20 @@
 package lupos.s16network
 
+import io.ktor.network.selector.ActorSelectorManager
+import io.ktor.network.sockets.aSocket
+import io.ktor.network.sockets.Socket
+import io.ktor.network.sockets.ByteReadChannel
+import io.ktor.network.sockets.ByteWriteChannel
+import io.ktor.network.sockets.openReadChannel
+import io.ktor.network.sockets.openWriteChannel
+import io.ktor.utils.io.core.BytePacketBuilder
+import io.ktor.utils.io.core.ByteReadPacket
+import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -26,6 +40,7 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
+import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationSend {
     fun commit(query: Query) {
@@ -120,7 +135,7 @@ object ServerCommunicationSend {
         }
     }
 
-    class ModifyHelper(val socket: Int, val input: Int, val output: Int, val iterators: Array<ColumnIterator>) {
+    class ModifyHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
     }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
@@ -136,7 +151,7 @@ object ServerCommunicationSend {
                     values[i] = v
                 }
             }
-            val host = ServerCommunicationKnownHost.getHostForFullTriple(values, query, idx)
+            val host = ServerCommunicationDistribution.getHostForFullTriple(values, query, idx)
             var helper = accessedHosts[host]
             val helper2: ModifyHelper
             if (helper == null) {
@@ -153,19 +168,19 @@ object ServerCommunicationSend {
                 builder.writeUtf8(graphName)
                 helper2.output.writePacket(builder.build())
                 builder.close()
-            launch {
-                ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
-                    helper2.output.writePacket(it)
-                    helper2.output.flush()
+                launch {
+                    ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
+                        helper2.output.writePacket(it)
+                        helper2.output.flush()
+                    }
                 }
-            }
             } else {
                 helper2 = helper
             }
-TODO ("append values")
+            TODO("append values")
         }
-TODO ("flush all and send termination signal")
-TODO ("wait for ack")
+        TODO("flush all and send termination signal")
+        TODO("wait for ack")
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
@@ -176,7 +191,7 @@ TODO ("wait for ack")
         TODO("xxx")
     }
 
-    fun start(hostname: String="localhost", port: Int=NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
+    fun start(hostname: String = "localhost", port: Int = NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
         if (bootstrap != null) {
             val hosts = bootstrap.split("|")
             for (h in hosts) {

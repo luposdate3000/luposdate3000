@@ -356,15 +356,15 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
                 ChooseableOptionDirectory("Ktor", "jvmS16ServerCommunicationKtorMain")
         ),
-ChooseableGroup("ServerCommunication target packet size")to listOf(
-ChooseableOptionConstantValue("lupos.s16network","NETWORK_PACKET_SIZE","8196")
-),
-ChooseableGroup("ServerCommunication minimal triples per packet") to listOf(
-ChooseableOptionConstantValue("lupos.s16network","NETWORK_PACKET_MIN_TRIPLES","128")
-),
-ChooseableGroup("ServerCommunication default port")to listOf(
-ChooseableOptionConstantValue("lupos.s16network","NETWORK_DEFAULT_PORT","2323")
-)
+        ChooseableGroup("ServerCommunication target packet size") to listOf(
+                ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_SIZE", "8196")
+        ),
+        ChooseableGroup("ServerCommunication minimal triples per packet") to listOf(
+                ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_MIN_TRIPLES", "128")
+        ),
+        ChooseableGroup("ServerCommunication default port") to listOf(
+                ChooseableOptionConstantValue("lupos.s16network", "NETWORK_DEFAULT_PORT", "2323")
+        )
 )
 val conflicts = listOf(
         setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
@@ -375,7 +375,7 @@ val platformPrefix = mapOf(
         "mingw64" to listOf("common"),
         "jvm" to listOf("common", "jvm")
 )
-val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.1"))).label
+val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
 val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
 val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
 
@@ -425,9 +425,9 @@ val additionalSources = mapOf(
                 ChooseableOptionDependency("io.ktor:ktor-client-logging-jvm:$ktorVersion"),
                 ChooseableOptionDependency("io.ktor:ktor-client-core-jvm:$ktorVersion")
         ),
-ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
-ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
-),
+        ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
+                ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
+        ),
         ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
                 ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
         ),

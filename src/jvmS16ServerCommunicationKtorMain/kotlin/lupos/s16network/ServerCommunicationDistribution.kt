@@ -1,6 +1,8 @@
 package lupos.s16network
 
 import kotlin.jvm.JvmField
+import kotlin.math.ceil
+import kotlin.math.pow
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -26,8 +28,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import kotlin.math.pow
-import kotlin.math.ceil
 
 class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunicationKnownHostBase(hostname, port) {
 /*
@@ -38,7 +38,6 @@ class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunic
 object ServerCommunicationDistribution {
     val knownHosts = mutableListOf<ServerCommunicationKnownHost>()
     var globalID = 0
-
     /*
      * refer to k in the project-proposal page 9
      * TODO redistribution on change
@@ -60,7 +59,7 @@ object ServerCommunicationDistribution {
 
     fun registerKnownHost(hostname: String, port: Int) {
         knownHosts.add(ServerCommunicationKnownHost(hostname, port))
-        k = ceil(knownHosts.size.toTouble().pow(1 / 3.toDouble())).toInt()
+        k = ceil(knownHosts.size.toDouble().pow(1 / 3.toDouble())).toInt()
     }
 
     /*
@@ -113,7 +112,7 @@ object ServerCommunicationDistribution {
                     /*
                      * if there is a constant, use the corresponding hash value
                      */
-                    hash2.add(hh * k + h(v[i].toSparql()))
+                    hash2.add(hh * k + h(v.toSparql()))
                 } else {
                     /*
                      * otherwise add all possible hash values.
@@ -133,7 +132,6 @@ object ServerCommunicationDistribution {
          * therefore modulo the number of known hosts, to guarantee a valid result
          * if the number of nodes is not exactly k^3, than 'hash' may contain duplicated nodes therefore the following distinct needs to be mapped first.
          */
-        return hash.map{it % knownHosts.size}.distinct().map{knownHosts[it]}
+        return hash.map { it % knownHosts.size }.distinct().map { knownHosts[it] }
     }
-
 }

@@ -30,21 +30,22 @@ import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationSend {
     fun commit(query: Query) {
-DistributedTripleStore.localStore.commit(query)
+        DistributedTripleStore.localStore.commit(query)
     }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
- DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
     }
 
     fun graphClearAll(query: Query) {
- DistributedTripleStore.localStore.getDefaultGraph(query).clear()
+        DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames()) {
             DistributedTripleStore.dropGraph(query, g)
-        }    }
+        }
+    }
 
     fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
-when (type) {
+        when (type) {
             EGraphOperationType.CLEAR -> {
                 DistributedTripleStore.localStore.clearGraph(query, graphName)
             }
@@ -54,17 +55,20 @@ when (type) {
             EGraphOperationType.DROP -> {
                 DistributedTripleStore.localStore.dropGraph(query, graphName)
             }
+            else -> {
+                throw Exception("unreachable")
+            }
         }
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
-return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
     }
 
     fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
- return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params, idx)
+        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params, idx)
     }
 
-fun start(hostname: String="localhost", port: Int=NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
+    fun start(hostname: String = "localhost", port: Int = NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
     }
 }

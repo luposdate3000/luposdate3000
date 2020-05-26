@@ -160,7 +160,7 @@ class MyMapDoubleIntBTree(val t: Int) {
                 }
                 child.keys[0] = keys[idx - 1]
                 child.values[0] = values[idx - 1]
-                if (child is MyMapDoubleIntBTreeNodeNonLeaf && sibling is MyMapDoubleIntBTreeNodeNonLeaf) {
+                if (sibling is MyMapDoubleIntBTreeNodeNonLeaf) {
                     child.C[0] = sibling.C[sibling.n]
                 }
                 keys[idx - 1] = sibling.keys[sibling.n - 1]

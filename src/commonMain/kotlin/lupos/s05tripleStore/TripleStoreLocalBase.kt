@@ -186,6 +186,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             }
         }
     }
+
     suspend fun modify(query: Query, dataModify: MutableList<Value>, idx: EIndexPattern, type: EModifyType) {
 /*
  * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
@@ -205,8 +206,8 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 pendingModificationsRemove[idx.ordinal][query.transactionID] = tmp
             }
         }
-for(v in dataModify){
-tmp.add(query.dictionary.valueToGlobal(v))
-}
+        for (v in dataModify) {
+            tmp.add(query.dictionary.valueToGlobal(v))
+        }
     }
 }

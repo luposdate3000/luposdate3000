@@ -1,15 +1,17 @@
 package lupos.s16network
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
 import io.ktor.network.selector.ActorSelectorManager
-import java.net.InetSocketAddress
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
+import io.ktor.utils.io.core.BytePacketBuilder
+import io.ktor.utils.io.core.ByteReadPacket
+import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -23,6 +25,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -43,11 +46,9 @@ import lupos.s15tripleStoreDistributed.*
  * https://ktor.io/kotlinx/io/io/channels.html
  * https://kotlinlang.org/docs/reference/coroutines/flow.html#flows
  */
-
-
 object ServerCommunicationReceive {
-
     fun start(hostname: String, port: Int, bootstrap: String? = null) {
+runBlocking{
         launch {
             val server = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
             while (true) {
@@ -69,13 +70,13 @@ object ServerCommunicationReceive {
                                 val graphName = packet.readText()
                                 val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                 while (true) {
-                                    packet2 = input.readPacket()
+val                                    packet2 = input.readPacket()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
                                     }
-                                    val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true)
+                                    val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true)[0]
                                     graph.modify(query, data, idx, EModifyType.INSERT)
                                 }
                             }
@@ -84,13 +85,13 @@ object ServerCommunicationReceive {
                                 val graphName = packet.readText()
                                 val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                 while (true) {
-                                    packet2 = input.readPacket()
+val                                    packet2 = input.readPacket()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
                                     }
-                                    val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true)
+                                    val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true)[0]
                                     graph.modify(query, data, idx, EModifyType.DELETE)
                                 }
                             }
@@ -130,7 +131,7 @@ object ServerCommunicationReceive {
                                 val params = ServerCommunicationTransferParams.receiveParams(packet, query)
                                 val histogram = graph.getHistogram(query, params, idx)
                                 var builder = BytePacketBuilder()
-                                builder.writeInt(ServerCommunicationHeader.RESPONSE_Histogram.ordinal)
+                                builder.writeInt(ServerCommunicationHeader.RESPONSE_HISTOGRAM.ordinal)
                                 builder.writeInt(histogram.first)
                                 builder.writeInt(histogram.second)
                                 output.writePacket(builder.build())
@@ -150,5 +151,6 @@ object ServerCommunicationReceive {
                 }
             }
         }
+}
     }
 }

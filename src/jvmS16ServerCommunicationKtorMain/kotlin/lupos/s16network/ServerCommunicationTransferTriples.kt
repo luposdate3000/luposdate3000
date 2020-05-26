@@ -1,15 +1,17 @@
-ackage lupos.s16network
+package lupos.s16network
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
 import io.ktor.network.selector.ActorSelectorManager
-import java.net.InetSocketAddress
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
+import io.ktor.utils.io.core.BytePacketBuilder
+import io.ktor.utils.io.core.ByteReadPacket
+import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -37,9 +39,8 @@ import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
-
-object ServerCommunicationTransferTriples{
-   fun receiveTriples(packet: ByteReadPacket, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean): Array<MutableList<Value>> {
+object ServerCommunicationTransferTriples {
+    fun receiveTriples(packet: ByteReadPacket, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean): Array<MutableList<Value>> {
 /*always assume SPO even if some of the components are allowed to be missing*/
         val columns = packet.readInt()
         require(columns == expectedColumns)
@@ -79,17 +80,18 @@ object ServerCommunicationTransferTriples{
         return res
     }
 
-    fun sendTriples(bundle: IteratorBundle, dict: ResultSetDictionary, params: Array<AOPBase>,onFullPacket:(ByteReadPacket)->Unit){
+    suspend fun sendTriples(bundle: IteratorBundle, dict: ResultSetDictionary, params: Array<AOPBase>, onFullPacket: suspend (ByteReadPacket) -> Unit) {
 /*always assume SPO*/
         var iterators = mutableListOf<ColumnIterator>()
         for (p in params) {
             if (p is AOPVariable && p.name != "_") {
-                iterators.add(bundle.columns[p.name])
+                iterators.add(bundle.columns[p.name]!!)
             }
         }
-        sendTriples(iterators.toTypedArray(), dict,onFullPacket)
+        sendTriples(iterators.toTypedArray(), dict, onFullPacket)
     }
- fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary,onFullPacket:(ByteReadPacket)->Unit) {
+
+    suspend fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: suspend (ByteReadPacket) -> Unit) {
         /*always assume SPO*/
         var builder = BytePacketBuilder()
         loop@ while (true) {

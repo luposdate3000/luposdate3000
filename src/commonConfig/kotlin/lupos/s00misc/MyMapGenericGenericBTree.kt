@@ -160,7 +160,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 }
                 child.keys[0] = keys[idx - 1]
                 child.values[0] = values[idx - 1]
-                if (child is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV> && sibling is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
+                if (sibling is MyMapGenericGenericBTreeNodeNonLeaf<GenericK, GenericV>) {
                     child.C[0] = sibling.C[sibling.n]
                 }
                 keys[idx - 1] = sibling.keys[sibling.n - 1]

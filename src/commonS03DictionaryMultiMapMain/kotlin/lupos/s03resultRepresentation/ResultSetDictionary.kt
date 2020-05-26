@@ -68,8 +68,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         val errorValue2 = ValueError()
         @JvmField
         val undefValue2 = ValueUndef()
-fun isGlobalBNode(value:Value) = (value and mask3)==flaggedValueGlobalBnode
-fun isLocalBNode(value:Value) = (value and mask3)==flaggedValueLocalBnode
+
+        fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
+        fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
     }
 
     fun toBooleanOrError(value: Value): Value {
