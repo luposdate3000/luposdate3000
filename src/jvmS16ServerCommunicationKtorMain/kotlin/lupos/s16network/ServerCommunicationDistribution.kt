@@ -37,7 +37,6 @@ class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunic
 
 object ServerCommunicationDistribution {
     val knownHosts = mutableListOf<ServerCommunicationKnownHost>()
-    var globalID = 0
     /*
      * refer to k in the project-proposal page 9
      * TODO redistribution on change
@@ -70,7 +69,7 @@ object ServerCommunicationDistribution {
     }
 
     /*
-     * use directly during bulk-import
+     * use during bulk-import
      */
     fun getHostForFullTriple(str: Array<String>, idx: EIndexPattern): ServerCommunicationKnownHost {
         require(str.size == 3)
