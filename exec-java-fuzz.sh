@@ -2,7 +2,31 @@
 rm -rf jacoco* log/db* nohup.out run javafuzz donefolder
 buildfile="build.gradle.kts"
 output1=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")
-./generate-buildfile.kts 1.4.255-SNAPSHOT jvm jvmS00LaunchWarnkeFuzzMain commonS00SanityChecksOnMain commonS00ExecutionSequentialMain benchmarkcommonS01HeapMain commonS05MapMapListMain commonS12DummyMain commonS14ServerNoneMain jvmS14ClientKtorTarget commonS15LocalMain jvmS00WrapperJenaOnMain
+{
+  echo 1.4.255-SNAPSHOT
+  echo jvm
+  echo WarnkeFuzz
+  echo On
+  echo Sequential
+  echo Heap
+  echo MultiMap
+  echo MapMapList
+  echo None
+  echo None
+  echo On
+  echo BTree
+  echo BTree
+  echo None
+  echo Empty
+  echo 128
+  echo 8
+  echo 8
+  echo 8
+  echo true
+  echo ECoverage.Disabled
+  echo Off
+  echo None
+} | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 buildfile="build.gradle.kts"
 output2=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/build_-" | sed "s/\".*//g")

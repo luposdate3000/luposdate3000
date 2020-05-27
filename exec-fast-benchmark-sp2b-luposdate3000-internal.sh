@@ -9,7 +9,31 @@ triples=1024
 #triples=524288
 triples=8388608
 
-./generate-buildfile.kts 1.4.255-SNAPSHOT jvm Endpoint Off Fast Sequential Heap MultiMap BPlusTree Dummy Korio None Local Off BTree BTree None Empty 8196 1024 512 512
+{
+  echo 1.4.255-SNAPSHOT
+  echo jvm
+  echo Endpoint
+  echo Off
+  echo Sequential
+  echo Heap
+  echo MultiMap
+  echo BPlusTree
+  echo Korio
+  echo None
+  echo Off
+  echo BTree
+  echo BTree
+  echo None
+  echo Empty
+  echo 8196
+  echo 1024
+  echo 512
+  echo 512
+  echo true
+  echo ECoverage.Disabled
+  echo DontChange
+  echo None
+} | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 
 

@@ -71,25 +71,23 @@ class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
     override operator fun compareTo(other: ChooseableGroup) = name.compareTo(other.name)
 }
 
-
+var newCommandString = "{"
 var allChoicesString = ""
 var choicesCount = 0
-fun presentChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
+fun presentUserChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
     when (options.size) {
         0 -> throw Exception("script error")
         1 -> return options[0]
         else -> {
             println("selecting ${group.name}: choose one of ${options.map { it.label }}")
             while (true) {
-                val input = if (choicesCount < args.size) {
-                    args[choicesCount++]
-                } else
-                    readLine()
+                val input = readLine()
                 if (input != null) {
                     if (options.map { it.label }.contains(input)) {
                         for (o in options) {
                             if (o.label == input) {
                                 allChoicesString += "_${o.label}"
+                                newCommandString += "\n  echo ${o.label}"
                                 return o
                             }
                         }
@@ -366,126 +364,16 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s16network", "NETWORK_DEFAULT_PORT", "2323")
         )
 )
-val conflicts = listOf(
-        setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
-)
-val platformPrefix = mapOf(
-        "linuxX64" to listOf("common", "linuxX64", "native"),
-        "macosX64" to listOf("common", "macosX64", "native"),
-        "mingw64" to listOf("common"),
-        "jvm" to listOf("common", "jvm")
-)
-val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
-val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
-val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
 
-val additionalSources = mapOf(
-/*if the key is choosen, automatically add all dependent things*/
-        ChooseableOption("commonMain") to listOf(
-                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
-                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
-                ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
-                ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
-        ),
-        ChooseableOption("commonS01HeapMain") to listOf(
-                ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
-        ),
-        ChooseableOption("commonS14ClientKtorMain") to listOf(
-                ChooseableOptionDependency("io.ktor:ktor-client-core:$ktorVersion"),
-                ChooseableOptionDependency("io.ktor:ktor-client-cio:$ktorVersion"),
-                ChooseableOptionDependency("io.ktor:ktor-client-logging:$ktorVersion")
-        ),
-        ChooseableOption("jvmMain") to listOf(
-                ChooseableOptionDependency("com.soywiz.korlibs.klock:klock:1.7.0"),
-                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
-                ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
-                ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
-                ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25")
-        ),
-        ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
-                ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
-                ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
-        ),
-        ChooseableOption("jvmS01BufferMemoryMappedMain") to listOf(
-                ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
-        ),
-        ChooseableOption("jvmS01BufferMemoryMappedUnsafeMain") to listOf(
-                ChooseableOptionDirectory("commonS01BufferDiskbasedMain"),
-                ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
-        ),
-        ChooseableOption("jvmS01BufferUnsafeMain") to listOf(
-                ChooseableOptionDirectory("commonS01BufferMainmemoryMain"),
-                ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
-        ),
-        ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
-                ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
-        ),
-        ChooseableOption("jvmS14ClientKtorTarget") to listOf(
-                ChooseableOptionDirectory("commonS14ClientKtorMain"),
-                ChooseableOptionDependency("io.ktor:ktor-client-logging-jvm:$ktorVersion"),
-                ChooseableOptionDependency("io.ktor:ktor-client-core-jvm:$ktorVersion")
-        ),
-        ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
-                ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
-        ),
-        ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
-                ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
-        ),
-        ChooseableOption("jvmS14ClientKorioMain") to listOf(
-                ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
-        ),
-        ChooseableOption("linuxX64Main") to listOf(
-                ChooseableOptionDirectory("nativeMain"),
-                ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
-        ),
-        ChooseableOption("macosX64Main") to listOf(
-                ChooseableOptionDirectory("nativeMain"),
-                ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
-        ),
-        ChooseableOption("nativeMain") to listOf(
-                ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"),
-                ChooseableOptionCInterop("dirent"),
-                ChooseableOptionCInterop("stdio"),
-                ChooseableOptionCInterop("unistd")
-        ),
-        ChooseableOption("nativeS14ClientKtorTarget") to listOf(
-                ChooseableOptionDirectory("commonS14ClientKtorMain"),
-                ChooseableOptionDependency("io.ktor:ktor-client-core-native:$ktorVersion"),
-                ChooseableOptionDependency("io.ktor:ktor-client-logging-native:$ktorVersion")
-        )
-)
+
+var additionalSources = mapOf<ChooseableOption, List<ChooseableOption>>()
 val allChoosenOptions = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
-allChoosenOptions.add(ChooseableOptionDirectory("${platform}Main"))
-for ((k, choices) in options) {
-    var alreadyChoosen = false
-    for (choice in choices)
-        if (allChoosenOptions.contains(choice)) {
-            alreadyChoosen = true
-            break
-        }
-    if (!alreadyChoosen) {
-        val remainingChoices = mutableListOf<ChooseableOption>()
-        for (choice in choices) {
-            var ok = false
-            for (prefix in platformPrefix[platform]!!)
-                if (choice.internalID.startsWith(prefix)) {
-                    ok = true
-                    break
-                }
-            for (conflict in conflicts)
-                if (conflict.contains(choice.internalID))
-                    for (option in allChoosenOptions)
-                        if (conflict.contains(option.internalID)) {
-                            ok = false
-                        }
-            if (ok)
-                remainingChoices.add(choice)
-        }
-        val choice = presentChoice(k, remainingChoices)
-        allChoosenOptions.add(choice)
-        addAdditionalSources()
-    }
+fun resetAllChoosenOptions() {
+    allChoosenOptions.clear()
+    allChoosenOptions.add(ChooseableOptionDirectory("commonMain"))
+    allChoosenOptions.add(ChooseableOptionDirectory("commonConfig"))
 }
+
 fun addAdditionalSources() {
     var changed = true
     while (changed) {
@@ -504,28 +392,218 @@ fun addAdditionalSources() {
     }
 }
 
-println("result choices :: ")
-for (option in allChoosenOptions.sorted())
-    println(option.toString() + " :: " + option.internalID)
-allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
+var platformPrefix = mapOf(
+        "linuxX64" to listOf("common", "linuxX64", "native"),
+        "macosX64" to listOf("common", "macosX64", "native"),
+        "mingw64" to listOf("common"),
+        "jvm" to listOf("common", "jvm")
+)
+/*--->>> autogenerating all possible build-files*/
+var autoGenerateAllChoosenOptionsList = mutableSetOf<ChooseableOption>()
+var autoGenerateAllNotChoosenOptionsList = mutableSetOf<ChooseableOption>()
+var autoGenerateAllChoicesString = ""
+fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
+    if (options.size == 1) {
+        autoGenerateAllChoosenOptionsList.add(options[0])
+        autoGenerateAllNotChoosenOptionsList.remove(options[0])
+        return options[0]//only possibility
+    } else {
+        var argsFilter = false
+        for (o in options) {
+            if (args.contains(o.label)) {
+                argsFilter = true
+            }
+        }
+        for (o in options) {
+            if (!autoGenerateAllChoosenOptionsList.contains(o) && (!argsFilter || args.contains(o.label))) {
+                autoGenerateAllNotChoosenOptionsList.remove(o)
+                autoGenerateAllChoosenOptionsList.add(o)
+                for (o2 in options) {
+                    if (!autoGenerateAllChoosenOptionsList.contains(o2) && (!argsFilter || args.contains(o2.label))) {
+                        var flag = true
+                        if (o2 is ChooseableOptionConstantValue) {
+//numeric values should not be the only reason to compile more often
+                            try {
+                                o2.variableValue.toDouble()
+                                flag = false
+                            } catch (e: Throwable) {
+                            }
+                        }
+                        if (flag) {
+                            autoGenerateAllNotChoosenOptionsList.add(o2)
+                        }
+                    }
+                }
+                autoGenerateAllChoicesString += "\n  echo ${o.label}"
+                return o//something new
+            }
+        }
+        if (argsFilter) {
+            for (o in options) {
+                if (args.contains(o.label)) {
+                    autoGenerateAllChoicesString += "\n  echo ${o.label}"
+                    return o//anything, since all were choosen at least once
+                }
+            }
+        }
+        autoGenerateAllChoicesString += "\n  echo ${options[0].label}"
+        return options[0]//anything, since all were choosen at least once
+    }
+}
 
-File("build.gradle.kts").printWriter().use { out ->
-    when (platform) {
-        "jvm" -> {
-            out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+var done = false
+var autogeneratemode = args.size > 0 && args[0] == "listAll"
+while (!done) {
+    resetAllChoosenOptions()
+    var presentChoice: (ChooseableGroup, List<ChooseableOption>) -> ChooseableOption
+    if (autogeneratemode) {
+        presentChoice = ::presentAutoChoice
+        done = autoGenerateAllNotChoosenOptionsList.size == 0 && autoGenerateAllChoicesString.length != 0
+        autoGenerateAllChoicesString += "\n{"
+    } else {
+        presentChoice = ::presentUserChoice
+        done = true
+    }
+/*<<<--- autogenerating all possible build-files*/
+
+    val conflicts = listOf(
+            setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
+    )
+    val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
+    val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
+    val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
+
+    additionalSources = mapOf(
+/*if the key is choosen, automatically add all dependent things*/
+            ChooseableOption("commonMain") to listOf(
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
+                    ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
+                    ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
+            ),
+            ChooseableOption("commonS01HeapMain") to listOf(
+                    ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
+            ),
+            ChooseableOption("commonS14ClientKtorMain") to listOf(
+                    ChooseableOptionDependency("io.ktor:ktor-client-core:$ktorVersion"),
+                    ChooseableOptionDependency("io.ktor:ktor-client-cio:$ktorVersion"),
+                    ChooseableOptionDependency("io.ktor:ktor-client-logging:$ktorVersion")
+            ),
+            ChooseableOption("jvmMain") to listOf(
+                    ChooseableOptionDependency("com.soywiz.korlibs.klock:klock:1.7.0"),
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
+                    ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
+                    ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25")
+            ),
+            ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
+                    ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
+                    ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
+            ),
+            ChooseableOption("jvmS01BufferMemoryMappedMain") to listOf(
+                    ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
+            ),
+            ChooseableOption("jvmS01BufferMemoryMappedUnsafeMain") to listOf(
+                    ChooseableOptionDirectory("commonS01BufferDiskbasedMain"),
+                    ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
+            ),
+            ChooseableOption("jvmS01BufferUnsafeMain") to listOf(
+                    ChooseableOptionDirectory("commonS01BufferMainmemoryMain"),
+                    ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
+            ),
+            ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
+                    ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
+            ),
+            ChooseableOption("jvmS14ClientKtorTarget") to listOf(
+                    ChooseableOptionDirectory("commonS14ClientKtorMain"),
+                    ChooseableOptionDependency("io.ktor:ktor-client-logging-jvm:$ktorVersion"),
+                    ChooseableOptionDependency("io.ktor:ktor-client-core-jvm:$ktorVersion")
+            ),
+            ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
+                    ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
+            ),
+            ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
+                    ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
+            ),
+            ChooseableOption("jvmS14ClientKorioMain") to listOf(
+                    ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
+            ),
+            ChooseableOption("linuxX64Main") to listOf(
+                    ChooseableOptionDirectory("nativeMain"),
+                    ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
+            ),
+            ChooseableOption("macosX64Main") to listOf(
+                    ChooseableOptionDirectory("nativeMain"),
+                    ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
+            ),
+            ChooseableOption("nativeMain") to listOf(
+                    ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"),
+                    ChooseableOptionCInterop("dirent"),
+                    ChooseableOptionCInterop("stdio"),
+                    ChooseableOptionCInterop("unistd")
+            ),
+            ChooseableOption("nativeS14ClientKtorTarget") to listOf(
+                    ChooseableOptionDirectory("commonS14ClientKtorMain"),
+                    ChooseableOptionDependency("io.ktor:ktor-client-core-native:$ktorVersion"),
+                    ChooseableOptionDependency("io.ktor:ktor-client-logging-native:$ktorVersion")
+            )
+    )
+    allChoosenOptions.add(ChooseableOptionDirectory("${platform}Main"))
+    for ((k, choices) in options) {
+        var alreadyChoosen = false
+        for (choice in choices)
+            if (allChoosenOptions.contains(choice)) {
+                alreadyChoosen = true
+                break
+            }
+        if (!alreadyChoosen) {
+            val remainingChoices = mutableListOf<ChooseableOption>()
+            for (choice in choices) {
+                var ok = false
+                for (prefix in platformPrefix[platform]!!)
+                    if (choice.internalID.startsWith(prefix)) {
+                        ok = true
+                        break
+                    }
+                for (conflict in conflicts)
+                    if (conflict.contains(choice.internalID))
+                        for (option in allChoosenOptions)
+                            if (conflict.contains(option.internalID)) {
+                                ok = false
+                            }
+                if (ok)
+                    remainingChoices.add(choice)
+            }
+            val choice = presentChoice(k, remainingChoices)
+            allChoosenOptions.add(choice)
+            addAdditionalSources()
+        }
+    }
+    if (autogeneratemode) {
+        autoGenerateAllChoicesString += "\n} | ./generate-buildfile.kts"
+    } else {
+        println("result choices :: ")
+        for (option in allChoosenOptions.sorted())
+            println(option.toString() + " :: " + option.internalID)
+        allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
+
+        File("build.gradle.kts").printWriter().use { out ->
+            when (platform) {
+                "jvm" -> {
+                    out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "14"
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
 }""")
-        }
-        else -> {
-            out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+                }
+                else -> {
+                    out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
 }""")
-        }
-    }
-    out.println("""buildscript {
+                }
+            }
+            out.println("""buildscript {
     repositories {
         jcenter()
         google()
@@ -540,9 +618,9 @@ tasks.withType<KotlinCompile>().all {
         classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
     }
 }""")
-    when (platform) {
-        "jvm" -> {
-            out.println("""plugins {
+            when (platform) {
+                "jvm" -> {
+                    out.println("""plugins {
     id("org.jetbrains.kotlin.jvm") version "$kotlinVersion"
     application
 }
@@ -559,16 +637,16 @@ repositories {
 }
 project.buildDir = file("build/build$allChoicesString")
 dependencies {""")
-            for (option in allChoosenOptions.sorted())
-                if (option is ChooseableOptionDependency)
-                    out.println("    implementation(\"${option.internalID}\")")
-            out.println("""}""")
-            for (option in allChoosenOptions.sorted())
-                if (option is ChooseableOptionDirectory)
-                    out.println("sourceSets[\"main\"].java.srcDir(\"src/${option.internalID}/kotlin\")")
-        }
-        else -> {
-            out.println("""plugins {
+                    for (option in allChoosenOptions.sorted())
+                        if (option is ChooseableOptionDependency)
+                            out.println("    implementation(\"${option.internalID}\")")
+                    out.println("""}""")
+                    for (option in allChoosenOptions.sorted())
+                        if (option is ChooseableOptionDirectory)
+                            out.println("sourceSets[\"main\"].java.srcDir(\"src/${option.internalID}/kotlin\")")
+                }
+                else -> {
+                    out.println("""plugins {
     id("org.jetbrains.kotlin.multiplatform") version "$kotlinVersion"
 }
 repositories {
@@ -583,115 +661,119 @@ kotlin {
     project.buildDir = file("build/build$allChoicesString")
     ${platform}("${platform}") {
         val main by compilations.getting""")
-            for (option in allChoosenOptions.sorted()) {
-                if (option is ChooseableOptionCInterop)
-                    out.println("        val ${option.internalID} by main.cinterops.creating")
-            }
-            out.println("""        binaries {
+                    for (option in allChoosenOptions.sorted()) {
+                        if (option is ChooseableOptionCInterop)
+                            out.println("        val ${option.internalID} by main.cinterops.creating")
+                    }
+                    out.println("""        binaries {
             executable()
         }
     }
     sourceSets["commonMain"].dependencies {""")
-            for (option in allChoosenOptions.sorted())
-                if (option is ChooseableOptionDependency)
-                    out.println("        implementation(\"${option.internalID}\")")
-            out.println("""    }""")
-            for (option in allChoosenOptions.sorted())
-                if (option is ChooseableOptionDirectory) {
-                    if (option.internalID.startsWith("common"))
-                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
-                    else
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
+                    for (option in allChoosenOptions.sorted())
+                        if (option is ChooseableOptionDependency)
+                            out.println("        implementation(\"${option.internalID}\")")
+                    out.println("""    }""")
+                    for (option in allChoosenOptions.sorted())
+                        if (option is ChooseableOptionDirectory) {
+                            if (option.internalID.startsWith("common"))
+                                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
+                            else
+                                out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
+                        }
+                    out.println("""}""")
                 }
-            out.println("""}""")
-        }
-    }
-}
-try {
-    File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
-} catch (e: FileAlreadyExistsException) {
-}
-File("src/commonConfig").deleteRecursively()
-val configFilesContent = mutableMapOf<String, StringBuilder>()
-for (option in allChoosenOptions) {
-    //first all alias definitions
-    if (option is ChooseableOptionTypeAlias) {
-        var f = configFilesContent[option.pkg]
-        if (f == null) {
-            f = StringBuilder()
-            f!!.append("/* this File is autogenerated by generate-buildfile.kts */\n")
-            f!!.append("/* DO NOT MODIFY DIRECTLY */\n")
-            f!!.append("package ${option.pkg}\n")
-            configFilesContent[option.pkg] = f!!
-        }
-        val fc = f!!
-        for (alias in option.aliasList) {
-            fc.append("typealias ${alias.first} = ${alias.second}\n")
-        }
-    }
-}
-for (option in allChoosenOptions) {
-    //than all constant definitions
-    if (option is ChooseableOptionConstantValue) {
-        var f = configFilesContent[option.pkg]
-        if (f == null) {
-            f = StringBuilder()
-            f!!.append("/* this File is autogenerated by generate-buildfile.kts */\n")
-            f!!.append("/* DO NOT MODIFY DIRECTLY */\n")
-            f!!.append("package ${option.pkg}\n")
-            configFilesContent[option.pkg] = f!!
-        }
-        val fc = f!!
-        if (option.variableValue.startsWith("\"")) {
-            fc.append("const val ${option.variableName} = ${option.variableValue}\n")
-        } else {
-            try {
-                var x = option.variableValue.toDouble()
-                fc.append("const val ${option.variableName} = ${option.variableValue}\n")
-            } catch (e: Throwable) {
-                fc.append("val ${option.variableName} = ${option.variableValue}\n")
             }
         }
-    }
-}
-fun String.runCommand(workingDir: File? = null) {
-    val process = ProcessBuilder(*split(" ").toTypedArray())
-            .directory(workingDir)
-            .redirectOutput(Redirect.INHERIT)
-            .redirectError(Redirect.INHERIT)
-            .start()
-    if (!process.waitFor(60, TimeUnit.SECONDS)) {
-        process.destroy()
-        throw RuntimeException("execution timed out: $this")
-    }
-    if (process.exitValue() != 0) {
-        throw RuntimeException("execution failed with code ${process.exitValue()}: $this")
-    }
-}
-for (option in allChoosenOptions) {
-    if (option is ChoosableOptionExternalScript) {
-        option.scriptName.runCommand()
-    }
-}
-for ((k, v) in configFilesContent) {
-    File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
-    File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
-        out.print(v.toString())
-    }
-}
+        try {
+            File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
+        } catch (e: FileAlreadyExistsException) {
+        }
+        File("src/commonConfig").deleteRecursively()
+        val configFilesContent = mutableMapOf<String, StringBuilder>()
+        for (option in allChoosenOptions) {
+            //first all alias definitions
+            if (option is ChooseableOptionTypeAlias) {
+                var f = configFilesContent[option.pkg]
+                if (f == null) {
+                    f = StringBuilder()
+                    f!!.append("/* this File is autogenerated by generate-buildfile.kts */\n")
+                    f!!.append("/* DO NOT MODIFY DIRECTLY */\n")
+                    f!!.append("package ${option.pkg}\n")
+                    configFilesContent[option.pkg] = f!!
+                }
+                val fc = f!!
+                for (alias in option.aliasList) {
+                    fc.append("typealias ${alias.first} = ${alias.second}\n")
+                }
+            }
+        }
+        for (option in allChoosenOptions) {
+            //than all constant definitions
+            if (option is ChooseableOptionConstantValue) {
+                var f = configFilesContent[option.pkg]
+                if (f == null) {
+                    f = StringBuilder()
+                    f!!.append("/* this File is autogenerated by generate-buildfile.kts */\n")
+                    f!!.append("/* DO NOT MODIFY DIRECTLY */\n")
+                    f!!.append("package ${option.pkg}\n")
+                    configFilesContent[option.pkg] = f!!
+                }
+                val fc = f!!
+                if (option.variableValue.startsWith("\"")) {
+                    fc.append("const val ${option.variableName} = ${option.variableValue}\n")
+                } else {
+                    try {
+                        var x = option.variableValue.toDouble()
+                        fc.append("const val ${option.variableName} = ${option.variableValue}\n")
+                    } catch (e: Throwable) {
+                        fc.append("val ${option.variableName} = ${option.variableValue}\n")
+                    }
+                }
+            }
+        }
+        fun String.runCommand(workingDir: File? = null) {
+            val process = ProcessBuilder(*split(" ").toTypedArray())
+                    .directory(workingDir)
+                    .redirectOutput(Redirect.INHERIT)
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+            if (!process.waitFor(60, TimeUnit.SECONDS)) {
+                process.destroy()
+                throw RuntimeException("execution timed out: $this")
+            }
+            if (process.exitValue() != 0) {
+                throw RuntimeException("execution failed with code ${process.exitValue()}: $this")
+            }
+        }
+        for (option in allChoosenOptions) {
+            if (option is ChoosableOptionExternalScript) {
+                option.scriptName.runCommand()
+            }
+        }
+        for ((k, v) in configFilesContent) {
+            File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
+            File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
+                out.print(v.toString())
+            }
+        }
 
-for (template in templates) {
-    val sourceFile = File("src/commonTemplate/kotlin/" + template.pkg.replace(".", "/") + "/" + template.sourceClass + ".kt")
-    var fileContent = sourceFile.readText()
-    var targetClass = template.sourceClass
-    for (replacement in template.replacements) {
-        targetClass = targetClass.replace(replacement.first.toRegex(), replacement.second)
-        fileContent = replacement.first.toRegex(RegexOption.DOT_MATCHES_ALL).replace(fileContent, replacement.second)
-    }
-    val targetFile = File("src/commonConfig/kotlin/" + template.pkg.replace(".", "/") + "/" + targetClass + ".kt")
-    targetFile.printWriter().use {
-        it.println("/* this File is autogenerated by generate-buildfile.kts */")
-        it.println("/* DO NOT MODIFY DIRECTLY */")
-        it.print(fileContent)
+        for (template in templates) {
+            val sourceFile = File("src/commonTemplate/kotlin/" + template.pkg.replace(".", "/") + "/" + template.sourceClass + ".kt")
+            var fileContent = sourceFile.readText()
+            var targetClass = template.sourceClass
+            for (replacement in template.replacements) {
+                targetClass = targetClass.replace(replacement.first.toRegex(), replacement.second)
+                fileContent = replacement.first.toRegex(RegexOption.DOT_MATCHES_ALL).replace(fileContent, replacement.second)
+            }
+            val targetFile = File("src/commonConfig/kotlin/" + template.pkg.replace(".", "/") + "/" + targetClass + ".kt")
+            targetFile.printWriter().use {
+                it.println("/* this File is autogenerated by generate-buildfile.kts */")
+                it.println("/* DO NOT MODIFY DIRECTLY */")
+                it.print(fileContent)
+            }
+        }
+        println(newCommandString + "\n} | ./generate-buildfile.kts")
     }
 }
+println(autoGenerateAllChoicesString)

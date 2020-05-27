@@ -41,8 +41,9 @@ import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationTransferTriples {
     fun receiveTriples(packet: ByteReadPacket, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean): Array<MutableList<Value>> {
-/*always assume SPO even if some of the components are allowed to be missing*/
-        val columns = packet.readInt()
+/*always assume SPO even if some of the components are allowed to be missing*/{
+            val columns = packet.readInt()
+        }
         require(columns == expectedColumns)
         var res: Array<MutableList<Value>>
         if (outputAsSingle) {

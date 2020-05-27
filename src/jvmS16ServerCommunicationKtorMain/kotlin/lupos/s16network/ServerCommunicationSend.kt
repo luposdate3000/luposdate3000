@@ -2,11 +2,11 @@ package lupos.s16network
 
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
-import io.ktor.network.sockets.Socket
 import io.ktor.network.sockets.ByteReadChannel
 import io.ktor.network.sockets.ByteWriteChannel
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
+import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.core.BytePacketBuilder
 import io.ktor.utils.io.core.ByteReadPacket
 import java.net.InetSocketAddress
@@ -180,7 +180,8 @@ object ServerCommunicationSend {
             TODO("append values")
         }
         TODO("flush all and send termination signal")
-        TODO("wait for ack")
+        TODO("wait for ack") {
+        }
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
