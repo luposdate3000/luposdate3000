@@ -2,6 +2,14 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.readInt4
+import lupos.s00misc.readInt3
+import lupos.s00misc.readInt2
+import lupos.s00misc.readInt1
+import lupos.s00misc.writeInt4
+import lupos.s00misc.writeInt3
+import lupos.s00misc.writeInt2
+import lupos.s00misc.writeInt1
 
 var debugListLeaf = mutableListOf<Int>()
 
@@ -20,26 +28,26 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
     fun getFirstTriple(b: IntArray) {
-        b[0] = read4(9)
-        b[1] = read4(13)
-        b[2] = read4(17)
+        b[0] = data.readInt4(9)
+        b[1] = data.readInt4(13)
+        b[2] = data.readInt4(17)
     }
 
     fun toByteArray() = this.data
     fun setNextNode(node: Int) {
-        write4(4, node)
+        data.writeInt4(4, node)
     }
 
     fun getNextNode(): Int {
-        return read4(4)
+        return data.readInt4(4)
     }
 
     fun setTripleCount(count: Int) {
-        write4(0, count)
+        data.writeInt4(0, count)
     }
 
     fun getTripleCount(): Int {
-        return read4(0)
+        return data.readInt4(0)
     }
 
     fun iterator(): TripleIterator {
@@ -58,57 +66,15 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         return NodeLeafIteratorPrefix1(this, prefix)
     }
 
-    inline fun read4(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
-    }
-
-    inline fun read3(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
-    }
-
-    inline fun read2(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
-    }
-
-    inline fun read1(offset: Int): Int {
-        return (data[offset].toInt() and 0xFF)
-    }
-
-    inline fun write4(offset: Int, d: Int) {
-        data[offset] = ((d shr 24) and 0xFF).toByte()
-        data[offset + 1] = ((d shr 16) and 0xFF).toByte()
-        data[offset + 2] = ((d shr 8) and 0xFF).toByte()
-        data[offset + 3] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read4(offset) }, { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
-    }
-
-    inline fun write3(offset: Int, d: Int) {
-        data[offset] = ((d shr 16) and 0xFF).toByte()
-        data[offset + 1] = ((d shr 8) and 0xFF).toByte()
-        data[offset + 2] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read3(offset) }, { "$d ${read3(offset)}" })
-    }
-
-    inline fun write2(offset: Int, d: Int) {
-        data[offset] = ((d shr 8) and 0xFF).toByte()
-        data[offset + 1] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read2(offset) }, { "$d ${read2(offset)}" })
-    }
-
-    inline fun write1(offset: Int, d: Int) {
-        data[offset] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read1(offset) }, { "$d ${read1(offset)}" })
-    }
-
     inline fun writeFullTriple(offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
          */
-        write1(offset, 0b00111111)
-        write4(offset + 1, d[0])
-        write4(offset + 5, d[1])
-        write4(offset + 9, d[2])
+        data.writeInt1(offset, 0b00111111)
+        data.writeInt4(offset + 1, d[0])
+        data.writeInt4(offset + 5, d[1])
+        data.writeInt4(offset + 9, d[2])
         SanityCheck {
             debugListLeaf.add(d[0])
             debugListLeaf.add(d[1])
@@ -149,21 +115,21 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         var flag = false
         if (b[0] >= (1 shl 24)) {
             header = 0b00110000
-            write4(localOff, b[0])
+            data.writeInt4(localOff, b[0])
             localOff += 4
             flag = true
         } else if (b[0] >= (1 shl 16)) {
             header = 0b00100000
-            write3(localOff, b[0])
+            data.writeInt3(localOff, b[0])
             localOff += 3
             flag = true
         } else if (b[0] >= (1 shl 8)) {
             header = 0b00010000
-            write2(localOff, b[0])
+            data.writeInt2(localOff, b[0])
             localOff += 2
             flag = true
         } else if (b[0] >= 0) {
-            write1(localOff, b[0])
+            data.writeInt1(localOff, b[0])
             localOff += 1
             flag = true
         }
@@ -173,7 +139,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b01001100
             }
-            write4(localOff, b[1])
+            data.writeInt4(localOff, b[1])
             localOff += 4
             flag = true
         } else if (b[1] >= (1 shl 16)) {
@@ -182,7 +148,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b01001000
             }
-            write3(localOff, b[1])
+            data.writeInt3(localOff, b[1])
             localOff += 3
             flag = true
         } else if (b[1] >= (1 shl 8)) {
@@ -191,7 +157,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b01000100
             }
-            write2(localOff, b[1])
+            data.writeInt2(localOff, b[1])
             localOff += 2
             flag = true
         } else {
@@ -199,7 +165,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             if (!flag) {
                 header = 0b01000000
             }
-            write1(localOff, b[1])
+            data.writeInt1(localOff, b[1])
             localOff += 1
             flag = true
         }
@@ -209,7 +175,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b10000011
             }
-            write4(localOff, b[2])
+            data.writeInt4(localOff, b[2])
             localOff += 4
             flag = true
         } else if (b[2] >= (1 shl 16)) {
@@ -218,7 +184,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b10000010
             }
-            write3(localOff, b[2])
+            data.writeInt3(localOff, b[2])
             localOff += 3
             flag = true
         } else if (b[2] >= (1 shl 8)) {
@@ -227,7 +193,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b10000001
             }
-            write2(localOff, b[2])
+            data.writeInt2(localOff, b[2])
             localOff += 2
             flag = true
         } else {
@@ -235,11 +201,11 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
             if (!flag) {
                 header = 0b10000000
             }
-            write1(localOff, b[2])
+            data.writeInt1(localOff, b[2])
             localOff += 1
             flag = true
         }
-        write1(offset, header)
+        data.writeInt1(offset, header)
         SanityCheck.check { flag }//otherwise this triple would equal the last one
         SanityCheck.check { localOff > offset + 1 }//at least ony byte must have been written additionally to the header
         return localOff - offset

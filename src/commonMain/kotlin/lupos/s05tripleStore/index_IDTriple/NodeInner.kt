@@ -2,6 +2,14 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.readInt4
+import lupos.s00misc.readInt3
+import lupos.s00misc.readInt2
+import lupos.s00misc.readInt1
+import lupos.s00misc.writeInt4
+import lupos.s00misc.writeInt3
+import lupos.s00misc.writeInt2
+import lupos.s00misc.writeInt1
 
 inline class NodeInner(val data: ByteArray) { //ByteBuffer??
     /*
@@ -46,69 +54,27 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
     }
 
     fun setFirstChild(node: Int) {
-        write4(8, node)
+        data.writeInt4(8, node)
     }
 
     fun getFirstChild(): Int {
-        return read4(8)
+        return data.readInt4(8)
     }
 
     fun setNextNode(node: Int) {
-        write4(4, node)
+        data.writeInt4(4, node)
     }
 
     fun getNextNode(): Int {
-        return read4(4)
+        return data.readInt4(4)
     }
 
     fun setTripleCount(count: Int) {
-        write4(0, count)
+        data.writeInt4(0, count)
     }
 
     fun getTripleCount(): Int {
-        return read4(0)
-    }
-
-    inline fun read4(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
-    }
-
-    inline fun read3(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
-    }
-
-    inline fun read2(offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
-    }
-
-    inline fun read1(offset: Int): Int {
-        return (data[offset].toInt() and 0xFF)
-    }
-
-    inline fun write4(offset: Int, d: Int) {
-        data[offset] = ((d shr 24) and 0xFF).toByte()
-        data[offset + 1] = ((d shr 16) and 0xFF).toByte()
-        data[offset + 2] = ((d shr 8) and 0xFF).toByte()
-        data[offset + 3] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read4(offset) }, { "$d ${read4(offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
-    }
-
-    inline fun write3(offset: Int, d: Int) {
-        data[offset] = ((d shr 16) and 0xFF).toByte()
-        data[offset + 1] = ((d shr 8) and 0xFF).toByte()
-        data[offset + 2] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read3(offset) }, { "$d ${read3(offset)}" })
-    }
-
-    inline fun write2(offset: Int, d: Int) {
-        data[offset] = ((d shr 8) and 0xFF).toByte()
-        data[offset + 1] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read2(offset) }, { "$d ${read2(offset)}" })
-    }
-
-    inline fun write1(offset: Int, d: Int) {
-        data[offset] = (d and 0xFF).toByte()
-        SanityCheck.check({ d == read1(offset) }, { "$d ${read1(offset)}" })
+        return data.readInt4(0)
     }
 
     inline fun writeFullTriple(offset: Int, d: IntArray): Int {
@@ -116,10 +82,10 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
          * assuming enough space
          * return bytes written
          */
-        write1(offset, 0b00111111)
-        write4(offset + 1, d[0])
-        write4(offset + 5, d[1])
-        write4(offset + 9, d[2])
+        data.writeInt1(offset, 0b00111111)
+        data.writeInt4(offset + 1, d[0])
+        data.writeInt4(offset + 5, d[1])
+        data.writeInt4(offset + 9, d[2])
         return 13
     }
 
@@ -135,23 +101,23 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         for (i in 0 until count) {
             if (d[i] >= (1 shl 24)) {
                 header = header or (0b00000011 shl (6 - i - i))
-                write4(localOff, d[i])
+                data.writeInt4(localOff, d[i])
                 localOff += 4
             } else if (d[i] >= (1 shl 16)) {
                 header = header or (0b00000010 shl (6 - i - i))
-                write3(localOff, d[i])
+                data.writeInt3(localOff, d[i])
                 localOff += 3
             } else if (d[i] >= (1 shl 8)) {
                 header = header or (0b00000001 shl (6 - i - i))
-                write2(localOff, d[i])
+                data.writeInt2(localOff, d[i])
                 localOff += 2
             } else {
                 SanityCheck.check { d[i] >= 0 }
-                write1(localOff, d[i])
+                data.writeInt1(localOff, d[i])
                 localOff += 1
             }
         }
-        write1(offset, header)
+        data.writeInt1(offset, header)
         return localOff - offset
     }
 
@@ -182,21 +148,21 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         var flag = false
         if (b[0] >= (1 shl 24)) {
             header = 0b00110000
-            write4(localOff, b[0])
+            data.writeInt4(localOff, b[0])
             localOff += 4
             flag = true
         } else if (b[0] >= (1 shl 16)) {
             header = 0b00100000
-            write3(localOff, b[0])
+            data.writeInt3(localOff, b[0])
             localOff += 3
             flag = true
         } else if (b[0] >= (1 shl 8)) {
             header = 0b00010000
-            write2(localOff, b[0])
+            data.writeInt2(localOff, b[0])
             localOff += 2
             flag = true
         } else if (b[0] >= 0) {
-            write1(localOff, b[0])
+            data.writeInt1(localOff, b[0])
             localOff += 1
             flag = true
         }
@@ -206,7 +172,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b01001100
             }
-            write4(localOff, b[1])
+            data.writeInt4(localOff, b[1])
             localOff += 4
             flag = true
         } else if (b[1] >= (1 shl 16)) {
@@ -215,7 +181,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b01001000
             }
-            write3(localOff, b[1])
+            data.writeInt3(localOff, b[1])
             localOff += 3
             flag = true
         } else if (b[1] >= (1 shl 8)) {
@@ -224,7 +190,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b01000100
             }
-            write2(localOff, b[1])
+            data.writeInt2(localOff, b[1])
             localOff += 2
             flag = true
         } else {
@@ -232,7 +198,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             if (!flag) {
                 header = 0b01000000
             }
-            write1(localOff, b[1])
+            data.writeInt1(localOff, b[1])
             localOff += 1
             flag = true
         }
@@ -242,7 +208,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b10000011
             }
-            write4(localOff, b[2])
+            data.writeInt4(localOff, b[2])
             localOff += 4
             flag = true
         } else if (b[2] >= (1 shl 16)) {
@@ -251,7 +217,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b10000010
             }
-            write3(localOff, b[2])
+            data.writeInt3(localOff, b[2])
             localOff += 3
             flag = true
         } else if (b[2] >= (1 shl 8)) {
@@ -260,7 +226,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             } else {
                 header = 0b10000001
             }
-            write2(localOff, b[2])
+            data.writeInt2(localOff, b[2])
             localOff += 2
             flag = true
         } else {
@@ -268,11 +234,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             if (!flag) {
                 header = 0b10000000
             }
-            write1(localOff, b[2])
+            data.writeInt1(localOff, b[2])
             localOff += 1
             flag = true
         }
-        write1(offset, header)
+        data.writeInt1(offset, header)
         SanityCheck.check { flag }//otherwise this triple would equal the last one
         SanityCheck.check { localOff > offset + 1 }//at least ony byte must have been written additionally to the header
         return localOff - offset
@@ -299,7 +265,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         while (remaining > 0) {
             var i = 0
             while (i < 4 && remaining > 0) {
-                var header = read1(offset)
+                var header = data.readInt1(offset)
                 offset++
                 var headerA = header and 0b11000000
                 if (headerA == 0b0000000) {
@@ -312,22 +278,22 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                 remaining--
                 i++
             }
-            var headerB = read1(offset)
+            var headerB = data.readInt1(offset)
             offset++
             for (j in 0 until i) {
                 var h = ((headerB shr (6 - j - j)) and 0x03) + 1
                 when (h) {
                     1 -> {
-                        lastChildPointer = lastChildPointer xor read1(offset)
+                        lastChildPointer = lastChildPointer xor data.readInt1(offset)
                     }
                     2 -> {
-                        lastChildPointer = lastChildPointer xor read2(offset)
+                        lastChildPointer = lastChildPointer xor data.readInt2(offset)
                     }
                     3 -> {
-                        lastChildPointer = lastChildPointer xor read3(offset)
+                        lastChildPointer = lastChildPointer xor data.readInt3(offset)
                     }
                     4 -> {
-                        lastChildPointer = lastChildPointer xor read4(offset)
+                        lastChildPointer = lastChildPointer xor data.readInt4(offset)
                     }
                 }
                 action(lastChildPointer)
@@ -350,7 +316,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             var i = 0
             while (i < 4 && remaining > 0) {
                 childLastPointerHeaderOffset = offset
-                var header = read1(offset)
+                var header = data.readInt1(offset)
                 offset++
                 var headerA = header and 0b11000000
                 if (headerA == 0b0000000) {
@@ -370,16 +336,16 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                 for (j in 0 until 3) {
                     when (counter[j]) {
                         1 -> {
-                            value[j] = value[j] xor read1(offset)
+                            value[j] = value[j] xor data.readInt1(offset)
                         }
                         2 -> {
-                            value[j] = value[j] xor read2(offset)
+                            value[j] = value[j] xor data.readInt2(offset)
                         }
                         3 -> {
-                            value[j] = value[j] xor read3(offset)
+                            value[j] = value[j] xor data.readInt3(offset)
                         }
                         4 -> {
-                            value[j] = value[j] xor read4(offset)
+                            value[j] = value[j] xor data.readInt4(offset)
                         }
                     }
                     offset += counter[j]
@@ -399,22 +365,22 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                 remaining--
                 i++
             }
-            var headerB = read1(offset)
+            var headerB = data.readInt1(offset)
             offset++
             for (j in 0 until i) {
                 var h = ((headerB shr (6 - j - j)) and 0x03) + 1
                 when (h) {
                     1 -> {
-                        childPointers[j] = lastChildPointer xor read1(offset)
+                        childPointers[j] = lastChildPointer xor data.readInt1(offset)
                     }
                     2 -> {
-                        childPointers[j] = lastChildPointer xor read2(offset)
+                        childPointers[j] = lastChildPointer xor data.readInt2(offset)
                     }
                     3 -> {
-                        childPointers[j] = lastChildPointer xor read3(offset)
+                        childPointers[j] = lastChildPointer xor data.readInt3(offset)
                     }
                     4 -> {
-                        childPointers[j] = lastChildPointer xor read4(offset)
+                        childPointers[j] = lastChildPointer xor data.readInt4(offset)
                     }
                 }
                 lastChildPointer = childPointers[j]

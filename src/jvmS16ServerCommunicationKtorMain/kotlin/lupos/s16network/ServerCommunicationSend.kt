@@ -2,12 +2,13 @@ package lupos.s16network
 
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
-import io.ktor.network.sockets.ByteReadChannel
-import io.ktor.network.sockets.ByteWriteChannel
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.core.BytePacketBuilder
+import io.ktor.utils.io.core.Output.*
 import io.ktor.utils.io.core.ByteReadPacket
 import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
@@ -168,11 +169,13 @@ object ServerCommunicationSend {
                 builder.writeUtf8(graphName)
                 helper2.output.writePacket(builder.build())
                 builder.close()
+runBlocking{
                 launch {
                     ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
                         helper2.output.writePacket(it)
                         helper2.output.flush()
                     }
+}
                 }
             } else {
                 helper2 = helper

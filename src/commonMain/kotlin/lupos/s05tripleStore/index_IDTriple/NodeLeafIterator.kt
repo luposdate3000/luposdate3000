@@ -2,6 +2,10 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.readInt1
+import lupos.s00misc.readInt2
+import lupos.s00misc.readInt3
+import lupos.s00misc.readInt4
 
 class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
     var remaining = node.getTripleCount()
@@ -16,7 +20,7 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
             value[1] = 0
             value[2] = 0
         }
-        var header = node.read1(offset)
+        var header = node.data.readInt1(offset)
         var headerA = header and 0b11000000
         if (headerA == 0b0000000) {
             counter[0] = ((header and 0b00110000) shr 4) + 1
@@ -36,16 +40,16 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
         for (i in 0 until 3) {
             when (counter[i]) {
                 1 -> {
-                    value[i] = value[i] xor node.read1(offset)
+                    value[i] = value[i] xor node.data.readInt1(offset)
                 }
                 2 -> {
-                    value[i] = value[i] xor node.read2(offset)
+                    value[i] = value[i] xor node.data.readInt2(offset)
                 }
                 3 -> {
-                    value[i] = value[i] xor node.read3(offset)
+                    value[i] = value[i] xor node.data.readInt3(offset)
                 }
                 4 -> {
-                    value[i] = value[i] xor node.read4(offset)
+                    value[i] = value[i] xor node.data.readInt4(offset)
                 }
             }
             offset += counter[i]
