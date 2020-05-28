@@ -119,17 +119,21 @@ object ServerCommunicationReceive {
                                     val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     val params = ServerCommunicationTransferParams.receiveParams(packet, query)
                                     var bundle = graph.getIterator(query, params, idx)
-if(bundle.hasCountMode()){
-var builder=ByteArrayBuilder()
-builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT.ordinal)
-builder.writeInt(bundle.count)
- output.writeByteArray(builder)
-}else{
-                                    ServerCommunicationTransferTriples.sendTriples(bundle, query.dictionary, params) {
-                                        output.writeByteArray(it)
-                                        output.flush()
+                                    if (bundle.hasCountMode()) {
+                                        var builder = ByteArrayBuilder()
+                                        builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT.ordinal)
+                                        builder.writeInt(bundle.count)
+                                        output.writeByteArray(builder)
+                                    } else {
+                                        {
+                                            {
+                                                ServerCommunicationTransferTriples.sendTriples(bundle, query.dictionary, params) {
+                                                }
+                                            }
+                                            output.writeByteArray(it)
+                                            output.flush()
+                                        }
                                     }
-}
                                 }
                                 ServerCommunicationHeader.GET_HISTOGRAM -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]

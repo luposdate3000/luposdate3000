@@ -18,6 +18,9 @@ import lupos.s03resultRepresentation.ValueUndef
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
 class ResultSetDictionary(val global: Boolean = false) {
+    var mapSTL = mutableMapOf<String, Long>()
+    var mapLTS = mutableMapOf<Long, String>()
+
     companion object {
         @JvmField
         val booleanTrueValue = 0//required by truth-tables

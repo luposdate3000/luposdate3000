@@ -110,15 +110,15 @@ object HttpEndpoint {
         return res
     }
 
-    fun helper_import_turtle_files(dict: MyMapStringIntPatriciaTrie, usePredefinedDict:Boolean, v: String): Value {
+    fun helper_import_turtle_files(dict: MyMapStringIntPatriciaTrie, usePredefinedDict: Boolean, v: String): Value {
         try {
             val v2 = helper_clean_string(v)
             BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
             if (v2.startsWith("_:")) {
                 return dict.getOrCreate(v2, {
-SanityCheck.check{!usePredefinedDict}
-/*return*/ nodeGlobalDictionary.createNewBNode() 
-})
+                    SanityCheck.check { !usePredefinedDict }
+/*return*/ nodeGlobalDictionary.createNewBNode()
+                })
             } else {
                 return nodeGlobalDictionary.createValue(v2)
             }
@@ -127,9 +127,9 @@ SanityCheck.check{!usePredefinedDict}
         }
     }
 
-    suspend fun import_turtle_files(fileNames: String,bnodeDict:MyMapStringIntPatriciaTrie): String {
+    suspend fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
         try {
-val usePredefinedDict=bnodeDict.size>0
+            val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
             var bulk = TripleStoreBulkImport()
             var counter = 0
@@ -148,18 +148,18 @@ val usePredefinedDict=bnodeDict.size>0
                     if (bulk.full()) {
                         CoroutinesHelper.runBlock {
                             bulk.sort()
- for (idx in TripleStoreLocalBase.distinctIndices) {
-                            store.bulkImport(bulk,idx)
-}
+                            for (idx in TripleStoreLocalBase.distinctIndices) {
+                                store.bulkImport(bulk, idx)
+                            }
                             bulk.reset()
                         }
                     }
                 }, ltit).turtleDoc()
             }
             bulk.sort()
- for (idx in TripleStoreLocalBase.distinctIndices) {
-            store.bulkImport(bulk,idx)
-}
+            for (idx in TripleStoreLocalBase.distinctIndices) {
+                store.bulkImport(bulk, idx)
+            }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()

@@ -26,7 +26,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val minimumTime = args[4].toDouble()
     val numberOfTriples = args[5].toLong()
     val originalTripleSize = args[6].toLong()
-val datasourceBNodeFile=args[7]
+    val datasourceBNodeFile = args[7]
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()
@@ -36,11 +36,11 @@ val datasourceBNodeFile=args[7]
         }
         Datasource.IMPORT -> {
             val timer = Monotonic.markNow()
-val dict=MyMapStringIntPatriciaTrie()
-File(datasourceBNodeFile).forEachLine{
-dict[it]=nodeGlobalDictionary.createNewBNode()
-}
-            HttpEndpoint.import_turtle_files(datasourceFiles,dict)
+            val dict = MyMapStringIntPatriciaTrie()
+            File(datasourceBNodeFile).forEachLine {
+                dict[it] = nodeGlobalDictionary.createNewBNode()
+            }
+            HttpEndpoint.import_turtle_files(datasourceFiles, dict)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/sp2b/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
             printBenchmarkLine("resources/sp2b/persistence-import-sort.sparql", BenchmarkUtils.getTime(EBenchmark.IMPORT_SORT), 1, numberOfTriples, originalTripleSize)

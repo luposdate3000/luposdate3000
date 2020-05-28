@@ -1,5 +1,5 @@
 package lupos.s16network
-import  kotlinx.coroutines.Job
+
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -12,6 +12,7 @@ import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
+import  kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
@@ -27,21 +28,21 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueComparatorFast
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s04logicalOperators.iterator.RowIteratorMerge
-import lupos.s04logicalOperators.iterator.RowIteratorBuf
-import lupos.s04logicalOperators.iterator.RowIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChannel
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.s04logicalOperators.iterator.RowIterator
+import lupos.s04logicalOperators.iterator.RowIteratorBuf
+import lupos.s04logicalOperators.iterator.RowIteratorChildIterator
+import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
@@ -208,7 +209,7 @@ object ServerCommunicationSend {
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
-            val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
+        val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
         var columnsTmp = mutableListOf<String>()
         for (p in params) {
             if (p is AOPVariable && p.name != "_") {
@@ -257,7 +258,7 @@ object ServerCommunicationSend {
                     val output = socket.openWriteChannel()
                     try {
                         output.writeByteArray(builder)
-                        iterator.onNoMoreElements ={
+                        iterator.onNoMoreElements = {
                             val packet2 = input.readByteArray()
                             val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                             if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
@@ -294,7 +295,7 @@ object ServerCommunicationSend {
     }
 
     fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
-val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
+        val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
         var builder = ByteArrayBuilder()
         builder.writeInt(ServerCommunicationHeader.GET_HISTOGRAM.ordinal)
         builder.writeLong(query.transactionID)

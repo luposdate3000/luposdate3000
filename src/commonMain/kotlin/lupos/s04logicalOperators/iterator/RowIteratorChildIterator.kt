@@ -4,16 +4,17 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 
-class RowIteratorChildIterator(columns:Array<String>) : RowIterator() {
+class RowIteratorChildIterator(columns: Array<String>) : RowIterator() {
     val childs = mutableListOf(RowIterator())
     var onNoMoreElements: suspend () -> Unit = ::_onNoMoreElements
+
     init {
-this.columns=columns
+        this.columns = columns
         next = {
-            var res=-1
+            var res = -1
             while (childs.size > 0) {
                 res = childs[0].next()
-buf=childs[0].buf
+                buf = childs[0].buf
                 if (res == -1) {
                     childs.removeAt(0)
                 } else {
@@ -24,14 +25,14 @@ buf=childs[0].buf
                 onNoMoreElements()
                 if (childs.size == 0) {
                     close()
-                }else{
-                res = next()
-if(res!=-1){
-buf=childs[0].buf
-}
-}
+                } else {
+                    res = next()
+                    if (res != -1) {
+                        buf = childs[0].buf
+                    }
+                }
             }
-SanityCheck.check{res==-1||buf==childs[0].buf}
+            SanityCheck.check { res == -1 || buf == childs[0].buf }
             /*return*/res
         }
         close = {

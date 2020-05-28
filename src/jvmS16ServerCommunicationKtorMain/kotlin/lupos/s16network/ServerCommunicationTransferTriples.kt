@@ -44,7 +44,7 @@ object ServerCommunicationTransferTriples {
 /*always assume SPO even _if some of the components are allowed to be missing*/
         val columns = packet.readInt()
         require(columns == expectedColumns)
-require(columns>0)
+        require(columns > 0)
         var res: Array<MutableList<Value>>
         if (outputAsSingle) {
             res = Array(1) { mutableListOf<Value>() }

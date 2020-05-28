@@ -1,5 +1,5 @@
 package lupos
-import lupos.s00misc.MyMapStringIntPatriciaTrie
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -9,6 +9,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.JenaWrapper
+import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
@@ -448,7 +449,7 @@ class SparqlTestSuite() {
                             var xmlGraphBulk: XMLElement? = null
                             CoroutinesHelper.runBlock {
                                 val query = Query()
-                                HttpEndpoint.import_turtle_files(inputDataFileName,MyMapStringIntPatriciaTrie())
+                                HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
                                 val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                                 xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                             }
