@@ -148,14 +148,18 @@ val usePredefinedDict=bnodeDict.size>0
                     if (bulk.full()) {
                         CoroutinesHelper.runBlock {
                             bulk.sort()
-                            store.bulkImport(bulk)
+ for (idx in TripleStoreLocalBase.distinctIndices) {
+                            store.bulkImport(bulk,idx)
+}
                             bulk.reset()
                         }
                     }
                 }, ltit).turtleDoc()
             }
             bulk.sort()
-            store.bulkImport(bulk)
+ for (idx in TripleStoreLocalBase.distinctIndices) {
+            store.bulkImport(bulk,idx)
+}
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()

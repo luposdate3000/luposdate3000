@@ -51,5 +51,6 @@ enum class ServerCommunicationHeader {
     GET_HISTOGRAM,
     RESPONSE_FINISHED,
     RESPONSE_TRIPLES,
+    RESPONSE_TRIPLES_COUNT,
     RESPONSE_HISTOGRAM
 }

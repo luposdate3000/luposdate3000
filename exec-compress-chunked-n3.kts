@@ -6,6 +6,7 @@ var folderName = args[0]
 var line2 = readLine()
 var chunk = 0
 var outsize = 0
+var outbnodes:PrintWriter? = null
 var out: PrintWriter? = null
 var prefixes = mutableListOf<String>()
 var currentTriple = Array<String>(3) { "" }
@@ -13,6 +14,7 @@ var lastTriple = Array<String>(3) { "" }
 var nextType = 0 /* 0:S,1:P,2:O*/
 var finishTriple = false
 var countTriples = 0L
+
 while (line2 != null) {
     val line = line2!!
     if (line.startsWith("@prefix")) {
@@ -102,15 +104,24 @@ fun writeTriple() {
     if (compress) {
         finishTriple = true
         if (lastTriple[0] == "") {
+writeMaybeBnode(currentTriple[0])
+writeMaybeBnode(currentTriple[1])
+writeMaybeBnode(currentTriple[2])
             write(currentTriple[0] + " " + currentTriple[1] + " " + currentTriple[2] + " ")
         } else {
             if (currentTriple[0] == lastTriple[0]) {
                 if (currentTriple[1] == lastTriple[1]) {
+writeMaybeBnode(currentTriple[2])
                     write(",\n" + currentTriple[2] + " ")
                 } else {
+writeMaybeBnode(currentTriple[1])
+writeMaybeBnode(currentTriple[2])
                     write(";\n" + currentTriple[1] + " " + currentTriple[2] + " ")
                 }
             } else {
+writeMaybeBnode(currentTriple[0])
+writeMaybeBnode(currentTriple[1])
+writeMaybeBnode(currentTriple[2])
                 write(".\n" + currentTriple[0] + " " + currentTriple[1] + " " + currentTriple[2] + " ")
             }
         }
@@ -118,8 +129,17 @@ fun writeTriple() {
             lastTriple[i] = currentTriple[i]
         }
     } else {
+writeMaybeBnode(currentTriple[0])
+writeMaybeBnode(currentTriple[1])
+writeMaybeBnode(currentTriple[2])
         write(currentTriple[0] + " " + currentTriple[1] + " " + currentTriple[2] + " .\n")
     }
+}
+
+fun writeMaybeBnode(s:String){
+if(s[0]=='_'&&s[1]==':'){
+outbnodes!!.println(s)
+}
 }
 
 fun write(str: String) {
@@ -133,6 +153,7 @@ fun finishChunk() {
             out!!.println(".")
         }
         out!!.close()
+outbnodes!!.close()
     }
     for (i in 0 until 3) {
         lastTriple[i] = ""
@@ -141,9 +162,11 @@ fun finishChunk() {
 }
 
 fun nextChunk() {
-    if (outsize > 1000000000 || out == null) {
+    if (outsize > 100000000 || out == null) {
         finishChunk()
-        out = File(folderName + "/data" + chunk++ + ".n3").printWriter()
+        out = File(folderName + "/data" + chunk + ".n3").printWriter()
+        outbnodes = File(folderName + "/data" + chunk + ".bnodes").printWriter()
+chunk++
         for (p in prefixes) {
             write(p + "\n")
         }

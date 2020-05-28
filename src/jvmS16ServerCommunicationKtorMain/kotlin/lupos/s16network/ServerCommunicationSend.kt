@@ -1,5 +1,5 @@
 package lupos.s16network
-
+import  kotlinx.coroutines.Job
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -29,10 +29,17 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.ValueComparatorFast
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.RowIterator
+import lupos.s04logicalOperators.iterator.RowIteratorMerge
+import lupos.s04logicalOperators.iterator.RowIteratorBuf
+import lupos.s04logicalOperators.iterator.RowIteratorChildIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorChannel
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
@@ -133,7 +140,9 @@ object ServerCommunicationSend {
         }
     }
 
-    class ModifyHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {    }
+    class ModifyHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
+        var job: Job? = null
+    }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         val values = Array(3) { ResultSetDictionary.undefValue }
@@ -165,7 +174,7 @@ object ServerCommunicationSend {
                 builder.writeString(graphName)
                 helper2.output.writeByteArray(builder)
                 runBlocking {
-                    launch {
+                    helper2.job = launch {
                         ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
                             helper2.output.writeByteArray(it)
                             helper2.output.flush()
@@ -175,31 +184,148 @@ object ServerCommunicationSend {
             } else {
                 helper2 = helper
             }
-for(i in 0 until 3){
-(helper2.iterators[i] as ColumnIteratorChannel).append(values[i])
-}
+            for (i in 0 until 3) {
+                (helper2.iterators[i] as ColumnIteratorChannel).append(values[i])
+            }
         }
-for((host,helper) in accessedHosts){
-for(i in 0 until 3){ 
-(helper2.iterators[i] as ColumnIteratorChannel).writeFinish()
-}
-        TODO("flush all and send termination signal")
-        TODO("wait _for ack")
-}
+        for ((host, helper) in accessedHosts) {
+            for (i in 0 until 3) {
+                (helper.iterators[i] as ColumnIteratorChannel).writeFinish()
+            }
+            SanityCheck.check { helper.job != null }
+            helper.job!!.join()
+            var builder = ByteArrayBuilder()
+            builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
+            builder.writeLong(query.transactionID)
+            helper.output.writeByteArray(builder)
+            val response = helper.input.readByteArray()
+            val header3 = ServerCommunicationHeader.values()[response.readInt()]
+            if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
+                throw Exception("unexpected result $header3")
+            }
+            helper.socket.close()
+        }
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
-        TODO("xxx")
+            val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
+        var columnsTmp = mutableListOf<String>()
+        for (p in params) {
+            if (p is AOPVariable && p.name != "_") {
+                columnsTmp.add(p.name)
+            }
+        }
+        var builder = ByteArrayBuilder()
+        builder.writeInt(ServerCommunicationHeader.GET_TRIPLES.ordinal)
+        builder.writeLong(query.transactionID)
+        builder.writeInt(idx.ordinal)
+        builder.writeString(graphName)
+        ServerCommunicationTransferParams.sendParams(builder, params)
+        val columns = columnsTmp.toTypedArray()
+        if (columns.size == 0) {
+            var count = 0
+            for (host in hosts) {
+                runBlocking {
+                    val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                    val input = socket.openReadChannel()
+                    val output = socket.openWriteChannel()
+                    try {
+                        output.writeByteArray(builder)
+                        val packet2 = input.readByteArray()
+                        val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                        require(header2 == ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT)
+                        count += packet2.readInt()
+                        val packet3 = input.readByteArray()
+                        val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
+                        require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    } finally {
+                        socket.close()
+                    }
+                }
+            }
+            return IteratorBundle(count)
+        } else {
+            var iterators = mutableListOf<RowIterator>()
+            for (host in hosts) {
+                var iterator = RowIteratorChildIterator(columns)
+                iterators.add(iterator)
+                runBlocking {
+                    val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                    val input = socket.openReadChannel()
+                    val output = socket.openWriteChannel()
+                    try {
+                        output.writeByteArray(builder)
+                        iterator.onNoMoreElements ={
+                            val packet2 = input.readByteArray()
+                            val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                            if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
+                                val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, socket.localAddress.toString())[0]
+                                iterator.childs.add(RowIteratorBuf(data, columns))
+                            } else {
+                                require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                            }
+                        }
+                        var tmp = iterator.close
+                        iterator.close = {
+                            tmp()
+                            socket.close()
+                        }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            while (iterators.size > 1) {
+                var tmp = mutableListOf<RowIterator>()
+                while (iterators.size > 1) {
+                    var a = iterators.removeAt(0)
+                    var b = iterators.removeAt(0)
+                    tmp.add(RowIteratorMerge(a, b, ValueComparatorFast(), 0))
+                }
+                if (iterators.size == 1) {
+                    tmp.add(iterators[0])
+                }
+                iterators = tmp
+            }
+            return IteratorBundle(iterators[0])
+        }
     }
 
     fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
-        TODO("xxx")
-    }
-
-suspend fun bulkImport(query: Query, graphName: String,data: TripleStoreBulkImport) {
-for (idx in TripleStoreLocalBase.distinctIndices) {
-TODO("            DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(data, idx)")
+val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
+        var builder = ByteArrayBuilder()
+        builder.writeInt(ServerCommunicationHeader.GET_HISTOGRAM.ordinal)
+        builder.writeLong(query.transactionID)
+        builder.writeInt(idx.ordinal)
+        builder.writeString(graphName)
+        ServerCommunicationTransferParams.sendParams(builder, params)
+        var resFirst = 0
+        var resSecond = 0
+        for (host in hosts) {
+            runBlocking {
+                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val input = socket.openReadChannel()
+                val output = socket.openWriteChannel()
+                try {
+                    output.writeByteArray(builder)
+                    val packet2 = input.readByteArray()
+                    val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                    require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM)
+                    resFirst += packet2.readInt()
+                    resSecond += packet2.readInt()
+                    val packet3 = input.readByteArray()
+                    val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
+                    require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                } finally {
+                    socket.close()
+                }
+            }
         }
+        return Pair(resFirst, resSecond)
     }
 
     fun start(hostname: String = "localhost", port: Int = NETWORK_DEFAULT_PORT, bootstrap: String? = null) {

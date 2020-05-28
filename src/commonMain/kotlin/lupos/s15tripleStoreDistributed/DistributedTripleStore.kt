@@ -107,8 +107,8 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
-    suspend fun bulkImport(data: TripleStoreBulkImport) {
-ServerCommunicationSend.bulkImport(query,name,data)
+    suspend fun bulkImport(data: TripleStoreBulkImport,idx:EIndexPattern) {
+            DistributedTripleStore.localStore.getNamedGraph(query, name).import(data, idx)
     }
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {

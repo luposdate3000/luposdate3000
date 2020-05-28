@@ -1,17 +1,18 @@
 package lupos.s04logicalOperators.iterator
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s00misc.CoroutinesHelper
-class ColumnIteratorQueue() : ColumnIterator() {
+class ColumnIteratorChannel() : ColumnIterator() {
 var queue=Channel<Value>(CoroutinesHelper.channelType)
 var doneReading=false
 var doneWriting=false
-fun append(v:Value){
+suspend fun append(v:Value){
 queue.send(v)
 }
-fun writeFinish(){
+suspend fun writeFinish(){
 doneWriting=true
 queue.close()
 }

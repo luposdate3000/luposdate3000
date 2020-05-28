@@ -1,5 +1,5 @@
 package lupos
-
+import lupos.s00misc.MyMapStringIntPatriciaTrie
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
