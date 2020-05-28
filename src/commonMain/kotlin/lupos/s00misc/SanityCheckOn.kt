@@ -1,7 +1,5 @@
 package lupos.s00misc
-
 import lupos.s00misc.Coverage
-
 object SanityCheckOn {
     operator fun invoke(action: () -> Unit) = action()
     inline fun <T> helper(action: () -> T): T? = action()

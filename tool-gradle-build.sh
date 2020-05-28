@@ -11,6 +11,11 @@ logfile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/compi
 if grep -q "_jvm_" "$buildfile"
 then
 	gradle --project-cache-dir="$cachefile" build > $logfile 2>&1
+	ret=$?
+	if [ $ret -ne 0 ]
+	then
+		exit $ret
+	fi
 	(
 	        cd "${output}/distributions"
 	        tar -xf luposdate3000.tar
@@ -20,10 +25,20 @@ then
 elif [ "$(uname)" == "Darwin" ]
 then
 	gradle --project-cache-dir="$cachefile" linkReleaseExecutableMacosX64 > $logfile 2>&1
+	ret=$?
+	if [ $ret -ne 0 ]
+	then
+		exit $ret
+	fi
 	rm build/executable
 	ln -s $(pwd)/${output}/bin/macosX64/releaseExecutable/luposdate3000.kexe build/executable
 else
 	gradle --project-cache-dir="$cachefile" linkReleaseExecutableLinuxX64 > $logfile 2>&1
+	ret=$?
+	if [ $ret -ne 0 ]
+	then
+		exit $ret
+	fi
 	rm build/executable
 	ln -s $(pwd)/${output}/bin/linuxX64/releaseExecutable/luposdate3000.kexe build/executable
 fi

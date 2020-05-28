@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput.modifiers
-
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -9,22 +8,28 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-
 class LOPSortAny(query: Query, val possibleSortOrder: List<SortHelper>, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriority.SORT) {
     override fun equals(other: Any?): Boolean {
+Coverage.funStart(5387)
         if (other !is LOPSortAny) {
+Coverage.ifStart(5388)
             return false
         }
+Coverage.statementStart(5389)
         for (i in children.indices) {
+Coverage.forLoopStart(5390)
             if (children[i] != other.children[i]) {
+Coverage.ifStart(5391)
                 return false
             }
+Coverage.statementStart(5392)
         }
+Coverage.statementStart(5393)
         return true
     }
-
     override fun cloneOP() = LOPSortAny(query, possibleSortOrder, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
+Coverage.funStart(5394)
         return children[0].getHistogram()
     }
 }

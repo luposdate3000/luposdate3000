@@ -1,13 +1,15 @@
 #!/bin/bash
-./generate-buildfile.kts listAll 1.4.255-SNAPSHOT jvm SparqlTestSuite Endpoint Benchmark Heap | sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh/g" > tool-compile-all-tmp.sh
+./generate-buildfile.kts listAll 1.4.255-SNAPSHOT jvm SparqlTestSuite Endpoint Benchmark Heap | sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh\nif [ \$? -ne 0 ]; then exit ; fi/g" > tool-compile-all-tmp.sh
 chmod +x tool-compile-all-tmp.sh
 rm build/compile*
 ./tool-compile-all-tmp.sh
-rm tool-compile-all-tmp.sh
+#rm tool-compile-all-tmp.sh
+for token in "w" "e"
+do
 cat build/compile* \
 | sort \
 | uniq \
-| grep -e "^w: " -e "^e: " \
+| grep "$token: " \
 | grep -v "Expected performance impact from inlining is insignificant" \
 | grep -v "kotlin/lupos/datastructures" \
 | grep -v "kotlin/lupos/s02buildSyntaxTree" \
@@ -18,3 +20,4 @@ cat build/compile* \
 | grep -v "commonConfig.*Unchecked cast: Any? to" \
 | grep -v "commonConfig.*Unnecessary non-null assertion" \
 | grep -v "kotlin/lupos/s01io"
+done

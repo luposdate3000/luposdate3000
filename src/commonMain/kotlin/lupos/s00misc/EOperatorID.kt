@@ -1,7 +1,5 @@
 package lupos.s00misc
-
 import lupos.s00misc.Coverage
-
 enum class EOperatorID {
     AOPAdditionID,
     AOPAggregationSUMID,
@@ -130,7 +128,6 @@ enum class EOperatorID {
     POPValuesID,
     TripleStoreIteratorGlobalID
 }
-
 val EOperatorIDLOP = arrayOf(
         EOperatorID.LOPBindID,
         EOperatorID.LOPDistinctID,

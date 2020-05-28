@@ -6,7 +6,7 @@ var folderName = args[0]
 var line2 = readLine()
 var chunk = 0
 var outsize = 0
-var outbnodes:PrintWriter? = null
+var outbnodes: PrintWriter? = null
 var out: PrintWriter? = null
 var prefixes = mutableListOf<String>()
 var currentTriple = Array<String>(3) { "" }
@@ -104,24 +104,24 @@ fun writeTriple() {
     if (compress) {
         finishTriple = true
         if (lastTriple[0] == "") {
-writeMaybeBnode(currentTriple[0])
-writeMaybeBnode(currentTriple[1])
-writeMaybeBnode(currentTriple[2])
+            writeMaybeBnode(currentTriple[0])
+            writeMaybeBnode(currentTriple[1])
+            writeMaybeBnode(currentTriple[2])
             write(currentTriple[0] + " " + currentTriple[1] + " " + currentTriple[2] + " ")
         } else {
             if (currentTriple[0] == lastTriple[0]) {
                 if (currentTriple[1] == lastTriple[1]) {
-writeMaybeBnode(currentTriple[2])
+                    writeMaybeBnode(currentTriple[2])
                     write(",\n" + currentTriple[2] + " ")
                 } else {
-writeMaybeBnode(currentTriple[1])
-writeMaybeBnode(currentTriple[2])
+                    writeMaybeBnode(currentTriple[1])
+                    writeMaybeBnode(currentTriple[2])
                     write(";\n" + currentTriple[1] + " " + currentTriple[2] + " ")
                 }
             } else {
-writeMaybeBnode(currentTriple[0])
-writeMaybeBnode(currentTriple[1])
-writeMaybeBnode(currentTriple[2])
+                writeMaybeBnode(currentTriple[0])
+                writeMaybeBnode(currentTriple[1])
+                writeMaybeBnode(currentTriple[2])
                 write(".\n" + currentTriple[0] + " " + currentTriple[1] + " " + currentTriple[2] + " ")
             }
         }
@@ -129,17 +129,17 @@ writeMaybeBnode(currentTriple[2])
             lastTriple[i] = currentTriple[i]
         }
     } else {
-writeMaybeBnode(currentTriple[0])
-writeMaybeBnode(currentTriple[1])
-writeMaybeBnode(currentTriple[2])
+        writeMaybeBnode(currentTriple[0])
+        writeMaybeBnode(currentTriple[1])
+        writeMaybeBnode(currentTriple[2])
         write(currentTriple[0] + " " + currentTriple[1] + " " + currentTriple[2] + " .\n")
     }
 }
 
-fun writeMaybeBnode(s:String){
-if(s[0]=='_'&&s[1]==':'){
-outbnodes!!.println(s)
-}
+fun writeMaybeBnode(s: String) {
+    if (s[0] == '_' && s[1] == ':') {
+        outbnodes!!.println(s)
+    }
 }
 
 fun write(str: String) {
@@ -153,7 +153,7 @@ fun finishChunk() {
             out!!.println(".")
         }
         out!!.close()
-outbnodes!!.close()
+        outbnodes!!.close()
     }
     for (i in 0 until 3) {
         lastTriple[i] = ""
@@ -166,7 +166,7 @@ fun nextChunk() {
         finishChunk()
         out = File(folderName + "/data" + chunk + ".n3").printWriter()
         outbnodes = File(folderName + "/data" + chunk + ".bnodes").printWriter()
-chunk++
+        chunk++
         for (p in prefixes) {
             write(p + "\n")
         }

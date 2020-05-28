@@ -241,12 +241,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
                 ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
         ),
-        ChooseableGroup("Client implementation") to listOf(
-                ChooseableOptionDirectory("Korio", "jvmS14ClientKorioMain"),
-                ChooseableOptionDirectory("None", "commonS14ClientNoneMain"),
-                ChooseableOptionSymbolic("Ktor", "jvmS14ClientKtorTarget"),
-                ChooseableOptionSymbolic("Ktor", "nativeS14ClientKtorTarget")
-        ),
         ChooseableGroup("Include Jena Wrapper") to listOf(
                 ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
                 ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("JenaWrapper" to "JenaWrapperOff"))
@@ -346,9 +340,9 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.VeryVerbose")
         ),
         ChooseableGroup("Generate Code-Coverage-Code") to listOf(
+                ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
                 ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn"),
-                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff"),
-                ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange")
+                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff")
         ),
         ChooseableGroup("ServerCommunication implementation") to listOf(
                 ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
@@ -484,11 +478,6 @@ while (!done) {
             ChooseableOption("commonS01HeapMain") to listOf(
                     ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
             ),
-            ChooseableOption("commonS14ClientKtorMain") to listOf(
-                    ChooseableOptionDependency("io.ktor:ktor-client-core:$ktorVersion"),
-                    ChooseableOptionDependency("io.ktor:ktor-client-cio:$ktorVersion"),
-                    ChooseableOptionDependency("io.ktor:ktor-client-logging:$ktorVersion")
-            ),
             ChooseableOption("jvmMain") to listOf(
                     ChooseableOptionDependency("com.soywiz.korlibs.klock:klock:1.7.0"),
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
@@ -514,18 +503,10 @@ while (!done) {
             ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
                     ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
             ),
-            ChooseableOption("jvmS14ClientKtorTarget") to listOf(
-                    ChooseableOptionDirectory("commonS14ClientKtorMain"),
-                    ChooseableOptionDependency("io.ktor:ktor-client-logging-jvm:$ktorVersion"),
-                    ChooseableOptionDependency("io.ktor:ktor-client-core-jvm:$ktorVersion")
-            ),
             ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
                     ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
             ),
             ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
-                    ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
-            ),
-            ChooseableOption("jvmS14ClientKorioMain") to listOf(
                     ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
             ),
             ChooseableOption("linuxX64Main") to listOf(
@@ -541,11 +522,6 @@ while (!done) {
                     ChooseableOptionCInterop("dirent"),
                     ChooseableOptionCInterop("stdio"),
                     ChooseableOptionCInterop("unistd")
-            ),
-            ChooseableOption("nativeS14ClientKtorTarget") to listOf(
-                    ChooseableOptionDirectory("commonS14ClientKtorMain"),
-                    ChooseableOptionDependency("io.ktor:ktor-client-core-native:$ktorVersion"),
-                    ChooseableOptionDependency("io.ktor:ktor-client-logging-native:$ktorVersion")
             )
     )
     allChoosenOptions.add(ChooseableOptionDirectory("${platform}Main"))

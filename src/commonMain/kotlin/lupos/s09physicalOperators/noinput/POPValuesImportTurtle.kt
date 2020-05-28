@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-
 import lupos.s00misc.Coverage
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -10,12 +9,12 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.POPValuesImportBase
-
 class POPValuesImportTurtle : POPValuesImportBase {
     fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
+Coverage.funStart(11285)
         addRow(arrayOf(Dictionary[triple_s]!!.toN3String(), Dictionary[triple_p]!!.toN3String(), Dictionary[triple_o]!!.toN3String()))
+Coverage.statementStart(11286)
     }
-
     constructor(query: Query, projectedVariables: List<String>, data: String) : super(query, projectedVariables, listOf("s", "p", "o")) {
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)

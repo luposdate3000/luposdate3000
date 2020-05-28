@@ -1,5 +1,4 @@
 package lupos.s16network
-
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -39,40 +38,67 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
-
 object ServerCommunicationTransferParams {
     fun receiveParams(packet: ByteArrayRead, query: Query): Array<AOPBase> {
+Coverage.funStart(16970)
 /*always assume SPO*/
+Coverage.statementStart(16971)
         var paramsF = Array<Boolean>(3) { true }
+Coverage.statementStart(16972)
         var paramsS = Array<String>(3) { "" }
+Coverage.statementStart(16973)
         for (i in 0 until 3) {
+Coverage.forLoopStart(16974)
             paramsF[i] = packet.readByte() != 0.toByte()
+Coverage.statementStart(16975)
             paramsS[i] = packet.readString()
+Coverage.statementStart(16976)
         }
+Coverage.statementStart(16977)
         val params = Array<AOPBase>(3) {
+Coverage.statementStart(16978)
             var res: AOPBase
+Coverage.statementStart(16979)
             if (paramsF[it]) {
+Coverage.ifStart(16980)
                 res = AOPVariable(query, paramsS[it])
+Coverage.statementStart(16981)
             } else {
+Coverage.ifStart(16982)
                 res = AOPConstant(query, ValueDefinition(paramsS[it]))
+Coverage.statementStart(16983)
             }
+Coverage.statementStart(16984)
             /*return*/res
         }
+Coverage.statementStart(16985)
         return params
     }
-
     fun sendParams(builder: ByteArrayBuilder, params: Array<AOPBase>) {
+Coverage.funStart(16986)
 /*always assume SPO*/
+Coverage.statementStart(16987)
         for (i in 0 until 3) {
+Coverage.forLoopStart(16988)
             val p = params[i]
+Coverage.statementStart(16989)
             if (p is AOPVariable) {
+Coverage.ifStart(16990)
                 builder.writeByte(0x1)
+Coverage.statementStart(16991)
                 builder.writeString(p.name)
+Coverage.statementStart(16992)
             } else {
+Coverage.ifStart(16993)
                 val q = p as AOPConstant
+Coverage.statementStart(16994)
                 builder.writeByte(0x0)
+Coverage.statementStart(16995)
                 builder.writeString(q.toSparql())
+Coverage.statementStart(16996)
             }
+Coverage.statementStart(16997)
         }
+Coverage.statementStart(16998)
     }
 }
