@@ -35,21 +35,100 @@ for (arg in args) {
         }
     }
 }
+fun cleanAndMapFile(originalName: String, coverageIn: Map<Long, Long>, coverageOut: MutableMap<Long, Long>, coverageFunctions: MutableMap<Long, String>): String {
+    var targetName = "strippedSourceCode/$originalName"
+    var idx = targetName.lastIndexOf("/")
+    var targetDirectory = targetName.substring(0, idx)
+    var lineNumbers = LongArray(coverageIn.size)
+    var countersNumbers = LongArray(coverageIn.size)
+    var i = 0
+    for ((k, v) in coverageIn) {
+        lineNumbers[i] = k - i
+        countersNumbers[i] = v
+        coverageOut[lineNumbers[i]] = countersNumbers[i]
+        i++
+    }
+    File(targetDirectory).mkdirs()
+    i = 0
+    var j = 0
+    var k = 0
+    var lastLine = ""
+    File(targetName).printWriter().use { out ->
+        File(originalName).forEachLine { line ->
+            if (j < lineNumbers.size && i.toLong() == lineNumbers[j]) {
+                if (line.contains("Coverage.funStart")) {
+                    var name = lastLine
+                    if (name.contains(" init ")) {
+                        name = "init"
+                    } else {
+                        var idx = name.indexOf("(")
+                        name = name.substring(0, idx)
+                        if (name.startsWith("fun ")) {
+                            name = name.substring(4, name.length)
+                        } else {
+                            idx = name.lastIndexOf(" fun ")
+                            name = name.substring(idx + 5, name.length)
+                        }
+                    }
+                    coverageFunctions[lineNumbers[j]] = name
+                }
+                j++
+            } else {
+                out.println(line)
+                k++
+                i++
+            }
+            lastLine = line
+        }
+    }
+    return targetName
+}
+
 when (outputformat) {
     OutputFormat.SONAR_QUBE -> {
         println("<coverage version=\"1\">")
     }
 }
-res.forEach { filename, tmp ->
+res.forEach { filename2, tmp2 ->
+    val tmp = mutableMapOf<Long, Long>()
+    val coverageFunctions = mutableMapOf<Long, String>()
+    val filename = cleanAndMapFile(filename2, tmp2, tmp, coverageFunctions)
+    println("DEBUG-counters $tmp")
+    println("DEBUG-functions $coverageFunctions")
     var nonZeroExecutionCount = 0
+    var executedFunctions = 0
     when (outputformat) {
         OutputFormat.SONAR_QUBE -> {
             println("  <file path=\"$filename\">")
         }
         OutputFormat.LCOV -> {
- println("TN:")
-val path = System.getProperty("user.dir")
+            println("TN:")
+            val path = System.getProperty("user.dir")
             println("SF:$path/$filename")
+        }
+    }
+    coverageFunctions.forEach { linenumber, functionname ->
+        when (outputformat) {
+            OutputFormat.LCOV -> {
+                println("FN:$linenumber,$functionname")
+            }
+        }
+    }
+    coverageFunctions.forEach { linenumber, functionname ->
+        val count = tmp[linenumber]!!
+        if (count > 0) {
+            executedFunctions++
+        }
+        when (outputformat) {
+            OutputFormat.LCOV -> {
+                println("FNDA:$count,$functionname")
+            }
+        }
+    }
+    when (outputformat) {
+        OutputFormat.LCOV -> {
+            println("FNF:${coverageFunctions.size}")
+            println("FNH:$executedFunctions")
         }
     }
     tmp.forEach { linenumber, count ->
