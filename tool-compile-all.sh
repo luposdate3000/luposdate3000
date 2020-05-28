@@ -1,9 +1,9 @@
 #!/bin/bash
-./generate-buildfile.kts listAll jvm Heap | sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh/g" > tmp.sh
-chmod +x tmp.sh
+./generate-buildfile.kts listAll 1.4.255-SNAPSHOT jvm SparqlTestSuite Endpoint Benchmark Heap | sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh/g" > tool-compile-all-tmp.sh
+chmod +x tool-compile-all-tmp.sh
 rm build/compile*
-./tmp.sh
-rm tmp.sh
+./tool-compile-all-tmp.sh
+rm tool-compile-all-tmp.sh
 cat build/compile* \
 | sort \
 | uniq \

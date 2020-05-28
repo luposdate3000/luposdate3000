@@ -34,7 +34,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Parallel_Heap_MultiMap_SingleList_None_None_Off_BTree_Bisection_Count_Empty_256_16_16_16_false_ECoverage.Count_DontChange_Ktor")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_BinaryTests_Off_Parallel_Heap_MultiMap_SingleList_None_None_Off_BTree_Bisection_Count_Empty_256_16_16_16_false_ECoverage.Count_DontChange_Ktor")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")
@@ -49,7 +49,7 @@ dependencies {
 }
 sourceSets["main"].java.srcDir("src/commonConfig/kotlin")
 sourceSets["main"].java.srcDir("src/commonMain/kotlin")
-sourceSets["main"].java.srcDir("src/commonS00LaunchEndpointMain/kotlin")
+sourceSets["main"].java.srcDir("src/commonS00LaunchBinaryTestsMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS01HeapMain/kotlin")
 sourceSets["main"].java.srcDir("src/commonS03DictionaryMultiMapMain/kotlin")
