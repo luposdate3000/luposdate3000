@@ -1,6 +1,8 @@
 package lupos.s16network
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.ByteArrayBuilder
+import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern

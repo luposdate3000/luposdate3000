@@ -3,6 +3,8 @@ package lupos.s16network
 import kotlin.jvm.JvmField
 import kotlin.math.ceil
 import kotlin.math.pow
+import lupos.s00misc.ByteArrayBuilder
+import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -47,14 +49,15 @@ object ServerCommunicationDistribution {
      * assuming k does not change after first triple insertion
      */
     var k = 1
+
     /*
      * refer to h(s), h(p), h(o) in the project-proposal page 9
      * assuming k does not change after first usage
      * the codomain k is guaranteed by the modulo operation
      * TODO _if k is a power of 2, then binary-AND-operator should be preferred
      */
-
     fun h(str: String) = str.hashCode() % k
+
     fun registerKnownHost(hostname: String, port: Int) {
         knownHosts.add(ServerCommunicationKnownHost(hostname, port))
         k = ceil(knownHosts.size.toDouble().pow(1 / 3.toDouble())).toInt()

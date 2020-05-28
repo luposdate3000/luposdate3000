@@ -1,11 +1,11 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.Coverage
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.readInt1
 import lupos.s00misc.readInt2
 import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
+import lupos.s00misc.SanityCheck
 
 class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
     var remaining = node.getTripleCount()

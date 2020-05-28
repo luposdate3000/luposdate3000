@@ -4,14 +4,14 @@ import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
-import io.ktor.utils.io.core.BytePacketBuilder
-import io.ktor.utils.io.core.ByteReadPacket
 import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.ByteArrayBuilder
+import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -40,10 +40,9 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationTransferTriples {
-    fun receiveTriples(packet: ByteReadPacket, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean): Array<MutableList<Value>> {
-/*always assume SPO even if some of the components are allowed to be missing*/{
-            val columns = packet.readInt()
-        }
+    fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean, remoteName: String): Array<MutableList<Value>> {
+/*always assume SPO even _if some of the components are allowed to be missing*/
+        val columns = packet.readInt()
         require(columns == expectedColumns)
         var res: Array<MutableList<Value>>
         if (outputAsSingle) {
@@ -52,14 +51,14 @@ object ServerCommunicationTransferTriples {
             res = Array(columns) { mutableListOf<Value>() }
         }
         val idsReceiveMap = mutableMapOf<Value, Value>()
-        while (packet.remaining > 0) {
+        while (packet.remaining() > 0) {
             for (i in 0 until columns) {
                 val v = packet.readInt()
                 val v2 = idsReceiveMap[v]
                 val v3: Value
                 if (v2 == null) {
                     if (!ResultSetDictionary.isGlobalBNode(v)) {
-                        var s = packet.readText()
+                        var s = packet.readString()
                         if (ResultSetDictionary.isLocalBNode(v)) {
                             s = "_:" + remoteName + s.substring(2, s.length)
                         }
@@ -81,7 +80,7 @@ object ServerCommunicationTransferTriples {
         return res
     }
 
-    suspend fun sendTriples(bundle: IteratorBundle, dict: ResultSetDictionary, params: Array<AOPBase>, onFullPacket: suspend (ByteReadPacket) -> Unit) {
+    suspend fun sendTriples(bundle: IteratorBundle, dict: ResultSetDictionary, params: Array<AOPBase>, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
 /*always assume SPO*/
         var iterators = mutableListOf<ColumnIterator>()
         for (p in params) {
@@ -92,9 +91,9 @@ object ServerCommunicationTransferTriples {
         sendTriples(iterators.toTypedArray(), dict, onFullPacket)
     }
 
-    suspend fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: suspend (ByteReadPacket) -> Unit) {
+    suspend fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
         /*always assume SPO*/
-        var builder = BytePacketBuilder()
+        var builder = ByteArrayBuilder()
         loop@ while (true) {
             builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
             builder.writeInt(iterators.size)
@@ -114,16 +113,15 @@ object ServerCommunicationTransferTriples {
                             idsSentList.add(v)
                             if (!ResultSetDictionary.isGlobalBNode(v)) {
                                 val vd = dict.getValue(v)
-                                builder.writeUtf8(vd.toSparql())
+                                builder.writeString(vd.toSparql())
                             }
                         }
                     }
                 }
             }
-            onFullPacket(builder.build())
+            onFullPacket(builder)
             builder.reset()
         }
-        onFullPacket(builder.build())
-        builder.close()
+        onFullPacket(builder)
     }
 }

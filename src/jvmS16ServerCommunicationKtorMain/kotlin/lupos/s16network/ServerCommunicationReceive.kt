@@ -4,14 +4,14 @@ import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
-import io.ktor.utils.io.core.BytePacketBuilder
-import io.ktor.utils.io.core.ByteReadPacket
 import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.ByteArrayBuilder
+import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -57,7 +57,7 @@ object ServerCommunicationReceive {
                         val input = socket.openReadChannel()
                         val output = socket.openWriteChannel()
                         try {
-                            val packet = input.readPacket()
+                            val packet = input.readByteArray()
                             val header = ServerCommunicationHeader.values()[packet.readInt()]
                             val transactionID = packet.readLong()
                             val query = Query(transactionID = transactionID)
@@ -67,31 +67,31 @@ object ServerCommunicationReceive {
                                 }
                                 ServerCommunicationHeader.INSERT -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     while (true) {
-                                        val packet2 = input.readPacket()
+                                        val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                             require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                             break
                                         }
-                                        val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true)[0]
+                                        val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true, socket.localAddress.toString())[0]
                                         graph.modify(query, data, idx, EModifyType.INSERT)
                                     }
                                 }
                                 ServerCommunicationHeader.DELETE -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     while (true) {
-                                        val packet2 = input.readPacket()
+                                        val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                             require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                             break
                                         }
-                                        val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true)[0]
+                                        val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true, socket.localAddress.toString())[0]
                                         graph.modify(query, data, idx, EModifyType.DELETE)
                                     }
                                 }
@@ -102,47 +102,45 @@ object ServerCommunicationReceive {
                                     }
                                 }
                                 ServerCommunicationHeader.CLEAR_GRAPH -> {
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     DistributedTripleStore.localStore.clearGraph(query, graphName)
                                 }
                                 ServerCommunicationHeader.CREATE_GRAPH -> {
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     DistributedTripleStore.localStore.createGraph(query, graphName)
                                 }
                                 ServerCommunicationHeader.DROP_GRAPH -> {
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     DistributedTripleStore.localStore.dropGraph(query, graphName)
                                 }
                                 ServerCommunicationHeader.GET_TRIPLES -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     val params = ServerCommunicationTransferParams.receiveParams(packet, query)
                                     var bundle = graph.getIterator(query, params, idx)
-                                    sendTriples(bundle, query, dictionary, params) {
-                                        output.writePacket(it)
+                                    ServerCommunicationTransferTriples.sendTriples(bundle, query.dictionary, params) {
+                                        output.writeByteArray(it)
                                         output.flush()
                                     }
                                 }
                                 ServerCommunicationHeader.GET_HISTOGRAM -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
-                                    val graphName = packet.readText()
+                                    val graphName = packet.readString()
                                     val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     val params = ServerCommunicationTransferParams.receiveParams(packet, query)
                                     val histogram = graph.getHistogram(query, params, idx)
-                                    var builder = BytePacketBuilder()
+                                    var builder = ByteArrayBuilder()
                                     builder.writeInt(ServerCommunicationHeader.RESPONSE_HISTOGRAM.ordinal)
                                     builder.writeInt(histogram.first)
                                     builder.writeInt(histogram.second)
-                                    output.writePacket(builder.build())
-                                    builder.close()
+                                    output.writeByteArray(builder)
                                 }
                             }
-                            var builder = BytePacketBuilder()
+                            var builder = ByteArrayBuilder()
                             builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
-                            output.writePacket(builder.build())
+                            output.writeByteArray(builder)
                             output.flush()
-                            builder.close()
                         } catch (e: Throwable) {
                             e.printStackTrace()
                         } finally {

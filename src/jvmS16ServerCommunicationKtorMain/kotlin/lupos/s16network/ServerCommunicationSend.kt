@@ -2,20 +2,20 @@ package lupos.s16network
 
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
-import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.Socket
-import io.ktor.utils.io.core.BytePacketBuilder
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.utils.io.core.Output.*
-import io.ktor.utils.io.core.ByteReadPacket
 import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.ByteArrayBuilder
+import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -51,13 +51,12 @@ object ServerCommunicationSend {
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
-                    var builder = BytePacketBuilder()
+                    var builder = ByteArrayBuilder()
                     builder.writeInt(ServerCommunicationHeader.COMMIT.ordinal)
                     builder.writeLong(query.transactionID)
-                    output.writePacket(builder.build())
+                    output.writeByteArray(builder)
                     output.flush()
-                    builder.close()
-                    val response = input.readPacket()
+                    val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
                         throw Exception("unexpected result $header")
@@ -78,13 +77,12 @@ object ServerCommunicationSend {
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
-                    var builder = BytePacketBuilder()
+                    var builder = ByteArrayBuilder()
                     builder.writeInt(ServerCommunicationHeader.CLEAR_ALL_GRAPH.ordinal)
                     builder.writeLong(query.transactionID)
-                    output.writePacket(builder.build())
+                    output.writeByteArray(builder)
                     output.flush()
-                    builder.close()
-                    val response = input.readPacket()
+                    val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
                         throw Exception("unexpected result $header")
@@ -105,7 +103,7 @@ object ServerCommunicationSend {
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
-                    var builder = BytePacketBuilder()
+                    var builder = ByteArrayBuilder()
                     when (type) {
                         EGraphOperationType.CLEAR -> {
                             builder.writeInt(ServerCommunicationHeader.CLEAR_GRAPH.ordinal)
@@ -118,11 +116,10 @@ object ServerCommunicationSend {
                         }
                     }
                     builder.writeLong(query.transactionID)
-                    builder.writeUtf8(graphName)
-                    output.writePacket(builder.build())
-                    builder.close()
+                    builder.writeString(graphName)
+                    output.writeByteArray(builder)
                     output.flush()
-                    val response = input.readPacket()
+                    val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
                         throw Exception("unexpected result $header")
@@ -158,24 +155,23 @@ object ServerCommunicationSend {
             if (helper == null) {
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                 helper2 = ModifyHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array(3) { ColumnIterator() })
-                accessedHosts.add(host, helper2)
-                var builder = BytePacketBuilder()
+                accessedHosts[host] = helper2
+                var builder = ByteArrayBuilder()
                 if (type == EModifyType.INSERT) {
                     builder.writeInt(ServerCommunicationHeader.INSERT.ordinal)
                 } else {
                     builder.writeInt(ServerCommunicationHeader.DELETE.ordinal)
                 }
                 builder.writeLong(query.transactionID)
-                builder.writeUtf8(graphName)
-                helper2.output.writePacket(builder.build())
-                builder.close()
-runBlocking{
-                launch {
-                    ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
-                        helper2.output.writePacket(it)
-                        helper2.output.flush()
+                builder.writeString(graphName)
+                helper2.output.writeByteArray(builder)
+                runBlocking {
+                    launch {
+                        ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
+                            helper2.output.writeByteArray(it)
+                            helper2.output.flush()
+                        }
                     }
-}
                 }
             } else {
                 helper2 = helper
@@ -183,8 +179,7 @@ runBlocking{
             TODO("append values")
         }
         TODO("flush all and send termination signal")
-        TODO("wait for ack") {
-        }
+        TODO("wait _for ack")
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
