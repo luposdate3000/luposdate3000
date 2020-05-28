@@ -81,6 +81,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPAggregationAVG(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

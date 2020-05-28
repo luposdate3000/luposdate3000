@@ -35,6 +35,7 @@ class XMLElement {
                     throw Exception("data parser :: file type '${filename}' unknown")
                 }
             }
+/*Coverage Unreachable*/
         }
 
         fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {

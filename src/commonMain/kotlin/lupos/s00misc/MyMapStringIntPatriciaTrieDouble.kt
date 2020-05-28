@@ -53,6 +53,7 @@ class MyMapStringIntPatriciaTrieDouble() {
             nodeIdx = node.parent
             node = parent
         }
+/*Coverage Unreachable*/
     }
 
     fun debug() {
@@ -138,6 +139,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                                 }
                                 return result
                             }
+/*Coverage Unreachable*/
                         } else {
                             var result = undefinedValue
                             if (create) {
@@ -191,6 +193,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                             }
                             return result
                         }
+/*Coverage Unreachable*/
                     }
                 }
                 var result = undefinedValue
@@ -212,7 +215,9 @@ class MyMapStringIntPatriciaTrieDouble() {
                 }
                 return result
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     operator fun get(key: String): Int? {

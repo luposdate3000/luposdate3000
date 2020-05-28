@@ -451,6 +451,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             } else {
                 return POPValues(query, rows)
             }
+/*Coverage Unreachable*/
         }
         "POPEmptyRow" -> {
             return POPEmptyRow(query, createProjectedVariables(query, node, mapping))
@@ -499,4 +500,5 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")
         }
     }
+/*Coverage Unreachable*/
 }

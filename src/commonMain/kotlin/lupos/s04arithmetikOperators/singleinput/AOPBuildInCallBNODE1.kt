@@ -26,6 +26,7 @@ class AOPBuildInCallBNODE1(query: Query, child: AOPBase) : AOPBase(query, EOpera
             val a = childA()
 /*return*/ValueBnode("" + uuid + a.valueToString())
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallBNODE1(query, children[0].cloneOP() as AOPBase)

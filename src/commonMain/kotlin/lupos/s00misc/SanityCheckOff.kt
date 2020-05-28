@@ -12,5 +12,5 @@ object SanityCheckOff {
     inline fun <T> checkNEQ(a: () -> T, b: () -> T) {}
     inline fun <T> checkNULL(value: () -> T) {}
     inline fun <T> checkNNULL(value: () -> T) {}
-    inline fun checkUnreachable(): Nothing = throw Exception("this should be unreachable")
+    inline fun checkUnreachable(): Nothing = throw Exception("unreachable")
 }

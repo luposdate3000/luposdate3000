@@ -42,5 +42,6 @@ class POPDistinct(query: Query, projectedVariables: List<String>, child: OPBase)
         } else {
             return children[0].evaluate()
         }
+/*Coverage Unreachable*/
     }
 }

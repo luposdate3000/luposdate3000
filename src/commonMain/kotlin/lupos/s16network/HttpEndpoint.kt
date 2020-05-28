@@ -119,12 +119,15 @@ object HttpEndpoint {
                     SanityCheck.check { !usePredefinedDict }
 /*return*/ nodeGlobalDictionary.createNewBNode()
                 })
+/*Coverage Unreachable*/
             } else {
                 return nodeGlobalDictionary.createValue(v2)
             }
+/*Coverage Unreachable*/
         } finally {
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICT)
         }
+/*Coverage Unreachable*/
     }
 
     suspend fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
@@ -162,6 +165,7 @@ object HttpEndpoint {
             e.printStackTrace()
             throw e
         }
+/*Coverage Unreachable*/
     }
 
     suspend fun import_xml_data(data: String): String {

@@ -67,6 +67,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                     }
                                     return
                                 }
+/*Coverage Unreachable*/
                             } else {
                                 if (create) {
                                     if (commonKey.length == key.length) {
@@ -106,6 +107,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                 }
                                 return
                             }
+/*Coverage Unreachable*/
                         } else if (node.str[node.arr1] == key[0]) {
                             var childKeyStart = node.arr1
                             var childKeyEnd = node.str.length
@@ -136,6 +138,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                     }
                                     return
                                 }
+/*Coverage Unreachable*/
                             } else {
                                 if (create) {
                                     if (commonKey.length == key.length) {
@@ -171,6 +174,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                 }
                                 return
                             }
+/*Coverage Unreachable*/
                         } else if (create) {
                             var childs = arrayOf(node.childs0, node.childs1, null)
                             var arr = intArrayOf(0, node.arr1, node.str.length, node.arr2, node.arr3, onCreate())
@@ -240,6 +244,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                         }
                                         return
                                     }
+/*Coverage Unreachable*/
                                 } else {
                                     if (create) {
                                         if (commonKey.length == key.length) {
@@ -284,6 +289,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                     }
                                     return
                                 }
+/*Coverage Unreachable*/
                             }
                         }
                         if (create) {
@@ -317,6 +323,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                     }
                 }
             }
+/*Coverage Unreachable*/
         }
     }
 

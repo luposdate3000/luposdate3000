@@ -38,7 +38,7 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
         return res
     }
 
-    override fun calculateHistogram(): HistogramResult = throw Exception("unreachable")
+    override fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
     override fun equals(other: Any?): Boolean {
         if (other !is OPBaseCompound) {
             return false

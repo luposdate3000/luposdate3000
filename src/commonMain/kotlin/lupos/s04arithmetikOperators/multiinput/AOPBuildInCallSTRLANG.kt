@@ -39,6 +39,7 @@ class AOPBuildInCallSTRLANG(query: Query, child: AOPBase, childB: AOPBase) : AOP
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallSTRLANG(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

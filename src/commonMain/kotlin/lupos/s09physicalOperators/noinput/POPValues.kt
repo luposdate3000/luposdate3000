@@ -91,6 +91,7 @@ open class POPValues : POPBase {
         } else {
             return POPValues(query, projectedVariables, variables, data)
         }
+/*Coverage Unreachable*/
     }
 
     constructor(query: Query, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
@@ -170,6 +171,7 @@ open class POPValues : POPBase {
         } else {
             return IteratorBundle(rows)
         }
+/*Coverage Unreachable*/
     }
 
     override fun toXMLElement(): XMLElement {

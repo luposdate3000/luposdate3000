@@ -47,6 +47,7 @@ class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(q
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPSubtraction(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

@@ -18,7 +18,7 @@ val regexIf = ".*\\s*${separatorB}(if|else)${separatorB}.*".toRegex()
 val regexWhenCaseBracket = ".*\\s*->\\s*\\{.*".toRegex()
 val regexWhenCase = ".*\\s*->.*".toRegex()
 val regexReturn = "(\\s*${separatorB}(return|break|continue|throw)${separatorB}.*|.*/\\*return\\*/.*)".toRegex()
-val regexUnreachable = ".*Coverage Unreachable.*".toRegex()
+val regexUnreachable = ".*(Coverage Unreachable|SanityCheck.checkUnreachable).*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
 
 //output->

@@ -34,6 +34,7 @@ class AOPBuildInCallMD5(query: Query, child: AOPBase) : AOPBase(query, EOperator
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallMD5(query, children[0].cloneOP() as AOPBase)

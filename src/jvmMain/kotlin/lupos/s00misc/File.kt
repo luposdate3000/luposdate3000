@@ -19,6 +19,7 @@ class File(@JvmField val filename: String) {
                 }
                 return DynamicByteArray(data)
             }
+/*Coverage Unreachable*/
         }
     }
 
@@ -121,5 +122,6 @@ class File(@JvmField val filename: String) {
             input1.close()
             input2.close()
         }
+/*Coverage Unreachable*/
     }
 }

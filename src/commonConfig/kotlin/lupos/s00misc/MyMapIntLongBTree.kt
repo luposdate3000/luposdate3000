@@ -53,6 +53,7 @@ class MyMapIntLongBTree(val t: Int) {
                 v = node.values[i] as Long
                 return node.keys[i++] as Int
             }
+/*Coverage Unreachable*/
         }
 
         override fun value() = v
@@ -102,7 +103,9 @@ class MyMapIntLongBTree(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromNonLeaf(idx: Int) {
@@ -237,6 +240,7 @@ class MyMapIntLongBTree(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Int, onCreate: () -> Long, onExists: (Int, Long) -> Long) {
@@ -322,6 +326,7 @@ class MyMapIntLongBTree(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -348,6 +353,7 @@ class MyMapIntLongBTree(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Int, onCreate: () -> Long, onExists: (Int, Long) -> Long) {
@@ -492,6 +498,7 @@ class MyMapIntLongBTree(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: Int): Pair<Int, Long>? {
@@ -520,12 +527,13 @@ class MyMapIntLongBTree(val t: Int) {
         } else {
             return EmptyIterator()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator : MyMapIntLongBTreeNodeIterator() {
         override fun hasNext() = false
-        override fun next(): Int = throw Exception("unreachable")
-        override fun value(): Long = throw Exception("unreachable")
+        override fun next(): Int = SanityCheck.checkUnreachable()
+        override fun value(): Long = SanityCheck.checkUnreachable()
     }
 
     inline fun getOrCreate(key: Int, crossinline onCreate: () -> Long): Long {

@@ -50,6 +50,7 @@ class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: Stri
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallURI(query, children[0].cloneOP() as AOPBase, prefix)

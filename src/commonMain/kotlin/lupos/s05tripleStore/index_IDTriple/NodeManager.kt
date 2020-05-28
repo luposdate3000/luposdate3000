@@ -86,7 +86,7 @@ object NodeManager {
                             leaves[x and nodePointerValueMask]++
                         }
                     }, {
-                        throw Exception("unreachable")
+                        SanityCheck.checkUnreachable()
                     })
                 }
             }
@@ -107,7 +107,7 @@ object NodeManager {
             for (i in 0 until allNodesInner.size) {
                 if (!allNodesFreeListInner.contains(i)) {
                     getNode(i or nodePointerTypeInner, {
-                        throw Exception("unreachable")
+                        SanityCheck.checkUnreachable()
                     }, {
                         it.forEachChild {
                             val nodePointerType = it and nodePointerTypeMask
@@ -194,7 +194,7 @@ object NodeManager {
                 actionLeaf(allNodesLeaf[nodePointerValue])
             }
             else -> {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }
         }
     }
@@ -242,7 +242,7 @@ object NodeManager {
                 allNodesFreeListLeaf.add(nodePointerValue)
             }
             else -> {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }
         }
     }
@@ -263,7 +263,7 @@ object NodeManager {
     fun freeAllInnerNodes(nodeIdx: Int) {
         if (nodeIdx != nodeNullPointer) {
             getNode(nodeIdx, { node ->
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }, { node ->
                 node.forEachChild {
                     freeAllInnerNodes(it)
@@ -281,7 +281,7 @@ object NodeManager {
                 freeNode(idx)
                 idx = tmp
             }, { node ->
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             })
         }
     }

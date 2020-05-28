@@ -37,6 +37,7 @@ class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOp
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

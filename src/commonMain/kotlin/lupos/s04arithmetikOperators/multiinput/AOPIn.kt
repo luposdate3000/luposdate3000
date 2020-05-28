@@ -51,6 +51,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

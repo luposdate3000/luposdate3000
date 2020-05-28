@@ -38,6 +38,7 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         TODO("not implemented")
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = this

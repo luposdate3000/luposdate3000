@@ -35,5 +35,6 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
             res.hasNext = { childA.hasNext() || childB.hasNext() }
             return res
         }
+/*Coverage Unreachable*/
     }
 }

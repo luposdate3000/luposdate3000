@@ -79,7 +79,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             if (result != null) {
                 return result
             }
-            throw Exception("unreachable")
+            SanityCheck.checkUnreachable()
         } else if (nodes.size == 2) {
             var res = LOPJoin(root.query, nodes[0], nodes[1], false)
             res.onlyExistenceRequired = root.onlyExistenceRequired
@@ -88,6 +88,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             SanityCheck.check { nodes.size == 1 }
             return nodes[0]
         }
+/*Coverage Unreachable*/
     }
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {

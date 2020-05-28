@@ -51,7 +51,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             countPrimary = fis.readInt()
             distinctPrimary = fis.readInt()
             NodeManager.getNode(root, {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }, {
                 rootNode = it
             })
@@ -133,12 +133,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     return Pair(1, 1)
                 }
                 else -> {
-                    throw Exception("unreachable")
+                    SanityCheck.checkUnreachable()
                 }
             }
+/*Coverage Unreachable*/
         } else {
             return Pair(0, 0)
         }
+/*Coverage Unreachable*/
     }
 
     override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
@@ -229,12 +231,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         NodeManager.getNode(a, {
             nodeA = it
         }, {
-            throw Exception("unreachable")
+            SanityCheck.checkUnreachable()
         })
         NodeManager.getNode(b, {
             nodeB = it
         }, {
-            throw Exception("unreachable")
+            SanityCheck.checkUnreachable()
         })
         return importHelper(MergeIterator(nodeA!!.iterator(), nodeB!!.iterator()))
     }
@@ -398,7 +400,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             NodeManager.getNode(firstLeaf, {
                 iteratorStore2 = it.iterator()
             }, {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             })
         }
         val iteratorStore = iteratorStore2!!
@@ -420,7 +422,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             NodeManager.getNode(firstLeaf, {
                 iteratorStore2 = it.iterator()
             }, {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             })
         }
         val iteratorStore = iteratorStore2!!
@@ -431,7 +433,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
-        throw Exception("unreachable")
+        SanityCheck.checkUnreachable()
     }
 
     override fun remove(a: Value, b: Value, c: Value) {
@@ -455,7 +457,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     println("debug ${d.map { it }}")
                 }
             }, {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             })
         }
     }

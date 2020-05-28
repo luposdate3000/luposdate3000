@@ -35,6 +35,7 @@ class AOPBuildInCallSTRSTARTS(query: Query, child: AOPBase, childB: AOPBase) : A
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

@@ -144,10 +144,10 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                     }
                     is LOPUnion -> {
-                        var variables = node.variables.map { it.name }.intersect(child.children[0].getProvidedVariableNames()).intersect(child.children[1].getProvidedVariableNames())
-                        if (!variables.containsAll(child.children[0].getProvidedVariableNames()) || !variables.containsAll(child.children[1].getProvidedVariableNames())) {
-                            child.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
-                            child.children[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), child.children[1])
+                        var variables2 = node.variables.map { it.name }.intersect(child.children[0].getProvidedVariableNames()).intersect(child.children[1].getProvidedVariableNames())
+                        if (!variables2.containsAll(child.children[0].getProvidedVariableNames()) || !variables2.containsAll(child.children[1].getProvidedVariableNames())) {
+                            child.children[0] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                            child.children[1] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.children[1])
                             res = child
                             onChange()
                         }

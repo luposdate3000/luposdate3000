@@ -34,6 +34,7 @@ class AOPBuildInCallSHA256(query: Query, child: AOPBase) : AOPBase(query, EOpera
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallSHA256(query, children[0].cloneOP() as AOPBase)

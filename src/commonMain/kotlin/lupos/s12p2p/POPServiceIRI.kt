@@ -34,6 +34,7 @@ class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverNa
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
     override suspend fun evaluate(): IteratorBundle {
         TODO("not implemented")
+/*Coverage Unreachable*/
     }
 
     override fun toXMLElement(): XMLElement {

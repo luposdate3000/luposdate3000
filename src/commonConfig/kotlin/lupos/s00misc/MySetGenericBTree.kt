@@ -19,6 +19,7 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
             } else {
                 return i < node.n || (i == node.n && childIterator.hasNext())
             }
+/*Coverage Unreachable*/
         }
 
         override fun next(): Generic {
@@ -31,7 +32,9 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
                     childIterator = node.C[i + 1]!!.iterator()
                     return node.keys[i++] as Generic
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
     }
 
@@ -72,9 +75,11 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -219,6 +224,7 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         fun insertNonFull(k: Generic, onCreate: () -> Unit = {}, onExists: (Generic) -> Unit = {}) {
@@ -322,6 +328,7 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: Generic): Generic? {
@@ -354,10 +361,11 @@ class MySetGenericBTree<Generic : Comparable<Generic>>(val t: Int) {
         } else {
             return EmptyIterator<Generic>()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator<Generic : Comparable<Generic>> : Iterator<Generic> {
         override fun hasNext() = false
-        override fun next(): Generic = throw Exception("unreachable")
+        override fun next(): Generic = SanityCheck.checkUnreachable()
     }
 }

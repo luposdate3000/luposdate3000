@@ -57,6 +57,7 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
         return {
             /*return*/tmp.value
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

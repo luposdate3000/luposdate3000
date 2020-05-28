@@ -60,13 +60,16 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
                     val b = childB()
                     /*return*/truthTable2[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             } else {
                 return {
                     val a = childA()
                     val b = query.dictionary.toBooleanOrError(childB())
                     /*return*/truthTable2[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         } else {
             if ((children[1] as AOPBase).enforcesBooleanOrError()) {
                 return {
@@ -74,14 +77,18 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
                     val b = childB()
                     /*return*/truthTable2[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             } else {
                 return {
                     val a = query.dictionary.toBooleanOrError(childA())
                     val b = query.dictionary.toBooleanOrError(childB())
                     /*return*/truthTable2[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Value {
@@ -94,13 +101,16 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
                     val b = childB()
                     /*return*/truthTable[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             } else {
                 return {
                     val a = childA()
                     val b = query.dictionary.toBooleanOrError(childB())
                     /*return*/truthTable[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         } else {
             if ((children[1] as AOPBase).enforcesBooleanOrError()) {
                 return {
@@ -108,14 +118,18 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
                     val b = childB()
                     /*return*/truthTable[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             } else {
                 return {
                     val a = query.dictionary.toBooleanOrError(childA())
                     val b = query.dictionary.toBooleanOrError(childB())
                     /*return*/truthTable[a * 3 + b]
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

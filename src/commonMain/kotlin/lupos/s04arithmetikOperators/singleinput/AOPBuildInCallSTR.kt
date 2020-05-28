@@ -40,6 +40,7 @@ class AOPBuildInCallSTR(query: Query, child: AOPBase) : AOPBase(query, EOperator
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallSTR(query, children[0].cloneOP() as AOPBase)

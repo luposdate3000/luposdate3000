@@ -59,7 +59,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                     }
                 }
             } else {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }
         }
         SanityCheck.check { variableCount == 1 }

@@ -20,12 +20,14 @@ abstract class AOPBase(query: Query,
         return {
             /*return*/query.dictionary.getValue(evaluateID(row)())
         }
+/*Coverage Unreachable*/
     }
 
     open fun evaluateID(row: IteratorBundle): () -> Value {
         return {
             /*return*/query.dictionary.createValue(evaluate(row)())
         }
+/*Coverage Unreachable*/
     }
 
     open fun enforcesBooleanOrError() = false

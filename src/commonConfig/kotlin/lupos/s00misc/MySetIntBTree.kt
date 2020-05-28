@@ -19,6 +19,7 @@ class MySetIntBTree(val t: Int) {
             } else {
                 return i < node.n || (i == node.n && childIterator.hasNext())
             }
+/*Coverage Unreachable*/
         }
 
         override fun next(): Int {
@@ -31,7 +32,9 @@ class MySetIntBTree(val t: Int) {
                     childIterator = node.C[i + 1]!!.iterator()
                     return node.keys[i++] as Int
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
     }
 
@@ -72,9 +75,11 @@ class MySetIntBTree(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -219,6 +224,7 @@ class MySetIntBTree(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         fun insertNonFull(k: Int, onCreate: () -> Unit = {}, onExists: (Int) -> Unit = {}) {
@@ -322,6 +328,7 @@ class MySetIntBTree(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: Int): Int? {
@@ -354,10 +361,11 @@ class MySetIntBTree(val t: Int) {
         } else {
             return EmptyIterator()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator : Iterator<Int> {
         override fun hasNext() = false
-        override fun next(): Int = throw Exception("unreachable")
+        override fun next(): Int = SanityCheck.checkUnreachable()
     }
 }

@@ -38,5 +38,6 @@ class ValueComparatorASC(val query: Query) : Comparator<Value> {
             val sB = b.valueToString()!!
             return sA.compareTo(sB)
         }
+/*Coverage Unreachable*/
     }
 }

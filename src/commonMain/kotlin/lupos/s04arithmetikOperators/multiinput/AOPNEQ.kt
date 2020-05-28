@@ -37,6 +37,7 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Value {
@@ -51,6 +52,7 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

@@ -51,6 +51,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
                 v = node.values[i] as VALUE
                 return node.keys[i++] as KEY
             }
+/*Coverage Unreachable*/
         }
 
         override fun value() = v
@@ -100,7 +101,9 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromNonLeaf(idx: Int) {
@@ -235,6 +238,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE) {
@@ -320,6 +324,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -346,6 +351,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE) {
@@ -490,6 +496,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: KEY): Pair<KEY, VALUE>? {
@@ -518,12 +525,13 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
         } else {
             return EmptyIteratorGUSE()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIteratorGDEF : MyMapKNAMEVNAMEBTreeNodeIteratorGUSE() {
         override fun hasNext() = false
-        override fun next(): KEY = throw Exception("unreachable")
-        override fun value(): VALUE = throw Exception("unreachable")
+        override fun next(): KEY = SanityCheck.checkUnreachable()
+        override fun value(): VALUE = SanityCheck.checkUnreachable()
     }
 
     inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {

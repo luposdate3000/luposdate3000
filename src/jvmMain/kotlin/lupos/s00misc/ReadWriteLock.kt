@@ -50,6 +50,7 @@ class ReadWriteLock {
         } finally {
             readUnlock()
         }
+/*Coverage Unreachable*/
     }
 
     suspend inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
@@ -59,6 +60,7 @@ class ReadWriteLock {
         } finally {
             writeUnlock()
         }
+/*Coverage Unreachable*/
     }
 
     inline fun <T> withReadLock(crossinline action: suspend CoroutineScope.() -> T): T {

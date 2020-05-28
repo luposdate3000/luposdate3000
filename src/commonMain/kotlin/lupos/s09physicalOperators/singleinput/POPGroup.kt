@@ -54,6 +54,7 @@ class POPGroup : POPBase {
         } else {
             return POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
+/*Coverage Unreachable*/
     }
 
     constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {

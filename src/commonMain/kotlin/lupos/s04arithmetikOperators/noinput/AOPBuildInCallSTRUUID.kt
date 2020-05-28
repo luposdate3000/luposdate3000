@@ -25,6 +25,7 @@ class AOPBuildInCallSTRUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildI
         return {
             /*return*/ValueSimpleLiteral("\"", "" + uuid4())
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = this

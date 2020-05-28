@@ -34,6 +34,7 @@ class AOPBuildInCallLANGMATCHES(query: Query, child: AOPBase, childB: AOPBase) :
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

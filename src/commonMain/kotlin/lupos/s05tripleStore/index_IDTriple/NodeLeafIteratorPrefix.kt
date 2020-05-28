@@ -47,7 +47,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
                     valueNext[2] = 0
                     offset = 8
                 }, {
-                    throw Exception("unreachable")
+                    SanityCheck.checkUnreachable()
                 })
             } else {
                 flag = false

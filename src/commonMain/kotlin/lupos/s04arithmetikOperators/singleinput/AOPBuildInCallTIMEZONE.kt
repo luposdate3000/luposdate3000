@@ -32,6 +32,7 @@ class AOPBuildInCallTIMEZONE(query: Query, child: AOPBase) : AOPBase(query, EOpe
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallTIMEZONE(query, children[0].cloneOP() as AOPBase)

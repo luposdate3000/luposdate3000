@@ -47,6 +47,7 @@ class AOPMultiplication(query: Query, childA: AOPBase, childB: AOPBase) : AOPBin
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPMultiplication(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

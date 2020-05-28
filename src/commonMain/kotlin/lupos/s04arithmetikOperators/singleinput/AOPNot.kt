@@ -32,6 +32,7 @@ class AOPNot(query: Query, @JvmField var child: AOPBase) : AOPBase(query, EOpera
             val a = childA()
             /*return*/ValueBoolean(!a.toBoolean())
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

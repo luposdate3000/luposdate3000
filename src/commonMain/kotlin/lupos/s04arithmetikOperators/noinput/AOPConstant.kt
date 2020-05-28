@@ -30,6 +30,7 @@ class AOPConstant : AOPBase {
         } else {
             return tmp.toXMLElement()
         }
+/*Coverage Unreachable*/
     }
 
     override fun toSparql(): String = query.dictionary.getValue(value).valueToString() ?: ""
@@ -38,12 +39,14 @@ class AOPConstant : AOPBase {
         return {
             /*return*/query.dictionary.getValue(value)
         }
+/*Coverage Unreachable*/
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Value {
         return {
             /*return*/value
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = this

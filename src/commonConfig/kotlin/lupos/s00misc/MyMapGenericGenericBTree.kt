@@ -53,6 +53,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 v = node.values[i] as GenericV
                 return node.keys[i++] as GenericK
             }
+/*Coverage Unreachable*/
         }
 
         override fun value() = v
@@ -102,7 +103,9 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromNonLeaf(idx: Int) {
@@ -237,6 +240,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
@@ -322,6 +326,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -348,6 +353,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: GenericK, onCreate: () -> GenericV, onExists: (GenericK, GenericV) -> GenericV) {
@@ -492,6 +498,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: GenericK): Pair<GenericK, GenericV>? {
@@ -520,12 +527,13 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
         } else {
             return EmptyIterator<GenericK, GenericV>()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator<GenericK : Comparable<GenericK>, GenericV> : MyMapGenericGenericBTreeNodeIterator<GenericK, GenericV>() {
         override fun hasNext() = false
-        override fun next(): GenericK = throw Exception("unreachable")
-        override fun value(): GenericV = throw Exception("unreachable")
+        override fun next(): GenericK = SanityCheck.checkUnreachable()
+        override fun value(): GenericV = SanityCheck.checkUnreachable()
     }
 
     inline fun getOrCreate(key: GenericK, crossinline onCreate: () -> GenericV): GenericV {

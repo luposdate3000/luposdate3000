@@ -33,6 +33,7 @@ class AOPBuildInCallIsIri(query: Query, child: AOPBase) : AOPBase(query, EOperat
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

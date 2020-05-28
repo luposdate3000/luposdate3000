@@ -96,6 +96,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
             } else {
                 return IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
             }
+/*Coverage Unreachable*/
         } else {
             val columnNamesTmp = mutableListOf<String>()
             for (v in sortBy) {
@@ -116,5 +117,6 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
             val columnNames = columnNamesTmp.toTypedArray()
             return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
         }
+/*Coverage Unreachable*/
     }
 }

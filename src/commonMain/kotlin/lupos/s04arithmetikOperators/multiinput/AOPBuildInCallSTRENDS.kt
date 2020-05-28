@@ -35,6 +35,7 @@ class AOPBuildInCallSTRENDS(query: Query, child: AOPBase, childB: AOPBase) : AOP
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

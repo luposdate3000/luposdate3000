@@ -16,6 +16,7 @@ class Lock {
         } finally {
             mutex.unlock()
         }
+/*Coverage Unreachable*/
     }
 
     inline fun <T> withWriteLock(crossinline action: suspend CoroutineScope.() -> T): T {

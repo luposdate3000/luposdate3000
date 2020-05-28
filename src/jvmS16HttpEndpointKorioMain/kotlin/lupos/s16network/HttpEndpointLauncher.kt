@@ -26,6 +26,7 @@ object HttpEndpointLauncher {
                 } else {
                     return HttpEndpoint.evaluate_sparql_query_string(params["query"]!!, true)
                 }
+/*Coverage Unreachable*/
             }
             "/sparql/operator" -> {
                 if (isPost) {
@@ -33,6 +34,7 @@ object HttpEndpointLauncher {
                 } else {
                     return HttpEndpoint.evaluate_sparql_query_operator_xml(params["query"]!!, true)
                 }
+/*Coverage Unreachable*/
             }
             "/import/turtle" -> {
                 val dict = MyMapStringIntPatriciaTrie()
@@ -47,6 +49,7 @@ object HttpEndpointLauncher {
                 } else {
                     return HttpEndpoint.import_turtle_files(params["query"]!!, dict)
                 }
+/*Coverage Unreachable*/
             }
             "/import/xml" -> {
                 if (isPost) {
@@ -54,6 +57,7 @@ object HttpEndpointLauncher {
                 } else {
                     return HttpEndpoint.import_xml_data(params["query"]!!)
                 }
+/*Coverage Unreachable*/
             }
             "/persistence/store" -> {
                 return HttpEndpoint.persistence_store(data)

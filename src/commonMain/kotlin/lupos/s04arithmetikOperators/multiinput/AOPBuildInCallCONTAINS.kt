@@ -35,6 +35,7 @@ class AOPBuildInCallCONTAINS(query: Query, child: AOPBase, childB: AOPBase) : AO
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

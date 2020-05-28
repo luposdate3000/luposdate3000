@@ -80,6 +80,7 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
             } else {
                 return localFalse
             }
+/*Coverage Unreachable*/
         }
     }
 

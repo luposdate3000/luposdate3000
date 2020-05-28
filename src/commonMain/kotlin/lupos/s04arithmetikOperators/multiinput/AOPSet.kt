@@ -38,6 +38,7 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         TODO("not implemented")
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPSet(query, List(children.size) { children[it].cloneOP() as AOPBase })

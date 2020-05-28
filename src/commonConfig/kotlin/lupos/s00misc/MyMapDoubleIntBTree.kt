@@ -53,6 +53,7 @@ class MyMapDoubleIntBTree(val t: Int) {
                 v = node.values[i] as Int
                 return node.keys[i++] as Double
             }
+/*Coverage Unreachable*/
         }
 
         override fun value() = v
@@ -102,7 +103,9 @@ class MyMapDoubleIntBTree(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromNonLeaf(idx: Int) {
@@ -237,6 +240,7 @@ class MyMapDoubleIntBTree(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Double, onCreate: () -> Int, onExists: (Double, Int) -> Int) {
@@ -322,6 +326,7 @@ class MyMapDoubleIntBTree(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -348,6 +353,7 @@ class MyMapDoubleIntBTree(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Double, onCreate: () -> Int, onExists: (Double, Int) -> Int) {
@@ -492,6 +498,7 @@ class MyMapDoubleIntBTree(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: Double): Pair<Double, Int>? {
@@ -520,12 +527,13 @@ class MyMapDoubleIntBTree(val t: Int) {
         } else {
             return EmptyIterator()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator : MyMapDoubleIntBTreeNodeIterator() {
         override fun hasNext() = false
-        override fun next(): Double = throw Exception("unreachable")
-        override fun value(): Int = throw Exception("unreachable")
+        override fun next(): Double = SanityCheck.checkUnreachable()
+        override fun value(): Int = SanityCheck.checkUnreachable()
     }
 
     inline fun getOrCreate(key: Double, crossinline onCreate: () -> Int): Int {

@@ -11,5 +11,6 @@ class ThreadSafeUuid {
         synchronized(global_uuid) {
             return global_uuid++
         }
+/*Coverage Unreachable*/
     }
 }

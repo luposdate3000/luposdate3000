@@ -53,13 +53,13 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
         @JvmField
-        val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) as Value/*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
+        val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
         @JvmField
-        val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt()) as Value/*lowest 4 values*/ /*required to be 1 for_ truth table loopups*/
+        val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt()) /*lowest 4 values*/ /*required to be 1 for_ truth table loopups*/
         @JvmField
-        val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) as Value/*lowest 4 values*/ /*required to be 2 for_ truth table loopups*/
+        val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) /*lowest 4 values*/ /*required to be 2 for_ truth table loopups*/
         @JvmField
-        val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) as Value/*lowest 4 values*/
+        val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 4 values*/
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
         @JvmField
@@ -110,6 +110,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             return localBnodeMap.getOrCreate(value, { (flaggedValueLocalBnode or (bNodeCounter++).toInt()) })
         }
+/*Coverage Unreachable*/
     }
 
     val iriMap = MyMapStringIntPatriciaTrieDouble()
@@ -123,7 +124,9 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 return flaggedValueLocalIri or iriMap.getOrCreate(iri)
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
@@ -138,7 +141,9 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 return flaggedValueLocalLangTagged or langTaggedMap.getOrCreate(key)
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     val typedMap = MyMapStringIntPatriciaTrieDouble()
@@ -159,6 +164,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 } else {
                     return booleanFalseValue
                 }
+/*Coverage Unreachable*/
             }
             else -> {
                 val key = type + ">" + content
@@ -171,9 +177,12 @@ class ResultSetDictionary(val global: Boolean = false) {
                     } else {
                         return flaggedValueLocalTyped or typedMap.getOrCreate(key)
                     }
+/*Coverage Unreachable*/
                 }
+/*Coverage Unreachable*/
             }
         }
+/*Coverage Unreachable*/
     }
 
     val doubleMap = MyMapDoubleInt()
@@ -185,6 +194,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 doubleList.add(value)
                 /*return*/ (flaggedValueGlobalDouble or idx.toInt())
             })
+/*Coverage Unreachable*/
         } else {
             val tmp = nodeGlobalDictionary.doubleMap[value]
             if (tmp != null) {
@@ -195,8 +205,11 @@ class ResultSetDictionary(val global: Boolean = false) {
                     doubleList.add(value)
                     /*return*/ (flaggedValueLocalDouble or idx.toInt())
                 })
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     val decimalMap = MyMapDoubleInt()
@@ -208,6 +221,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 decimalList.add(value)
                 /*return*/ (flaggedValueGlobalDecimal or idx.toInt())
             })
+/*Coverage Unreachable*/
         } else {
             val tmp = nodeGlobalDictionary.decimalMap[value]
             if (tmp != null) {
@@ -218,8 +232,11 @@ class ResultSetDictionary(val global: Boolean = false) {
                     decimalList.add(value)
                     /*return*/ (flaggedValueLocalDecimal or idx.toInt())
                 })
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     val intMap = MyMapIntInt()
@@ -231,6 +248,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 intList.add(value)
                 /*return*/(flaggedValueGlobalInt or idx.toInt())
             })
+/*Coverage Unreachable*/
         } else {
             val tmp = nodeGlobalDictionary.intMap[value]
             if (tmp != null) {
@@ -241,8 +259,11 @@ class ResultSetDictionary(val global: Boolean = false) {
                     intList.add(value)
                     /*return*/(flaggedValueLocalInt or idx.toInt())
                 })
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
+/*Coverage Unreachable*/
     }
 
     fun createValue(value: String?): Value {
@@ -341,6 +362,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 return ValueTypedLiteral("\"", content, type)
             }
+/*Coverage Unreachable*/
         } else {
             var bit5 = value and mask5
             if (bit5 == flaggedValueLocalInt) {
@@ -395,6 +417,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             return nodeGlobalDictionary.createValue(getValue(value))
         }
+/*Coverage Unreachable*/
     }
 
     fun safeToFolder(folderName: String) {

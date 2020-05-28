@@ -69,5 +69,6 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
             }
             return IteratorBundle(outMap)
         }
+/*Coverage Unreachable*/
     }
 }

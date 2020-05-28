@@ -65,7 +65,7 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
                     node = it
                     remaining = node.getTripleCount()
                 }, {
-                    throw Exception("unreachable")
+                    SanityCheck.checkUnreachable()
                 })
             } else {
                 break@loop

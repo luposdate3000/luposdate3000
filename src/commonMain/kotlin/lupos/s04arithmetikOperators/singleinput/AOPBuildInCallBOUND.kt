@@ -28,6 +28,7 @@ class AOPBuildInCallBOUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
             val a = childA()
 /*return*/ValueBoolean(a !is ValueUndef && a !is ValueError)
         }
+/*Coverage Unreachable*/
     }
 
     override fun enforcesBooleanOrError() = true

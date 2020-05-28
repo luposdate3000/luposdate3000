@@ -12,5 +12,5 @@ object SanityCheckOn {
     inline fun <T> checkNEQ(a: () -> T, b: () -> T) = require(a() != b())
     inline fun <T> checkNULL(value: () -> T) = require(value() == null)
     inline fun <T> checkNNULL(value: () -> T) = require(value() != null)
-    inline fun checkUnreachable(): Nothing = throw Exception("this should be unreachable")
+    inline fun checkUnreachable(): Nothing = throw Exception("unreachable")
 }

@@ -27,6 +27,7 @@ class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildIn
         return {
             /*return*/ValueBnode("" + uuid + localbnode.next())
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = this

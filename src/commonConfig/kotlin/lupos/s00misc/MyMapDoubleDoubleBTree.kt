@@ -53,6 +53,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 v = node.values[i] as Double
                 return node.keys[i++] as Double
             }
+/*Coverage Unreachable*/
         }
 
         override fun value() = v
@@ -102,7 +103,9 @@ class MyMapDoubleDoubleBTree(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromNonLeaf(idx: Int) {
@@ -237,6 +240,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double) {
@@ -322,6 +326,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -348,6 +353,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Double, onCreate: () -> Double, onExists: (Double, Double) -> Double) {
@@ -492,6 +498,7 @@ class MyMapDoubleDoubleBTree(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: Double): Pair<Double, Double>? {
@@ -520,12 +527,13 @@ class MyMapDoubleDoubleBTree(val t: Int) {
         } else {
             return EmptyIterator()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator : MyMapDoubleDoubleBTreeNodeIterator() {
         override fun hasNext() = false
-        override fun next(): Double = throw Exception("unreachable")
-        override fun value(): Double = throw Exception("unreachable")
+        override fun next(): Double = SanityCheck.checkUnreachable()
+        override fun value(): Double = SanityCheck.checkUnreachable()
     }
 
     inline fun getOrCreate(key: Double, crossinline onCreate: () -> Double): Double {

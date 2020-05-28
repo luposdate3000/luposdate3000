@@ -45,6 +45,7 @@ class AOPBuildInCallCONCAT(query: Query, child: AOPBase, childB: AOPBase) : AOPB
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallCONCAT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

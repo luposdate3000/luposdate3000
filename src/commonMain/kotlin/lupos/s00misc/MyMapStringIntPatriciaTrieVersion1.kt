@@ -53,7 +53,9 @@ class MyMapStringIntPatriciaTrieVersion1() {
                     } else {
                         return null
                     }
+/*Coverage Unreachable*/
                 }
+/*Coverage Unreachable*/
             }
         }
         val value = onCreate()
@@ -65,6 +67,7 @@ class MyMapStringIntPatriciaTrieVersion1() {
         } else {
             return null
         }
+/*Coverage Unreachable*/
     }
 
     inline operator fun get(key: String): Int? {
@@ -73,6 +76,7 @@ class MyMapStringIntPatriciaTrieVersion1() {
         } else {
             return walkInternal(key, root, { null }, {})
         }
+/*Coverage Unreachable*/
     }
 
     inline operator fun set(key: String, value: Int) {

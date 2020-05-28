@@ -53,6 +53,7 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
                 v = node.values[i] as GenericV
                 return node.keys[i++] as Int
             }
+/*Coverage Unreachable*/
         }
 
         override fun value() = v
@@ -102,7 +103,9 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromNonLeaf(idx: Int) {
@@ -237,6 +240,7 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Int, onCreate: () -> GenericV, onExists: (Int, GenericV) -> GenericV) {
@@ -322,6 +326,7 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -348,6 +353,7 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         override fun insertNonFull(k: Int, onCreate: () -> GenericV, onExists: (Int, GenericV) -> GenericV) {
@@ -492,6 +498,7 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: Int): Pair<Int, GenericV>? {
@@ -520,12 +527,13 @@ class MyMapIntGenericBTree<GenericV>(val t: Int) {
         } else {
             return EmptyIterator<GenericV>()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIterator<GenericV> : MyMapIntGenericBTreeNodeIterator<GenericV>() {
         override fun hasNext() = false
-        override fun next(): Int = throw Exception("unreachable")
-        override fun value(): GenericV = throw Exception("unreachable")
+        override fun next(): Int = SanityCheck.checkUnreachable()
+        override fun value(): GenericV = SanityCheck.checkUnreachable()
     }
 
     inline fun getOrCreate(key: Int, crossinline onCreate: () -> GenericV): GenericV {

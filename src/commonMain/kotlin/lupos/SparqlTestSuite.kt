@@ -650,7 +650,7 @@ class SparqlTestSuite() {
                                 } else if (correctIfIgnoreNumber) {
                                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Number & String)" })
                                 } else {
-                                    throw Exception("unreachable")
+                                    SanityCheck.checkUnreachable()
                                 }
                             } else {
                                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Simplified)" })
@@ -682,6 +682,7 @@ class SparqlTestSuite() {
                     }
                     return expectedResult
                 }
+/*Coverage Unreachable*/
             } catch (e: ParseError) {
                 if (expectedResult) {
                     e.printStackTrace()
@@ -703,9 +704,11 @@ class SparqlTestSuite() {
                 }
                 return false
             }
+/*Coverage Unreachable*/
         } finally {
             ColumnIteratorDebug.debug()
         }
+/*Coverage Unreachable*/
     }
 }
 

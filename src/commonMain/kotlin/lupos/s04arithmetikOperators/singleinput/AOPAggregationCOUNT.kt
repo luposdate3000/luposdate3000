@@ -58,6 +58,7 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
         return {
             /*return*/ValueInteger(tmp.count)
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })

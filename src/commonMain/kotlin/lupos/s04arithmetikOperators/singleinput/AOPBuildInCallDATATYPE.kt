@@ -62,6 +62,7 @@ class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOpe
             }
 /*return*/res
         }
+/*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallDATATYPE(query, children[0].cloneOP() as AOPBase)

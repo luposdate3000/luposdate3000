@@ -56,7 +56,7 @@ object ServerCommunicationSend {
                 DistributedTripleStore.localStore.dropGraph(query, graphName)
             }
             else -> {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }
         }
     }

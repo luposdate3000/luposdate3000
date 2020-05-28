@@ -17,6 +17,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
             } else {
                 return i < node.n || (i == node.n && childIterator.hasNext())
             }
+/*Coverage Unreachable*/
         }
 
         override fun next(): KEY {
@@ -29,7 +30,9 @@ class MySetKEYBTreeGDEF(val t: Int) {
                     childIterator = node.C[i + 1]!!.iterator()
                     return node.keys[i++] as KEY
                 }
+/*Coverage Unreachable*/
             }
+/*Coverage Unreachable*/
         }
     }
 
@@ -70,9 +73,11 @@ class MySetKEYBTreeGDEF(val t: Int) {
                 } else {
                     return C[idx]!!.remove(k)
                 }
+/*Coverage Unreachable*/
             } else {
                 return null
             }
+/*Coverage Unreachable*/
         }
 
         fun removeFromLeaf(idx: Int) {
@@ -217,6 +222,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
             } else {
                 return C[i]!!.search(k)
             }
+/*Coverage Unreachable*/
         }
 
         fun insertNonFull(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
@@ -320,6 +326,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
         } else {
             return root!!.search(k)
         }
+/*Coverage Unreachable*/
     }
 
     fun remove(k: KEY): KEY? {
@@ -352,10 +359,11 @@ class MySetKEYBTreeGDEF(val t: Int) {
         } else {
             return EmptyIteratorGUSE()
         }
+/*Coverage Unreachable*/
     }
 
     class EmptyIteratorGDEF : Iterator<KEY> {
         override fun hasNext() = false
-        override fun next(): KEY = throw Exception("unreachable")
+        override fun next(): KEY = SanityCheck.checkUnreachable()
     }
 }

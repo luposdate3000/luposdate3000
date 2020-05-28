@@ -220,6 +220,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             a.getLatestChild().setChild(b)
             return a
         }
+/*Coverage Unreachable*/
     }
 
     fun containsAggregate(node: ASTNode): Boolean {
@@ -453,6 +454,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         if (node.existsDatasets()) {
             // var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>();
             TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+/*Coverage Unreachable*/
         }
         return result
     }
@@ -1071,6 +1073,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
             }
         }
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
@@ -1093,10 +1096,11 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             Aggregation.SUM -> {
                 return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            else -> {
-                SanityCheck.checkUnreachable()
+            Aggregation.GROUP_CONCAT -> {
+                throw Exception("not implemented")
             }
         }
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
@@ -1149,6 +1153,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
             }
         }
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
@@ -1240,6 +1245,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw Exception("not reachable")
             }
         }
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
@@ -1389,6 +1395,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             val res = LOPModify(query, insert, delete, child)
             return res
         }
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
@@ -1481,14 +1488,17 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTRDFTerm, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTPlus, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
@@ -1498,9 +1508,11 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+/*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+/*Coverage Unreachable*/
     }
 }
