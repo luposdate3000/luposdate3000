@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -37,6 +38,7 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
+
 enum class ServerCommunicationHeader {
     COMMIT,
     INSERT,

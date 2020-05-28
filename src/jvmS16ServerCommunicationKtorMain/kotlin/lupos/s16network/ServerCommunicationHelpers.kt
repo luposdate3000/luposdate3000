@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -41,22 +42,16 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
+
 suspend fun ByteWriteChannel.writeByteArray(builder: ByteArrayBuilder) {
-Coverage.funStart(16599)
     val packet = builder.build()
-Coverage.statementStart(16600)
     writeInt(packet.size)
-Coverage.statementStart(16601)
     writeFully(packet.data, 0, packet.size)
-Coverage.statementStart(16602)
 }
+
 suspend fun ByteReadChannel.readByteArray(): ByteArrayRead {
-Coverage.funStart(16603)
     var size = readInt()
-Coverage.statementStart(16604)
     var res = ByteArray(size)
-Coverage.statementStart(16605)
     readFully(res, 0, size)
-Coverage.statementStart(16606)
     return ByteArrayRead(res, size)
 }

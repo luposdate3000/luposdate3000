@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
@@ -27,6 +28,7 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
+
 abstract class ServerCommunicationKnownHostBase(val hostname: String, val port: Int) {
     override fun equals(other: Any?) = other is ServerCommunicationKnownHostBase && hostname == other.hostname && port == other.port
     override fun hashCode() = hostname.hashCode() + port

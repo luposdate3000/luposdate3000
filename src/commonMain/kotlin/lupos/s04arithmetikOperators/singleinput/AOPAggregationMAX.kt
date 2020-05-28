@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -14,69 +15,49 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+
 class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationMAXID, "AOPAggregationMAX", Array(childs.size) { childs[it] }) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
-Coverage.funStart(2806)
         if (distinct) {
-Coverage.ifStart(2807)
             return "MAX(DISTINCT " + children[0].toSparql() + ")"
         }
-Coverage.statementStart(2808)
         return "MAX(" + children[0].toSparql() + ")"
     }
+
     override fun equals(other: Any?): Boolean {
-Coverage.funStart(2809)
         if (other !is AOPAggregationMAX) {
-Coverage.ifStart(2810)
             return false
         }
-Coverage.statementStart(2811)
         for (i in children.indices) {
-Coverage.forLoopStart(2812)
             if (children[i] != other.children[i]) {
-Coverage.ifStart(2813)
                 return false
             }
-Coverage.statementStart(2814)
         }
-Coverage.statementStart(2815)
         if (distinct != other.distinct) {
-Coverage.ifStart(2816)
             return false
         }
-Coverage.statementStart(2817)
         return true
     }
+
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
-Coverage.funStart(2818)
         val res = ColumnIteratorAggregate()
-Coverage.statementStart(2819)
         val child = (children[0] as AOPBase).evaluate(row)
-Coverage.statementStart(2820)
         res.evaluate = {
-Coverage.statementStart(2821)
             val value = child()
-Coverage.statementStart(2822)
             if (res.value is ValueUndef || res.value.compareTo(value) < 0) {
-Coverage.ifStart(2823)
                 res.value = value
-Coverage.statementStart(2824)
             }
-Coverage.statementStart(2825)
         }
-Coverage.statementStart(2826)
         return res
     }
+
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-Coverage.funStart(2827)
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
-Coverage.statementStart(2828)
         return {
-Coverage.statementStart(2829)
             /*return*/tmp.value
         }
-Coverage.statementStart(2830)
     }
+
     override fun cloneOP() = AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }
