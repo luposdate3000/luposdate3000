@@ -7,6 +7,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
+import lupos.s00misc.File
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
 
@@ -32,10 +33,17 @@ object HttpEndpointLauncher {
                 }
             }
             "/import/turtle" -> {
+val dict=MyMapStringIntPatriciaTrie()
+var dictfile=params["bnodeList"]
+if(dictfile!=null){
+File(dictfile).forEachLine{
+dict[it]=nodeGlobalDictionary.createNewBNode()
+}
+}
                 if (isPost) {
-                    return HttpEndpoint.import_turtle_files(data)
+                    return HttpEndpoint.import_turtle_files(data,dict)
                 } else {
-                    return HttpEndpoint.import_turtle_files(params["query"]!!)
+                    return HttpEndpoint.import_turtle_files(params["query"]!!,dict)
                 }
             }
             "/import/xml" -> {

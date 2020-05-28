@@ -110,12 +110,15 @@ object HttpEndpoint {
         return res
     }
 
-    fun helper_import_turtle_files(dict: MyMapStringIntPatriciaTrie, v: String): Value {
+    fun helper_import_turtle_files(dict: MyMapStringIntPatriciaTrie, usePredefinedDict:Boolean, v: String): Value {
         try {
             val v2 = helper_clean_string(v)
             BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
             if (v2.startsWith("_:")) {
-                return dict.getOrCreate(v2, { nodeGlobalDictionary.createNewBNode() })
+                return dict.getOrCreate(v2, {
+SanityCheck.check{!usePredefinedDict}
+/*return*/ nodeGlobalDictionary.createNewBNode() 
+})
             } else {
                 return nodeGlobalDictionary.createValue(v2)
             }
@@ -124,13 +127,13 @@ object HttpEndpoint {
         }
     }
 
-    suspend fun import_turtle_files(fileNames: String): String {
+    suspend fun import_turtle_files(fileNames: String,bnodeDict:MyMapStringIntPatriciaTrie): String {
         try {
+val usePredefinedDict=bnodeDict.size>0
             val query = Query()
             var bulk = TripleStoreBulkImport()
             var counter = 0
             var store = DistributedTripleStore.getDefaultGraph(query)
-            val dict = MyMapStringIntPatriciaTrie()
             for (fileName in fileNames.split(";")) {
                 val data = File(fileName).readAsString()
                 val lcit = LexerCharIterator(data)
@@ -139,9 +142,9 @@ object HttpEndpoint {
                 TurtleParserWithStringTriples({ s, p, o ->
                     counter++
                     bulk.insert(
-                            helper_import_turtle_files(dict, s),
-                            helper_import_turtle_files(dict, p),
-                            helper_import_turtle_files(dict, o))
+                            helper_import_turtle_files(bnodeDict, usePredefinedDict, s),
+                            helper_import_turtle_files(bnodeDict, usePredefinedDict, p),
+                            helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
                     if (bulk.full()) {
                         CoroutinesHelper.runBlock {
                             bulk.sort()

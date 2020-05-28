@@ -133,8 +133,7 @@ object ServerCommunicationSend {
         }
     }
 
-    class ModifyHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
-    }
+    class ModifyHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {    }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         val values = Array(3) { ResultSetDictionary.undefValue }
@@ -154,7 +153,7 @@ object ServerCommunicationSend {
             val helper2: ModifyHelper
             if (helper == null) {
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
-                helper2 = ModifyHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array(3) { ColumnIterator() })
+                helper2 = ModifyHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array<ColumnIterator>(3) { ColumnIteratorChannel() })
                 accessedHosts[host] = helper2
                 var builder = ByteArrayBuilder()
                 if (type == EModifyType.INSERT) {
@@ -176,10 +175,17 @@ object ServerCommunicationSend {
             } else {
                 helper2 = helper
             }
-            TODO("append values")
+for(i in 0 until 3){
+(helper2.iterators[i] as ColumnIteratorChannel).append(values[i])
+}
         }
+for((host,helper) in accessedHosts){
+for(i in 0 until 3){ 
+(helper2.iterators[i] as ColumnIteratorChannel).writeFinish()
+}
         TODO("flush all and send termination signal")
         TODO("wait _for ack")
+}
     }
 
     fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
@@ -188,6 +194,12 @@ object ServerCommunicationSend {
 
     fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         TODO("xxx")
+    }
+
+suspend fun bulkImport(query: Query, graphName: String,data: TripleStoreBulkImport) {
+for (idx in TripleStoreLocalBase.distinctIndices) {
+TODO("            DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(data, idx)")
+        }
     }
 
     fun start(hostname: String = "localhost", port: Int = NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
