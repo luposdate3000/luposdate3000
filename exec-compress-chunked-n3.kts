@@ -38,31 +38,36 @@ while (line2 != null) {
                 }
             }
             start = column
-            var qouteCount = 0
+            var withinQuote = false
+            var withinIRIQuote = false
             loop@ while (column < line.length) {
                 when (line[column]) {
                     '"' -> {
+require(!withinIRIQuote)
                         if (column == 0 || line[column - 1] != '\\') {
-                            qouteCount++
+                            withinQuote = !withinQuote
                         }
                     }
                     '<' -> {
-                        if (qouteCount % 2 == 0) {
-                            qouteCount++
+                        if (!withinQuote) {
+withinIRIQuote=true
+                            withinQuote = true
                         }
                     }
                     '>' -> {
-                        if (qouteCount % 2 == 1) {
-                            qouteCount--
+                        if (withinIRIQuote) {
+require(withinQuote)
+                            withinQuote = false
+withinIRIQuote=false
                         }
                     }
                     ' ' -> {
-                        if (qouteCount % 2 == 0) {
+                        if (!withinQuote) {
                             break@loop
                         }
                     }
                     '.', ',', ';' -> {
-                        if (qouteCount % 2 == 0 && nextType == 2) {
+                        if (!withinQuote && nextType == 2) {
                             break@loop
                         }
                     }
