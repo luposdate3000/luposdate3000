@@ -74,6 +74,6 @@ class MyMapIntGenericBinaryTree<Generic>() {
     }
 
     fun safeToFile(filename: String) {
-        throw Exception("not Implemented")
+        throw FileIONotImplementedException()
     }
 }

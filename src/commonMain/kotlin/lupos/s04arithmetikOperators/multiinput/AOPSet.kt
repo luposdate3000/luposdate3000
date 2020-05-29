@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SetNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -37,7 +38,7 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
     }
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        TODO("not implemented")
+        throw SetNotImplementedException()
 /*Coverage Unreachable*/
     }
 

@@ -77,7 +77,10 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                 columns[s] = ColumnIterator()
             }
         }
-        var res = IteratorBundle(columns)
+        var res: IteratorBundle? = null
+        if (columns.size > 0) {
+            res = IteratorBundle(columns)
+        }
         if (filter.size > 0) {
             val tmp = data[filter[0]]
             if (tmp != null) {
@@ -99,24 +102,35 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                         }
                     }
                 } else {
-                    val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-                    if (projection[0] != "_") {
-                        columns[projection[0]] = ColumnIteratorDebug(-2, projection[0], columnsArr[0])
-                    }
-                    if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], columnsArr[1])
-                    }
-                    var iter = tmp.iterator()
-                    for (iterator in columnsArr) {
-                        iterator.onNoMoreElements = {
-                            if (iter.hasNext()) {
-                                val key = iter.next()
-                                val value = iter.value()
-                                if (projection[0] != "_") {
-                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
-                                }
-                                if (projection[1] != "_") {
-                                    columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
+                    if (columns.size == 0) {
+                        var count = 0
+                        var iter = tmp.iterator()
+                        while (iter.hasNext()) {
+                            val key = iter.next()
+                            val value = iter.value()
+                            count += value.size
+                        }
+                        res = IteratorBundle(count)
+                    } else {
+                        val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
+                        if (projection[0] != "_") {
+                            columns[projection[0]] = ColumnIteratorDebug(-2, projection[0], columnsArr[0])
+                        }
+                        if (projection[1] != "_") {
+                            columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], columnsArr[1])
+                        }
+                        var iter = tmp.iterator()
+                        for (iterator in columnsArr) {
+                            iterator.onNoMoreElements = {
+                                if (iter.hasNext()) {
+                                    val key = iter.next()
+                                    val value = iter.value()
+                                    if (projection[0] != "_") {
+                                        columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
+                                    }
+                                    if (projection[1] != "_") {
+                                        columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
+                                    }
                                 }
                             }
                         }
@@ -124,50 +138,66 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                 }
             }
         } else {
-            println("STORE iterator")
-            val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-            if (projection[0] != "_") {
-                columns[projection[0]] = ColumnIteratorDebug(-4, projection[0], columnsArr[0])
-            }
-            if (projection[1] != "_") {
-                columns[projection[1]] = ColumnIteratorDebug(-5, projection[1], columnsArr[1])
-            }
-            if (projection[2] != "_") {
-                columns[projection[2]] = ColumnIteratorDebug(-6, projection[2], columnsArr[2])
-            }
-            var iter = data.iterator()
-            if (iter.hasNext()) {
-                var key1 = iter.next()
-                println("STORE s $key1")
-                var value1 = iter.value()
-                var iter2 = value1.iterator()
-                for (iterator in columnsArr) {
-                    iterator.onNoMoreElements = {
-                        while (true) {
-                            println("STORE loop p")
-                            if (iter2.hasNext()) {
-                                val key2 = iter2.next()
-                                println("STORE p $key2")
-                                val value2 = iter2.value()
-                                println("STORE osize ${value2.size}")
-                                if (projection[0] != "_") {
-                                    columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
-                                }
-                                if (projection[1] != "_") {
-                                    columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
-                                }
-                                if (projection[2] != "_") {
-                                    columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.iterator()))
-                                }
-                                break
-                            } else {
-                                if (iter.hasNext()) {
-                                    key1 = iter.next()
-                                    println("STORE s1 $key1")
-                                    value1 = iter.value()
-                                    iter2 = value1.iterator()
-                                } else {
+            if (columns.size == 0) {
+                var count = 0
+                var iter = data.iterator()
+                while (iter.hasNext()) {
+                    var key1 = iter.next()
+                    var value1 = iter.value()
+                    var iter2 = value1.iterator()
+                    while (iter2.hasNext()) {
+                        val key2 = iter2.next()
+                        val value2 = iter2.value()
+                        count += value2.size
+                    }
+                }
+                res = IteratorBundle(count)
+            } else {
+                println("STORE iterator")
+                val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
+                if (projection[0] != "_") {
+                    columns[projection[0]] = ColumnIteratorDebug(-4, projection[0], columnsArr[0])
+                }
+                if (projection[1] != "_") {
+                    columns[projection[1]] = ColumnIteratorDebug(-5, projection[1], columnsArr[1])
+                }
+                if (projection[2] != "_") {
+                    columns[projection[2]] = ColumnIteratorDebug(-6, projection[2], columnsArr[2])
+                }
+                var iter = data.iterator()
+                if (iter.hasNext()) {
+                    var key1 = iter.next()
+                    println("STORE s $key1")
+                    var value1 = iter.value()
+                    var iter2 = value1.iterator()
+                    for (iterator in columnsArr) {
+                        iterator.onNoMoreElements = {
+                            while (true) {
+                                println("STORE loop p")
+                                if (iter2.hasNext()) {
+                                    val key2 = iter2.next()
+                                    println("STORE p $key2")
+                                    val value2 = iter2.value()
+                                    println("STORE osize ${value2.size}")
+                                    if (projection[0] != "_") {
+                                        columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
+                                    }
+                                    if (projection[1] != "_") {
+                                        columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
+                                    }
+                                    if (projection[2] != "_") {
+                                        columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.iterator()))
+                                    }
                                     break
+                                } else {
+                                    if (iter.hasNext()) {
+                                        key1 = iter.next()
+                                        println("STORE s1 $key1")
+                                        value1 = iter.value()
+                                        iter2 = value1.iterator()
+                                    } else {
+                                        break
+                                    }
                                 }
                             }
                         }
@@ -175,7 +205,10 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                 }
             }
         }
-        return res
+        if (res == null) {
+            res = IteratorBundle(0)
+        }
+        return res!!
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {

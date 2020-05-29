@@ -12,6 +12,7 @@ import lupos.s00misc.MyMapLongGeneric
 import lupos.s00misc.MyMapLongInt
 import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
@@ -357,11 +358,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
-        throw Exception("not implemented")
+        throw TripleStoreModifyOperationsNotImplementedException()
     }
 
     override fun remove(a: Value, b: Value, c: Value) {
-        throw Exception("not implemented")
+        throw TripleStoreModifyOperationsNotImplementedException()
     }
 
     override fun clear() {

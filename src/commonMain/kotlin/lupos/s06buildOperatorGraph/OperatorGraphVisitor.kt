@@ -3,6 +3,7 @@ package lupos.s06buildOperatorGraph
 import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
+import lupos.s00misc.DatasetsNotImplementedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGroupMember
@@ -452,9 +453,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             result.getLatestChild().setChild(parseGroup(node.where))
         }
         if (node.existsDatasets()) {
-            // var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>();
-            TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-/*Coverage Unreachable*/
+            throw DatasetsNotImplementedException()
         }
         return result
     }

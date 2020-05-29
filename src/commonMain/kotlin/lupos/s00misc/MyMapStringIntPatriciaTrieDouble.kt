@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.FunktionWontWorkWithThisImplementationException
 
 class MyMapStringIntPatriciaTrieDouble() {
     val undefinedValue = -1
@@ -229,7 +230,7 @@ class MyMapStringIntPatriciaTrieDouble() {
     }
 
     operator fun set(key: String, value: Int) {
-        throw Exception("not implemented")
+        throw FunktionWontWorkWithThisImplementationException()
     }
 
     fun getOrCreate(key: String): Int {

@@ -2,6 +2,8 @@ package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
+import lupos.s00misc.IteratorBundleColumnModeNotImplementedException
+import lupos.s00misc.IteratorBundleRowModeNotImplementedException
 import lupos.s00misc.SanityCheck
 
 enum class IteratorBundleMode {
@@ -48,7 +50,7 @@ class IteratorBundle {
                 }
                 return _columns!!
             } else {
-                throw Exception("not implemented")
+                throw IteratorBundleColumnModeNotImplementedException()
             }
         }
     var rows: RowIterator = RowIterator()
@@ -61,7 +63,7 @@ class IteratorBundle {
                 }
                 return _rows!!
             } else {
-                throw Exception("not implemented")
+                throw IteratorBundleRowModeNotImplementedException()
             }
         }
 

@@ -437,7 +437,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun remove(a: Value, b: Value, c: Value) {
-        throw Exception("not implemented")
+        SanityCheck.checkUnreachable()
     }
 
     override fun clear() {

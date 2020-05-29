@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.noinput
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -37,8 +38,7 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
     }
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        TODO("not implemented")
-/*Coverage Unreachable*/
+        SanityCheck.checkUnreachable()
     }
 
     override fun cloneOP() = this

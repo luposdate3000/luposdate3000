@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.FileIONotImplementedException
 
 class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null

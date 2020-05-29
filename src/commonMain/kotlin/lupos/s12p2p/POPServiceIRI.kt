@@ -3,6 +3,7 @@ package lupos.s12p2p
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.ServiceNotImplementedException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -33,7 +34,7 @@ class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverNa
     override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
     override suspend fun evaluate(): IteratorBundle {
-        TODO("not implemented")
+        throw ServiceNotImplementedException()
 /*Coverage Unreachable*/
     }
 

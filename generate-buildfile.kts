@@ -142,9 +142,9 @@ val templates = listOf(
                 "GUSEV" to "<GenericV>",
                 "KNAME" to "Generic",
                 "VNAME" to "Generic",
-                "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")")),
+                "IOSTART.*IOEND" to "throw FileIONotImplementedException()")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw FileIONotImplementedException()")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART.*IOEND" to "throw FileIONotImplementedException()")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
@@ -169,7 +169,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+                "IOSTART.*IOEND" to "throw FileIONotImplementedException()"
         )),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
                 "KEY" to "Long",
@@ -182,7 +182,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+                "IOSTART.*IOEND" to "throw FileIONotImplementedException()"
         )),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
                 "KEY" to "Double",
@@ -195,7 +195,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+                "IOSTART.*IOEND" to "throw FileIONotImplementedException()"
         )),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
                 "KEY" to "GenericK",
@@ -208,7 +208,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "{null}",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART.*IOEND" to "throw Exception(\"not Implemented\")"
+                "IOSTART.*IOEND" to "throw FileIONotImplementedException()"
         ))
 )
 

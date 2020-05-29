@@ -74,6 +74,6 @@ class MyMapGenericGenericBinaryTree<GenericK : Comparable<GenericK>, GenericV>()
     }
 
     fun safeToFile(filename: String) {
-        throw Exception("not Implemented")
+        throw FileIONotImplementedException()
     }
 }
