@@ -1,9 +1,9 @@
 #!/bin/bash
-./generate-buildfile.kts listAll 1.4.255-SNAPSHOT jvm SparqlTestSuite Endpoint Benchmark Heap | sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh\nif [ \$? -ne 0 ]; then exit ; fi/g" > tool-compile-all-tmp.sh
+./generate-buildfile.kts listAll "KotlinVersion->1.4.255-SNAPSHOT" "Platform->jvm" "Launch->SparqlTestSuite" "Launch->Endpoint" "Launch->Benchmark" "BufferManager->Heap" | sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh\nif [ \$? -ne 0 ]; then exit ; fi/g" > tool-compile-all-tmp.sh
 chmod +x tool-compile-all-tmp.sh
 rm build/compile*
 ./tool-compile-all-tmp.sh
-#rm tool-compile-all-tmp.sh
+rm tool-compile-all-tmp.sh
 for token in "w" "e"
 do
 cat build/compile* \

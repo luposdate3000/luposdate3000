@@ -3,31 +3,35 @@ export JAVA_OPTS="-Xmx30g"
 pkill java
 port="3030"
 {
-  echo 1.4.255-SNAPSHOT
-  echo jvm
-  echo SparqlTestSuite
-  echo On
-  echo Sequential
-  echo Heap
-  echo MultiMap
-  echo BPlusTree
-  echo Korio
-  echo None
-  echo On
-  echo BTree
-  echo BTree
-  echo Count
-  echo Empty
-  echo 128
-  echo 8
-  echo 8
-  echo 8
-  echo false
-  echo ECoverage.Disabled
-  echo DontChange
-  echo None
+  echo "KotlinVersion->1.4.255-SNAPSHOT"
+  echo "Platform->jvm"
+  echo "Launch->SparqlTestSuite"
+  echo "Sanity->On"
+  echo "Execution->Sequential"
+  echo "BufferManager->Heap"
+  echo "Dictionary->MultiMap"
+  echo "TripleStore->BPlusTree"
+  echo "Endpoint->Korio"
+  echo "Jena->On"
+  echo "Set->BTree"
+  echo "Map->BTree"
+  echo "IteratorVerbose->Count"
+  echo "OutputFormat->Empty"
+  echo "Pagesize->128"
+  echo "BlockCapacity->8"
+  echo "BTreeBranching->8"
+  echo "MergeSortRows->8"
+  echo "AdvancedOptimisation->false"
+  echo "Coverage->ECoverage.Disabled"
+  echo "CoverageGenerate->DontChange"
+  echo "ServerCommunication->None"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
+ret=$?
+if [ $ret -ne 0 ]
+then
+	exit $ret
+fi
 function execJvm
 {
 	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64

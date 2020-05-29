@@ -3,31 +3,38 @@ export JAVA_OPTS="-Xmx30g"
 pkill java
 port="3030"
 {
-  echo 1.4.255-SNAPSHOT
-  echo jvm
-  echo SparqlTestSuite
-  echo On
-  echo Sequential
-  echo Heap
-  echo MultiMap
-  echo BPlusTree
-  echo Korio
-  echo None
-  echo On
-  echo BTree
-  echo BTree
-  echo Count
-  echo Empty
-  echo 8196
-  echo 1024
-  echo 512
-  echo 512
-  echo true
-  echo ECoverage.Count
-  echo On
-  echo None
+  echo "KotlinVersion->1.4.255-SNAPSHOT"
+  echo "Platform->jvm"
+  echo "Launch->SparqlTestSuite"
+  echo "Sanity->On"
+  echo "Execution->Sequential"
+  echo "BufferManager->Heap"
+#  echo "Dictionary->ObjectMap"
+  echo "Dictionary->MultiMap"
+#  echo "TripleStore->BPlusTree"
+  echo "TripleStore->MapMapList"
+  echo "Endpoint->Korio"
+  echo "Jena->On"
+  echo "Set->BTree"
+  echo "Map->BTree"
+  echo "IteratorVerbose->Count"
+  echo "OutputFormat->Empty"
+  echo "Pagesize->8196"
+  echo "BlockCapacity->1024"
+  echo "BTreeBranching->512"
+  echo "MergeSortRows->512"
+  echo "AdvancedOptimisation->true"
+#  echo "Coverage->ECoverage.VeryVerbose"
+  echo "Coverage->ECoverage.Count"
+  echo "CoverageGenerate->DontChange"
+  echo "ServerCommunication->None"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
+ret=$?
+if [ $ret -ne 0 ]
+then
+	exit $ret
+fi
 function execJvm
 {
 	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64

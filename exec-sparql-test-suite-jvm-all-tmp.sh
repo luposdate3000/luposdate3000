@@ -1,3 +1,4 @@
+i=0
 
 {
   echo 1.4.255-SNAPSHOT
@@ -19,26 +20,29 @@
   echo 8
   echo 8
   echo true
-  echo ECoverage.Disabled
+  echo ECoverage.Count
   echo DontChange
   echo None
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-if [ $? -ne 0 ]; then exit ; fi
+ret=$?
+if [ $ret -ne 0 ]; then exit $ret; fi
+ln -s $(readlink -f build/executable ) log/alltest/$i.exec
+i=$(($i + 1))
 {
   echo 1.4.255-SNAPSHOT
   echo jvm
-  echo Endpoint
-  echo Off
-  echo Parallel
+  echo SparqlTestSuite
+  echo On
+  echo Sequential
   echo Heap
   echo MultiMap
   echo SingleList
   echo None
-  echo Off
+  echo On
   echo BTree
   echo Bisection
-  echo Count
+  echo None
   echo Empty
   echo 256
   echo 16
@@ -46,15 +50,18 @@ if [ $? -ne 0 ]; then exit ; fi
   echo 16
   echo false
   echo ECoverage.Count
-  echo On
+  echo DontChange
   echo Ktor
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-if [ $? -ne 0 ]; then exit ; fi
+ret=$?
+if [ $ret -ne 0 ]; then exit $ret; fi
+ln -s $(readlink -f build/executable ) log/alltest/$i.exec
+i=$(($i + 1))
 {
   echo 1.4.255-SNAPSHOT
   echo jvm
-  echo Benchmark
+  echo SparqlTestSuite
   echo On
   echo Sequential
   echo Heap
@@ -64,19 +71,22 @@ if [ $? -ne 0 ]; then exit ; fi
   echo On
   echo Bisection
   echo HashMap
-  echo Verbose
+  echo None
   echo EmptyWithDictionary
   echo 512
   echo 32
   echo 32
   echo 32
   echo true
-  echo ECoverage.Verbose
+  echo ECoverage.Count
   echo DontChange
   echo None
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-if [ $? -ne 0 ]; then exit ; fi
+ret=$?
+if [ $ret -ne 0 ]; then exit $ret; fi
+ln -s $(readlink -f build/executable ) log/alltest/$i.exec
+i=$(($i + 1))
 {
   echo 1.4.255-SNAPSHOT
   echo jvm
@@ -97,35 +107,12 @@ if [ $? -ne 0 ]; then exit ; fi
   echo 64
   echo 64
   echo true
-  echo ECoverage.VeryVerbose
-  echo Off
-  echo None
-} | ./generate-buildfile.kts
-./tool-gradle-build.sh
-if [ $? -ne 0 ]; then exit ; fi
-{
-  echo 1.4.255-SNAPSHOT
-  echo jvm
-  echo SparqlTestSuite
-  echo On
-  echo Sequential
-  echo Heap
-  echo ObjectMap
-  echo MapMapList
-  echo Korio
-  echo On
-  echo Bisection
-  echo BTree
-  echo None
-  echo XML
-  echo 2048
-  echo 128
-  echo 128
-  echo 128
-  echo true
-  echo ECoverage.Disabled
+  echo ECoverage.Count
   echo DontChange
   echo None
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-if [ $? -ne 0 ]; then exit ; fi
+ret=$?
+if [ $ret -ne 0 ]; then exit $ret; fi
+ln -s $(readlink -f build/executable ) log/alltest/$i.exec
+i=$(($i + 1))

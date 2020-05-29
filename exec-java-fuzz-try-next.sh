@@ -1,29 +1,28 @@
 #!/bin/bash
 #for i in $(ps -aux | grep "java " | sed "s/root *//g" | sed "s/ .*//g"); do kill $i;done
 {
-  echo 1.4.255-SNAPSHOT
-  echo jvm
-  echo WarnkeFuzz
-  echo On
-  echo Sequential
-  echo Heap
-  echo MultiMap
-  echo MapMapList
-  echo None
-  echo None
-  echo On
-  echo BTree
-  echo BTree
-  echo None
-  echo Empty
-  echo 128
-  echo 8
-  echo 8
-  echo 8
-  echo true
-  echo ECoverage.Disabled
-  echo Off
-  echo None
+  echo "KotlinVersion->1.4.255-SNAPSHOT"
+  echo "Platform->jvm"
+  echo "Launch->WarnkeFuzz"
+  echo "Sanity->On"
+  echo "Execution->Sequential"
+  echo "BufferManager->Heap"
+  echo "Dictionary->MultiMap"
+  echo "TripleStore->MapMapList"
+  echo "Endpoint->None"
+  echo "Jena->On"
+  echo "Set->BTree"
+  echo "Map->BTree"
+  echo "IteratorVerbose->None"
+  echo "OutputFormat->Empty"
+  echo "Pagesize->128"
+  echo "BlockCapacity->8"
+  echo "BTreeBranching->8"
+  echo "MergeSortRows->8"
+  echo "AdvancedOptimisation->true"
+  echo "Coverage->ECoverage.Disabled"
+  echo "CoverageGenerate->Off"
+  echo "ServerCommunication->None"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 port="3030"

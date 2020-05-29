@@ -256,7 +256,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                         requiredVariables.add(v.name)
                     }
                 } else {
-                    SanityCheck.check { false }
+                    SanityCheck.checkUnreachable()
                 }
                 val tmp = mutableListOf<SortHelper>()
                 for (v in requiredVariables) {

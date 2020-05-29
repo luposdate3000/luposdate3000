@@ -319,7 +319,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                         return
                     }
                     else -> {
-                        SanityCheck.check { false }
+                        SanityCheck.checkUnreachable()
                     }
                 }
             }
@@ -410,7 +410,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                 }
             }
             else -> {
-                SanityCheck.check { false }
+                SanityCheck.checkUnreachable()
             }
         }
         while (queue.size > 0) {
@@ -458,7 +458,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                     }
                 }
                 else -> {
-                    SanityCheck.check { false }
+                    SanityCheck.checkUnreachable()
                 }
             }
         }
@@ -514,7 +514,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                         }
                     }
                     else -> {
-                        SanityCheck.check { false }
+                        SanityCheck.checkUnreachable()
                     }
                 }
             }
@@ -557,7 +557,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                             tmp.childs[current.first] = node
                         }
                         else -> {
-                            SanityCheck.check { false }
+                            SanityCheck.checkUnreachable()
                         }
                     }
                 }
@@ -602,7 +602,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                         }
                     }
                     else -> {
-                        SanityCheck.check { false }
+                        SanityCheck.checkUnreachable()
                     }
                 }
             }
@@ -643,7 +643,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                     }
                 }
                 else -> {
-                    SanityCheck.check { false }
+                    SanityCheck.checkUnreachable()
                 }
             }
         }

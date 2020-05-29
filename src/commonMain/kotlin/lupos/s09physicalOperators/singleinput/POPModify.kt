@@ -154,7 +154,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                                 continue@loop2
                             }
                         }
-                        SanityCheck.check { false }
+                        SanityCheck.checkUnreachable()
                     }
                 }
             }

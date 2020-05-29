@@ -65,7 +65,7 @@ class ChoosableOptionExternalScript(label: String, val scriptName: String, inter
     override fun toString() = "ExternalScript($scriptName)"
 }
 
-class ChooseableGroup(val name: String) : Comparable<ChooseableGroup> {
+class ChooseableGroup(val name: String, val shortcut: String) : Comparable<ChooseableGroup> {
     override fun equals(other: Any?) = other is ChooseableGroup && name == other.name
     override fun hashCode() = name.hashCode()
     override operator fun compareTo(other: ChooseableGroup) = name.compareTo(other.name)
@@ -81,13 +81,19 @@ fun presentUserChoice(group: ChooseableGroup, options: List<ChooseableOption>): 
         else -> {
             println("selecting ${group.name}: choose one of ${options.map { it.label }}")
             while (true) {
-                val input = readLine()
-                if (input != null) {
+                val input2 = readLine()
+                if (input2 != null) {
+                    val input: String
+                    if (input2.startsWith("${group.shortcut}->")) {
+                        input = input2.substring(group.shortcut.length + 2, input2.length)
+                    } else {
+                        input = input2
+                    }
                     if (options.map { it.label }.contains(input)) {
                         for (o in options) {
                             if (o.label == input) {
                                 allChoicesString += "_${o.label}"
-                                newCommandString += "\n  echo ${o.label}"
+                                newCommandString += "\n  echo \"${group.shortcut}->${o.label}\""
                                 return o
                             }
                         }
@@ -97,6 +103,7 @@ fun presentUserChoice(group: ChooseableGroup, options: List<ChooseableOption>): 
                         val i = input.toInt()
                         if (i < options.size) {
                             allChoicesString += "_${options[i].label}"
+                            newCommandString += "\n  echo \"${group.shortcut}->${options[i].label}\""
                             return options[i]
                         }
                     } catch (e: Throwable) {
@@ -206,46 +213,46 @@ val templates = listOf(
 )
 
 val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
-        ChooseableGroup("Launch Type") to listOf(
+        ChooseableGroup("Launch Type", "Launch") to listOf(
                 ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
                 ChooseableOptionDirectory("BinaryTests", "commonS00LaunchBinaryTestsMain"),
                 ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                 ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
                 ChooseableOptionDirectory("WarnkeFuzz", "jvmS00LaunchWarnkeFuzzMain")
         ),
-        ChooseableGroup("Sanity Checks") to listOf(
+        ChooseableGroup("Sanity Checks", "Sanity") to listOf(
                 ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn", "CoroutinesHelperMutex" to "Lock")),
                 ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff", "CoroutinesHelperMutex" to "Lock"))
         ),
-        ChooseableGroup("Execution") to listOf(
+        ChooseableGroup("Execution", "Execution") to listOf(
                 ChooseableOptionTypeAlias("Sequential", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperSequential")),
                 ChooseableOptionTypeAlias("Parallel", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperParallel"))
         ),
-        ChooseableGroup("Buffer Manager Type") to listOf(
+        ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
                 ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
                 ChooseableOptionDirectory("MemoryMapped", "jvmS01BufferMemoryMappedMain"),
                 ChooseableOptionDirectory("MemoryMappedUnsafe", "jvmS01BufferMemoryMappedUnsafeMain"),
                 ChooseableOptionDirectory("RandomAccess", "jvmS01BufferRandomAccessMain"),
                 ChooseableOptionDirectory("Unsafe", "jvmS01BufferUnsafeMain")
         ),
-        ChooseableGroup("Dictionary") to listOf(
+        ChooseableGroup("Dictionary", "Dictionary") to listOf(
                 ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain"),
                 ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain")
         ),
-        ChooseableGroup("Triple Store") to listOf(
+        ChooseableGroup("Triple Store", "TripleStore") to listOf(
                 ChooseableOptionTypeAlias("MapMapList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
                 ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList")),
                 ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
         ),
-        ChooseableGroup("HttpEndpoint implementation") to listOf(
+        ChooseableGroup("HttpEndpoint implementation", "Endpoint") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
                 ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
         ),
-        ChooseableGroup("Include Jena Wrapper") to listOf(
+        ChooseableGroup("Include Jena Wrapper", "Jena") to listOf(
                 ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
                 ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("JenaWrapper" to "JenaWrapperOff"))
         ),
-        ChooseableGroup("Set Implementation") to listOf(
+        ChooseableGroup("Set Implementation", "Set") to listOf(
                 ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(
                         "MySetGeneric<T>" to "MySetGenericBinaryTree<T>",
                         "MySetLong" to "MySetLongBinaryTree",
@@ -259,7 +266,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                         "MySetDouble" to "MySetDoubleBTree"
                 ))
         ),
-        ChooseableGroup("Map Implementation") to listOf(
+        ChooseableGroup("Map Implementation", "Map") to listOf(
                 ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
                         "MyMapIntGeneric<T>" to "MyMapIntGenericBTree<T>",
                         "MyMapLongGeneric<T>" to "MyMapLongGenericBTree<T>",
@@ -282,17 +289,17 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                         "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
                 ))
         ),
-        ChooseableGroup("Iterator Debug verbosity") to listOf(
+        ChooseableGroup("Iterator Debug verbosity", "IteratorVerbose") to listOf(
                 ChooseableOptionTypeAlias("None", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugFast")),
                 ChooseableOptionTypeAlias("Count", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugCount")),
                 ChooseableOptionTypeAlias("Verbose", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugVerbose"))
         ),
-        ChooseableGroup("Default Result Format") to listOf(
+        ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
                 ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToXMLString")),
                 ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyString")),
                 ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
         ),
-        ChooseableGroup("PageSize in Bytes") to listOf(
+        ChooseableGroup("PageSize in Bytes", "Pagesize") to listOf(
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "128"),
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "256"),
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "512"),
@@ -301,7 +308,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "4096"),
                 ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "8196")
         ),
-        ChooseableGroup("ArrayList Block Capacity in Elements") to listOf(
+        ChooseableGroup("ArrayList Block Capacity in Elements", "BlockCapacity") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "16"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "32"),
@@ -311,7 +318,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "512"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024")
         ),
-        ChooseableGroup("BTree Branching Faktor") to listOf(
+        ChooseableGroup("BTree Branching Faktor", "BTreeBranching") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "8"),
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "16"),
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "32"),
@@ -320,7 +327,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "256"),
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
         ),
-        ChooseableGroup("Merge Sort Minimal Rows") to listOf(
+        ChooseableGroup("Merge Sort Minimal Rows", "MergeSortRows") to listOf(
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "8"),
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "16"),
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "32"),
@@ -329,32 +336,32 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "256"),
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "512")
         ),
-        ChooseableGroup("Replace small triple-store results during optimisation phase") to listOf(
+        ChooseableGroup("Replace small triple-store results during optimisation phase", "AdvancedOptimisation") to listOf(
                 ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "true"),
                 ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "false")
         ),
-        ChooseableGroup("Code Coverage mode") to listOf(
+        ChooseableGroup("Code Coverage mode", "Coverage") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Disabled"),
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Count"),
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Verbose"),
                 ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.VeryVerbose")
         ),
-        ChooseableGroup("Generate Code-Coverage-Code") to listOf(
+        ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
                 ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
                 ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn"),
                 ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff")
         ),
-        ChooseableGroup("ServerCommunication implementation") to listOf(
+        ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                 ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
                 ChooseableOptionDirectory("Ktor", "jvmS16ServerCommunicationKtorMain")
         ),
-        ChooseableGroup("ServerCommunication target packet size") to listOf(
+        ChooseableGroup("ServerCommunication target packet size", "ServerCommunicationPacketSize") to listOf(
                 ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_SIZE", "8196")
         ),
-        ChooseableGroup("ServerCommunication minimal triples per packet") to listOf(
+        ChooseableGroup("ServerCommunication minimal triples per packet", "ServerCommunicationTriplesPerPacket") to listOf(
                 ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_MIN_TRIPLES", "128")
         ),
-        ChooseableGroup("ServerCommunication default port") to listOf(
+        ChooseableGroup("ServerCommunication default port", "ServerCommunicationPort") to listOf(
                 ChooseableOptionConstantValue("lupos.s16network", "NETWORK_DEFAULT_PORT", "2323")
         )
 )
@@ -404,16 +411,16 @@ fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): 
     } else {
         var argsFilter = false
         for (o in options) {
-            if (args.contains(o.label)) {
+            if (args.contains(o.label) || args.contains(group.shortcut + "->" + o.label)) {
                 argsFilter = true
             }
         }
         for (o in options) {
-            if (!autoGenerateAllChoosenOptionsList.contains(o) && (!argsFilter || args.contains(o.label))) {
+            if (!autoGenerateAllChoosenOptionsList.contains(o) && (!argsFilter || args.contains(o.label) || args.contains(group.shortcut + "->" + o.label))) {
                 autoGenerateAllNotChoosenOptionsList.remove(o)
                 autoGenerateAllChoosenOptionsList.add(o)
                 for (o2 in options) {
-                    if (!autoGenerateAllChoosenOptionsList.contains(o2) && (!argsFilter || args.contains(o2.label))) {
+                    if (!autoGenerateAllChoosenOptionsList.contains(o2) && (!argsFilter || args.contains(o2.label) || args.contains(group.shortcut + "->" + o2.label))) {
                         var flag = true
                         if (o2 is ChooseableOptionConstantValue) {
 //numeric values should not be the only reason to compile more often
@@ -434,7 +441,7 @@ fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): 
         }
         if (argsFilter) {
             for (o in options) {
-                if (args.contains(o.label)) {
+                if (args.contains(o.label) || args.contains(group.shortcut + "->" + o.label)) {
                     autoGenerateAllChoicesString += "\n  echo ${o.label}"
                     return o//anything, since all were choosen at least once
                 }
@@ -463,9 +470,9 @@ while (!done) {
     val conflicts = listOf(
             setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
     )
-    val ktorVersion = presentChoice(ChooseableGroup("ktor-version"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
-    val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
-    val platform = presentChoice(ChooseableGroup("Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
+    val ktorVersion = presentChoice(ChooseableGroup("ktor-version", "KtorVersion"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
+    val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version", "KotlinVersion"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
+    val platform = presentChoice(ChooseableGroup("Platform", "Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
 
     additionalSources = mapOf(
 /*if the key is choosen, automatically add all dependent things*/

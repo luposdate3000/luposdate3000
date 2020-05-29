@@ -14,11 +14,25 @@ then
 	ret=$?
 	if [ $ret -ne 0 ]
 	then
+		cat $logfile \
+		| grep "e: " \
+		| sort \
+		| uniq \
+		| grep -v "Expected performance impact from inlining is insignificant" \
+		| grep -v "kotlin/lupos/datastructures" \
+		| grep -v "kotlin/lupos/s02buildSyntaxTree" \
+		| grep -v "This class can only be used with the compiler argument" \
+		| grep -v "'UseExperimental' is deprecated. Please use OptI" \
+		| grep -v "Parameter.*is never used" \
+		| grep -v "commonConfig.*No cast needed" \
+		| grep -v "commonConfig.*Unchecked cast: Any? to" \
+		| grep -v "commonConfig.*Unnecessary non-null assertion" \
+		| grep -v "kotlin/lupos/s01io"
 		exit $ret
 	fi
 	(
-	        cd "${output}/distributions"
-	        tar -xf luposdate3000.tar
+		cd "${output}/distributions"
+		tar -xf luposdate3000.tar
 		rm ../../executable
 		ln -s $(pwd)/luposdate3000/bin/luposdate3000 ../../executable
 	)

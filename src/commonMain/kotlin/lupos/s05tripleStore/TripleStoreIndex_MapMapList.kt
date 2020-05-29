@@ -124,6 +124,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                 }
             }
         } else {
+            println("STORE iterator")
             val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
             if (projection[0] != "_") {
                 columns[projection[0]] = ColumnIteratorDebug(-4, projection[0], columnsArr[0])
@@ -137,14 +138,18 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             var iter = data.iterator()
             if (iter.hasNext()) {
                 var key1 = iter.next()
+                println("STORE s $key1")
                 var value1 = iter.value()
                 var iter2 = value1.iterator()
                 for (iterator in columnsArr) {
                     iterator.onNoMoreElements = {
                         while (true) {
+                            println("STORE loop p")
                             if (iter2.hasNext()) {
                                 val key2 = iter2.next()
+                                println("STORE p $key2")
                                 val value2 = iter2.value()
+                                println("STORE osize ${value2.size}")
                                 if (projection[0] != "_") {
                                     columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
                                 }
@@ -158,6 +163,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             } else {
                                 if (iter.hasNext()) {
                                     key1 = iter.next()
+                                    println("STORE s1 $key1")
                                     value1 = iter.value()
                                     iter2 = value1.iterator()
                                 } else {
@@ -173,19 +179,18 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        val inverseOrder = IntArray(3)
-        for (i in 0 until 3) {
-            inverseOrder[order[i]] = i
-        }
         if (count > 0) {
-            var lastS = dataImport[count + inverseOrder[0]]
+            println("startimport")
+            var lastS = dataImport[order[0]]
             var tmpS = data.getOrCreate(lastS, { MyMapIntGeneric<MySetInt>() })
-            var lastP = dataImport[count + inverseOrder[1]]
+            var lastP = dataImport[order[1]]
             var tmpP = tmpS.getOrCreate(lastP, { MySetInt() })
-            tmpP.add(dataImport[count + inverseOrder[2]])
-            for (i in 1 until count) {
-                var s = dataImport[count + inverseOrder[0]]
-                var p = dataImport[count + inverseOrder[1]]
+            tmpP.add(dataImport[order[2]])
+            var i = 3
+            println("imported ${dataImport[order[0]]} ${dataImport[order[1]]} ${dataImport[order[2]]}")
+            while (i < count) {
+                var s = dataImport[i + order[0]]
+                var p = dataImport[i + order[1]]
                 if (s != lastS) {
                     lastS = s
                     lastP = p
@@ -195,7 +200,9 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     lastP = p
                     tmpP = tmpS.getOrCreate(lastP, { MySetInt() })
                 }
-                tmpP.add(dataImport[count + inverseOrder[2]])
+                tmpP.add(dataImport[i + order[2]])
+                println("imported ${dataImport[i + order[0]]} ${dataImport[i + order[1]]} ${dataImport[i + order[2]]}")
+                i += 3
             }
         }
     }

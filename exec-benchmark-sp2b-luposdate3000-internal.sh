@@ -7,29 +7,28 @@ rm -rf log/benchtmp
 mkdir -p log/benchtmp
 
 {
-  echo 1.4.255-SNAPSHOT
-  echo jvm
-  echo Benchmark
-  echo Off
-  echo Sequential
-  echo Heap
-  echo MultiMap
-  echo BPlusTree
-  echo Korio
-  echo None
-  echo Off
-  echo BTree
-  echo BTree
-  echo None
-  echo Empty
-  echo 8196
-  echo 1024
-  echo 512
-  echo 512
-  echo true
-  echo ECoverage.Disabled
-  echo DontChange
-  echo None
+  echo "KotlinVersion->1.4.255-SNAPSHOT"
+  echo "Platform->jvm"
+  echo "Launch->Benchmark"
+  echo "Sanity->Off"
+  echo "Execution->Sequential"
+  echo "BufferManager->Heap"
+  echo "Dictionary->MultiMap"
+  echo "TripleStore->BPlusTree"
+  echo "Endpoint->Korio"
+  echo "Jena->Off"
+  echo "Set->BTree"
+  echo "Map->BTree"
+  echo "IteratorVerbose->None"
+  echo "OutputFormat->Empty"
+  echo "Pagesize->8196"
+  echo "BlockCapacity->1024"
+  echo "BTreeBranching->512"
+  echo "MergeSortRows->512"
+  echo "AdvancedOptimisation->true"
+  echo "Coverage->ECoverage.Disabled"
+  echo "CoverageGenerate->DontChange"
+  echo "ServerCommunication->None"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x

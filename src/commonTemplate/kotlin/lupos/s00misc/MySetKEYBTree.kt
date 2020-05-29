@@ -2,49 +2,66 @@ package lupos.s00misc
 
 import lupos.s00misc.Coverage
 
-class MySetKEYBTreeGDEF(val t: Int) {
+class MySetKEYBTreeGDEF() {
+    companion object {
+        var debughelperUUID = 0
+    }
+
+    val uuid = debughelperUUID++
+
+    constructor(k: KEY) : this() {
+        appendAssumeSorted(k)
+    }
+
     var root: MySetKEYBTreeNodeGUSE? = null
     var size = 0
 
-    constructor() : this(B_TREE_BRANCHING_FACTOR)
-
     class MySetKEYBTreeNodeIteratorGDEF(val node: MySetKEYBTreeNodeGUSE) : Iterator<KEY> {
         var i = 0
-        var childIterator = node.C[0]!!.iterator()
+        var childIterator: Iterator<KEY>? = null
         override fun hasNext(): Boolean {
             if (node.leaf) {
                 return i < node.n
             } else {
-                return i < node.n || (i == node.n && childIterator.hasNext())
+                childIterator = node.C[0]!!.iterator()
+                return i < node.n || (i == node.n && childIterator!!.hasNext())
             }
-/*Coverage Unreachable*/
+            /*Coverage Unreachable*/
         }
 
         override fun next(): KEY {
             if (node.leaf) {
                 return node.keys[i++] as KEY
             } else {
-                if (childIterator.hasNext()) {
-                    return childIterator.next()
+                if (childIterator!!.hasNext()) {
+                    return childIterator!!.next()
                 } else {
                     childIterator = node.C[i + 1]!!.iterator()
                     return node.keys[i++] as KEY
                 }
-/*Coverage Unreachable*/
+                /*Coverage Unreachable*/
             }
-/*Coverage Unreachable*/
+            /*Coverage Unreachable*/
         }
     }
 
-    class MySetKEYBTreeNodeGDEF(val t: Int, val leaf: Boolean) {
-        val keys = ARRAYTYPE(2 * t - 1) ARRAYINITIALIZER
-        val C = Array<MySetKEYBTreeNodeGUSE?>(2 * t) { null }
+    class MySetKEYBTreeNodeGDEF(val leaf: Boolean, val parentuuid: Int) {
+        companion object {
+            var debughelperUUID = 0
+        }
+
+        val uuid = debughelperUUID++
+        val keys = ARRAYTYPE(2 * B_TREE_BRANCHING_FACTOR - 1) ARRAYINITIALIZER
+        val C = Array<MySetKEYBTreeNodeGUSE?>(2 * B_TREE_BRANCHING_FACTOR) { null }
         var n = 0
         fun free() {
             /*later when buffer-manager is used*/
         }
 
-        fun iterator() = MySetKEYBTreeNodeIteratorGUSE(this)
+        fun iterator(): MySetKEYBTreeNodeIteratorGUSE {
+            return MySetKEYBTreeNodeIteratorGUSE(this)
+        }
+
         fun findKEY(k: KEY): Int {
             var idx = 0
             while (idx < n && (keys[idx] as KEY) < k) {
@@ -65,7 +82,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
                 return key
             } else if (!leaf) {
                 val flag = idx == n
-                if (C[idx]!!.n < t) {
+                if (C[idx]!!.n < B_TREE_BRANCHING_FACTOR) {
                     fill(idx)
                 }
                 if (flag && idx > n) {
@@ -89,11 +106,11 @@ class MySetKEYBTreeGDEF(val t: Int) {
 
         fun removeFromNonLeaf(idx: Int) {
             val k = keys[idx] as KEY
-            if (C[idx]!!.n >= t) {
+            if (C[idx]!!.n >= B_TREE_BRANCHING_FACTOR) {
                 val pred = getPred(idx)
                 keys[idx] = pred
                 C[idx]!!.remove(pred)
-            } else if (C[idx + 1]!!.n >= t) {
+            } else if (C[idx + 1]!!.n >= B_TREE_BRANCHING_FACTOR) {
                 val succ = getSucc(idx)
                 keys[idx] = succ
                 C[idx + 1]!!.remove(succ)
@@ -120,9 +137,9 @@ class MySetKEYBTreeGDEF(val t: Int) {
         }
 
         fun fill(idx: Int) {
-            if (idx != 0 && C[idx - 1]!!.n >= t) {
+            if (idx != 0 && C[idx - 1]!!.n >= B_TREE_BRANCHING_FACTOR) {
                 borrowFromPrev(idx)
-            } else if (idx != n && C[idx + 1]!!.n >= t) {
+            } else if (idx != n && C[idx + 1]!!.n >= B_TREE_BRANCHING_FACTOR) {
                 borrowFromNext(idx)
             } else if (idx != n) {
                 merge(idx)
@@ -178,13 +195,13 @@ class MySetKEYBTreeGDEF(val t: Int) {
         fun merge(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
-            child.keys[t - 1] = keys[idx]
+            child.keys[B_TREE_BRANCHING_FACTOR - 1] = keys[idx]
             for (i in 0 until sibling.n) {
-                child.keys[i + t] = sibling.keys[i]
+                child.keys[i + B_TREE_BRANCHING_FACTOR] = sibling.keys[i]
             }
             if (!child.leaf) {
                 for (i in 0 until sibling.n + 1) {
-                    child.C[i + t] = sibling.C[i]
+                    child.C[i + B_TREE_BRANCHING_FACTOR] = sibling.C[i]
                 }
             }
             for (i in idx + 1 until n) {
@@ -242,12 +259,13 @@ class MySetKEYBTreeGDEF(val t: Int) {
                         i--
                     }
                     keys[i + 1] = k
+                    onCreate()
                     n++
                 } else {
                     while (i >= 0 && (keys[i] as KEY) > k) {
                         i--
                     }
-                    if (C[i + 1]!!.n == 2 * t - 1) {
+                    if (C[i + 1]!!.n == 2 * B_TREE_BRANCHING_FACTOR - 1) {
                         splitChild(i + 1, C[i + 1]!!)
                         if ((keys[i + 1] as KEY) < k) {
                             i++
@@ -259,17 +277,17 @@ class MySetKEYBTreeGDEF(val t: Int) {
         }
 
         fun splitChild(i: Int, y: MySetKEYBTreeNodeGUSE) {
-            val z = MySetKEYBTreeNodeGUSE(y.t, y.leaf)
-            z.n = t - 1
-            for (j in 0 until t - 1) {
-                z.keys[j] = y.keys[j + t]
+            val z = MySetKEYBTreeNodeGUSE(y.leaf, uuid)
+            z.n = B_TREE_BRANCHING_FACTOR - 1
+            for (j in 0 until B_TREE_BRANCHING_FACTOR - 1) {
+                z.keys[j] = y.keys[j + B_TREE_BRANCHING_FACTOR]
             }
             if (leaf == false) {
-                for (j in 0 until t) {
-                    z.C[j] = y.C[j + t]
+                for (j in 0 until B_TREE_BRANCHING_FACTOR) {
+                    z.C[j] = y.C[j + B_TREE_BRANCHING_FACTOR]
                 }
             }
-            y.n = t - 1
+            y.n = B_TREE_BRANCHING_FACTOR - 1
             var j = n
             while (j >= i + 1) {
                 C[j + 1] = C[j]
@@ -281,25 +299,45 @@ class MySetKEYBTreeGDEF(val t: Int) {
                 keys[j + 1] = keys[j]
                 j--
             }
-            keys[i] = y.keys[t - 1]
+            keys[i] = y.keys[B_TREE_BRANCHING_FACTOR - 1]
             n++
         }
     }
 
     fun add(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
+        println("MySetKEYBTree add $uuid $k")
+        var sanitycheckhelper: MutableSet<KEY>? = null
+        SanityCheck {
+            sanitycheckhelper = mutableSetOf<KEY>()
+            forEach {
+                sanitycheckhelper!!.add(it)
+            }
+            val sanitycheckhelper2 = mutableSetOf<KEY>()
+            val iterator = iterator()
+            while (iterator.hasNext()) {
+                sanitycheckhelper2!!.add(iterator.next())
+            }
+            require(size == sanitycheckhelper!!.size)
+            require(size == sanitycheckhelper2!!.size)
+            require(sanitycheckhelper!!.containsAll(sanitycheckhelper2))
+            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper!!))
+        }
         if (root == null) {
-            root = MySetKEYBTreeNodeGUSE(t, true)
+            println("add A")
+            root = MySetKEYBTreeNodeGUSE(true, uuid)
             root!!.keys[0] = k
             root!!.n = 1
-            size++
+            size = 1
             onCreate()
-        } else if (root!!.n == 2 * t - 1) {
-            val s = MySetKEYBTreeNodeGUSE(t, false)
+        } else if (root!!.n == 2 * B_TREE_BRANCHING_FACTOR - 1) {
+            println("add B")
+            val s = MySetKEYBTreeNodeGUSE(false, uuid)
             s.C[0] = root
             s.splitChild(0, root!!)
             var i = 0
             if ((s.keys[0] as KEY) < k) {
-                i++
+                println("add B1")
+                i = 1
             }
             s.C[i]!!.insertNonFull(k, {
                 size++
@@ -307,10 +345,28 @@ class MySetKEYBTreeGDEF(val t: Int) {
             }, onExists)
             root = s
         } else {
+            println("add C")
             root!!.insertNonFull(k, {
                 size++
                 onCreate()
             }, onExists)
+        }
+        SanityCheck {
+            val sanitycheckhelper2 = mutableSetOf<KEY>()
+            forEach {
+                sanitycheckhelper2!!.add(it)
+            }
+            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper!!))
+            require(sanitycheckhelper2!!.contains(k))
+            val sanitycheckhelper3 = mutableSetOf<KEY>()
+            val iterator = iterator()
+            while (iterator.hasNext()) {
+                sanitycheckhelper3!!.add(iterator.next())
+            }
+            require(size == sanitycheckhelper3!!.size, { "c $size ${sanitycheckhelper3!!.size}" })
+            require(size == sanitycheckhelper2!!.size, { "d $size ${sanitycheckhelper2!!.size}" })
+            require(sanitycheckhelper3!!.containsAll(sanitycheckhelper2), { "a" })
+            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper3), { "b" })
         }
     }
 
@@ -330,6 +386,7 @@ class MySetKEYBTreeGDEF(val t: Int) {
     }
 
     fun remove(k: KEY): KEY? {
+        println("MySetKEYBTree remove $uuid $k")
         if (root != null) {
             val res = root!!.remove(k)
             if (res != null) {
