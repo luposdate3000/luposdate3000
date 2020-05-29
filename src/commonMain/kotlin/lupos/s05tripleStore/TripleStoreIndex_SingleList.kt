@@ -1,7 +1,7 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.BenchmarkUtils
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
@@ -42,7 +42,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     }
 
     fun rebuildMap() {
-        BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
         index1.clear()
         index2.clear()
         index1.withFastInitializer { index1Init ->
@@ -71,7 +70,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 }
             }
         }
-        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
     }
 
     override fun loadFromFile(filename: String) {
@@ -109,14 +107,16 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
-//BenchmarkUtils.start(EBenchmark.STORE_GET_ITERATOR)
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
                 columns[s] = ColumnIterator()
             }
         }
-        var res = IteratorBundle(columns)
+        var res: IteratorBundle? = null
+        if (columns.size > 0) {
+            res = IteratorBundle(columns)
+        }
         if (data.size > 0) {
             if (filter.size == 3) {
                 val key = (filter[0].toLong() shl 32) + filter[1]
@@ -143,39 +143,62 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             } else if (filter.size == 1) {
                 val idx = index1[filter[0]]
                 if (idx != null) {
-                    if (projection[0] != "_") {
-                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore2a(data, idx))
-                        if (projection[1] != "_") {
-                            columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore2b(data, idx))
+                    if (columns.size == 0) {
+                        var count = 0
+                        var iterator = ColumnIteratorStore2a(data, idx)
+                        runBlocking {
+                            while (iterator.next() != null) {
+                                count++
+                            }
                         }
+                        res = IteratorBundle(count)
                     } else {
-                        SanityCheck.check { projection[1] == "_" }
+                        if (projection[0] != "_") {
+                            columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore2a(data, idx))
+                            if (projection[1] != "_") {
+                                columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore2b(data, idx))
+                            }
+                        } else {
+                            SanityCheck.check { projection[1] == "_" }
+                        }
                     }
                 }
             } else {
                 SanityCheck.check { filter.size == 0 }
-                if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
-                    if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore3b(data))
-                        if (projection[2] != "_") {
-                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], ColumnIteratorStore3c(data))
+                if (columns.size == 0) {
+                    var count = 0
+                    var iterator = ColumnIteratorStore3a(data)
+                    runBlocking {
+                        while (iterator.next() != null) {
+                            count++
+                        }
+                    }
+                    res = IteratorBundle(count)
+                } else {
+                    if (projection[0] != "_") {
+                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
+                        if (projection[1] != "_") {
+                            columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore3b(data))
+                            if (projection[2] != "_") {
+                                columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], ColumnIteratorStore3c(data))
+                            }
+                        } else {
+                            SanityCheck.check { projection[2] == "_" }
                         }
                     } else {
+                        SanityCheck.check { projection[1] == "_" }
                         SanityCheck.check { projection[2] == "_" }
                     }
-                } else {
-                    SanityCheck.check { projection[1] == "_" }
-                    SanityCheck.check { projection[2] == "_" }
                 }
             }
         }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_GET_ITERATOR)
-        return res
+        if (res == null) {
+            res = IteratorBundle(0)
+        }
+        return res!!
     }
 
     fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
-        BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         var data = MyListInt()
         CoroutinesHelper.runBlock {
             val head = Array(2) { Array<Int?>(3) { null } }
@@ -240,7 +263,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 data.set(position[i], count[i])
             }
         }
-        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
         return data
     }
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx30g"
-pkill java
 port="3030"
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -13,10 +12,13 @@ port="3030"
   echo "Dictionary->MultiMap"
 #  echo "TripleStore->BPlusTree"
   echo "TripleStore->MapMapList"
+#  echo "TripleStore->SingleList"
   echo "Endpoint->Korio"
   echo "Jena->On"
-  echo "Set->BTree"
-  echo "Map->BTree"
+  echo "Set->Bisection"
+#  echo "Set->BTree"
+#  echo "Map->BTree"
+  echo "Map->Bisection"
   echo "IteratorVerbose->Count"
   echo "OutputFormat->Empty"
   echo "Pagesize->8196"
@@ -49,5 +51,5 @@ echo "diff c c2"
 diff c c2
 echo "diff a c"
 diff a c
-diff a c -y |grep "|" -B1|grep "Success.*|.*Failed" -B1
+diff a c -y |grep "|" -B1|grep "Success.*|.*Failed" -B1 | grep -v "Failed(NotImplemented)" |grep "Success.*|.*Failed" -B1
 cd ..

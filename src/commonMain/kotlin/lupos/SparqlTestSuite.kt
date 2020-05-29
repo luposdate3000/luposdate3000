@@ -9,7 +9,9 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.JenaWrapper
+import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
@@ -692,6 +694,19 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ParseError)" })
                 } else {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,ParseError)" })
+                }
+                return false
+            } catch (e: NotImplementedException) {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(NotImplemented)" })
+                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+                return false
+            } catch (e: Luposdate3000Exception) {
+                println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
+                if (expectedResult) {
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(${e.classname})" })
+                    GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+                } else {
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,${e.classname})" })
                 }
                 return false
             } catch (e: Throwable) {

@@ -17,88 +17,102 @@ var countTriples = 0L
 
 while (line2 != null) {
     val line = line2!!
-    if (line.startsWith("@prefix")) {
-        prefixes.add(line)
-    } else {
-        nextChunk()
-        var column = 0
-        var start = column
-        while (column < line.length) {
-            loop@ while (column < line.length) {
-                when (line[column]) {
-                    ' ', '\n', '\t', '\r' -> {
-                        column++
-                    }
-                    '#' -> {
-                        column = line.length
-                    }
-                    else -> {
-                        break@loop
-                    }
-                }
-            }
-            start = column
-            var withinQuote = false
-            var withinIRIQuote = false
-            loop@ while (column < line.length) {
-                when (line[column]) {
-                    '"' -> {
-require(!withinIRIQuote)
-                        if (column == 0 || line[column - 1] != '\\') {
-                            withinQuote = !withinQuote
+    try {
+        if (line.startsWith("@prefix")) {
+            prefixes.add(line)
+        } else {
+            nextChunk()
+            var column = 0
+            var start = column
+            while (column < line.length) {
+                loop@ while (column < line.length) {
+                    when (line[column]) {
+                        ' ', '\n', '\t', '\r' -> {
+                            column++
                         }
-                    }
-                    '<' -> {
-                        if (!withinQuote) {
-withinIRIQuote=true
-                            withinQuote = true
+                        '#' -> {
+                            column = line.length
                         }
-                    }
-                    '>' -> {
-                        if (withinIRIQuote) {
-require(withinQuote)
-                            withinQuote = false
-withinIRIQuote=false
-                        }
-                    }
-                    ' ' -> {
-                        if (!withinQuote) {
-                            break@loop
-                        }
-                    }
-                    '.', ',', ';' -> {
-                        if (!withinQuote && nextType == 2) {
+                        else -> {
                             break@loop
                         }
                     }
                 }
-                column++
-            }
-            currentTriple[nextType] = line.substring(start, column)
-            if (nextType == 2) {
-                writeTriple()
-                while (column < line.length && line[column] == ' ') {
+                start = column
+                var withinQuote = false
+                var withinIRIQuote = false
+                loop@ while (column < line.length) {
+                    when (line[column]) {
+                        '"' -> {
+                            require(!withinIRIQuote)
+                            if (column == 0) {
+                                withinQuote = !withinQuote
+                            } else {
+                                var i = column - 1
+                                while (line[i] == '\\') {
+                                    require(i > 0)//because there must be at least one '"' in front of it
+                                    i--
+                                }
+                                if ((column - i) % 2 == 1) {
+                                    withinQuote = !withinQuote
+                                }
+                            }
+                        }
+                        '<' -> {
+                            if (!withinQuote) {
+                                withinIRIQuote = true
+                                withinQuote = true
+                            }
+                        }
+                        '>' -> {
+                            if (withinIRIQuote) {
+                                require(withinQuote)
+                                withinQuote = false
+                                withinIRIQuote = false
+                            }
+                        }
+                        ' ' -> {
+                            if (!withinQuote) {
+                                break@loop
+                            }
+                        }
+                        '.', ',', ';' -> {
+                            if (!withinQuote && nextType == 2) {
+                                break@loop
+                            }
+                        }
+                    }
                     column++
                 }
-                when (line[column]) {
-                    '.' -> {
-                        nextType = 0
+                currentTriple[nextType] = line.substring(start, column)
+                if (nextType == 2) {
+                    writeTriple()
+                    while (column < line.length && line[column] == ' ') {
+                        column++
                     }
-                    ';' -> {
-                        nextType = 1
+                    when (line[column]) {
+                        '.' -> {
+                            nextType = 0
+                        }
+                        ';' -> {
+                            nextType = 1
+                        }
+                        ',' -> {
+                            nextType = 2
+                        }
+                        else -> {
+                            require(false)
+                        }
                     }
-                    ',' -> {
-                        nextType = 2
-                    }
-                    else -> {
-                        require(false)
-                    }
+                    column++
+                } else {
+                    nextType++
                 }
-                column++
-            } else {
-                nextType++
             }
         }
+    } catch (e: Throwable) {
+        println(line)
+        throw e
     }
     line2 = readLine()
 }
