@@ -214,9 +214,9 @@ val templates = listOf(
 
 val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Launch Type", "Launch") to listOf(
+                ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                 ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
                 ChooseableOptionDirectory("BinaryTests", "commonS00LaunchBinaryTestsMain"),
-                ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                 ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
                 ChooseableOptionDirectory("WarnkeFuzz", "jvmS00LaunchWarnkeFuzzMain")
         ),
@@ -236,34 +236,34 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("Unsafe", "jvmS01BufferUnsafeMain")
         ),
         ChooseableGroup("Dictionary", "Dictionary") to listOf(
-                ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain"),
-                ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain")
+                ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain"),
+                ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain")
         ),
         ChooseableGroup("Triple Store", "TripleStore") to listOf(
+                ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree")),
                 ChooseableOptionTypeAlias("MapMapList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
-                ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList")),
-                ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree"))
+                ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList"))
         ),
         ChooseableGroup("HttpEndpoint implementation", "Endpoint") to listOf(
                 ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
                 ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
         ),
         ChooseableGroup("Include Jena Wrapper", "Jena") to listOf(
-                ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain"),
-                ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("JenaWrapper" to "JenaWrapperOff"))
+                ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("JenaWrapper" to "JenaWrapperOff")),
+                ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain")
         ),
         ChooseableGroup("Set Implementation", "Set") to listOf(
-                ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(
-                        "MySetGeneric<T>" to "MySetGenericBinaryTree<T>",
-                        "MySetLong" to "MySetLongBinaryTree",
-                        "MySetInt" to "MySetIntBinaryTree",
-                        "MySetDouble" to "MySetDoubleBinaryTree"
-                )),
                 ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
                         "MySetGeneric<T>" to "MySetGenericBTree<T>",
                         "MySetLong" to "MySetLongBTree",
                         "MySetInt" to "MySetIntBTree",
                         "MySetDouble" to "MySetDoubleBTree"
+                )),
+                ChooseableOptionTypeAlias("Bisection", "lupos.s00misc", listOf(
+                        "MySetGeneric<T>" to "MySetGenericBinaryTree<T>",
+                        "MySetLong" to "MySetLongBinaryTree",
+                        "MySetInt" to "MySetIntBinaryTree",
+                        "MySetDouble" to "MySetDoubleBinaryTree"
                 ))
         ),
         ChooseableGroup("Map Implementation", "Map") to listOf(
@@ -295,8 +295,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("Verbose", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugVerbose"))
         ),
         ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
-                ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToXMLString")),
                 ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyString")),
+                ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToXMLString")),
                 ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
         ),
         ChooseableGroup("PageSize in Bytes", "Pagesize") to listOf(
