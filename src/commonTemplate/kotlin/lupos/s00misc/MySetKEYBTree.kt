@@ -305,7 +305,6 @@ class MySetKEYBTreeGDEF() {
     }
 
     fun add(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
-        println("MySetKEYBTree add $uuid $k")
         var sanitycheckhelper: MutableSet<KEY>? = null
         SanityCheck {
             sanitycheckhelper = mutableSetOf<KEY>()
@@ -323,20 +322,17 @@ class MySetKEYBTreeGDEF() {
             require(sanitycheckhelper2!!.containsAll(sanitycheckhelper!!))
         }
         if (root == null) {
-            println("add A")
             root = MySetKEYBTreeNodeGUSE(true, uuid)
             root!!.keys[0] = k
             root!!.n = 1
             size = 1
             onCreate()
         } else if (root!!.n == 2 * B_TREE_BRANCHING_FACTOR - 1) {
-            println("add B")
             val s = MySetKEYBTreeNodeGUSE(false, uuid)
             s.C[0] = root
             s.splitChild(0, root!!)
             var i = 0
             if ((s.keys[0] as KEY) < k) {
-                println("add B1")
                 i = 1
             }
             s.C[i]!!.insertNonFull(k, {
@@ -345,7 +341,6 @@ class MySetKEYBTreeGDEF() {
             }, onExists)
             root = s
         } else {
-            println("add C")
             root!!.insertNonFull(k, {
                 size++
                 onCreate()
@@ -386,7 +381,6 @@ class MySetKEYBTreeGDEF() {
     }
 
     fun remove(k: KEY): KEY? {
-        println("MySetKEYBTree remove $uuid $k")
         if (root != null) {
             val res = root!!.remove(k)
             if (res != null) {

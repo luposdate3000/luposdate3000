@@ -307,7 +307,6 @@ class MySetGenericBTree<Generic : Comparable<Generic>>() {
     }
 
     fun add(k: Generic, onCreate: () -> Unit = {}, onExists: (Generic) -> Unit = {}) {
-        println("MySetGenericBTree add $uuid $k")
         var sanitycheckhelper: MutableSet<Generic>? = null
         SanityCheck {
             sanitycheckhelper = mutableSetOf<Generic>()
@@ -325,20 +324,17 @@ class MySetGenericBTree<Generic : Comparable<Generic>>() {
             require(sanitycheckhelper2!!.containsAll(sanitycheckhelper!!))
         }
         if (root == null) {
-            println("add A")
             root = MySetGenericBTreeNode<Generic>(true, uuid)
             root!!.keys[0] = k
             root!!.n = 1
             size = 1
             onCreate()
         } else if (root!!.n == 2 * B_TREE_BRANCHING_FACTOR - 1) {
-            println("add B")
             val s = MySetGenericBTreeNode<Generic>(false, uuid)
             s.C[0] = root
             s.splitChild(0, root!!)
             var i = 0
             if ((s.keys[0] as Generic) < k) {
-                println("add B1")
                 i = 1
             }
             s.C[i]!!.insertNonFull(k, {
@@ -347,7 +343,6 @@ class MySetGenericBTree<Generic : Comparable<Generic>>() {
             }, onExists)
             root = s
         } else {
-            println("add C")
             root!!.insertNonFull(k, {
                 size++
                 onCreate()
@@ -388,7 +383,6 @@ class MySetGenericBTree<Generic : Comparable<Generic>>() {
     }
 
     fun remove(k: Generic): Generic? {
-        println("MySetGenericBTree remove $uuid $k")
         if (root != null) {
             val res = root!!.remove(k)
             if (res != null) {

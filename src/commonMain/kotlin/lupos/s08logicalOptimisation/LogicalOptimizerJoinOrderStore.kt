@@ -2,6 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
+import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
@@ -23,9 +24,17 @@ object LogicalOptimizerJoinOrderStore {
             var lastVariableCount = Int.MAX_VALUE
             for (i in queue.indices) {
                 val tmp = queue[i].getProvidedVariableNames().size
-                if (tmp < lastVariableCount || (tmp == lastVariableCount && queue[i].getHistogram().count < queue[lastVariable].getHistogram().count)) {
+                if (tmp < lastVariableCount) {
                     lastVariableCount = tmp
                     lastVariable = i
+                } else {
+                    try {
+                        if (tmp == lastVariableCount && queue[i].getHistogram().count < queue[lastVariable].getHistogram().count) {
+                            lastVariableCount = tmp
+                            lastVariable = i
+                        }
+                    } catch (e: HistogramNotImplementedException) {
+                    }
                 }
             }
             val lastChild = queue.removeAt(lastVariable)
