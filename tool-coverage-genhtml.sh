@@ -1,4 +1,5 @@
 #!/bin/bash
-./tool-coverage-merge.kts coverage*.cov > coverage.info
+usedFolders=$(cat build/script* | grep "src/" | sort -u | sed "s-.*src/-src/-g" | sed 's/".*//g' | tr '\n' '|')
+./tool-coverage-merge.kts $usedFolders coverage*.cov > coverage.info
 genhtml coverage.info --output-directory out --prefix "/src/luposdate3000/strippedSourceCode/src"
 rm -rf strippedSourceCode

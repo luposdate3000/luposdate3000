@@ -88,36 +88,7 @@ class POPGraphOperation(query: Query,
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPGraphOperation) {
-            return false
-        }
-        if (silent != other.silent) {
-            return false
-        }
-        if (graph1iri != other.graph1iri) {
-            return false
-        }
-        if (graph1type != other.graph1type) {
-            return false
-        }
-        if (graph2iri != other.graph2iri) {
-            return false
-        }
-        if (graph2type != other.graph2type) {
-            return false
-        }
-        if (action != other.action) {
-            return false
-        }
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i])) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP() = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
     suspend fun copyData(source: DistributedGraph, target: DistributedGraph) {
         val row = source.getIterator(EIndexPattern.SPO).evaluate()

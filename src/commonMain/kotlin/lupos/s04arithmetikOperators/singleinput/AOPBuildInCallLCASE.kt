@@ -16,13 +16,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallLCASE(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLCASEID, "AOPBuildInCallLCASE", arrayOf(child)) {
     override fun toSparql() = "LCASE(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallLCASE) {
-            return false
-        }
-        return children[0] == other.children[0]
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallLCASE && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

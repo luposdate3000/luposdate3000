@@ -16,18 +16,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallSTRDT(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRDTID, "AOPBuildInCallSTRDT", arrayOf(child, childB)) {
     override fun toSparql() = "STRDT(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallSTRDT) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallSTRDT && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)

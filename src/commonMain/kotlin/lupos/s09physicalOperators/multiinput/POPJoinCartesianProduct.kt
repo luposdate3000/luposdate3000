@@ -30,21 +30,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
         return children[0].toSparql() + children[1].toSparql()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPJoinCartesianProduct) {
-            return false
-        }
-        if (optional != other.optional) {
-            return false
-        }
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i])) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size == 0)

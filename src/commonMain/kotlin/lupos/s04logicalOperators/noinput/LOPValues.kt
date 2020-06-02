@@ -32,21 +32,7 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPValues) {
-            return false
-        }
-        if (variables != other.variables) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPValues && variables == other.variables && children == other.children
     override fun cloneOP() = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

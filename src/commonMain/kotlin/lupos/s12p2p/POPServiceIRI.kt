@@ -13,24 +13,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf(), ESortPriority.PREVENT_ANY) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPServiceIRI) {
-            return false
-        }
-        if (silent != other.silent) {
-            return false
-        }
-        if (serverName != other.serverName) {
-            return false
-        }
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i])) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPServiceIRI && silent == other.silent && serverName == other.serverName && constraint == other.constraint
     override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
     override suspend fun evaluate(): IteratorBundle {

@@ -10,18 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPNOOP(query: Query, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPNOOPID, "LOPNOOP", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPNOOP) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPNOOP && children[0] == other.children[0]
     override fun cloneOP() = LOPNOOP(query, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()

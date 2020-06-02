@@ -19,10 +19,7 @@ class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildIn
         val localbnode = ThreadSafeUuid()
     }
 
-    override fun equals(other: Any?): Boolean {
-        return other is AOPBuildInCallBNODE0
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallBNODE0
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             /*return*/ValueBnode("" + uuid + localbnode.next())

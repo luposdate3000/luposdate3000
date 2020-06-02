@@ -33,21 +33,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         return children[0].toSparql() + childB.toSparql()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPJoinWithStoreExists) {
-            return false
-        }
-        if (optional != other.optional) {
-            return false
-        }
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i])) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }

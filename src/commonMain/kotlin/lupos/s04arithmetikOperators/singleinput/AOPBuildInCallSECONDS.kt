@@ -15,13 +15,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallSECONDS(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSECONDSID, "AOPBuildInCallSECONDS", arrayOf(child)) {
     override fun toSparql() = "SECONDS(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallSECONDS) {
-            return false
-        }
-        return children[0] == other.children[0]
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallSECONDS && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

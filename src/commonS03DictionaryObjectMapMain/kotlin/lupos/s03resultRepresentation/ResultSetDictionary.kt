@@ -2,6 +2,7 @@ package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
+import lupos.s00misc.DictionaryCanNotInferTypeFromValueException
 import lupos.s00misc.File
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -37,6 +38,17 @@ class ResultSetDictionary(val global: Boolean = false) {
         val undefValue2 = ValueUndef()
 
         fun debug() {
+        }
+
+        fun isGlobalBNode(value: Value): Boolean {
+            if (value >= 0) {
+                return false
+            }
+            return nodeGlobalDictionary.getValue(value) is ValueBnode
+        }
+
+        fun isLocalBNode(value: Value): Boolean {
+            throw DictionaryCanNotInferTypeFromValueException()
         }
     }
 

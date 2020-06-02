@@ -20,13 +20,7 @@ class OPNothing(query: Query, val myProvidedVariableNames: List<String>) : LOPBa
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is OPNothing) {
-            return false
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is OPNothing
     override fun cloneOP() = this
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

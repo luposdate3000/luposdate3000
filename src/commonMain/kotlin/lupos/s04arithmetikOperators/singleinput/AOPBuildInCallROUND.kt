@@ -17,13 +17,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child)) {
     override fun toSparql() = "ROUND(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallROUND) {
-            return false
-        }
-        return children[0] == other.children[0]
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallROUND && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

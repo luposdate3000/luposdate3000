@@ -31,21 +31,7 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPProjection) {
-            return false
-        }
-        if (variables != other.variables) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
     override fun cloneOP() = LOPProjection(query, variables, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

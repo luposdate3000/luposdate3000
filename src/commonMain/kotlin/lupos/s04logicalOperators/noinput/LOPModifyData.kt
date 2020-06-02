@@ -21,13 +21,7 @@ class LOPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPModifyData) {
-            return false
-        }
-        return data == other.data
-    }
-
+    override fun equals(other: Any?) = other is LOPModifyData && type == other.type && data == other.data
     override fun cloneOP() = LOPModifyData(query, type, data)
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

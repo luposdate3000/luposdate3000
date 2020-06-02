@@ -13,17 +13,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPOrID, "AOPOr", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " || " + children[1].toSparql() + ")"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPOr) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
+    override fun equals(other: Any?) = other is AOPOr && children[0] == other.children[0] && children[1] == other.children[1]
 
     companion object {
         val truthTable = arrayOf(

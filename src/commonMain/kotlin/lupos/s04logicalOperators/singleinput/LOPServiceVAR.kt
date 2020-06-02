@@ -13,24 +13,7 @@ import lupos.s04logicalOperators.Query
 
 class LOPServiceVAR(query: Query, @JvmField val name: String, @JvmField val silent: Boolean, constraint: OPBase, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPServiceVARID, "LOPServiceVAR", arrayOf(child, constraint), ESortPriority.PREVENT_ANY) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent).addContent(XMLElement("constraint").addContent(children[1].toXMLElement()))
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPServiceVAR) {
-            return false
-        }
-        if (name != other.name) {
-            return false
-        }
-        if (silent != other.silent) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPServiceVAR && name == other.name && silent == other.silent && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP() = LOPServiceVAR(query, name, silent, children[1].cloneOP(), children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()

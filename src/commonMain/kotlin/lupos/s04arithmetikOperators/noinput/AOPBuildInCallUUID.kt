@@ -14,13 +14,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallUUID(query: Query) : AOPBase(query, EOperatorID.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
     override fun toSparql() = "UUID()"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallUUID) {
-            return false
-        }
-        return children[0] == other.children[0]
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallUUID
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             /*return*/ValueIri("urn:uuid:" + uuid4())

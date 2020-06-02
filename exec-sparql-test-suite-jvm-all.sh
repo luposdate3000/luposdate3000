@@ -8,9 +8,14 @@ mkdir -p log/alltest
 
 #generate and execute compile scripts
 echo "i=0" > exec-sparql-test-suite-jvm-all-tmp.sh
-./generate-buildfile.kts listAll "KotlinVersion->1.4.255-SNAPSHOT" "Platform->jvm" "Launch->SparqlTestSuite" "BufferManager->Heap" "Coverage->ECoverage.Count" "CoverageGenerate->DontChange" "Jena->On" "Sanity->On" "IteratorVerbose->None" "Execution->Sequential"\
+./generate-buildfile.kts listAll "KotlinVersion->1.4.255-SNAPSHOT" "Platform->jvm" "Launch->SparqlTestSuite" "BufferManager->Heap" "Coverage->ECoverage.Count" "CoverageGenerate->DontChange" "Jena->On" "Sanity->On" "IteratorVerbose->None" "Execution->Sequential" \
+> tmpfile.txt
+cat exec-sparql-test-suite-jvm-all.template \
+>> tmpfile.txt
+cat tmpfile.txt \
 |  sed "s/generate-buildfile.kts/generate-buildfile.kts\n.\/tool-gradle-build.sh\nret=\$?\nif [ \$ret -ne 0 ]; then exit \$ret; fi\nln -s \$(readlink -f build\/executable ) log\/alltest\/\$i.exec\ni=\$((\$i + 1))/g" \
 >> exec-sparql-test-suite-jvm-all-tmp.sh
+rm tmpfile.txt
 if [ $? -ne 0 ]
 then
 	cat build/compile* \

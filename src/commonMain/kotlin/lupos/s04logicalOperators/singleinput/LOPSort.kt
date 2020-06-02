@@ -29,24 +29,7 @@ class LOPSort(query: Query, @JvmField val asc: Boolean, @JvmField var by: AOPVar
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPSort) {
-            return false
-        }
-        if (asc != other.asc) {
-            return false
-        }
-        if (by != other.by) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
     override fun cloneOP() = LOPSort(query, asc, by, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()

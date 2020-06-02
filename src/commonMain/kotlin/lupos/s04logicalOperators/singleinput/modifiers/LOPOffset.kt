@@ -12,21 +12,7 @@ import lupos.s04logicalOperators.Query
 
 class LOPOffset(query: Query, @JvmField val offset: Int, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPOffsetID, "LOPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPOffset) {
-            return false
-        }
-        if (offset != other.offset) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPOffset && offset == other.offset && children[0] == other.children[0]
     override fun cloneOP() = LOPOffset(query, offset, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

@@ -10,31 +10,52 @@ enum class OutputFormat {
 val outputformat = OutputFormat.LCOV
 
 var res = mutableMapOf<String, MutableMap<Long, Long>>()
-
-for (arg in args) {
-    File(arg).bufferedReader().readLines().forEach {
-        val arr = it.split(",")
-        if (arr.size == 2) {
-            var filenameAndLine = arr[1]
-            var count = arr[0].toLong()
-            var arr2 = filenameAndLine.split(":")
-            var filename = arr2[0]
-            var linenumber = arr2[1].toLong()
-            var tmp = res[filename]
-            if (tmp == null) {
-                tmp = mutableMapOf<Long, Long>()
-                res[filename] = tmp
-            }
-            var tmp2 = tmp!!
-            var tmp3 = tmp2[linenumber]
-            if (tmp3 == null) {
-                tmp2[linenumber] = count
-            } else {
-                tmp2[linenumber] = tmp3 + count
+var whiteListFolderNames = mutableSetOf("src/commonTemplate/kotlin")
+for (argI in 0 until args.size) {
+    val arg = args[argI]
+    if (argI == 0) {
+        whiteListFolderNames.addAll(arg.split("|"))
+        whiteListFolderNames.remove("src/commonConfig/kotlin")
+        whiteListFolderNames.remove("")
+    } else {
+        File(arg).bufferedReader().readLines().forEach {
+            val arr = it.split(",")
+            if (arr.size == 2) {
+                var filenameAndLine = arr[1]
+                var count = arr[0].toLong()
+                var arr2 = filenameAndLine.split(":")
+                var filename = arr2[0]
+                var flag = false
+                if (whiteListFolderNames.size == 1) {
+                    flag = true
+                } else {
+                    for (prefix in whiteListFolderNames) {
+                        if (filename.startsWith(prefix)) {
+                            flag = true
+                            break
+                        }
+                    }
+                }
+                if (flag) {
+                    var linenumber = arr2[1].toLong()
+                    var tmp = res[filename]
+                    if (tmp == null) {
+                        tmp = mutableMapOf<Long, Long>()
+                        res[filename] = tmp
+                    }
+                    var tmp2 = tmp!!
+                    var tmp3 = tmp2[linenumber]
+                    if (tmp3 == null) {
+                        tmp2[linenumber] = count
+                    } else {
+                        tmp2[linenumber] = tmp3 + count
+                    }
+                }
             }
         }
     }
 }
+
 fun cleanAndMapFile(originalName: String, coverageIn: Map<Long, Long>, coverageOut: MutableMap<Long, Long>, coverageFunctions: MutableMap<Long, String>): String {
     var targetName = "strippedSourceCode/$originalName"
     var idx = targetName.lastIndexOf("/")

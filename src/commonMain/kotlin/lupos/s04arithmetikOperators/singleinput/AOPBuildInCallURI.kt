@@ -25,13 +25,7 @@ class AOPBuildInCallURI(query: Query, child: AOPBase, @JvmField var prefix: Stri
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallURI) {
-            return false
-        }
-        return children[0] == other.children[0]
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallURI && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

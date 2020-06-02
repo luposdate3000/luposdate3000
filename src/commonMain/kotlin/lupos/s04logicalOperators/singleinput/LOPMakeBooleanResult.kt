@@ -13,18 +13,7 @@ class LOPMakeBooleanResult(query: Query, child: OPBase) : LOPBase(query, EOperat
         return mutableListOf("?boolean")
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPMakeBooleanResult) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPMakeBooleanResult && children[0] == other.children[0]
     override fun cloneOP() = LOPMakeBooleanResult(query, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

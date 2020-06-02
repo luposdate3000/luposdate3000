@@ -30,21 +30,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         return children[0].toSparql() + children[1].toSparql()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPJoinHashMap) {
-            return false
-        }
-        if (optional != other.optional) {
-            return false
-        }
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i])) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     class MapKey(@JvmField val data: Array<Value>) {
         override fun hashCode(): Int {
             var res = 0

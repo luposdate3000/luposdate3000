@@ -13,18 +13,7 @@ class LOPMinus(query: Query, first: OPBase, second: OPBase, var tmpFakeVariables
     var hadSortPushDown = false
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()
     override fun getRequiredVariableNames() = listOf<String>()
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPMinus) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPMinus && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP() = LOPMinus(query, children[0].cloneOP(), children[1].cloneOP(), tmpFakeVariables.toMutableList())
     override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()

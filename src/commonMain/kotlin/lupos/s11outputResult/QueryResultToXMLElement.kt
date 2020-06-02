@@ -85,13 +85,10 @@ object QueryResultToXMLElement {
                                                 nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
                                             } else {
                                                 val idx2 = value.lastIndexOf("\"@")
-                                                if (idx2 >= 0) {
-                                                    val data = value.substring(1, idx2)
-                                                    val lang = value.substring(idx2 + 2, value.length)
-                                                    nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
-                                                } else {
-                                                    nodeBinding.addContent(XMLElement("literal").addContent(value))
-                                                }
+                                                SanityCheck.check { idx2 >= 0 }
+                                                val data = value.substring(1, idx2)
+                                                val lang = value.substring(idx2 + 2, value.length)
+                                                nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
                                             }
                                         } else if (value.startsWith("<") && value.endsWith(">")) {
                                             nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))

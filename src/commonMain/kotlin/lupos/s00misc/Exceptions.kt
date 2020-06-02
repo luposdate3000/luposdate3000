@@ -1,10 +1,12 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
+
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just in java via reflection */
 abstract class Luposdate3000Exception(val classname: String, msg: String) : Exception(msg)
 
 abstract class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
-class HistogramNotImplementedException() : NotImplementedException("HistogramNotImplementedException", "Histograms are not implemented for this triple store index.")
+class HistogramNotImplementedException() : NotImplementedException("HistogramNotImplementedException", "Histograms are not implemented in this triple store index.")
 class FileIONotImplementedException() : NotImplementedException("FileIONotImplementedException", "File IO not implemented.")
 class ServiceNotImplementedException() : NotImplementedException("ServiceNotImplementedException", "Service is currently not implemented.")
 class SetNotImplementedException() : NotImplementedException("SetNotImplementedException", "Set is currently not implemented.")
@@ -13,3 +15,4 @@ class IteratorBundleColumnModeNotImplementedException() : NotImplementedExceptio
 class IteratorBundleRowModeNotImplementedException() : NotImplementedException("IteratorBundleRowModeNotImplementedException", "IteratorBundle is unable to convert to row Mode.")
 class FunktionWontWorkWithThisImplementationException() : Luposdate3000Exception("FunktionWontWorkWithThisImplementationException", "Funktion should not work with this implementation of the interface.")
 class DatasetsNotImplementedException() : NotImplementedException("DatasetsNotImplementedException", "Datasets are not supported.")
+class DictionaryCanNotInferTypeFromValueException() : Luposdate3000Exception("DictionaryCanNotInferTypeFromValueException", "Dictionary can not infer the type of given Value")

@@ -15,21 +15,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val offset: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPOffset) {
-            return false
-        }
-        if (offset != other.offset) {
-            return false
-        }
-        for (i in children.indices) {
-            if (!children[i].equals(other.children[i])) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPOffset && offset == other.offset && children[0] == other.children[0]
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {

@@ -17,13 +17,7 @@ import lupos.s04logicalOperators.Query
 @UseExperimental(ExperimentalStdlibApi::class)
 class AOPBuildInCallMD5(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallMD5ID, "AOPBuildInCallMD5", arrayOf(child)) {
     override fun toSparql() = "MD5(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallMD5) {
-            return false
-        }
-        return children[0] == other.children[0]
-    }
-
+    override fun equals(other: Any?) = other is AOPBuildInCallMD5 && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
