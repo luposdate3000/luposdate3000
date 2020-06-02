@@ -85,6 +85,31 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
+    val localBnodeMap = MyMapStringIntPatriciaTrie()
+    var bNodeCounter = 4
+    val iriMap = MyMapStringIntPatriciaTrieDouble()
+    val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
+    val typedMap = MyMapStringIntPatriciaTrieDouble()
+    val doubleMap = MyMapDoubleInt()
+    val doubleList = MyListDouble()
+    val decimalMap = MyMapDoubleInt()
+    val decimalList = MyListDouble()
+    val intMap = MyMapIntInt()
+    val intList = MyListInt()
+    fun clear() {
+        localBnodeMap.clear()
+        bNodeCounter = 4
+        iriMap.clear()
+        langTaggedMap.clear()
+        typedMap.clear()
+        doubleMap.clear()
+        doubleList.clear()
+        decimalMap.clear()
+        decimalList.clear()
+        intMap.clear()
+        intList.clear()
+    }
+
     fun toBooleanOrError(value: Value): Value {
         var res: Value = errorValue
         if (value < undefValue && value >= 0) {
@@ -102,8 +127,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    val localBnodeMap = MyMapStringIntPatriciaTrie()
-    var bNodeCounter = 4
     fun createNewBNode(value: String = ""): Value {
         if (global) {
             return (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
@@ -113,7 +136,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    val iriMap = MyMapStringIntPatriciaTrieDouble()
     fun createIri(iri: String): Value {
         if (global) {
             return flaggedValueGlobalIri or iriMap.getOrCreate(iri)
@@ -129,7 +151,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
     fun createLangTagged(content: String, lang: String): Value {
         val key = lang + "@" + content
         if (global) {
@@ -146,7 +167,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    val typedMap = MyMapStringIntPatriciaTrieDouble()
     fun createTyped(content: String, type: String): Value {
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
@@ -185,8 +205,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    val doubleMap = MyMapDoubleInt()
-    val doubleList = MyListDouble()
     fun createDouble(value: Double): Value {
         if (global) {
             return doubleMap.getOrCreate(value, {
@@ -212,8 +230,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    val decimalMap = MyMapDoubleInt()
-    val decimalList = MyListDouble()
     fun createDecimal(value: Double): Value {
         if (global) {
             return decimalMap.getOrCreate(value, {
@@ -239,8 +255,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    val intMap = MyMapIntInt()
-    val intList = MyListInt()
     fun createInteger(value: Int): Value {
         if (global) {
             return intMap.getOrCreate(value, {

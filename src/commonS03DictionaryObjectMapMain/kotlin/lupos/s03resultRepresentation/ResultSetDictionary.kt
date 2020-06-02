@@ -54,6 +54,13 @@ class ResultSetDictionary(val global: Boolean = false) {
 
     var mapSTL = mutableMapOf<ValueDefinition, Value>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
     var mapLTS = mutableMapOf<Value, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
+    var bNodeCounter = 0
+    fun clear() {
+        mapSTL = mutableMapOf<ValueDefinition, Value>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
+        mapLTS = mutableMapOf<Value, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
+        bNodeCounter = 0
+    }
+
     inline fun toBooleanOrError(value: Value): Value {
         var res: Value = errorValue
         if (value < undefValue && value >= 0) {
@@ -71,7 +78,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    var bNodeCounter = 0
     inline fun createNewBNode(): Value {
         return createValue(ValueBnode("" + bNodeCounter++))
     }

@@ -427,14 +427,12 @@ class SparqlTestSuite() {
                 }
                 val resultData = readFileOrNull(resultDataFileName)
                 if (inputDataFileName != "#keep-data#") {
-                    val query3 = Query()
-                    DistributedTripleStore.clearGraph(query3, PersistentStoreLocal.defaultGraphName)
-                    query3.commit()
-                    JenaWrapper.dropAll()
-                    val inputData = readFileOrNull(inputDataFileName)
                     val query2 = Query()
                     ServerCommunicationSend.graphClearAll(query2)
                     query2.commit()
+                    nodeGlobalDictionary.clear()
+                    JenaWrapper.dropAll()
+                    val inputData = readFileOrNull(inputDataFileName)
                     if (inputData != null && inputDataFileName != null) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })

@@ -40,7 +40,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             return res
         }
 
-        override fun equals(other: Any?) = other is MapKey && data.contentEquals( other.data)
+        override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
         fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }
             for (i in 0 until data.size) {
