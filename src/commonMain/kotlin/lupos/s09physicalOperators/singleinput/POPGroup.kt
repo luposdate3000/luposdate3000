@@ -139,16 +139,7 @@ class POPGroup : POPBase {
             }
             return res
         }
-
-        override fun equals(other: Any?): Boolean {
-            SanityCheck.check { other is MapKey }
-            for (i in 0 until data.size) {
-                if (data[i] != (other as MapKey).data[i]) {
-                    return false
-                }
-            }
-            return true
-        }
+override fun equals(other: Any?) = other is MapKey && data.contentEquals( other.data)
 
         fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }

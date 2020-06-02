@@ -40,7 +40,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             return res
         }
 
-        override fun equals(other: Any?) = other is MapKey && data == other.data
+        override fun equals(other: Any?) = other is MapKey && data.contentEquals( other.data)
         fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }
             for (i in 0 until data.size) {
@@ -266,7 +266,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                     } else {
                                         res2 = others[otherIndex].first.data[it]
                                     }
-/*return*/res2
+                                    /*return*/res2
                                 }
                                 val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, others[otherIndex].second.columns)
                                 POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)

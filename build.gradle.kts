@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "14"
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
