@@ -31,24 +31,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         }
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPModify) {
-            return false
-        }
-        if (modify.size != other.modify.size) {
-            return false
-        }
-        for (i in 0 until modify.size) {
-            if (modify[i] != other.modify[i]) {
-                return false
-            }
-        }
-        if (children[0] != other.children[0]) {
-            return false
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
     override fun toSparql(): String {
         var res = StringBuilder()
         var insertions = StringBuilder()

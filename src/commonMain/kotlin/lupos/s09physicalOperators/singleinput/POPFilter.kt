@@ -28,7 +28,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
     override suspend fun evaluate(): IteratorBundle {
-//TODO not-equal shortcut during evaluation based on integer-ids
+        //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -50,19 +50,16 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             resLocal = IteratorBundle(0)
         }
         val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
-        val expression = (children[1] as AOPBase).evaluate(resLocal)
+        val expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
         if (variablesOut.size == 0) {
             res = IteratorBundle(0)
             if (variables.size == 0) {
-                val value = expression()
-                res.hasNext = {
-                    /*return*/false
-                }
-                try {
-                    if (value.toBoolean()) {
-                        res.hasNext = child.hasNext
+                if (expression()) {
+                    res.hasNext = child.hasNext
+                } else {
+                    res.hasNext = {
+                        /*return*/false
                     }
-                } catch (e: Throwable) {
                 }
             } else {
                 res.hasNext = {
@@ -71,7 +68,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                     while (!done) {
                         for (variableIndex2 in 0 until variables.size) {
                             columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-//point each iterator to the current value
+                            //point each iterator to the current value
                             if (columnsLocal[variableIndex2].tmp == null) {
                                 SanityCheck.check { variableIndex2 == 0 }
                                 for (variableIndex3 in 0 until variables.size) {
@@ -82,14 +79,10 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             }
                         }
                         if (!done) {
-//evaluate
-                            val value = expression()
-                            try {
-                                if (value.toBoolean()) {
-//accept/deny row in each iterator
-                                    res2 = true
-                                }
-                            } catch (e: Throwable) {
+                            //evaluate
+                            if (expression()) {
+                                //accept/deny row in each iterator
+                                res2 = true
                             }
                         }
                     }
@@ -104,7 +97,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                     while (!done) {
                         for (variableIndex2 in 0 until variables.size) {
                             columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-//point each iterator to the current value
+                            //point each iterator to the current value
                             if (columnsLocal[variableIndex2].tmp == null) {
                                 SanityCheck.check { variableIndex2 == 0 }
                                 for (variableIndex3 in 0 until variables.size) {
@@ -115,17 +108,13 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             }
                         }
                         if (!done) {
-//evaluate
-                            val value = expression()
-                            try {
-                                if (value.toBoolean()) {
-//accept/deny row in each iterator
-                                    for (variableIndex2 in 0 until variablesOut.size) {
-                                        columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
-                                    }
-                                    done = true
+                            //evaluate
+                            if (expression()) {
+                                //accept/deny row in each iterator
+                                for (variableIndex2 in 0 until variablesOut.size) {
+                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
                                 }
-                            } catch (e: Throwable) {
+                                done = true
                             }
                         }
                     }

@@ -18,10 +18,6 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
     override fun childrenToVerifyCount() = 1
     var bindings = mutableListOf<Pair<String, AOPBase>>()
 
-    constructor(query: Query, by: List<AOPVariable>, child: OPBase) : this(query, by) {
-        children[0] = child
-    }
-
     constructor(query: Query, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: OPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()
         children[0] = child
@@ -110,28 +106,7 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPGroup) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        for (i in by.indices) {
-            if (by[i] != other.by[i]) {
-                return false
-            }
-        }
-        for (i in bindings.indices) {
-            if (bindings[i] != other.bindings[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
     override fun cloneOP() = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

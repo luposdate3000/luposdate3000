@@ -28,21 +28,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         return "AVG(" + children[0].toSparql() + ")"
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPAggregationAVG) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        if (distinct != other.distinct) {
-            return false
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)

@@ -20,7 +20,8 @@ class MyMapStringIntPatriciaTrieDouble() {
     class MyMapStringIntPatriciaTrieNode() {
         var parent = 0
         var str = ""
-        var data = IntArray(0) /* offsets in str, child-values, child-pointers  */
+        var data = IntArray(0)
+        /* data stores offsets in str, child-values, child-pointers  */
     }
 
     operator fun get(key: Int): String {
@@ -54,7 +55,7 @@ class MyMapStringIntPatriciaTrieDouble() {
             nodeIdx = node.parent
             node = parent
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     fun debug() {
@@ -140,7 +141,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                                 }
                                 return result
                             }
-/*Coverage Unreachable*/
+                            /*Coverage Unreachable*/
                         } else {
                             var result = undefinedValue
                             if (create) {
@@ -194,7 +195,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                             }
                             return result
                         }
-/*Coverage Unreachable*/
+                        /*Coverage Unreachable*/
                     }
                 }
                 var result = undefinedValue
@@ -216,9 +217,9 @@ class MyMapStringIntPatriciaTrieDouble() {
                 }
                 return result
             }
-/*Coverage Unreachable*/
+            /*Coverage Unreachable*/
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     operator fun get(key: String): Int? {
@@ -255,8 +256,8 @@ class MyMapStringIntPatriciaTrieDouble() {
         return res
     }
 
-    fun appendAssumeSorted(key: String, value: Int): Int {
-        return getOrCreate(key)
+    fun appendAssumeSorted(key: String, value: Int) {
+        throw FunktionWontWorkWithThisImplementationException()
     }
 
     fun clear() {

@@ -195,7 +195,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         if (res == null) {
             res = IteratorBundle(0)
         }
-        return res!!
+        return res
     }
 
     fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {

@@ -12,7 +12,8 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
     }
 
     class MyMapStringIntPatriciaTrieNodeN() : MyMapStringIntPatriciaTrieNode() {
-        var arr = IntArray(0) /*second half: child values, first half offsets in str*/
+        var arr = IntArray(0)
+        /*arr :: second half: child values, first half offsets in str*/
         var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }
 
@@ -67,7 +68,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                     }
                                     return
                                 }
-/*Coverage Unreachable*/
+                                /*Coverage Unreachable*/
                             } else {
                                 if (create) {
                                     if (commonKey.length == key.length) {
@@ -107,7 +108,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                 }
                                 return
                             }
-/*Coverage Unreachable*/
+                            /*Coverage Unreachable*/
                         } else if (node.str[node.arr1] == key[0]) {
                             var childKeyStart = node.arr1
                             var childKeyEnd = node.str.length
@@ -138,7 +139,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                     }
                                     return
                                 }
-/*Coverage Unreachable*/
+                                /*Coverage Unreachable*/
                             } else {
                                 if (create) {
                                     if (commonKey.length == key.length) {
@@ -174,7 +175,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                 }
                                 return
                             }
-/*Coverage Unreachable*/
+                            /*Coverage Unreachable*/
                         } else if (create) {
                             var childs = arrayOf(node.childs0, node.childs1, null)
                             var arr = intArrayOf(0, node.arr1, node.str.length, node.arr2, node.arr3, onCreate())
@@ -244,7 +245,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                         }
                                         return
                                     }
-/*Coverage Unreachable*/
+                                    /*Coverage Unreachable*/
                                 } else {
                                     if (create) {
                                         if (commonKey.length == key.length) {
@@ -289,7 +290,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                     }
                                     return
                                 }
-/*Coverage Unreachable*/
+                                /*Coverage Unreachable*/
                             }
                         }
                         if (create) {
@@ -322,8 +323,9 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                         SanityCheck.checkUnreachable()
                     }
                 }
+                /*Coverage Unreachable*/
             }
-/*Coverage Unreachable*/
+            /*Coverage Unreachable*/
         }
     }
 

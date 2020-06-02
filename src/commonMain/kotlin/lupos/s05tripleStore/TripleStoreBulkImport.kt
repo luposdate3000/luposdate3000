@@ -77,7 +77,7 @@ class TripleStoreBulkImport {
         }
 
         fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
-/*in the first step the data is moved into dataIdxB*/
+            /*in the first step the data is moved into dataIdxB*/
             var off: Int
             var shift = 0
             var count = 1 shl shift

@@ -4,6 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04logicalOperators.HistogramResult
@@ -17,6 +18,27 @@ abstract class AOPBase(query: Query,
                        classname: String,
                        children: Array<OPBase>) :
         OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY) {
+    fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {
+        if (enforcesBooleanOrError()) {
+            val tmp = evaluateID(row)
+            return {
+                /*return*/tmp() == ResultSetDictionary.booleanTrueValue
+            }
+        } else {
+            val tmp = evaluate(row)
+            return {
+                var res: Boolean
+                try {
+                    val value = tmp()
+                    res = value.toBoolean()
+                } catch (e: Throwable) {
+                    res = false
+                }
+/*return*/res
+            }
+        }
+    }
+
     open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             /*return*/query.dictionary.getValue(evaluateID(row)())

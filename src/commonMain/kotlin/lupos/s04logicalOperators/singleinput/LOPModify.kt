@@ -31,24 +31,7 @@ class LOPModify(query: Query,
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is LOPModify) {
-            return false
-        }
-        if (insert != other.insert) {
-            return false
-        }
-        if (delete != other.delete) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is LOPModify && insert == other.insert && delete == other.delete && children[0] == other.children[0]
     override fun cloneOP() = LOPModify(query, insert, delete, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()

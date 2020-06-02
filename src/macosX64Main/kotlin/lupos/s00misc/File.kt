@@ -56,47 +56,6 @@ class File {
         }
     }
 
-    fun readAsDynamicByteArray(): DynamicByteArray {
-        var res = ByteArray(0)
-        val file = fopen(filename, "r")
-        if (file == null) {
-            throw Exception("can not open file $filename")
-        }
-        try {
-            memScoped {
-                val bufferLength = 64 * 1024
-                val buffer = allocArray<ByteVar>(bufferLength)
-                while (true) {
-                    val len = fread(buffer, 1L.toULong(), bufferLength.toULong(), file)
-                    if (len == (0L).toULong()) {
-                        break
-                    }
-                    res += buffer.readBytes(len.toInt())
-                }
-            }
-        } finally {
-            fclose(file)
-        }
-        return DynamicByteArray(res)
-    }
-
-    fun write(buffer: DynamicByteArray) {
-        val file = fopen(filename, "w")
-        if (file == null) {
-            throw Exception("can not open file $filename")
-        }
-        try {
-            var offset = 0
-            val buf = buffer.finish()
-            while (offset < buffer.pos) {
-                val len = fwrite(buf.refTo(offset), 1L.toULong(), (buffer.pos - offset).toULong(), file)
-                offset += len.toInt()
-            }
-        } finally {
-            fclose(file)
-        }
-    }
-
     fun printWriter(action: (PrintWriter) -> Unit) {
         val p = PrintWriter(this)
         try {

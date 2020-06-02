@@ -88,5 +88,6 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
         } catch (e: HistogramNotImplementedException) {
             return null
         }
+/*Coverage Unreachable*/
     }
 }

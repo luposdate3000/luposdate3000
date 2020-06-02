@@ -101,7 +101,6 @@ enum class EOperatorID {
     OPNothingID,
     POPBaseID,
     POPBindID,
-    POPDistinctID,
     POPReducedID,
     POPEmptyRowID,
     POPFilterID,
@@ -162,7 +161,6 @@ val EOperatorIDLOP = arrayOf(
 val EOperatorIDPOP = arrayOf(
         EOperatorID.POPMinusID,
         EOperatorID.POPBindID,
-        EOperatorID.POPDistinctID,
         EOperatorID.POPReducedID,
         EOperatorID.POPEmptyRowID,
         EOperatorID.POPFilterID,

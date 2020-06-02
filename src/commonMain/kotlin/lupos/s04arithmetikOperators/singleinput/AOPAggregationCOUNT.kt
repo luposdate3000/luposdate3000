@@ -30,21 +30,7 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPAggregationCOUNT) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        if (distinct != other.distinct) {
-            return false
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is AOPAggregationCOUNT && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         res.evaluate = {

@@ -25,18 +25,7 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPValue) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is AOPValue && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         SanityCheck.checkUnreachable()
     }

@@ -10,19 +10,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
 class File(@JvmField val filename: String) {
-    companion object {
-        fun readStdInAsDynamicByteArray(): DynamicByteArray? {
-            System.`in`.use { instream ->
-                val data = instream.readBytes()
-                if (data.size < 4) {
-                    return null
-                }
-                return DynamicByteArray(data)
-            }
-/*Coverage Unreachable*/
-        }
-    }
-
     fun exists() = java.io.File(filename).exists()
     fun mkdirs() = java.io.File(filename).mkdirs()
     fun deleteRecursively() = java.io.File(filename).deleteRecursively()
@@ -31,22 +18,6 @@ class File(@JvmField val filename: String) {
     suspend fun walk(action: suspend (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))
-        }
-    }
-
-    fun readAsDynamicByteArray(): DynamicByteArray {
-        var res: DynamicByteArray?
-        java.io.File(filename).inputStream().use { instream ->
-            val data = instream.readBytes()
-            res = DynamicByteArray(data)
-        }
-        return res!!
-    }
-
-    fun write(buffer: DynamicByteArray) {
-        java.io.File(filename).outputStream().use { out ->
-            val data = buffer.finish()
-            out.write(data, 0, buffer.pos)
         }
     }
 

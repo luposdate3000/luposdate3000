@@ -72,35 +72,7 @@ class POPGroup : POPBase {
         this.bindings = bindings.toMutableList()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is POPGroup) {
-            return false
-        }
-        if (by.size != other.by.size) {
-            return false
-        }
-        for (i in 0 until by.size) {
-            if (by[i] != other.by[i]) {
-                return false
-            }
-        }
-        if (bindings.size != other.bindings.size) {
-            return false
-        }
-        for (i in 0 until bindings.size) {
-            if (bindings[i].first != other.bindings[i].first) {
-                return false
-            }
-            if (bindings[i].second != other.bindings[i].second) {
-                return false
-            }
-        }
-        if (children[0] != other.children[0]) {
-            return false
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is POPGroup && by == other.by && children[0] == other.children[0] && bindings == other.bindings
     override fun getProvidedVariableNamesInternal() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
         var res = MutableList(by.size) { by[it].name }

@@ -12,7 +12,6 @@ import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s00misc.DynamicByteArray
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -117,7 +116,7 @@ object HttpEndpoint {
             if (v2.startsWith("_:")) {
                 return dict.getOrCreate(v2, {
                     SanityCheck.check { !usePredefinedDict }
-/*return*/ nodeGlobalDictionary.createNewBNode()
+                    /*return*/ nodeGlobalDictionary.createNewBNode()
                 })
 /*Coverage Unreachable*/
             } else {

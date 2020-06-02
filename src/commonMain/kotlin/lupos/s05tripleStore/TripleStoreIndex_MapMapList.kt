@@ -202,7 +202,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         if (res == null) {
             res = IteratorBundle(0)
         }
-        return res!!
+        return res
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {

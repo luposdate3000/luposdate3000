@@ -1,0 +1,8 @@
+variable in graph names of triple patterns
+pure exist queries to the triple store
+joins with two value-clauses as childs
+sort descending
+constant filter eliminating everything
+
+
+exceptions for not implemented functions

@@ -25,18 +25,7 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is AOPSet) {
-            return false
-        }
-        for (i in children.indices) {
-            if (children[i] != other.children[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
+    override fun equals(other: Any?) = other is AOPSet && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         throw SetNotImplementedException()
 /*Coverage Unreachable*/

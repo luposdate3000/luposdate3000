@@ -400,7 +400,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         var iterator: TripleIterator? = null
         while (iterator == null) {
             node.findIteratorN({
-                /*return*/                (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
+                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
                 NodeManager.getNode(it, {
                     iterator = it.iterator3(prefix)
@@ -417,7 +417,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         var iterator: TripleIterator? = null
         while (iterator == null) {
             node.findIteratorN({
-                /*return*/        (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
+                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
                     iterator = it.iterator2(prefix)
@@ -526,7 +526,8 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                     SanityCheck.check { it[0] == debugListTriples[j][0] }
                     SanityCheck.check { it[1] == debugListTriples[j][1] }
                     SanityCheck.check { it[2] == debugListTriples[j][2] }
-                    SanityCheck.check { j < l + 4 }/*read at most one block too much*/
+                    SanityCheck.check { j < l + 4 }
+/*read at most one block too much*/
                     /*return*/ j < l
                 }, {
                     println("debug $it")

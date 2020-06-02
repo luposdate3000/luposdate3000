@@ -216,9 +216,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Launch Type", "Launch") to listOf(
                 ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                 ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
-                ChooseableOptionDirectory("BinaryTests", "commonS00LaunchBinaryTestsMain"),
-                ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
-                ChooseableOptionDirectory("WarnkeFuzz", "jvmS00LaunchWarnkeFuzzMain")
+                ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain")
         ),
         ChooseableGroup("Sanity Checks", "Sanity") to listOf(
                 ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn", "CoroutinesHelperMutex" to "Lock")),
@@ -278,13 +276,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                         "MyMapIntGeneric<T>" to "MyMapIntGenericBinaryTree<T>",
                         "MyMapLongGeneric<T>" to "MyMapLongGenericBinaryTree<T>",
                         "MyMapLongInt" to "MyMapLongIntBinaryTree",
-                        "MyMapIntInt" to "MyMapIntIntBinaryTree",
-                        "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
-                )),
-                ChooseableOptionTypeAlias("HashMap", "lupos.s00misc", listOf(
-                        "MyMapIntGeneric<T>" to "MyMapIntGenericBinaryTree<T>",
-                        "MyMapLongGeneric<T>" to "MyMapLongGenericBinaryTree<T>",
-                        "MyMapLongInt" to "MyMapLongIntHash",
                         "MyMapIntInt" to "MyMapIntIntBinaryTree",
                         "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
                 ))

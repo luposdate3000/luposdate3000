@@ -117,7 +117,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         SanityCheck.check { keyCopy[0] != null }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
-/* this is an optional element without a match */
+                /* this is an optional element without a match */
                 for (j in 0 until columnsINO.size) {
                     data[j].add(ResultSetDictionary.undefValue)
                 }
@@ -125,7 +125,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
             }
         }
         var count = 0
-/* at least 1 matching row */
+        /* at least 1 matching row */
         loop@ while (true) {
             count++
             for (i in 0 until columnsINO.size) {

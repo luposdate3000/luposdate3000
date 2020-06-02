@@ -134,7 +134,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = -l
             }
         }
-        return res!!
+        return res
     }
 
     inline fun getValue(value: Value): ValueDefinition {
@@ -143,6 +143,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             return nodeGlobalDictionary.mapLTS[value]!!
         }
+/*Coverage Unreachable*/
     }
 
     inline fun valueToGlobal(value: Value): Value {
@@ -151,6 +152,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             return nodeGlobalDictionary.createValue(getValue(value))
         }
+/*Coverage Unreachable*/
     }
 
     fun safeToFolder(folderName: String) {

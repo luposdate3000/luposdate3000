@@ -292,6 +292,7 @@ object ServerCommunicationSend {
             }
             return IteratorBundle(iterators[0])
         }
+/*Coverage Unreachable*/
     }
 
     fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {

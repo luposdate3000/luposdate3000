@@ -40,7 +40,6 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             val childB = node.children[1]
             val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
             if (columns[0].size == 0) {
-                /*cartesian product*/
                 res = POPJoinCartesianProduct(query, projectedVariables, childA, childB, false)
             } else {
                 if (node.mySortPriority.size >= columns[0].size) {

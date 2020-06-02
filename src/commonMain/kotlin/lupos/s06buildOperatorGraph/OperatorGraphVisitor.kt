@@ -209,9 +209,11 @@ import lupos.s05tripleStore.PersistentStoreLocal
 
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
-    val queryExecutionStartTime = ValueDateTime() /*required for_ BuildInCall.NOW */
+    val queryExecutionStartTime = ValueDateTime()
 
+    /*queryExecutionStartTime required for_ BuildInCall.NOW */
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
+
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
         val aName = a.name.name
         if (b.children[1].getRequiredVariableNames().contains(aName)) {
@@ -221,7 +223,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             a.getLatestChild().setChild(b)
             return a
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     fun containsAggregate(node: ASTNode): Boolean {
@@ -561,10 +563,6 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 }
             }
         }
-/*        if (members.containsKey(EGroupMember.GMLOPMinus)) {
-            result = members[EGroupMember.GMLOPMinus]
-        }
-*/
         if (members.containsKey(EGroupMember.GMLOPFilter)) {
             if (result == null) {
                 result = members[EGroupMember.GMLOPFilter]
@@ -645,7 +643,8 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             return LOPNOOP(query) // empty query
         }
         var childs = mutableListOf<OPBase>()
-        var prefix: LOPPrefix? = null/*applied at the end*/
+        var prefix: LOPPrefix? = null
+        /*prefix is applied at the end*/
         for (q in childrenValues) {
             if (q is LOPPrefix) {
                 if (prefix == null) {
@@ -1072,7 +1071,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
             }
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
@@ -1099,7 +1098,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw Exception("not implemented")
             }
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
@@ -1152,7 +1151,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
             }
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
@@ -1175,10 +1174,10 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
         val iri = when (name) {
             is ASTIri -> {
-/*return*/name.iri
+                /*return*/name.iri
             }
             is ASTIriGraphRef -> {
-/*return*/name.iri
+                /*return*/name.iri
             }
             else -> {
                 throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)} $optional")
@@ -1244,7 +1243,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 throw Exception("not reachable")
             }
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
@@ -1354,7 +1353,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
         val child: OPBase = if (node.using.isEmpty()) {
-/*return*/parseGroup(node.children)
+            /*return*/parseGroup(node.children)
         } else {
             var tmp: OPBase? = null
             for (c in node.using) {
@@ -1366,7 +1365,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     tmp = LOPUnion(query, tmp, tmp2)
                 }
             }
-/*return*/tmp!!
+            /*return*/tmp!!
         }
         val iri = node.iri
         val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
@@ -1394,7 +1393,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             val res = LOPModify(query, insert, delete, child)
             return res
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
@@ -1487,17 +1486,17 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTRDFTerm, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTPlus, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
@@ -1507,11 +1506,11 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 }

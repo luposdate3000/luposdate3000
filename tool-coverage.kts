@@ -6,7 +6,7 @@ val separatorB = "([^a-zA-Z_]|$|^)"
 
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()
-val regexFunBracket = "(.*\\s*fun\\s+.*\\{\\s*|.*\\s*init\\s+\\{\\s*)".toRegex()
+val regexFunBracket = "(.*\\s*fun\\s+.*\\{\\s*|.*\\s*init\\s+\\{\\s*|.*\\s*constructor.*\\{\\s*)".toRegex()
 val regexWhileLoopBracket = ".*\\s*${separator}while${separator}.*\\{\\s*".toRegex()
 val regexForEachLoopBracket = ".*\\s*${separator}forEach${separator}.*\\{\\s*".toRegex()
 val regexForLoopBracket = ".*\\s*${separator}for${separator}.*\\{\\s*".toRegex()
@@ -20,6 +20,7 @@ val regexWhenCase = ".*\\s*->.*".toRegex()
 val regexReturn = "(\\s*${separatorB}(return|break|continue|throw)${separatorB}.*|.*/\\*return\\*/.*)".toRegex()
 val regexUnreachable = ".*(Coverage Unreachable|SanityCheck.checkUnreachable).*".toRegex()
 val coverageImport = "import lupos.s00misc.Coverage"
+val regexCommentOnly = "^\\s*//.*$".toRegex()
 
 //output->
 val coverageMap = mutableMapOf<Int, String>()
@@ -133,148 +134,179 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     var openBracketsFunction = Int.MAX_VALUE
     var openBrackets = 0
     var openBracketsUnreachable = Int.MAX_VALUE
+    var isInComment = false
     lines.forEach {
         val line = it
-
-        val hadUnreachable = openBracketsUnreachable == openBrackets
-        if (!hadUnreachable && res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (whenBrackets[openBrackets - 1] == null)) {
-            appendCoverageStatement(filename, counter, res.size)
-            res.add("Coverage.statementStart(${counter++})")
-        }
-        if (regexReturn.matches(line)) {
-            openBracketsUnreachable = openBrackets
-        }
-        if (line.startsWith("package "))
-            hadPackage = true
-        else if (line.startsWith("import ")) {
-            hadImport = true
-            if (line == coverageImport)
-                hadCoverageImport = true
-        } else if (!regexSpace.matches(line) && line.length > 0) {
-            if (!hadCoverageImport)
-                res.add(coverageImport)
-            hadCoverageImport = true
-        }
-        var withinQuotes = false
-        for (i in 0 until line.length) {
-            if ((line[i] == '"' || line[i] == '\'') && (i == 0 || line[i - 1] != '\\'))
-                withinQuotes = !withinQuotes
-            if (line[i] == '{' && !withinQuotes)
-                openBrackets++
-            if (line[i] == '}' && !withinQuotes) {
-                openBrackets--
-                if (openBrackets == openBracketsFunction - 1)
-                    openBracketsFunction = Int.MAX_VALUE
-                whenBrackets.remove(openBrackets)
-                if (openBrackets == openBracketsUnreachable - 1) {
-                    openBracketsUnreachable = Int.MAX_VALUE
-                }
+        var idxOpen = 0
+        var idxClose = 0
+        while (idxOpen >= 0 && idxOpen < line.length) {
+            var tmp = line.indexOf("/*", idxOpen)
+            if (tmp > idxOpen) {
+                idxOpen = tmp + 2
+            } else {
+                break
             }
         }
-        when {
-            hadUnreachable -> {
-                res.add(line)
+        while (idxClose >= 0 && idxClose < line.length) {
+            var tmp = line.indexOf("*/", idxClose)
+            if (tmp > idxClose) {
+                idxClose = tmp + 2
+            } else {
+                break
             }
-            regexUnreachable.matches(line) -> {
-                if (regexCoverage.matches(res[res.size - 1])) {
-                    coverageMap.remove(--counter)
-                    res.removeAt(res.size - 1)
-                }
+        }
+        var localInsideComment = isInComment
+        if (idxOpen > idxClose) {
+            isInComment = true
+            localInsideComment = true
+        } else if (idxClose > idxOpen) {
+            isInComment = false
+        }
+        if (localInsideComment) {
+            res.add(line)
+        } else if (regexCommentOnly.matches(line)) {
+            res.add(line)
+        } else {
+            val hadUnreachable = openBracketsUnreachable == openBrackets
+            if (!hadUnreachable && res.size > 0 && (!res[res.size - 1].startsWith("Coverage")) && openBrackets >= openBracketsFunction && (whenBrackets[openBrackets - 1] == null) && (!res[res.size - 1].endsWith("*/"))) {
+                appendCoverageStatement(filename, counter, res.size)
+                res.add("Coverage.statementStart(${counter++})")
+            }
+            if (regexReturn.matches(line)) {
                 openBracketsUnreachable = openBrackets
-                res.add(line)
             }
-            regexWhenBracket.matches(line) -> {
-                res.add(line)
-                appendCoverageWhen(filename, counter, res.size)
-                whenBrackets[openBrackets - 1] = counter++
+            if (line.startsWith("package "))
+                hadPackage = true
+            else if (line.startsWith("import ")) {
+                hadImport = true
+                if (line == coverageImport)
+                    hadCoverageImport = true
+            } else if (!regexSpace.matches(line) && line.length > 0) {
+                if (!hadCoverageImport)
+                    res.add(coverageImport)
+                hadCoverageImport = true
             }
-            regexFunBracket.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line)
-                appendCoverageFun(filename, counter, res.size)
-                res.add("Coverage.funStart(${counter++})")
-                openBracketsFunction = openBrackets
+            var withinQuotes = false
+            for (i in 0 until line.length) {
+                if ((line[i] == '"' || line[i] == '\'') && (i == 0 || line[i - 1] != '\\'))
+                    withinQuotes = !withinQuotes
+                if (line[i] == '{' && !withinQuotes)
+                    openBrackets++
+                if (line[i] == '}' && !withinQuotes) {
+                    openBrackets--
+                    if (openBrackets == openBracketsFunction - 1)
+                        openBracketsFunction = Int.MAX_VALUE
+                    whenBrackets.remove(openBrackets)
+                    if (openBrackets == openBracketsUnreachable - 1) {
+                        openBracketsUnreachable = Int.MAX_VALUE
+                    }
+                }
             }
-            regexWhileLoopBracket.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line)
-                appendCoverageWhileLoop(filename, counter, res.size)
-                res.add("Coverage.whileLoopStart(${counter++})")
-            }
-            regexForEachLoopBracket.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line)
-                appendCoverageForEachLoop(filename, counter, res.size)
-                res.add("Coverage.forEachLoopStart(${counter++})")
-            }
-            regexWhenCaseBracket.matches(line) -> {
-                if (whenBrackets[openBrackets - 2] != null) {
-                    whenCaseMap[counter] = whenBrackets[openBrackets - 2]!!
+            when {
+                hadUnreachable -> {
+                    res.add(line)
+                }
+                regexUnreachable.matches(line) -> {
+                    if (regexCoverage.matches(res[res.size - 1])) {
+                        coverageMap.remove(--counter)
+                        res.removeAt(res.size - 1)
+                    }
+                    openBracketsUnreachable = openBrackets
+                    res.add(line)
+                }
+                regexWhenBracket.matches(line) -> {
+                    res.add(line)
+                    appendCoverageWhen(filename, counter, res.size)
+                    whenBrackets[openBrackets - 1] = counter++
+                }
+                regexFunBracket.matches(line) -> {
                     require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
                     res.add(line)
-                    appendCoverageWhenCase(filename, counter, res.size)
-                    res.add("Coverage.whenCaseStart(${counter++})")
-                } else {
-                    res.add(line)
+                    appendCoverageFun(filename, counter, res.size)
+                    res.add("Coverage.funStart(${counter++})")
+                    openBracketsFunction = openBrackets
                 }
-            }
-            regexForLoopBracket.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line)
-                appendCoverageForLoop(filename, counter, res.size)
-                res.add("Coverage.forLoopStart(${counter++})")
-            }
-            regexIfBracket.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line)
-                appendCoverageIf(filename, counter, res.size)
-                res.add("Coverage.ifStart(${counter++})")
-            }
-            regexWhileLoop.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line + "{")
-                appendCoverageWhileLoop(filename, counter, res.size)
-                res.add("Coverage.whileLoopStart(${counter++})")
-                appendClosingBracket = 2
-            }
-            regexForLoop.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line + "{")
-                appendCoverageForLoop(filename, counter, res.size)
-                res.add("Coverage.forLoopStart(${counter++})")
-                appendClosingBracket = 2
-            }
-            regexIf.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
-                res.add(line + "{")
-                appendCoverageIf(filename, counter, res.size)
-                res.add("Coverage.ifStart(${counter++})")
-                appendClosingBracket = 2
-            }
-            regexWhenCase.matches(line) -> {
-                if (whenBrackets[openBrackets - 1] != null) {
-                    whenCaseMap[counter] = whenBrackets[openBrackets - 1]!!
+                regexWhileLoopBracket.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                    res.add(line)
+                    appendCoverageWhileLoop(filename, counter, res.size)
+                    res.add("Coverage.whileLoopStart(${counter++})")
+                }
+                regexForEachLoopBracket.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                    res.add(line)
+                    appendCoverageForEachLoop(filename, counter, res.size)
+                    res.add("Coverage.forEachLoopStart(${counter++})")
+                }
+                regexWhenCaseBracket.matches(line) -> {
+                    if (whenBrackets[openBrackets - 2] != null) {
+                        whenCaseMap[counter] = whenBrackets[openBrackets - 2]!!
+                        require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                        res.add(line)
+                        appendCoverageWhenCase(filename, counter, res.size)
+                        res.add("Coverage.whenCaseStart(${counter++})")
+                    } else {
+                        res.add(line)
+                    }
+                }
+                regexForLoopBracket.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                    res.add(line)
+                    appendCoverageForLoop(filename, counter, res.size)
+                    res.add("Coverage.forLoopStart(${counter++})")
+                }
+                regexIfBracket.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                    res.add(line)
+                    appendCoverageIf(filename, counter, res.size)
+                    res.add("Coverage.ifStart(${counter++})")
+                }
+                regexWhileLoop.matches(line) -> {
                     require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
                     res.add(line + "{")
-                    appendCoverageWhenCase(filename, counter, res.size)
-                    res.add("Coverage.whenCaseStart(${counter++})")
+                    appendCoverageWhileLoop(filename, counter, res.size)
+                    res.add("Coverage.whileLoopStart(${counter++})")
                     appendClosingBracket = 2
-                } else {
+                }
+                regexForLoop.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                    res.add(line + "{")
+                    appendCoverageForLoop(filename, counter, res.size)
+                    res.add("Coverage.forLoopStart(${counter++})")
+                    appendClosingBracket = 2
+                }
+                regexIf.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                    res.add(line + "{")
+                    appendCoverageIf(filename, counter, res.size)
+                    res.add("Coverage.ifStart(${counter++})")
+                    appendClosingBracket = 2
+                }
+                regexWhenCase.matches(line) -> {
+                    if (whenBrackets[openBrackets - 1] != null) {
+                        whenCaseMap[counter] = whenBrackets[openBrackets - 1]!!
+                        require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                        res.add(line + "{")
+                        appendCoverageWhenCase(filename, counter, res.size)
+                        res.add("Coverage.whenCaseStart(${counter++})")
+                        appendClosingBracket = 2
+                    } else {
+                        res.add(line)
+                    }
+                }
+                regexSpace.matches(line) -> {
+                    require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+                }
+                else -> {
                     res.add(line)
                 }
             }
-            regexSpace.matches(line) -> {
-                require(appendClosingBracket == 0, { "$filename ${res.size} >$line<" })
+            if (appendClosingBracket == 2)
+                appendClosingBracket = 1
+            else if (appendClosingBracket == 1) {
+                res.add("}")
+                appendClosingBracket = 0
             }
-            else -> {
-                res.add(line)
-            }
-        }
-        if (appendClosingBracket == 2)
-            appendClosingBracket = 1
-        else if (appendClosingBracket == 1) {
-            res.add("}")
-            appendClosingBracket = 0
         }
     }
     return res

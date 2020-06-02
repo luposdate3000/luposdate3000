@@ -20,31 +20,6 @@ import stdio.luposfprintf
 import unistd.luposSTDINread
 
 class File(val filename: String) {
-    companion object {
-        fun readStdInAsDynamicByteArray(): DynamicByteArray? {
-            var res = ByteArray(0)
-            memScoped {
-                val bufferLength = 64 * 1024
-                val buffer = allocArray<ByteVar>(bufferLength)
-                while (true) {
-                    val len = luposSTDINread(buffer, bufferLength.toULong())
-                    if (len <= 0) {
-                        break
-                    }
-                    res += buffer.readBytes(len.toInt())
-                }
-            }
-            if (res.size < 4) {
-                return null
-            }
-            val result = DynamicByteArray(res)
-            if (res.size < result.getInt(0)) {
-                result.setInt(res.size, 0)//ensure there are enough available Bytes
-            }
-            return result
-        }
-    }
-
     fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
@@ -80,47 +55,6 @@ class File(val filename: String) {
                 action(filename + "/" + dir.pointed.d_name!!.toKString())
             }
             closedir(d);
-        }
-    }
-
-    fun readAsDynamicByteArray(): DynamicByteArray {
-        var res = ByteArray(0)
-        val file = fopen(filename, "r")
-        if (file == null) {
-            throw Exception("can not open file $filename")
-        }
-        try {
-            memScoped {
-                val bufferLength = 64 * 1024
-                val buffer = allocArray<ByteVar>(bufferLength)
-                while (true) {
-                    val len = fread(buffer, 1L.toULong(), bufferLength.toULong(), file)
-                    if (len == (0L).toULong()) {
-                        break
-                    }
-                    res += buffer.readBytes(len.toInt())
-                }
-            }
-        } finally {
-            fclose(file)
-        }
-        return DynamicByteArray(res)
-    }
-
-    fun write(buffer: DynamicByteArray) {
-        val file = fopen(filename, "w")
-        if (file == null) {
-            throw Exception("can not open file $filename")
-        }
-        try {
-            var offset = 0
-            val buf = buffer.finish()
-            while (offset < buffer.pos) {
-                val len = fwrite(buf.refTo(offset), 1L.toULong(), (buffer.pos - offset).toULong(), file)
-                offset += len.toInt()
-            }
-        } finally {
-            fclose(file)
         }
     }
 

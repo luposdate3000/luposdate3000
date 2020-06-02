@@ -1,6 +1,8 @@
 #!/bin/kscript
 import java.io.File
 
+val mergeDirectoryAndFileNames = true
+
 enum class OutputFormat {
     LUPOSDATE,
     SONAR_QUBE,
@@ -57,30 +59,32 @@ for (argI in 0 until args.size) {
 }
 
 fun cleanAndMapFile(originalName: String, coverageIn: Map<Long, Long>, coverageOut: MutableMap<Long, Long>, coverageFunctions: MutableMap<Long, String>): String {
-    var targetName = "strippedSourceCode/$originalName"
+    var targetName = replaceFileName("strippedSourceCode/$originalName")
     var idx = targetName.lastIndexOf("/")
     var targetDirectory = targetName.substring(0, idx)
-    var lineNumbers = LongArray(coverageIn.size)
+    var lineNumbersIn = LongArray(coverageIn.size)
+    var lineNumbersOut = LongArray(coverageIn.size)
     var countersNumbers = LongArray(coverageIn.size)
     var i = 0
     for ((k, v) in coverageIn) {
-        lineNumbers[i] = k - i
+        lineNumbersIn[i] = k - i
+        lineNumbersOut[i] = k - i
         countersNumbers[i] = v
-        coverageOut[lineNumbers[i]] = countersNumbers[i]
         i++
     }
     File(targetDirectory).mkdirs()
     i = 0
     var j = 0
-    var k = 0
     var lastLine = ""
     File(targetName).printWriter().use { out ->
         File(originalName).forEachLine { line ->
-            if (j < lineNumbers.size && i.toLong() == lineNumbers[j]) {
+            if (j < lineNumbersIn.size && i.toLong() == lineNumbersIn[j]) {
                 if (line.contains("Coverage.funStart")) {
                     var name = lastLine
                     if (name.contains(" init ")) {
                         name = "init"
+                    } else if (name.contains(" constructor")) {
+                        name = "constructor"
                     } else {
                         var idx = name.indexOf("(")
                         name = name.substring(0, idx)
@@ -91,16 +95,23 @@ fun cleanAndMapFile(originalName: String, coverageIn: Map<Long, Long>, coverageO
                             name = name.substring(idx + 5, name.length)
                         }
                     }
-                    coverageFunctions[lineNumbers[j]] = name
+                    coverageFunctions[lineNumbersOut[j]] = name
+                } else if (!line.contains("Coverage.")) {
+                    out.println(line)
+                    for (k in j until lineNumbersOut.size) {
+                        lineNumbersOut[k]++
+                    }
                 }
                 j++
             } else {
                 out.println(line)
-                k++
                 i++
             }
             lastLine = line
         }
+    }
+    for (k in 0 until lineNumbersOut.size) {
+        coverageOut[lineNumbersOut[k]] = countersNumbers[k]
     }
     return targetName
 }
@@ -108,6 +119,14 @@ fun cleanAndMapFile(originalName: String, coverageIn: Map<Long, Long>, coverageO
 when (outputformat) {
     OutputFormat.SONAR_QUBE -> {
         println("<coverage version=\"1\">")
+    }
+}
+fun replaceFileName(filename: String): String {
+    val path = System.getProperty("user.dir")
+    if (mergeDirectoryAndFileNames) {
+        return (path + "/" + filename).replace("/", "_").replace("_src_luposdate3000_strippedSourceCode_src_", "/src/luposdate3000/strippedSourceCode/src/")
+    } else {
+        return "$path/$filename"
     }
 }
 res.forEach { filename2, tmp2 ->
@@ -124,8 +143,7 @@ res.forEach { filename2, tmp2 ->
         }
         OutputFormat.LCOV -> {
             println("TN:")
-            val path = System.getProperty("user.dir")
-            println("SF:$path/$filename")
+            println("SF:$filename")
         }
     }
     coverageFunctions.forEach { linenumber, functionname ->

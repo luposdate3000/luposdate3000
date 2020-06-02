@@ -38,7 +38,6 @@ import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
@@ -110,9 +109,6 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
                 is LOPLimit -> {
                     res = POPLimit(query, projectedVariables, node.limit, node.children[0])
-                }
-                is LOPDistinct -> {
-                    res = POPDistinct(query, projectedVariables, node.children[0])
                 }
                 is LOPReduced -> {
                     res = POPReduced(query, projectedVariables, node.children[0])

@@ -52,7 +52,7 @@ object ServerCommunicationReceive {
         GlobalScope.launch {
             val server = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
             while (true) {
-                val socket = server!!.accept()
+                val socket = server.accept()
                 launch {
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
@@ -155,6 +155,7 @@ object ServerCommunicationReceive {
                     }
                 }
             }
+/*Coverage Unreachable*/
         }
     }
 }

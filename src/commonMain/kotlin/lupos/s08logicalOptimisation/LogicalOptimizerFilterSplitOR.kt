@@ -20,7 +20,7 @@ class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimi
             val aopcompare = node.children[1]
             if (aopcompare is AOPOr && aopcompare.children[0] is AOPEQ && aopcompare.children[1] is AOPEQ) {
                 onChange()
-                SanityCheck.checkUnreachable()/*TODO check this - never called so far*/
+                SanityCheck.checkUnreachable() /*TODO check this - never called so far*/
                 res = LOPUnion(query, LOPFilter(query, aopcompare.children[0] as AOPBase, child.cloneOP()), LOPFilter(query, aopcompare.children[1] as AOPBase, child.cloneOP()))
             }
         }

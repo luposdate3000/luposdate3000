@@ -31,20 +31,12 @@ fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
             }
             """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
-                    if (attrMatch.groups[1]!!.value == "xml:lang") {
-                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
-                    } else {
-                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
-                    }
+                    childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                 }
             }
             """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null) {
-                    if (attrMatch.groups[1]!!.value == "xml:lang") {
-                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
-                    } else {
-                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
-                    }
+                    childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                 }
             }
             var content = ""
