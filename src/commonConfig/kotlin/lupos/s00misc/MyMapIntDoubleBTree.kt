@@ -236,7 +236,7 @@ class MyMapIntDoubleBTree(val t: Int) {
             while (i < n && k > (keys[i] as Int)) {
                 i++
             }
-            if ((keys[i] as Int) == k) {
+            if ((keys[i] as Int) == k && i < n) {
                 return values[i] as Double
             } else {
                 return C[i]!!.search(k)
@@ -349,7 +349,7 @@ class MyMapIntDoubleBTree(val t: Int) {
             while (i < n && k > (keys[i] as Int)) {
                 i++
             }
-            if ((keys[i] as Int) == k) {
+            if ((keys[i] as Int) == k && i < n) {
                 return values[i] as Double
             } else {
                 return null

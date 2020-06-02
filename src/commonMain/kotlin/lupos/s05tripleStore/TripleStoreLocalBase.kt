@@ -51,7 +51,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             val param = params[i]
             if (param is AOPConstant) {
                 SanityCheck.check { filter.size == ii }
-                filter.add(nodeGlobalDictionary.valueToGlobal(param.value))
+                filter.add(query.dictionary.valueToGlobal(param.value))
             } else if (param is AOPVariable) {
                 SanityCheck {
                     if (param.name != "_") {
@@ -74,7 +74,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             val param = params[i]
             if (param is AOPConstant) {
                 SanityCheck.check { filter.size == ii }
-                filter.add(nodeGlobalDictionary.valueToGlobal(param.value))
+                filter.add(query.dictionary.valueToGlobal(param.value))
             } else {
                 SanityCheck.check { param is AOPVariable }
                 projection.add((param as AOPVariable).name)

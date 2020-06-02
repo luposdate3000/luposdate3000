@@ -100,13 +100,19 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         val row = Array(variables.size) { ResultSetDictionary.undefValue }
         val data = mutableMapOf<String, Array<Array<MyListValue>>>()
         loop@ while (true) {
-            for (columnIndex in 0 until variables.size) {
-                val value = columns[columnIndex].next()
-                if (value == null) {
-                    SanityCheck.check { columnIndex == 0 }
+            if (row.size > 0) {
+                for (columnIndex in 0 until variables.size) {
+                    val value = columns[columnIndex].next()
+                    if (value == null) {
+                        SanityCheck.check { columnIndex == 0 }
+                        break@loop
+                    }
+                    row[columnIndex] = value
+                }
+            } else {
+                if (!child.hasNext()) {
                     break@loop
                 }
-                row[columnIndex] = value
             }
             for (action in modify) {
                 var graphVarIdx = 0

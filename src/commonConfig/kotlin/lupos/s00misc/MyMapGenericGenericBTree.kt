@@ -236,7 +236,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             while (i < n && k > (keys[i] as GenericK)) {
                 i++
             }
-            if ((keys[i] as GenericK) == k) {
+            if ((keys[i] as GenericK) == k && i < n) {
                 return values[i] as GenericV
             } else {
                 return C[i]!!.search(k)
@@ -349,7 +349,7 @@ class MyMapGenericGenericBTree<GenericK : Comparable<GenericK>, GenericV>(val t:
             while (i < n && k > (keys[i] as GenericK)) {
                 i++
             }
-            if ((keys[i] as GenericK) == k) {
+            if ((keys[i] as GenericK) == k && i < n) {
                 return values[i] as GenericV
             } else {
                 return null

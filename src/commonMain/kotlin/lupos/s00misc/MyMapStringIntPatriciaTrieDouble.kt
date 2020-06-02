@@ -12,6 +12,14 @@ class MyMapStringIntPatriciaTrieDouble() {
     val allNodes = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
     val allOutNodes = MyListInt()//index in allNodes
     val allOutOffsets = MyListInt()//index in allNodesChilds
+    fun clear() {
+        root = MyMapStringIntPatriciaTrieNode()
+        rootValue = undefinedValue
+        allOutNodes.clear()
+        allOutOffsets.clear()
+        allNodes.clear()
+        allNodes.add(root)
+    }
 
     init {
         allNodes.add(root)
@@ -258,15 +266,6 @@ class MyMapStringIntPatriciaTrieDouble() {
 
     fun appendAssumeSorted(key: String, value: Int) {
         throw FunktionWontWorkWithThisImplementationException()
-    }
-
-    fun clear() {
-        root = MyMapStringIntPatriciaTrieNode()
-        rootValue = undefinedValue
-        allNodes.clear()
-        allNodes.add(root)
-        allOutNodes.clear()
-        allOutOffsets.clear()
     }
 
     fun safeToFile(filename: String) {

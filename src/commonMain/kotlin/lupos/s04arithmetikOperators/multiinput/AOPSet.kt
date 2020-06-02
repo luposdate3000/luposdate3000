@@ -2,7 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.SetNotImplementedException
+import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -27,7 +27,7 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
 
     override fun equals(other: Any?) = other is AOPSet && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        throw SetNotImplementedException()
+        throw SparqlFeatureNotImplementedException("AOPSet")
 /*Coverage Unreachable*/
     }
 

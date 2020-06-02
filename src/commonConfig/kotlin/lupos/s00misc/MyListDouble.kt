@@ -23,6 +23,14 @@ class MyListDouble {
     @JvmField
     var lastpage = page
 
+    fun clear() {
+        version++
+        size = 0
+        page = MyListDoublePage(version)
+        pagecount = 1
+        lastpage = page
+    }
+
     fun shrinkToFit() {
         if (pagecount > 5) {
             if (pagecount * ARRAY_LIST_BLOCK_CAPACITY > size * 2) {
@@ -82,14 +90,6 @@ class MyListDouble {
             }
         }
         lastpage = tmp
-    }
-
-    fun clear() {
-        version++
-        size = 0
-        page = MyListDoublePage(version)
-        pagecount = 1
-        lastpage = page
     }
 
     fun set(location: MyListDoubleFastAccess, value: Double) {

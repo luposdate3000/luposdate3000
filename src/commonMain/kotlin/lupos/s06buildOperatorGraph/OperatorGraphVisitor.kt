@@ -1,15 +1,15 @@
 package lupos.s06buildOperatorGraph
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
-import lupos.s00misc.DatasetsNotImplementedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
-import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
@@ -102,6 +102,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
@@ -206,6 +207,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s09physicalOperators.noinput.POPValuesImportXML
 
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
@@ -267,21 +269,21 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 when (sel) {
                     is ASTVar -> {
                         if (allNamesBind.contains(sel.name)) {
-                            throw Exception("projection must not contain same variable as bind and selection ${sel.name}")
+                            throw ProjectionDoubleDefinitionOfVariableSyntaxException(sel.name)
                         }
                         allNamesSelect.add(sel.name)
                         projection.variables.add(AOPVariable(query, sel.name))
                     }
                     is ASTAs -> {
                         if (allNamesSelect.contains(sel.variable.name)) {
-                            throw Exception("projection must not contain same variable as bind and selection ${sel.variable.name}")
+                            throw ProjectionDoubleDefinitionOfVariableSyntaxException(sel.variable.name)
                         }
                         allNamesBind.add(sel.variable.name)
                         val v = AOPVariable(query, sel.variable.name)
                         projection.variables.add(v)
                         val tmp3 = sel.expression.visit(this) as AOPBase
                         if (tmp3.getRequiredVariableNamesRecoursive().contains(v.name)) {
-                            throw Exception("variable must not be recoursively defined $v")
+                            throw RecoursiveVariableDefinitionSyntaxException(v.name)
                         }
                         val tmp2 = LOPBind(query, v, tmp3)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
@@ -292,7 +294,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         }
                     }
                     else -> {
-                        throw UnsupportedOperationException("${classNameToString(this)} Select-Parameter ${classNameToString(node)}")
+                        SanityCheck.checkUnreachable()
                     }
                 }
             }
@@ -328,25 +330,21 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     fun visitConstructBase(child: OPBase, template: Array<ASTNode>): OPBase {
         var result: OPBase? = null
         for (t in template) {
-            val templateLocal = t.visit(this)
+            val templateLocal = t.visit(this) as LOPTriple
             var tmp: OPBase = child.cloneOP()
-            if (templateLocal is LOPTriple) {
-                val s = templateLocal.children[0] as AOPBase
-                val p = templateLocal.children[1] as AOPBase
-                val o = templateLocal.children[2] as AOPBase
-                if ((s is AOPVariable && s.name != "#s") || s !is AOPVariable) {
-                    tmp = LOPBind(query, AOPVariable(query, "#s"), s, tmp)
-                }
-                if ((p is AOPVariable && p.name != "#p") || p !is AOPVariable) {
-                    tmp = LOPBind(query, AOPVariable(query, "#p"), p, tmp)
-                }
-                if ((o is AOPVariable && o.name != "#o") || o !is AOPVariable) {
-                    tmp = LOPBind(query, AOPVariable(query, "#o"), o, tmp)
-                }
-                tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "#s"), AOPVariable(query, "#p"), AOPVariable(query, "#o")), tmp)
-            } else {
-                throw UnsupportedOperationException("${classNameToString(this)} templateLocal ${classNameToString(t)}")
+            val s = templateLocal.children[0] as AOPBase
+            val p = templateLocal.children[1] as AOPBase
+            val o = templateLocal.children[2] as AOPBase
+            if ((s is AOPVariable && s.name != "#s") || s !is AOPVariable) {
+                tmp = LOPBind(query, AOPVariable(query, "#s"), s, tmp)
             }
+            if ((p is AOPVariable && p.name != "#p") || p !is AOPVariable) {
+                tmp = LOPBind(query, AOPVariable(query, "#p"), p, tmp)
+            }
+            if ((o is AOPVariable && o.name != "#o") || o !is AOPVariable) {
+                tmp = LOPBind(query, AOPVariable(query, "#o"), o, tmp)
+            }
+            tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "#s"), AOPVariable(query, "#p"), AOPVariable(query, "#o")), tmp)
             tmp = LOPBind(query, AOPVariable(query, "s"), AOPVariable(query, "#s"), tmp)//prevent name clash during optimisation
             tmp = LOPBind(query, AOPVariable(query, "p"), AOPVariable(query, "#p"), tmp)
             tmp = LOPBind(query, AOPVariable(query, "o"), AOPVariable(query, "#o"), tmp)
@@ -408,7 +406,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         variables.add(v)
                         val tmp = b.expression.visit(this) as AOPBase
                         if (tmp.getRequiredVariableNamesRecoursive().contains(v.name)) {
-                            throw Exception("variable must not be recoursively defined $v")
+                            throw RecoursiveVariableDefinitionSyntaxException(v.name)
                         }
                         val tmp2 = LOPBind(query, v, tmp)
                         if (child != null) {
@@ -418,7 +416,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         }
                     }
                     else -> {
-                        throw UnsupportedOperationException("${classNameToString(this)} Group-Parameter ${classNameToString(node)}")
+                        SanityCheck.checkUnreachable()
                     }
                 }
             }
@@ -455,9 +453,45 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             result.getLatestChild().setChild(parseGroup(node.where))
         }
         if (node.existsDatasets()) {
-            throw DatasetsNotImplementedException()
+            val datasets = mutableMapOf<String, OPBase>()
+            for (d in node.datasets) {
+                val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(d.source_iri).readAsString(), d.source_iri)!!)
+                when (d) {
+                    is ASTDefaultGraph -> {
+                        datasets[""] = data
+                    }
+                    is ASTNamedGraph -> {
+                        datasets["<" + d.source_iri + ">"] = data
+                    }
+                }
+            }
+            return applyDatasets(result, datasets)
         }
         return result
+    }
+
+    fun applyDatasets(node: OPBase, datasets: MutableMap<String, OPBase>): OPBase {
+        if (node is LOPTriple) {
+            if (node.graphVar) {
+                var tmp: OPBase? = null
+                for ((k, v) in datasets) {
+                    var t = LOPBind(node.query, AOPVariable(query, node.graph), AOPConstant(query, ValueDefinition(k)), v)
+                    if (tmp == null) {
+                        tmp = t
+                    } else {
+                        tmp = LOPUnion(query, tmp, t)
+                    }
+                }
+                return tmp!!
+            } else {
+                return datasets[node.graph]!!
+            }
+        } else {
+            for (i in 0 until node.children.size) {
+                node.children[i] = applyDatasets(node.children[i], datasets)
+            }
+            return node
+        }
     }
 
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
@@ -559,7 +593,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     }
                 }
                 else -> {
-                    throw UnsupportedOperationException("${classNameToString(this)} EGroupMember ${classNameToString(tmp2)}")
+                    throw SparqlFeatureNotImplementedException(tmp2.classname)
                 }
             }
         }
@@ -738,7 +772,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-        throw Exception("not implemented")
+        throw SparqlFeatureNotImplementedException("ASTFunctionCall")
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
@@ -893,7 +927,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
-            throw Exception("variable must not be recousively defined $a")
+            throw RecoursiveVariableDefinitionSyntaxException(a.name)
         }
         return LOPBind(query, a, b)
     }
@@ -901,6 +935,8 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
         SanityCheck.checkEQ({ childrenValues.size }, { 0 })
         return AOPVariable(query, "#" + node.name)
+//blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
+//        return AOPConstant(query, ValueBnode(node.name))
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
@@ -1068,7 +1104,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             else -> {
-                throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
+                throw SparqlFeatureNotImplementedException(node.function.toString())
             }
         }
         /*Coverage Unreachable*/
@@ -1095,7 +1131,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             Aggregation.GROUP_CONCAT -> {
-                throw Exception("not implemented")
+                throw SparqlFeatureNotImplementedException("Aggregation.GROUP_CONCAT")
             }
         }
         /*Coverage Unreachable*/
@@ -1110,7 +1146,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         SanityCheck.checkEQ({ childrenValues.size }, { 1 })
         val child = childrenValues.first() as AOPBase
         if (containsAggregate(node.children.first())) {
-            throw Exception("Aggregate not allowed here")
+            throw AggregateNotAllowedSyntaxException()
         }
         return LOPFilter(query, child)
     }
@@ -1148,7 +1184,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return LOPServiceVAR(query, node.iriOrVar.name, node.silent, parseGroup(node.children))
             }
             else -> {
-                throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
+                SanityCheck.checkUnreachable()
             }
         }
         /*Coverage Unreachable*/
@@ -1180,7 +1216,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 /*return*/name.iri
             }
             else -> {
-                throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)} $optional")
+                SanityCheck.checkUnreachable()
             }
         }
         when (node) {
@@ -1203,7 +1239,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return LOPJoin(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
             }
             else -> {
-                throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} $optional")
+                throw SparqlFeatureNotImplementedException(node.classname)
             }
         }
         return node
@@ -1240,7 +1276,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 return Pair(EGraphRefType.AllGraphRef, null)
             }
             else -> {
-                throw Exception("not reachable")
+                SanityCheck.checkUnreachable()
             }
         }
         /*Coverage Unreachable*/
@@ -1291,15 +1327,19 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         return res
     }
 
-    fun simpleAstToStringValue(node: ASTNode): AOPBase {
-        return node.visit(this) as AOPBase
+    fun simpleAstToLiteralValue(node: ASTNode): AOPBase {
+        val tmp = node.visit(this) as AOPBase
+        if (tmp is AOPVariable) {
+            return AOPConstant(query, ValueBnode(tmp.name))
+        }
+        return tmp
     }
 
     fun modifyDataHelper(children: Array<ASTNode>, modify: LOPModifyData) {
         for (c in children) {
             when {
                 c is ASTTriple -> {
-                    modify.data.add(LOPTriple(query, simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), PersistentStoreLocal.defaultGraphName, false))
+                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c.children[0]), simpleAstToLiteralValue(c.children[1]), simpleAstToLiteralValue(c.children[2]), PersistentStoreLocal.defaultGraphName, false))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
@@ -1307,19 +1347,19 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                             c2 is ASTTriple -> {
                                 var nameOrVar = c.iriOrVar
                                 if (nameOrVar is ASTIri) {
-                                    modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), nameOrVar.iri, false))
+                                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c2.children[0]), simpleAstToLiteralValue(c2.children[1]), simpleAstToLiteralValue(c2.children[2]), nameOrVar.iri, false))
                                 } else if (nameOrVar is ASTVar) {
-                                    modify.data.add(LOPTriple(query, simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), nameOrVar.name, true))
+                                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c2.children[0]), simpleAstToLiteralValue(c2.children[1]), simpleAstToLiteralValue(c2.children[2]), nameOrVar.name, true))
                                 }
                             }
                             else -> {
-                                throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")
+                                SanityCheck.checkUnreachable()
                             }
                         }
                     }
                 }
                 else -> {
-                    throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c)}")
+                    SanityCheck.checkUnreachable()
                 }
             }
         }
@@ -1397,106 +1437,103 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} minus ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTMinusGroup")
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTLoad")
     }
 
     override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTModify")
     }
 
     override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTDefaultGraph")
     }
 
     override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTNamedGraph")
     }
 
     override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTGraphRef")
     }
 
     override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTIriGraphRef")
     }
 
     override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTNamedIriGraphRef")
     }
 
     override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTDefaultGraphRef")
     }
 
     override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTNamedGraphRef")
     }
 
     override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTAllGraphRef")
     }
 
     override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTGrapOperation")
     }
 
     override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTUpdateGrapOperation")
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathAlternatives")
     }
 
     override fun visit(node: ASTPathSequence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathSequence")
     }
 
     override fun visit(node: ASTPathInverse, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathInverse")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathArbitraryOccurrences")
     }
 
     override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathOptionalOccurrence")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathArbitraryOccurrencesNotZero")
     }
 
     override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTPathNegatedPropertySet")
     }
 
     override fun visit(node: ASTGroupConcat, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Group ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTGroupConcat")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Query Type ${classNameToString(node)}")
+        throw SparqlFeatureNotImplementedException("ASTDatasetClause")
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-        /*Coverage Unreachable*/
+        throw SparqlFeatureNotImplementedException("ASTQueryBaseClass")
     }
 
     override fun visit(node: ASTRDFTerm, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-        /*Coverage Unreachable*/
+        throw SparqlFeatureNotImplementedException("ASTRDFTerm")
     }
 
     override fun visit(node: ASTPlus, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-        /*Coverage Unreachable*/
+        throw SparqlFeatureNotImplementedException("ASTPlus")
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
@@ -1505,12 +1542,10 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-        /*Coverage Unreachable*/
+        throw SparqlFeatureNotImplementedException("ASTNumericLiteral")
     }
 
     override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-        /*Coverage Unreachable*/
+        throw SparqlFeatureNotImplementedException("ASTLiteral")
     }
 }

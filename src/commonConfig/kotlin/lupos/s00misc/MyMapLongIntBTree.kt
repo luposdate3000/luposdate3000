@@ -236,7 +236,7 @@ class MyMapLongIntBTree(val t: Int) {
             while (i < n && k > (keys[i] as Long)) {
                 i++
             }
-            if ((keys[i] as Long) == k) {
+            if ((keys[i] as Long) == k && i < n) {
                 return values[i] as Int
             } else {
                 return C[i]!!.search(k)
@@ -349,7 +349,7 @@ class MyMapLongIntBTree(val t: Int) {
             while (i < n && k > (keys[i] as Long)) {
                 i++
             }
-            if ((keys[i] as Long) == k) {
+            if ((keys[i] as Long) == k && i < n) {
                 return values[i] as Int
             } else {
                 return null

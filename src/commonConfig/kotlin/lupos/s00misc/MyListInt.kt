@@ -23,6 +23,14 @@ class MyListInt {
     @JvmField
     var lastpage = page
 
+    fun clear() {
+        version++
+        size = 0
+        page = MyListIntPage(version)
+        pagecount = 1
+        lastpage = page
+    }
+
     fun shrinkToFit() {
         if (pagecount > 5) {
             if (pagecount * ARRAY_LIST_BLOCK_CAPACITY > size * 2) {
@@ -82,14 +90,6 @@ class MyListInt {
             }
         }
         lastpage = tmp
-    }
-
-    fun clear() {
-        version++
-        size = 0
-        page = MyListIntPage(version)
-        pagecount = 1
-        lastpage = page
     }
 
     fun set(location: MyListIntFastAccess, value: Int) {

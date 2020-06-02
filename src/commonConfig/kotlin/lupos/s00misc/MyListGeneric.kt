@@ -23,6 +23,14 @@ class MyListGeneric<Generic> {
     @JvmField
     var lastpage = page
 
+    fun clear() {
+        version++
+        size = 0
+        page = MyListGenericPage<Generic>(version)
+        pagecount = 1
+        lastpage = page
+    }
+
     fun shrinkToFit() {
         if (pagecount > 5) {
             if (pagecount * ARRAY_LIST_BLOCK_CAPACITY > size * 2) {
@@ -82,14 +90,6 @@ class MyListGeneric<Generic> {
             }
         }
         lastpage = tmp
-    }
-
-    fun clear() {
-        version++
-        size = 0
-        page = MyListGenericPage<Generic>(version)
-        pagecount = 1
-        lastpage = page
     }
 
     fun set(location: MyListGenericFastAccess<Generic>, value: Generic) {

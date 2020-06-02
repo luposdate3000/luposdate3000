@@ -234,7 +234,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
             while (i < n && k > (keys[i] as KEY)) {
                 i++
             }
-            if ((keys[i] as KEY) == k) {
+            if ((keys[i] as KEY) == k && i < n) {
                 return values[i] as VALUE
             } else {
                 return C[i]!!.search(k)
@@ -347,7 +347,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
             while (i < n && k > (keys[i] as KEY)) {
                 i++
             }
-            if ((keys[i] as KEY) == k) {
+            if ((keys[i] as KEY) == k && i < n) {
                 return values[i] as VALUE
             } else {
                 return null
