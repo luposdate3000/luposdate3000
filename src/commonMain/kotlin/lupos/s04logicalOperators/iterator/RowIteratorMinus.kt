@@ -48,6 +48,8 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
             bIdx = b.next()
             if (bIdx < 0) {
                 flag = 1
+            } else {
+println("bnext1 ${b.buf[bIdx]}")
             }
             next = {
                 var res = -1
@@ -61,6 +63,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                             if (aIdx < 0) {
                                 flag = 0
                             } else {
+println("anext2 ${a.buf[aIdx]}")
                                 res = 0
                                 for (i in 0 until mapping.size) {
                                     buf[i] = a.buf[mapping[i] + aIdx]
@@ -71,8 +74,9 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                         2 -> {
                             aIdx = a.next()
                             if (aIdx >= 0) {
+println("anext3 ${a.buf[aIdx]}")
                                 for (i in 0 until compCount) {
-                                    if (buf[i] < b.buf[i]) {
+                                    if (a.buf[i] < b.buf[i]) {
                                         res = 0
                                         for (k in 0 until mapping.size) {
                                             buf[k] = a.buf[mapping[k] + aIdx]
@@ -82,6 +86,8 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                                         bIdx = b.next()
                                         if (bIdx < 0) {
                                             flag = 1
+                                        } else {
+        println("bnext4 ${b.buf[bIdx]}")
                                         }
                                         continue@loop
                                     }
@@ -92,6 +98,9 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                             }
                         }
                     }
+                }
+                if (res >= 0) {
+println("returning ${buf[res]}")
                 }
                 /*return*/ res
             }

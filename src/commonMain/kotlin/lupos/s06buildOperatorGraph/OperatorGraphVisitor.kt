@@ -508,6 +508,13 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 tmp2 = tmp2.children[0]
             }
             when (tmp2) {
+is LOPMinus->{
+if (members.containsKey(EGroupMember.GMLOPMinus)) {
+                        (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
+                    } else {
+                        members[EGroupMember.GMLOPMinus] = tmp2
+                    }
+}
                 is LOPFilter -> {
                     if (members.containsKey(EGroupMember.GMLOPFilter)) {
                         (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
@@ -638,6 +645,20 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 (result).getLatestChild().setChild(firstJoin)
             }
         }
+if(members.containsKey(EGroupMember.GMLOPMinus)){
+var tmp=members[EGroupMember.GMLOPMinus]!!
+/*
+tmp.getLatestChild().setChild(result!!)
+return tmp
+*/
+while(tmp is LOPMinus){
+val a=result!!
+val b=LOPJoin(query,result!!.cloneOP(),tmp.children[1],false)
+var t=a.getProvidedVariableNames().toMutableList()
+result=LOPMinus(query,a,b,t)
+tmp=tmp.children[0]
+}
+}
         return result!!
     }
 
@@ -780,6 +801,10 @@ return res
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         SanityCheck.checkEQ({ childrenValues.size }, { 3 })
         return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
+    }
+
+    override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
+return LOPMinus(query,LOPNOOP(query),parseGroup(node.children),listOf<String>())
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
@@ -1457,9 +1482,6 @@ return AOPBuildInCallCOALESCE(query,childrenValues.map{it as AOPBase})
         /*Coverage Unreachable*/
     }
 
-    override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
-        throw SparqlFeatureNotImplementedException("ASTMinusGroup")
-    }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
 if(node.into!=null){
