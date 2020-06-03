@@ -1,15 +1,15 @@
 package lupos.s09physicalOperators.noinput
 
 import lupos.s00misc.Coverage
-import lupos.s00misc.File
-import lupos.s00misc.XMLElement
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -31,59 +31,43 @@ class POPGraphOperation(query: Query,
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
-if(action==EGraphOperationType.LOAD){
-res+="LOAD "+graph1iri!!
-if (silent) {
-            res += " SILENT "
+        if (action == EGraphOperationType.LOAD) {
+            res += "LOAD " + graph1iri!!
+            if (silent) {
+                res += " SILENT "
+            } else {
+                res += " "
+            }
+            if (graph2type == EGraphRefType.IriGraphRef) {
+                res += "INTO GRAPH " + graph2iri
+            }
         } else {
-            res += " "
-        }
-if(graph2type==EGraphRefType.IriGraphRef){
-res+="INTO GRAPH "+graph2iri
-}
-}else{
-        when (action) {
-            EGraphOperationType.CLEAR -> {
-                res += "CLEAR"
+            when (action) {
+                EGraphOperationType.CLEAR -> {
+                    res += "CLEAR"
+                }
+                EGraphOperationType.DROP -> {
+                    res += "DROP"
+                }
+                EGraphOperationType.CREATE -> {
+                    res += "CREATE"
+                }
+                EGraphOperationType.COPY -> {
+                    res += "COPY"
+                }
+                EGraphOperationType.MOVE -> {
+                    res += "MOVE"
+                }
+                EGraphOperationType.ADD -> {
+                    res += "ADD"
+                }
             }
-            EGraphOperationType.DROP -> {
-                res += "DROP"
+            if (silent) {
+                res += " SILENT "
+            } else {
+                res += " "
             }
-            EGraphOperationType.CREATE -> {
-                res += "CREATE"
-            }
-            EGraphOperationType.COPY -> {
-                res += "COPY"
-            }
-            EGraphOperationType.MOVE -> {
-                res += "MOVE"
-            }
-            EGraphOperationType.ADD -> {
-                res += "ADD"
-            }
-        }
-        if (silent) {
-            res += " SILENT "
-        } else {
-            res += " "
-        }
-        when (graph1type) {
-            EGraphRefType.AllGraphRef -> {
-                res += "ALL"
-            }
-            EGraphRefType.DefaultGraphRef -> {
-                res += "DEFAULT"
-            }
-            EGraphRefType.NamedGraphRef -> {
-                res += "NAMED"
-            }
-            EGraphRefType.IriGraphRef -> {
-                res += "GRAPH <" + graph1iri!! + ">"
-            }
-        }
-        if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
-            res += " TO "
-            when (graph2type) {
+            when (graph1type) {
                 EGraphRefType.AllGraphRef -> {
                     res += "ALL"
                 }
@@ -94,10 +78,26 @@ res+="INTO GRAPH "+graph2iri
                     res += "NAMED"
                 }
                 EGraphRefType.IriGraphRef -> {
-                    res += "GRAPH <" + graph2iri!! + ">"
+                    res += "GRAPH <" + graph1iri!! + ">"
                 }
             }
-}
+            if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
+                res += " TO "
+                when (graph2type) {
+                    EGraphRefType.AllGraphRef -> {
+                        res += "ALL"
+                    }
+                    EGraphRefType.DefaultGraphRef -> {
+                        res += "DEFAULT"
+                    }
+                    EGraphRefType.NamedGraphRef -> {
+                        res += "NAMED"
+                    }
+                    EGraphRefType.IriGraphRef -> {
+                        res += "GRAPH <" + graph2iri!! + ">"
+                    }
+                }
+            }
         }
         return res
     }
@@ -164,20 +164,20 @@ res+="INTO GRAPH "+graph2iri
                         }
                     }
                 }
-EGraphOperationType.LOAD->{
-var fileName=query.workingDirectory+graph1iri
-val target:DistributedGraph
-if(graph2type==EGraphRefType.DefaultGraphRef){
-target=DistributedTripleStore.getDefaultGraph(query)
-}else{
-target=DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-}
-val xml=XMLElement.parseFromAny(File(fileName).readAsString(),fileName)!!
-val d=POPValuesImportXML(query,listOf("s","p","o"),xml)
-val row = d.evaluate()
-        val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
-target.modify(iterator, EModifyType.INSERT)
-}
+                EGraphOperationType.LOAD -> {
+                    var fileName = query.workingDirectory + graph1iri
+                    val target: DistributedGraph
+                    if (graph2type == EGraphRefType.DefaultGraphRef) {
+                        target = DistributedTripleStore.getDefaultGraph(query)
+                    } else {
+                        target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
+                    }
+                    val xml = XMLElement.parseFromAny(File(fileName).readAsString(), fileName)!!
+                    val d = POPValuesImportXML(query, listOf("s", "p", "o"), xml)
+                    val row = d.evaluate()
+                    val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
+                    target.modify(iterator, EModifyType.INSERT)
+                }
                 EGraphOperationType.COPY -> {
                     when (graph1type) {
                         EGraphRefType.DefaultGraphRef -> {

@@ -20,6 +20,7 @@ import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
@@ -36,7 +37,6 @@ import lupos.s04arithmetikOperators.multiinput.AOPIn
 import lupos.s04arithmetikOperators.multiinput.AOPLT
 import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
 import lupos.s04arithmetikOperators.multiinput.AOPNEQ
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet

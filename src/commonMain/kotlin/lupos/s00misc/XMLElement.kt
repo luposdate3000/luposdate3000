@@ -169,12 +169,12 @@ class XMLElement {
             }
 //<<-- avoid bugs in JENA
 // avoid inconsistencies in W3C -->>
-if(attributes["xml:lang"]!=null){
-attributes["xml:lang"]=attributes["xml:lang"]!!.toLowerCase()
-}
-if(other.attributes["xml:lang"]!=null){
-other.attributes["xml:lang"]=other.attributes["xml:lang"]!!.toLowerCase()
-}
+            if (attributes["xml:lang"] != null) {
+                attributes["xml:lang"] = attributes["xml:lang"]!!.toLowerCase()
+            }
+            if (other.attributes["xml:lang"] != null) {
+                other.attributes["xml:lang"] = other.attributes["xml:lang"]!!.toLowerCase()
+            }
 //<<-- avoid inconsistencies in W3C
             if (attributes != other.attributes) {
                 return false

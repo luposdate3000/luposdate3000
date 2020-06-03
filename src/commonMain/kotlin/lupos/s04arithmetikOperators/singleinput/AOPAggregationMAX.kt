@@ -7,8 +7,8 @@ import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueUndef
 import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -32,14 +32,14 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
             val value = child()
-try{
-            if (res.value is ValueUndef || res.value.compareTo(value) < 0) {
-                res.value = value
+            try {
+                if (res.value is ValueUndef || res.value.compareTo(value) < 0) {
+                    res.value = value
+                }
+            } catch (e: Throwable) {
+                res.value = ValueError()
+                res.evaluate = res::_evaluate
             }
-}catch(e:Throwable){
-res.value=ValueError()
-res.evaluate = res::_evaluate
-}
         }
         return res
     }
@@ -47,7 +47,7 @@ res.evaluate = res::_evaluate
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
-var res:ValueDefinition=tmp.value
+            var res: ValueDefinition = tmp.value
             /*return*/res
         }
 /*Coverage Unreachable*/

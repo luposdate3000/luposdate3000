@@ -116,13 +116,13 @@ import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
@@ -456,7 +456,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         if (node.existsDatasets()) {
             val datasets = mutableMapOf<String, OPBase>()
             for (d in node.datasets) {
-                val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory+d.source_iri).readAsString(), d.source_iri)!!)
+                val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory + d.source_iri).readAsString(), d.source_iri)!!)
                 when (d) {
                     is ASTDefaultGraph -> {
                         datasets[""] = data
@@ -508,13 +508,13 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 tmp2 = tmp2.children[0]
             }
             when (tmp2) {
-is LOPMinus->{
-if (members.containsKey(EGroupMember.GMLOPMinus)) {
+                is LOPMinus -> {
+                    if (members.containsKey(EGroupMember.GMLOPMinus)) {
                         (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
                     } else {
                         members[EGroupMember.GMLOPMinus] = tmp2
                     }
-}
+                }
                 is LOPFilter -> {
                     if (members.containsKey(EGroupMember.GMLOPFilter)) {
                         (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
@@ -645,20 +645,20 @@ if (members.containsKey(EGroupMember.GMLOPMinus)) {
                 (result).getLatestChild().setChild(firstJoin)
             }
         }
-if(members.containsKey(EGroupMember.GMLOPMinus)){
-var tmp=members[EGroupMember.GMLOPMinus]!!
+        if (members.containsKey(EGroupMember.GMLOPMinus)) {
+            var tmp = members[EGroupMember.GMLOPMinus]!!
 /*
 tmp.getLatestChild().setChild(result!!)
 return tmp
 */
-while(tmp is LOPMinus){
-val a=result!!
-val b=LOPJoin(query,result!!.cloneOP(),tmp.children[1],false)
-var t=a.getProvidedVariableNames().toMutableList()
-result=LOPMinus(query,a,b,t)
-tmp=tmp.children[0]
-}
-}
+            while (tmp is LOPMinus) {
+                val a = result!!
+                val b = LOPJoin(query, result!!.cloneOP(), tmp.children[1], false)
+                var t = a.getProvidedVariableNames().toMutableList()
+                result = LOPMinus(query, a, b, t)
+                tmp = tmp.children[0]
+            }
+        }
         return result!!
     }
 
@@ -741,8 +741,8 @@ tmp=tmp.children[0]
             }
             columnProjectionOrder.add(list)
         }
-var res=OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
-return res
+        var res = OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
+        return res
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {
@@ -804,7 +804,7 @@ return res
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
-return LOPMinus(query,LOPNOOP(query),parseGroup(node.children),listOf<String>())
+        return LOPMinus(query, LOPNOOP(query), parseGroup(node.children), listOf<String>())
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
@@ -898,8 +898,8 @@ return LOPMinus(query,LOPNOOP(query),parseGroup(node.children),listOf<String>())
     override fun visit(node: ASTSubtraction, childrenValues: List<OPBase>): OPBase {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
-for(i in 0 until childrenValues.size){
-val v=childrenValues[childrenValues.size-1-i]
+        for (i in 0 until childrenValues.size) {
+            val v = childrenValues[childrenValues.size - 1 - i]
             if (res == null) {
                 res = v as AOPBase
             } else {
@@ -925,8 +925,8 @@ val v=childrenValues[childrenValues.size-1-i]
     override fun visit(node: ASTDivision, childrenValues: List<OPBase>): OPBase {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
-for(i in 0 until childrenValues.size){
-val v=childrenValues[childrenValues.size-1-i]
+        for (i in 0 until childrenValues.size) {
+            val v = childrenValues[childrenValues.size - 1 - i]
             if (res == null) {
                 res = v as AOPBase
             } else {
@@ -1028,9 +1028,9 @@ val v=childrenValues[childrenValues.size-1-i]
                 }
                 return res
             }
-BuiltInFunctions.COALESCE->{
-return AOPBuildInCallCOALESCE(query,childrenValues.map{it as AOPBase})
-}
+            BuiltInFunctions.COALESCE -> {
+                return AOPBuildInCallCOALESCE(query, childrenValues.map { it as AOPBase })
+            }
             BuiltInFunctions.STRLEN -> {
                 SanityCheck.checkEQ({ childrenValues.size }, { 1 })
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
@@ -1430,10 +1430,10 @@ return AOPBuildInCallCOALESCE(query,childrenValues.map{it as AOPBase})
             }
         } else {
             for (i in 0 until node.children.size) {
-                node.updateChildren(i, variableToBNode(node.children[i],providedVariables))
+                node.updateChildren(i, variableToBNode(node.children[i], providedVariables))
             }
         }
-            return node
+        return node
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
@@ -1482,14 +1482,13 @@ return AOPBuildInCallCOALESCE(query,childrenValues.map{it as AOPBase})
         /*Coverage Unreachable*/
     }
 
-
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-if(node.into!=null){
-var g2=graphRefToEnum(node.into!!)
-return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
-}else{
-return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, "")
-}
+        if (node.into != null) {
+            var g2 = graphRefToEnum(node.into!!)
+            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
+        } else {
+            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, "")
+        }
     }
 
     override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {

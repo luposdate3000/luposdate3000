@@ -3,13 +3,13 @@ package lupos.s04logicalOperators
 import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
-import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.ThreadSafeUuid
+import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
@@ -488,14 +488,14 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-var tmp=getRequiredVariableNames().toMutableList()
-tmp.removeAll(additionalProvided)
-tmp.removeAll(getProvidedVariableNames())
-if(tmp.size==1){
-throw VariableNotDefinedSyntaxException(tmp[0])
-}else{
-throw VariableNotDefinedSyntaxException(tmp.toString())
-}
+                var tmp = getRequiredVariableNames().toMutableList()
+                tmp.removeAll(additionalProvided)
+                tmp.removeAll(getProvidedVariableNames())
+                if (tmp.size == 1) {
+                    throw VariableNotDefinedSyntaxException(tmp[0])
+                } else {
+                    throw VariableNotDefinedSyntaxException(tmp.toString())
+                }
             }
         }
     }

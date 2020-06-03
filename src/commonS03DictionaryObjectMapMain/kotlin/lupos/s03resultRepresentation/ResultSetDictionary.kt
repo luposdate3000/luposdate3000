@@ -46,15 +46,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
             return nodeGlobalDictionary.getValue(value) is ValueBnode
         }
-
     }
-        fun isLocalBNode(value: Value): Boolean {
-if(value<0){
-return false
-}
-	return getValue(value) is ValueBnode
+
+    fun isLocalBNode(value: Value): Boolean {
+        if (value < 0) {
+            return false
         }
-val bnodeMapToGlobal = MyMapIntInt()
+        return getValue(value) is ValueBnode
+    }
+
+    val bnodeMapToGlobal = MyMapIntInt()
     var mapSTL = mutableMapOf<ValueDefinition, Value>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
     var mapLTS = mutableMapOf<Value, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
     var bNodeCounter = 0
@@ -62,7 +63,7 @@ val bnodeMapToGlobal = MyMapIntInt()
         mapSTL = mutableMapOf<ValueDefinition, Value>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
         mapLTS = mutableMapOf<Value, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
         bNodeCounter = 0
-bnodeMapToGlobal.clear()
+        bnodeMapToGlobal.clear()
     }
 
     inline fun toBooleanOrError(value: Value): Value {
@@ -160,9 +161,9 @@ bnodeMapToGlobal.clear()
         if (value >= 0) {
             return value
         } else {
-if(isLocalBNode(value)){
-return bnodeMapToGlobal.getOrCreate(value,{nodeGlobalDictionary.createNewBNode()})
-}
+            if (isLocalBNode(value)) {
+                return bnodeMapToGlobal.getOrCreate(value, { nodeGlobalDictionary.createNewBNode() })
+            }
             return nodeGlobalDictionary.createValue(getValue(value))
         }
 /*Coverage Unreachable*/

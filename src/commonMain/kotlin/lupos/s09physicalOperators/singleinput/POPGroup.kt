@@ -250,31 +250,31 @@ class POPGroup : POPBase {
                     aggregate.evaluate()
                 }
             }
-if(map.size==0){
-for(v in keyColumnNames){
-outMap[v]=ColumnIteratorRepeatValue(1,ResultSetDictionary.undefValue)
-}
-for(b in bindings){
-outMap[b.first]=ColumnIteratorRepeatValue(1,ResultSetDictionary.undefValue)
-}
-}else{
-            val outKeys = Array(keyColumnNames.size) { MyListValue() }
-            val outValues = Array(bindings.size) { MyListValue() }
-            for ((k, v) in map) {
+            if (map.size == 0) {
+                for (v in keyColumnNames) {
+                    outMap[v] = ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue)
+                }
+                for (b in bindings) {
+                    outMap[b.first] = ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue)
+                }
+            } else {
+                val outKeys = Array(keyColumnNames.size) { MyListValue() }
+                val outValues = Array(bindings.size) { MyListValue() }
+                for ((k, v) in map) {
+                    for (columnIndex in 0 until keyColumnNames.size) {
+                        outKeys[columnIndex].add(k.data[columnIndex])
+                    }
+                    for (columnIndex in 0 until bindings.size) {
+                        outValues[columnIndex].add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
+                    }
+                }
                 for (columnIndex in 0 until keyColumnNames.size) {
-                    outKeys[columnIndex].add(k.data[columnIndex])
+                    outMap[keyColumnNames[columnIndex]] = ColumnIteratorDebug(uuid, keyColumnNames[columnIndex], ColumnIteratorMultiValue(outKeys[columnIndex]))
                 }
                 for (columnIndex in 0 until bindings.size) {
-                    outValues[columnIndex].add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
+                    outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, ColumnIteratorMultiValue(outValues[columnIndex]))
                 }
             }
-            for (columnIndex in 0 until keyColumnNames.size) {
-                outMap[keyColumnNames[columnIndex]] = ColumnIteratorDebug(uuid, keyColumnNames[columnIndex], ColumnIteratorMultiValue(outKeys[columnIndex]))
-            }
-            for (columnIndex in 0 until bindings.size) {
-                outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, ColumnIteratorMultiValue(outValues[columnIndex]))
-            }
-}
         }
         return IteratorBundle(outMap)
     }

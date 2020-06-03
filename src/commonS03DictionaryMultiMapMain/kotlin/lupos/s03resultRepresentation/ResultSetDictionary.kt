@@ -83,11 +83,11 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-        fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
 
+    fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
     val localBnodeMap = MyMapStringIntPatriciaTrie()
     var bNodeCounter = 4
-val bnodeMapToGlobal = MyMapIntInt()
+    val bnodeMapToGlobal = MyMapIntInt()
     val iriMap = MyMapStringIntPatriciaTrieDouble()
     val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
     val typedMap = MyMapStringIntPatriciaTrieDouble()
@@ -97,12 +97,11 @@ val bnodeMapToGlobal = MyMapIntInt()
     val decimalList = MyListDouble()
     val intMap = MyMapIntInt()
     val intList = MyListInt()
-
     fun clear() {
         localBnodeMap.clear()
         bNodeCounter = 4
         bnodeMapToGlobal.clear()
-iriMap.clear()
+        iriMap.clear()
         langTaggedMap.clear()
         typedMap.clear()
         doubleMap.clear()
@@ -432,9 +431,9 @@ iriMap.clear()
         if ((value and mask1) == mask1) {
             return value
         } else {
-if(isLocalBNode(value)){
-return bnodeMapToGlobal.getOrCreate(value,{nodeGlobalDictionary.createNewBNode()})
-}
+            if (isLocalBNode(value)) {
+                return bnodeMapToGlobal.getOrCreate(value, { nodeGlobalDictionary.createNewBNode() })
+            }
             return nodeGlobalDictionary.createValue(getValue(value))
         }
 /*Coverage Unreachable*/

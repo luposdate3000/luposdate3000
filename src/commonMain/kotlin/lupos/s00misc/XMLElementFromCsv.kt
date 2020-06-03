@@ -10,7 +10,7 @@ fun XMLElement.Companion.parseFromCsv(csv: String): XMLElement? {
     nodeSparql.addContent(nodeResults)
     val lines = csv.lines()
     val variables = mutableListOf<String>()
-val columns=lines.first().split(",")
+    val columns = lines.first().split(",")
     for (variableName in columns) {
         nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
         variables.add(variableName)
@@ -27,11 +27,11 @@ val columns=lines.first().split(",")
         val nodeResult = XMLElement("result")
         nodeResults.addContent(nodeResult)
         val values = line.split(",")
-var i=0
-while(i< variables.size&&i<values.size){
-parseBindingFromString(nodeResult, values[i], variables[i])
-i++
-}
+        var i = 0
+        while (i < variables.size && i < values.size) {
+            parseBindingFromString(nodeResult, values[i], variables[i])
+            i++
+        }
     }
     return nodeSparql
 }

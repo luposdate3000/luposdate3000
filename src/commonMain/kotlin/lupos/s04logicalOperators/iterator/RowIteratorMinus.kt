@@ -88,7 +88,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                                             }
                                             break@loop
                                         }
-                                         continue@loop
+                                        continue@loop
                                     }
                                 }
                             } else {

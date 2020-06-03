@@ -16,17 +16,17 @@ object JenaWrapper {
         updateQuery("DROP SILENT ALL")
     }
 
-fun checkExceptions(queryString: String){
-if(queryString.contains("STRDT")){ 
-throw Exception("jena implementation is wrong for STRDT if there are typed literals matching the new specified type")
-}
-if(queryString.contains("STRLANG")){
-throw Exception("jena implementation changes the language to uppercase, and is wrong, if there already are language tagged literals")
-}
-}
+    fun checkExceptions(queryString: String) {
+        if (queryString.contains("STRDT")) {
+            throw Exception("jena implementation is wrong for STRDT if there are typed literals matching the new specified type")
+        }
+        if (queryString.contains("STRLANG")) {
+            throw Exception("jena implementation changes the language to uppercase, and is wrong, if there already are language tagged literals")
+        }
+    }
 
     fun updateQuery(queryString: String) {
-checkExceptions(queryString)
+        checkExceptions(queryString)
         try {
             UpdateAction.parseExecute(queryString, dataset)
         } catch (e: Throwable) {
@@ -35,7 +35,7 @@ checkExceptions(queryString)
     }
 
     fun execQuery(queryString: String): String {
-checkExceptions(queryString)
+        checkExceptions(queryString)
         println("Jena optimized query >>")
         var res = ""
         try {
@@ -73,15 +73,15 @@ checkExceptions(queryString)
     }
 
     fun loadFromFile(fileNames: String, graph: String) {
-var graph2=graph
-if(!graph2.startsWith("<")){
-graph2="<"+graph2+">"
-}
+        var graph2 = graph
+        if (!graph2.startsWith("<")) {
+            graph2 = "<" + graph2 + ">"
+        }
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
             updateString.append("load <file://${fileName}> INTO GRAPH $graph2 ;")
         }
-println("jena-load-from-file-string ${updateString.toString()}")
+        println("jena-load-from-file-string ${updateString.toString()}")
         JenaWrapper.updateQuery(updateString.toString())
     }
 

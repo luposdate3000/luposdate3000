@@ -33,28 +33,28 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
-try{
-            val value = child()
-            res.count++
-            if (value is ValueError) {
-                res.value = value
-                res.evaluate = res::_evaluate
-            } else if (res.value is ValueUndef) {
-                res.value = value
-            } else if (res.value is ValueDouble || value is ValueDouble) {
-                res.value = ValueDouble(res.value.toDouble() + value.toDouble())
-            } else if (res.value is ValueDecimal || value is ValueDecimal) {
-                res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
-            } else if (res.value is ValueInteger || value is ValueInteger) {
-                res.value = ValueDecimal(0.0 + (res.value.toInt() + value.toInt()))
-            } else {
+            try {
+                val value = child()
+                res.count++
+                if (value is ValueError) {
+                    res.value = value
+                    res.evaluate = res::_evaluate
+                } else if (res.value is ValueUndef) {
+                    res.value = value
+                } else if (res.value is ValueDouble || value is ValueDouble) {
+                    res.value = ValueDouble(res.value.toDouble() + value.toDouble())
+                } else if (res.value is ValueDecimal || value is ValueDecimal) {
+                    res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
+                } else if (res.value is ValueInteger || value is ValueInteger) {
+                    res.value = ValueDecimal(0.0 + (res.value.toInt() + value.toInt()))
+                } else {
+                    res.value = ValueError()
+                    res.evaluate = res::_evaluate
+                }
+            } catch (e: Throwable) {
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             }
-}catch(e:Throwable){
-                res.value = ValueError()
-                res.evaluate = res::_evaluate
-}
         }
         return res
     }
