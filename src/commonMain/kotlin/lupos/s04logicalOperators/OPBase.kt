@@ -3,6 +3,7 @@ package lupos.s04logicalOperators
 import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
+import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
@@ -487,7 +488,14 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("${classNameToString(this)} undefined Variable ${toXMLElement().toPrettyString()} ${additionalProvided} ${getProvidedVariableNames()} ${getRequiredVariableNames()}")
+var tmp=getRequiredVariableNames().toMutableList()
+tmp.removeAll(additionalProvided)
+tmp.removeAll(getProvidedVariableNames())
+if(tmp.size==1){
+throw VariableNotDefinedSyntaxException(tmp[0])
+}else{
+throw VariableNotDefinedSyntaxException(tmp.toString())
+}
             }
         }
     }

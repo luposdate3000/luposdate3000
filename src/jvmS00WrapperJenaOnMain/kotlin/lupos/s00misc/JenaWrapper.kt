@@ -62,10 +62,15 @@ object JenaWrapper {
     }
 
     fun loadFromFile(fileNames: String, graph: String) {
+var graph2=graph
+if(!graph2.startsWith("<")){
+graph2="<"+graph2+">"
+}
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
-            updateString.append("load <file://${fileName}> INTO GRAPH $graph ;")
+            updateString.append("load <file://${fileName}> INTO GRAPH $graph2 ;")
         }
+println("jena-load-from-file-string ${updateString.toString()}")
         JenaWrapper.updateQuery(updateString.toString())
     }
 

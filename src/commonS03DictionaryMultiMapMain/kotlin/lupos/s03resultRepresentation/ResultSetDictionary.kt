@@ -70,7 +70,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val undefValue2 = ValueUndef()
 
         fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
-        fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
         fun debug() {
             SanityCheck {
                 nodeGlobalDictionary.printContents()
@@ -84,9 +83,11 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
+        fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
 
     val localBnodeMap = MyMapStringIntPatriciaTrie()
     var bNodeCounter = 4
+val bnodeMapToGlobal = MyMapIntInt()
     val iriMap = MyMapStringIntPatriciaTrieDouble()
     val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
     val typedMap = MyMapStringIntPatriciaTrieDouble()
@@ -96,10 +97,12 @@ class ResultSetDictionary(val global: Boolean = false) {
     val decimalList = MyListDouble()
     val intMap = MyMapIntInt()
     val intList = MyListInt()
+
     fun clear() {
         localBnodeMap.clear()
         bNodeCounter = 4
-        iriMap.clear()
+        bnodeMapToGlobal.clear()
+iriMap.clear()
         langTaggedMap.clear()
         typedMap.clear()
         doubleMap.clear()
@@ -429,6 +432,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         if ((value and mask1) == mask1) {
             return value
         } else {
+if(isLocalBNode(value)){
+return bnodeMapToGlobal.getOrCreate(value,{nodeGlobalDictionary.createNewBNode()})
+}
             return nodeGlobalDictionary.createValue(getValue(value))
         }
 /*Coverage Unreachable*/

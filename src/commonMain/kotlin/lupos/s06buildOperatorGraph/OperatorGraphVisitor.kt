@@ -719,7 +719,8 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
             columnProjectionOrder.add(list)
         }
-        return OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
+var res=OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
+return res
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {
@@ -1391,6 +1392,19 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         return listOf(node)
     }
 
+    fun variableToBNode(node: OPBase, providedVariables: List<String>): OPBase {
+        if (node is AOPVariable) {
+            if (!providedVariables.contains(node.name)) {
+                return AOPConstant(node.query, ValueBnode(node.name))
+            }
+        } else {
+            for (i in 0 until node.children.size) {
+                node.updateChildren(i, variableToBNode(node.children[i],providedVariables))
+            }
+        }
+            return node
+    }
+
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
         val child: OPBase = if (node.using.isEmpty()) {
             /*return*/parseGroup(node.children)
@@ -1407,27 +1421,28 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             }
             /*return*/tmp!!
         }
+        val providedVariables = child.getProvidedVariableNames()
         val iri = node.iri
         val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
         if (iri != null) {
             for (e in node.insert) {
-                insert.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
+                insert.add(variableToBNode(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true), providedVariables) as LOPTriple)
             }
             for (e in node.delete) {
-                delete.add(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true) as LOPTriple)
+                delete.add(variableToBNode(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true), providedVariables) as LOPTriple)
             }
             val res = LOPModify(query, insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
             return res
         } else {
             for (e in node.insert) {
                 for (tmp in joinToList(e.visit(this))) {
-                    insert.add(tmp as LOPTriple)
+                    insert.add(variableToBNode(tmp, providedVariables) as LOPTriple)
                 }
             }
             for (e in node.delete) {
                 for (tmp in joinToList(e.visit(this))) {
-                    delete.add(tmp as LOPTriple)
+                    delete.add(variableToBNode(tmp, providedVariables) as LOPTriple)
                 }
             }
             val res = LOPModify(query, insert, delete, child)
