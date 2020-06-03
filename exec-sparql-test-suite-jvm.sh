@@ -21,6 +21,7 @@ port="3030"
   echo "BlockCapacity->8"
   echo "BTreeBranching->8"
   echo "MergeSortRows->8"
+  echo "BulkImportBlockSize->8"
   echo "AdvancedOptimisation->false"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
@@ -46,5 +47,6 @@ echo "diff c c2"
 diff c c2
 echo "diff a c"
 diff a c
+diff a c -y |grep "|" -B1|grep "Failed.*|.*Success" -B1
 diff a c -y |grep "|" -B1|grep "Success.*|.*Failed" -B1
 cd ..

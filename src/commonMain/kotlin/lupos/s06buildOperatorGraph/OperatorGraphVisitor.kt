@@ -122,6 +122,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
@@ -872,7 +873,8 @@ return res
     override fun visit(node: ASTSubtraction, childrenValues: List<OPBase>): OPBase {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
-        for (v in childrenValues) {
+for(i in 0 until childrenValues.size){
+val v=childrenValues[childrenValues.size-1-i]
             if (res == null) {
                 res = v as AOPBase
             } else {
@@ -898,7 +900,8 @@ return res
     override fun visit(node: ASTDivision, childrenValues: List<OPBase>): OPBase {
         SanityCheck.check({ childrenValues.size > 1 })
         var res: AOPBase? = null
-        for (v in childrenValues) {
+for(i in 0 until childrenValues.size){
+val v=childrenValues[childrenValues.size-1-i]
             if (res == null) {
                 res = v as AOPBase
             } else {
@@ -1000,6 +1003,9 @@ return res
                 }
                 return res
             }
+BuiltInFunctions.COALESCE->{
+return AOPBuildInCallCOALESCE(query,childrenValues.map{it as AOPBase})
+}
             BuiltInFunctions.STRLEN -> {
                 SanityCheck.checkEQ({ childrenValues.size }, { 1 })
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)

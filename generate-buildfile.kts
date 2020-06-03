@@ -327,6 +327,12 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "256"),
                 ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "512")
         ),
+        ChooseableGroup("Bulk-Import Triples per Block", "BulkImportBlockSize") to listOf(
+                ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "8"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "1024"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "32768"),
+                ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "1048576")
+        ),
         ChooseableGroup("Replace small triple-store results during optimisation phase", "AdvancedOptimisation") to listOf(
                 ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "true"),
                 ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "false")

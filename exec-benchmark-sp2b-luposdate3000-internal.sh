@@ -25,6 +25,7 @@ mkdir -p log/benchtmp
   echo "BlockCapacity->1024"
   echo "BTreeBranching->512"
   echo "MergeSortRows->512"
+  echo "BulkImportBlockSize->1048576"
   echo "AdvancedOptimisation->true"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"

@@ -36,6 +36,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPIn
 import lupos.s04arithmetikOperators.multiinput.AOPLT
 import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
 import lupos.s04arithmetikOperators.multiinput.AOPNEQ
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04arithmetikOperators.multiinput.AOPNotIn
 import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPSet
@@ -167,6 +168,13 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                 children.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
             return AOPSet(query, children)
+        }
+        "AOPBuildInCallCOALESCE" -> {
+            val children = mutableListOf<AOPBase>()
+            for (c in node["children"]!!.childs) {
+                children.add(convertToOPBase(query, c, mapping) as AOPBase)
+            }
+            return AOPBuildInCallCOALESCE(query, children)
         }
         "AOPBuildInCallCONTAINS" -> {
             return AOPBuildInCallCONTAINS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)

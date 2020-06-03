@@ -66,6 +66,8 @@ rm exec-sparql-test-suite-jvm-all-tmp.sh
 for f in $(find log/alltest -name "*.c")
 do
 	diff log/a $f -y \
+	| grep -v "NotImplemented" \
+	| grep -v "Syntax" \
 	| grep "|" -B1 \
 	| grep "Success.*|.*Failed" -B1
 done
