@@ -1321,6 +1321,9 @@ iriIsVariable=true
             is LOPJoin -> {
                 return LOPJoin(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
             }
+            is LOPUnion -> {
+                return LOPUnion(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional))
+            }
             else -> {
                 throw SparqlFeatureNotImplementedException(node.classname)
             }
