@@ -7,15 +7,15 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class Query(val dictionary: ResultSetDictionary = ResultSetDictionary(), val transactionID: Long = global_transactionID.next()) {
     var _workingDirectory = ""
-    var workingDirectory :String
-set(value){
-if(value.endsWith("/")){
-_workingDirectory= value
-}else{
-_workingDirectory= value+"/"
-}
-}
-get()=_workingDirectory
+    var workingDirectory: String
+        set(value) {
+            if (value.endsWith("/")) {
+                _workingDirectory = value
+            } else {
+                _workingDirectory = value + "/"
+            }
+        }
+        get() = _workingDirectory
     var commited = false
 
     companion object {

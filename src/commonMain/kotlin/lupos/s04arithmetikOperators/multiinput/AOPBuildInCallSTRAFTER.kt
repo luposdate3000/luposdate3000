@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s03resultRepresentation.ValueTypedLiteral
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
@@ -7,6 +7,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
+import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -23,39 +24,39 @@ class AOPBuildInCallSTRAFTER(query: Query, child: AOPBase, childB: AOPBase) : AO
             var res: ValueDefinition = ValueError()
             val a = childA()
             val b = childB()
-var filter:String?=null
-if(b is ValueSimpleLiteral){
-filter=b.content
-}else if (b is ValueTypedLiteral){
-filter=b.content
-}else if (b is ValueLanguageTaggedLiteral){
-if(a is ValueLanguageTaggedLiteral) {
-if(a.language==b.language){
-filter=b.content
-}
-}
-}
-            if (filter!=null) {
+            var filter: String? = null
+            if (b is ValueSimpleLiteral) {
+                filter = b.content
+            } else if (b is ValueTypedLiteral) {
+                filter = b.content
+            } else if (b is ValueLanguageTaggedLiteral) {
+                if (a is ValueLanguageTaggedLiteral) {
+                    if (a.language == b.language) {
+                        filter = b.content
+                    }
+                }
+            }
+            if (filter != null) {
                 if (a is ValueSimpleLiteral) {
                     var idx = a.content.indexOf(filter)
                     if (idx < 0) {
                         res = ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx+filter.length,a.content.length))
+                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx + filter.length, a.content.length))
                     }
-                }else                if (a is ValueLanguageTaggedLiteral) {
+                } else if (a is ValueLanguageTaggedLiteral) {
                     var idx = a.content.indexOf(filter)
                     if (idx < 0) {
                         res = ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(idx+filter.length,a.content.length),a.language)
+                        res = ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(idx + filter.length, a.content.length), a.language)
                     }
-                }else  if (a is ValueTypedLiteral) {
+                } else if (a is ValueTypedLiteral) {
                     var idx = a.content.indexOf(filter)
                     if (idx < 0) {
                         res = ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx+filter.length,a.content.length))
+                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx + filter.length, a.content.length))
                     }
                 }
             }

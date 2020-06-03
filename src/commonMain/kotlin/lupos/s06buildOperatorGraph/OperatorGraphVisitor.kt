@@ -121,11 +121,11 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRAFTER
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRBEFORE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRAFTER
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRBEFORE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
@@ -743,7 +743,7 @@ return tmp
             }
             columnProjectionOrder.add(list)
         }
-        var res :OPBase= OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
+        var res: OPBase = OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
         res = preventTriplesWithMultipleInstancesOfTheSameVariable(res)
         return res
     }
@@ -752,12 +752,12 @@ return tmp
         if (node is LOPTriple) {
             var variables = mutableSetOf<String>()
             for (i in 0 until node.children.size) {
-val c=node.children[i]
+                val c = node.children[i]
                 if (c is AOPVariable) {
                     if (variables.contains(c.name)) {
-                        var newVariable=AOPVariable(node.query,"#"+node.uuid+"-"+i)
-node.updateChildren(i,newVariable)
-val tmp=LOPFilter(node.query,AOPEQ(query,newVariable,c),node)
+                        var newVariable = AOPVariable(node.query, "#" + node.uuid + "-" + i)
+                        node.updateChildren(i, newVariable)
+                        val tmp = LOPFilter(node.query, AOPEQ(query, newVariable, c), node)
                         return preventTriplesWithMultipleInstancesOfTheSameVariable(tmp)
                     } else {
                         variables.add(c.name)
@@ -1205,15 +1205,15 @@ val tmp=LOPFilter(node.query,AOPEQ(query,newVariable,c),node)
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.check{ childrenValues.size>= 2 }
-var tmplist=childrenValues.toMutableList()
-while(tmplist.size>1){
-val a=tmplist.removeAt(0)
-val b=tmplist.removeAt(0)
-        val c= LOPUnion(query, a,b)
-tmplist.add(c)
-}
-return tmplist[0]
+        SanityCheck.check { childrenValues.size >= 2 }
+        var tmplist = childrenValues.toMutableList()
+        while (tmplist.size > 1) {
+            val a = tmplist.removeAt(0)
+            val b = tmplist.removeAt(0)
+            val c = LOPUnion(query, a, b)
+            tmplist.add(c)
+        }
+        return tmplist[0]
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
@@ -1282,7 +1282,7 @@ return tmplist[0]
     }
 
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
-var iriIsVariable=false
+        var iriIsVariable = false
         val iri = when (name) {
             is ASTIri -> {
                 /*return*/name.iri
@@ -1293,10 +1293,10 @@ var iriIsVariable=false
             is ASTIriGraphRef -> {
                 /*return*/name.iri
             }
-is ASTVar->{
-iriIsVariable=true
+            is ASTVar -> {
+                iriIsVariable = true
 /*return*/name.name
-}
+            }
             else -> {
                 println(name.toString() + " --- " + classNameToString(name))
                 SanityCheck.checkUnreachable()
