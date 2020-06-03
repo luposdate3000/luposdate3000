@@ -41,21 +41,21 @@ filter=b.content
                     if (idx < 0) {
                         res = ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx+1,a.content.length))
+                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx+filter.length,a.content.length))
                     }
                 }else                if (a is ValueLanguageTaggedLiteral) {
                     var idx = a.content.indexOf(filter)
                     if (idx < 0) {
                         res = ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(idx+1,a.content.length),a.language)
+                        res = ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(idx+filter.length,a.content.length),a.language)
                     }
                 }else  if (a is ValueTypedLiteral) {
                     var idx = a.content.indexOf(filter)
                     if (idx < 0) {
                         res = ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx+1,a.content.length))
+                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(idx+filter.length,a.content.length))
                     }
                 }
             }
