@@ -741,8 +741,33 @@ return tmp
             }
             columnProjectionOrder.add(list)
         }
-        var res = OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
+        var res :OPBase= OPBaseCompound(query, childs.toTypedArray(), columnProjectionOrder)
+        res = preventTriplesWithMultipleInstancesOfTheSameVariable(res)
         return res
+    }
+
+    fun preventTriplesWithMultipleInstancesOfTheSameVariable(node: OPBase): OPBase {
+        if (node is LOPTriple) {
+            var variables = mutableSetOf<String>()
+            for (i in 0 until node.children.size) {
+val c=node.children[i]
+                if (c is AOPVariable) {
+                    if (variables.contains(c.name)) {
+                        var newVariable=AOPVariable(node.query,"#"+node.uuid+"-"+i)
+node.updateChildren(i,newVariable)
+val tmp=LOPFilter(node.query,AOPEQ(query,newVariable,c),node)
+                        return preventTriplesWithMultipleInstancesOfTheSameVariable(tmp)
+                    } else {
+                        variables.add(c.name)
+                    }
+                }
+            }
+        } else {
+            for (i in 0 until node.children.size) {
+                node.updateChildren(i, preventTriplesWithMultipleInstancesOfTheSameVariable(node.children[i]))
+            }
+        }
+        return node
     }
 
     private fun joinValuesAndQuery(values: OPBase?, opbase: OPBase): OPBase {
@@ -1240,6 +1265,7 @@ return tmp
     }
 
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
+var iriIsVariable=false
         val iri = when (name) {
             is ASTIri -> {
                 /*return*/name.iri
@@ -1247,7 +1273,12 @@ return tmp
             is ASTIriGraphRef -> {
                 /*return*/name.iri
             }
+is ASTVar->{
+iriIsVariable=true
+/*return*/name.name
+}
             else -> {
+                println(name.toString() + " --- " + classNameToString(name))
                 SanityCheck.checkUnreachable()
             }
         }
@@ -1258,7 +1289,7 @@ return tmp
             is LOPTriple -> {
                 var res: OPBase
                 if (!optional || node.graph == PersistentStoreLocal.defaultGraphName) {
-                    res = LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, false)
+                    res = LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, iriIsVariable)
                 } else {
                     res = node
                 }
