@@ -28,7 +28,7 @@ class LOPSort(query: Query, @JvmField val asc: Boolean, @JvmField var by: AOPVar
         res.addContent(childrenToXML())
         return res
     }
-
+override fun getRequiredVariableNames()=listOf(by.name)
     override fun equals(other: Any?) = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
     override fun cloneOP() = LOPSort(query, asc, by, children[0].cloneOP())
     override fun calculateHistogram(): HistogramResult {

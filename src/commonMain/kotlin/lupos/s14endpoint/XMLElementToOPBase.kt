@@ -28,6 +28,8 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRAFTER
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRBEFORE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
@@ -292,6 +294,12 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "AOPBuildInCallSTRLANG" -> {
             return AOPBuildInCallSTRLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+        }
+        "AOPBuildInCallSTRAFTER" -> {
+            return AOPBuildInCallSTRAFTER(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+        }
+        "AOPBuildInCallSTRBEFORE" -> {
+            return AOPBuildInCallSTRBEFORE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallBNODE0" -> {
             return AOPBuildInCallBNODE0(query)

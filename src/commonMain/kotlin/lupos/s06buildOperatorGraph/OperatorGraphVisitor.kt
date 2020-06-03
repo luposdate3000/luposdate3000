@@ -124,6 +124,8 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRAFTER
+import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRBEFORE
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
@@ -1144,6 +1146,14 @@ val tmp=LOPFilter(node.query,AOPEQ(query,newVariable,c),node)
                 SanityCheck.checkEQ({ childrenValues.size }, { 2 })
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
+            BuiltInFunctions.STRAFTER -> {
+                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                return AOPBuildInCallSTRAFTER(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.STRBEFORE -> {
+                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                return AOPBuildInCallSTRBEFORE(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
             BuiltInFunctions.STRDT -> {
                 SanityCheck.checkEQ({ childrenValues.size }, { 2 })
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
@@ -1195,8 +1205,15 @@ val tmp=LOPFilter(node.query,AOPEQ(query,newVariable,c),node)
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
-        return LOPUnion(query, childrenValues[0], childrenValues[1])
+        SanityCheck.check{ childrenValues.size>= 2 }
+var tmplist=childrenValues.toMutableList()
+while(tmplist.size>1){
+val a=tmplist.removeAt(0)
+val b=tmplist.removeAt(0)
+        val c= LOPUnion(query, a,b)
+tmplist.add(c)
+}
+return tmplist[0]
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
@@ -1268,6 +1285,9 @@ val tmp=LOPFilter(node.query,AOPEQ(query,newVariable,c),node)
 var iriIsVariable=false
         val iri = when (name) {
             is ASTIri -> {
+                /*return*/name.iri
+            }
+            is ASTNamedIriGraphRef -> {
                 /*return*/name.iri
             }
             is ASTIriGraphRef -> {
