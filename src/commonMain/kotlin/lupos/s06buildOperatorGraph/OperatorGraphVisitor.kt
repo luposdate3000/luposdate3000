@@ -456,7 +456,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         if (node.existsDatasets()) {
             val datasets = mutableMapOf<String, OPBase>()
             for (d in node.datasets) {
-                val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(d.source_iri).readAsString(), d.source_iri)!!)
+                val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory+d.source_iri).readAsString(), d.source_iri)!!)
                 when (d) {
                     is ASTDefaultGraph -> {
                         datasets[""] = data
@@ -1462,7 +1462,12 @@ return AOPBuildInCallCOALESCE(query,childrenValues.map{it as AOPBase})
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw SparqlFeatureNotImplementedException("ASTLoad")
+if(node.into!=null){
+var g2=graphRefToEnum(node.into!!)
+return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
+}else{
+return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, "")
+}
     }
 
     override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {

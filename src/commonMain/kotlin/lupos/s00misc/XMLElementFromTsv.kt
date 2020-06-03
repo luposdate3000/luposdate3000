@@ -12,8 +12,8 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
     val variables = mutableListOf<String>()
 val columns=lines.first().split("\t")
     for (variableName in columns) {
-        nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
-        variables.add(variableName)
+        nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName.substring(1,variableName.length)))
+        variables.add(variableName.substring(1,variableName.length))
     }
     var firstLine = true
     for (line in lines) {

@@ -428,6 +428,7 @@ class SparqlTestSuite() {
                 val resultData = readFileOrNull(resultDataFileName)
                 if (inputDataFileName != "#keep-data#") {
                     val query2 = Query()
+query2.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                     ServerCommunicationSend.graphClearAll(query2)
                     query2.commit()
                     nodeGlobalDictionary.clear()
@@ -442,6 +443,7 @@ class SparqlTestSuite() {
                             var xmlGraphBulk: XMLElement? = null
                             CoroutinesHelper.runBlock {
                                 val query = Query()
+query.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                                 HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
                                 val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                                 xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
@@ -454,6 +456,7 @@ class SparqlTestSuite() {
                             }
                         } else {
                             val query = Query()
+query.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                             CoroutinesHelper.runBlock {
                                 val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
                                 DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
@@ -461,6 +464,7 @@ class SparqlTestSuite() {
                             query.commit()
                         }
                         val query = Query()
+query.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                         File("log/storetest").mkdirs()
                         DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
 /*
@@ -492,6 +496,7 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
                         var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                         val query = Query()
+query.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                         CoroutinesHelper.runBlock {
                             val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
                             DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
@@ -515,6 +520,7 @@ class SparqlTestSuite() {
                 }
                 val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
                 val query = Query()
+query.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                 var res: Boolean
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { toParse })
@@ -613,6 +619,7 @@ class SparqlTestSuite() {
                     if (res) {
                         val xmlPOP = pop_distributed_node.toXMLElement()
                         val query4 = Query()
+query4.workingDirectory=queryFile.substring(0,queryFile.lastIndexOf("/"))
                         val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })

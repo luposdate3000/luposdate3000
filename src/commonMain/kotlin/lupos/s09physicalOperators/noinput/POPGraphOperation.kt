@@ -1,6 +1,8 @@
 package lupos.s09physicalOperators.noinput
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.File
+import lupos.s00misc.XMLElement
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EIndexPattern
@@ -29,6 +31,17 @@ class POPGraphOperation(query: Query,
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
+if(action==EGraphOperationType.LOAD){
+res+="LOAD "+graph1iri!!
+if (silent) {
+            res += " SILENT "
+        } else {
+            res += " "
+        }
+if(graph2type==EGraphRefType.IriGraphRef){
+res+="INTO GRAPH "+graph2iri
+}
+}else{
         when (action) {
             EGraphOperationType.CLEAR -> {
                 res += "CLEAR"
@@ -84,6 +97,7 @@ class POPGraphOperation(query: Query,
                     res += "GRAPH <" + graph2iri!! + ">"
                 }
             }
+}
         }
         return res
     }
@@ -150,6 +164,20 @@ class POPGraphOperation(query: Query,
                         }
                     }
                 }
+EGraphOperationType.LOAD->{
+var fileName=query.workingDirectory+graph1iri
+val target:DistributedGraph
+if(graph2type==EGraphRefType.DefaultGraphRef){
+target=DistributedTripleStore.getDefaultGraph(query)
+}else{
+target=DistributedTripleStore.getNamedGraph(query, graph2iri!!)
+}
+val xml=XMLElement.parseFromAny(File(fileName).readAsString(),fileName)!!
+val d=POPValuesImportXML(query,listOf("s","p","o"),xml)
+val row = d.evaluate()
+        val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
+target.modify(iterator, EModifyType.INSERT)
+}
                 EGraphOperationType.COPY -> {
                     when (graph1type) {
                         EGraphRefType.DefaultGraphRef -> {
