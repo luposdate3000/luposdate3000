@@ -250,6 +250,14 @@ class POPGroup : POPBase {
                     aggregate.evaluate()
                 }
             }
+if(map.size==0){
+for(v in keyColumnNames){
+outMap[v]=ColumnIteratorRepeatValue(1,ResultSetDictionary.undefValue)
+}
+for(b in bindings){
+outMap[b.first]=ColumnIteratorRepeatValue(1,ResultSetDictionary.undefValue)
+}
+}else{
             val outKeys = Array(keyColumnNames.size) { MyListValue() }
             val outValues = Array(bindings.size) { MyListValue() }
             for ((k, v) in map) {
@@ -266,6 +274,7 @@ class POPGroup : POPBase {
             for (columnIndex in 0 until bindings.size) {
                 outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, ColumnIteratorMultiValue(outValues[columnIndex]))
             }
+}
         }
         return IteratorBundle(outMap)
     }

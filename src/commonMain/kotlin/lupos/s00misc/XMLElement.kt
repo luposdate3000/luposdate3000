@@ -146,6 +146,7 @@ class XMLElement {
         if (tag == "bnode") {
             return true
         }
+// avoid bugs in JENA -->>
         if (tag == "results") {
             if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result") {
                 childs.add(XMLElement("result"))
@@ -159,6 +160,7 @@ class XMLElement {
             return false
         }
         if (tag != "sparql") {
+// avoid bugs in JENA -->>
             if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && other.attributes["datatype"] == null && fixStringType) {
                 other.attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
             }
@@ -166,6 +168,14 @@ class XMLElement {
                 attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
             }
 //<<-- avoid bugs in JENA
+// avoid inconsistencies in W3C -->>
+if(attributes["xml:lang"]!=null){
+attributes["xml:lang"]=attributes["xml:lang"]!!.toLowerCase()
+}
+if(other.attributes["xml:lang"]!=null){
+other.attributes["xml:lang"]=other.attributes["xml:lang"]!!.toLowerCase()
+}
+//<<-- avoid inconsistencies in W3C
             if (attributes != other.attributes) {
                 return false
             }
@@ -176,7 +186,6 @@ class XMLElement {
             if (c1.toInt() != c2.toInt()) {
                 return false
             }
-//<<-- avoid bugs in JENA
         } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") && fixNumbers) {
             val a = c1.toDouble()
             val b = c2.toDouble()

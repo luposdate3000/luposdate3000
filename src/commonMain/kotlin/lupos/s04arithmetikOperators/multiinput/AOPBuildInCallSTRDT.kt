@@ -27,9 +27,9 @@ class AOPBuildInCallSTRDT(query: Query, child: AOPBase, childB: AOPBase) : AOPBa
             if (a is ValueSimpleLiteral && b is ValueIri) {
                 res = ValueTypedLiteral(a.delimiter, a.content, b.iri)
             }
-/*return*/res
+            /*return*/res
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     override fun cloneOP() = AOPBuildInCallSTRDT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

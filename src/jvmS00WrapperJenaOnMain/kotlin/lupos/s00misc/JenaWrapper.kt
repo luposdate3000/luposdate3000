@@ -16,7 +16,17 @@ object JenaWrapper {
         updateQuery("DROP SILENT ALL")
     }
 
+fun checkExceptions(queryString: String){
+if(queryString.contains("STRDT")){ 
+throw Exception("jena implementation is wrong for STRDT if there are typed literals matching the new specified type")
+}
+if(queryString.contains("STRLANG")){
+throw Exception("jena implementation changes the language to uppercase, and is wrong, if there already are language tagged literals")
+}
+}
+
     fun updateQuery(queryString: String) {
+checkExceptions(queryString)
         try {
             UpdateAction.parseExecute(queryString, dataset)
         } catch (e: Throwable) {
@@ -25,6 +35,7 @@ object JenaWrapper {
     }
 
     fun execQuery(queryString: String): String {
+checkExceptions(queryString)
         println("Jena optimized query >>")
         var res = ""
         try {

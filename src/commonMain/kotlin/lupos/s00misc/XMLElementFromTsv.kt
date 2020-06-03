@@ -9,12 +9,11 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
     nodeSparql.addContent(nodeHead)
     nodeSparql.addContent(nodeResults)
     val lines = tsv.lines()
-    val variables = mutableListOf<Pair<String, Int>>()
-    var i = 0
-    for (variableName in lines.first().split("\t")) {
-        nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName.substring(1, variableName.length)))
-        variables.add(Pair(variableName.substring(1, variableName.length), i))
-        i++
+    val variables = mutableListOf<String>()
+val columns=lines.first().split("\t")
+    for (variableName in columns) {
+        nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
+        variables.add(variableName)
     }
     var firstLine = true
     for (line in lines) {
@@ -28,11 +27,11 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
         val nodeResult = XMLElement("result")
         nodeResults.addContent(nodeResult)
         val values = line.split("\t")
-        for (variable in variables) {
-            if (values.size > variable.second) {
-                parseBindingFromString(nodeResult, values[variable.second], variable.first)
-            }
-        }
+var i=0
+while(i< variables.size&&i<values.size){
+parseBindingFromString(nodeResult, values[i], variables[i])
+i++
+}
     }
     return nodeSparql
 }

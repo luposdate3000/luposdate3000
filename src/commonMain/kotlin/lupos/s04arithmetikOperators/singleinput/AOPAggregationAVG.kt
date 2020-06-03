@@ -33,6 +33,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
+try{
             val value = child()
             res.count++
             if (value is ValueError) {
@@ -50,6 +51,10 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             }
+}catch(e:Throwable){
+                res.value = ValueError()
+                res.evaluate = res::_evaluate
+}
         }
         return res
     }
