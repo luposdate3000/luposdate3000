@@ -34,16 +34,38 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun safeToFile(filename: String) {
+        println("saveing IDTripleIndex to file $filename")
         flush()
+SanityCheck{
+var found=false
+NodeManager.getNode(root, {
+                    SanityCheck.checkUnreachable()
+                }, {
+found=true
+SanityCheck.check{rootNode==it}
+                })
+SanityCheck.check{found}
+}
         File(filename).dataOutputStream { out ->
             out.writeInt(firstLeaf)
             out.writeInt(root)
             out.writeInt(countPrimary)
             out.writeInt(distinctPrimary)
+            println(firstLeaf)
+            println(root)
+            println(countPrimary)
+            println(distinctPrimary)
+            if (rootNode != null) {
+                var iterator = rootNode!!.iterator()
+                while (iterator.hasNext()) {
+                    println(iterator.next().map { it })
+                }
+            }
         }
     }
 
     override fun loadFromFile(filename: String) {
+        println("loading IDTripleIndex from file $filename")
         pendingImport.clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
@@ -58,6 +80,17 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }, {
                     rootNode = it
                 })
+SanityCheck.check{rootNode!=null}
+            }
+        }
+        println(firstLeaf)
+        println(root)
+        println(countPrimary)
+        println(distinctPrimary)
+        if (rootNode != null) {
+            var iterator = rootNode!!.iterator()
+            while (iterator.hasNext()) {
+                println(iterator.next().map { it })
             }
         }
     }

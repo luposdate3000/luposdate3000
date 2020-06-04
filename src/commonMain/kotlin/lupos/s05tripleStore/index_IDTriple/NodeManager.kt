@@ -17,6 +17,7 @@ object NodeManager {
     var allNodesFreeListLeaf = mutableListOf<Int>()
     var allNodesFreeListInner = mutableListOf<Int>()
     inline fun <T> safeToFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, crossinline action: (T) -> ByteArray) {
+println("freelist $freeList")
         val it1 = freeList.iterator()
         val it2 = nodes.iterator()
         var idx = Int.MAX_VALUE
@@ -32,7 +33,9 @@ object NodeManager {
                 } else {
                     if (it1.hasNext()) {
                         idx = it1.next()
-                    }
+                    }else{
+idx=Int.MAX_VALUE
+}
                 }
                 i++
             }
@@ -53,7 +56,9 @@ object NodeManager {
                 } else {
                     if (it1.hasNext()) {
                         idx = it1.next()
-                    }
+                    }else{
+idx=Int.MAX_VALUE
+}
                 }
                 var node = action(data)
                 nodes.add(node)
@@ -145,6 +150,7 @@ object NodeManager {
     }
 
     fun safeToFolder(foldername: String) {
+        println("nodemanager saving to folder '$foldername'")
         File(foldername).mkdirs()
         debug()
         File(foldername + "/header").dataOutputStream { out ->
@@ -164,6 +170,7 @@ object NodeManager {
     }
 
     inline fun loadFromFolder(foldername: String) {
+        println("nodemanager loading from folder '$foldername'")
         allNodesLeaf.clear()
         allNodesInner.clear()
         allNodesFreeListLeaf.clear()

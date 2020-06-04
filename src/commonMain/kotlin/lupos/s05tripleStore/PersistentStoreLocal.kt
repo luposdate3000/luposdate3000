@@ -75,12 +75,15 @@ class PersistentStoreLocal {
             v.flush()
         }
         var i = 0
+        stores[defaultGraphName]!!.safeToFolder(foldername + "/" + i)
+        i++
         File(foldername + "/stores.txt").printWriter { out ->
             stores.forEach { name, store ->
-                out.println(name)
-                val folder = foldername + "/" + i
-                store.safeToFolder(folder)
-                i++
+                if (name != "") {
+                    out.println(name)
+                    store.safeToFolder(foldername + "/" + i)
+                    i++
+                }
             }
         }
         nodeGlobalDictionary.safeToFolder(foldername + "/dictionary")
@@ -91,11 +94,17 @@ class PersistentStoreLocal {
         NodeManager.loadFromFolder(foldername + "/nodemanager")
         nodeGlobalDictionary.loadFromFolder(foldername + "/dictionary")
         var i = 0
+        val store = TripleStoreLocal(defaultGraphName)
+        store.loadFromFolder(foldername + "/" + i)
+        stores[defaultGraphName] = store
+        i++
         File(foldername + "/stores.txt").forEachLine { name ->
-            val store = TripleStoreLocal(name)
-            store.loadFromFolder(foldername + "/" + i)
-            stores[name] = store
-            i++
+            if (name != "") {
+                val store = TripleStoreLocal(name)
+                store.loadFromFolder(foldername + "/" + i)
+                stores[name] = store
+                i++
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun safeToFolder(foldername: String) {
+        println("Store with name '$name' saved to folder '$foldername'")
         File(foldername).mkdirs()
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
@@ -40,9 +41,11 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         dataDistinct.forEach {
             it.second.loadFromFile(foldername + "/" + it.first + ".bin")
         }
+        println("Store with name '$name' load from folder '$foldername'")
     }
 
     fun flush() {
+        println("Store with name '$name' flushed")
         dataDistinct.forEach {
             it.second.flush()
         }

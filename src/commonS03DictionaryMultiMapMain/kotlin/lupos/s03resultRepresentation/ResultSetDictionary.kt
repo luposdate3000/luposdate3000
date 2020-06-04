@@ -440,6 +440,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun safeToFolder(foldername: String) {
+        println("Dictionary safe to folder '$foldername'")
         File(foldername).mkdirs()
         File(foldername + "/bnode.count").dataOutputStream { out ->
             out.writeInt(bNodeCounter)
@@ -453,6 +454,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun loadFromFolder(foldername: String) {
+        println("Dictionary loading from folder '$foldername'")
         File(foldername + "/bnode.count").dataInputStream { fis ->
             bNodeCounter = fis.readInt()
         }
