@@ -1,0 +1,6 @@
+#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases
+select * where {
+ ?x <http://www.w3.org/2004/02/skos/core#subject> <http://dbpedia.org/resource/Category:1960_in_Formula_One> .
+ ?x <http://dbpedia.org/property/wikilink> ?l .
+ ?l <http://xmlns.com/foaf/0.1/name> ?n.
+}
