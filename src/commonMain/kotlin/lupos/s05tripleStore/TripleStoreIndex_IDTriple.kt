@@ -36,24 +36,38 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     override fun safeToFile(filename: String) {
         println("saveing IDTripleIndex to file $filename")
         flush()
-SanityCheck{
-if(root!=NodeManager.nodeNullPointer){
-var found=false
-NodeManager.getNode(root, {
-println("root is inner node")
+        SanityCheck {
+            if (root != NodeManager.nodeNullPointer) {
+                var found = false
+                NodeManager.getNode(root, {
+                    println("root is inner node")
                     SanityCheck.checkUnreachable()
                 }, {
-found=true
-SanityCheck.check{rootNode==it}
+                    found = true
+                    SanityCheck.check { rootNode == it }
                 })
-SanityCheck.check{found}
-}
-}
+                SanityCheck.check { found }
+            } else {
+                SanityCheck.check { rootNode == null }
+            }
+        }
         File(filename).dataOutputStream { out ->
             out.writeInt(firstLeaf)
             out.writeInt(root)
             out.writeInt(countPrimary)
             out.writeInt(distinctPrimary)
+        }
+        SanityCheck {
+            println(firstLeaf)
+            println(root)
+            println(countPrimary)
+            println(distinctPrimary)
+            if (rootNode != null) {
+                val iterator = rootNode!!.iterator()
+                while (iterator.hasNext()) {
+                    println(iterator.next().map { it })
+                }
+            }
         }
     }
 
@@ -73,7 +87,19 @@ SanityCheck.check{found}
                 }, {
                     rootNode = it
                 })
-SanityCheck.check{rootNode!=null}
+                SanityCheck.check { rootNode != null }
+            }
+        }
+        SanityCheck {
+            println(firstLeaf)
+            println(root)
+            println(countPrimary)
+            println(distinctPrimary)
+            if (rootNode != null) {
+                val iterator = rootNode!!.iterator()
+                while (iterator.hasNext()) {
+                    println(iterator.next().map { it })
+                }
             }
         }
     }
@@ -402,6 +428,7 @@ SanityCheck.check{rootNode!=null}
                 }
             }, {
                 rootNode = it
+		root=currentLayer[0]
             })
         }
         countPrimary = iterator.count
