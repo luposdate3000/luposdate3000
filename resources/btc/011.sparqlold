@@ -1,4 +1,4 @@
-#Scalable Join Processing on Very Large RDF Graphs
+#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008
 select ?a ?vo where {
  ?a <http://www.w3.org/2000/01/rdf-schema#seeAlso> ?vo .
  ?a <http://purl.uniprot.org/core/annotation> <file:///uniprot.rdf#_7A64A6> .

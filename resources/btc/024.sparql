@@ -1,4 +1,4 @@
-#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases
+#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009
 select distinct ?n where {
  ?x <http://www.w3.org/2004/02/skos/core#subject> <http://dbpedia.org/resource/Category:1960_in_Formula_One> .
  ?x <http://dbpedia.org/property/wikilink> ?l .

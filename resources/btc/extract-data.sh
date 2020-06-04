@@ -1,16 +1,16 @@
 cat *.sparql \
-| sed "s/#.*//g" \
+| grep -v "^#" \
 | sed 's/"[^"]*"//g' \
 | tr " " "\n" \
 | grep "...*" \
 | grep -v "^?" \
-| grep -v "distinct" \
-| grep -v "where" \
-| grep -v "select" \
+| grep -vi "distinct" \
+| grep -vi "where" \
+| grep -vi "select" \
 | sort \
 | uniq > x
 cat *.sparql \
-| sed "s/#.*//g" \
+| grep -v "^#" \
 | sed 's/^[^"]*//' \
 | sed 's/[^"]*$//g' \
 | grep "...*" \

@@ -1,4 +1,4 @@
-#Scalable Join Processing on Very Large RDF Graphs
+#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008
 select ?t ?lat ?long where {
  ?a <http://dbpedia.org/property/wikilink> <http://dbpedia.org/resource/List_of_World_Heritage_Sites_in_Europe> .
  ?a <http://dbpedia.org/property/title> ?t .

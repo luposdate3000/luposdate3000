@@ -1,4 +1,4 @@
-#Scalable Join Processing on Very Large RDF Graphs
+#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008
 select ?protein ?name where {
  ?protein <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> .
  ?protein <http://purl.uniprot.org/core/encodedBy> ?a .

@@ -1,4 +1,4 @@
-#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases
+#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009
 select * where {
  ?x <http://www.geonames.org/ontology#name> ?n1 .
  ?x <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?l .
