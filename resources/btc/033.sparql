@@ -1,8 +1,0 @@
-#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012
-SELECT DISTINCT ?d WHERE {
- ?a <http://dbpedia.org/property/senators> ?c .
- ?a <http://dbpedia.org/property/name> ?d .
- ?c <http://dbpedia.org/property/profession> <http://dbpedia.org/resource/Politician> .
- ?a <http://www.w3.org/2002/07/owl#sameAs> ?b .
- ?b <http://www.geonames.org/ontology#inCountry> <http://www.geonames.org/countries/US/> .
-}
