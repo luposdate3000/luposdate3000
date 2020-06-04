@@ -51,7 +51,7 @@ do
 		sort -u $f.n2 > $f.n3
 		rm $f.n2
 	fi
-	echo $(wc -l $f.n3),$f,$f.n3,$f.srx >> config.csv2
+	echo $(wc -l $f.n3 | sed "s/ .*//g"),$f,$f.n3,$f.srx >> config.csv2
 done
 
 rm x
