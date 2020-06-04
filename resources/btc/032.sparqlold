@@ -1,0 +1,8 @@
+#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012
+SELECT ?t ?lat ?long WHERE {
+ ?a <http://dbpedia.org/property/region> <http://dbpedia.org/resource/Category:World_Heritage_Sites_in_Europe> .
+ ?a <http://dbpedia.org/property/title> ?t .
+ ?a <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
+ ?a <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
+ ?a <http://dbpedia.org/property/link> <http://whc.unesco.org/en/list/728> .
+}

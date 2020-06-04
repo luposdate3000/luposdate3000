@@ -1,0 +1,8 @@
+#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012
+SELECT ?x WHERE {
+ ?x <http://www.lehigh.edu/∼zhp2/2004/0401/univbench.owl#worksFor> <http://www.Department0.-University0.edu> .
+ ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.lehigh.edu/∼zhp2/2004/0401/univbench.owl#FullProfessor> .
+ ?x <http://www.lehigh.edu/∼zhp2/2004/0401/univbench.owl#name> ?y1 .
+ ?x <http://www.lehigh.edu/∼zhp2/2004/0401/univbench.owl#emailAddress> ?y2 .
+ ?x <http://www.lehigh.edu/∼zhp2/2004/0401/univbench.owl#telephone> ?y3 .
+}
