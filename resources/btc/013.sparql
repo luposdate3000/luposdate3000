@@ -1,0 +1,16 @@
+#Scalable Join Processing on Very Large RDF Graphs
+prefix uni: <http://purl.uniprot.org/core/>
+prefix uniprot: <http://purl.uniprot.org/>
+prefix schema: <http://www.w3.org/2000/01/rdf-schema#>
+prefix file: <file:///uniprot.rdf#_>
+select ?a ?b ?vo where {
+ ?a uni:mnemonic ?vo .
+ ?a uni:reviewed "false" .
+ ?a uni:replacedBy ?b .
+ ?b uni:mnemonic [] .
+ ?b uni:reviewed "false" .
+ ?b uni:replacedBy ?c .
+ ?c uni:mnemonic [] .
+ ?c uni:reviewed "true" .
+}
+

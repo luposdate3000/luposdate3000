@@ -50,11 +50,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             root = fis.readInt()
             countPrimary = fis.readInt()
             distinctPrimary = fis.readInt()
-            NodeManager.getNode(root, {
-                SanityCheck.checkUnreachable()
-            }, {
-                rootNode = it
-            })
+            if (root == NodeManager.nodeNullPointer) {
+                rootNode = null
+            } else {
+                NodeManager.getNode(root, {
+                    SanityCheck.checkUnreachable()
+                }, {
+                    rootNode = it
+                })
+            }
         }
     }
 
@@ -260,7 +264,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    fun flush() {
+    override fun flush() {
         BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
         if (pendingImport.size > 0) {
             var j = 1

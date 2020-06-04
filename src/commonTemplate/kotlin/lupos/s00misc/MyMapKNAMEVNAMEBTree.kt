@@ -444,8 +444,12 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
                 listB = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
             }
             target.clear()
-            target.root = listA[0]
             target.size = size
+            if (size == 0) {
+                target.root = null
+            } else {
+                target.root = listA[0]
+            }
         }
     }
 

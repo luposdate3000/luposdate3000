@@ -24,7 +24,7 @@ class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID
                 if (v1 is AOPVariable && v2 is AOPVariable) {
                     val child = node.children[0]
                     if (child !is LOPTriple) {
-                        /* child may only be a triple, if both variables are from the same triple - which leads to errors if those are inlined */
+                        /* child may only be a triple, if_ both variables are from the same triple - which leads to errors if_ those are inlined */
                         if (parent != null) {
                             if (parent is LOPProjection && parent.variables.map { it.name }.contains(v1.name)) {
                                 node.replaceVariableWithAnother(node.children[0], v2.name, v1.name, node, 0)

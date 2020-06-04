@@ -144,9 +144,10 @@ object NodeManager {
         }
     }
 
-    fun safeToFile(filename: String) {
+    fun safeToFolder(foldername: String) {
+        File(foldername).mkdirs()
         debug()
-        File(filename + ".header").dataOutputStream { out ->
+        File(foldername + "/header").dataOutputStream { out ->
             out.writeInt(allNodesLeaf.size)
             out.writeInt(allNodesInner.size)
             out.writeInt(allNodesFreeListLeaf.size)
@@ -158,16 +159,16 @@ object NodeManager {
                 out.writeInt(i)
             }
         }
-        safeToFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, { it.toByteArray() })
-        safeToFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, { it.toByteArray() })
+        safeToFileHelper(foldername + "/leaf", allNodesLeaf, allNodesFreeListLeaf, { it.toByteArray() })
+        safeToFileHelper(foldername + "/inner", allNodesInner, allNodesFreeListInner, { it.toByteArray() })
     }
 
-    inline fun loadFromFile(filename: String) {
+    inline fun loadFromFolder(foldername: String) {
         allNodesLeaf.clear()
         allNodesInner.clear()
         allNodesFreeListLeaf.clear()
         allNodesFreeListInner.clear()
-        File(filename + ".header").dataInputStream { fis ->
+        File(foldername + "/header").dataInputStream { fis ->
             val leafSize = fis.readInt()
             val innerSize = fis.readInt()
             val allNodesFreeListLeafSize = fis.readInt()
@@ -178,8 +179,8 @@ object NodeManager {
             for (i in 0 until allNodesFreeListInnerSize) {
                 allNodesFreeListInner.add(fis.readInt())
             }
-            loadFromFileHelper(filename + ".leaf", allNodesLeaf, allNodesFreeListLeaf, leafSize, { NodeLeaf(it) })
-            loadFromFileHelper(filename + ".inner", allNodesInner, allNodesFreeListInner, innerSize, { NodeInner(it) })
+            loadFromFileHelper(foldername + "/leaf", allNodesLeaf, allNodesFreeListLeaf, leafSize, { NodeLeaf(it) })
+            loadFromFileHelper(foldername + "/inner", allNodesInner, allNodesFreeListInner, innerSize, { NodeInner(it) })
         }
     }
 

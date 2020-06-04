@@ -60,7 +60,7 @@ object ServerCommunicationTransferTriples {
                 if (v2 == null) {
                     if (!ResultSetDictionary.isGlobalBNode(v)) {
                         var s = packet.readString()
-                        if (ResultSetDictionary.isLocalBNode(v)) {
+                        if (dict.isLocalBNode(v)) {
                             s = "_:" + remoteName + s.substring(2, s.length)
                         }
                         v3 = dict.createValue(s)

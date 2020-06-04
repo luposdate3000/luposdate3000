@@ -41,6 +41,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
+    override fun flush() {
+    }
+
     fun rebuildMap() {
         index1.clear()
         index2.clear()

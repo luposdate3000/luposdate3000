@@ -439,28 +439,29 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    fun safeToFolder(folderName: String) {
-        File(folderName + "/bnode.count").dataOutputStream { out ->
+    fun safeToFolder(foldername: String) {
+        File(foldername).mkdirs()
+        File(foldername + "/bnode.count").dataOutputStream { out ->
             out.writeInt(bNodeCounter)
         }
-        iriMap.safeToFile(folderName + "/iri.map")
-        langTaggedMap.safeToFile(folderName + "/langTagged.map")
-        typedMap.safeToFile(folderName + "/typed.map")
-        doubleMap.safeToFile(folderName + "/double.map")
-        decimalMap.safeToFile(folderName + "/decimal.map")
-        intMap.safeToFile(folderName + "/int.map")
+        iriMap.safeToFile(foldername + "/iri.map")
+        langTaggedMap.safeToFile(foldername + "/langTagged.map")
+        typedMap.safeToFile(foldername + "/typed.map")
+        doubleMap.safeToFile(foldername + "/double.map")
+        decimalMap.safeToFile(foldername + "/decimal.map")
+        intMap.safeToFile(foldername + "/int.map")
     }
 
-    fun loadFromFolder(folderName: String) {
-        File(folderName + "/bnode.count").dataInputStream { fis ->
+    fun loadFromFolder(foldername: String) {
+        File(foldername + "/bnode.count").dataInputStream { fis ->
             bNodeCounter = fis.readInt()
         }
-        iriMap.loadFromFile(folderName + "/iri.map")
-        langTaggedMap.loadFromFile(folderName + "/langTagged.map")
-        typedMap.loadFromFile(folderName + "/typed.map")
-        doubleMap.loadFromFile(folderName + "/double.map")
-        decimalMap.loadFromFile(folderName + "/decimal.map")
-        intMap.loadFromFile(folderName + "/int.map")
+        iriMap.loadFromFile(foldername + "/iri.map")
+        langTaggedMap.loadFromFile(foldername + "/langTagged.map")
+        typedMap.loadFromFile(foldername + "/typed.map")
+        doubleMap.loadFromFile(foldername + "/double.map")
+        decimalMap.loadFromFile(foldername + "/decimal.map")
+        intMap.loadFromFile(foldername + "/int.map")
         doubleList.reserve(doubleMap.size)
         doubleMap.forEach { k, v ->
             doubleList[v] = k

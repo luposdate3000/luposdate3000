@@ -17,6 +17,7 @@ abstract class TripleStoreIndex {
     abstract fun remove(a: Value, b: Value, c: Value)
     abstract fun clear()
     abstract fun printContents()
+    abstract fun flush()
     open fun getHistogram(query: Query, filter: IntArray): Pair<Int, Int> = throw HistogramNotImplementedException()
     open fun insertAsBulk(data: IntArray, order: IntArray) {
         var i = 0

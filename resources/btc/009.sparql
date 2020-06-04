@@ -1,0 +1,11 @@
+#Scalable Join Processing on Very Large RDF Graphs
+prefix uni: <http://purl.uniprot.org/core/>
+prefix uniprot: <http://purl.uniprot.org/>
+prefix schema: <http://www.w3.org/2000/01/rdf-schema#>
+prefix file: <file:///uniprot.rdf#_>
+select ?protein ?name where {
+ ?protein a uni:Protein;
+ uni:encodedBy [ uni:name "CRB" ];
+ uni:name ?name
+}
+

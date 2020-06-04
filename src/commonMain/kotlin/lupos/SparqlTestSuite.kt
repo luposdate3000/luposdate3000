@@ -57,37 +57,39 @@ class SparqlTestSuite() {
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-            var prefix = "resources/sp2b/"
-            var lastinput: String? = null
-            File(prefix + "config.csv").forEachLine {
-                val line = it.split(",")
-                if (line.size > 3) {
-                    val triplesCount = line[0]
-                    val queryFile = prefix + line[1]
-                    var inputFile = prefix + line[2]
-                    val outputFile = prefix + line[3]
-                    if (lastinput == inputFile) {
-                        inputFile = "#keep-data#"
-                    } else {
-                        lastinput = inputFile
-                    }
-                    if (!File(outputFile).exists()) {
-                        try {
-                            JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
-                            val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
-                            val jenaXML = XMLElement.parseFromXml(jenaResult)!!
-                            File(outputFile).printWriter {
-                                it.println(jenaXML.toPrettyString())
-                            }
-                        } catch (e: Throwable) {
-                            e.printStackTrace()
-                        } finally {
-                            JenaWrapper.dropAll()
+            var prefixes = listOf("resources/myqueries/", "resources/btc/", "resources/sp2b/")
+            for (prefix in prefixes) {
+                var lastinput: String? = null
+                File(prefix + "config.csv").forEachLine {
+                    val line = it.split(",")
+                    if (line.size > 3) {
+                        val triplesCount = line[0]
+                        val queryFile = prefix + line[1]
+                        var inputFile = prefix + line[2]
+                        val outputFile = prefix + line[3]
+                        if (lastinput == inputFile) {
+                            inputFile = "#keep-data#"
+                        } else {
+                            lastinput = inputFile
                         }
-                    }
-                    CoroutinesHelper.runBlock {
-                        GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile + "-" + triplesCount })
-                        parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+                        if (!File(outputFile).exists()) {
+                            try {
+                                JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
+                                val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
+                                val jenaXML = XMLElement.parseFromXml(jenaResult)!!
+                                File(outputFile).printWriter {
+                                    it.println(jenaXML.toPrettyString())
+                                }
+                            } catch (e: Throwable) {
+                                e.printStackTrace()
+                            } finally {
+                                JenaWrapper.dropAll()
+                            }
+                        }
+                        CoroutinesHelper.runBlock {
+                            GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile + "-" + triplesCount })
+                            parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+                        }
                     }
                 }
             }
@@ -463,25 +465,22 @@ class SparqlTestSuite() {
                             }
                             query.commit()
                         }
-                        val query = Query()
-                        query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                         File("log/storetest").mkdirs()
-                        DistributedTripleStore.localStore.getDefaultGraph(query).safeToFolder("log/storetest")
-/*
-                    DistributedTripleStore.localStore.getDefaultGraph(query).loadFromFolder("log/storetest")
-                    var xmlGraphLoad: XMLElement? = null
-                    CoroutinesHelper.runBlock {
-                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                        query.commit()
-                        xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
-                    }
-                    if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput,true,true,true)) {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
-                        return false
-                    }
-*/
+                        DistributedTripleStore.localStore.safeToFolder("log/storetest")
+                        DistributedTripleStore.localStore.loadFromFolder("log/storetest")
+                        var xmlGraphLoad: XMLElement? = null
+                        CoroutinesHelper.runBlock {
+                            val query = Query()
+                            query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                            val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                            xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
+                        }
+                        if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
+                            return false
+                        }
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                         try {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)

@@ -18,10 +18,10 @@ object JenaWrapper {
 
     fun checkExceptions(queryString: String) {
         if (queryString.contains("STRDT")) {
-            throw Exception("jena implementation is wrong for STRDT if there are typed literals matching the new specified type")
+            throw Exception("jena implementation is wrong in combination with STRDT when there are typed literals matching the new specified type")
         }
         if (queryString.contains("STRLANG")) {
-            throw Exception("jena implementation changes the language to uppercase, and is wrong, if there already are language tagged literals")
+            throw Exception("jena implementation changes the language to uppercase, and is wrong, when there already are language tagged literals")
         }
     }
 

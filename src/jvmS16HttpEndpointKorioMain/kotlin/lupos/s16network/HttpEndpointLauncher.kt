@@ -12,6 +12,7 @@ import lupos.s00misc.ELoggerType
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object HttpEndpointLauncher {
@@ -60,10 +61,10 @@ object HttpEndpointLauncher {
 /*Coverage Unreachable*/
             }
             "/persistence/store" -> {
-                return HttpEndpoint.persistence_store(data)
+                DistributedTripleStore.localStore.safeToFolder(data)
             }
             "/persistence/load" -> {
-                return HttpEndpoint.persistence_load(data)
+                DistributedTripleStore.localStore.loadFromFolder(data)
             }
         }
         throw Exception("$path unknown http-request")
