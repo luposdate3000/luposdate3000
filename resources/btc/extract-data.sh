@@ -28,14 +28,17 @@ do
 done
 wait
 
-for f in $(find resources/btc -name "*.sparql" | sort)
+for f in $(find . -name "*.sparql" | sort)
 do
-	rm $f.n3
+	rm $f.n2
 	for x in $(cat $f | tr " " "\n" | sort | uniq | grep -v "^?" | sort)
 	do
 		i="data$(echo $x | sed 's/[^a-zA-Z0-9]/_/g').n3"
-		cat $i >> $f.n3
+		cat $i >> $f.n2
 	done
+	sort -u $f.n2 > $f.n3
+	rm $f.n2
 done
 
 exit
+rm x
