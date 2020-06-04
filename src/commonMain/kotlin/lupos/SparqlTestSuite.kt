@@ -1,5 +1,5 @@
 package lupos
-
+import lupos.s05tripleStore.index_IDTriple.NodeManager
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -591,6 +591,7 @@ class SparqlTestSuite() {
                     }
                     verifiedOutput = true
                 }
+NodeManager.debug()
                 if (resultData != null && resultDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!

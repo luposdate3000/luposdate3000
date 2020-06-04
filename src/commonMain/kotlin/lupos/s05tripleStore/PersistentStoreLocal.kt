@@ -42,9 +42,11 @@ class PersistentStoreLocal {
 
     fun dropGraph(query: Query, name: String) {
         SanityCheck.checkNEQ({ name }, { defaultGraphName })
-        if (stores[name] == null) {
+var store=stores[name]
+        if (store == null) {
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         }
+store.clear()
         stores.remove(name)
     }
 

@@ -14,10 +14,11 @@ object NodeManager {
     val nodeNullPointer = nodePointerValueMask
     val allNodesLeaf = MyListGeneric<NodeLeaf>()
     val allNodesInner = MyListGeneric<NodeInner>()
-    var allNodesFreeListLeaf = mutableListOf<Int>()
-    var allNodesFreeListInner = mutableListOf<Int>()
-    inline fun <T> safeToFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, crossinline action: (T) -> ByteArray) {
-println("freelist $freeList")
+    var allNodesFreeListLeaf = mutableSetOf<Int>()
+    var allNodesFreeListInner = mutableSetOf<Int>()
+    inline fun <T> safeToFileHelper(filename: String, nodes: MyListGeneric<T>, freeList:IntArray, crossinline action: (T) -> ByteArray) {
+freeList.sort()
+println("freelist ${freeList.map{it}}")
         val it1 = freeList.iterator()
         val it2 = nodes.iterator()
         var idx = Int.MAX_VALUE
@@ -42,7 +43,8 @@ idx=Int.MAX_VALUE
         }
     }
 
-    inline fun <T> loadFromFileHelper(filename: String, nodes: MyListGeneric<T>, freeList: List<Int>, count: Int, crossinline action: (ByteArray) -> T) {
+    inline fun <T> loadFromFileHelper(filename: String, nodes: MyListGeneric<T>, freeList:IntArray, count: Int, crossinline action: (ByteArray) -> T) {
+freeList.sort()
         val it1 = freeList.iterator()
         var idx = Int.MAX_VALUE
         if (it1.hasNext()) {
@@ -121,6 +123,7 @@ idx=Int.MAX_VALUE
                                 inner[nodePointerValue]++
                                 println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             } else {
+println("nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer")
                                 SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
                                 leavesFromInner[nodePointerValue]++
                                 println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
@@ -165,8 +168,8 @@ idx=Int.MAX_VALUE
                 out.writeInt(i)
             }
         }
-        safeToFileHelper(foldername + "/leaf", allNodesLeaf, allNodesFreeListLeaf, { it.toByteArray() })
-        safeToFileHelper(foldername + "/inner", allNodesInner, allNodesFreeListInner, { it.toByteArray() })
+        safeToFileHelper(foldername + "/leaf", allNodesLeaf, allNodesFreeListLeaf.toIntArray(), { it.toByteArray() })
+        safeToFileHelper(foldername + "/inner", allNodesInner, allNodesFreeListInner.toIntArray(), { it.toByteArray() })
     }
 
     inline fun loadFromFolder(foldername: String) {
@@ -186,8 +189,8 @@ idx=Int.MAX_VALUE
             for (i in 0 until allNodesFreeListInnerSize) {
                 allNodesFreeListInner.add(fis.readInt())
             }
-            loadFromFileHelper(foldername + "/leaf", allNodesLeaf, allNodesFreeListLeaf, leafSize, { NodeLeaf(it) })
-            loadFromFileHelper(foldername + "/inner", allNodesInner, allNodesFreeListInner, innerSize, { NodeInner(it) })
+            loadFromFileHelper(foldername + "/leaf", allNodesLeaf, allNodesFreeListLeaf.toIntArray(), leafSize, { NodeLeaf(it) })
+            loadFromFileHelper(foldername + "/inner", allNodesInner, allNodesFreeListInner.toIntArray(), innerSize, { NodeInner(it) })
         }
     }
 
@@ -210,7 +213,8 @@ idx=Int.MAX_VALUE
     inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
         var i = allNodesLeaf.size
         if (allNodesFreeListLeaf.size > 0) {
-            i = allNodesFreeListLeaf.removeAt(0)
+var i=allNodesFreeListLeaf.first()
+            allNodesFreeListLeaf.remove(i)
             val node = allNodesLeaf[i]
             node.setNextNode(nodeNullPointer)
             node.setTripleCount(0)
@@ -225,7 +229,8 @@ idx=Int.MAX_VALUE
     inline fun allocateNodeInner(crossinline action: (NodeInner, Int) -> Unit) {
         var i = allNodesInner.size
         if (allNodesFreeListInner.size > 0) {
-            i = allNodesFreeListInner.removeAt(0)
+i=allNodesFreeListInner.first()
+             allNodesFreeListInner.remove(i)
             val node = allNodesInner[i]
             node.setNextNode(nodeNullPointer)
             node.setTripleCount(0)
