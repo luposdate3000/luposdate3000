@@ -4,6 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.FunktionWontWorkWithThisImplementationException
 
 class MyMapStringIntPatriciaTrieDouble() {
+var debugfilename=""
     val undefinedValue = -1
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()
     var rootValue: Int = undefinedValue
@@ -269,10 +270,13 @@ class MyMapStringIntPatriciaTrieDouble() {
     }
 
     fun safeToFile(filename: String) {
+debugfilename=filename
         File(filename).dataOutputStream { out ->
             out.writeInt(rootValue)
             out.writeInt(allNodes.size)
+//writeing allNodes -->>
             val nodeIterator = allNodes.iterator()
+var idx=0
             while (nodeIterator.hasNext()) {
                 val node = nodeIterator.next()
                 for (c in node.str) {
@@ -283,11 +287,15 @@ class MyMapStringIntPatriciaTrieDouble() {
                 for (i in 0 until node.data.size) {
                     out.writeInt(node.data[i])
                 }
+idx++
             }
+//writeing allNodes <<--
         }
     }
 
     fun loadFromFile(filename: String) {
+debugfilename=filename
+clear()
         File(filename).dataInputStream { fis ->
             rootValue = fis.readInt()
             if (rootValue != undefinedValue) {
@@ -315,6 +323,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                     val value = fis.readInt()
                     node.data[i] = value
                     if (i >= valueOffset) {
+
                         if (i < childOffset) {
                             while (value > allOutNodes.size) {
                                 allOutNodes.add(0)
@@ -322,13 +331,13 @@ class MyMapStringIntPatriciaTrieDouble() {
                             }
                             if (value != undefinedValue) {
                                 allOutNodes[value] = counter
-                                allOutOffsets[value] = i
+                                allOutOffsets[value] = i-valueOffset
                             }
                         } else {
                             while (value >= allNodes.size) {
                                 allNodes.add(MyMapStringIntPatriciaTrieNode())
                             }
-                            if (value != undefinedValue) {
+                            if (value != 0) {
                                 allNodes[value].parent = counter
                             }
                         }

@@ -87,7 +87,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
     val localBnodeMap = MyMapStringIntPatriciaTrie()
     var bNodeCounter = 4
-    val bnodeMapToGlobal = MyMapIntInt()
+    val bnodeMapToGlobal = MyMapIntInt() // never used by the global dictionary instance
     val iriMap = MyMapStringIntPatriciaTrieDouble()
     val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
     val typedMap = MyMapStringIntPatriciaTrieDouble()
@@ -464,16 +464,28 @@ class ResultSetDictionary(val global: Boolean = false) {
         doubleMap.loadFromFile(foldername + "/double.map")
         decimalMap.loadFromFile(foldername + "/decimal.map")
         intMap.loadFromFile(foldername + "/int.map")
-        doubleList.reserve(doubleMap.size)
-        doubleMap.forEach { k, v ->
+        doubleList.clear()
+        doubleMap.forEach { k, v2 ->
+val v=v2 and filter5
+            while (v > doubleList.size) {
+                doubleList.add(k)
+            }
             doubleList[v] = k
         }
-        decimalList.reserve(decimalMap.size)
-        decimalMap.forEach { k, v ->
+        decimalList.clear()
+        decimalMap.forEach { k, v2 ->
+val v=v2 and filter5
+            while (v > decimalList.size) {
+                decimalList.add(k)
+            }
             decimalList[v] = k
         }
-        intList.reserve(intMap.size)
-        intMap.forEach { k, v ->
+        intList.clear()
+        intMap.forEach { k, v2 ->
+val v=v2 and filter5
+            while (v > intList.size) {
+                intList.add(k)
+            }
             intList[v] = k
         }
     }

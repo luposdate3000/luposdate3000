@@ -205,7 +205,7 @@ class MyListInt {
         return res
     }
 
-    inline operator fun set(idx: Int, value: Int) {
+    /*inline*/ operator fun set(idx: Int, value: Int) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {

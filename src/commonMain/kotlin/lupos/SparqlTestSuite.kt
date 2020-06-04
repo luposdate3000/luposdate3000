@@ -717,7 +717,6 @@ class SparqlTestSuite() {
                 println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
                 if (expectedResult) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })
-System.exit(1)
                     GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
                 } else {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,Throwable)" })

@@ -203,7 +203,7 @@ class MyListVALUEGDEF {
         return res
     }
 
-    inline operator fun set(idx: Int, value: VALUE) {
+    /*inline*/ operator fun set(idx: Int, value: VALUE) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {

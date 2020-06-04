@@ -37,8 +37,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         println("saveing IDTripleIndex to file $filename")
         flush()
 SanityCheck{
+if(root!=NodeManager.nodeNullPointer){
 var found=false
 NodeManager.getNode(root, {
+println("root is inner node")
                     SanityCheck.checkUnreachable()
                 }, {
 found=true
@@ -46,21 +48,12 @@ SanityCheck.check{rootNode==it}
                 })
 SanityCheck.check{found}
 }
+}
         File(filename).dataOutputStream { out ->
             out.writeInt(firstLeaf)
             out.writeInt(root)
             out.writeInt(countPrimary)
             out.writeInt(distinctPrimary)
-            println(firstLeaf)
-            println(root)
-            println(countPrimary)
-            println(distinctPrimary)
-            if (rootNode != null) {
-                var iterator = rootNode!!.iterator()
-                while (iterator.hasNext()) {
-                    println(iterator.next().map { it })
-                }
-            }
         }
     }
 
@@ -81,16 +74,6 @@ SanityCheck.check{found}
                     rootNode = it
                 })
 SanityCheck.check{rootNode!=null}
-            }
-        }
-        println(firstLeaf)
-        println(root)
-        println(countPrimary)
-        println(distinctPrimary)
-        if (rootNode != null) {
-            var iterator = rootNode!!.iterator()
-            while (iterator.hasNext()) {
-                println(iterator.next().map { it })
             }
         }
     }
