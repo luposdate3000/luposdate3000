@@ -1,21 +1,17 @@
 #Scalable Join Processing on Very Large RDF Graphs
-prefix uni: <http://purl.uniprot.org/core/>
-prefix uniprot: <http://purl.uniprot.org/>
-prefix schema: <http://www.w3.org/2000/01/rdf-schema#>
-prefix file: <file:///uniprot.rdf#_>
 select ?a ?vo where {
- ?a uni:modified ?vo .
- ?a uni:reviewed "false" .
- ?a uni:mnemonic "REST_CHICK" .
- ?a a uni:Protein .
- ?a uni:obsolete "true" .
- ?a uni:replacedBy uniprot:uniprot/O42184 .
- ?b uni:mnemonic "REST_CHICK" .
- ?b uni:modified "1999-07-15" .
- ?b a uni:Protein .
- ?b uni:replacedBy uniprot:uniprot/O42184 .
- ?b uni:mnemonic "RSN_CHICK" .
- ?a uni:replacedBy ?ab .
- ?ab uni:replaces ?b .
+ ?a <http://purl.uniprot.org/core/modified> ?vo .
+ ?a <http://purl.uniprot.org/core/reviewed> "false" .
+ ?a <http://purl.uniprot.org/core/mnemonic> "REST_CHICK" .
+ ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> .
+ ?a <http://purl.uniprot.org/core/obsolete> "true" .
+ ?a <http://purl.uniprot.org/core/replacedBy> <http://purl.uniprot.org/uniprot/O42184> .
+ ?b <http://purl.uniprot.org/core/mnemonic> "REST_CHICK" .
+ ?b <http://purl.uniprot.org/core/modified> "1999-07-15" .
+ ?b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> .
+ ?b <http://purl.uniprot.org/core/replacedBy> <http://purl.uniprot.org/uniprot/O42184> .
+ ?b <http://purl.uniprot.org/core/mnemonic> "RSN_CHICK" .
+ ?a <http://purl.uniprot.org/core/replacedBy> ?ab .
+ ?ab <http://purl.uniprot.org/core/replaces> ?b .
 }
 

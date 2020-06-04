@@ -3,6 +3,19 @@ pure exist queries to the triple store
 joins with two value-clauses as childs
 sort descending
 constant filter eliminating everything
+subtraction
+aggregation group-concat
 
 
-exceptions for not implemented functions
+
+join - eliminate variable "optional" because it is already specified by selecting the class
+
+
+
+
+
+Triple::
+
+Subject  :: iri | BlankNode
+Predikat :: iri
+Object   :: iri | BlankNode | literal

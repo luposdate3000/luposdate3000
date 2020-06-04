@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "14"
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
@@ -33,7 +34,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_SparqlTestSuite_On_Sequential_Heap_MultiMap_BPlusTree_Korio_On_BTree_BTree_Count_Empty_128_8_8_8_8_false_ECoverage.Disabled_DontChange_None")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_SparqlTestSuite_On_Sequential_Heap_MultiMap_SingleList_Korio_On_BTree_BTree_None_EmptyWithDictionary_512_32_32_32_32768_true_ECoverage.Count_DontChange_None")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.klock:klock:1.7.0")

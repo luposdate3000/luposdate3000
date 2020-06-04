@@ -1,16 +1,11 @@
 #Scalable Join Processing on Very Large RDF Graphs
-prefix geo: <http://www.geonames.org/>
-prefix pos: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-prefix dbpedia: <http://dbpedia.org/property/>
-prefix dbpediares: <http://dbpedia.org/resource/>
-prefix owl: <http://www.w3.org/2002/07/owl#>
 select distinct ?a ?b ?lat ?long where {
- ?a dbpedia:spouse ?b .
- ?a dbpedia:wikilink dbpediares:actor .
- ?b dbpedia:wikilink dbpediares:actor .
- ?a dbpedia:placeOfBirth ?c .
- ?b dbpedia:placeOfBirth ?c .
- ?c owl:sameAs ?c2 .
- ?c2 pos:lat ?lat .
- ?c2 pos:long ?long .
+ ?a <http://dbpedia.org/property/spouse> ?b .
+ ?a <http://dbpedia.org/property/wikilink> <http://dbpedia.org/resource/actor> .
+ ?b <http://dbpedia.org/property/wikilink> <http://dbpedia.org/resource/actor> .
+ ?a <http://dbpedia.org/property/placeOfBirth> ?c .
+ ?b <http://dbpedia.org/property/placeOfBirth> ?c .
+ ?c <http://www.w3.org/2002/07/owl#sameAs> ?c2 .
+ ?c2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
+ ?c2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
 }
