@@ -2,7 +2,7 @@
 touch config.csv2
 rm config.csv2
 
-for triples2 in 1 2
+for triples2 in 1 2 3
 do
 	(
 		cd /opt/bsbmtools-0.2
@@ -14,26 +14,70 @@ do
 	rm -rf tmpdata
 	triples=$(wc -l bsbm-$triples2.n3 | sed "s/ .*//g")
 	mv bsbm-$triples2.n3 bsbm-$triples.n3
+#productPropertyNumeric1
+	grep "bsbm:productPropertyNumeric1" bsbm-$triples.n3 | sed "s/.*bsbm:productPropertyNumeric1 //g" | sed "s/ .$//g" | sort -u | shuf > bsbm-helper-$triples-productPropertyNumeric1.txt
+#productPropertyNumeric2
+	grep "bsbm:productPropertyNumeric2" bsbm-$triples.n3 | sed "s/.*bsbm:productPropertyNumeric2 //g" | sed "s/ .$//g" | sort -u | shuf > bsbm-helper-$triples-productPropertyNumeric2.txt
+#productPropertyNumeric3
+	grep "bsbm:productPropertyNumeric3" bsbm-$triples.n3 | sed "s/.*bsbm:productPropertyNumeric3 //g" | sed "s/ .$//g" | sort -u | shuf > bsbm-helper-$triples-productPropertyNumeric3.txt
 #country
-	grep "bsbm:country" bsbm-$triples.n3 | sed "s/.*bsbm:country //g" | sed "s/ .$//g" | sort -u > bsbm-helper-$triples-country.txt
+	grep "bsbm:country" bsbm-$triples.n3 | sed "s/.*bsbm:country //g" | sed "s/ .$//g" | sort -u | shuf > bsbm-helper-$triples-country.txt
 #review
-	grep "rdf:type bsbm:Review" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Review .//g" | sort -u > bsbm-helper-$triples-review.txt
+	grep "rdf:type bsbm:Review" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Review .//g" | sort -u | shuf > bsbm-helper-$triples-review.txt
 #product
-	grep "rdf:type bsbm:Product" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Product .//g" | sort -u > bsbm-helper-$triples-product.txt
+	grep "rdf:type bsbm:Product" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Product .//g" | sort -u | shuf > bsbm-helper-$triples-product.txt
 #producer
-	grep "rdf:type bsbm:Producer" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Producer .//g" | sort -u > bsbm-helper-$triples-producer.txt
+	grep "rdf:type bsbm:Producer" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Producer .//g" | sort -u | shuf > bsbm-helper-$triples-producer.txt
 #offer
-	grep "rdf:type bsbm:Offer" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Offer .//g" | sort -u > bsbm-helper-$triples-offer.txt
+	grep "rdf:type bsbm:Offer" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Offer .//g" | sort -u | shuf > bsbm-helper-$triples-offer.txt
 #product type
-	grep "rdf:type bsbm:ProductType" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductType .//g" | sort -u > bsbm-helper-$triples-producttype.txt
+	grep "rdf:type bsbm:ProductType" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductType .//g" | sort -u | shuf > bsbm-helper-$triples-producttype.txt
 #product feature
-	grep "rdf:type bsbm:ProductFeature" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductFeature .//g" | sort -u > bsbm-helper-$triples-productfeature.txt
-
-
-	for q in $(find -name "q*.sparql" | sed "s/.sparql//g" | sed "s/.*q/q/g")
+	grep "rdf:type bsbm:ProductFeature" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductFeature .//g" | sort -u | shuf > bsbm-helper-$triples-productfeature.txt
+#month
+	grep '"' bsbm-$triples.n3 | sed 's/^[^"]*//g' | grep -v "@" | grep -v "integer" | grep -v USD | grep "^.[0-9].*" | sed -E "s/^.(....-..-).*$/\1/g" | sed "s/$/01/g" | sort -u | grep -v -- "-11-" | grep -v -- "-12-" > bsbm-helper-$triples-month.txt
+	cat bsbm-helper-$triples-month.txt | head -n$(($(wc -l bsbm-helper-$triples-month.txt | sed "s/ .*//g") - 2 )) | shuf > bsbm-helper-$triples-month2.txt
+	mv bsbm-helper-$triples-month2.txt bsbm-helper-$triples-month.txt
+#currentDate
+	grep '"' bsbm-$triples.n3 | sed 's/^[^"]*//g' | grep -v "@" | grep -v "integer" | grep -v USD | grep "^.[0-9].*" | sed -E "s/^(.....-..-..).*$/\1/g" | sed 's/$/"^^xsd:date/g' | sort -u | shuf > bsbm-helper-$triples-date.txt
+#word
+	grep "rdfs:label" bsbm-$triples.n3 | sed "s/.*rdfs:label \"//g" | sed "s/\".*$//g" | tr " " "\n" | sort -u | shuf > bsbm-helper-$triples-word.txt
+	for q in $(find -name "*.template" | sed "s/.template//g")
 	do
-		echo $triples,$q.sparql,bsbm-$triples.n3,$q-$triples.srx >> config.csv2
+		i=$(head -n1 bsbm-helper-$triples-month.txt | sed -E "s/.....0*(.*).../\1/g")
+		p=$(head -n1 bsbm-helper-$triples-month.txt| sed -E "s/(....).*/\1/g")
+		month0=$p-$(printf %02d $i)-01
+		month1=$p-$(printf %02d $((i + 1)))-01
+		month2=$p-$(printf %02d $((i + 2)))-01
+		cat $q.template \
+		| sed "s/%ProductPropertyNumeric1%/$(head -n1 bsbm-helper-$triples-productPropertyNumeric1.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ProductPropertyNumeric2%/$(head -n1 bsbm-helper-$triples-productPropertyNumeric2.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ProductPropertyNumeric3%/$(head -n1 bsbm-helper-$triples-productPropertyNumeric3.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Country1%/$(head -n1 bsbm-helper-$triples-country.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Country2%/$(head -n2 bsbm-helper-$triples-country.txt | tail -n1 | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Country%/$(head -n3 bsbm-helper-$triples-country.txt | tail -n1 | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Review1%/$(head -n1 bsbm-helper-$triples-review.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Product%/$(head -n1 bsbm-helper-$triples-product.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Product1%/$(head -n2 bsbm-helper-$triples-product.txt | tail -n1 | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ProductType%/$(head -n1 bsbm-helper-$triples-producttype.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ProductFeature1%/$(head -n1 bsbm-helper-$triples-productfeature.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ProductFeature2%/$(head -n2 bsbm-helper-$triples-productfeature.txt | tail -n1 | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ProductFeature3%/$(head -n3 bsbm-helper-$triples-productfeature.txt | tail -n1 | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Producer%/$(head -n1 bsbm-helper-$triples-producer.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%Offer1%/$(head -n1 bsbm-helper-$triples-offer.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%currentDate%/$(head -n1 bsbm-helper-$triples-date.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%word1%/$(head -n1 bsbm-helper-$triples-word.txt | sed -e 's/[\/&]/\\&/g')/g" \
+		| sed "s/%ConsecutiveMonth_0%/$month0/g" \
+		| sed "s/%ConsecutiveMonth_1%/$month1/g" \
+		| sed "s/%ConsecutiveMonth_2%/$month2/g" \
+		> $q-$triples.sparql
+		echo $triples,$q-$triples.sparql,bsbm-$triples.n3,$q-$triples.srx >> config.csv2
 	done
+	mkdir tmpdata
+        cat bsbm-$triples.n3 | ./../../exec-compress-chunked-n3.kts tmpdata
+        mv tmpdata/data0.n3 bsbm-$triples.n3
+        rm -rf tmpdata
+	rm bsbm-helper-*
 done
 
 cat config.csv2 | sort -n | uniq > config.csv

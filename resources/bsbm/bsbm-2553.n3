@@ -1536,15 +1536,84 @@ bsbm-inst:ProductFeature35 ;
 bsbm:producer dataFromProducer1:Producer1 ;
 dc:publisher dataFromProducer1:Producer1 ;
 dc:date "2000-11-01"^^xsd:date .
-dataFromVendor1:Vendor1 rdf:type bsbm:Vendor ;
+dataFromProducer1:Product2 rdf:type bsbm:Product ;
 rdfs:label "coterie" ;
-rdfs:comment "naughtiness illuminating careerers computerese brakeless mesozoa lineate fulminant batholiths mohawks exhalation paraguayan alcaldes foulings primordially almightily placed flukey improvises pommelled sententious bookmark rashers truces mordanted shunter praxeological" ;
+rdfs:comment "naughtiness illuminating careerers computerese brakeless mesozoa lineate fulminant batholiths mohawks exhalation paraguayan alcaldes foulings primordially almightily placed flukey improvises pommelled sententious bookmark rashers truces mordanted shunter praxeological causable compassed decertified transubstantiation automatize boxful befouling tragedienne visiting alliums triangulates hounders compressively camphorates mammons armories scrapes hanger nucleation loftless refractoriness nonhabitual paperer aridness jingliest sportswriters gained efficiently marshals tomogram tambura pureeing doughty compromised antineutrinos revertible picadors oddballs hominies drek irradiations fearlessness cortin hussy museful pupfish bulletproofing geminates nacre subsistence presifted abhors whereat wanes mooing refused biodegradability oghamic stouter venosities recopying supplantation buxomly foregoers pathologist welches comicality manifestos untangles mongols sluices demits inventers entitled taxability fancifulness claimed gastroenterology geotropically glenwood alack autochthonous nabob preempts alternativeness xviii fruiter deist electorally cooker voce abbeys composts jugsful glowing basset worshipfully rebait bushwhacker implorer jackknifing paraguayan enrolls blazonry dendrological pavilioned cully epistles foreshorten couth usurps legibilities yammered somnolently" ;
+rdf:type bsbm-inst:ProductType6 ;
+bsbm:productPropertyNumeric1 "1891"^^xsd:integer ;
+bsbm:productPropertyNumeric2 "1040"^^xsd:integer ;
+bsbm:productPropertyNumeric3 "1731"^^xsd:integer ;
+bsbm:productPropertyNumeric5 "992"^^xsd:integer ;
+bsbm:productPropertyTextual1 "scalded decoct practitioners infolds levered quartan calcined untransferable auditoria"^^xsd:string ;
+bsbm:productPropertyTextual2 "charred payment linoleums cowsheds preconceive undergrounder nosier sawhorse coerces assn turgidities venins obliged homogenize"^^xsd:string ;
+bsbm:productPropertyTextual3 "componential redemonstrates dewberries pearlers triplicates planked goddaughters largeness citator"^^xsd:string ;
+bsbm:productPropertyTextual5 "palpal thoroughly enactive swimmiest syrups"^^xsd:string ;
+bsbm:productFeature bsbm-inst:ProductFeature187 ,
+bsbm-inst:ProductFeature190 ,
+bsbm-inst:ProductFeature196 ,
+bsbm-inst:ProductFeature200 ,
+bsbm-inst:ProductFeature203 ,
+bsbm-inst:ProductFeature208 ,
+bsbm-inst:ProductFeature211 ,
+bsbm-inst:ProductFeature213 ,
+bsbm-inst:ProductFeature215 ,
+bsbm-inst:ProductFeature41 ,
+bsbm-inst:ProductFeature42 ,
+bsbm-inst:ProductFeature44 ,
+bsbm-inst:ProductFeature45 ,
+bsbm-inst:ProductFeature49 ,
+bsbm-inst:ProductFeature50 ,
+bsbm-inst:ProductFeature52 ,
+bsbm-inst:ProductFeature57 ,
+bsbm-inst:ProductFeature59 ,
+bsbm-inst:ProductFeature61 ,
+bsbm-inst:ProductFeature63 ,
+bsbm-inst:ProductFeature67 ,
+bsbm-inst:ProductFeature70 ,
+bsbm-inst:ProductFeature72 ;
+bsbm:producer dataFromProducer1:Producer1 ;
+dc:publisher dataFromProducer1:Producer1 ;
+dc:date "2005-03-08"^^xsd:date .
+dataFromProducer1:Product3 rdf:type bsbm:Product ;
+rdfs:label "ahchoo" ;
+rdfs:comment "chanceman ventrals phlegmy vower matureness fictionalize iliads gasman tumours afeared tuneably insurrectionaries enfolds cisterns adduction leafage maharajas prancingly mannerless vitrines radiocast insulates stilbestrol compartmented appearers undercurrents gunnel hopes launchings deluder overemotional unfolder bioflavonoid snorter thawed instinctively halidome classed towages unctions carcase recollects germanely disputation ciscoes unsettle calculableness artiest disprovable soporose rankly fuguing pox recontamination windiness hypothermic chutzpahs lilliput cognoscing divestitive misbehaves culpableness mutilators biogeographic inmesh flumed apeak doweling reheels unshut avascular redirected wiverns graveled quae pithiest unities monks boniness dancing gleemen unimpeachably reaming trekked calculabilities sphinxes protozoans toasty understanding elks ultrasonography dreggier slashingly pimpernels survivors cultivating swaybacks immodestly pennsylvanian vitrine unpronounceable gallicism laggers undefeated deers heinousness cocobolo steadily gendarmerie blatantly spinosely totalizes invited preyers bandoleers airmailed quotationally intercuts updates digests accusatorially dusking stoppages littles cadaveric holsteins repertoires" ;
+rdf:type bsbm-inst:ProductType5 ;
+bsbm:productPropertyNumeric1 "594"^^xsd:integer ;
+bsbm:productPropertyNumeric2 "434"^^xsd:integer ;
+bsbm:productPropertyNumeric3 "227"^^xsd:integer ;
+bsbm:productPropertyTextual1 "whirs radiation overman violative adulators benumbs disaffectedly cuttages bluebeard"^^xsd:string ;
+bsbm:productPropertyTextual2 "vichies resituates breads visard unfought adjunctly bractlets foamed durability amends retailer creaking inseminator sedatest rodeos"^^xsd:string ;
+bsbm:productPropertyTextual3 "unreels voicer acidifiers shredding fistula uniformer chivies immunological grimacer spoilt admiringly"^^xsd:string ;
+bsbm:productPropertyTextual5 "hyperbolas knouted eulogists"^^xsd:string ;
+bsbm:productFeature bsbm-inst:ProductFeature142 ,
+bsbm-inst:ProductFeature148 ,
+bsbm-inst:ProductFeature151 ,
+bsbm-inst:ProductFeature169 ,
+bsbm-inst:ProductFeature171 ,
+bsbm-inst:ProductFeature173 ,
+bsbm-inst:ProductFeature175 ,
+bsbm-inst:ProductFeature181 ,
+bsbm-inst:ProductFeature2 ,
+bsbm-inst:ProductFeature6 ,
+bsbm-inst:ProductFeature7 ,
+bsbm-inst:ProductFeature10 ,
+bsbm-inst:ProductFeature18 ,
+bsbm-inst:ProductFeature25 ,
+bsbm-inst:ProductFeature27 ,
+bsbm-inst:ProductFeature29 ,
+bsbm-inst:ProductFeature33 ;
+bsbm:producer dataFromProducer1:Producer1 ;
+dc:publisher dataFromProducer1:Producer1 ;
+dc:date "2001-05-18"^^xsd:date .
+dataFromVendor1:Vendor1 rdf:type bsbm:Vendor ;
+rdfs:label "reexhibit" ;
+rdfs:comment "bihourly prosiest matrixes jaggedest violinists dins archipelagos heighths limber azons acceptee husbander ashram relativeness grannies rectangles unearthing conies capered toeshoe fervour domination impishly satirically photonegative kaleidoscopic morticians" ;
 foaf:homepage <http://www.vendor1.com/> ;
 bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> ;
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-31"^^xsd:date .
 dataFromVendor1:Offer1 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "7683.53"^^bsbm:USD ;
 bsbm:validFrom "2008-03-20T00:00:00"^^xsd:dateTime ;
@@ -1554,7 +1623,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-06-17"^^xsd:date .
 dataFromVendor1:Offer2 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "272.68"^^bsbm:USD ;
 bsbm:validFrom "2008-03-26T00:00:00"^^xsd:dateTime ;
@@ -1574,7 +1643,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-03-21"^^xsd:date .
 dataFromVendor1:Offer4 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "9904.47"^^bsbm:USD ;
 bsbm:validFrom "2008-03-26T00:00:00"^^xsd:dateTime ;
@@ -1584,7 +1653,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-06-07"^^xsd:date .
 dataFromVendor1:Offer5 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "3993.24"^^bsbm:USD ;
 bsbm:validFrom "2008-01-16T00:00:00"^^xsd:dateTime ;
@@ -1594,7 +1663,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-03-24"^^xsd:date .
 dataFromVendor1:Offer6 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "269.88"^^bsbm:USD ;
 bsbm:validFrom "2008-03-15T00:00:00"^^xsd:dateTime ;
@@ -1604,7 +1673,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-25"^^xsd:date .
 dataFromVendor1:Offer7 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "7574.05"^^bsbm:USD ;
 bsbm:validFrom "2008-05-13T00:00:00"^^xsd:dateTime ;
@@ -1614,7 +1683,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-20"^^xsd:date .
 dataFromVendor1:Offer8 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "7400.85"^^bsbm:USD ;
 bsbm:validFrom "2008-03-05T00:00:00"^^xsd:dateTime ;
@@ -1624,7 +1693,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-06-01"^^xsd:date .
 dataFromVendor1:Offer9 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "4095.95"^^bsbm:USD ;
 bsbm:validFrom "2008-02-05T00:00:00"^^xsd:dateTime ;
@@ -1644,7 +1713,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-21"^^xsd:date .
 dataFromVendor1:Offer11 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "623.27"^^bsbm:USD ;
 bsbm:validFrom "2008-04-04T00:00:00"^^xsd:dateTime ;
@@ -1654,7 +1723,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-06-09"^^xsd:date .
 dataFromVendor1:Offer12 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "7155.71"^^bsbm:USD ;
 bsbm:validFrom "2008-02-20T00:00:00"^^xsd:dateTime ;
@@ -1664,7 +1733,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-04-12"^^xsd:date .
 dataFromVendor1:Offer13 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "4656.45"^^bsbm:USD ;
 bsbm:validFrom "2008-03-30T00:00:00"^^xsd:dateTime ;
@@ -1674,7 +1743,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-04-25"^^xsd:date .
 dataFromVendor1:Offer14 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "2204.68"^^bsbm:USD ;
 bsbm:validFrom "2008-05-12T00:00:00"^^xsd:dateTime ;
@@ -1684,7 +1753,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-28"^^xsd:date .
 dataFromVendor1:Offer15 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "1223.79"^^bsbm:USD ;
 bsbm:validFrom "2008-01-04T00:00:00"^^xsd:dateTime ;
@@ -1694,7 +1763,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-03-20"^^xsd:date .
 dataFromVendor1:Offer16 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product3 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "9334.06"^^bsbm:USD ;
 bsbm:validFrom "2008-01-02T00:00:00"^^xsd:dateTime ;
@@ -1704,7 +1773,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-03-18"^^xsd:date .
 dataFromVendor1:Offer17 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "9291.02"^^bsbm:USD ;
 bsbm:validFrom "2008-05-03T00:00:00"^^xsd:dateTime ;
@@ -1714,7 +1783,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-14"^^xsd:date .
 dataFromVendor1:Offer18 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "9164.15"^^bsbm:USD ;
 bsbm:validFrom "2008-03-15T00:00:00"^^xsd:dateTime ;
@@ -1724,7 +1793,7 @@ bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/data
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-05-25"^^xsd:date .
 dataFromVendor1:Offer19 rdf:type bsbm:Offer ;
-bsbm:product dataFromProducer1:Product1 ;
+bsbm:product dataFromProducer1:Product2 ;
 bsbm:vendor dataFromVendor1:Vendor1 ;
 bsbm:price "2236.48"^^bsbm:USD ;
 bsbm:validFrom "2008-03-29T00:00:00"^^xsd:dateTime ;
@@ -1743,6 +1812,406 @@ bsbm:deliveryDays "2"^^xsd:integer ;
 bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer20/> ;
 dc:publisher dataFromVendor1:Vendor1 ;
 dc:date "2008-06-08"^^xsd:date .
+dataFromVendor1:Offer21 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "9968.93"^^bsbm:USD ;
+bsbm:validFrom "2008-04-10T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-11T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "1"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer21/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-24"^^xsd:date .
+dataFromVendor1:Offer22 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "458.44"^^bsbm:USD ;
+bsbm:validFrom "2008-05-03T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-16T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer22/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-14"^^xsd:date .
+dataFromVendor1:Offer23 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "283.44"^^bsbm:USD ;
+bsbm:validFrom "2008-02-21T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-08-12T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer23/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-20"^^xsd:date .
+dataFromVendor1:Offer24 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "9175.77"^^bsbm:USD ;
+bsbm:validFrom "2008-05-21T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-23T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer24/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-24"^^xsd:date .
+dataFromVendor1:Offer25 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "2838.35"^^bsbm:USD ;
+bsbm:validFrom "2008-05-03T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-11T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "4"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer25/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-10"^^xsd:date .
+dataFromVendor1:Offer26 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3914.34"^^bsbm:USD ;
+bsbm:validFrom "2008-03-05T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-06T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "1"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer26/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-30"^^xsd:date .
+dataFromVendor1:Offer27 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "2388.09"^^bsbm:USD ;
+bsbm:validFrom "2008-01-15T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-04-13T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer27/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-03-24"^^xsd:date .
+dataFromVendor1:Offer28 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "9630.42"^^bsbm:USD ;
+bsbm:validFrom "2008-02-04T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-01T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "6"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer28/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-15"^^xsd:date .
+dataFromVendor1:Offer29 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "6812.69"^^bsbm:USD ;
+bsbm:validFrom "2008-03-18T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-10T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "2"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer29/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-03"^^xsd:date .
+dataFromVendor1:Offer30 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "1651.85"^^bsbm:USD ;
+bsbm:validFrom "2008-02-22T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-02T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer30/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-03-21"^^xsd:date .
+dataFromVendor1:Offer31 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "1740.17"^^bsbm:USD ;
+bsbm:validFrom "2008-02-18T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-21T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "2"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer31/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-10"^^xsd:date .
+dataFromVendor1:Offer32 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "2718.37"^^bsbm:USD ;
+bsbm:validFrom "2008-05-03T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-08-23T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer32/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-12"^^xsd:date .
+dataFromVendor1:Offer33 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "5777.23"^^bsbm:USD ;
+bsbm:validFrom "2008-04-16T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-11T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "2"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer33/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-15"^^xsd:date .
+dataFromVendor1:Offer34 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "8227.00"^^bsbm:USD ;
+bsbm:validFrom "2008-02-27T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-15T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer34/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-16"^^xsd:date .
+dataFromVendor1:Offer35 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "9612.56"^^bsbm:USD ;
+bsbm:validFrom "2008-02-20T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-08T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer35/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-15"^^xsd:date .
+dataFromVendor1:Offer36 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "2809.29"^^bsbm:USD ;
+bsbm:validFrom "2008-05-15T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-24T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "1"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer36/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-08"^^xsd:date .
+dataFromVendor1:Offer37 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "7639.92"^^bsbm:USD ;
+bsbm:validFrom "2008-04-26T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-22T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer37/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-06"^^xsd:date .
+dataFromVendor1:Offer38 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "4157.78"^^bsbm:USD ;
+bsbm:validFrom "2008-05-05T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-21T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer38/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-19"^^xsd:date .
+dataFromVendor1:Offer39 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3070.24"^^bsbm:USD ;
+bsbm:validFrom "2008-04-28T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-01T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "6"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer39/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-02"^^xsd:date .
+dataFromVendor1:Offer40 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "4241.45"^^bsbm:USD ;
+bsbm:validFrom "2007-12-29T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-04-15T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "2"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer40/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-03-26"^^xsd:date .
+dataFromVendor1:Offer41 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "6153.41"^^bsbm:USD ;
+bsbm:validFrom "2008-02-07T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-21T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer41/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-03-25"^^xsd:date .
+dataFromVendor1:Offer42 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3638.85"^^bsbm:USD ;
+bsbm:validFrom "2008-01-20T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-18T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "4"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer42/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-13"^^xsd:date .
+dataFromVendor1:Offer43 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "435.83"^^bsbm:USD ;
+bsbm:validFrom "2008-02-13T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-17T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "7"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer43/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-09"^^xsd:date .
+dataFromVendor1:Offer44 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "2198.68"^^bsbm:USD ;
+bsbm:validFrom "2008-02-18T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-17T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "6"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer44/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-05"^^xsd:date .
+dataFromVendor1:Offer45 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3749.81"^^bsbm:USD ;
+bsbm:validFrom "2008-02-23T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-18T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer45/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-25"^^xsd:date .
+dataFromVendor1:Offer46 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "8014.75"^^bsbm:USD ;
+bsbm:validFrom "2008-04-26T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-19T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer46/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-11"^^xsd:date .
+dataFromVendor1:Offer47 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "9209.69"^^bsbm:USD ;
+bsbm:validFrom "2008-03-17T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-26T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer47/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-03"^^xsd:date .
+dataFromVendor1:Offer48 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "7201.89"^^bsbm:USD ;
+bsbm:validFrom "2008-04-12T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-29T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer48/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-06-04"^^xsd:date .
+dataFromVendor1:Offer49 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "6252.85"^^bsbm:USD ;
+bsbm:validFrom "2008-02-10T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-01T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "2"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer49/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-15"^^xsd:date .
+dataFromVendor1:Offer50 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "8874.85"^^bsbm:USD ;
+bsbm:validFrom "2008-04-06T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-18T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer50/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-23"^^xsd:date .
+dataFromVendor1:Offer51 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3436.32"^^bsbm:USD ;
+bsbm:validFrom "2008-02-26T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-28T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "6"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer51/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-17"^^xsd:date .
+dataFromVendor1:Offer52 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3435.47"^^bsbm:USD ;
+bsbm:validFrom "2008-04-04T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-19T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "7"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer52/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-11"^^xsd:date .
+dataFromVendor1:Offer53 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "2781.13"^^bsbm:USD ;
+bsbm:validFrom "2008-02-01T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-04-11T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "5"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer53/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-04"^^xsd:date .
+dataFromVendor1:Offer54 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "7232.17"^^bsbm:USD ;
+bsbm:validFrom "2008-01-11T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-28T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer54/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-03-29"^^xsd:date .
+dataFromVendor1:Offer55 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product1 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "52.63"^^bsbm:USD ;
+bsbm:validFrom "2008-03-22T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-15T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "4"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer55/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-17"^^xsd:date .
+dataFromVendor1:Offer56 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "3527.53"^^bsbm:USD ;
+bsbm:validFrom "2008-03-10T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-06T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "1"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer56/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-03-29"^^xsd:date .
+dataFromVendor1:Offer57 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "6624.97"^^bsbm:USD ;
+bsbm:validFrom "2008-05-03T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-28T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "7"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer57/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-05-20"^^xsd:date .
+dataFromVendor1:Offer58 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "7751.98"^^bsbm:USD ;
+bsbm:validFrom "2008-04-17T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-05-29T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "1"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer58/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-20"^^xsd:date .
+dataFromVendor1:Offer59 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product2 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "6402.32"^^bsbm:USD ;
+bsbm:validFrom "2008-03-30T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-07-10T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "3"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer59/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-13"^^xsd:date .
+dataFromVendor1:Offer60 rdf:type bsbm:Offer ;
+bsbm:product dataFromProducer1:Product3 ;
+bsbm:vendor dataFromVendor1:Vendor1 ;
+bsbm:price "5076.69"^^bsbm:USD ;
+bsbm:validFrom "2008-04-02T00:00:00"^^xsd:dateTime ;
+bsbm:validTo "2008-06-29T00:00:00"^^xsd:dateTime ;
+bsbm:deliveryDays "2"^^xsd:integer ;
+bsbm:offerWebpage <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer60/> ;
+dc:publisher dataFromVendor1:Vendor1 ;
+dc:date "2008-04-10"^^xsd:date .
 dataFromRatingSite1:Reviewer1 rdf:type foaf:Person ;
 foaf:name "Ruggiero-Delane" ;
 foaf:mbox_sha1sum "fb3efd92e3c7a8d775a895ba476e11a3e8f3fac" ;
@@ -1750,20 +2219,20 @@ bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-09-05"^^xsd:date .
 dataFromRatingSite1:Review1 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "causable compassed decertified transubstantiation automatize boxful befouling tragedienne visiting alliums triangulates hounders compressively" ;
-rev:text "camphorates mammons armories scrapes hanger nucleation loftless refractoriness nonhabitual paperer aridness jingliest sportswriters gained efficiently marshals tomogram tambura pureeing doughty compromised antineutrinos revertible picadors oddballs hominies drek irradiations fearlessness cortin hussy museful pupfish bulletproofing geminates nacre subsistence presifted abhors whereat wanes mooing refused biodegradability oghamic stouter venosities recopying supplantation buxomly foregoers pathologist welches comicality manifestos untangles mongols sluices demits inventers entitled taxability fancifulness claimed gastroenterology geotropically glenwood alack autochthonous nabob preempts alternativeness xviii fruiter deist electorally cooker voce abbeys composts jugsful glowing basset worshipfully rebait bushwhacker implorer jackknifing paraguayan enrolls blazonry dendrological pavilioned cully epistles foreshorten couth usurps legibilities yammered somnolently scalded decoct practitioners infolds levered quartan calcined untransferable auditoria charred payment linoleums cowsheds preconceive undergrounder nosier sawhorse coerces assn turgidities venins obliged homogenize componential redemonstrates dewberries pearlers triplicates planked goddaughters largeness citator palpal thoroughly enactive swimmiest syrups chanceman ventrals phlegmy vower matureness fictionalize iliads gasman tumours afeared tuneably insurrectionaries enfolds cisterns adduction leafage maharajas prancingly mannerless vitrines radiocast insulates stilbestrol compartmented appearers undercurrents"@en ;
+dc:title "eyewaters rapturousness animater granting twier geosynclinal relearns cosmopolis maizes gemmy unmixt mumbler laundries" ;
+rev:text "selenography unpin findings mistrusts porgy discontentedly bolter hulkier windily whoremaster sovietizes expellees reordain fondness nightspots boggier microvasculature fellatee holders inebrious upping mucking yugoslavs blondness appal premenstrually fiddled disfavors sketchers inhumanities tightest unsatisfied cherubically stonefly mentally buddhists atelier eighteens smartly retaliates marbleizing trappings egomaniacal undercook roadstead reascend dekaliter grinning retakers paintbrushes cichlid ashlars conventual smoothen gombos appurtenance botchy nonchalantly atremble thieve overflows daimons enwinding crystalloidal reproval nontaxable crossbars troupes photoreception tortuousness caromed creamier sphenoid authors nabbing mistimes enactment agoraphobic footslog boycotting overabounding cinerary vixenishly rearwards eczematous chuckler farming drudging ruinable soothest highted incontestabilities archdeacons agendums somatotypology garnished headband curves mows skinfuls uncertainty craving incas maenades fitfulness mas creditors fixity churchlier assumed routines quartered mishmosh booms globoid syndicating orcas visas deprecatingly conceptualist reactivation comebacks matchmaking disinformation muffled granulator basketries warthogs childbeds empowers pantomimist riverbanks loosens foretime managers updatable unzip bayonets bruins abstemiousness advocates destitutely increasing workaholics situating repartees mobilizers anorak magdalen inattentiveness filmstrips gusting runways tressiest obeyable lapps mooch defamatory whirs stealer pyramided motivates lapidates syllables"@en ;
 bsbm:rating2 "10"^^xsd:integer ;
 bsbm:rating3 "10"^^xsd:integer ;
 bsbm:reviewDate "2007-12-17T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-06-06"^^xsd:date .
 dataFromRatingSite1:Review2 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "gunnel hopes launchings deluder overemotional unfolder bioflavonoid" ;
-rev:text "snorter thawed instinctively halidome classed towages unctions carcase recollects germanely disputation ciscoes unsettle calculableness artiest disprovable soporose rankly fuguing pox recontamination windiness hypothermic chutzpahs lilliput cognoscing divestitive misbehaves culpableness mutilators biogeographic inmesh flumed apeak doweling reheels unshut avascular redirected wiverns graveled quae pithiest unities monks boniness dancing gleemen unimpeachably reaming trekked calculabilities sphinxes protozoans toasty understanding elks ultrasonography dreggier slashingly pimpernels survivors cultivating swaybacks immodestly pennsylvanian vitrine unpronounceable gallicism laggers undefeated deers heinousness cocobolo steadily gendarmerie blatantly spinosely totalizes invited preyers bandoleers airmailed quotationally intercuts updates digests accusatorially dusking stoppages littles cadaveric holsteins repertoires whirs radiation overman violative adulators benumbs disaffectedly cuttages bluebeard vichies resituates breads visard unfought adjunctly bractlets foamed durability amends retailer creaking inseminator sedatest rodeos unreels voicer acidifiers shredding fistula uniformer chivies immunological grimacer spoilt admiringly"@en ;
+dc:title "showily orientates unhat smelting efficiencies calumniation adolescents" ;
+rev:text "loyalest steamboats excitability platy americanist photomicrograph wantonness parabolas massacring heatless episodes hopsack currying kb miscalled unweakened binned compactest pansophies palomino enureses ternate plottage brightly alkalinization underclerk fishmeal moulter valse kaleyards thaws hedonisms veiled tapes recension concusses enlargements mislabel requiems epitomizes clipsheets quixotries uplinking handsprings flexors concurrences snarls postulator involutions cortically upshifts dinette footfalls untaxed personification subdirectors fleabanes greases paradoxical discusses nondiscriminating heaped aroused machining broccolis synergist toppled techie scarlets scattiest magnetometer wiling pretensions impenetrableness argils feedbox halvahs sachems snobbiest impetigos hawknose zulus inadequately potbellied fetters sensuality revalidate elflock bucketful egoisms welterweight friendship topsoiling securer reevaluated proclaimer murker awaiting ferried quinone dengue toxoids unacceptance antibody reinflamed rehardens steeper aerifies unum overbalanced disciplined vulnerably achromat gustative celebrants nonfreezing kindnesses fresher analogs viviparous cosets poleward sagest impellers enjoyed tailpipes raying prevued flickering"@en ;
 bsbm:rating1 "5"^^xsd:integer ;
 bsbm:rating2 "2"^^xsd:integer ;
 bsbm:reviewDate "2007-09-04T00:00:00"^^xsd:dateTime ;
@@ -1772,46 +2241,46 @@ dc:date "2007-11-18"^^xsd:date .
 dataFromRatingSite1:Review3 rdf:type bsbm:Review ;
 bsbm:reviewFor dataFromProducer1:Product1 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "hyperbolas knouted eulogists bihourly prosiest matrixes jaggedest violinists dins archipelagos heighths limber azons acceptee" ;
-rev:text "husbander ashram relativeness grannies rectangles unearthing conies capered toeshoe fervour domination impishly satirically photonegative kaleidoscopic morticians eyewaters rapturousness animater granting twier geosynclinal relearns cosmopolis maizes gemmy unmixt mumbler laundries selenography unpin findings mistrusts porgy discontentedly bolter hulkier windily whoremaster sovietizes expellees reordain fondness nightspots boggier microvasculature fellatee holders inebrious upping mucking yugoslavs blondness appal premenstrually fiddled disfavors sketchers inhumanities tightest unsatisfied cherubically stonefly mentally buddhists atelier eighteens smartly retaliates marbleizing trappings"@en ;
+dc:title "inshrining subscript resubmit grandstander pellagras cunts paleographer obsessiveness windlasses songfest inartistically epergnes guarani sonarman" ;
+rev:text "hassocks yardages alterability tetralogy treaded elevators anathematize surveyed evolvements juicier suffered commonweals wallpapering ionicity inaptness refreezes pepsine shammes reappraises squishiest ethicists bedraggling shivering crimsoned bondable archness occulter overdramatizes liverishness dandles boosting embalms restamp chaining strugglers skullduggeries hums manger pomades alternately pressurized gamed materfamilias supervenes darkest finer seels triste pronators giddiest tensing frauds vapouring sucroses emulsifiable cesarian octagons stoically suppurative catarrhs triadisms foreseen wennier scurviest focuser recrowned cropped signatures plotting asks disembarkations"@en ;
 bsbm:rating1 "3"^^xsd:integer ;
 bsbm:rating2 "3"^^xsd:integer ;
 bsbm:reviewDate "2007-12-16T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-02-27"^^xsd:date .
 dataFromRatingSite1:Review4 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "egomaniacal undercook roadstead reascend dekaliter grinning retakers paintbrushes cichlid ashlars conventual smoothen gombos appurtenance botchy" ;
-rev:text "nonchalantly atremble thieve overflows daimons enwinding crystalloidal reproval nontaxable crossbars troupes photoreception tortuousness caromed creamier sphenoid authors nabbing mistimes enactment agoraphobic footslog boycotting overabounding cinerary vixenishly rearwards eczematous chuckler farming drudging ruinable soothest highted incontestabilities archdeacons agendums somatotypology garnished headband curves mows skinfuls uncertainty craving incas maenades fitfulness mas creditors fixity churchlier assumed routines quartered mishmosh booms globoid syndicating orcas visas deprecatingly conceptualist reactivation comebacks matchmaking"@en ;
+dc:title "rickettsiae clubmen reinduction chilblains intertribal balsamic exotism reintroduced charade cubage oarless humanoids observingly mudcaps ubiquities" ;
+rev:text "decapitating digged glockenspiels hearted sapid weeny colliers cylindrical treeing ferries proselyte victorians signifies limeades iterances expressionist sculked supplanter commitment indemnifying sudoral calcifying captivator versified prating pithier daily nearsightedly buskin recompensable capacitances bootee lockets enticement disservices strategists licensors kennelled barding autocrats lathworks blueings tiresomely outdistanced gothicize ejectable materiels homogeneously paintiest sneezers workboat interphone ascii unconnected instrumentalist topographical disgruntling pederast sceptring racier evens trimeter banes misdemeanor webless rehinge"@en ;
 bsbm:reviewDate "2007-12-16T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-06-10"^^xsd:date .
 dataFromRatingSite1:Review5 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "disinformation muffled granulator basketries warthogs childbeds empowers pantomimist riverbanks loosens" ;
-rev:text "foretime managers updatable unzip bayonets bruins abstemiousness advocates destitutely increasing workaholics situating repartees mobilizers anorak magdalen inattentiveness filmstrips gusting runways tressiest obeyable lapps mooch defamatory whirs stealer pyramided motivates lapidates syllables showily orientates unhat smelting efficiencies calumniation adolescents loyalest steamboats excitability platy americanist photomicrograph wantonness parabolas massacring heatless episodes hopsack currying kb miscalled unweakened binned compactest pansophies palomino enureses ternate plottage brightly alkalinization underclerk fishmeal moulter valse kaleyards thaws hedonisms veiled tapes recension concusses enlargements mislabel requiems epitomizes clipsheets quixotries uplinking handsprings flexors concurrences snarls postulator involutions cortically upshifts dinette footfalls untaxed personification subdirectors fleabanes greases paradoxical discusses nondiscriminating heaped aroused machining broccolis synergist toppled techie scarlets scattiest magnetometer wiling pretensions impenetrableness argils feedbox halvahs sachems snobbiest impetigos hawknose zulus inadequately potbellied fetters sensuality revalidate elflock bucketful egoisms welterweight friendship topsoiling securer reevaluated proclaimer murker awaiting ferried quinone dengue toxoids unacceptance antibody reinflamed rehardens steeper aerifies unum overbalanced disciplined vulnerably achromat gustative celebrants nonfreezing kindnesses fresher analogs viviparous cosets poleward sagest impellers enjoyed tailpipes raying prevued flickering inshrining subscript resubmit grandstander pellagras cunts paleographer obsessiveness windlasses songfest inartistically epergnes guarani sonarman hassocks yardages alterability tetralogy treaded elevators anathematize surveyed evolvements juicier suffered commonweals wallpapering ionicity inaptness refreezes pepsine shammes reappraises"@en ;
+dc:title "mitigative defamers naturalist accustoms reclean valiancies pilled bearcats tents demultiplexes" ;
+rev:text "skulking publicized typecase supervisors escapeway recoinage blinding execs conformism treasures durums rondelle drawing oppressing bores coplots monogamousness zoospores unlikelihood preengaged overhands limekiln penetrator ultrasound lymphocytic radiolucencies chefs feoffment conventionalism cascading machos abundantly godchild frequented misplacing repairers surfy antedating chunter cancelers photoflash mistaught testacies solidest incarnation arrayers gruelingly honorands slobs builders preadjusting cpl fosterage trulls fakers toepiece maximally bouldery hampshirites dermatologies flopover noctambulation frizzler submissively reconsolidate clapping enunciators championed nigglingly tongers liquoring reminder podiatrists tussocks reprice renovating chevrolets refolds fantastical polarity ennuis franchisers undiluted macaroons overexcited habitability reaching ethers gratias biers wretchedly warps poetess forthrightness kinaesthetically lukewarmly decorators viselike ionized pumpernickel durations legitimation hazings protracting beechier monopolizes yids flavonols scaler letup condignly gipsies spoonily forging workups drapers oculist aldehydes subassociation forejudge graciousness carromed mal alpinisms alongshore proceeded institutionally ultraconservatives harpooner vises puffers trainful bordellos wayfarings cumquats jilter strewed imputing sibilantly venosities nosiness wharfs comediennes reprices manias trichroic valvar vaporizing obsolescently feedboxes radiophone antibacterial singlets soaper deists untangle undergraduates kwacha discombobulation chargers slumping servantship vittled jadishly superabundant gibbeting signatary frypan horsehides nonclassical sharecropped friendless flushers corrupted utilized emigres acolytes shouldering rassling surfs carvers braw weatherglasses soakers haggis hoisted cowlicks middlemost caroused reattach tenably tympanic binder foresters agamic busboys unrestored kneeler chaplet newts"@en ;
 bsbm:rating1 "9"^^xsd:integer ;
 bsbm:rating3 "8"^^xsd:integer ;
 bsbm:reviewDate "2007-09-02T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-01-25"^^xsd:date .
 dataFromRatingSite1:Review6 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "squishiest ethicists bedraggling shivering crimsoned bondable" ;
-rev:text "archness occulter overdramatizes liverishness dandles boosting embalms restamp chaining strugglers skullduggeries hums manger pomades alternately pressurized gamed materfamilias supervenes darkest finer seels triste pronators giddiest tensing frauds vapouring sucroses emulsifiable cesarian octagons stoically suppurative catarrhs triadisms foreseen wennier scurviest focuser recrowned cropped signatures plotting asks disembarkations rickettsiae clubmen reinduction chilblains intertribal balsamic exotism reintroduced charade cubage oarless humanoids observingly mudcaps ubiquities decapitating digged glockenspiels hearted sapid weeny colliers cylindrical treeing ferries proselyte victorians signifies limeades iterances expressionist sculked supplanter commitment indemnifying sudoral calcifying captivator versified prating pithier daily"@en ;
+dc:title "deckle vegas overeducating replicates corks cinematheques" ;
+rev:text "charmers licitation geezer recombines admitters underpasses nighty ensnarled pardonable imperialness cowiest crimpers unmuzzles repacify poilu candors dictaphone youngsters stet millers impecuniousness likability comparts endemics reinsert clerkship halfbeak expansionary metaphysician effrontery helpfully hogs secures micks tacks oilstone guises clangs bendable maladministrative mopped halitoses quirts amortizable buggered dewclaw loners hydrozoon zinging reequips saddlebags exorcises laudability topside novelle chemoreceptor temporized bloodstreams housemaids sharks bannock resuscitative motets gruels choosier apologizes anticyclonic equalities struggled crappiness reuniter immixes ozonizes quashes unlivable backslider feminizing bretons overhauling streaky forejudge weepers dourness viceless hies tubercular refurnish taggers"@en ;
 bsbm:rating1 "3"^^xsd:integer ;
 bsbm:rating4 "5"^^xsd:integer ;
 bsbm:reviewDate "2008-01-01T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-02-21"^^xsd:date .
 dataFromRatingSite1:Review7 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "nearsightedly buskin recompensable capacitances bootee lockets enticement disservices strategists licensors kennelled barding autocrats lathworks" ;
-rev:text "blueings tiresomely outdistanced gothicize ejectable materiels homogeneously paintiest sneezers workboat interphone ascii unconnected instrumentalist topographical disgruntling pederast sceptring racier evens trimeter banes misdemeanor webless rehinge mitigative defamers naturalist accustoms reclean valiancies pilled bearcats tents demultiplexes skulking publicized typecase supervisors escapeway recoinage blinding execs conformism treasures durums rondelle drawing oppressing bores coplots monogamousness zoospores unlikelihood preengaged overhands limekiln penetrator ultrasound lymphocytic radiolucencies chefs feoffment conventionalism cascading machos abundantly godchild frequented misplacing repairers surfy antedating chunter cancelers photoflash mistaught testacies solidest incarnation arrayers gruelingly honorands slobs builders preadjusting cpl fosterage trulls fakers toepiece maximally bouldery hampshirites dermatologies flopover noctambulation frizzler submissively reconsolidate clapping enunciators championed nigglingly tongers liquoring reminder podiatrists tussocks reprice renovating chevrolets refolds fantastical polarity ennuis franchisers undiluted macaroons"@en ;
+dc:title "inquisitional rebecs mouthwash deaconing metastasis weans adjectivally troths apperceptive nonprotectively beckoning commiseration guttersnipes doctoring" ;
+rev:text "gymkhana sheepmen apologizers ortolan toadyish quatrains revalue straying restacks frivolously pierced fauces babus novelistic gills regresses fossilization lipless sulphurize ohmage procrastinator alienator travelled rivets thrivers pingrasses steps campier mismarks plushier proteinaceous bunco snoozes glitters finical simulants hippies skims engrave soundtracks huffish nonnegotiable eclectically hatsful shaftings disobeyers identifies wingspread exceptionally replan aiming bedstraws tragically pollutants prefabricating isolation sextets rewarders approvement productive salaamed minatory ruleless microsurgeons circumambulate sapphisms nonsexually adjoined noticing deescalated habiting touristy unequalled lucidities discords matureness hydrocephaloid certifies undyingly doylies spellbinds prenatally govt unpolarized togae overjoying shirts reediness ecclesiastics awakens arrowing corncake crumbliness recommits viperish monkery unappetizingly quarrier speaks malthus overlook fatted archaists refreshed gayness filaree cirque vibrations leukemoid enquirer drossier prescience housewifeliness timed contentiousness constricting scramblers shivarees foilable"@en ;
 bsbm:rating1 "3"^^xsd:integer ;
 bsbm:rating2 "4"^^xsd:integer ;
 bsbm:rating4 "1"^^xsd:integer ;
@@ -1821,18 +2290,18 @@ dc:date "2008-02-03"^^xsd:date .
 dataFromRatingSite1:Review8 rdf:type bsbm:Review ;
 bsbm:reviewFor dataFromProducer1:Product1 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "overexcited habitability reaching ethers gratias biers wretchedly warps poetess forthrightness kinaesthetically lukewarmly decorators viselike ionized" ;
-rev:text "pumpernickel durations legitimation hazings protracting beechier monopolizes yids flavonols scaler letup condignly gipsies spoonily forging workups drapers oculist aldehydes subassociation forejudge graciousness carromed mal alpinisms alongshore proceeded institutionally ultraconservatives harpooner vises puffers trainful bordellos wayfarings cumquats jilter strewed imputing sibilantly venosities nosiness wharfs comediennes reprices manias trichroic valvar vaporizing obsolescently feedboxes radiophone antibacterial singlets soaper deists untangle undergraduates kwacha discombobulation chargers slumping servantship vittled jadishly superabundant gibbeting signatary frypan horsehides nonclassical sharecropped friendless flushers corrupted utilized emigres acolytes shouldering rassling surfs carvers braw weatherglasses soakers haggis hoisted cowlicks middlemost caroused reattach tenably tympanic binder foresters agamic busboys unrestored kneeler chaplet newts deckle vegas overeducating replicates corks cinematheques charmers licitation geezer recombines admitters underpasses nighty ensnarled pardonable imperialness cowiest crimpers unmuzzles repacify poilu candors dictaphone youngsters stet millers impecuniousness likability comparts endemics reinsert clerkship halfbeak expansionary metaphysician effrontery helpfully hogs secures micks tacks oilstone guises clangs bendable maladministrative mopped halitoses quirts amortizable"@en ;
+dc:title "dreidl tinfuls foolhardier downloading stuccos interpersonal doggish mislabel lowered solubility beguiler aboil slavey strolling prorating" ;
+rev:text "dimming descents benthos viced bruising hetero romps polymerically undecided runners libidinal fustic escapements obols sandlots channelizes notational gongs elks misspellings heedfully accelerative labella phlebotomy preeners diviners hugeness zilches amortizable roughness pullers remunerates doomsdays brisks coordinately unequaled stopcocks consistently bafflers drypoints nannies vialing trolleys ologist uncork rigatonis airhead remodification sereneness playsuit microtomy skewness reelecting prevailingly musicians sightings bylined reconveyed preconception overanxious sinfully scampi slaveries mishandles ailment waggish tonicity ablutions randomizes innervations healthiness lights disassociates spinel countenancing expedites roped helloed querists halloo assignment rendezvouses dentistries climaxed filmlands frills poulticing nakedest jabs chlorites amused psychologists cloches adducers requisitioner gapes tessellation consecratory stilting adders unclothes flabbiest detrain gardening eyedroppers levied carroms uncourageous tormented destining reaffirmed communicates internship miscontinuance overgrows fledges elopes unkenneled warding assumable greenness swanned rapprochements burbles gastrectomy sporulate heres transferror pregame isostasy holsters implores grapes warfares refectories broadcasters tambura negotiations jargoned unknowingly appendectomies stalks shattering fluttering agonised hooligans deltoids dilatoriness regulars necessaries obstruction"@en ;
 bsbm:rating1 "4"^^xsd:integer ;
 bsbm:rating4 "3"^^xsd:integer ;
 bsbm:reviewDate "2007-07-11T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-02-29"^^xsd:date .
 dataFromRatingSite1:Review9 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "buggered dewclaw loners hydrozoon zinging reequips saddlebags exorcises laudability topside novelle chemoreceptor temporized bloodstreams housemaids" ;
-rev:text "sharks bannock resuscitative motets gruels choosier apologizes anticyclonic equalities struggled crappiness reuniter immixes ozonizes quashes unlivable backslider feminizing bretons overhauling streaky forejudge weepers dourness viceless hies tubercular refurnish taggers inquisitional rebecs mouthwash deaconing metastasis weans adjectivally troths apperceptive nonprotectively beckoning commiseration guttersnipes doctoring gymkhana sheepmen apologizers ortolan toadyish quatrains revalue straying restacks frivolously pierced fauces babus novelistic gills regresses fossilization lipless sulphurize ohmage procrastinator alienator travelled rivets thrivers pingrasses steps campier mismarks plushier proteinaceous bunco snoozes glitters finical simulants hippies skims engrave soundtracks huffish nonnegotiable eclectically hatsful shaftings disobeyers identifies wingspread exceptionally replan aiming bedstraws tragically pollutants prefabricating isolation sextets rewarders approvement productive salaamed minatory ruleless microsurgeons circumambulate sapphisms nonsexually adjoined noticing deescalated habiting touristy unequalled lucidities discords matureness hydrocephaloid certifies undyingly doylies spellbinds prenatally govt unpolarized togae overjoying shirts reediness ecclesiastics awakens arrowing corncake crumbliness recommits viperish monkery unappetizingly quarrier speaks malthus overlook fatted archaists refreshed gayness filaree cirque vibrations leukemoid enquirer drossier prescience housewifeliness timed contentiousness constricting scramblers shivarees foilable dreidl tinfuls foolhardier downloading stuccos interpersonal doggish mislabel lowered solubility beguiler"@en ;
+dc:title "optics unlearned howdah banquets forcibleness bossa molester disturbingly evacuations mulattoes coheirs staffing unkosher canceler denarius" ;
+rev:text "analytically firedamp mosts undetermined tauruses slipperiness daydreams judicatures knitwear inflammability degreasing sufficing prerecording sheriffdom boyfriends hedonics saucerized pendulums painkillers biparental coving knighting chases suicidally extranuclear mights manifoldness thinker bawdiness thinclads vedic civicism avengingly flatulence assessment torchier uniquest dehorns roader irritableness discontentedness fruiterer algonquins wattages hecticly scollop subassociation overfurnishing healthiest unwarmed flinchingly implementable tranship scut procommunists muumuu sacristan instability darky philters microminiaturization nubbins suitability mimeoing subdirectors heptoses rousted webfoot heartiest sauted spittles triflingly chemotherapeutical spurned guardants unfriendly organists haplessness griddlecake synthetics coatrack erotogenesis armoured divestment nurser manacling merchandised vaulting prostatitis truckles gapes harborless blah sheds heeded triarchy euglena reticules monaxonic cocomat imply tillages organelle progressing socializers gunlocks reciter parochialism cesuras birdcall woodlore proscriptive omniscience timorous triumphing misspoke abbreviates savannas thirstily canallers ocurred dipoles smelled pancaking praying beneficing hussar marquise mailboxes pedicabs ovules pieces workfolk rugger satirizer doable adolescently citied diverseness psychs wonderlands subsidizable fricassees waterfowl interlocution unevener rancours boggier finis helots spooning frolickers darkeners entombing hairbands lachrymatory enouncing fullering uncurbed rototiller fewer nixy distensions sotted badinaging hornswoggling overexercised forested algorithms tournaments stomachic squinching liquefiers"@en ;
 bsbm:rating1 "7"^^xsd:integer ;
 bsbm:rating2 "2"^^xsd:integer ;
 bsbm:rating3 "4"^^xsd:integer ;
@@ -1840,10 +2309,10 @@ bsbm:reviewDate "2007-11-19T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-03-21"^^xsd:date .
 dataFromRatingSite1:Review10 rdf:type bsbm:Review ;
-bsbm:reviewFor dataFromProducer1:Product1 ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
 rev:reviewer dataFromRatingSite1:Reviewer1 ;
-dc:title "aboil slavey strolling prorating dimming descents benthos viced bruising hetero" ;
-rev:text "romps polymerically undecided runners libidinal fustic escapements obols sandlots channelizes notational gongs elks misspellings heedfully accelerative labella phlebotomy preeners diviners hugeness zilches amortizable roughness pullers remunerates doomsdays brisks coordinately unequaled stopcocks consistently bafflers drypoints nannies vialing trolleys ologist uncork rigatonis airhead remodification sereneness playsuit microtomy skewness reelecting prevailingly musicians sightings bylined reconveyed preconception overanxious sinfully scampi slaveries mishandles ailment waggish tonicity ablutions randomizes innervations healthiness lights disassociates spinel countenancing expedites roped helloed querists halloo assignment rendezvouses dentistries climaxed filmlands frills poulticing nakedest jabs chlorites amused psychologists cloches adducers requisitioner gapes tessellation consecratory stilting adders unclothes flabbiest detrain gardening eyedroppers levied carroms uncourageous tormented destining reaffirmed communicates internship miscontinuance overgrows fledges elopes unkenneled warding assumable greenness swanned rapprochements burbles gastrectomy sporulate heres transferror pregame isostasy holsters"@en ;
+dc:title "baronets nutmeats spurtles unseats flannelled speculums affright cento spraying yanqui" ;
+rev:text "bettered reclining quarterfinalist transmigrator inflections discouraged withering resides coiffed spadefuls monocellular predecease justifiers pilings noncorroborative agaves lights monomolecularly brassards copulatory doodlers winey librarians featly heteronomous finks bushelers garlics reiving secretness tyke distraint ordainer tacos tubercled hemstitches spoiling counteractions nonvisually corroborations culls prechill impresarios tautest entangler manicurists cooch pubescence dipper isopropyl gossipers foreordain akenes admissibility wainscotting falconers wobblies woodcarvers portages arthrography plash conditions pythons possessors modernly nonadults kilos jnanas plowable crimpiest hyaenic swordsmen inflaters hearkened puckering teleradiography unambiguous disinterring chocks genders psychologized pasteurized bridling reoriented mibs towered stertorous primeros riffraff machicolation grazer broncos dabbling honkers handsewn wagoners caverned chivalrousness archetypic crenated enzymologies expressionist diverters unclasps cabining treatabilities unsent unpeg occultism nonclerically anywise patly galls reclassifications nonautomated nonphysiological hearing viciously identifications ortolans cosie toothiest bastardize straiten complimenter"@en ;
 bsbm:rating1 "9"^^xsd:integer ;
 bsbm:rating2 "4"^^xsd:integer ;
 bsbm:rating3 "1"^^xsd:integer ;
@@ -1851,3 +2320,234 @@ bsbm:rating4 "8"^^xsd:integer ;
 bsbm:reviewDate "2007-07-17T00:00:00"^^xsd:dateTime ;
 dc:publisher dataFromRatingSite1:RatingSite1 ;
 dc:date "2008-02-29"^^xsd:date .
+dataFromRatingSite1:Review11 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
+rev:reviewer dataFromRatingSite1:Reviewer1 ;
+dc:title "frangible noninductive windless plodder traditionalism venine trephining endocrinological downstroke safest hogtie dialled rosin diagrammatical" ;
+rev:text "voles tref paleontologists viniest humanizers bargained hypnotized forbiddance autographing greetings violoncellists contaminations pellagras trampling mosser peninsulas vinosities preaccepting miscall intermittence rivers trendier ichthyoid misidentification cymbals suppressive guided boxer calorics animates fluctuated streamer oaten trekkers emotions workbag approximation jingoistic abominators paned tawniest reciter stomachache singers volga frizzliest flagger monopolization mayvin coagulator duellist taxis amerindians columbines coloration scathing peskiness appeared reminiscing exudative debtors collop stalags comities dognaped belfries gardens caulking contributing conquering overachieved nerving sumpter lures reprovers thornier feeblemindedness numerously kilovolt godliest mendicant tremens snatchier traveling polariscopic hydrargyrum stripteases subassemblies sensitization heavies fabricated cookshops wrestlers rosery synchronizes spillage wagoning proportionately reradiate evisceration busting nympho yetis dyarchy telegraphed plateaux cooch specifiers harried coursings gauntest millibar aquanauts xxi swanked basements miscognizant vigour sprier troche shirr diagraming sedulousness nervelessness pilings sandblasters"@en ;
+bsbm:rating3 "7"^^xsd:integer ;
+bsbm:rating4 "9"^^xsd:integer ;
+bsbm:reviewDate "2007-09-30T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-02-19"^^xsd:date .
+dataFromRatingSite1:Review12 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer1 ;
+dc:title "etagere groundswell prosceniums casualness preconceived hearthstones melodramatists reanalyses punctilious flexor draftees vignetting foxed" ;
+rev:text "incommensurately miffing jeerers labor lichenous coleuses huffiest conjuror pervades fagotings intestinally quagga vasomotor joineries indicative repentantly individualizes manageress outlying canoed substantival unblinking bodings nonslip redoubt nonphysiologically drowsier fainer drains chilliest interpreters incubated loganberry planarias outranging legitimation wooshed cruciform ukase gelid tardies weaponless addictively arteries compensations indetermination flinting parring shiksas scag reinvoking specking woollier overrides dayglow facers napalms outsmarted dict consolidators syrian reemphasis terrorist libretti indoctrination imbed skipperage disrespectful aikidos faking compatibilities survived gonadial safaris depictor warrantable ozonization viaticum numbed saving biscuits counselee spectating syphilis agrees preacher interdicted circumambulation elocutionist bulges pities freakout electrodynamic spryest millibars forasmuch celerities stragglier forjudge equational chops"@en ;
+bsbm:rating1 "1"^^xsd:integer ;
+bsbm:rating2 "10"^^xsd:integer ;
+bsbm:reviewDate "2007-11-21T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-01-01"^^xsd:date .
+dataFromRatingSite1:Review13 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
+rev:reviewer dataFromRatingSite1:Reviewer1 ;
+dc:title "valetudinarians inquirer comforting speleologists foretoken prepossessing iambuses" ;
+rev:text "lockers flows southers mynahs meltdowns curbstone orbited homesteader lyrebird biggies millstones unshelled recompensive facia violinist brittled doping pygmyism glosses reappeared tines cuts tautologous downtowns tremens runny overtones batholiths socketed penpoints gambian kedged sharped unaccented ducats prorogations allegorical optative wavered techies supposing repapering rewed beryline precised entree orangeades comfits megalopolises shiksas audad undiversified laciness densify unworthier tamest interferences verbified divvying glimmerings snips prescribing heeder hemstitch reechoing flagellates rainout reflowers scything overseers oxtongues stocker fulltime eyepoint sourdoughs pester salivates manipulator ectoplasmic mesmerizes kicked chains innately invisibleness pausers bombardment brutifying sinfully suppuration unwarily troops rancidities hexylresorcinol foreheads ethers sanga gynecologists kinglets roubles boogers spoilsport hoodwinks harking secedes wires trains cuniform rending figures hecatombs syllogistically summarize credibleness sitcom atheists sparkling weakly disarmament embankments nontransparent luff darkeys retirees redeem troubling narwhal unexpected landscapers presets benefactresses lovebirds heists psychosomatics substantival exogamies expressiveness glitches occlusions indulging antiquing truckage pimplier stubbier arrangers keeps solanums townsfolk heatedly alerters bourbons youthening laying sardinian sweatboxes sensibles improvisers uninformed weeds outfox obnoxiously detrimentalness recoinage flights occultism americas unpatentable earlier meretriciously sunning dodoism electrocute whickered deifying dimmer probably splendider snazzier jollified allocations fewnesses jiggliest"@en ;
+bsbm:rating1 "5"^^xsd:integer ;
+bsbm:rating2 "7"^^xsd:integer ;
+bsbm:rating3 "10"^^xsd:integer ;
+bsbm:rating4 "7"^^xsd:integer ;
+bsbm:reviewDate "2008-04-04T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-05-17"^^xsd:date .
+dataFromRatingSite1:Review14 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer1 ;
+dc:title "commutable fetterer coagulation midsummer protestations amebae jejunums disallowing membered thermotropic nonfatal jackhammers articulating" ;
+rev:text "internationalizations gaper savageries wirephoto deanship endoscopic acceptees wrasse syndicator rely sortieing withholders authenticators equities formalize anguses barwares prehardened depreciatory belaboring exalted retaliation prefixes ovolo muddiness churlishness mossbacks invaluably plights bicolours rabelaisian coagulations missiles husks mixtures decoct tumblers chints overinclining hymnodies omnium tintless displanted dispatching annunciated flytrap vireos unrevealed intakes lowerclassman relinquisher devitalize ignominy ailerons tarpons forfeitableness epergne angelfishes blockaded wirers resolvable eyeholes opening virilities blowhard valences novelist sodding summerier statism brights caulker deactivation cocoas absolutistic permutations perpetuating synchronizing isotopically budgeting apostrophizes remissions shining bulgiest ambitiously peerlessly sentimentalists despairing jackscrew disbursed plunging novas sourer vigorousness sorghums mummed melting redbirds melodiousness antirational inattentively crosser unvexed warrants godliest inflected entropies overawe seabeds extraneousness livelong mutably outshined goitre surrenderor maddish bursal rightest exits plottage aspca color categorizing ullage curber resown advancements misarrange sweatshop generalissimos decimates named antitoxin prognostic outgrowing swatted prepossessingly larding nonclerical dramatization tariffless microfilm encouraged tamperers exceptions glimmering harries charming caricaturing teraphim outweigh dryest groundhog deathblow snorkeling pestilently pantsuit mayoralties sirs labium denotes lummoxes platting leerier furnaces flensers clinicians facileness roubles recast flagellant gooier tailoress unpalatably avaunt proclaimed understudying overplays ratfink missions frizzled tweeds"@en ;
+bsbm:rating1 "9"^^xsd:integer ;
+bsbm:rating2 "7"^^xsd:integer ;
+bsbm:rating3 "6"^^xsd:integer ;
+bsbm:rating4 "6"^^xsd:integer ;
+bsbm:reviewDate "2007-12-31T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-03-26"^^xsd:date .
+dataFromRatingSite1:Review15 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
+rev:reviewer dataFromRatingSite1:Reviewer1 ;
+dc:title "forworn roasters celebrationis cosets hipness consenting lining ovulated voteable" ;
+rev:text "veriest switchbacks filmily elaborating didies pleading bovid outrank cringles unsolder chickens taurine hognuts congratulates fantastical varnishes sackclothed fumier electrosurgeries wankel glaciating sageness radiobiology tensionless polyhedrons paeans slowish hydrotherapeutic maples crocked vivifying desolated domines plainer refining unleash manurer thwacks pickled amplifies oratorios hypocrites cooks foldaway impossibilities hornets anesthesiologies cliquiest preshapes cogitators establishments ditchers gappy sufflated careerers anvilled defenselessness torchbearer warmness ensures emotive easting lariating paratyphoid separates plenishes guitars planetariums literatures melodized playacts arraignments livener prohibiting bonesets pussiest geminating dihedron rezone isolationists beebee undoubtedly bullied interpretable oasts synthesizes maples boff recoil superscription methought migs sumacs truckmaster rewording noncontributory compartments sacristry horsehides lucidly rousers sluggardly synovias superlatives stylizing bifold expressions strokers jadedly gamines destitutely uncharged whiffled reinters trey thymey aberrancies shamed seeks disestablishing steeper seasonable congruences accounter presupposed enactment whereunder arches amassers spikily renames assertors"@en ;
+bsbm:rating1 "4"^^xsd:integer ;
+bsbm:rating2 "10"^^xsd:integer ;
+bsbm:rating3 "10"^^xsd:integer ;
+bsbm:rating4 "3"^^xsd:integer ;
+bsbm:reviewDate "2008-05-13T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-06-16"^^xsd:date .
+dataFromRatingSite1:Reviewer2 rdf:type foaf:Person ;
+foaf:name "Eyana-Aurelianus" ;
+foaf:mbox_sha1sum "df1cf8e68d49e5b65f1507dbecec6b61e9dc98" ;
+bsbm:country <http://downlode.org/rdf/iso-3166/countries#JP> ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-08-07"^^xsd:date .
+dataFromRatingSite1:Review16 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "holdbacks cowling brownies nazifying smelters" ;
+rev:text "instances coarsened quia addles hor reverencer libellees affluxes mislabeling symboled uncomplicated trashiest egocentricity ahems solarizes cyclotrons drovers organists shellier fixup insulation unadvisedly awfulness banking compressions serfs quants intoxicatedly renouncers brayer fluffs dishwares sickbays indicium pastured cutcheries stuccoers capsulation nymphos antecedence bypasses defalcated jackroll sorters leeriness unpacified ceramicists backlist lacks epoxied ambergrease bushier wriggled exploiting nacelle complexity barriers oppugn narcotically starver sconces overripe suborners pickled chastities frisked anteceded lavishness"@ja ;
+bsbm:rating1 "9"^^xsd:integer ;
+bsbm:rating2 "8"^^xsd:integer ;
+bsbm:rating3 "10"^^xsd:integer ;
+bsbm:rating4 "7"^^xsd:integer ;
+bsbm:reviewDate "2007-07-03T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2007-08-15"^^xsd:date .
+dataFromRatingSite1:Review17 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "zionist groggery opposers rollicked diarrhea expectoration thinker hopefully inactivities lengthily enrols macrocyte oversubtle" ;
+rev:text "desecrates unquotes clopped darks corpulently opprobrious hikes pressor bedecked solemnest fritterers vouchsafed ritard fantasied bedew regild psychodramas foothills intermitting interlocutors yrs gracilis hoariness fortuned goth burblers manager ablations agamic ejaculators pumicing challenged intercalating rebaptism tamburs rainfalls precalculates undocking antiserums propanol driftpin captaincies unlay stargazes lunes gymnasiums underran imitated forbidder loveliness tufaceous gonophs clarification inactivities hepcats ultrared paralyse mammalians maleficently outraces shrubs sections wrangles turnhall bacchants lynching cuniform galores retracts searcher floodway misbehaver prevued graecized tilter martialling drumheads slits purifier forsworn desiccations partaker insanity waterspout hawses bighted renovated watering individualized pregnantly glarier authoritarianism catguts mondo shuffler venues fleche charnels calamines bb fanwort surcharger actuaries cursoriness framing unroofed earnings divot redirected bubbliest gesticulating theobromine gravers depletes absconded attachments frumpiest chiropody spaniards celestas esteemed nixie ruiners flooded throwers prorogations snood revulsive ranker rickshaws internationalization drudged rambunctiousness hollooing scandalization enfeeble phalloid hoofer ordinariness rippliest kiting precipiced mumbler mayest pitchiest organizationally spacewalking copyists timesaver grampus trusty menarches differentiation swashbuckler accommodations limping docudrama pars flincher tugs frumps estranges potpie lips generousness clears pasts nubs squintiest sarcomas fryers dekameters surprised subdebutante mitigatory contentedly semiconductors astonishes buckling reletter historiographers fundamentals"@ja ;
+bsbm:rating1 "10"^^xsd:integer ;
+bsbm:rating2 "9"^^xsd:integer ;
+bsbm:rating3 "3"^^xsd:integer ;
+bsbm:rating4 "1"^^xsd:integer ;
+bsbm:reviewDate "2008-03-14T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-05-27"^^xsd:date .
+dataFromRatingSite1:Review18 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "upbraided bureaus reglazed amnionic vociferations acrylics gushing reglosses saner looses foodstuffs aerosolized sightless" ;
+rev:text "balks excessively cervine kilty advancements laboratorial catalyzes epilepsies pressoreceptor journalizing prearrange lusted smothered weirdies cliched pavans twitched uncage troublous twirp corruptibilities skeletomuscular appendages blissfulness propositions sherbert flavour boozily eunuchoid overelaborating predeceasing carefuller bussed lions galatians joints jilting inhalations homiletics comforted sparable tongueless judgmental endocrinic locked menstruated biform parisians perusals oversells oinks overdramatizes ghostliness shapeless intervened fleetness bobbins tonsures denudate fruiterer handsbreadth frumpish raindrops sybaritic variabilities dissecting accommodation internally gobbles unroofs woolly blase kinder trephined polarimetry shinsplints rentals parochialism palmy registrations bruising infundibula disclaim psychosocial sextile perpendiculars reapplying stratifies tattooers experimenter hypothesizing alining lifesaving handles ranger krona noncancerous agonist blighters pended isolator glasswork ulcerative foehns beastliest swamies blandishers praised cuboidal snatched pebbly fuming cumulative cinching midbody mossbacks syncope pharyngectomies grievingly perpetrates immunology subdistinction articulating nastiest decadence spangliest sploshes misplacing caddied rcpt anathematize crafted hinting squelching interferers matched larkier flyby cannie hyperglycemia heightens drillers honorers flattered greasing experiencing blazes broacher undiplomatic expatriates colonials metabolized"@ja ;
+bsbm:rating1 "3"^^xsd:integer ;
+bsbm:rating2 "7"^^xsd:integer ;
+bsbm:rating4 "3"^^xsd:integer ;
+bsbm:reviewDate "2008-02-08T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-03-25"^^xsd:date .
+dataFromRatingSite1:Review19 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "hormones unhooking reiterated hexapodies complimenting overhastiness" ;
+rev:text "cynicism sunbaked obtusely vies inurn deacidified shewn dejects mocks chintz resowing unheard boasted potman householders mendelianist leaguing creditors tussocky intuitions overheat interorbital knavishness electrophoresed salines allogenic sawed anachronisms schmoe didoes dreaming intwisted remunerator sympathizer removes fearer wirepullers mincier thwarters throatiness pseudoscientifically intercalation anointers voyaging irradiations cognised demurrages equivalently unsticks subminiaturizing summating physiological supraorbital leakiest gunless oversea unproportionate fluidic nudeness poems seigniorial plosives polities restrictive tanglers polarimetries tracers casteism retested maleficent ceiler surmisable cooers administrated mensed autographs superimpose valuational angularity schlock dissemblingly cyclos delimiter brewers incidentally medicates touts reproaching etchings somnambulistic speared amniote christens cagers fixations berber unconcerned politely confessable vileness suburbias marguerites goatish stirrers ducking deathful shocks preappoints basinet achingly mignonette schnook rampaged defects multinational dibbing preascertaining petalled uglifiers draughting immunes subtotaled campaigns petnapping competitors nimbly underscore influencing"@ja ;
+bsbm:rating1 "9"^^xsd:integer ;
+bsbm:rating2 "4"^^xsd:integer ;
+bsbm:rating3 "3"^^xsd:integer ;
+bsbm:rating4 "4"^^xsd:integer ;
+bsbm:reviewDate "2007-08-17T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-02-06"^^xsd:date .
+dataFromRatingSite1:Review20 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "thiamines cryptically subdebutantes putters caucuses resiliently salaaming intersexualities plumpening freebooter bespreads methodologically" ;
+rev:text "paralyze thiabendazole stirs disproportions buckaroos hectograms timidness profanes detainee treys sanatory ungallant diapasons drunkometer boggiest provable dabbled frangibility rashes thoroughbreds mecums schussboomer misspell outmarches apprising underwriters precessing biting furnished retrogressing pretrial pulldown phantomlike tapeline hollies decorating widgets conformations environment ovately vibes manured ineptitude omnivorousness quintals lightfaced vivacities flights reinduced dithered prewashing semipetrified dualizing jerkers gabbled plummy corrupter persecuting arizonans flexes watercolors hagridden pragmatically trimness mites tiredly whitening oversights perfectas rungs toughy throatiest cutest pastorates socializers ohmage cameoed industries grides fascinating verbalizing gunwhale minsters glottises damnification thews fictionally sandpapered ironclad erasures frillers bailie thirteenths delinquencies tubbers wished warhorse dhotis tuppences whereat effuse premising folder subplots viscose deplorably chillness guarding fumigator fluorination asperities susurrus odeons shindigs electromotive supervision probation profited subsidiaries endeavored yarer unmapped bequeathal fumblers finesses momism jubilates rockworks instituter privater feelings nuthouse torched junto arbores quiverer mimeoed handfuls querns punty recounts pervading hottish pelted reembarking chunked griper videotapes anoint misinstructs precluded bullshit escarped pneumas inclusions"@ja ;
+bsbm:rating1 "6"^^xsd:integer ;
+bsbm:rating3 "3"^^xsd:integer ;
+bsbm:reviewDate "2007-11-12T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-05-13"^^xsd:date .
+dataFromRatingSite1:Review21 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "jeeringly perforates fishlines midden nuggety overwhelm washrooms reframed uncannily beechiest solderer" ;
+rev:text "remained clunking sententious nonproven recrowned communication resows armer mouldering untraveled hennaed decreasing threes pockily meantimes preventability facias possums garroter fatherhood addiction trowel tetra proctorship nickelodeons microanalytic impudently slumbering convalescents coamings laggards fops tendentiously temptingly undisputable requiescat allotments aerodromes brands twigs oppressed heavens immolation cutters biform caudated turbojets sacrilegiously midwifed betatrons tractably extravaganzas masculinization vadis hasenpfeffer nonreflective ululating heros priesthood deaconry unpolluted yachtswoman dimorphous attachments betake feticides hideless whippy renominated devolved elicitation uncontrolled tetryl finalisms barricaded debasement traditional mushes reinterpreting champions imagisms gawkish avatar bamboozler brassiest unobstructed bumpily drolling lucking disputer winks accommodating portending jauntier gripers dairymaid schnaps abreacting reexhibit latinized mucks reamer sibilates abscam segues southwesterly rectors potpies inconveniences screeners overslips transmigrating punkier housebreaking lutenists aerodynamically gumwood repousses pledging copers litterateurs declassing goldbricks burins scattered catalytically tapestries interpolated subcontinent teasels lycees proselytes droplets rebill"@ja ;
+bsbm:rating1 "2"^^xsd:integer ;
+bsbm:rating2 "6"^^xsd:integer ;
+bsbm:rating3 "5"^^xsd:integer ;
+bsbm:reviewDate "2007-07-24T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-02-01"^^xsd:date .
+dataFromRatingSite1:Review22 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "remorsefully radiocast gallbladders quatrains lionize daintily biggings prechill pulpwood weaners" ;
+rev:text "ovoid productions lugubrious mainliner cafeterias lancelot seminally misnumbering countability preinstructs imbued prename goldbricker distributution propitiating flays quotably saltshaker misdescription cheesecakes subchief agitators redacts prosecutable succouring conglomerates undersell hungering cavorters hagride distension throwaways relinked nonenforceable tenuity siroccos mulled grippier cuss corned syne overbearingly bruin aurally dissembles sagged bloodstreams metricize typecast bejeweling contaminations diagnosticians dyslectic ionising bonged humanistically hadjes nonviolence statutableness burbly cinques greaves restitutions empowering orientate bullocks rathskellers roofline cleated evangelize applauders fascisms steamily astrolabes bequests platy foreshadows saddletree tastelessly fulfillers autogyros wormhole restaffed enjoyably centrums slouched vindicative graphites firetrap slobbery checkroom implementing tything metropolises reinterrogating kitschy tootling borrowers trusses sited anatomically reinvestigations overdefensive frontlets coiffeuses haunters laboriousness hoorays orangier organically kneecaps reddle tempers suavest bibbery greaved expressions cockscombs pulpiest foremen mandalas brooches undesigning strayers pitiableness loginess impermanently surrejoinders semolina cathexes globing admitter cocomat retrievable homespuns"@ja ;
+bsbm:rating1 "7"^^xsd:integer ;
+bsbm:rating2 "8"^^xsd:integer ;
+bsbm:reviewDate "2008-05-28T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-06-14"^^xsd:date .
+dataFromRatingSite1:Review23 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "baselines concisely penile clarifies euchred gladlier conveyable" ;
+rev:text "bluchers lovebirds smiths repentance fubbed inexpressibly autodialled depriving daymare lyrisms hounder snuffs obsoleting stamping demarking eradications supplely garrets fatheads sorghums ethics invalidated chaperons unpopular cowbells gadgeteers ejected displayed exterritoriality arcs pasteboards realignment nimrods stripings diffusers naiveties leafworms gulpers mathematicians townfolk preprocessing satori tauter meadowsweets budgies tipcat flocky fervor vied elmier probates fenestration broomsticks condoles anesthetically parked effervesced supports ampuls palpating dirtier droning letches stickpins toepieces acromegalic fakers skyjackers nucleates legation plastics cauldrons askings untraceable asininity crockeries sweating mammalia bitted peristalsis pillowcase unpalatable desisting usherettes fists totals ransomer reunion semidry webs guardians tapes dupes humanism disinfecting profaned cruzeiros candelabrum storybook valors knappers vested pistachios tribadic rockfalls javelins diagrammer modernization obfuscates"@ja ;
+bsbm:rating1 "4"^^xsd:integer ;
+bsbm:rating3 "10"^^xsd:integer ;
+bsbm:reviewDate "2008-06-04T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-06-12"^^xsd:date .
+dataFromRatingSite1:Review24 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "macrames obeisances sociologist uncomfortableness disputants waterloos shoos jesters failed thumper corruptions circularness plotters niggarded jerkers" ;
+rev:text "helmeted vegetates zoopathology forkedly rounder affirmer commentate ricks stapedes consignees erogenous permutationists oftest coiler quotationally temperaments barracudas interrelatedness sudors airmails mattedly belongs cyprians peruser antiacid exfoliate onery arrowheads veinings forehandedly infirms joisted resemblances electroplated parlours sighting uninvitingly shirks pastellist stuffiest melancholiac prepossesses catchiest yawls druidess seamount hunger conventicles exploded rankness modelled classicist sanity basketries denaturants mellowly filtering taring touted tollgatherer procreated rived healthily thraves noncasual squirmiest unmitigated stigmatized interviewed rehanging thighbone sniping bioastronautics magmatic freebooted americanize windages clack flanges sorts pickets caftan blubbers curliest sentences limo coveter spokeswoman pixie"@ja ;
+bsbm:rating1 "5"^^xsd:integer ;
+bsbm:rating2 "10"^^xsd:integer ;
+bsbm:reviewDate "2008-01-14T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-01-16"^^xsd:date .
+dataFromRatingSite1:Review25 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "scurrility uploadable amplifiable postmarking sparkling affaires irrigator turbidities sunup samoans commingled sloths" ;
+rev:text "torrider venezuelan jeweling lozenges reexported reconfiguration reglues gamer amazons dimmable ramblers frizzy dobies enameler cabling checkering annulet synapsis laborings patsies maceraters transforming woolmen baldric eminently catenas nightjars beshrew unseen overhurried detesting steadily strabismally communists refunded rostrums regressors luaus chocked physiologists unhip psychoneurotic rattlers chlorates rears trolleys outreaching certificating tumbling garoting judaica occults alcalde sadhus hermaphroditic preestablish thinkers abandoning noter hayrick agapeic gallimaufry pickwickian chining benchmarks corrodibility reservers motorbuses capacities canonizes striating gelees upstages sinker silences yogas heroizes maximite ainus classifier botanists footboards tinworks blockading saccharification quern stylers madcaps warlords acquiesced predator nehemiah leaving physiologist prologued kakistocracies staled shaggiest helve dozening freeholder prodder commenting bushed catnaper commits slathers cesurae elfins finagles gloats buffer sapphism momentums shriekier encrypts selectees simmered reproductions homeroom greeting bogles muggily eternizes researchers necrophilous pressurize ambiences icecap congealed slues jams vivaciousness pinched consumes apprenticing hrs clonally jabot hiatuses entoiling aleuron deponing disfunction affirmance envisioned tangibles limitless vulcanizes extractive sprawls stockcars invisibly tantalization inofficial brownier coalhole fellate demolitionist uprousing handbooks canonistic irades dominantly requiems inspirationally tissuey sonatinas uncivilly grouped scalper chestier essayer blent optimisms woodworker foresighted nabobisms auriform recooks jaywalks corders resubscription lifts indorsees polios deregulations misogynistic beneficiaries dimming owns oceanarium lordship peacher"@ja ;
+bsbm:rating1 "5"^^xsd:integer ;
+bsbm:rating2 "2"^^xsd:integer ;
+bsbm:rating3 "9"^^xsd:integer ;
+bsbm:reviewDate "2008-03-14T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-04-19"^^xsd:date .
+dataFromRatingSite1:Review26 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "raga bluecap blockbusters commending wifehood chivvied acquirers cozie reprice delist palmistry buncos scrubbers souped" ;
+rev:text "outlaw exurb swerves malteds prelimiting icily grainers musclebound hellfires wrecking engrained characterized physics bolting snatchers polishing disapprobation clanging demagnetize hosed disjuncts ceiling slits disposer finochios restuffed unlearning conjunctiva exulted exploitations surgeons babies roistered wides medicated youthfully boarder brailed premieres hedgerow demagoguery elastically kooky vermouths fleecy fidgeters roentgenometry airheads swallowing complots bumpering promisee mooting creations cubby fanfarons remunerativeness wencher interceder probating philologist hypothetically climatal warranted accenting hypoergic deliberating strep histing empathic deliquesces augurs autonomies menservants dwindles youthens nonresidents hotfoot demolished hitchhikers bellyful bicarbs farces bailment draggling gonadial rebus teetotals consummately pillorying matchboxes declinature synergist gustation peddling subtractions momentums stockjobbing susurruses democratizing moistened nethermost revenued snuffily aqueously politely spectre genitors unprofitably determinants carbides entertainment imploded numerated unpremeditated remuneratively phantasmagories thanatoid interlarded preceptress northwards nonconductor invalidating chilliest interned rustlers unaging henbit motiveless dialectal electrification whacks hearthsides bluecoats hydroxides"@ja ;
+bsbm:rating1 "5"^^xsd:integer ;
+bsbm:rating2 "9"^^xsd:integer ;
+bsbm:rating3 "6"^^xsd:integer ;
+bsbm:rating4 "10"^^xsd:integer ;
+bsbm:reviewDate "2007-11-27T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-04-07"^^xsd:date .
+dataFromRatingSite1:Review27 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "gimbals rehire oversevere penuriously topographies wealthier nonages ambushing shadowless rumoring explanted enterer bucklers unconditional" ;
+rev:text "overbid chronological puffers couths fighting bronzing slenderly pacifier handbooks brutalness honors heeders liter unwrap enhanced lieutenancies tektites hawkeys latherer undefeated interlocutors oared bunkhouse inconsistences ataxic litigiosity analog phototropic soubriquet ennui wolverines unabsolved unwoven elaborately alphabetically bluebottle gnoses activists titillation brooms romanized obtuseness backbit sawteeth lyrisms prebendary tenoning unstates rockaby emulsifier reinterpreting impersonates grievers batistes humiliation citer crossbones treasures carful weighman pitchmen saddlers seignorage blurter bluffing rulable urogram anybodies churchly subtitle receded hexes balladry spoils rejoicers valuating gonococcus smitheries unconsecrated unalarming gelatins impregnation sulphas warhorse surcharges conjuring antihypertensive forged nubilities ichthyologist relegable dibbed studier trickers dramatize perpendicularly misdoing trameling solacers misanthropists gulden stoneworks unstableness penuriously minatory throatily counteraction amnesiac changers eructation kist polyvinyl gimbaled violists elastomeric valuator beautifiers unfulfilled cloudlike servicers longly acetify pitiless dimmest tsars tappings chromatographically potholes sacrolumbar administrational trephines footlessness nondrinker honored fussier destructible wavelengths laconism decrypts values micrometer unsuccessfully threescore licit medicines intermediate leachers pourboires sharkers enwrapping limes jell consanguinity unshed hadronic snatcher"@ja ;
+bsbm:rating1 "1"^^xsd:integer ;
+bsbm:rating3 "8"^^xsd:integer ;
+bsbm:rating4 "3"^^xsd:integer ;
+bsbm:reviewDate "2008-03-07T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-04-07"^^xsd:date .
+dataFromRatingSite1:Review28 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product1 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "titters bailsman sextuply simitar limitedness trailer vizors sunups typically avowably intercity bacchic ptomaines engrave" ;
+rev:text "resowed postured reprinting crustacea disadvantageousness exasperating faintest amortizable neology prizewinner gaveler inflicting harshened islanded outrages smasher ormolus revarnishes carelessness pillaging demonstrativeness interweaves tastefully boondoggles pasteurizer mispronounces grafter tonsorial handlebars agglutinatively simonists samurais oscillographic retractile spiritualizing typed falsetto quadruplications eructates remonstrates tightening rekindled glitches unstable posthypnotic garotes props accumulates authenticates hognuts chairladies gastropods luncher inflecting shalier spatulas symbiotes sirrahs plastered sudor nonbelligerents skyscrapers handbags staidest conglomerations boyos contraire gulfed adulates payable rauwolfia carbuncles zeniths copula impeachers router rejuvenated thankfully sp reshooting wintergreen chairmaned unled rumored joyfuller peonies fools behaves hygienical adaption roue weatherbound shat unfought miscarries preservers palatinates garths detaches longingly mortification crystallographic advances dews engraves skydived describer arsis footnoting leeched tweets coronachs kinesiology nightshirts aviates adjusted bats suppliers uneven cytologist tweezed feudalism betake boldfacing standouts smuggled longwise queened liberalness lastly rustier referenced digested victorianism"@ja ;
+bsbm:rating2 "3"^^xsd:integer ;
+bsbm:rating3 "3"^^xsd:integer ;
+bsbm:rating4 "7"^^xsd:integer ;
+bsbm:reviewDate "2007-10-10T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2007-11-16"^^xsd:date .
+dataFromRatingSite1:Review29 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product2 ;
+rev:reviewer dataFromRatingSite1:Reviewer2 ;
+dc:title "unsticking nucleoplasmatic marmites ceaselessness vicarly" ;
+rev:text "centrism interoceanic foldable gnawings torridness signaling outgas unstressed chlorinators inefficacious californians biparty resales habitude prodding pointedness obdurateness undertrained parolees anchoring stylists proprieties agglutinatively wantons wigmaker fearfuller acutest arborize buffs intervenes spearing illness oxidizers lib triste radiobroadcaster chronologically obediently recharters nonalignment earflaps sheikdom selfsame ploddingly melted blistered scepters ruiners haircaps unfittingly deposited devils pints heinies rejuvenated liberalized elevens fanworts bereavement jettied nonenforceable mezuzahs penalities feinting pleasantness demurely spooking prostration pesticides markets mineralized reddest brothy moderatorship fragged eighteens cesspools"@ja ;
+bsbm:rating1 "7"^^xsd:integer ;
+bsbm:rating3 "2"^^xsd:integer ;
+bsbm:rating4 "2"^^xsd:integer ;
+bsbm:reviewDate "2007-10-28T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-03-25"^^xsd:date .
+dataFromRatingSite1:Reviewer3 rdf:type foaf:Person ;
+foaf:name "Danijela-Adalbrand" ;
+foaf:mbox_sha1sum "9b9d4b8dcf7ada3c181b4bed1fa3c53d29caf65" ;
+bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-07-21"^^xsd:date .
+dataFromRatingSite1:Review30 rdf:type bsbm:Review ;
+bsbm:reviewFor dataFromProducer1:Product3 ;
+rev:reviewer dataFromRatingSite1:Reviewer3 ;
+dc:title "attackingly nets serologically supinates reallocate ridable deemphasizes lovers thole accoutring" ;
+rev:text "triangulates chewed ropier muggs magnetometer signorine thymy outdoes remittee foxskin outswims nonzero amassment kinswoman subplots rosewoods tunneling inconceivability individualities accursed unofficial lingers nonpredatory keelless underofficial nosegays finmark realignments fathoms reconsidered distended tenpin blacker homages forked witticisms regularized elopements casa renotifying ocurred glissandi marinas heteronomy boobs puerility drywalls tsarisms ringlets hulking unanswerable maestri psst antics secretory lickers dimmed tenty hypothyroids spottiness catastrophes pleas journals waterily segue crenelating focusers bawdier engilding demurest itemizes electorial prognosticators"@en ;
+bsbm:rating2 "9"^^xsd:integer ;
+bsbm:reviewDate "2007-07-07T00:00:00"^^xsd:dateTime ;
+dc:publisher dataFromRatingSite1:RatingSite1 ;
+dc:date "2008-02-18"^^xsd:date .

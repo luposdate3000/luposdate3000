@@ -9,9 +9,9 @@ WHERE {
     ?product a %ProductType% .
 	?product bsbm:productFeature %ProductFeature1% .
 	?product bsbm:productPropertyNumeric1 ?p1 .
-	FILTER ( ?p1 > %x% ) 
+	FILTER ( ?p1 > %ProductPropertyNumeric1% ) 
 	?product bsbm:productPropertyNumeric3 ?p3 .
-	FILTER (?p3 < %y% )
+	FILTER (?p3 < %ProductPropertyNumeric3% )
     OPTIONAL { 
         ?product bsbm:productFeature %ProductFeature2% .
         ?product rdfs:label ?testVar }

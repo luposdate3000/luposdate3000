@@ -1,3 +1,0 @@
-<http://downlode.org/rdf/iso-3166/countries#DE>
-<http://downlode.org/rdf/iso-3166/countries#GB>
-<http://downlode.org/rdf/iso-3166/countries#US>

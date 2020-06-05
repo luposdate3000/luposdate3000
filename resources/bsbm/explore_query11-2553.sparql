@@ -1,0 +1,6 @@
+SELECT ?property ?hasValue ?isValueOf
+WHERE {
+  { dataFromVendor1:Offer27 ?property ?hasValue }
+  UNION
+  { ?isValueOf ?property dataFromVendor1:Offer27 }
+}

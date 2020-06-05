@@ -12,7 +12,7 @@ WHERE {
 	   ?product bsbm:productFeature %ProductFeature2% .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric1 ?p1 .
-	   FILTER ( ?p1 > %x% )
+	   FILTER ( ?p1 > %ProductPropertyNumeric1% )
     } UNION {
        ?product rdfs:label ?label .
        ?product rdf:type %ProductType% .
@@ -20,7 +20,7 @@ WHERE {
 	   ?product bsbm:productFeature %ProductFeature3% .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric2 ?p2 .
-	   FILTER ( ?p2> %y% ) 
+	   FILTER ( ?p2> %ProductPropertyNumeric2% ) 
     } 
 }
 ORDER BY ?label
