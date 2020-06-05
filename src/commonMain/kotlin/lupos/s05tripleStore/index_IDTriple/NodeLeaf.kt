@@ -75,7 +75,6 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         data.writeInt4(offset + 1, d[0])
         data.writeInt4(offset + 5, d[1])
         data.writeInt4(offset + 9, d[2])
-
         SanityCheck {
             debugListLeaf.add(d[0])
             debugListLeaf.add(d[1])

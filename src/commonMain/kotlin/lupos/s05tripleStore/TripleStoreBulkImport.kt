@@ -2,9 +2,9 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 
 class TripleStoreBulkImport {

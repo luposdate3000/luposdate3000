@@ -3,10 +3,7 @@ package lupos.s00misc
 import lupos.s00misc.Coverage
 import lupos.s00misc.FunktionWontWorkWithThisImplementationException
 
-var debughelperuuid=0
-
 class MyMapStringIntPatriciaTrieDouble() {
-var uuid=debughelperuuid++
     var debugfilename = ""
     val undefinedValue = -1
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()
@@ -17,7 +14,6 @@ var uuid=debughelperuuid++
     val allOutNodes = MyListInt()//index in allNodes
     val allOutOffsets = MyListInt()//index in allNodesChilds
     fun clear() {
-//println("PatriciaTrie $uuid clear")
         root = MyMapStringIntPatriciaTrieNode()
         rootValue = undefinedValue
         allOutNodes.clear()
@@ -38,7 +34,6 @@ var uuid=debughelperuuid++
     }
 
     operator fun get(key: Int): String {
-//println("PatriciaTrie $uuid get $key")
         if (key == rootValue) {
             return ""
         }
@@ -73,7 +68,6 @@ var uuid=debughelperuuid++
     }
 
     fun debug() {
-//println("PatriciaTrie $uuid debug")
         SanityCheck {
             println("debug ->")
             if (rootValue != undefinedValue) {
@@ -94,15 +88,13 @@ var uuid=debughelperuuid++
         }
     }
 
-/*inline*/    fun walkInternal(_key: String, create: Boolean): Int {
-//println("PatriciaTrie $uuid waldInternal '$_key' $create")
+    /*inline*/    fun walkInternal(_key: String, create: Boolean): Int {
         if (_key == "") {
             if (create && rootValue == undefinedValue) {
                 rootValue = allOutNodes.size
                 allOutNodes.add(-1)
                 allOutOffsets.add(-1)
             }
-SanityCheck.check({(rootValue and 0x03FFFFFF.toInt()) < 10000 || !create},{"${rootValue} ${rootValue and 0x03FFFFFF.toInt()} ${rootValue.toString(16)} ${(rootValue and 0x03FFFFFF.toInt()).toString(16)}"})
             return rootValue
         } else {
             var key = _key
@@ -133,7 +125,6 @@ SanityCheck.check({(rootValue and 0x03FFFFFF.toInt()) < 10000 || !create},{"${ro
                                 allOutNodes.add(nodeIdx)
                                 allOutOffsets.add(childIdx)
                             }
-SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                             return result
                         } else if (commonKey.length == childKey.length) {
                             if (childNodeIdx != 0) {
@@ -157,7 +148,6 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
                                     node.data[childCount + childCount + childIdx] = newNodeIdx
                                     size++
                                 }
-SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                                 return result
                             }
                             /*Coverage Unreachable*/
@@ -212,7 +202,6 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
                                 }
                                 size++
                             }
-SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                             return result
                         }
                         /*Coverage Unreachable*/
@@ -235,7 +224,6 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
                     node.str += key
                     size++
                 }
-SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                 return result
             }
             /*Coverage Unreachable*/
@@ -244,7 +232,6 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
     }
 
     operator fun get(key: String): Int? {
-//println("PatriciaTrie $uuid get '$key'")
         var res = walkInternal(key, false)
         if (res == undefinedValue) {
             return null
@@ -253,12 +240,10 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
     }
 
     operator fun set(key: String, value: Int) {
-//println("PatriciaTrie $uuid set '$key' $value")
         throw FunktionWontWorkWithThisImplementationException()
     }
 
     fun getOrCreate(key: String): Int {
-//println("PatriciaTrie $uuid getOrCreate '$key' start")
         var list = mutableListOf<String>()
         SanityCheck {
             for (i in 0 until allOutNodes.size) {
@@ -277,17 +262,14 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
                 SanityCheck.check({ this[tmp] == i }, { "error in path .. $tmp $i ${this[tmp]}" })
             }
         }
-//println("PatriciaTrie $uuid getOrCreate '$key' $res")
         return res
     }
 
     fun appendAssumeSorted(key: String, value: Int) {
-//println("PatriciaTrie $uuid appendAssumeSorted '$key' $value")
         throw FunktionWontWorkWithThisImplementationException()
     }
 
     fun safeToFile(filename: String) {
-//println("PatriciaTrie $uuid safeToFile '$filename'")
         debugfilename = filename
         File(filename).dataOutputStream { out ->
             out.writeInt(rootValue)
@@ -312,7 +294,6 @@ SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${resul
     }
 
     fun loadFromFile(filename: String) {
-//println("PatriciaTrie $uuid loadFromFile '$filename'")
         debugfilename = filename
         clear()
         File(filename).dataInputStream { fis ->

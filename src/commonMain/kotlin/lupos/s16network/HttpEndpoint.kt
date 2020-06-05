@@ -113,20 +113,18 @@ object HttpEndpoint {
         try {
             val v2 = helper_clean_string(v)
             BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
-var res:Value
+            var res: Value
             if (v2.startsWith("_:")) {
-var flag=false
-                res= dict.getOrCreate(v2, {
+                var flag = false
+                res = dict.getOrCreate(v2, {
                     SanityCheck.check { !usePredefinedDict }
-flag=true
+                    flag = true
                     /*return*/ nodeGlobalDictionary.createNewBNode()
                 })
-SanityCheck.check({(res and 0x03FFFFFF.toInt()) < 10000},{"${res} ${res and 0x03FFFFFF.toInt()} ${res.toString(16)} ${(res and 0x03FFFFFF.toInt()).toString(16)} $usePredefinedDict $v2 $flag"})
             } else {
-                res= nodeGlobalDictionary.createValue(v2)
-SanityCheck.check({(res and 0x03FFFFFF.toInt()) < 10000},{"${res} ${res and 0x03FFFFFF.toInt()} ${res.toString(16)} ${(res and 0x03FFFFFF.toInt()).toString(16)}"})
+                res = nodeGlobalDictionary.createValue(v2)
             }
-return res
+            return res
         } finally {
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICT)
         }
