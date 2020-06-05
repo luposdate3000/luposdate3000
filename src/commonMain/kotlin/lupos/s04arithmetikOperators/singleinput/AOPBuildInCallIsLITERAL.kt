@@ -8,8 +8,8 @@ import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueUndef
@@ -28,7 +28,7 @@ class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOp
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a !is ValueUndef && a !is ValueError) {
-                res = ValueBoolean(a is ValueStringBase || a is ValueDouble || a is ValueBoolean || a is ValueInteger || a is ValueDecimal ||a is ValueFloat || a is ValueDateTime)
+                res = ValueBoolean(a is ValueStringBase || a is ValueDouble || a is ValueBoolean || a is ValueInteger || a is ValueDecimal || a is ValueFloat || a is ValueDateTime)
             }
 /*return*/res
         }

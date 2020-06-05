@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators
 
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.*
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -38,13 +38,13 @@ abstract class POPBase(query: Query,
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-var tmp=getRequiredVariableNames().toMutableSet()
-tmp.removeAll(additionalProvided)
-tmp.removeAll(getProvidedVariableNamesInternal())
-if (tmp.size == 1) {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.first())
+                var tmp = getRequiredVariableNames().toMutableSet()
+                tmp.removeAll(additionalProvided)
+                tmp.removeAll(getProvidedVariableNamesInternal())
+                if (tmp.size == 1) {
+                    throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.toString())
+                    throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }
         }

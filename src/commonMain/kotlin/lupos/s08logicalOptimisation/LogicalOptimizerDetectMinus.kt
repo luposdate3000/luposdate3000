@@ -1,10 +1,10 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
@@ -39,17 +39,17 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                         onChange()
                     })
                 }
-	    }else if (node1 is AOPBuildInCallNotExists){
-		val a=node.children[0]
-		val b=node1.children[0]
-if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
-		res=LOPMinus(query,a,b,listOf())
-}else{
-		res=LOPMinus(query,a,LOPJoin(query, a.cloneOP(), b, false),listOf())
-}
-		onChange()
-	    }
-	}
+            } else if (node1 is AOPBuildInCallNotExists) {
+                val a = node.children[0]
+                val b = node1.children[0]
+                if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
+                    res = LOPMinus(query, a, b, listOf())
+                } else {
+                    res = LOPMinus(query, a, LOPJoin(query, a.cloneOP(), b, false), listOf())
+                }
+                onChange()
+            }
+        }
         return res
     }
 

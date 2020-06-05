@@ -19,8 +19,8 @@ import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
@@ -39,7 +39,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val mask6 = 0x3E000000.toInt()/*first 7 bit*/
         val filter3 = 0x0FFFFFFF.toInt()
         val filter6 = 0x01FFFFFF.toInt()
-
         val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
@@ -48,7 +47,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueLocalDouble = 0x38000000.toInt()/*first 7 bit*/
         val flaggedValueLocalFloat = 0x3C000000.toInt()/*first 7 bit*/
         val flaggedValueLocalLangTagged = 0x3E000000.toInt()/*first 7 bit*/
-
         val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
@@ -57,7 +55,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
         val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
         val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
-
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
         @JvmField

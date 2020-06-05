@@ -186,7 +186,7 @@ class XMLElement {
             if (c1.toInt() != c2.toInt()) {
                 return false
             }
-        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double"|| attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#float") && fixNumbers) {
+        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#float") && fixNumbers) {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001) {
@@ -272,11 +272,11 @@ class XMLElement {
     }
 
     fun encodeText(text: String): String {
-        return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;").replace("\\n","&#x0A;")
+        return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;").replace("\\n", "&#x0A;")
     }
 
     fun decodeText(text: String): String {
-        return text.replace("&quot;", "\"").replace("&apos;", "'").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#x0A;","\\n")
+        return text.replace("&quot;", "\"").replace("&apos;", "'").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#x0A;", "\\n")
     }
 
     override fun toString(): String {

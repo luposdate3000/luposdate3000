@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.multiinput
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.BugException
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
@@ -30,13 +30,13 @@ class LOPUnion(query: Query, first: OPBase, second: OPBase) : LOPBase(query, EOp
             p = getProvidedVariableNames()
             SanityCheck.check { provided.containsAll(p) }
         }
-try{
-        for (v in p) {
-            res.values[v] = childHistogram0.values[v]!! + childHistogram1.values[v]!!
+        try {
+            for (v in p) {
+                res.values[v] = childHistogram0.values[v]!! + childHistogram1.values[v]!!
+            }
+        } catch (e: Throwable) {
+            throw BugException(classname, "calculateHistogram column missing")
         }
-}catch(e:Throwable){
-throw BugException(classname,"calculateHistogram column missing")
-}
         return res
     }
 }

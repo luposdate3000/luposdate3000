@@ -29,11 +29,11 @@ class AOPFunctionCallFloat(query: Query, child: AOPBase) : AOPBase(query, EOpera
                     res = ValueFloat(a.toDouble())
                 }
                 is ValueBoolean -> {
-if(a.value){
-res = ValueFloat(1.0)
-}else{
-res = ValueFloat(0.0)
-}
+                    if (a.value) {
+                        res = ValueFloat(1.0)
+                    } else {
+                        res = ValueFloat(0.0)
+                    }
                 }
                 is ValueDecimal -> {
                     res = ValueFloat(a.value)
@@ -50,12 +50,12 @@ res = ValueFloat(0.0)
                 is ValueTypedLiteral -> {
                     res = ValueFloat(a.content.toDouble())
                 }
-}
-println("AOPFunctionCallFloat herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
-                /*return*/res
             }
-            /*Coverage Unreachable*/
+            println("AOPFunctionCallFloat herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
+            /*return*/res
         }
-
-        override fun cloneOP() = AOPFunctionCallFloat(query, children[0].cloneOP() as AOPBase)
+        /*Coverage Unreachable*/
     }
+
+    override fun cloneOP() = AOPFunctionCallFloat(query, children[0].cloneOP() as AOPBase)
+}

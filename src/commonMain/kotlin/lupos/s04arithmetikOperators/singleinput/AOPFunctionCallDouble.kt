@@ -29,11 +29,11 @@ class AOPFunctionCallDouble(query: Query, child: AOPBase) : AOPBase(query, EOper
                     res = ValueDouble(a.toDouble())
                 }
                 is ValueBoolean -> {
-if(a.value){
-res = ValueDouble(1.0)
-}else{
-res = ValueDouble(0.0)
-}
+                    if (a.value) {
+                        res = ValueDouble(1.0)
+                    } else {
+                        res = ValueDouble(0.0)
+                    }
                 }
                 is ValueDecimal -> {
                     res = ValueDouble(a.value)
@@ -50,12 +50,12 @@ res = ValueDouble(0.0)
                 is ValueTypedLiteral -> {
                     res = ValueDouble(a.content.toDouble())
                 }
-}
-println("AOPFunctionCallDouble herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
-                /*return*/res
             }
-            /*Coverage Unreachable*/
+            println("AOPFunctionCallDouble herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
+            /*return*/res
         }
-
-        override fun cloneOP() = AOPFunctionCallDouble(query, children[0].cloneOP() as AOPBase)
+        /*Coverage Unreachable*/
     }
+
+    override fun cloneOP() = AOPFunctionCallDouble(query, children[0].cloneOP() as AOPBase)
+}

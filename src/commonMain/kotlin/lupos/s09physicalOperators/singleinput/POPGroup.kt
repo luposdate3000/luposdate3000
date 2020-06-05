@@ -1,10 +1,11 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.VariableNotDefinedSyntaxException
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -115,13 +116,13 @@ class POPGroup : POPBase {
                     }
                 }
             } else {
-var tmp=localRequire.toMutableSet()
-tmp.removeAll(localProvide)
-if (tmp.size == 1) {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.first())
+                var tmp = localRequire.toMutableSet()
+                tmp.removeAll(localProvide)
+                if (tmp.size == 1) {
+                    throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.toString())
-                }   
+                    throw VariableNotDefinedSyntaxException(classname, tmp.toString())
+                }
             }
         }
     }

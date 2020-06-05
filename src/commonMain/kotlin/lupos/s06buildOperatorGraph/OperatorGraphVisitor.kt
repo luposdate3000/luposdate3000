@@ -146,11 +146,11 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
-import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationSUM
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -216,23 +216,22 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
     val queryExecutionStartTime = ValueDateTime()
 
-fun createUnion(a:OPBase,b:OPBase):OPBase{
-var pa=a.getProvidedVariableNames().toMutableSet()
-var pb=b.getProvidedVariableNames().toMutableSet()
-var pc=pa.intersect(pb)
-pa.removeAll(pc)
-pb.removeAll(pc)
-var a1=a
-var b1=b
-for(x in pa){
-b1=LOPBind(query,AOPVariable(query,x),AOPConstant(query,ValueUndef()),b1)
-}
-for(x in pb){
-a1=LOPBind(query,AOPVariable(query,x),AOPConstant(query,ValueUndef()),a1)
-}
-return LOPUnion(query,a1,b1)
-}
-
+    fun createUnion(a: OPBase, b: OPBase): OPBase {
+        var pa = a.getProvidedVariableNames().toMutableSet()
+        var pb = b.getProvidedVariableNames().toMutableSet()
+        var pc = pa.intersect(pb)
+        pa.removeAll(pc)
+        pb.removeAll(pc)
+        var a1 = a
+        var b1 = b
+        for (x in pa) {
+            b1 = LOPBind(query, AOPVariable(query, x), AOPConstant(query, ValueUndef()), b1)
+        }
+        for (x in pb) {
+            a1 = LOPBind(query, AOPVariable(query, x), AOPConstant(query, ValueUndef()), a1)
+        }
+        return LOPUnion(query, a1, b1)
+    }
 
     /*queryExecutionStartTime required for_ BuildInCall.NOW */
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
@@ -332,16 +331,16 @@ return LOPUnion(query,a1,b1)
         return LOPSubGroup(query, result)
     }
 
-     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-         val child = visitSelectBase(node, node.select, false, false)
-         val template = mutableListOf<ASTNode>()
-         for (v in child.getProvidedVariableNames()) {
-             template.add(ASTTriple(ASTVar("#s"), ASTVar("#p"), ASTVar(v)))
-             template.add(ASTTriple(ASTVar("#s"), ASTVar(v), ASTVar("#o")))
-             template.add(ASTTriple(ASTVar(v), ASTVar("#p"), ASTVar("#o")))
-         }
-         return visitConstructBase(LOPJoin(query,child,LOPTriple(query,AOPVariable(query,"#s"),AOPVariable(query,"#p"),AOPVariable(query,"#o"),PersistentStoreLocal.defaultGraphName,false),false), template.toTypedArray())
-     }
+    override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
+        val child = visitSelectBase(node, node.select, false, false)
+        val template = mutableListOf<ASTNode>()
+        for (v in child.getProvidedVariableNames()) {
+            template.add(ASTTriple(ASTVar("#s"), ASTVar("#p"), ASTVar(v)))
+            template.add(ASTTriple(ASTVar("#s"), ASTVar(v), ASTVar("#o")))
+            template.add(ASTTriple(ASTVar(v), ASTVar("#p"), ASTVar("#o")))
+        }
+        return visitConstructBase(LOPJoin(query, child, LOPTriple(query, AOPVariable(query, "#s"), AOPVariable(query, "#p"), AOPVariable(query, "#o"), PersistentStoreLocal.defaultGraphName, false), false), template.toTypedArray())
+    }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
         val child = visitQueryBase(node, null, false, false, false)
@@ -840,20 +839,20 @@ return tmp
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-when(node.iri){
-"http://www.w3.org/2001/XMLSchema#double"->{
-return AOPFunctionCallDouble(query,childrenValues[0] as AOPBase)
-}
-"http://www.w3.org/2001/XMLSchema#float"->{
-return AOPFunctionCallFloat(query,childrenValues[0] as AOPBase)
-}
-"http://www.w3.org/2001/XMLSchema#string"->{
-return AOPFunctionCallString(query,childrenValues[0] as AOPBase)
-}
-else->{
-        throw SparqlFeatureNotImplementedException("ASTFunctionCall ${node.iri} ${node.distinct}")
-}
-}
+        when (node.iri) {
+            "http://www.w3.org/2001/XMLSchema#double" -> {
+                return AOPFunctionCallDouble(query, childrenValues[0] as AOPBase)
+            }
+            "http://www.w3.org/2001/XMLSchema#float" -> {
+                return AOPFunctionCallFloat(query, childrenValues[0] as AOPBase)
+            }
+            "http://www.w3.org/2001/XMLSchema#string" -> {
+                return AOPFunctionCallString(query, childrenValues[0] as AOPBase)
+            }
+            else -> {
+                throw SparqlFeatureNotImplementedException("ASTFunctionCall ${node.iri} ${node.distinct}")
+            }
+        }
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
@@ -866,7 +865,7 @@ else->{
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
-        return LOPOptional(query,LOPSubGroup(query,parseGroup(node.children)))
+        return LOPOptional(query, LOPSubGroup(query, parseGroup(node.children)))
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {
@@ -1201,14 +1200,14 @@ else->{
                 SanityCheck.checkEQ({ childrenValues.size }, { 1 })
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
-BuiltInFunctions.NotExists-> {
+            BuiltInFunctions.NotExists -> {
                 return AOPBuildInCallNotExists(query, parseGroup(node.children))
             }
-BuiltInFunctions.Exists-> {
+            BuiltInFunctions.Exists -> {
                 return AOPBuildInCallExists(query, parseGroup(node.children))
             }
             else -> {
-                throw SparqlFeatureNotImplementedException("BuiltInFunctions."+node.function.toString())
+                throw SparqlFeatureNotImplementedException("BuiltInFunctions." + node.function.toString())
             }
         }
         /*Coverage Unreachable*/

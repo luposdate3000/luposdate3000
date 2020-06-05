@@ -1,11 +1,11 @@
 package lupos.s04logicalOperators.singleinput
 
-import lupos.s00misc.VariableNotDefinedSyntaxException
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -72,12 +72,12 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
                     }
                 }
             } else {
-var tmp=localRequire.toMutableSet()
-tmp.removeAll(localProvide)
-if (tmp.size == 1) {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.first())
+                var tmp = localRequire.toMutableSet()
+                tmp.removeAll(localProvide)
+                if (tmp.size == 1) {
+                    throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.toString())
+                    throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }
         }

@@ -8,8 +8,8 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
@@ -36,7 +36,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         res.evaluate = {
             try {
                 val value = child()
-println("AOPAggregationAVG herehere $uuid ${value.toSparql()}")
+                println("AOPAggregationAVG herehere $uuid ${value.toSparql()}")
                 res.count++
                 if (value is ValueError) {
                     res.value = value
@@ -56,7 +56,7 @@ println("AOPAggregationAVG herehere $uuid ${value.toSparql()}")
                     res.evaluate = res::_evaluate
                 }
             } catch (e: Throwable) {
-e.printStackTrace()
+                e.printStackTrace()
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             }
@@ -77,7 +77,7 @@ e.printStackTrace()
             } else {
                 res = ValueError()
             }
-println("AOPAggregationAVG herehere $uuid ${tmp.value.toSparql()} -->> ${res.toSparql()} ${tmp.count}")
+            println("AOPAggregationAVG herehere $uuid ${tmp.value.toSparql()} -->> ${res.toSparql()} ${tmp.count}")
 /*return*/res
         }
 /*Coverage Unreachable*/

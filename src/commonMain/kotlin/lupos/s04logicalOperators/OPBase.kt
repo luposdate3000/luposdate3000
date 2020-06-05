@@ -1,8 +1,8 @@
 package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.classNameToString
 import lupos.s00misc.*
+import lupos.s00misc.classNameToString
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
@@ -415,8 +415,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-    open fun toSparql(): String =throw ToSparqlNotImplementedException(classname)
-
+    open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {
@@ -482,9 +481,9 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNames())
                 if (tmp.size == 1) {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.first())
+                    throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    throw VariableNotDefinedSyntaxException(classname,tmp.toString())
+                    throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }
         }

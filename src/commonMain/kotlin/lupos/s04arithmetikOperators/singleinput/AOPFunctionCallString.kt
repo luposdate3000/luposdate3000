@@ -23,38 +23,38 @@ class AOPFunctionCallString(query: Query, child: AOPBase) : AOPBase(query, EOper
             val a = childA()
             when (a) {
                 is ValueSimpleLiteral -> {
-                    res = ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueInteger -> {
-                    res = ValueTypedLiteral("\"",a.value.toString(),"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral("\"", a.value.toString(), "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueBoolean -> {
-			res = ValueTypedLiteral("\"",a.value.toString(),"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral("\"", a.value.toString(), "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueDecimal -> {
-			res = ValueTypedLiteral("\"",a.value.toString(),"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral("\"", a.value.toString(), "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueDouble -> {
-			res = ValueTypedLiteral("\"",a.value.toString(),"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral("\"", a.value.toString(), "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueFloat -> {
-			res = ValueTypedLiteral("\"",a.value.toString(),"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral("\"", a.value.toString(), "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueSimpleLiteral -> {
-res=ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueLanguageTaggedLiteral -> {
-res=ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueTypedLiteral -> {
-res=ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#string")
+                    res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }
-}
-println("AOPFunctionCallString herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
-                /*return*/res
             }
-            /*Coverage Unreachable*/
+            println("AOPFunctionCallString herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
+            /*return*/res
         }
-
-        override fun cloneOP() = AOPFunctionCallString(query, children[0].cloneOP() as AOPBase)
+        /*Coverage Unreachable*/
     }
+
+    override fun cloneOP() = AOPFunctionCallString(query, children[0].cloneOP() as AOPBase)
+}

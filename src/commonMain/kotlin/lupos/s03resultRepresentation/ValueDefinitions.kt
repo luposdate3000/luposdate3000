@@ -236,6 +236,7 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
         throw Exception("type error")
     }
 }
+
 class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
     override fun toXMLElement() = XMLElement("ValueFloat").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#float>"

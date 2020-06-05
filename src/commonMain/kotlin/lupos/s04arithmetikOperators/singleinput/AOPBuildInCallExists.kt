@@ -2,8 +2,8 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition

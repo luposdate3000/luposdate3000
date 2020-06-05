@@ -13,8 +13,8 @@ import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueUndef
 
@@ -104,6 +104,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     inline fun createDouble(value: Double): Value {
         return createValue(ValueDouble(value))
     }
+
     inline fun createFloat(value: Double): Value {
         return createValue(ValueFloat(value))
     }
