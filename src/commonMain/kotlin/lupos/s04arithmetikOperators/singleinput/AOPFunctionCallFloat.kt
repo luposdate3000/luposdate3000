@@ -51,6 +51,7 @@ res = ValueFloat(0.0)
                     res = ValueFloat(a.content.toDouble())
                 }
 }
+println("AOPFunctionCallFloat herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
                 /*return*/res
             }
             /*Coverage Unreachable*/

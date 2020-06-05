@@ -51,6 +51,7 @@ res = ValueDouble(0.0)
                     res = ValueDouble(a.content.toDouble())
                 }
 }
+println("AOPFunctionCallDouble herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
                 /*return*/res
             }
             /*Coverage Unreachable*/

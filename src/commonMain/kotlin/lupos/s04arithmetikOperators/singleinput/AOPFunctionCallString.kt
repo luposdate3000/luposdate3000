@@ -47,11 +47,10 @@ res=ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#st
 res=ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#string")
                 }
                 is ValueTypedLiteral -> {
-if(a.type_iri=="http://www.w3.org/2001/XMLSchema#string"){
-res=a
-}
+res=ValueTypedLiteral(a.delimiter,a.content,"http://www.w3.org/2001/XMLSchema#string")
                 }
 }
+println("AOPFunctionCallString herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
                 /*return*/res
             }
             /*Coverage Unreachable*/
