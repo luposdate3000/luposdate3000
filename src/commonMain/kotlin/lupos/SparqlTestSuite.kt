@@ -444,7 +444,6 @@ class SparqlTestSuite() {
                 JenaWrapper.dropAll()
                 val inputData = readFileOrNull(inputDataFileName)
                 if (inputData != null && inputDataFileName != null) {
-                    println("MAX_TRIPLES_DURING_TEST $MAX_TRIPLES_DURING_TEST ${inputData.split("\n").size}")
                     if (MAX_TRIPLES_DURING_TEST > 0 && inputData.split("\n").size > MAX_TRIPLES_DURING_TEST) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
@@ -764,7 +763,6 @@ class SparqlTestSuite() {
             }
             return false
         } finally {
-            println("MAX_TRIPLES_DURING_TEST finally $shouldHaveSkipped")
             ColumnIteratorDebug.debug()
         }
     }
