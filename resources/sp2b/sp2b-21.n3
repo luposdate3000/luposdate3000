@@ -16,6 +16,6 @@ bench:MastersThesis rdfs:subClassOf foaf:Document .
 bench:PhDThesis rdfs:subClassOf foaf:Document .
 bench:Incollection rdfs:subClassOf foaf:Document .
 bench:Book rdfs:subClassOf foaf:Document .
-<http://localhost/persons/Paul_Erdoes> rdf:type foaf:Person .
-<http://localhost/persons/Paul_Erdoes> foaf:name "Paul Erdoes"^^xsd:string .
+<http://localhost/persons/Paul_Erdoes> rdf:type foaf:Person ;
+foaf:name "Paul Erdoes"^^xsd:string .
 <http://localhost/misc/UnknownDocument> rdf:type foaf:Document .

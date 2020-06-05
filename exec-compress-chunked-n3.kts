@@ -1,8 +1,11 @@
 #!/bin/kscript
 import java.io.*
 
-var compress = true
 var folderName = args[0]
+var compress = true
+if(args.size>1){
+compress=args[1].toBoolean()
+}
 var line2 = readLine()
 var chunk = 0
 var outsize = 0

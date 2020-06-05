@@ -1,0 +1,7 @@
+bsbm-inst:ProductType1
+bsbm-inst:ProductType2
+bsbm-inst:ProductType3
+bsbm-inst:ProductType4
+bsbm-inst:ProductType5
+bsbm-inst:ProductType6
+bsbm-inst:ProductType7

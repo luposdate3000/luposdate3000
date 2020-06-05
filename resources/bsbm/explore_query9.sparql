@@ -1,0 +1,4 @@
+PREFIX rev: <http://purl.org/stuff/rev#>
+
+DESCRIBE ?x
+WHERE { %Review1% rev:reviewer ?x }
