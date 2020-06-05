@@ -22,6 +22,7 @@
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 
 {
@@ -48,6 +49,7 @@
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -73,6 +75,7 @@
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -98,6 +101,7 @@
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -123,6 +127,7 @@
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -148,4 +153,5 @@
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts

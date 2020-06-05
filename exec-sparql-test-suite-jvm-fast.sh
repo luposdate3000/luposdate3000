@@ -31,6 +31,7 @@ port="3030"
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->-1"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

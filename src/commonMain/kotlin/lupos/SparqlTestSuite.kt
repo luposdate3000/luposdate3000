@@ -1,5 +1,7 @@
 package lupos
 
+import kotlin.time.DurationUnit
+import kotlin.time.TimeSource.Monotonic
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -7,6 +9,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
+import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
@@ -68,11 +71,6 @@ class SparqlTestSuite() {
                         val queryFile = prefix + line[1]
                         var inputFile = prefix + line[2]
                         val outputFile = prefix + line[3]
-                        if (lastinput == inputFile) {
-                            inputFile = "#keep-data#"
-                        } else {
-                            lastinput = inputFile
-                        }
                         if (!File(outputFile).exists()) {
                             try {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
@@ -86,6 +84,11 @@ class SparqlTestSuite() {
                             } finally {
                                 JenaWrapper.dropAll()
                             }
+                        }
+                        if (lastinput == inputFile) {
+                            inputFile = "#keep-data#"
+                        } else {
+                            lastinput = inputFile
                         }
                         CoroutinesHelper.runBlock {
                             GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile + "-" + triplesCount })
@@ -419,317 +422,351 @@ class SparqlTestSuite() {
     @JvmField
     var i = 0
 
+    @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
         var ignoreJena = false
+        var timer = Monotonic.markNow()
+        var shouldHaveSkipped = false
         try {
-            try {
-                val toParse = readFileOrNull(queryFile)!!
-                if (toParse.contains("service", true)) {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
-                    return false
-                }
-                val resultData = readFileOrNull(resultDataFileName)
-                if (inputDataFileName != "#keep-data#") {
-                    val query2 = Query()
-                    query2.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                    ServerCommunicationSend.graphClearAll(query2)
-                    query2.commit()
-                    nodeGlobalDictionary.clear()
-                    JenaWrapper.dropAll()
-                    val inputData = readFileOrNull(inputDataFileName)
-                    if (inputData != null && inputDataFileName != null) {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
-                        var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
-                        if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
-                            var xmlGraphBulk: XMLElement? = null
-                            CoroutinesHelper.runBlock {
-                                val query = Query()
-                                query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                                HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
-                                val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                                xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
-                            }
-                            if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(BulkImport)" })
-                                return false
-                            }
-                        } else {
-                            val query = Query()
-                            query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                            CoroutinesHelper.runBlock {
-                                val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                                DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-                            }
-                            query.commit()
-                        }
-                        File("log/storetest").mkdirs()
-                        DistributedTripleStore.localStore.safeToFolder("log/storetest")
-                        DistributedTripleStore.localStore.loadFromFolder("log/storetest")
-                        var xmlGraphLoad: XMLElement? = null
+            val toParse = readFileOrNull(queryFile)!!
+            if (toParse.contains("service", true)) {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
+                return false
+            }
+            val resultData = readFileOrNull(resultDataFileName)
+            if (inputDataFileName != "#keep-data#") {
+                val query2 = Query()
+                query2.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                ServerCommunicationSend.graphClearAll(query2)
+                query2.commit()
+                nodeGlobalDictionary.clear()
+                JenaWrapper.dropAll()
+                val inputData = readFileOrNull(inputDataFileName)
+                if (inputData != null && inputDataFileName != null) {
+                    println("MAX_TRIPLES_DURING_TEST $MAX_TRIPLES_DURING_TEST ${inputData.split("\n").size}")
+                    if (MAX_TRIPLES_DURING_TEST > 0 && inputData.split("\n").size > MAX_TRIPLES_DURING_TEST) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
+                        shouldHaveSkipped = true
+                        return true
+                    }
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
+                    if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
+                        var xmlGraphBulk: XMLElement? = null
                         CoroutinesHelper.runBlock {
                             val query = Query()
                             query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                            val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                            xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
+                            HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
+                            val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                            xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         }
-                        if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                        if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(BulkImport)" })
                             return false
                         }
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
-                        try {
-                            JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-                        } catch (e: Throwable) {
-                            ignoreJena = true
-                        }
-                    }
-                    inputDataGraph.forEach {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
-                        val inputData2 = readFileOrNull(it["filename"])
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData2 })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
-                        var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
+                    } else {
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                         CoroutinesHelper.runBlock {
                             val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                            DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                            DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                         }
                         query.commit()
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
-                        try {
-                            JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-                        } catch (e: Throwable) {
-                            ignoreJena = true
-                        }
                     }
-                    if (services != null) {
-                        for (s in services) {
-                            val n = s["name"]!!
-                            val fn = s["filename"]!!
-                            val fc = readFileOrNull(fn)!!
-//                        ServerCommunicationSend.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
-                        }
+                    File("log/storetest").mkdirs()
+                    DistributedTripleStore.localStore.safeToFolder("log/storetest")
+                    DistributedTripleStore.localStore.loadFromFolder("log/storetest")
+                    var xmlGraphLoad: XMLElement? = null
+                    CoroutinesHelper.runBlock {
+                        val query = Query()
+                        query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                        xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                     }
-                }
-                val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
-                val query = Query()
-                query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                var res: Boolean
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
-                GlobalLogger.log(ELoggerType.TEST_RESULT, { toParse })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Abstract Syntax Tree" })
-                val lcit = LexerCharIterator(toParse)
-                val tit = TokenIteratorSPARQLParser(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                val parser = SPARQLParser(ltit)
-                val ast_node = parser.expr()
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { ast_node })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph" })
-                val lop_node = ast_node.visit(OperatorGraphVisitor(query))
-                File("log/${testName2}-Logical-Operator-Graph.tex").printWriter {
-                    it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
-                }
-                SanityCheck.check({ lop_node == lop_node.cloneOP() }, { lop_node.toString() + " - " + lop_node.cloneOP().toString() })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph optimized" })
-                val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
-                SanityCheck.check { lop_node2 == lop_node2.cloneOP() }
-                File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriter {
-                    it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
-                }
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node2.toXMLElement().toPrettyString() })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Physical Operator Graph" })
-                val pop_optimizer = PhysicalOptimizer(query)
-                val pop_node = pop_optimizer.optimizeCall(lop_node2)
-                SanityCheck.check({ pop_node == pop_node.cloneOP() }, { pop_node.toString() + " - " + pop_node.cloneOP().toString() })
-                SanityCheck { pop_node.toSparqlQuery() }
-                File("log/${testName2}-Physical-Operator-Graph.tex").printWriter {
-                    it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
-                }
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
-                val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
-                SanityCheck.check { pop_distributed_node == pop_distributed_node.cloneOP() }
-                SanityCheck { pop_distributed_node.toSparqlQuery() }
-                File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter {
-                    it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
-                }
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_distributed_node })
-                var xmlQueryResult: XMLElement? = null
-                if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
-                    xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
-                    query.commit()
-                }
-                var verifiedOutput = false
-                outputDataGraph.forEach {
-                    val outputData = readFileOrNull(it["filename"])
-                    var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
-                    val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                    var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
-                    if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
+                    if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
                         return false
-                    } else {
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
                     }
-                    verifiedOutput = true
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
+                    try {
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
+                    } catch (e: Throwable) {
+                        ignoreJena = true
+                    }
                 }
-                NodeManager.debug()
-                if (resultData != null && resultDataFileName != null) {
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
-                    var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
-                    if (!ignoreJena) {
-                        try {
-                            val jenaResult = JenaWrapper.execQuery(toParse)
-                            val jenaXML = XMLElement.parseFromXml(jenaResult)
+                inputDataGraph.forEach {
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
+                    val inputData2 = readFileOrNull(it["filename"])
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData2 })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
+                    var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
+                    val query = Query()
+                    query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                    CoroutinesHelper.runBlock {
+                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
+                        DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                    }
+                    query.commit()
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
+                    try {
+                        JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
+                    } catch (e: Throwable) {
+                        ignoreJena = true
+                    }
+                }
+                if (services != null) {
+                    for (s in services) {
+                        val n = s["name"]!!
+                        val fn = s["filename"]!!
+                        val fc = readFileOrNull(fn)!!
+//                        ServerCommunicationSend.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
+                    }
+                }
+            }
+            val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
+            val query = Query()
+            query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+            var res: Boolean
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { toParse })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Abstract Syntax Tree" })
+            val lcit = LexerCharIterator(toParse)
+            val tit = TokenIteratorSPARQLParser(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            val parser = SPARQLParser(ltit)
+            val ast_node = parser.expr()
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { ast_node })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph" })
+            val lop_node = ast_node.visit(OperatorGraphVisitor(query))
+            File("log/${testName2}-Logical-Operator-Graph.tex").printWriter {
+                it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
+            }
+            SanityCheck.check({ lop_node == lop_node.cloneOP() }, { lop_node.toString() + " - " + lop_node.cloneOP().toString() })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph optimized" })
+            val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
+            SanityCheck.check { lop_node2 == lop_node2.cloneOP() }
+            File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriter {
+                it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
+            }
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node2.toXMLElement().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Physical Operator Graph" })
+            val pop_optimizer = PhysicalOptimizer(query)
+            val pop_node = pop_optimizer.optimizeCall(lop_node2)
+            SanityCheck.check({ pop_node == pop_node.cloneOP() }, { pop_node.toString() + " - " + pop_node.cloneOP().toString() })
+            SanityCheck { pop_node.toSparqlQuery() }
+            File("log/${testName2}-Physical-Operator-Graph.tex").printWriter {
+                it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
+            }
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
+            val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
+            SanityCheck.check { pop_distributed_node == pop_distributed_node.cloneOP() }
+            SanityCheck { pop_distributed_node.toSparqlQuery() }
+            File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter {
+                it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
+            }
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_distributed_node })
+            var xmlQueryResult: XMLElement? = null
+            if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
+                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
+                xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
+                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
+                query.commit()
+            }
+            var verifiedOutput = false
+            outputDataGraph.forEach {
+                val outputData = readFileOrNull(it["filename"])
+                var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
+                val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
+                if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
+                    return false
+                } else {
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
+                }
+                verifiedOutput = true
+            }
+            NodeManager.debug()
+            if (resultData != null && resultDataFileName != null) {
+                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
+                var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
+                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
+                GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
+                if (!ignoreJena) {
+                    try {
+                        val jenaResult = JenaWrapper.execQuery(toParse)
+                        val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                            if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
-                                return false
-                            }
-                        } catch (e: Throwable) {
-                            ignoreJena = true
+                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Jena jena,actual" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test jenaOriginal :: " + jenaResult })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlJena :: " + jenaXML.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlActual :: " + xmlQueryResult!!.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlTarget :: " + xmlQueryTarget.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
+                            return false
                         }
+                    } catch (e: Throwable) {
+                        ignoreJena = true
                     }
-                    res = xmlQueryResult!!.myEquals(xmlQueryTarget)
-                    if (res) {
-                        val xmlPOP = pop_distributed_node.toXMLElement()
-                        val query4 = Query()
-                        query4.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                        val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
-                        val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
-                        query4.commit()
-                        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
-                        if (xmlQueryResultRecovered.myEquals(xmlQueryResult)) {
-                            if (expectedResult) {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
-                            } else {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse)" })
-                            }
+                }
+                res = xmlQueryResult!!.myEquals(xmlQueryTarget)
+                if (res) {
+                    val xmlPOP = pop_distributed_node.toXMLElement()
+                    val query4 = Query()
+                    query4.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                    val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
+                    val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
+                    query4.commit()
+                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
+                    if (xmlQueryResultRecovered.myEquals(xmlQueryResult)) {
+                        if (expectedResult) {
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
                         } else {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(RecoverFromXMLOperatorGraph)" })
-                            res = false
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse)" })
                         }
                     } else {
-                        val containsOrderBy = toParse.contains("ORDER", true)
-                        val correctIfIgnoreOrderBy = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, false, false, true)
-                        val correctIfIgnoreString = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, false, true)
-                        val correctIfIgnoreNumber = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, true)
-                        val correctIfIgnoreAllExceptOrder = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, false)
-                        if (correctIfIgnoreNumber) {
-                            if (expectedResult) {
-                                if (containsOrderBy) {
-                                    if (correctIfIgnoreAllExceptOrder) {
-                                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
-                                    } else {
-                                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
-                                    }
-                                } else if (correctIfIgnoreOrderBy) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(RecoverFromXMLOperatorGraph)" })
+                        res = false
+                    }
+                } else {
+                    val containsOrderBy = toParse.contains("ORDER", true)
+                    val correctIfIgnoreOrderBy = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, false, false, true)
+                    val correctIfIgnoreString = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, false, true)
+                    val correctIfIgnoreNumber = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, true)
+                    val correctIfIgnoreAllExceptOrder = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, false)
+                    if (correctIfIgnoreNumber) {
+                        if (expectedResult) {
+                            if (containsOrderBy) {
+                                if (correctIfIgnoreAllExceptOrder) {
+                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
-                                } else if (correctIfIgnoreString) {
-                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(String)" })
-                                } else if (correctIfIgnoreNumber) {
-                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Number & String)" })
                                 } else {
-                                    SanityCheck.checkUnreachable()
+                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
                                 }
+                            } else if (correctIfIgnoreOrderBy) {
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
+                            } else if (correctIfIgnoreString) {
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(String)" })
+                            } else if (correctIfIgnoreNumber) {
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Number & String)" })
                             } else {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Simplified)" })
+                                SanityCheck.checkUnreachable()
                             }
                         } else {
-                            if (expectedResult) {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
-                            } else {
-                                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse)" })
-                            }
-                        }
-                    }
-                    return res
-                } else {
-                    if (verifiedOutput) {
-                        if (expectedResult) {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Graph)" })
-                        } else {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Graph)" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Simplified)" })
                         }
                     } else {
                         if (expectedResult) {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Syntax)" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
                         } else {
-                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Syntax)" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse)" })
                         }
                     }
-                    return expectedResult
                 }
-/*Coverage Unreachable*/
-            } catch (e: ParseError) {
-                if (expectedResult) {
-                    e.printStackTrace()
-                    GlobalLogger.log(ELoggerType.DEBUG, { e })
-                    GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
-                    GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ParseError)" })
+                return res
+            } else {
+                if (verifiedOutput) {
+                    if (expectedResult) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Graph)" })
+                    } else {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Graph)" })
+                    }
                 } else {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,ParseError)" })
+                    if (expectedResult) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Syntax)" })
+                    } else {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Syntax)" })
+                    }
                 }
-                return false
-            } catch (e: NotImplementedException) {
-                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(NotImplemented)" })
-                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
-                return false
-            } catch (e: Luposdate3000Exception) {
-                println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
-                if (expectedResult) {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(${e.classname})" })
-                    GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
-                } else {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,${e.classname})" })
-                }
-                return false
-            } catch (e: Throwable) {
-                println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
-                if (expectedResult) {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })
-                    GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
-                } else {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,Throwable)" })
-                }
-                return false
+                return expectedResult
             }
 /*Coverage Unreachable*/
+        } catch (e: ParseError) {
+            if (expectedResult) {
+                e.printStackTrace()
+                GlobalLogger.log(ELoggerType.DEBUG, { e })
+                GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
+                GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ParseError)" })
+            } else {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,ParseError)" })
+            }
+            return false
+        } catch (e: NotImplementedException) {
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(NotImplemented)" })
+            GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+            return false
+        } catch (e: Luposdate3000Exception) {
+            println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
+            if (expectedResult) {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(${e.classname})" })
+                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+            } else {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,${e.classname})" })
+            }
+            return false
+        } catch (e: Throwable) {
+            println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
+            if (expectedResult) {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })
+                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+            } else {
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,Throwable)" })
+            }
+            return false
         } finally {
+            println("MAX_TRIPLES_DURING_TEST finally $shouldHaveSkipped")
             ColumnIteratorDebug.debug()
         }
-/*Coverage Unreachable*/
     }
 }
 

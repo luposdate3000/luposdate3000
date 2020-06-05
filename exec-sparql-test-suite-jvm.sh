@@ -26,6 +26,7 @@ port="3030"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

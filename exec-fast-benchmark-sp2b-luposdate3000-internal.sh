@@ -33,6 +33,7 @@ triples=8388608
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->-1"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 

@@ -30,6 +30,7 @@ mkdir -p log/benchtmp
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->None"
+  echo "MaxTriplesDuringTest->-1"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
