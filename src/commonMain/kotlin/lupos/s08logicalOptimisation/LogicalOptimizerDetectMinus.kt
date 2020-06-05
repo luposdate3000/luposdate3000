@@ -42,7 +42,11 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
 	    }else if (node1 is AOPBuildInCallNotExists){
 		val a=node.children[0]
 		val b=node1.children[0]
+if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
 		res=LOPMinus(query,a,b,listOf())
+}else{
+		res=LOPMinus(query,a,LOPJoin(query, a.cloneOP(), b, false),listOf())
+}
 		onChange()
 	    }
 	}
