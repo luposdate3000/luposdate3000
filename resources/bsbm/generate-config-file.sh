@@ -1,6 +1,6 @@
 #!/bin/bash
 touch config.csv2
-rm config.csv2
+rm config.csv2 *.srx *.sparql
 
 for triples2 in 1 2 3
 do
@@ -31,7 +31,9 @@ do
 #offer
 	grep "rdf:type bsbm:Offer" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Offer .//g" | sort -u | shuf > bsbm-helper-$triples-offer.txt
 #product type
-	grep "rdf:type bsbm:ProductType" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductType .//g" | sort -u | shuf > bsbm-helper-$triples-producttype.txt
+	grep "rdf:type bsbm:ProductType" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductType .//g" | sort -u > bsbm-helper-$triples-producttypeA.txt
+	grep "rdf:type bsbm-inst:" bsbm-$triples.n3 | sed "s/.*bsbm-inst:/bsbm-inst:/g" | sed "s/ .$//g"| sort -u > bsbm-helper-$triples-producttypeB.txt
+	comm -12 bsbm-helper-$triples-producttypeA.txt bsbm-helper-$triples-producttypeB.txt | shuf > bsbm-helper-$triples-producttype.txt
 #product feature
 	grep "rdf:type bsbm:ProductFeature" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:ProductFeature .//g" | sort -u | shuf > bsbm-helper-$triples-productfeature.txt
 #month

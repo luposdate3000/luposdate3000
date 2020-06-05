@@ -35,23 +35,28 @@ class ResultSetDictionary(val global: Boolean = false) {
         /*to most bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
         val mask1 = 0x40000000.toInt()/*first 2 bit*/
         val mask3 = 0x30000000.toInt()/*first 4 bit*/
-        val mask5 = 0x3C000000.toInt()/*first 6 bit*/
+        val mask6 = 0x3E000000.toInt()/*first 7 bit*/
         val filter3 = 0x0FFFFFFF.toInt()
-        val filter5 = 0x03FFFFFF.toInt()
+        val filter6 = 0x01FFFFFF.toInt()
+
         val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
-        val flaggedValueLocalInt = 0x30000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDouble = 0x38000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalLangTagged = 0x3C000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalInt = 0x30000000.toInt()/*first 7 bit*/
+        val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 7 bit*/
+        val flaggedValueLocalDouble = 0x38000000.toInt()/*first 7 bit*/
+        val flaggedValueLocalFloat = 0x3C000000.toInt()/*first 7 bit*/
+        val flaggedValueLocalLangTagged = 0x3E000000.toInt()/*first 7 bit*/
+
         val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
         val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalInt = 0x70000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalInt = 0x70000000.toInt()/*first 7 bit*/
+        val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 7 bit*/
+        val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
+        val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
+        val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
+
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
         @JvmField
@@ -93,6 +98,8 @@ class ResultSetDictionary(val global: Boolean = false) {
     val typedMap = MyMapStringIntPatriciaTrieDouble()
     val doubleMap = MyMapDoubleInt()
     val doubleList = MyListDouble()
+    val floatMap = MyMapDoubleInt()
+    val floatList = MyListDouble()
     val decimalMap = MyMapDoubleInt()
     val decimalList = MyListDouble()
     val intMap = MyMapIntInt()
@@ -106,6 +113,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         typedMap.clear()
         doubleMap.clear()
         doubleList.clear()
+        floatMap.clear()
+        floatList.clear()
         decimalMap.clear()
         decimalList.clear()
         intMap.clear()
@@ -126,7 +135,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             } catch (e: Throwable) {
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -137,7 +146,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             res = localBnodeMap.getOrCreate(value, { (flaggedValueLocalBnode or (bNodeCounter++).toInt()) })
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -153,7 +162,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = flaggedValueLocalIri or iriMap.getOrCreate(iri)
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -170,7 +179,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = flaggedValueLocalLangTagged or langTaggedMap.getOrCreate(key)
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -185,6 +194,9 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
             "http://www.w3.org/2001/XMLSchema#double" -> {
                 res = createDouble(content.toDouble())
+            }
+            "http://www.w3.org/2001/XMLSchema#float" -> {
+                res = createFloat(content.toDouble())
             }
             "http://www.w3.org/2001/XMLSchema#boolean" -> {
                 if (content == "true") {
@@ -207,7 +219,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -231,7 +243,31 @@ class ResultSetDictionary(val global: Boolean = false) {
                 })
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+        return res
+    }
+
+    fun createFloat(value: Double): Value {
+        var res: Value
+        if (global) {
+            res = floatMap.getOrCreate(value, {
+                val idx = floatList.size
+                floatList.add(value)
+                /*return*/ (flaggedValueGlobalFloat or idx.toInt())
+            })
+        } else {
+            val tmp = nodeGlobalDictionary.floatMap[value]
+            if (tmp != null) {
+                res = tmp or flaggedValueGlobalFloat
+            } else {
+                res = floatMap.getOrCreate(value, {
+                    val idx = floatList.size
+                    floatList.add(value)
+                    /*return*/ (flaggedValueLocalFloat or idx.toInt())
+                })
+            }
+        }
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -255,7 +291,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 })
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -279,13 +315,13 @@ class ResultSetDictionary(val global: Boolean = false) {
                 })
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -323,6 +359,9 @@ class ResultSetDictionary(val global: Boolean = false) {
             is ValueDouble -> {
                 res = createDouble(value.value)
             }
+            is ValueFloat -> {
+                res = createFloat(value.value)
+            }
             is ValueInteger -> {
                 res = createInteger(value.value)
             }
@@ -338,12 +377,12 @@ class ResultSetDictionary(val global: Boolean = false) {
             val tmp2 = getValue(res)
             SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})" })
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun getValue(value: Value): ValueDefinition {
-//SanityCheck.check({(value and filter5) < 10000},{"${value} ${value and filter5} ${value.toString(16)} ${(value and filter5).toString(16)}"})
+//SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -383,15 +422,17 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = ValueTypedLiteral("\"", content, type)
             }
         } else {
-            var bit5 = value and mask5
+            var bit5 = value and mask6
             if (bit5 == flaggedValueLocalInt) {
-                res = ValueInteger(dict.intList[value and filter5])
+                res = ValueInteger(dict.intList[value and filter6])
             } else if (bit5 == flaggedValueLocalDecimal) {
-                res = ValueDecimal(dict.decimalList[value and filter5])
+                res = ValueDecimal(dict.decimalList[value and filter6])
             } else if (bit5 == flaggedValueLocalDouble) {
-                res = ValueDouble(dict.doubleList[value and filter5])
+                res = ValueDouble(dict.doubleList[value and filter6])
+            } else if (bit5 == flaggedValueLocalFloat) {
+                res = ValueFloat(dict.floatList[value and filter6])
             } else {
-                val tmp = dict.langTaggedMap[value and filter5]
+                val tmp = dict.langTaggedMap[value and filter6]
                 var idx = tmp.indexOf("@")
                 var lang = tmp.substring(0, idx)
                 var content = tmp.substring(idx + 1, tmp.length)
@@ -424,6 +465,9 @@ class ResultSetDictionary(val global: Boolean = false) {
             for (i in 0 until doubleList.size) {
                 println("debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
             }
+            for (i in 0 until floatList.size) {
+                println("debug dict - float :: ${i + base + flaggedValueLocalFloat} -> ${floatList[i]}")
+            }
             for (i in 0 until langTaggedMap.size) {
                 println("debug dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
             }
@@ -441,7 +485,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = nodeGlobalDictionary.createValue(getValue(value))
             }
         }
-//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -455,6 +499,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         langTaggedMap.safeToFile(foldername + "/langTagged.map")
         typedMap.safeToFile(foldername + "/typed.map")
         doubleMap.safeToFile(foldername + "/double.map")
+        floatMap.safeToFile(foldername + "/float.map")
         decimalMap.safeToFile(foldername + "/decimal.map")
         intMap.safeToFile(foldername + "/int.map")
     }
@@ -468,19 +513,28 @@ class ResultSetDictionary(val global: Boolean = false) {
         langTaggedMap.loadFromFile(foldername + "/langTagged.map")
         typedMap.loadFromFile(foldername + "/typed.map")
         doubleMap.loadFromFile(foldername + "/double.map")
+        floatMap.loadFromFile(foldername + "/float.map")
         decimalMap.loadFromFile(foldername + "/decimal.map")
         intMap.loadFromFile(foldername + "/int.map")
         doubleList.clear()
         doubleMap.forEach { k, v2 ->
-            val v = v2 and filter5
+            val v = v2 and filter6
             while (v > doubleList.size) {
                 doubleList.add(k)
             }
             doubleList[v] = k
         }
+        floatList.clear()
+        floatMap.forEach { k, v2 ->
+            val v = v2 and filter6
+            while (v > floatList.size) {
+                floatList.add(k)
+            }
+            floatList[v] = k
+        }
         decimalList.clear()
         decimalMap.forEach { k, v2 ->
-            val v = v2 and filter5
+            val v = v2 and filter6
             while (v > decimalList.size) {
                 decimalList.add(k)
             }
@@ -488,7 +542,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         intList.clear()
         intMap.forEach { k, v2 ->
-            val v = v2 and filter5
+            val v = v2 and filter6
             while (v > intList.size) {
                 intList.add(k)
             }

@@ -150,7 +150,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationSUM
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
@@ -822,7 +822,17 @@ return tmp
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-        throw SparqlFeatureNotImplementedException("ASTFunctionCall")
+when(node.iri){
+"http://www.w3.org/2001/XMLSchema#double"->{
+return AOPFunctionCallDouble(query,childrenValues[0] as AOPBase)
+}
+"http://www.w3.org/2001/XMLSchema#float"->{
+return AOPFunctionCallFloat(query,childrenValues[0] as AOPBase)
+}
+else->{
+        throw SparqlFeatureNotImplementedException("ASTFunctionCall ${node.iri} ${node.distinct}")
+}
+}
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {

@@ -11,6 +11,8 @@ enum class EOperatorID {
     AOPAggregationSAMPLEID,
     AOPAggregationCOUNTID,
     AOPAndID,
+AOPFunctionCallDoubleID,
+AOPFunctionCallFloatID,
     AOPBaseID,
     AOPBinaryOperationFixedNameID,
     AOPBuildInCallABSID,
@@ -191,6 +193,8 @@ val EOperatorIDPOP = arrayOf(
         EOperatorID.TripleStoreIteratorGlobalID
 )
 val EOperatorIDAOP = arrayOf(EOperatorID.AOPAdditionID,
+        EOperatorID.AOPFunctionCallDoubleID,
+        EOperatorID.AOPFunctionCallFloatID,
         EOperatorID.AOPAggregationMINID,
         EOperatorID.AOPAggregationMAXID,
         EOperatorID.AOPAggregationSUMID,

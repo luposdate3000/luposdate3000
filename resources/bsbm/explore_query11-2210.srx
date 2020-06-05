@@ -10,7 +10,7 @@
     <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/validFrom</uri>
    </binding>
    <binding name="hasValue">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-05-05T00:00:00</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-04-28T00:00:00</literal>
    </binding>
   </result>
   <result>
@@ -18,7 +18,7 @@
     <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/validTo</uri>
    </binding>
    <binding name="hasValue">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-07-21T00:00:00</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-07-01T00:00:00</literal>
    </binding>
   </result>
   <result>
@@ -34,7 +34,7 @@
     <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/price</uri>
    </binding>
    <binding name="hasValue">
-    <literal datatype="http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/USD">4157.78</literal>
+    <literal datatype="http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/USD">3070.24</literal>
    </binding>
   </result>
   <result>
@@ -50,7 +50,7 @@
     <uri>http://purl.org/dc/elements/1.1/date</uri>
    </binding>
    <binding name="hasValue">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#date">2008-06-19</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#date">2008-05-02</literal>
    </binding>
   </result>
   <result>
@@ -58,7 +58,7 @@
     <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/deliveryDays</uri>
    </binding>
    <binding name="hasValue">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
    </binding>
   </result>
   <result>
@@ -82,7 +82,7 @@
     <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/offerWebpage</uri>
    </binding>
    <binding name="hasValue">
-    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer38/</uri>
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer39/</uri>
    </binding>
   </result>
  </results>

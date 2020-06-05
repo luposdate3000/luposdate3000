@@ -186,7 +186,7 @@ class XMLElement {
             if (c1.toInt() != c2.toInt()) {
                 return false
             }
-        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") && fixNumbers) {
+        } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double"|| attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#float") && fixNumbers) {
             val a = c1.toDouble()
             val b = c2.toDouble()
             if (abs(a - b) > 0.00001) {

@@ -167,6 +167,9 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
                 "http://www.w3.org/2001/XMLSchema#double" -> {
                     return ValueDouble(content.toDouble())
                 }
+                "http://www.w3.org/2001/XMLSchema#float" -> {
+                    return ValueFloat(content.toDouble())
+                }
                 "http://www.w3.org/2001/XMLSchema#decimal" -> {
                     return ValueDecimal(content.toDouble())
                 }
@@ -205,6 +208,9 @@ class ValueDecimal(@JvmField var value: Double) : ValueNumeric() {
         if (other is ValueDouble) {
             return value.compareTo(other.value)
         }
+        if (other is ValueFloat) {
+            return value.compareTo(other.value)
+        }
         throw Exception("type error")
     }
 }
@@ -230,6 +236,30 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
         throw Exception("type error")
     }
 }
+class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
+    override fun toXMLElement() = XMLElement("ValueFloat").addAttribute("value", "" + value)
+    override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#float>"
+    override fun equals(other: Any?): Boolean = other is ValueFloat && value == other.value
+    override fun toDouble(): Double = value
+    override fun toInt(): Int = value.toInt()
+    override fun toBoolean() = value > 0 || value < 0
+    override fun hashCode() = value.hashCode()
+    override operator fun compareTo(other: ValueDefinition): Int {
+        if (other is ValueInteger) {
+            return value.compareTo(other.value)
+        }
+        if (other is ValueDecimal) {
+            return value.compareTo(other.value)
+        }
+        if (other is ValueDouble) {
+            return value.compareTo(other.value)
+        }
+        if (other is ValueFloat) {
+            return value.compareTo(other.value)
+        }
+        throw Exception("type error")
+    }
+}
 
 class ValueInteger(@JvmField var value: Int) : ValueNumeric() {
     override fun toXMLElement() = XMLElement("ValueInteger").addAttribute("value", "" + value)
@@ -247,6 +277,9 @@ class ValueInteger(@JvmField var value: Int) : ValueNumeric() {
             return value.compareTo(other.value)
         }
         if (other is ValueDouble) {
+            return value.compareTo(other.value)
+        }
+        if (other is ValueFloat) {
             return value.compareTo(other.value)
         }
         throw Exception("type error")
