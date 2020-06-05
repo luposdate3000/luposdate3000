@@ -61,7 +61,7 @@ class SparqlTestSuite() {
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-            var prefixes = listOf("resources/myqueries/", "resources/btc/", "resources/sp2b/")
+            var prefixes = listOf("resources/myqueries/", "resources/btc/", "resources/bsbm/", "resources/sp2b/")
             for (prefix in prefixes) {
                 var lastinput: String? = null
                 File(prefix + "config.csv").forEachLine {
