@@ -3,8 +3,8 @@ import java.io.*
 
 var folderName = args[0]
 var compress = true
-if(args.size>1){
-compress=args[1].toBoolean()
+if (args.size > 1) {
+    compress = args[1].toBoolean()
 }
 var line2 = readLine()
 var chunk = 0
