@@ -866,7 +866,7 @@ else->{
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
-        return LOPOptional(query, parseGroup(node.children))
+        return LOPOptional(query,LOPSubGroup(query,parseGroup(node.children)))
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {
