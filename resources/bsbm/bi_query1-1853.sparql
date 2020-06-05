@@ -20,7 +20,7 @@ Select ?productType ?reviewCount
    ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> .
    ?review bsbm:reviewFor ?product .
    ?review rev:reviewer ?reviewer .
-   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> .
+   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> .
   }
   Group By ?productType
  }

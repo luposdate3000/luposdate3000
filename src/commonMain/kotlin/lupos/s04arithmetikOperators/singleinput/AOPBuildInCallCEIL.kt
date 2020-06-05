@@ -7,6 +7,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPBase
@@ -28,6 +29,8 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                     res = ValueDouble(ceil(a.toDouble()))
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(ceil(a.toDouble()))
+                } else if (a is ValueFloat) {
+                    res = ValueFloat(ceil(a.toDouble()))
                 } else if (a is ValueInteger) {
                     res = a
                 }

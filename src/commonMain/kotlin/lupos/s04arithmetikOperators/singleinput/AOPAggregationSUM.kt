@@ -9,6 +9,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueUndef
@@ -45,6 +46,8 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
                 res.value = ValueDouble(res.value.toDouble() + value.toDouble())
             } else if (res.value is ValueDecimal || value is ValueDecimal) {
                 res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
+            } else if (res.value is ValueFloat || value is ValueFloat) {
+                res.value = ValueFloat(res.value.toDouble() + value.toDouble())
             } else if (res.value is ValueInteger || value is ValueInteger) {
                 res.value = ValueInteger(res.value.toInt() + value.toInt())
             } else {

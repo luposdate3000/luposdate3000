@@ -6,6 +6,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueError
@@ -46,6 +47,9 @@ class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOpe
                 }
                 is ValueDecimal -> {
                     res = ValueIri("http://www.w3.org/2001/XMLSchema#decimal")
+                }
+                is ValueFloat -> {
+                    res = ValueIri("http://www.w3.org/2001/XMLSchema#float")
                 }
                 is ValueDouble -> {
                     res = ValueIri("http://www.w3.org/2001/XMLSchema#double")

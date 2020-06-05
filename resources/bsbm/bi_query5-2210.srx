@@ -5,35 +5,6 @@
   <variable name="nrOfReviews"/>
   <variable name="avgPrice"/>
  </head>
- <results>
-  <result>
-   <binding name="country">
-    <uri>http://downlode.org/rdf/iso-3166/countries#US</uri>
-   </binding>
-   <binding name="product">
-    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product1</uri>
-   </binding>
-   <binding name="nrOfReviews">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
-   </binding>
-   <binding name="avgPrice">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#float">3915.9536</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="country">
-    <uri>http://downlode.org/rdf/iso-3166/countries#JP</uri>
-   </binding>
-   <binding name="product">
-    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product1</uri>
-   </binding>
-   <binding name="nrOfReviews">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
-   </binding>
-   <binding name="avgPrice">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#float">3915.9536</literal>
-   </binding>
-  </result>
- </results>
+ <results/>
 </sparql>
 

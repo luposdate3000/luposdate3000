@@ -14,17 +14,17 @@ SELECT DISTINCT ?product ?label ?propertyTextual
 WHERE {
     { 
        ?product rdfs:label ?label .
-       ?product rdf:type bsbm-inst:ProductType6 .
-       ?product bsbm:productFeature bsbm-inst:ProductFeature30 .
-	   ?product bsbm:productFeature bsbm-inst:ProductFeature255 .
+       ?product rdf:type bsbm-inst:ProductType5 .
+       ?product bsbm:productFeature bsbm-inst:ProductFeature187 .
+	   ?product bsbm:productFeature bsbm-inst:ProductFeature122 .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric1 ?p1 .
 	   FILTER ( ?p1 > "831"^^xsd:integer )
     } UNION {
        ?product rdfs:label ?label .
-       ?product rdf:type bsbm-inst:ProductType6 .
-       ?product bsbm:productFeature bsbm-inst:ProductFeature30 .
-	   ?product bsbm:productFeature bsbm-inst:ProductFeature227 .
+       ?product rdf:type bsbm-inst:ProductType5 .
+       ?product bsbm:productFeature bsbm-inst:ProductFeature187 .
+	   ?product bsbm:productFeature bsbm-inst:ProductFeature170 .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric2 ?p2 .
 	   FILTER ( ?p2> "434"^^xsd:integer ) 

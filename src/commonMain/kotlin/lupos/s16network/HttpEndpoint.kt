@@ -59,6 +59,7 @@ import lupos.s03resultRepresentation.ValueComparatorDESC
 import lupos.s03resultRepresentation.ValueComparatorFast
 import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueError

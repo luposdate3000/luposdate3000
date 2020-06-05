@@ -829,6 +829,9 @@ return AOPFunctionCallDouble(query,childrenValues[0] as AOPBase)
 "http://www.w3.org/2001/XMLSchema#float"->{
 return AOPFunctionCallFloat(query,childrenValues[0] as AOPBase)
 }
+"http://www.w3.org/2001/XMLSchema#string"->{
+return AOPFunctionCallString(query,childrenValues[0] as AOPBase)
+}
 else->{
         throw SparqlFeatureNotImplementedException("ASTFunctionCall ${node.iri} ${node.distinct}")
 }

@@ -38,6 +38,9 @@ res = ValueDouble(0.0)
                 is ValueDecimal -> {
                     res = ValueDouble(a.value)
                 }
+                is ValueFloat -> {
+                    res = ValueDouble(a.value)
+                }
                 is ValueSimpleLiteral -> {
                     res = ValueDouble(a.content.toDouble())
                 }

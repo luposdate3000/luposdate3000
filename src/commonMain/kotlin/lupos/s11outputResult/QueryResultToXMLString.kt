@@ -9,6 +9,7 @@ import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueInteger
@@ -139,6 +140,13 @@ object QueryResultToXMLString {
                                             res.append("</literal>\n   </binding>\n")
                                         }
                                         is ValueDecimal -> {
+                                            res.append("   <binding name=\"")
+                                            res.append(variables[variableIndex])
+                                            res.append("\">\n    <literal>")
+                                            res.append(value.value)
+                                            res.append("</literal>\n   </binding>\n")
+                                        }
+                                        is ValueFloat -> {
                                             res.append("   <binding name=\"")
                                             res.append(variables[variableIndex])
                                             res.append("\">\n    <literal>")

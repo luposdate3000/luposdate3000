@@ -13,6 +13,7 @@ import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueIri
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
@@ -46,6 +47,9 @@ import lupos.s04arithmetikOperators.multiinput.AOPSet
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
@@ -188,6 +192,15 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPBuildInCallDAY" -> {
             return AOPBuildInCallDAY(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
+        "AOPFunctionCallFloat" -> {
+            return AOPFunctionCallFloat(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        }
+        "AOPFunctionCallDouble" -> {
+            return AOPFunctionCallDouble(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        }
+        "AOPFunctionCallString" -> {
+            return AOPFunctionCallString(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        }
         "AOPBuildInCallFLOOR" -> {
             return AOPBuildInCallFLOOR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
@@ -274,6 +287,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "ValueDecimal" -> {
             return AOPConstant(query, ValueDecimal(node.attributes["value"]!!.toDouble()))
+        }
+        "ValueFloat" -> {
+            return AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
         }
         "ValueDouble" -> {
             return AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))

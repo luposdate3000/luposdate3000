@@ -5,6 +5,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
 import lupos.s03resultRepresentation.ValueError
@@ -28,6 +29,8 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                     res = ValueDouble(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(a.toDouble().roundToInt().toDouble())
+                } else if (a is ValueFloat) {
+                    res = ValueFloat(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueInteger) {
                     res = a
                 }

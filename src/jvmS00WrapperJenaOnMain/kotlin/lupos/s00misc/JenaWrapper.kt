@@ -53,10 +53,20 @@ object JenaWrapper {
                 res = nodeSparql.toPrettyString()
             } else if (query.isConstructType()) {
                 val resultModel = qexec.execConstruct()
-                qexec.close()
+val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
+val qexec2 = QueryExecutionFactory.create(query2, resultModel)
+val results = qexec2.execSelect()
+                val stream = ByteArrayOutputStream()
+                ResultSetFormatter.outputAsXML(stream, results)
+                res = String(stream.toByteArray())
             } else if (query.isDescribeType()) {
                 val resultModel = qexec.execDescribe()
-                qexec.close()
+val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
+val qexec2 = QueryExecutionFactory.create(query2, resultModel)
+val results = qexec2.execSelect()
+                val stream = ByteArrayOutputStream()
+                ResultSetFormatter.outputAsXML(stream, results)
+                res = String(stream.toByteArray())
             } else if (query.isJsonType()) {
             } else if (query.isConstructQuad()) {
             }

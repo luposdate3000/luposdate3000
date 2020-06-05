@@ -6,6 +6,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPBase
@@ -29,6 +30,8 @@ class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(q
                     res = ValueDouble(a.toDouble() - b.toDouble())
                 } else if (a is ValueDecimal || b is ValueDecimal) {
                     res = ValueDecimal(a.toDouble() - b.toDouble())
+                } else if (a is ValueFloat || b is ValueFloat) {
+                    res = ValueFloat(a.toDouble() - b.toDouble())
                 } else if (a is ValueInteger || b is ValueInteger) {
                     res = ValueInteger(a.toInt() - b.toInt())
                 }
