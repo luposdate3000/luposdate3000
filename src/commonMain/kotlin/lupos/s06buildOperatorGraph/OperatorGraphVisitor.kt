@@ -216,6 +216,24 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
     val queryExecutionStartTime = ValueDateTime()
 
+fun createUnion(a:OPBase,b:OPBase):OPBase{
+var pa=a.getProvidedVariableNames().toMutableSet()
+var pb=b.getProvidedVariableNames().toMutableSet()
+var pc=pa.intersect(pb)
+pa.removeAll(pc)
+pb.removeAll(pc)
+var a1=a
+var b1=b
+for(x in pa){
+b1=LOPBind(query,AOPVariable(query,x),AOPConstant(query,ValueUndef()),b1)
+}
+for(x in pb){
+a1=LOPBind(query,AOPVariable(query,x),AOPConstant(query,ValueUndef()),a1)
+}
+return LOPUnion(query,a1,b1)
+}
+
+
     /*queryExecutionStartTime required for_ BuildInCall.NOW */
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
 
@@ -355,7 +373,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
             if (result == null) {
                 result = tmp
             } else {
-                result = LOPUnion(query, result, tmp)
+                result = createUnion(result, tmp)
             }
         }
         if (result == null) {
@@ -482,7 +500,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                     if (tmp == null) {
                         tmp = t
                     } else {
-                        tmp = LOPUnion(query, tmp, t)
+                        tmp = createUnion(tmp, t)
                     }
                 }
                 return tmp!!
@@ -1229,7 +1247,7 @@ BuiltInFunctions.Exists-> {
         while (tmplist.size > 1) {
             val a = tmplist.removeAt(0)
             val b = tmplist.removeAt(0)
-            val c = LOPUnion(query, a, b)
+            val c = createUnion(a, b)
             tmplist.add(c)
         }
         return tmplist[0]
@@ -1341,7 +1359,7 @@ BuiltInFunctions.Exists-> {
                 return LOPJoin(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional), node.optional)
             }
             is LOPUnion -> {
-                return LOPUnion(query, setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional))
+                return createUnion(setGraphNameForAllTriples(node.children[0], name, optional), setGraphNameForAllTriples(node.children[1], name, optional))
             }
             else -> {
                 throw SparqlFeatureNotImplementedException(node.classname)
@@ -1520,7 +1538,7 @@ BuiltInFunctions.Exists-> {
                 if (tmp == null) {
                     tmp = tmp2
                 } else {
-                    tmp = LOPUnion(query, tmp, tmp2)
+                    tmp = createUnion(tmp, tmp2)
                 }
             }
             /*return*/tmp!!
