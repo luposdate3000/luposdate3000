@@ -362,8 +362,8 @@ class MySetIntBTree() {
             }
             require(size == sanitycheckhelper3!!.size, { "c $size ${sanitycheckhelper3!!.size}" })
             require(size == sanitycheckhelper2!!.size, { "d $size ${sanitycheckhelper2!!.size}" })
-            require(sanitycheckhelper3!!.containsAll(sanitycheckhelper2), { "a" })
-            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper3), { "b" })
+            require(sanitycheckhelper3!!.containsAll(sanitycheckhelper2), { "l" })
+            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper3), { "m" })
         }
     }
 

@@ -41,16 +41,16 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
-        val flaggedValueLocalInt = 0x30000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalDouble = 0x38000000.toInt()/*first 6 bit*/
-        val flaggedValueLocalLangTagged = 0x3C000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
-        val flaggedValueGlobalInt = 0x70000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 6 bit*/
-        val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalInt         = 0x30000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalDecimal     = 0x34000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalDouble      = 0x38000000.toInt()/*first 6 bit*/
+        val flaggedValueLocalLangTagged  = 0x3C000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalBnode      = 0x40000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalIri        = 0x50000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalTyped      = 0x60000000.toInt()/*first 4 bit*/
+        val flaggedValueGlobalInt        = 0x70000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalDecimal    = 0x74000000.toInt()/*first 6 bit*/
+        val flaggedValueGlobalDouble     = 0x78000000.toInt()/*first 6 bit*/
         val flaggedValueGlobalLangTagged = 0x7C000000.toInt()/*first 6 bit*/
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
@@ -126,165 +126,167 @@ class ResultSetDictionary(val global: Boolean = false) {
             } catch (e: Throwable) {
             }
         }
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
         return res
     }
 
     fun createNewBNode(value: String = ""): Value {
+var res:Value
         if (global) {
-            return (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
+            res= (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
         } else {
-            return localBnodeMap.getOrCreate(value, { (flaggedValueLocalBnode or (bNodeCounter++).toInt()) })
+            res= localBnodeMap.getOrCreate(value, { (flaggedValueLocalBnode or (bNodeCounter++).toInt()) })
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createIri(iri: String): Value {
+var res:Value
         if (global) {
-            return flaggedValueGlobalIri or iriMap.getOrCreate(iri)
+            res= flaggedValueGlobalIri or iriMap.getOrCreate(iri)
         } else {
             var tmp = nodeGlobalDictionary.iriMap[iri]
             if (tmp != null) {
-                return tmp or flaggedValueGlobalIri
+                res= tmp or flaggedValueGlobalIri
             } else {
-                return flaggedValueLocalIri or iriMap.getOrCreate(iri)
+                res= flaggedValueLocalIri or iriMap.getOrCreate(iri)
             }
-/*Coverage Unreachable*/
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createLangTagged(content: String, lang: String): Value {
+var res:Value
         val key = lang + "@" + content
         if (global) {
-            return flaggedValueGlobalLangTagged or langTaggedMap.getOrCreate(key)
+            res= flaggedValueGlobalLangTagged or langTaggedMap.getOrCreate(key)
         } else {
             var tmp = nodeGlobalDictionary.langTaggedMap[key]
             if (tmp != null) {
-                return tmp or flaggedValueGlobalLangTagged
+                res= tmp or flaggedValueGlobalLangTagged
             } else {
-                return flaggedValueLocalLangTagged or langTaggedMap.getOrCreate(key)
+                res= flaggedValueLocalLangTagged or langTaggedMap.getOrCreate(key)
             }
-/*Coverage Unreachable*/
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createTyped(content: String, type: String): Value {
+var res:Value
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
-                return createInteger(content.toInt())
+                res= createInteger(content.toInt())
             }
             "http://www.w3.org/2001/XMLSchema#decimal" -> {
-                return createDecimal(content.toDouble())
+                res= createDecimal(content.toDouble())
             }
             "http://www.w3.org/2001/XMLSchema#double" -> {
-                return createDouble(content.toDouble())
+                res= createDouble(content.toDouble())
             }
             "http://www.w3.org/2001/XMLSchema#boolean" -> {
                 if (content == "true") {
-                    return booleanTrueValue
+                    res= booleanTrueValue
                 } else {
-                    return booleanFalseValue
+                    res= booleanFalseValue
                 }
-/*Coverage Unreachable*/
             }
             else -> {
                 val key = type + ">" + content
                 if (global) {
-                    return flaggedValueGlobalTyped or typedMap.getOrCreate(key)
+                    res= flaggedValueGlobalTyped or typedMap.getOrCreate(key)
                 } else {
                     var tmp = nodeGlobalDictionary.typedMap[key]
                     if (tmp != null) {
-                        return tmp or flaggedValueGlobalTyped
+                        res= tmp or flaggedValueGlobalTyped
                     } else {
-                        return flaggedValueLocalTyped or typedMap.getOrCreate(key)
+                        res= flaggedValueLocalTyped or typedMap.getOrCreate(key)
                     }
-/*Coverage Unreachable*/
                 }
-/*Coverage Unreachable*/
             }
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createDouble(value: Double): Value {
+var res:Value
         if (global) {
-            return doubleMap.getOrCreate(value, {
+            res= doubleMap.getOrCreate(value, {
                 val idx = doubleList.size
                 doubleList.add(value)
                 /*return*/ (flaggedValueGlobalDouble or idx.toInt())
             })
-/*Coverage Unreachable*/
         } else {
             val tmp = nodeGlobalDictionary.doubleMap[value]
             if (tmp != null) {
-                return tmp or flaggedValueGlobalDouble
+                res= tmp or flaggedValueGlobalDouble
             } else {
-                return doubleMap.getOrCreate(value, {
+                res= doubleMap.getOrCreate(value, {
                     val idx = doubleList.size
                     doubleList.add(value)
                     /*return*/ (flaggedValueLocalDouble or idx.toInt())
                 })
-/*Coverage Unreachable*/
             }
-/*Coverage Unreachable*/
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createDecimal(value: Double): Value {
+var res:Value
         if (global) {
-            return decimalMap.getOrCreate(value, {
+            res= decimalMap.getOrCreate(value, {
                 val idx = decimalList.size
                 decimalList.add(value)
                 /*return*/ (flaggedValueGlobalDecimal or idx.toInt())
             })
-/*Coverage Unreachable*/
         } else {
             val tmp = nodeGlobalDictionary.decimalMap[value]
             if (tmp != null) {
-                return tmp or flaggedValueGlobalDecimal
+                res= tmp or flaggedValueGlobalDecimal
             } else {
-                return decimalMap.getOrCreate(value, {
+                res= decimalMap.getOrCreate(value, {
                     val idx = decimalList.size
                     decimalList.add(value)
                     /*return*/ (flaggedValueLocalDecimal or idx.toInt())
                 })
-/*Coverage Unreachable*/
             }
-/*Coverage Unreachable*/
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createInteger(value: Int): Value {
+var res:Value
         if (global) {
-            return intMap.getOrCreate(value, {
+            res= intMap.getOrCreate(value, {
                 val idx = intList.size
                 intList.add(value)
                 /*return*/(flaggedValueGlobalInt or idx.toInt())
             })
-/*Coverage Unreachable*/
         } else {
             val tmp = nodeGlobalDictionary.intMap[value]
             if (tmp != null) {
-                return tmp or flaggedValueGlobalInt
+                res= tmp or flaggedValueGlobalInt
             } else {
-                return intMap.getOrCreate(value, {
+                res= intMap.getOrCreate(value, {
                     val idx = intList.size
                     intList.add(value)
                     /*return*/(flaggedValueLocalInt or idx.toInt())
                 })
-/*Coverage Unreachable*/
             }
-/*Coverage Unreachable*/
         }
-/*Coverage Unreachable*/
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
-        return res
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun createValue(value: ValueDefinition): Value {
@@ -336,10 +338,12 @@ class ResultSetDictionary(val global: Boolean = false) {
             val tmp2 = getValue(res)
             SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})" })
         }
-        return res
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun getValue(value: Value): ValueDefinition {
+//SanityCheck.check({(value and filter5) < 10000},{"${value} ${value and filter5} ${value.toString(16)} ${(value and filter5).toString(16)}"})
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -374,11 +378,10 @@ class ResultSetDictionary(val global: Boolean = false) {
             var type = tmp.substring(0, idx)
             var content = tmp.substring(idx + 1, tmp.length)
             if (idx == 0) {
-                return ValueSimpleLiteral("\"", content)
+                res= ValueSimpleLiteral("\"", content)
             } else {
-                return ValueTypedLiteral("\"", content, type)
+                res= ValueTypedLiteral("\"", content, type)
             }
-/*Coverage Unreachable*/
         } else {
             var bit5 = value and mask5
             if (bit5 == flaggedValueLocalInt) {
@@ -392,7 +395,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 var idx = tmp.indexOf("@")
                 var lang = tmp.substring(0, idx)
                 var content = tmp.substring(idx + 1, tmp.length)
-                return ValueLanguageTaggedLiteral("\"", content, lang)
+                res= ValueLanguageTaggedLiteral("\"", content, lang)
             }
         }
         return res
@@ -428,15 +431,18 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun valueToGlobal(value: Value): Value {
+var res:Value
         if ((value and mask1) == mask1) {
-            return value
+            res= value
         } else {
             if (isLocalBNode(value)) {
-                return bnodeMapToGlobal.getOrCreate(value, { nodeGlobalDictionary.createNewBNode() })
-            }
-            return nodeGlobalDictionary.createValue(getValue(value))
+                res= bnodeMapToGlobal.getOrCreate(value, { nodeGlobalDictionary.createNewBNode() })
+            }else{
+            res= nodeGlobalDictionary.createValue(getValue(value))
         }
-/*Coverage Unreachable*/
+}
+//SanityCheck.check({(res and filter5) < 10000},{"${res} ${res and filter5} ${res.toString(16)} ${(res and filter5).toString(16)}"})
+return res
     }
 
     fun safeToFolder(foldername: String) {
@@ -466,7 +472,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         intMap.loadFromFile(foldername + "/int.map")
         doubleList.clear()
         doubleMap.forEach { k, v2 ->
-val v=v2 and filter5
+            val v = v2 and filter5
             while (v > doubleList.size) {
                 doubleList.add(k)
             }
@@ -474,7 +480,7 @@ val v=v2 and filter5
         }
         decimalList.clear()
         decimalMap.forEach { k, v2 ->
-val v=v2 and filter5
+            val v = v2 and filter5
             while (v > decimalList.size) {
                 decimalList.add(k)
             }
@@ -482,7 +488,7 @@ val v=v2 and filter5
         }
         intList.clear()
         intMap.forEach { k, v2 ->
-val v=v2 and filter5
+            val v = v2 and filter5
             while (v > intList.size) {
                 intList.add(k)
             }

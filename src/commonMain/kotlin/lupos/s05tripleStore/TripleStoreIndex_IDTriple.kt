@@ -428,7 +428,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }, {
                 rootNode = it
-		root=currentLayer[0]
+                root = currentLayer[0]
             })
         }
         countPrimary = iterator.count

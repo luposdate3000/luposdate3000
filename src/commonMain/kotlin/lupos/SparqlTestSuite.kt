@@ -1,5 +1,5 @@
 package lupos
-import lupos.s05tripleStore.index_IDTriple.NodeManager
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -35,6 +35,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -591,7 +592,7 @@ class SparqlTestSuite() {
                     }
                     verifiedOutput = true
                 }
-NodeManager.debug()
+                NodeManager.debug()
                 if (resultData != null && resultDataFileName != null) {
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
                     var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!

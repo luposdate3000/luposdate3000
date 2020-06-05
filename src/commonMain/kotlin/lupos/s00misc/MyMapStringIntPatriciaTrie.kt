@@ -27,7 +27,13 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
 
     inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
+if(rootValue!=undefinedValue){
             rootValue = onExist(rootValue)
+}else if (create){
+rootValue=onCreate()
+}else{
+onNotFound()
+}
         } else {
             var key = _key
             var prev: MyMapStringIntPatriciaTrieNode? = null
@@ -45,7 +51,13 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                             var commonKey = key.commonPrefixWith(childKey)
                             SanityCheck.check { commonKey.length > 0 }
                             if (commonKey.length == key.length && commonKey.length == childKey.length) {
+if(node.arr2!=undefinedValue){
                                 node.arr2 = onExist(node.arr2)
+}else if(create){
+onCreate()
+}else{
+onNotFound()
+}
                                 return
                             } else if (commonKey.length == childKey.length) {
                                 if (node.childs0 != null) {
@@ -116,7 +128,13 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                             SanityCheck.check { childKey.length > 0 }
                             var commonKey = key.commonPrefixWith(childKey)
                             if (commonKey.length == key.length && commonKey.length == childKey.length) {
+if(node.arr3!=undefinedValue){
                                 node.arr3 = onExist(node.arr3)
+}else if(create){
+node.arr3=onCreate()
+}else{
+onNotFound()
+}
                                 return
                             } else if (commonKey.length == childKey.length) {
                                 if (node.childs1 != null) {
@@ -222,7 +240,14 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
                                 SanityCheck.check { childKey.length > 0 }
                                 var commonKey = key.commonPrefixWith(childKey)
                                 if (commonKey.length == key.length && commonKey.length == childKey.length) {
-                                    node.arr[childCount + childIdx] = onExist(node.arr[childCount + childIdx])
+var tmp=node.arr[childCount + childIdx]
+if(tmp!=undefinedValue){
+                                    node.arr[childCount + childIdx] = onExist(tmp)
+}else if(create){
+node.arr[childCount + childIdx] =onCreate()
+}else{
+onNotFound()
+}
                                     return
                                 } else if (commonKey.length == childKey.length) {
                                     if (node.childs[childIdx] != null) {
@@ -349,7 +374,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
             /*return*/ res
         }, {
             res = it
-            /*return*/ it
+            /*return*/res
         }, {}, true)
         return res
     }

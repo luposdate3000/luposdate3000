@@ -3,8 +3,11 @@ package lupos.s00misc
 import lupos.s00misc.Coverage
 import lupos.s00misc.FunktionWontWorkWithThisImplementationException
 
+var debughelperuuid=0
+
 class MyMapStringIntPatriciaTrieDouble() {
-var debugfilename=""
+var uuid=debughelperuuid++
+    var debugfilename = ""
     val undefinedValue = -1
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()
     var rootValue: Int = undefinedValue
@@ -14,6 +17,7 @@ var debugfilename=""
     val allOutNodes = MyListInt()//index in allNodes
     val allOutOffsets = MyListInt()//index in allNodesChilds
     fun clear() {
+//println("PatriciaTrie $uuid clear")
         root = MyMapStringIntPatriciaTrieNode()
         rootValue = undefinedValue
         allOutNodes.clear()
@@ -34,6 +38,7 @@ var debugfilename=""
     }
 
     operator fun get(key: Int): String {
+//println("PatriciaTrie $uuid get $key")
         if (key == rootValue) {
             return ""
         }
@@ -68,6 +73,7 @@ var debugfilename=""
     }
 
     fun debug() {
+//println("PatriciaTrie $uuid debug")
         SanityCheck {
             println("debug ->")
             if (rootValue != undefinedValue) {
@@ -88,13 +94,15 @@ var debugfilename=""
         }
     }
 
-    fun walkInternal(_key: String, create: Boolean): Int {
+/*inline*/    fun walkInternal(_key: String, create: Boolean): Int {
+//println("PatriciaTrie $uuid waldInternal '$_key' $create")
         if (_key == "") {
             if (create && rootValue == undefinedValue) {
                 rootValue = allOutNodes.size
                 allOutNodes.add(-1)
                 allOutOffsets.add(-1)
             }
+SanityCheck.check({(rootValue and 0x03FFFFFF.toInt()) < 10000 || !create},{"${rootValue} ${rootValue and 0x03FFFFFF.toInt()} ${rootValue.toString(16)} ${(rootValue and 0x03FFFFFF.toInt()).toString(16)}"})
             return rootValue
         } else {
             var key = _key
@@ -125,6 +133,7 @@ var debugfilename=""
                                 allOutNodes.add(nodeIdx)
                                 allOutOffsets.add(childIdx)
                             }
+SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                             return result
                         } else if (commonKey.length == childKey.length) {
                             if (childNodeIdx != 0) {
@@ -148,6 +157,7 @@ var debugfilename=""
                                     node.data[childCount + childCount + childIdx] = newNodeIdx
                                     size++
                                 }
+SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                                 return result
                             }
                             /*Coverage Unreachable*/
@@ -202,6 +212,7 @@ var debugfilename=""
                                 }
                                 size++
                             }
+SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                             return result
                         }
                         /*Coverage Unreachable*/
@@ -224,6 +235,7 @@ var debugfilename=""
                     node.str += key
                     size++
                 }
+SanityCheck.check({(result and 0x03FFFFFF.toInt()) < 10000 || !create},{"${result} ${result and 0x03FFFFFF.toInt()} ${result.toString(16)} ${(result and 0x03FFFFFF.toInt()).toString(16)}"})
                 return result
             }
             /*Coverage Unreachable*/
@@ -232,6 +244,7 @@ var debugfilename=""
     }
 
     operator fun get(key: String): Int? {
+//println("PatriciaTrie $uuid get '$key'")
         var res = walkInternal(key, false)
         if (res == undefinedValue) {
             return null
@@ -240,10 +253,12 @@ var debugfilename=""
     }
 
     operator fun set(key: String, value: Int) {
+//println("PatriciaTrie $uuid set '$key' $value")
         throw FunktionWontWorkWithThisImplementationException()
     }
 
     fun getOrCreate(key: String): Int {
+//println("PatriciaTrie $uuid getOrCreate '$key' start")
         var list = mutableListOf<String>()
         SanityCheck {
             for (i in 0 until allOutNodes.size) {
@@ -262,21 +277,24 @@ var debugfilename=""
                 SanityCheck.check({ this[tmp] == i }, { "error in path .. $tmp $i ${this[tmp]}" })
             }
         }
+//println("PatriciaTrie $uuid getOrCreate '$key' $res")
         return res
     }
 
     fun appendAssumeSorted(key: String, value: Int) {
+//println("PatriciaTrie $uuid appendAssumeSorted '$key' $value")
         throw FunktionWontWorkWithThisImplementationException()
     }
 
     fun safeToFile(filename: String) {
-debugfilename=filename
+//println("PatriciaTrie $uuid safeToFile '$filename'")
+        debugfilename = filename
         File(filename).dataOutputStream { out ->
             out.writeInt(rootValue)
             out.writeInt(allNodes.size)
 //writeing allNodes -->>
             val nodeIterator = allNodes.iterator()
-var idx=0
+            var idx = 0
             while (nodeIterator.hasNext()) {
                 val node = nodeIterator.next()
                 for (c in node.str) {
@@ -287,15 +305,16 @@ var idx=0
                 for (i in 0 until node.data.size) {
                     out.writeInt(node.data[i])
                 }
-idx++
+                idx++
             }
 //writeing allNodes <<--
         }
     }
 
     fun loadFromFile(filename: String) {
-debugfilename=filename
-clear()
+//println("PatriciaTrie $uuid loadFromFile '$filename'")
+        debugfilename = filename
+        clear()
         File(filename).dataInputStream { fis ->
             rootValue = fis.readInt()
             if (rootValue != undefinedValue) {
@@ -323,7 +342,6 @@ clear()
                     val value = fis.readInt()
                     node.data[i] = value
                     if (i >= valueOffset) {
-
                         if (i < childOffset) {
                             while (value > allOutNodes.size) {
                                 allOutNodes.add(0)
@@ -331,7 +349,7 @@ clear()
                             }
                             if (value != undefinedValue) {
                                 allOutNodes[value] = counter
-                                allOutOffsets[value] = i-valueOffset
+                                allOutOffsets[value] = i - valueOffset
                             }
                         } else {
                             while (value >= allNodes.size) {

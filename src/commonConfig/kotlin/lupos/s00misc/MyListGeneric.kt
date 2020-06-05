@@ -136,7 +136,7 @@ class MyListGeneric<Generic> {
         shrinkToFit()
     }
 
-    inline operator fun get(idx: Int): Generic {
+    /*inline*/ operator fun get(idx: Int): Generic {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0

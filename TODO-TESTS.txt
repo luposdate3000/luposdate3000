@@ -19,3 +19,9 @@ Triple::
 Subject  :: iri | BlankNode
 Predikat :: iri
 Object   :: iri | BlankNode | literal
+
+
+
+Benchmark
+http://swat.cse.lehigh.edu/projects/lubm/
+bsbm

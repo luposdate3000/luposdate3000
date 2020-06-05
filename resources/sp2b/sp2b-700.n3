@@ -698,12 +698,3 @@ _:Diana_Gulbranson foaf:name "Diana Gulbranson"^^xsd:string .
 <http://localhost/publications/journals/Journal1/1942> swrc:editor _:Sadayoshi_Englemann .
 _:Sadayoshi_Englemann rdf:type foaf:Person .
 _:Sadayoshi_Englemann foaf:name "Sadayoshi Englemann"^^xsd:string .
-<http://localhost/publications/incolls/1942/Incollection1> rdf:type bench:Incollection .
-<http://localhost/publications/incolls/1942/Incollection1> bench:booktitle "corollaries irades inadvisability"^^xsd:string .
-<http://localhost/publications/incolls/1942/Incollection1> swrc:pages "147"^^xsd:integer .
-<http://localhost/publications/incolls/1942/Incollection1> dc:title "gaudiness inadvisability disciplinarians"^^xsd:string .
-<http://localhost/publications/incolls/1942/Incollection1> foaf:homepage "http://www.irades.tld/disciplinarians/majors.html"^^xsd:string .
-<http://localhost/publications/incolls/1942/Incollection1> dcterms:issued "1942"^^xsd:integer .
-_:Shinji_Kapler rdf:type foaf:Person .
-_:Shinji_Kapler foaf:name "Shinji Kapler"^^xsd:string .
-<http://localhost/publications/incolls/1942/Incollection1> dc:creator _:Shinji_Kapler .

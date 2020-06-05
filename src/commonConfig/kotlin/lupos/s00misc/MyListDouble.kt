@@ -136,7 +136,7 @@ class MyListDouble {
         shrinkToFit()
     }
 
-    inline operator fun get(idx: Int): Double {
+    /*inline*/ operator fun get(idx: Int): Double {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0

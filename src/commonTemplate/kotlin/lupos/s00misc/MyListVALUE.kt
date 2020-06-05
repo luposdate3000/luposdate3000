@@ -134,7 +134,7 @@ class MyListVALUEGDEF {
         shrinkToFit()
     }
 
-    inline operator fun get(idx: Int): VALUE {
+    /*inline*/ operator fun get(idx: Int): VALUE {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0

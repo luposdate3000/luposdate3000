@@ -136,7 +136,7 @@ class MyListLong {
         shrinkToFit()
     }
 
-    inline operator fun get(idx: Int): Long {
+    /*inline*/ operator fun get(idx: Int): Long {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0
