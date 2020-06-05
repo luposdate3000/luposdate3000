@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -38,8 +39,13 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                         onChange()
                     })
                 }
-            }
-        }
+	    }else if (node1 is AOPBuildInCallNotExists){
+		val a=node.children[0]
+		val b=node1.children[0]
+		res=LOPMinus(query,a,b,listOf())
+		onChange()
+	    }
+	}
         return res
     }
 

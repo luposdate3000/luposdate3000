@@ -36,6 +36,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
 import lupos.s04arithmetikOperators.multiinput.AOPDivision
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPLEQ
 import lupos.s04arithmetikOperators.multiinput.AOPGT
 import lupos.s04arithmetikOperators.multiinput.AOPIn
 import lupos.s04arithmetikOperators.multiinput.AOPLT
@@ -51,7 +52,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
@@ -172,6 +173,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "AOPGEQ" -> {
             return AOPGEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
+        "AOPLEQ" -> {
+            return AOPLEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+        }
         "AOPSet" -> {
             val children = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
@@ -206,6 +210,12 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "AOPBuildInCallCEIL" -> {
             return AOPBuildInCallCEIL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        }
+        "AOPBuildInCallExists" -> {
+            return AOPBuildInCallExists(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+        }
+        "AOPBuildInCallNotExists" -> {
+            return AOPBuildInCallNotExists(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "AOPBuildInCallABS" -> {
             return AOPBuildInCallABS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)

@@ -39,7 +39,7 @@ object QueryResultToXMLElement {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].size > 0) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check { columnNames.containsAll(node.getProvidedVariableNames()) }
+                    SanityCheck.check { node.getProvidedVariableNames().containsAll(columnNames) }
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
@@ -64,11 +64,11 @@ object QueryResultToXMLElement {
                             nodeResults.addContent(nodeResult)
                         }
                     } else {
-                        val columns = variables.map { child.columns[it] }.toTypedArray()
+                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         loop@ while (true) {
                             val nodeResult = XMLElement("result")
                             for (variableIndex in 0 until variables.size) {
-                                val valueID = columns[variableIndex]!!.next()
+                                val valueID = columns[variableIndex].next()
                                 if (valueID == null) {
                                     break@loop
                                 }

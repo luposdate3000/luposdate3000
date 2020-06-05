@@ -17,8 +17,10 @@ class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.
             val childB = node.children[1]
             if (childA is LOPUnion) {
                 res = LOPUnion(query, LOPJoin(query, childA.children[0], childB, node.optional), LOPJoin(query, childA.children[1], childB.cloneOP(), node.optional))
+		onChange()
             } else if (childB is LOPUnion) {
                 res = LOPUnion(query, LOPJoin(query, childA, childB.children[0], node.optional), LOPJoin(query, childA.cloneOP(), childB.children[1], node.optional))
+		onChange()
             }
         }
         return res

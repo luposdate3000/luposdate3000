@@ -2,7 +2,7 @@ package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.classNameToString
-import lupos.s00misc.Coverage
+import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
@@ -58,7 +58,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     abstract fun calculateHistogram(): HistogramResult
-    open suspend fun evaluate(): IteratorBundle = throw Exception("not implemented $classname.evaluate")
+    open suspend fun evaluate(): IteratorBundle = throw EvaluateNotImplementedException(classname)
     abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {
         var res = children.size
@@ -415,9 +415,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-    open fun toSparql(): String {
-        throw Exception("not implemented $classname.toSparql()")
-    }
+    open fun toSparql(): String =throw ToSparqlNotImplementedException(classname)
 
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
@@ -472,14 +470,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
-        SanityCheck {
-            if (this is LOPProjection) {
-                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getProvidedVariableNames()) }, { "$classname $uuid $this" })
-            }
-            if (children.size == 1) {
-                SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(getRequiredVariableNames()) }, { "$classname $uuid $this" })
-            }
-        }
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }
@@ -488,13 +478,13 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                var tmp = getRequiredVariableNames().toMutableList()
+                var tmp = getRequiredVariableNames().toMutableSet()
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNames())
                 if (tmp.size == 1) {
-                    throw VariableNotDefinedSyntaxException(tmp[0])
+                    throw VariableNotDefinedSyntaxException(classname,tmp.first())
                 } else {
-                    throw VariableNotDefinedSyntaxException(tmp.toString())
+                    throw VariableNotDefinedSyntaxException(classname,tmp.toString())
                 }
             }
         }

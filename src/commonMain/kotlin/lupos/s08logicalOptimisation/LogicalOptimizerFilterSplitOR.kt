@@ -18,10 +18,9 @@ class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimi
         if (node is LOPFilter) {
             val child = node.children[0]
             val aopcompare = node.children[1]
-            if (aopcompare is AOPOr && aopcompare.children[0] is AOPEQ && aopcompare.children[1] is AOPEQ) {
+            if (aopcompare is AOPOr) {
+                res = LOPUnion(query, LOPFilter(query, aopcompare.children[0] as AOPBase, child), LOPFilter(query, aopcompare.children[1] as AOPBase, child.cloneOP()))
                 onChange()
-                SanityCheck.checkUnreachable() /*TODO check this - never called so far*/
-                res = LOPUnion(query, LOPFilter(query, aopcompare.children[0] as AOPBase, child.cloneOP()), LOPFilter(query, aopcompare.children[1] as AOPBase, child.cloneOP()))
             }
         }
         return res

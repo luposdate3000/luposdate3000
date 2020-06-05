@@ -5,6 +5,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
+import lupos.s00misc.BugException
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
@@ -36,9 +37,13 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
+try{
         for (v in variables) {
             res.values[v.name] = childHistogram.values[v.name]!!
         }
+}catch(e:Throwable){
+throw BugException(classname,"calculateHistogram column missing")
+}
         res.count = childHistogram.count
         return res
     }

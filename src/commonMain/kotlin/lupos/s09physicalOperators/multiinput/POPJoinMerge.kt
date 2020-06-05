@@ -107,12 +107,15 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
             }
         }
-        val res = IteratorBundle(outMap)
+        val res : IteratorBundle
         if (emptyColumnsWithJoin) {
+res=IteratorBundle(0)
             res.hasNext = {
                 /*return*/columnsOUTJ[0].next() != null
             }
-        }
+        }else{
+         res = IteratorBundle(outMap)
+}
         return res
     }
 

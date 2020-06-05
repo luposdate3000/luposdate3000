@@ -314,16 +314,16 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
         return LOPSubGroup(query, result)
     }
 
-    override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-        val child = visitSelectBase(node, node.select, false, false)
-        val template = mutableListOf<ASTNode>()
-        for (v in child.getProvidedVariableNames()) {
-            template.add(ASTTriple(ASTVar("#s"), ASTVar("#p"), ASTVar(v)))
-            template.add(ASTTriple(ASTVar("#s"), ASTVar(v), ASTVar("#o")))
-            template.add(ASTTriple(ASTVar(v), ASTVar("#p"), ASTVar("#o")))
-        }
-        return visitConstructBase(child, template.toTypedArray())
-    }
+     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
+         val child = visitSelectBase(node, node.select, false, false)
+         val template = mutableListOf<ASTNode>()
+         for (v in child.getProvidedVariableNames()) {
+             template.add(ASTTriple(ASTVar("#s"), ASTVar("#p"), ASTVar(v)))
+             template.add(ASTTriple(ASTVar("#s"), ASTVar(v), ASTVar("#o")))
+             template.add(ASTTriple(ASTVar(v), ASTVar("#p"), ASTVar("#o")))
+         }
+         return visitConstructBase(LOPJoin(query,child,LOPTriple(query,AOPVariable(query,"#s"),AOPVariable(query,"#p"),AOPVariable(query,"#o"),PersistentStoreLocal.defaultGraphName,false),false), template.toTypedArray())
+     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
         val child = visitQueryBase(node, null, false, false, false)
@@ -461,7 +461,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                 val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory + d.source_iri).readAsString(), d.source_iri)!!)
                 when (d) {
                     is ASTDefaultGraph -> {
-                        datasets[""] = data
+                        datasets[PersistentStoreLocal.defaultGraphName] = data
                     }
                     is ASTNamedGraph -> {
                         datasets["<" + d.source_iri + ">"] = data
@@ -1183,8 +1183,14 @@ else->{
                 SanityCheck.checkEQ({ childrenValues.size }, { 1 })
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
+BuiltInFunctions.NotExists-> {
+                return AOPBuildInCallNotExists(query, parseGroup(node.children))
+            }
+BuiltInFunctions.Exists-> {
+                return AOPBuildInCallExists(query, parseGroup(node.children))
+            }
             else -> {
-                throw SparqlFeatureNotImplementedException(node.function.toString())
+                throw SparqlFeatureNotImplementedException("BuiltInFunctions."+node.function.toString())
             }
         }
         /*Coverage Unreachable*/
@@ -1554,7 +1560,7 @@ else->{
             var g2 = graphRefToEnum(node.into!!)
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
-            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, "")
+            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocal.defaultGraphName)
         }
     }
 
