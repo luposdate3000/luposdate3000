@@ -25,7 +25,7 @@ do
 #review
 	grep "rdf:type bsbm:Review" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Review .//g" | sort -u | shuf > bsbm-helper-$triples-review.txt
 #product
-	grep "rdf:type bsbm:Product" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Product .//g" | sort -u | shuf > bsbm-helper-$triples-product.txt
+	grep "rdf:type bsbm:Product ." bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Product .//g" | sort -u | shuf > bsbm-helper-$triples-product.txt
 #producer
 	grep "rdf:type bsbm:Producer" bsbm-$triples.n3 | sed "s/ rdf:type bsbm:Producer .//g" | sort -u | shuf > bsbm-helper-$triples-producer.txt
 #offer

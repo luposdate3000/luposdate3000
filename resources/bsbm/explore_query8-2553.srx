@@ -1,0 +1,114 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="title"/>
+  <variable name="text"/>
+  <variable name="reviewDate"/>
+  <variable name="reviewer"/>
+  <variable name="reviewerName"/>
+  <variable name="rating1"/>
+  <variable name="rating2"/>
+  <variable name="rating3"/>
+  <variable name="rating4"/>
+ </head>
+ <results>
+  <result>
+   <binding name="title">
+    <literal>commutable fetterer coagulation midsummer protestations amebae jejunums disallowing membered thermotropic nonfatal jackhammers articulating</literal>
+   </binding>
+   <binding name="text">
+    <literal xml:lang="en">internationalizations gaper savageries wirephoto deanship endoscopic acceptees wrasse syndicator rely sortieing withholders authenticators equities formalize anguses barwares prehardened depreciatory belaboring exalted retaliation prefixes ovolo muddiness churlishness mossbacks invaluably plights bicolours rabelaisian coagulations missiles husks mixtures decoct tumblers chints overinclining hymnodies omnium tintless displanted dispatching annunciated flytrap vireos unrevealed intakes lowerclassman relinquisher devitalize ignominy ailerons tarpons forfeitableness epergne angelfishes blockaded wirers resolvable eyeholes opening virilities blowhard valences novelist sodding summerier statism brights caulker deactivation cocoas absolutistic permutations perpetuating synchronizing isotopically budgeting apostrophizes remissions shining bulgiest ambitiously peerlessly sentimentalists despairing jackscrew disbursed plunging novas sourer vigorousness sorghums mummed melting redbirds melodiousness antirational inattentively crosser unvexed warrants godliest inflected entropies overawe seabeds extraneousness livelong mutably outshined goitre surrenderor maddish bursal rightest exits plottage aspca color categorizing ullage curber resown advancements misarrange sweatshop generalissimos decimates named antitoxin prognostic outgrowing swatted prepossessingly larding nonclerical dramatization tariffless microfilm encouraged tamperers exceptions glimmering harries charming caricaturing teraphim outweigh dryest groundhog deathblow snorkeling pestilently pantsuit mayoralties sirs labium denotes lummoxes platting leerier furnaces flensers clinicians facileness roubles recast flagellant gooier tailoress unpalatably avaunt proclaimed understudying overplays ratfink missions frizzled tweeds</literal>
+   </binding>
+   <binding name="reviewDate">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2007-12-31T00:00:00</literal>
+   </binding>
+   <binding name="reviewer">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+   </binding>
+   <binding name="reviewerName">
+    <literal>Ruggiero-Delane</literal>
+   </binding>
+   <binding name="rating1">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
+   </binding>
+   <binding name="rating2">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
+   </binding>
+   <binding name="rating3">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
+   </binding>
+   <binding name="rating4">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="title">
+    <literal>inshrining subscript resubmit grandstander pellagras cunts paleographer obsessiveness windlasses songfest inartistically epergnes guarani sonarman</literal>
+   </binding>
+   <binding name="text">
+    <literal xml:lang="en">hassocks yardages alterability tetralogy treaded elevators anathematize surveyed evolvements juicier suffered commonweals wallpapering ionicity inaptness refreezes pepsine shammes reappraises squishiest ethicists bedraggling shivering crimsoned bondable archness occulter overdramatizes liverishness dandles boosting embalms restamp chaining strugglers skullduggeries hums manger pomades alternately pressurized gamed materfamilias supervenes darkest finer seels triste pronators giddiest tensing frauds vapouring sucroses emulsifiable cesarian octagons stoically suppurative catarrhs triadisms foreseen wennier scurviest focuser recrowned cropped signatures plotting asks disembarkations</literal>
+   </binding>
+   <binding name="reviewDate">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2007-12-16T00:00:00</literal>
+   </binding>
+   <binding name="reviewer">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+   </binding>
+   <binding name="reviewerName">
+    <literal>Ruggiero-Delane</literal>
+   </binding>
+   <binding name="rating1">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+   </binding>
+   <binding name="rating2">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="title">
+    <literal>etagere groundswell prosceniums casualness preconceived hearthstones melodramatists reanalyses punctilious flexor draftees vignetting foxed</literal>
+   </binding>
+   <binding name="text">
+    <literal xml:lang="en">incommensurately miffing jeerers labor lichenous coleuses huffiest conjuror pervades fagotings intestinally quagga vasomotor joineries indicative repentantly individualizes manageress outlying canoed substantival unblinking bodings nonslip redoubt nonphysiologically drowsier fainer drains chilliest interpreters incubated loganberry planarias outranging legitimation wooshed cruciform ukase gelid tardies weaponless addictively arteries compensations indetermination flinting parring shiksas scag reinvoking specking woollier overrides dayglow facers napalms outsmarted dict consolidators syrian reemphasis terrorist libretti indoctrination imbed skipperage disrespectful aikidos faking compatibilities survived gonadial safaris depictor warrantable ozonization viaticum numbed saving biscuits counselee spectating syphilis agrees preacher interdicted circumambulation elocutionist bulges pities freakout electrodynamic spryest millibars forasmuch celerities stragglier forjudge equational chops</literal>
+   </binding>
+   <binding name="reviewDate">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2007-11-21T00:00:00</literal>
+   </binding>
+   <binding name="reviewer">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+   </binding>
+   <binding name="reviewerName">
+    <literal>Ruggiero-Delane</literal>
+   </binding>
+   <binding name="rating1">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+   </binding>
+   <binding name="rating2">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="title">
+    <literal>dreidl tinfuls foolhardier downloading stuccos interpersonal doggish mislabel lowered solubility beguiler aboil slavey strolling prorating</literal>
+   </binding>
+   <binding name="text">
+    <literal xml:lang="en">dimming descents benthos viced bruising hetero romps polymerically undecided runners libidinal fustic escapements obols sandlots channelizes notational gongs elks misspellings heedfully accelerative labella phlebotomy preeners diviners hugeness zilches amortizable roughness pullers remunerates doomsdays brisks coordinately unequaled stopcocks consistently bafflers drypoints nannies vialing trolleys ologist uncork rigatonis airhead remodification sereneness playsuit microtomy skewness reelecting prevailingly musicians sightings bylined reconveyed preconception overanxious sinfully scampi slaveries mishandles ailment waggish tonicity ablutions randomizes innervations healthiness lights disassociates spinel countenancing expedites roped helloed querists halloo assignment rendezvouses dentistries climaxed filmlands frills poulticing nakedest jabs chlorites amused psychologists cloches adducers requisitioner gapes tessellation consecratory stilting adders unclothes flabbiest detrain gardening eyedroppers levied carroms uncourageous tormented destining reaffirmed communicates internship miscontinuance overgrows fledges elopes unkenneled warding assumable greenness swanned rapprochements burbles gastrectomy sporulate heres transferror pregame isostasy holsters implores grapes warfares refectories broadcasters tambura negotiations jargoned unknowingly appendectomies stalks shattering fluttering agonised hooligans deltoids dilatoriness regulars necessaries obstruction</literal>
+   </binding>
+   <binding name="reviewDate">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2007-07-11T00:00:00</literal>
+   </binding>
+   <binding name="reviewer">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+   </binding>
+   <binding name="reviewerName">
+    <literal>Ruggiero-Delane</literal>
+   </binding>
+   <binding name="rating1">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
+   </binding>
+   <binding name="rating4">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+
