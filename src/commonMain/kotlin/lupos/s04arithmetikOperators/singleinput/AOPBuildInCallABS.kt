@@ -26,10 +26,10 @@ class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperator
             val a = childA()
             if (a is ValueDouble) {
                 res = ValueDouble(abs(a.value))
-            } else if (a is ValueDecimal) {
-                res = ValueDecimal(abs(a.value))
             } else if (a is ValueFloat) {
                 res = ValueFloat(abs(a.value))
+            } else if (a is ValueDecimal) {
+                res = ValueDecimal(abs(a.value))
             } else if (a is ValueInteger) {
                 res = ValueInteger(abs(a.value))
             }

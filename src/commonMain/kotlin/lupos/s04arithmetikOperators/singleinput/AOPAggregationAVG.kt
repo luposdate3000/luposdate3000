@@ -45,10 +45,10 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                     res.value = value
                 } else if (res.value is ValueDouble || value is ValueDouble) {
                     res.value = ValueDouble(res.value.toDouble() + value.toDouble())
-                } else if (res.value is ValueDecimal || value is ValueDecimal) {
-                    res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
                 } else if (res.value is ValueFloat || value is ValueFloat) {
                     res.value = ValueFloat(res.value.toDouble() + value.toDouble())
+                } else if (res.value is ValueDecimal || value is ValueDecimal) {
+                    res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
                 } else if (res.value is ValueInteger || value is ValueInteger) {
                     res.value = ValueDecimal(0.0 + (res.value.toInt() + value.toInt()))
                 } else {
@@ -70,10 +70,10 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
             var res: ValueDefinition
             if (tmp.value is ValueDouble) {
                 res = ValueDouble(tmp.value.toDouble() / tmp.count)
-            } else if (tmp.value is ValueDecimal) {
-                res = ValueDecimal(tmp.value.toDouble() / tmp.count)
             } else if (tmp.value is ValueFloat) {
                 res = ValueFloat(tmp.value.toDouble() / tmp.count)
+            } else if (tmp.value is ValueDecimal) {
+                res = ValueDecimal(tmp.value.toDouble() / tmp.count)
             } else {
                 res = ValueError()
             }

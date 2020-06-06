@@ -27,10 +27,10 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
             try {
                 if (a is ValueDouble) {
                     res = ValueDouble(ceil(a.toDouble()))
-                } else if (a is ValueDecimal) {
-                    res = ValueDecimal(ceil(a.toDouble()))
                 } else if (a is ValueFloat) {
                     res = ValueFloat(ceil(a.toDouble()))
+                } else if (a is ValueDecimal) {
+                    res = ValueDecimal(ceil(a.toDouble()))
                 } else if (a is ValueInteger) {
                     res = a
                 }

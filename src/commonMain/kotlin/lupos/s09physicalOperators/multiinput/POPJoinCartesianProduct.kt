@@ -116,6 +116,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             }
                         }
                     }
+}
                 } else {
                     for (iterator in outIterators) {
                         iterator.close = {

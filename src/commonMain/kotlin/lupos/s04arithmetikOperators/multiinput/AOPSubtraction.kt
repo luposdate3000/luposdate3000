@@ -28,10 +28,10 @@ class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(q
             try {
                 if (a is ValueDouble || b is ValueDouble) {
                     res = ValueDouble(a.toDouble() - b.toDouble())
-                } else if (a is ValueDecimal || b is ValueDecimal) {
-                    res = ValueDecimal(a.toDouble() - b.toDouble())
                 } else if (a is ValueFloat || b is ValueFloat) {
                     res = ValueFloat(a.toDouble() - b.toDouble())
+                } else if (a is ValueDecimal || b is ValueDecimal) {
+                    res = ValueDecimal(a.toDouble() - b.toDouble())
                 } else if (a is ValueInteger || b is ValueInteger) {
                     res = ValueInteger(a.toInt() - b.toInt())
                 }

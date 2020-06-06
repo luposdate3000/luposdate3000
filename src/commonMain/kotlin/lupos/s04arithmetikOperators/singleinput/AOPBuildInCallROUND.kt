@@ -27,10 +27,10 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
             try {
                 if (a is ValueDouble) {
                     res = ValueDouble(a.toDouble().roundToInt().toDouble())
-                } else if (a is ValueDecimal) {
-                    res = ValueDecimal(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueFloat) {
                     res = ValueFloat(a.toDouble().roundToInt().toDouble())
+                } else if (a is ValueDecimal) {
+                    res = ValueDecimal(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueInteger) {
                     res = a
                 }

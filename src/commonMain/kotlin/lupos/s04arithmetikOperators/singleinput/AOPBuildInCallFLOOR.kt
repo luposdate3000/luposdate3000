@@ -27,10 +27,10 @@ class AOPBuildInCallFLOOR(query: Query, child: AOPBase) : AOPBase(query, EOperat
             try {
                 if (a is ValueDouble) {
                     res = ValueDouble(floor(a.toDouble()))
-                } else if (a is ValueDecimal) {
-                    res = ValueDecimal(floor(a.toDouble()))
                 } else if (a is ValueFloat) {
                     res = ValueFloat(floor(a.toDouble()))
+                } else if (a is ValueDecimal) {
+                    res = ValueDecimal(floor(a.toDouble()))
                 } else if (a is ValueInteger) {
                     res = a
                 }

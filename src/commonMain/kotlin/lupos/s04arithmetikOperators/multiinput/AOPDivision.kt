@@ -31,14 +31,14 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                         res = ValueDouble(a.toDouble() / b.toDouble())
                     }
                 }
-                if (a is ValueDecimal || b is ValueDecimal) {
-                    if (b.toDouble() != 0.0) {
-                        res = ValueDecimal(a.toDouble() / b.toDouble())
-                    }
-                }
                 if (a is ValueFloat || b is ValueFloat) {
                     if (b.toDouble() != 0.0) {
                         res = ValueFloat(a.toDouble() / b.toDouble())
+                    }
+                }
+                if (a is ValueDecimal || b is ValueDecimal) {
+                    if (b.toDouble() != 0.0) {
+                        res = ValueDecimal(a.toDouble() / b.toDouble())
                     }
                 }
                 if (a is ValueInteger || b is ValueInteger) {
