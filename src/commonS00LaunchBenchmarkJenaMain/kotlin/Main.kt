@@ -40,7 +40,7 @@ JenaWrapper.loadFromFile(datasourceFiles)
         var counter = 0
         while (true) {
             counter++
-JenaWrapper.execQuery(query)
+JenaWrapper.execQuery(query,false)
             time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             if (time > minimumTime) {
                 break

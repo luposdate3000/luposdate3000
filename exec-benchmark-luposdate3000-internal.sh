@@ -40,7 +40,7 @@ versions=( "Multi_BPlusTree_Empty" )
 
 psp2b=$(pwd)/benchmark_results/sp2b
 mkdir -p $psp2b
-psp2b=$(pwd)/benchmark_results/bsbm
+pbsbm=$(pwd)/benchmark_results/bsbm
 mkdir -p $pbsbm
 
 ls resources/sp2b/q*.sparql | grep -v "-" > log/queries-sp2b
@@ -85,7 +85,6 @@ do
 			fi
 			cat log/benchtmp/x | grep "sparql,$triples," >> $psp2b/$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.sp2b.queries
-			mv log/benchtmp/x log/benchtmp/x-$triples
 		fi
 		i=1
 	done
@@ -110,7 +109,6 @@ do
 			fi
 			cat log/benchtmp/x | grep "sparql,$products," >> $pbsbm/$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$products," | grep -v "sparql,$products,0,.," | sed "s/,.*//" > log/benchtmp/$version.bsbm.queries
-			mv log/benchtmp/x log/benchtmp/x-$products
 		fi
 		i=1
 	done

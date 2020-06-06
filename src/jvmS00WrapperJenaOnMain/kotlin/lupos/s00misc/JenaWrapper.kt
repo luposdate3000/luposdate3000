@@ -34,15 +34,19 @@ object JenaWrapper {
         }
     }
 
-    fun execQuery(queryString: String): String {
+    fun execQuery(queryString: String,logging:Boolean=true): String {
+if(logging){
         checkExceptions(queryString)
         println("Jena optimized query >>")
+}
         var res = ""
         try {
             val query = QueryFactory.create(queryString)
             val qexec = QueryExecutionFactory.create(query, dataset)
+if(logging){
             qexec.getContext().set(ARQ.symLogExec, true)
             qexec.getContext().set(ARQ.symLogExec, Explain.InfoLevel.FINE)
+}
             if (query.isSelectType()) {
                 val results = qexec.execSelect()
                 val stream = ByteArrayOutputStream()
@@ -70,15 +74,19 @@ object JenaWrapper {
             } else if (query.isJsonType()) {
             } else if (query.isConstructQuad()) {
             }
+if(logging){
             println("------")
             val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
             val op = plan.getOp()
             val op2 = Optimize.optimize(op, qexec.getContext())
             println(op2)
+}
         } catch (e: Throwable) {
             e.printStackTrace()
         }
+if(logging){
         println("Jena optimized query <<")
+}
         return res
     }
 
