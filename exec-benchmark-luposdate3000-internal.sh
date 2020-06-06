@@ -38,8 +38,10 @@ mkdir -p log/benchtmp
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 versions=( "Multi_BPlusTree_Empty" )
 
-p=$(pwd)/benchmark_results/sp2b
-mkdir -p $p
+psp2b=$(pwd)/benchmark_results/sp2b
+mkdir -p $psp2b
+psp2b=$(pwd)/benchmark_results/bsbm
+mkdir -p $pbsbm
 
 ls resources/sp2b/q*.sparql | grep -v "-" > log/queries-sp2b
 touch log/queries-bsbm
@@ -81,7 +83,7 @@ do
 			else
 				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" "" > log/benchtmp/x
 			fi
-			cat log/benchtmp/x | grep "sparql,$triples," >> $p/$version-$(git rev-parse HEAD)-internal.csv
+			cat log/benchtmp/x | grep "sparql,$triples," >> $psp2b/$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.sp2b.queries
 			mv log/benchtmp/x log/benchtmp/x-$triples
 		fi
@@ -106,7 +108,7 @@ do
 			else
 				./log/benchtmp/$version.x "LOAD" "$productsfolder/data" "" "$queries" "10" "$products" "$size" "" > log/benchtmp/x
 			fi
-			cat log/benchtmp/x | grep "sparql,$products," >> $p/$version-$(git rev-parse HEAD)-internal.csv
+			cat log/benchtmp/x | grep "sparql,$products," >> $pbsbm/$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$products," | grep -v "sparql,$products,0,.," | sed "s/,.*//" > log/benchtmp/$version.bsbm.queries
 			mv log/benchtmp/x log/benchtmp/x-$products
 		fi
