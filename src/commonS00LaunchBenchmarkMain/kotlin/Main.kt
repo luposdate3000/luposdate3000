@@ -34,7 +34,7 @@ val benchmarkname=args[8]
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()
-DistributedTripleStore.localStoreloadFromFolder(persistenceFolder)
+DistributedTripleStore.localStore.loadFromFolder(persistenceFolder)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
@@ -48,15 +48,13 @@ DistributedTripleStore.localStoreloadFromFolder(persistenceFolder)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
             val timer2 = Monotonic.markNow()
-DistributedTripleStore.localStoreSafeToFolder(persistenceFolder)
-            HttpEndpoint.persistence_store(persistenceFolder)
+DistributedTripleStore.localStore.safeToFolder(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
         }
     }
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-        HttpEndpoint.evaluate_sparql_query_string(query, true).toString()
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0
