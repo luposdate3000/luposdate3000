@@ -21,7 +21,7 @@ do
 	done
 	sort $triplesfolder/bnodes.tmp -u > $triplesfolder/bnodes.txt
 	rm $triplesfolder/bnodes.tmp
-	bnodecount=$(wc -l $triplesfolder/data0.n3 | sed "s/ .*//g")
+	bnodecount=$(wc -l $triplesfolder/bnodes.txt | sed "s/ .*//g")
 	compressed=$(du -sbc $triplesfolder/*.n3 | grep total | sed 's/\t.*//g')
 	echo "$triples,$count,$size,$compressed,$bnodecount">>/mnt/luposdate-testdata/sp2b/stat.csv
 	triples=$(($triples * 2))
