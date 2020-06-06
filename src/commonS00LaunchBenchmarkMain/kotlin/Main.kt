@@ -8,6 +8,7 @@ import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s16network.HttpEndpoint
+import lupos.s15tripleStoreDistributed.*
 import lupos.s16network.ServerCommunicationSend
 
 enum class Datasource {
@@ -29,12 +30,13 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val numberOfTriples = args[5].toLong()
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
+val benchmarkname=args[8]
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()
-            HttpEndpoint.persistence_load(persistenceFolder)
+DistributedTripleStore.localStoreloadFromFolder(persistenceFolder)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/${benchmarkname}/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
         Datasource.IMPORT -> {
             val timer = Monotonic.markNow()
@@ -44,11 +46,12 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             }
             HttpEndpoint.import_turtle_files(datasourceFiles, dict)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
             val timer2 = Monotonic.markNow()
+DistributedTripleStore.localStoreSafeToFolder(persistenceFolder)
             HttpEndpoint.persistence_store(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
         }
     }
     for (queryFile in queryFiles) {

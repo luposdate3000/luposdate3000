@@ -79,9 +79,9 @@ do
 		then
 			if [ $i -eq 0 ]
 			then
-				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" "$triplesfolder/bnodes.txt" > log/benchtmp/x
+				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" "$triplesfolder/bnodes.txt" "sp2b" > log/benchtmp/x
 			else
-				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" "" > log/benchtmp/x
+				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" "" "sp2b" > log/benchtmp/x
 			fi
 cat log/benchtmp/x
 			cat log/benchtmp/x | grep "sparql,$triples," >> $psp2b/jena-$version-$(git rev-parse HEAD)-internal.csv
@@ -104,9 +104,9 @@ cat log/benchtmp/x
 		then
 			if [ $i -eq 0 ]
 			then
-				./log/benchtmp/$version.x "IMPORT" "$productsfolder/data" "$(find $productsfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$products" "$size" "$productsfolder/bnodes.txt" > log/benchtmp/x
+				./log/benchtmp/$version.x "IMPORT" "$productsfolder/data" "$(find $productsfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$products" "$size" "$productsfolder/bnodes.txt" "bsbm" > log/benchtmp/x
 			else
-				./log/benchtmp/$version.x "LOAD" "$productsfolder/data" "" "$queries" "10" "$products" "$size" "" > log/benchtmp/x
+				./log/benchtmp/$version.x "LOAD" "$productsfolder/data" "" "$queries" "10" "$products" "$size" "" "bsbm" > log/benchtmp/x
 			fi
 cat log/benchtmp/x
 			cat log/benchtmp/x | grep "sparql,$products," >> $pbsbm/jena-$version-$(git rev-parse HEAD)-internal.csv

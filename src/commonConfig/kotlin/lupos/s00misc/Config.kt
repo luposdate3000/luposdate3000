@@ -4,6 +4,7 @@ package lupos.s00misc
 typealias SanityCheck = SanityCheckOff
 typealias CoroutinesHelperMutex = Lock
 typealias CoroutinesHelper = CoroutinesHelperSequential
+typealias JenaWrapper = JenaWrapperOff
 typealias MySetGeneric<T> = MySetGenericBTree<T>
 typealias MySetLong = MySetLongBTree
 typealias MySetInt = MySetIntBTree
