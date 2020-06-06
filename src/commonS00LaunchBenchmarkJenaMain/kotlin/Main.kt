@@ -32,7 +32,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
             val timer = Monotonic.markNow()
 JenaWrapper.loadFromFile(datasourceFiles)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-import.sparql.jena", time, 1, numberOfTriples, originalTripleSize)
+            printBenchmarkLine("resources/sp2b/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
         val timer = Monotonic.markNow()
@@ -46,6 +46,6 @@ JenaWrapper.execQuery(query,false)
                 break
             }
         }
-        println("$queryFile.jena,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
+        println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
     }
 }

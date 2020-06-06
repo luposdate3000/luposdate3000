@@ -93,7 +93,7 @@ do
 	then
 		break
 	fi
-	productsfolder=/mnt/luposdate-testdata/sp2b/${products}
+	productsfolder=/mnt/luposdate-testdata/bsbm/${products}
 	size=$(du -sbc ${productsfolder}/*.n3 | grep total | sed 's/\t.*//g')
 	i=0
 	for version in "${versions[@]}"

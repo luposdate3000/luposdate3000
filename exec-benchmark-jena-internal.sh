@@ -83,6 +83,7 @@ do
 			else
 				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" "" > log/benchtmp/x
 			fi
+cat log/benchtmp/x
 			cat log/benchtmp/x | grep "sparql,$triples," >> $psp2b/jena-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.sp2b.queries
 		fi
@@ -93,7 +94,7 @@ do
 	then
 		break
 	fi
-	productsfolder=/mnt/luposdate-testdata/sp2b/${products}
+	productsfolder=/mnt/luposdate-testdata/bsbm/${products}
 	size=$(du -sbc ${productsfolder}/*.n3 | grep total | sed 's/\t.*//g')
 	i=0
 	for version in "${versions[@]}"
@@ -107,6 +108,7 @@ do
 			else
 				./log/benchtmp/$version.x "LOAD" "$productsfolder/data" "" "$queries" "10" "$products" "$size" "" > log/benchtmp/x
 			fi
+cat log/benchtmp/x
 			cat log/benchtmp/x | grep "sparql,$products," >> $pbsbm/jena-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$products," | grep -v "sparql,$products,0,.," | sed "s/,.*//" > log/benchtmp/$version.bsbm.queries
 		fi
