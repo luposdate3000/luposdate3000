@@ -2,4 +2,4 @@
 /* DO NOT MODIFY DIRECTLY */
 package lupos.s05tripleStore
 typealias TripleStoreLocal = TripleStoreLocalBPlusTree
-const val BULK_IMPORT_BLOCK_SIZE = 8
+const val BULK_IMPORT_BLOCK_SIZE = 1048576

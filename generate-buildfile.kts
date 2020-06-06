@@ -216,7 +216,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Launch Type", "Launch") to listOf(
                 ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                 ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
-                ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain")
+                ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
+                ChooseableOptionDirectory("BenchmarkJena", "commonS00LaunchBenchmarkJenaMain")
         ),
         ChooseableGroup("Sanity Checks", "Sanity") to listOf(
                 ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn", "CoroutinesHelperMutex" to "Lock")),

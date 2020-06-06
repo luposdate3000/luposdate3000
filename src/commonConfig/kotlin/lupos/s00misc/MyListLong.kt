@@ -136,7 +136,7 @@ class MyListLong {
         shrinkToFit()
     }
 
-    /*inline*/ operator fun get(idx: Int): Long {
+    inline operator fun get(idx: Int): Long {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0
@@ -205,7 +205,7 @@ class MyListLong {
         return res
     }
 
-    /*inline*/ operator fun set(idx: Int, value: Long) {
+    inline operator fun set(idx: Int, value: Long) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {

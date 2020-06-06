@@ -136,7 +136,7 @@ class MyListGeneric<Generic> {
         shrinkToFit()
     }
 
-    /*inline*/ operator fun get(idx: Int): Generic {
+    inline operator fun get(idx: Int): Generic {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0
@@ -205,7 +205,7 @@ class MyListGeneric<Generic> {
         return res
     }
 
-    /*inline*/ operator fun set(idx: Int, value: Generic) {
+    inline operator fun set(idx: Int, value: Generic) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {

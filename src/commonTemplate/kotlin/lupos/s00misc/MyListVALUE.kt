@@ -134,7 +134,7 @@ class MyListVALUEGDEF {
         shrinkToFit()
     }
 
-    /*inline*/ operator fun get(idx: Int): VALUE {
+    inline operator fun get(idx: Int): VALUE {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0
@@ -203,7 +203,7 @@ class MyListVALUEGDEF {
         return res
     }
 
-    /*inline*/ operator fun set(idx: Int, value: VALUE) {
+    inline operator fun set(idx: Int, value: VALUE) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {

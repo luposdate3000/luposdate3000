@@ -9,7 +9,7 @@ mkdir -p log/benchtmp
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
   echo "Platform->jvm"
-  echo "Launch->Benchmark"
+  echo "Launch->BenchmarkJena"
   echo "Sanity->Off"
   echo "Execution->Sequential"
   echo "BufferManager->Heap"
@@ -33,23 +33,14 @@ mkdir -p log/benchtmp
   echo "MaxTriplesDuringTest->-1"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 
+ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 versions=( "Multi_BPlusTree_Empty" )
 
 p=$(pwd)/benchmark_results/sp2b
 mkdir -p $p
 
 ls resources/sp2b/q*.sparql | grep -v "-" > log/queries
-#echo "resources/sp2b/q1.sparql" > log/queries
-#echo "resources/sp2b/q3a.sparql" >> log/queries
-#echo "resources/sp2b/q3b.sparql" >> log/queries
-#echo "resources/sp2b/q3c.sparql" >> log/queries
-#echo "resources/sp2b/q6.sparql" >> log/queries
-#echo "resources/sp2b/q10.sparql" >> log/queries
-#echo "resources/sp2b/q12a.sparql" >> log/queries
-#echo "resources/sp2b/q12b.sparql" >> log/queries
-#echo "resources/sp2b/q12c.sparql" >> log/queries
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
@@ -59,7 +50,7 @@ do
 done
 while true
 do
-	triplesfolder=/mnt/sp2b-testdata/${triples}
+	triplesfolder=/mnt/luposdate-testdata/sp2b/${triples}
 	size=$(du -sbc ${triplesfolder}/*.n3 | grep total | sed 's/\t.*//g')
 	i=0
 	for version in "${versions[@]}"
@@ -73,7 +64,7 @@ do
 			else
 				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" "" > log/benchtmp/x
 			fi
-			cat log/benchtmp/x | grep "sparql,$triples," >> $p/luposdate-$version-$(git rev-parse HEAD)-internal.csv
+			cat log/benchtmp/x | grep "sparql,$triples," >> $p/jena-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.queries
 			mv log/benchtmp/x log/benchtmp/x-$triples
 		fi

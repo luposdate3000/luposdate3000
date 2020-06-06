@@ -5,6 +5,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
+import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s16network.HttpEndpoint
@@ -20,7 +21,6 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = CoroutinesHelper.runBlock {
-    ServerCommunicationSend.start()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]
@@ -29,42 +29,23 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val numberOfTriples = args[5].toLong()
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
-    when (datasourceType) {
-        Datasource.LOAD -> {
             val timer = Monotonic.markNow()
-            HttpEndpoint.persistence_load(persistenceFolder)
+JenaWrapper.loadFromFile(datasourceFiles)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
-        }
-        Datasource.IMPORT -> {
-            val timer = Monotonic.markNow()
-            val dict = MyMapStringIntPatriciaTrie()
-            File(datasourceBNodeFile).forEachLine {
-                dict[it] = nodeGlobalDictionary.createNewBNode()
-            }
-            HttpEndpoint.import_turtle_files(datasourceFiles, dict)
-            val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
-            val timer2 = Monotonic.markNow()
-            HttpEndpoint.persistence_store(persistenceFolder)
-            val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/sp2b/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
-        }
-    }
+            printBenchmarkLine("resources/sp2b/persistence-import.sparql.jena", time, 1, numberOfTriples, originalTripleSize)
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-        HttpEndpoint.evaluate_sparql_query_string(query, true).toString()
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0
         while (true) {
             counter++
-            HttpEndpoint.evaluate_sparql_query_string(query).toString()
+JenaWrapper.execQuery(query)
             time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             if (time > minimumTime) {
                 break
             }
         }
-        println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
+        println("$queryFile.jena,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
     }
 }

@@ -3,16 +3,16 @@
 triples=1024
 while true
 do
-	triplesfolder=/mnt/sp2b-testdata/${triples}
+	triplesfolder=/mnt/luposdate-testdata/bsbm/${triples}
 	rm -rf $triplesfolder
 	mkdir -p $triplesfolder
 	triplesfile=${triplesfolder}/complete.n3
 	(
-		cd /opt/sp2b/bin
-		./sp2b_gen -t $triples > /dev/null 2>&1
+		cd /opt/bsbmtools-0.2
+		./generate -s ttl -pc $triples > /dev/null 2>&1
 	)
-	size=$(du -sb /opt/sp2b/bin/sp2b.n3 | sed -E "s/([0-9]+).*/\1/g")
-	count=$(cat /opt/sp2b/bin/sp2b.n3 | ./exec-compress-chunked-n3.kts $triplesfolder)
+	size=$(du -sb /opt/bsbmtools-0.2/dataset.ttl | sed -E "s/([0-9]+).*/\1/g")
+	count=$(cat /opt/bsbmtools-0.2/dataset.ttl | ./exec-compress-chunked-n3.kts $triplesfolder)
 	rm $triplesfolder/bnodes.tmp
 	for f in $(find $triplesfolder -name "*.bnodes")
 	do
@@ -23,7 +23,7 @@ do
 	rm $triplesfolder/bnodes.tmp
 	bnodecount=$(wc -l $triplesfolder/data0.n3 | sed "s/ .*//g")
 	compressed=$(du -sbc $triplesfolder/*.n3 | grep total | sed 's/\t.*//g')
-	echo "$triples,$count,$size,$compressed,$bnodecount">>/mnt/sp2b-testdata/stat.csv
+	echo "$triples,$count,$size,$compressed,$bnodecount">>/mnt/luposdate-testdata/bsbm/stat.csv
 	triples=$(($triples * 2))
 	if [[ $triples -le 0 ]]
 	then
