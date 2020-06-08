@@ -25,7 +25,7 @@ port="3030"
   echo "AdvancedOptimisation->false"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->None"
+  echo "ServerCommunication->Ktor"
   echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
