@@ -52,9 +52,12 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationSend {
+    var myHostname = "localhost"
+    var myPort = NETWORK_DEFAULT_PORT
     fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
+println("SEND open connection to ${host.hostname}:${host.port} for commit")
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
@@ -72,6 +75,7 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 } finally {
+println("SEND close connection to ${host.hostname}:${host.port} for commit")
                     socket.close()
                 }
             }
@@ -81,6 +85,7 @@ object ServerCommunicationSend {
     fun graphClearAll(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
+println("SEND open connection to ${host.hostname}:${host.port} for graphClearAll")
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
@@ -98,6 +103,7 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 } finally {
+println("SEND close connection to ${host.hostname}:${host.port} for graphClearAll")
                     socket.close()
                 }
             }
@@ -107,6 +113,7 @@ object ServerCommunicationSend {
     fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
+println("SEND open connection to ${host.hostname}:${host.port} for graphOperation")
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
@@ -135,6 +142,7 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 } finally {
+println("SEND close connection to ${host.hostname}:${host.port} for graphOperation")
                     socket.close()
                 }
             }
@@ -162,6 +170,7 @@ object ServerCommunicationSend {
             var helper = accessedHosts[host]
             val helper2: ModifyHelper
             if (helper == null) {
+println("SEND open connection to ${host.hostname}:${host.port} for tripleModify")
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                 helper2 = ModifyHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array<ColumnIterator>(3) { ColumnIteratorChannel() })
                 accessedHosts[host] = helper2
@@ -174,6 +183,7 @@ object ServerCommunicationSend {
                 builder.writeLong(query.transactionID)
                 builder.writeString(graphName)
                 helper2.output.writeByteArray(builder)
+helper2.output.flush()
                 runBlocking {
                     helper2.job = launch {
                         ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
@@ -199,11 +209,13 @@ object ServerCommunicationSend {
             builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
             builder.writeLong(query.transactionID)
             helper.output.writeByteArray(builder)
+helper.output.flush()
             val response = helper.input.readByteArray()
             val header3 = ServerCommunicationHeader.values()[response.readInt()]
             if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                 throw Exception("unexpected result $header3")
             }
+println("SEND close connection to ${host.hostname}:${host.port} for tripleModify")
             helper.socket.close()
         }
     }
@@ -228,10 +240,12 @@ object ServerCommunicationSend {
             for (host in hosts) {
                 runBlocking {
                     val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+println("SEND open connection to ${host.hostname}:${host.port} for tripleGet")
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
                     try {
                         output.writeByteArray(builder)
+			output.flush()
                         val packet2 = input.readByteArray()
                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                         require(header2 == ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT)
@@ -242,6 +256,7 @@ object ServerCommunicationSend {
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     } finally {
+println("SEND close connection to ${host.hostname}:${host.port} for tripleGet")
                         socket.close()
                     }
                 }
@@ -253,11 +268,13 @@ object ServerCommunicationSend {
                 var iterator = RowIteratorChildIterator(columns)
                 iterators.add(iterator)
                 runBlocking {
+println("SEND open connection to ${host.hostname}:${host.port} for tripleGet B")
                     val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
                     try {
                         output.writeByteArray(builder)
+			output.flush()
                         iterator.onNoMoreElements = {
                             val packet2 = input.readByteArray()
                             val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
@@ -271,6 +288,7 @@ object ServerCommunicationSend {
                         var tmp = iterator.close
                         iterator.close = {
                             tmp()
+println("SEND close connection to ${host.hostname}:${host.port} for tripleGet B")
                             socket.close()
                         }
                     } catch (e: Throwable) {
@@ -308,10 +326,12 @@ object ServerCommunicationSend {
         for (host in hosts) {
             runBlocking {
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+println("SEND open connection to ${host.hostname}:${host.port} for histogramGet")
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
                     output.writeByteArray(builder)
+		output.flush()
                     val packet2 = input.readByteArray()
                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                     require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM)
@@ -323,6 +343,7 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 } finally {
+println("SEND close connection to ${host.hostname}:${host.port} for histogramGet")
                     socket.close()
                 }
             }
@@ -330,7 +351,10 @@ object ServerCommunicationSend {
         return Pair(resFirst, resSecond)
     }
 
-    fun start(hostname: String = "localhost", port: Int = NETWORK_DEFAULT_PORT, bootstrap: String? = null) {
+    fun start(hostname: String = myHostname, port: Int = myPort, bootstrap: String? = null) {
+        myHostname = hostname
+        myPort = port
+        ServerCommunicationDistribution.registerKnownHost(hostname, port)
         if (bootstrap != null) {
             val hosts = bootstrap.split("|")
             for (h in hosts) {

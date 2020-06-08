@@ -456,13 +456,11 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         var xmlGraphBulk: XMLElement? = null
-                        CoroutinesHelper.runBlock {
-                            val query = Query()
-                            query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                            HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
-                            val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                            xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
-                        }
+                        val query = Query()
+                        query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                        HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
+                        val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                        xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (xmlGraphBulk == null || !xmlGraphBulk!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk?.toPrettyString() })
@@ -473,22 +471,18 @@ class SparqlTestSuite() {
                     } else {
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                        CoroutinesHelper.runBlock {
-                            val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                            DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-                        }
+                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
+                        DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                         query.commit()
                     }
                     File("log/storetest").mkdirs()
                     DistributedTripleStore.localStore.safeToFolder("log/storetest")
                     DistributedTripleStore.localStore.loadFromFolder("log/storetest")
                     var xmlGraphLoad: XMLElement? = null
-                    CoroutinesHelper.runBlock {
-                        val query = Query()
-                        query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                        xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
-                    }
+                    val query = Query()
+                    query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                    val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                    xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                     if (xmlGraphLoad == null || !xmlGraphLoad!!.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad?.toPrettyString() })
@@ -511,10 +505,8 @@ class SparqlTestSuite() {
                     var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                    CoroutinesHelper.runBlock {
-                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
-                        DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-                    }
+                    val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate()
+                    DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {

@@ -116,41 +116,42 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             }
                         }
                     }
-}
-                } else {
-                    for (iterator in outIterators) {
-                        iterator.close = {
-                            iterator._close()
-                            for (variable in children[0].getProvidedVariableNames()) {
-                                childA.columns[variable]!!.close()
-                            }
-                            for (variable in children[1].getProvidedVariableNames()) {
-                                childB.columns[variable]!!.close()
-                            }
+                }
+            } else {
+                for (iterator in outIterators) {
+                    iterator.close = {
+                        iterator._close()
+                        for (variable in children[0].getProvidedVariableNames()) {
+                            childA.columns[variable]!!.close()
                         }
-                        iterator.onNoMoreElements = {
-                            var done = false
-                            for (columnIndex in 0 until columnsINAO.size) {
-                                val value = columnsINAO[columnIndex].next()
-                                if (value == null) {
-                                    SanityCheck.check { columnIndex == 0 }
-                                    done = true
-                                    break
-                                }
-                                outO[0][columnIndex].childs.add(ColumnIteratorRepeatValue(count, value))
+                        for (variable in children[1].getProvidedVariableNames()) {
+                            childB.columns[variable]!!.close()
+                        }
+                    }
+                    iterator.onNoMoreElements = {
+                        var done = false
+                        for (columnIndex in 0 until columnsINAO.size) {
+                            val value = columnsINAO[columnIndex].next()
+                            if (value == null) {
+                                SanityCheck.check { columnIndex == 0 }
+                                done = true
+                                break
                             }
-                            if (!done) {
-                                for (columnIndex in 0 until columnsINBO.size) {
-                                    outO[1][columnIndex].childs.add(ColumnIteratorMultiValue(data[columnIndex]))
-                                }
+                            outO[0][columnIndex].childs.add(ColumnIteratorRepeatValue(count, value))
+                        }
+                        if (!done) {
+                            for (columnIndex in 0 until columnsINBO.size) {
+                                outO[1][columnIndex].childs.add(ColumnIteratorMultiValue(data[columnIndex]))
                             }
                         }
                     }
                 }
-                res = IteratorBundle(outMap)
             }
-            return res
+            res = IteratorBundle(outMap)
         }
-        override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-        override fun cloneOP() = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+        return res
     }
+
+    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override fun cloneOP() = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+}

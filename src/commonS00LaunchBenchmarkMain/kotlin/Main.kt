@@ -7,8 +7,8 @@ import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s16network.HttpEndpoint
 import lupos.s15tripleStoreDistributed.*
+import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 
 enum class Datasource {
@@ -30,11 +30,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val numberOfTriples = args[5].toLong()
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
-val benchmarkname=args[8]
+    val benchmarkname = args[8]
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()
-DistributedTripleStore.localStore.loadFromFolder(persistenceFolder)
+            DistributedTripleStore.localStore.loadFromFolder(persistenceFolder)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
@@ -48,7 +48,7 @@ DistributedTripleStore.localStore.loadFromFolder(persistenceFolder)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
             val timer2 = Monotonic.markNow()
-DistributedTripleStore.localStore.safeToFolder(persistenceFolder)
+            DistributedTripleStore.localStore.safeToFolder(persistenceFolder)
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
         }

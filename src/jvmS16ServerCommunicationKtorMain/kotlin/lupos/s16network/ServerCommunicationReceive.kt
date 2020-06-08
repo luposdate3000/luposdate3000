@@ -61,6 +61,7 @@ object ServerCommunicationReceive {
                         val header = ServerCommunicationHeader.values()[packet.readInt()]
                         val transactionID = packet.readLong()
                         val query = Query(transactionID = transactionID)
+println("RECEIVE start for $header")
                         when (header) {
                             ServerCommunicationHeader.COMMIT -> {
                                 DistributedTripleStore.localStore.commit(query)
@@ -72,6 +73,7 @@ object ServerCommunicationReceive {
                                 while (true) {
                                     val packet2 = input.readByteArray()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+println("RECEIVE continueheader $header2")
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
@@ -87,6 +89,7 @@ object ServerCommunicationReceive {
                                 while (true) {
                                     val packet2 = input.readByteArray()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+println("RECEIVE continueheader $header2")
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
@@ -148,9 +151,11 @@ object ServerCommunicationReceive {
                         builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                         output.writeByteArray(builder)
                         output.flush()
+println("RECEIVE finished for $header")
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     } finally {
+println("RECEIVE closed")
                         socket.close()
                     }
                 }

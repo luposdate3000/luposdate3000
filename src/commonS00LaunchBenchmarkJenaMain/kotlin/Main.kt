@@ -29,11 +29,11 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val numberOfTriples = args[5].toLong()
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
-val benchmarkname=args[8]
-            val timer = Monotonic.markNow()
-JenaWrapper.loadFromFile(datasourceFiles)
-            val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-            printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
+    val benchmarkname = args[8]
+    val timer = Monotonic.markNow()
+    JenaWrapper.loadFromFile(datasourceFiles)
+    val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+    printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
         val timer = Monotonic.markNow()
@@ -41,7 +41,7 @@ JenaWrapper.loadFromFile(datasourceFiles)
         var counter = 0
         while (true) {
             counter++
-JenaWrapper.execQuery(query,false)
+            JenaWrapper.execQuery(query, false)
             time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             if (time > minimumTime) {
                 break
