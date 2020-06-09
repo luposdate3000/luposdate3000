@@ -239,9 +239,8 @@ class MyMapStringIntPatriciaTrieDouble() {
         return res
     }
 
-    operator fun set(key: String, value: Int) {
-        throw FunktionWontWorkWithThisImplementationException()
-    }
+    operator fun set(key: String, value: Int) =        throw FunktionWontWorkWithThisImplementationException()
+    
 
     fun getOrCreate(key: String): Int {
         var list = mutableListOf<String>()
@@ -265,9 +264,7 @@ class MyMapStringIntPatriciaTrieDouble() {
         return res
     }
 
-    fun appendAssumeSorted(key: String, value: Int) {
-        throw FunktionWontWorkWithThisImplementationException()
-    }
+    fun appendAssumeSorted(key: String, value: Int) =        throw FunktionWontWorkWithThisImplementationException()
 
     fun safeToFile(filename: String) {
         debugfilename = filename

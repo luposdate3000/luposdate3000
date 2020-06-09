@@ -148,15 +148,6 @@ class POPGroup : POPBase {
         }
 
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
-        fun equalsFuzzy(other: Any?): Boolean {
-            SanityCheck.check { other is MapKey }
-            for (i in 0 until data.size) {
-                if (data[i] != ResultSetDictionary.undefValue && (other as MapKey).data[i] != ResultSetDictionary.undefValue && data[i] != other.data[i]) {
-                    return false
-                }
-            }
-            return true
-        }
     }
 
     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)

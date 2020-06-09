@@ -24,6 +24,7 @@ abstract class AOPBase(query: Query,
             return {
                 /*return*/tmp() == ResultSetDictionary.booleanTrueValue
             }
+/*Coverage Unreachable*/
         } else {
             val tmp = evaluate(row)
             return {
