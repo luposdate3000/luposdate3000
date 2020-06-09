@@ -39,6 +39,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager
+import lupos.s00misc.BufferManager
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -424,6 +425,8 @@ class SparqlTestSuite() {
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+
+	File("log/storetest").mkdirs()
         var ignoreJena = false
         var timer = Monotonic.markNow()
         var shouldHaveSkipped = false
@@ -436,6 +439,7 @@ class SparqlTestSuite() {
             }
             val resultData = readFileOrNull(resultDataFileName)
             if (inputDataFileName != "#keep-data#") {
+BufferManager.bufferPrefix="log/storetest/"
                 val query2 = Query()
                 query2.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                 ServerCommunicationSend.graphClearAll(query2)

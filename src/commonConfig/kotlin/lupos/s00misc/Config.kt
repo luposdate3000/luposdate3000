@@ -13,6 +13,7 @@ typealias MyMapLongGeneric<T> = MyMapLongGenericBTree<T>
 typealias MyMapLongInt = MyMapLongIntBTree
 typealias MyMapIntInt = MyMapIntIntBTree
 typealias MyMapDoubleInt = MyMapDoubleIntBTree
+const val PAGE_SIZE_IN_BYTES = 128
 const val ARRAY_LIST_BLOCK_CAPACITY = 8
 const val B_TREE_BRANCHING_FACTOR = 8
 val COVERAGE_MODE = ECoverage.Disabled

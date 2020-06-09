@@ -28,9 +28,12 @@ rm build/executable
   echo "MaxTriplesDuringTest->2000"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-
-p=$(readlink build/executable | sed "s-bin/luposdate3000-lib-g")
-
+ret=$?
+if [ $ret -ne 0 ]
+then
+	exit $ret
+fi
+p=$(readlink build/executable | sed "s-bin/luposdate3000-lib-g" | sed "s-$(pwd)/--g")
 /bin/cat << EOF > Dockerfile
 FROM openjdk:14
 COPY $p /usr/src/myapp

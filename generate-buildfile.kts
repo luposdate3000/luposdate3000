@@ -292,13 +292,13 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
         ),
         ChooseableGroup("PageSize in Bytes", "Pagesize") to listOf(
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "128"),
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "256"),
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "512"),
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "1024"),
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "2048"),
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "4096"),
-                ChooseableOptionConstantValue("lupos.s05tripleStore.index_IDTriple", "PAGE_SIZE_IN_BYTES", "8196")
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "128"),
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "256"),
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "512"),
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "1024"),
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "2048"),
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "4096"),
+                ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "8196")
         ),
         ChooseableGroup("ArrayList Block Capacity in Elements", "BlockCapacity") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
