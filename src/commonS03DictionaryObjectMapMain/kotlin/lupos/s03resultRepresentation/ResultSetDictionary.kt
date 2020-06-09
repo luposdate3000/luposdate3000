@@ -175,8 +175,8 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    fun safeToFolder(folderName: String) {
-        File(folderName + "/dictionary.txt").printWriter { out ->
+    fun safeToFolder(= {
+        File(BufferManager.bufferPrefix + "dictionary.txt").printWriter { out ->
             var idx = 0
             for ((k, line) in mapLTS) {
                 if (idx > 3) {
@@ -187,8 +187,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
-    fun loadFromFolder(folderName: String) {
-        File(folderName + "/dictionary.txt").forEachLine {
+    fun loadFromFolder() {
+        File(BufferManager.bufferPrefix + "dictionary.txt").forEachLine {
             createValue(ValueDefinition(it))
         }
     }

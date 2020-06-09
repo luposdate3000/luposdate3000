@@ -480,8 +480,8 @@ BufferManager.bufferPrefix="log/storetest/"
                         query.commit()
                     }
                     File("log/storetest").mkdirs()
-                    DistributedTripleStore.localStore.safeToFolder("log/storetest")
-                    DistributedTripleStore.localStore.loadFromFolder("log/storetest")
+                    DistributedTripleStore.localStore.safeToFolder()
+                    DistributedTripleStore.localStore.loadFromFolder()
                     var xmlGraphLoad: XMLElement? = null
                     val query = Query()
                     query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))

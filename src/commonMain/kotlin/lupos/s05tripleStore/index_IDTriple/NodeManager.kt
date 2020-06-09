@@ -106,11 +106,11 @@ object NodeManager {
         }
     }
 
-    fun safeToFolder(foldername: String) {
-        println("nodemanager saving to folder '$foldername'")
-        File(foldername).mkdirs()
+    fun safeToFolder() {
+        println("nodemanager saving to folder '${BufferManager.bufferPrefix+"nodemanager/"}'")
+        File(BufferManager.bufferPrefix+"nodemanager/").mkdirs()
         debug()
-        File(foldername + "/header").dataOutputStream { out ->
+        File(BufferManager.bufferPrefix+"nodemanager/header").dataOutputStream { out ->
             out.writeInt(allNodesLeafSize)
             out.writeInt(allNodesInnerSize)
             out.writeInt(allNodesFreeListLeaf.size)
@@ -125,12 +125,12 @@ object NodeManager {
 	bufferManager.safeToFolder()
     }
 
-    inline fun loadFromFolder(foldername: String) {
-        println("nodemanager loading from folder '$foldername'")
+    inline fun loadFromFolder() {
+        println("nodemanager loading from folder '${BufferManager.bufferPrefix+"nodemanager/"}'")
         bufferManager.loadFromFolder()
         allNodesFreeListLeaf.clear()
         allNodesFreeListInner.clear()
-        File(foldername + "/header").dataInputStream { fis ->
+        File(BufferManager.bufferPrefix+"nodemanager/header").dataInputStream { fis ->
             val leafSize = fis.readInt()
             val innerSize = fis.readInt()
             val allNodesFreeListLeafSize = fis.readInt()

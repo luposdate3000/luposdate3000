@@ -3,6 +3,7 @@ package lupos.s03resultRepresentation
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
+import lupos.s00misc.BufferManager
 import lupos.s00misc.MyListDouble
 import lupos.s00misc.MyListInt
 import lupos.s00misc.MyMapDoubleInt
@@ -487,33 +488,33 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun safeToFolder(foldername: String) {
-        println("Dictionary safe to folder '$foldername'")
-        File(foldername).mkdirs()
-        File(foldername + "/bnode.count").dataOutputStream { out ->
+    fun safeToFolder() {
+        println("Dictionary safe to folder '${BufferManager.bufferPrefix + "dictionary/"}'")
+        File(BufferManager.bufferPrefix + "dictionary/").mkdirs()
+        File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataOutputStream { out ->
             out.writeInt(bNodeCounter)
         }
-        iriMap.safeToFile(foldername + "/iri.map")
-        langTaggedMap.safeToFile(foldername + "/langTagged.map")
-        typedMap.safeToFile(foldername + "/typed.map")
-        doubleMap.safeToFile(foldername + "/double.map")
-        floatMap.safeToFile(foldername + "/float.map")
-        decimalMap.safeToFile(foldername + "/decimal.map")
-        intMap.safeToFile(foldername + "/int.map")
+        iriMap.safeToFile(BufferManager.bufferPrefix + "dictionary/iri.map")
+        langTaggedMap.safeToFile(BufferManager.bufferPrefix + "dictionary/langTagged.map")
+        typedMap.safeToFile(BufferManager.bufferPrefix + "dictionary/typed.map")
+        doubleMap.safeToFile(BufferManager.bufferPrefix + "dictionary/double.map")
+        floatMap.safeToFile(BufferManager.bufferPrefix + "dictionary/float.map")
+        decimalMap.safeToFile(BufferManager.bufferPrefix + "dictionary/decimal.map")
+        intMap.safeToFile(BufferManager.bufferPrefix + "dictionary/int.map")
     }
 
-    fun loadFromFolder(foldername: String) {
-        println("Dictionary loading from folder '$foldername'")
-        File(foldername + "/bnode.count").dataInputStream { fis ->
+    fun loadFromFolder() {
+        println("Dictionary loading from folder '${BufferManager.bufferPrefix + "dictionary/"}'")
+        File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataInputStream { fis ->
             bNodeCounter = fis.readInt()
         }
-        iriMap.loadFromFile(foldername + "/iri.map")
-        langTaggedMap.loadFromFile(foldername + "/langTagged.map")
-        typedMap.loadFromFile(foldername + "/typed.map")
-        doubleMap.loadFromFile(foldername + "/double.map")
-        floatMap.loadFromFile(foldername + "/float.map")
-        decimalMap.loadFromFile(foldername + "/decimal.map")
-        intMap.loadFromFile(foldername + "/int.map")
+        iriMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/iri.map")
+        langTaggedMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/langTagged.map")
+        typedMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/typed.map")
+        doubleMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/double.map")
+        floatMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/float.map")
+        decimalMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/decimal.map")
+        intMap.loadFromFile(BufferManager.bufferPrefix + "dictionary/int.map")
         doubleList.clear()
         doubleMap.forEach { k, v2 ->
             val v = v2 and filter6

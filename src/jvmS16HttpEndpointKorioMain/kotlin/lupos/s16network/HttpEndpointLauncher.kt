@@ -61,10 +61,10 @@ object HttpEndpointLauncher {
 /*Coverage Unreachable*/
             }
             "/persistence/store" -> {
-                DistributedTripleStore.localStore.safeToFolder(data)
+                DistributedTripleStore.localStore.safeToFolder()
             }
             "/persistence/load" -> {
-                DistributedTripleStore.localStore.loadFromFolder(data)
+                DistributedTripleStore.localStore.loadFromFolder()
             }
         }
         throw Exception("$path unknown http-request")

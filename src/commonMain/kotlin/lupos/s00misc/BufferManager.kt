@@ -30,6 +30,16 @@ class BufferManager(val bufferName: String) {
                 }
             }
         val managerList = mutableListOf<BufferManager>()
+	fun safeToFolder() {
+		managerList.forEach {
+			it.safeToFolder()
+		}
+	}
+	fun loadFromFolder() {
+		managerList.forEach {
+			it.loadFromFolder()
+		}
+	}
     }
 
     init {
@@ -99,8 +109,8 @@ class BufferManager(val bufferName: String) {
     }
 
     fun safeToFolder() {
-        File(bufferPrefix + "buffermanager/" + bufferName).mkdirs()
-        File(bufferPrefix + "buffermanager/" + bufferName + "/data").dataOutputStream { fos ->
+        File(bufferPrefix + "buffermanager").mkdirs()
+        File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             var i = 0
             allPages.forEach {
                 if (i < counter) {
@@ -109,7 +119,7 @@ class BufferManager(val bufferName: String) {
                 i++
             }
         }
-        File(bufferPrefix + "buffermanager/" + bufferName + "/header").dataOutputStream { fos ->
+        File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataOutputStream { fos ->
             fos.writeInt(counter)
             fos.writeInt(pageMappingsInOut.size)
             pageMappingsInOut.forEach { k, v ->
@@ -122,7 +132,7 @@ class BufferManager(val bufferName: String) {
 
     fun loadFromFolder() {
         allPages.clear()
-        File(bufferPrefix + "buffermanager/" + bufferName + "/header").dataInputStream { fis ->
+        File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()
             val size = fis.readInt()
             for (i in 0 until size) {
@@ -132,7 +142,7 @@ class BufferManager(val bufferName: String) {
                 pageMappingsOutIn[v] = k
             }
         }
-        File(bufferPrefix + "buffermanager/" + bufferName + "/data").dataInputStream { fis ->
+        File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataInputStream { fis ->
             for (i in 0 until counter) {
                 val data = ByteArray(PAGE_SIZE_IN_BYTES)
                 allPages[i] = data

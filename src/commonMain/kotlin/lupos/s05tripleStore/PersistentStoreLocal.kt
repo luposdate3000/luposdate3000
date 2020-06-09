@@ -3,6 +3,7 @@ package lupos.s05tripleStore
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
+import lupos.s00misc.BufferManager
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
@@ -72,38 +73,40 @@ class PersistentStoreLocal {
         }
     }
 
-    fun safeToFolder(foldername: String) {
+    fun safeToFolder() {
         stores.values.forEach { v ->
             v.flush()
         }
         var i = 0
-        stores[defaultGraphName]!!.safeToFolder(foldername + "/" + i)
+        stores[defaultGraphName]!!.safeToFolder(BufferManager.bufferPrefix+"store/" + i)
         i++
-        File(foldername + "/stores.txt").printWriter { out ->
+        File(BufferManager.bufferPrefix+"store/stores.txt").printWriter { out ->
             stores.forEach { name, store ->
                 if (name != "") {
                     out.println(name)
-                    store.safeToFolder(foldername + "/" + i)
+                    store.safeToFolder(BufferManager.bufferPrefix+"store/" + i)
                     i++
                 }
             }
         }
-        nodeGlobalDictionary.safeToFolder(foldername + "/dictionary")
-        NodeManager.safeToFolder(foldername + "/nodemanager")
+        nodeGlobalDictionary.safeToFolder()
+        NodeManager.safeToFolder()
+	BufferManager.safeToFolder()
     }
 
-    fun loadFromFolder(foldername: String) {
-        NodeManager.loadFromFolder(foldername + "/nodemanager")
-        nodeGlobalDictionary.loadFromFolder(foldername + "/dictionary")
+    fun loadFromFolder() {
+	BufferManager.loadFromFolder()
+        NodeManager.loadFromFolder()
+        nodeGlobalDictionary.loadFromFolder()
         var i = 0
         val store = TripleStoreLocal(defaultGraphName)
-        store.loadFromFolder(foldername + "/" + i)
+        store.loadFromFolder(BufferManager.bufferPrefix+"store/" + i)
         stores[defaultGraphName] = store
         i++
-        File(foldername + "/stores.txt").forEachLine { name ->
+        File(BufferManager.bufferPrefix+"store/stores.txt").forEachLine { name ->
             if (name != "") {
                 val store = TripleStoreLocal(name)
-                store.loadFromFolder(foldername + "/" + i)
+                store.loadFromFolder(BufferManager.bufferPrefix+"store/" + i)
                 stores[name] = store
                 i++
             }
