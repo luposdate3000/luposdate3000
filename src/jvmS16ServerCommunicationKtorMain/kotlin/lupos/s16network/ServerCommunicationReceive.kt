@@ -61,7 +61,7 @@ object ServerCommunicationReceive {
                         val header = ServerCommunicationHeader.values()[packet.readInt()]
                         val transactionID = packet.readLong()
                         val query = Query(transactionID = transactionID)
-println("RECEIVE start for $header")
+//println("RECEIVE start for $header")
                         when (header) {
                             ServerCommunicationHeader.COMMIT -> {
                                 DistributedTripleStore.localStore.commit(query)
@@ -73,7 +73,7 @@ println("RECEIVE start for $header")
                                 while (true) {
                                     val packet2 = input.readByteArray()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-println("RECEIVE continueheader $header2")
+//println("RECEIVE continueheader $header2")
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
@@ -89,7 +89,7 @@ println("RECEIVE continueheader $header2")
                                 while (true) {
                                     val packet2 = input.readByteArray()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-println("RECEIVE continueheader $header2")
+//println("RECEIVE continueheader $header2")
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
@@ -151,11 +151,11 @@ println("RECEIVE continueheader $header2")
                         builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                         output.writeByteArray(builder)
                         output.flush()
-println("RECEIVE finished for $header")
+//println("RECEIVE finished for $header")
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     } finally {
-println("RECEIVE closed")
+//println("RECEIVE closed")
                         socket.close()
                     }
                 }

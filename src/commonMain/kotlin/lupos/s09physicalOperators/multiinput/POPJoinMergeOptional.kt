@@ -90,10 +90,8 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                         keyCopy[i] = key[0][i]
                     }
                     val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
-                    println("thekey:: ${keyCopy.map { it }}")
                     val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                    println("thecount :: $countA $countB")
                     done = findNextKey(key, columnsINJ, columnsINO)
                     if (done) {
                         for (iterator2 in outIterators) {

@@ -45,7 +45,7 @@ import lupos.s15tripleStoreDistributed.*
 
 suspend fun ByteWriteChannel.writeByteArray(builder: ByteArrayBuilder) {
     val packet = builder.build()
-println("writing packet of size ${packet.size}")
+//println("writing packet of size ${packet.size}")
     writeInt(packet.size)
     writeFully(packet.data, 0, packet.size)
 }
@@ -53,7 +53,7 @@ println("writing packet of size ${packet.size}")
 suspend fun ByteReadChannel.readByteArray(): ByteArrayRead {
     var size = readInt()
     var res = ByteArray(size)
-println("reading packet of size ${size}")
+//println("reading packet of size ${size}")
     readFully(res, 0, size)
     return ByteArrayRead(res, size)
 }

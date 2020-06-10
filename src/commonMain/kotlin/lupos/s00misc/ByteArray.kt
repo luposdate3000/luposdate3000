@@ -118,7 +118,6 @@ for(i in 0 until len){
 d[i]=readChar()
 	}
         val res= d.concatToString()
-println("ByteArrayRead($uuid).readString content '$res'")
 return res
     }
 }

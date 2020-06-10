@@ -36,7 +36,6 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         res.evaluate = {
             try {
                 val value = child()
-                println("AOPAggregationAVG herehere $uuid ${value.toSparql()}")
                 res.count++
                 if (value is ValueError) {
                     res.value = value
@@ -56,7 +55,6 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                     res.evaluate = res::_evaluate
                 }
             } catch (e: Throwable) {
-                e.printStackTrace()
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             }
@@ -77,7 +75,6 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
             } else {
                 res = ValueError()
             }
-            println("AOPAggregationAVG herehere $uuid ${tmp.value.toSparql()} -->> ${res.toSparql()} ${tmp.count}")
 /*return*/res
         }
 /*Coverage Unreachable*/

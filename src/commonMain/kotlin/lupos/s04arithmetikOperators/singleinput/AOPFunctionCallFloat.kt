@@ -51,7 +51,6 @@ class AOPFunctionCallFloat(query: Query, child: AOPBase) : AOPBase(query, EOpera
                     res = ValueFloat(a.content.toDouble())
                 }
             }
-            println("AOPFunctionCallFloat herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
             /*return*/res
         }
         /*Coverage Unreachable*/

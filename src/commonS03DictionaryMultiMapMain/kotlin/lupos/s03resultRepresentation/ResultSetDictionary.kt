@@ -489,7 +489,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun safeToFolder() {
-        println("Dictionary safe to folder '${BufferManager.bufferPrefix + "dictionary/"}'")
+        //println("Dictionary safe to folder '${BufferManager.bufferPrefix + "dictionary/"}'")
         File(BufferManager.bufferPrefix + "dictionary/").mkdirs()
         File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataOutputStream { out ->
             out.writeInt(bNodeCounter)
@@ -504,7 +504,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun loadFromFolder() {
-        println("Dictionary loading from folder '${BufferManager.bufferPrefix + "dictionary/"}'")
+        //println("Dictionary loading from folder '${BufferManager.bufferPrefix + "dictionary/"}'")
         File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataInputStream { fis ->
             bNodeCounter = fis.readInt()
         }
