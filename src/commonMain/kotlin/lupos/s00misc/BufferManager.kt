@@ -6,7 +6,6 @@ import lupos.s00misc.MyListGeneric
 import lupos.s00misc.SanityCheck
 
 class BufferManager(val bufferName: String) {
-
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -16,7 +15,6 @@ class BufferManager(val bufferName: String) {
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-
     companion object {
         var _bufferPrefix = "/tmp/luposdate3000/"
         var bufferPrefix: String
@@ -30,16 +28,17 @@ class BufferManager(val bufferName: String) {
                 }
             }
         val managerList = mutableListOf<BufferManager>()
-	fun safeToFolder() {
-		managerList.forEach {
-			it.safeToFolder()
-		}
-	}
-	fun loadFromFolder() {
-		managerList.forEach {
-			it.loadFromFolder()
-		}
-	}
+        fun safeToFolder() {
+            managerList.forEach {
+                it.safeToFolder()
+            }
+        }
+
+        fun loadFromFolder() {
+            managerList.forEach {
+                it.loadFromFolder()
+            }
+        }
     }
 
     init {
@@ -50,7 +49,6 @@ class BufferManager(val bufferName: String) {
     val allPages = MyListGeneric<ByteArray>()
     val pageMappingsOutIn = mutableMapOf<Int, Int>()
     val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
-
     fun clear() {
         counter = 0
         allPages.clear()

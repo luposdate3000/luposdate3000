@@ -1,13 +1,17 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.BenchmarkUtils
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
+import lupos.s00misc.EIndexPattern
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.Query
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class TripleStoreBulkImport {
+class TripleStoreBulkImport(val query: Query, val graphName: String) {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
     val sizeshift = 20
@@ -24,6 +28,26 @@ class TripleStoreBulkImport {
         data[8][idx++] = si
         data[8][idx++] = pi
         data[8][idx++] = oi
+        if (full()) {
+            CoroutinesHelper.runBlock {
+                sort()
+                for (idx in TripleStoreLocalBase.distinctIndices) {
+                    flush(idx)
+                }
+                reset()
+            }
+        }
+    }
+
+    fun finalize() {
+        sort()
+        for (idx in TripleStoreLocalBase.distinctIndices) {
+            flush(idx)
+        }
+    }
+
+    fun flush(idx: EIndexPattern) {
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this, idx)
     }
 
     fun reset() {

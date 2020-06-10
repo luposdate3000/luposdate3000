@@ -1,11 +1,11 @@
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.BenchmarkUtils
+import lupos.s00misc.BufferManager
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
-import lupos.s00misc.BufferManager
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.*
@@ -32,7 +32,7 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
-    BufferManager.bufferPrefix=persistenceFolder
+    BufferManager.bufferPrefix = persistenceFolder
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()

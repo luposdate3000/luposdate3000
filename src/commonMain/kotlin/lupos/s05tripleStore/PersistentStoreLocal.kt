@@ -1,9 +1,9 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
-import lupos.s00misc.BufferManager
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
@@ -78,35 +78,35 @@ class PersistentStoreLocal {
             v.flush()
         }
         var i = 0
-        stores[defaultGraphName]!!.safeToFolder(BufferManager.bufferPrefix+"store/" + i)
+        stores[defaultGraphName]!!.safeToFolder(BufferManager.bufferPrefix + "store/" + i)
         i++
-        File(BufferManager.bufferPrefix+"store/stores.txt").printWriter { out ->
+        File(BufferManager.bufferPrefix + "store/stores.txt").printWriter { out ->
             stores.forEach { name, store ->
                 if (name != "") {
                     out.println(name)
-                    store.safeToFolder(BufferManager.bufferPrefix+"store/" + i)
+                    store.safeToFolder(BufferManager.bufferPrefix + "store/" + i)
                     i++
                 }
             }
         }
         nodeGlobalDictionary.safeToFolder()
         NodeManager.safeToFolder()
-	BufferManager.safeToFolder()
+        BufferManager.safeToFolder()
     }
 
     fun loadFromFolder() {
-	BufferManager.loadFromFolder()
+        BufferManager.loadFromFolder()
         NodeManager.loadFromFolder()
         nodeGlobalDictionary.loadFromFolder()
         var i = 0
         val store = TripleStoreLocal(defaultGraphName)
-        store.loadFromFolder(BufferManager.bufferPrefix+"store/" + i)
+        store.loadFromFolder(BufferManager.bufferPrefix + "store/" + i)
         stores[defaultGraphName] = store
         i++
-        File(BufferManager.bufferPrefix+"store/stores.txt").forEachLine { name ->
+        File(BufferManager.bufferPrefix + "store/stores.txt").forEachLine { name ->
             if (name != "") {
                 val store = TripleStoreLocal(name)
-                store.loadFromFolder(BufferManager.bufferPrefix+"store/" + i)
+                store.loadFromFolder(BufferManager.bufferPrefix + "store/" + i)
                 stores[name] = store
                 i++
             }
