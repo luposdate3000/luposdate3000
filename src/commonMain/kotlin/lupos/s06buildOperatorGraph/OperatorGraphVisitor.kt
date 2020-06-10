@@ -436,6 +436,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         }
                     }
                     else -> {
+                        println(classNameToString(b))
                         SanityCheck.checkUnreachable()
                     }
                 }

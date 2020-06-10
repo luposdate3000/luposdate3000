@@ -51,30 +51,13 @@ object ServerCommunicationTransferTriples {
         } else {
             res = Array(columns) { mutableListOf<Value>() }
         }
-        val idsReceiveMap = mutableMapOf<Value, Value>()
         while (packet.remaining() > 0) {
             for (i in 0 until columns) {
                 val v = packet.readInt()
-                val v2 = idsReceiveMap[v]
-                val v3: Value
-                if (v2 == null) {
-                    if (!ResultSetDictionary.isGlobalBNode(v)) {
-                        var s = packet.readString()
-                        if (dict.isLocalBNode(v)) {
-                            s = "_:" + remoteName + s.substring(2, s.length)
-                        }
-                        v3 = dict.createValue(s)
-                        idsReceiveMap[v] = v3
-                    } else {
-                        v3 = v
-                    }
-                } else {
-                    v3 = v2
-                }
                 if (outputAsSingle) {
-                    res[0].add(v3)
+                    res[0].add(v)
                 } else {
-                    res[i].add(v3)
+                    res[i].add(v)
                 }
             }
         }
@@ -99,7 +82,6 @@ object ServerCommunicationTransferTriples {
             builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
             builder.writeInt(iterators.size)
             var counter = 0
-            val idsSentList = mutableSetOf<Value>()
             while (builder.size < NETWORK_PACKET_SIZE || counter < NETWORK_PACKET_MIN_TRIPLES) {
                 counter++
                 for (i in 0 until iterators.size) {
@@ -110,13 +92,6 @@ object ServerCommunicationTransferTriples {
                         break@loop
                     } else {
                         builder.writeInt(v)
-                        if (!idsSentList.contains(v)) {
-                            idsSentList.add(v)
-                            if (!ResultSetDictionary.isGlobalBNode(v)) {
-                                val vd = dict.getValue(v)
-                                builder.writeString(vd.toSparql())
-                            }
-                        }
                     }
                 }
             }
