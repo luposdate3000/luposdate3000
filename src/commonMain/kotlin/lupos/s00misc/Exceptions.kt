@@ -28,5 +28,6 @@ class RecoursiveVariableDefinitionSyntaxException(name: String) : SyntaxExceptio
 class ProjectionDoubleDefinitionOfVariableSyntaxException(name: String) : SyntaxException("DoubleDefinitionOfVariableSyntaxException", "Projection must not contain same variable as bind and selection '${name}'.")
 class AggregateNotAllowedSyntaxException : SyntaxException("AggregateNotAllowedSyntaxException", "Aggregates are not allowed here.")
 class VariableNotDefinedSyntaxException(classname: String, name: String) : SyntaxException("VariableNotDefinedSyntaxException", "Variable '$name' unknown within '$classname'.")
+class GroupByClauseNotUsedException() : SyntaxException("GroupByClauseNotUsedException","expression within group-by-clauses must be bound to a variable.")
 //
 class BugException(classname: String, bugname: String) : Luposdate3000Exception("BugException", "Class '$classname' has bug '$bugname'")

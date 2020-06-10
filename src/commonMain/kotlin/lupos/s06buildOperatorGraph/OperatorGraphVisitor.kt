@@ -2,6 +2,7 @@ package lupos.s06buildOperatorGraph
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
+import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
@@ -436,8 +437,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         }
                     }
                     else -> {
-                        println(classNameToString(b))
-                        SanityCheck.checkUnreachable()
+throw GroupByClauseNotUsedException()
                     }
                 }
             }
