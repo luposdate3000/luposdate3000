@@ -51,7 +51,6 @@ class AOPFunctionCallDouble(query: Query, child: AOPBase) : AOPBase(query, EOper
                     res = ValueDouble(a.content.toDouble())
                 }
             }
-            println("AOPFunctionCallDouble herehere $uuid ${a.toSparql()} -> ${res.toSparql()}")
             /*return*/res
         }
         /*Coverage Unreachable*/

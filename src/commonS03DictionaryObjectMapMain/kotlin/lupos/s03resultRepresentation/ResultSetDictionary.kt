@@ -175,7 +175,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    fun safeToFolder(= {
+    fun safeToFolder( = {
         File(BufferManager.bufferPrefix + "dictionary.txt").printWriter { out ->
             var idx = 0
             for ((k, line) in mapLTS) {

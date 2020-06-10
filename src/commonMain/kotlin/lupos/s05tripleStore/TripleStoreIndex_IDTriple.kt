@@ -34,7 +34,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun safeToFile(filename: String) {
-        println("saveing IDTripleIndex to file $filename")
         flush()
         SanityCheck {
             if (root != NodeManager.nodeNullPointer) {
@@ -72,7 +71,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun loadFromFile(filename: String) {
-        println("loading IDTripleIndex from file $filename")
         pendingImport.clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()

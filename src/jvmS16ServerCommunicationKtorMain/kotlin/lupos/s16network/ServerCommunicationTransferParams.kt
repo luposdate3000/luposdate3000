@@ -42,7 +42,7 @@ import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationTransferParams {
     fun receiveParams(packet: ByteArrayRead, query: Query): Array<AOPBase> {
-println("receiveParams start from packet ${packet.uuid}")
+        println("receiveParams start from packet ${packet.uuid}")
 /*always assume SPO*/
         var paramsF = Array<Boolean>(3) { true }
         var paramsS = Array<String>(3) { "" }
@@ -59,13 +59,13 @@ println("receiveParams start from packet ${packet.uuid}")
             }
             /*return*/res
         }
-println("receiveParams end from packet ${packet.uuid}")
+        println("receiveParams end from packet ${packet.uuid}")
         return params
     }
 
     fun sendParams(builder: ByteArrayBuilder, params: Array<AOPBase>) {
 /*always assume SPO*/
-println("sendParams start to builder ${builder.uuid}")
+        println("sendParams start to builder ${builder.uuid}")
         for (i in 0 until 3) {
             val p = params[i]
             if (p is AOPVariable) {
@@ -77,6 +77,6 @@ println("sendParams start to builder ${builder.uuid}")
                 builder.writeString(q.toSparql())
             }
         }
-println("sendParams end to builder ${builder.uuid}")
+        println("sendParams end to builder ${builder.uuid}")
     }
 }

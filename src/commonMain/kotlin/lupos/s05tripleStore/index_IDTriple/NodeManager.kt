@@ -1,8 +1,8 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
-import lupos.s00misc.BufferManager
 import lupos.s00misc.MyListGeneric
 import lupos.s00misc.SanityCheck
 
@@ -13,15 +13,11 @@ object NodeManager {
     val nodePointerTypeMask = 0x60000000.toInt()
     val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
     val nodeNullPointer = nodePointerValueMask
-
     val bufferManager = BufferManager("id_triples")
-
     var allNodesLeafSize = 0
     var allNodesInnerSize = 0
-
     var allNodesFreeListLeaf = mutableSetOf<Int>()
     var allNodesFreeListInner = mutableSetOf<Int>()
-
     fun debug() {
         SanityCheck {
             //check that there are no memory leaks ...
@@ -107,10 +103,10 @@ object NodeManager {
     }
 
     fun safeToFolder() {
-        println("nodemanager saving to folder '${BufferManager.bufferPrefix+"nodemanager/"}'")
-        File(BufferManager.bufferPrefix+"nodemanager/").mkdirs()
+        println("nodemanager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
+        File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
-        File(BufferManager.bufferPrefix+"nodemanager/header").dataOutputStream { out ->
+        File(BufferManager.bufferPrefix + "nodemanager/header").dataOutputStream { out ->
             out.writeInt(allNodesLeafSize)
             out.writeInt(allNodesInnerSize)
             out.writeInt(allNodesFreeListLeaf.size)
@@ -122,15 +118,15 @@ object NodeManager {
                 out.writeInt(i)
             }
         }
-	bufferManager.safeToFolder()
+        bufferManager.safeToFolder()
     }
 
     inline fun loadFromFolder() {
-        println("nodemanager loading from folder '${BufferManager.bufferPrefix+"nodemanager/"}'")
+        println("nodemanager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         bufferManager.loadFromFolder()
         allNodesFreeListLeaf.clear()
         allNodesFreeListInner.clear()
-        File(BufferManager.bufferPrefix+"nodemanager/header").dataInputStream { fis ->
+        File(BufferManager.bufferPrefix + "nodemanager/header").dataInputStream { fis ->
             val leafSize = fis.readInt()
             val innerSize = fis.readInt()
             val allNodesFreeListLeafSize = fis.readInt()
@@ -240,7 +236,7 @@ object NodeManager {
     fun freeAllInnerNodes(nodeIdx: Int) {
         if (nodeIdx != nodeNullPointer) {
             getNode(nodeIdx, { node ->
-//dont touch leaves
+                //dont touch leaves
             }, { node ->
                 node.forEachChild {
                     freeAllInnerNodes(it)

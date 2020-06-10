@@ -41,7 +41,7 @@ fun ByteArray.writeLong8(offset: Int, value: Long) {
 }
 
 fun ByteArray.writeChar(offset: Int, value: Char) {
-    val v=value.toInt()
+    val v = value.toInt()
     this[offset] = ((v shr 8) and 0xFF).toByte()
     this[offset + 1] = (v and 0xFF).toByte()
     SanityCheck.check({ v == readInt2(offset) }, { "$v ${readInt2(offset)}" })
@@ -113,13 +113,12 @@ class ByteArrayRead(val data: ByteArray, val size: Int) {
 
     fun readString(): String {
         val len = readInt()
-var d=CharArray(len)
-for(i in 0 until len){
-d[i]=readChar()
-	}
-        val res= d.concatToString()
-println("ByteArrayRead($uuid).readString content '$res'")
-return res
+        var d = CharArray(len)
+        for (i in 0 until len) {
+            d[i] = readChar()
+        }
+        val res = d.concatToString()
+        return res
     }
 }
 
@@ -151,7 +150,7 @@ class ByteArrayBuilder() {
         size += 1
     }
 
-    fun writeChar(c:Char) {
+    fun writeChar(c: Char) {
         if (size + 2 > capacity) {
             data += ByteArray(capacity)
             capacity = capacity * 2
@@ -184,9 +183,9 @@ class ByteArrayBuilder() {
     fun writeString(s: String) {
         val tmp = s.toCharArray()
         writeInt(tmp.size)
-tmp.forEach{
-writeChar(it)
-}
-println("ByteArrayBuilder($uuid).writeString content '$s'")
+        tmp.forEach {
+            writeChar(it)
+        }
+        println("ByteArrayBuilder($uuid).writeString content '$s'")
     }
 }
