@@ -71,7 +71,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun loadFromFile(filename: String) {
-        pendingImport.clear()
+        clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
             root = fis.readInt()
@@ -282,7 +282,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }, {
             SanityCheck.checkUnreachable()
         })
-        return importHelper(MergeIterator(nodeA!!.iterator(), nodeB!!.iterator()))
+        val res = importHelper(MergeIterator(nodeA!!.iterator(), nodeB!!.iterator()))
+        NodeManager.freeAllLeaves(a)
+        NodeManager.freeAllLeaves(b)
+        return res
     }
 
     fun importHelper(iterator: TripleIterator): Int {
@@ -315,8 +318,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     val a = pendingImport[j]!!
                     val b = pendingImport[j - 1]!!
                     pendingImport[j] = importHelper(a, b)
-                    NodeManager.freeAllLeaves(a)
-                    NodeManager.freeAllLeaves(b)
                 }
                 j++
             }
@@ -365,8 +366,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         val a = pendingImport[j]!!
                         val b = pendingImport[j - 1]!!
                         pendingImport[j] = importHelper(a, b)
-                        NodeManager.freeAllLeaves(a)
-                        NodeManager.freeAllLeaves(b)
                         pendingImport[j - 1] = null
                     }
                     j++
