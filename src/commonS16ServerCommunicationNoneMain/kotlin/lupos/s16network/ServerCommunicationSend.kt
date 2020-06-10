@@ -32,7 +32,7 @@ object ServerCommunicationSend {
     fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImport(query, graphName)
         action(bulk)
-        bulk.finalize()
+        bulk.finishImport()
     }
 
     fun commit(query: Query) {

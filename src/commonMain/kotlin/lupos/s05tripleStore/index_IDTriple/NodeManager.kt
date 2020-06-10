@@ -15,20 +15,13 @@ object NodeManager {
     val nodePointerTypeMask = 0x60000000.toInt()
     val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
     val nodeNullPointer = nodePointerValueMask
-
     val bufferManager = BufferManager("id_triples")
-
     var allNodesLeafSize = 0
     var allNodesInnerSize = 0
-
     var allNodesFreeListLeaf = mutableSetOf<Int>()
     var allNodesFreeListInner = mutableSetOf<Int>()
-
     fun debug() {
         SanityCheck {
-//xxx            DistributedTripleStore.localStore.stores.forEach { k, v ->
-//xxx                v.flush()
-//xxx            }
             //check that there are no memory leaks ...
             var leaves = IntArray(allNodesLeafSize)
             var leavesFromInner = IntArray(allNodesLeafSize)
@@ -91,11 +84,6 @@ object NodeManager {
                     })
                 }
             }
-//xxx            j = 0
-//xxx            for (i in leavesFromInner) {
-//xxx                //println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
-//xxx                j++
-//xxx            }
             j = 0
             for (i in leavesFromInner) {
                 //println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")

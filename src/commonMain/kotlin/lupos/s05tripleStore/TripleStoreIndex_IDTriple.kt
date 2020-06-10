@@ -71,7 +71,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun loadFromFile(filename: String) {
-        clear()
+        pendingImport.clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
             root = fis.readInt()

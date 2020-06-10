@@ -39,7 +39,7 @@ class TripleStoreBulkImport(val query: Query, val graphName: String) {
         }
     }
 
-    fun finalize() {
+    fun finishImport() {
         sort()
         for (idx in TripleStoreLocalBase.distinctIndices) {
             flush(idx)
