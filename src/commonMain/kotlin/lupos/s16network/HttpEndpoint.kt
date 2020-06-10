@@ -136,31 +136,19 @@ object HttpEndpoint {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
-            var bulk = TripleStoreBulkImport()
             var counter = 0
             var store = DistributedTripleStore.getDefaultGraph(query)
-            for (fileName in fileNames.split(";")) {
-                val data = File(fileName).readAsString()
-                val lcit = LexerCharIterator(data)
-                val tit = TurtleScanner(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                TurtleParserWithStringTriples({ s, p, o ->
-                    counter++
-                    bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
-                    if (bulk.full()) {
-                        CoroutinesHelper.runBlock {
-                            bulk.sort()
-                            for (idx in TripleStoreLocalBase.distinctIndices) {
-                                store.bulkImport(bulk, idx)
-                            }
-                            bulk.reset()
-                        }
-                    }
-                }, ltit).turtleDoc()
-            }
-            bulk.sort()
-            for (idx in TripleStoreLocalBase.distinctIndices) {
-                store.bulkImport(bulk, idx)
+            store.bulkImport { bulk ->
+                for (fileName in fileNames.split(";")) {
+                    val data = File(fileName).readAsString()
+                    val lcit = LexerCharIterator(data)
+                    val tit = TurtleScanner(lcit)
+                    val ltit = LookAheadTokenIterator(tit, 3)
+                    TurtleParserWithStringTriples({ s, p, o ->
+                        counter++
+                        bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
+                    }, ltit).turtleDoc()
+                }
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
