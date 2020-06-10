@@ -5,6 +5,8 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 import lupos.s00misc.SanityCheck
+import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object NodeManager {
     val nodePointerTypeNull = 0x00000000.toInt()
@@ -13,11 +15,15 @@ object NodeManager {
     val nodePointerTypeMask = 0x60000000.toInt()
     val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
     val nodeNullPointer = nodePointerValueMask
+
     val bufferManager = BufferManager("id_triples")
+
     var allNodesLeafSize = 0
     var allNodesInnerSize = 0
+
     var allNodesFreeListLeaf = mutableSetOf<Int>()
     var allNodesFreeListInner = mutableSetOf<Int>()
+
     fun debug() {
         SanityCheck {
             //check that there are no memory leaks ...
@@ -39,7 +45,7 @@ object NodeManager {
                         if (x == nodeNullPointer) {
                             nullpointers++
                         } else {
-                            println("debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}")
+                            //println("debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}")
                             leaves[x and nodePointerValueMask]++
                         }
                     }, {
@@ -54,13 +60,13 @@ object NodeManager {
                 if (i == 0) {
                     count0++
                 } else {
-                    println("debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i")
+                    //println("debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i")
                     SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
             }
             SanityCheck.check { count0 == nullpointers }//there must be an equal amount of start and end leaves
-            println("debug nullpointers $nullpointers")
+            //println("debug nullpointers $nullpointers")
             for (i in 0 until allNodesInnerSize) {
                 if (!allNodesFreeListInner.contains(i or nodePointerTypeInner)) {
                     getNode(i or nodePointerTypeInner, {
@@ -71,12 +77,12 @@ object NodeManager {
                             val nodePointerValue = it and nodePointerValueMask
                             if (nodePointerType == nodePointerTypeInner) {
                                 inner[nodePointerValue]++
-                                println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
+                                //println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             } else {
-                                println("nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer")
+                                //println("nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer")
                                 SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
                                 leavesFromInner[nodePointerValue]++
-                                println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
+                                //println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             }
                         }
                     })
@@ -84,7 +90,7 @@ object NodeManager {
             }
             j = 0
             for (i in leavesFromInner) {
-                println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
+                //println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
                 SanityCheck.check { i == 1 || i == -10000 }
                 j++
             }
@@ -94,7 +100,7 @@ object NodeManager {
                 if (i == 0) {
                     count0++
                 } else {
-                    println("debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i")
+                    //println("debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i")
                     SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
@@ -103,7 +109,7 @@ object NodeManager {
     }
 
     fun safeToFolder() {
-        println("nodemanager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
+        //println("nodemanager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
         File(BufferManager.bufferPrefix + "nodemanager/header").dataOutputStream { out ->
@@ -122,7 +128,7 @@ object NodeManager {
     }
 
     inline fun loadFromFolder() {
-        println("nodemanager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
+        //println("nodemanager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         bufferManager.loadFromFolder()
         allNodesFreeListLeaf.clear()
         allNodesFreeListInner.clear()
@@ -145,9 +151,11 @@ object NodeManager {
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
+                SanityCheck.check { !allNodesFreeListInner.contains(idx) }
                 actionInner(NodeInner(bufferManager.getPage(idx)))
             }
             nodePointerTypeLeaf -> {
+                SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
                 actionLeaf(NodeLeaf(bufferManager.getPage(idx)))
             }
             else -> {
@@ -156,10 +164,11 @@ object NodeManager {
         }
     }
 
+    val reuseOldIDs = false
     inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
         var idx = allNodesLeafSize or nodePointerTypeLeaf
-        if (allNodesFreeListLeaf.size > 0) {
-            var idx = allNodesFreeListLeaf.first()
+        if (reuseOldIDs && allNodesFreeListLeaf.size > 0) {
+            idx = allNodesFreeListLeaf.first()
             allNodesFreeListLeaf.remove(idx)
             val node = NodeLeaf(bufferManager.createPage(idx))
             node.setNextNode(nodeNullPointer)
@@ -174,8 +183,8 @@ object NodeManager {
 
     inline fun allocateNodeInner(crossinline action: (NodeInner, Int) -> Unit) {
         var idx = allNodesInnerSize or nodePointerTypeInner
-        if (allNodesFreeListInner.size > 0) {
-            var idx = allNodesFreeListInner.first()
+        if (reuseOldIDs && allNodesFreeListInner.size > 0) {
+            idx = allNodesFreeListInner.first()
             allNodesFreeListInner.remove(idx)
             val node = NodeInner(bufferManager.createPage(idx))
             node.setNextNode(nodeNullPointer)
