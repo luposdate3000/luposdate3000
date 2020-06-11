@@ -14,6 +14,7 @@ import kotlin.jvm.JvmField
 class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
     @JvmField
     var before: CachedEntry<T, V> = this
+
     @JvmField
     var after: CachedEntry<T, V> = this
 
@@ -55,9 +56,9 @@ class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
 class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValue: V, @JvmField val size: Int) {
     @JvmField
     val entries = HashMap<T, CachedEntry<T, V>>(size)
+
     @JvmField
     val dummy = CachedEntry<T, V>(dummyKey, dummyValue)
-
     inline fun getEntry(key: T): CachedEntry<T, V>? {
         return this.entries.get(key)
     }

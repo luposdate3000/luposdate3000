@@ -19,7 +19,6 @@ import lupos.s04logicalOperators.Query
 class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
-
     override fun printContents() {
     }
 

@@ -3,12 +3,14 @@ package lupos.datastructures.lsm_tree
 import kotlin.jvm.JvmField
 
 class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
+
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // configuration and search methods/receiveRun: do with inline functions for avoiding calls to overridden methods
 class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField val directoryOfIndex: String? = null) {
     companion object {
         private var dir_counter = 0
         private val prefix = "LSM_"
+
         // should be locked, but no direct support in all platforms...
         private fun getNewDirectory(directoryOfIndex: String?): String {
             if (directoryOfIndex == null) {
@@ -104,6 +106,7 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val 
     }
 
     inline fun size(): Int = this.mainMemoryDatastructure.size
+
     // returns the value of the key, or null if the key is not found
     inline fun getOrNull(k: K): V? = this.mainMemoryDatastructure[k]
 

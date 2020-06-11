@@ -149,29 +149,29 @@ class ASTUndef : ASTLeafNode() {
 open class ASTQueryBaseClass : ASTLeafNode() {
     @JvmField
     var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>()
-
     inline fun existsDatasets() = datasets.size > 0
+
     @JvmField
     var where: Array<ASTNode> = arrayOf<ASTNode>()
+
     @JvmField
     var groupBy: Array<ASTNode> = arrayOf<ASTNode>()
-
     inline fun existsGroupBy() = groupBy.size > 0
+
     @JvmField
     var having: Array<ASTNode> = arrayOf<ASTNode>()
-
     inline fun existsHaving() = having.size > 0
+
     @JvmField
     var orderBy: Array<ASTNode> = arrayOf<ASTNode>()
-
     inline fun existsOrderBy() = orderBy.size > 0
+
     @JvmField
     var limit: Int = -1
-
     inline fun existsLimit() = limit >= 0
+
     @JvmField
     var offset: Int = 0
-
     inline fun existsOffset() = offset > 0
     override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
@@ -209,7 +209,6 @@ open class ASTSelectQuery(@JvmField val distinct: Boolean, @JvmField val reduced
 class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNode>) : ASTSelectQuery(distinct, reduced, select) {
     @JvmField
     var values: ASTValues? = null
-
     inline fun existsValues() = (values != null)
     override fun nodeToString() = "ASTSubSelectQuery" + innerNodeToString()
     override fun toString(indentation: String) = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString(indentation + "  "))
@@ -781,6 +780,7 @@ class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField val separator:
 class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     private val prefixes = mutableMapOf<String, String>()
+
     // some constants used for typed literals
     private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     private val nil = rdf + "nil"

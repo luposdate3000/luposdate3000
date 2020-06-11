@@ -9,7 +9,6 @@ class UnsafePage {
                  * (i.e., for avoiding the costly call of a virtual function)
                  */
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
-
         private fun initUnsafe(): sun.misc.Unsafe {
             var theUnsafe: Any? = null
             try {
@@ -28,11 +27,14 @@ class UnsafePage {
     // this does not generate any setters/getters avoiding a virtual method call!
     @JvmField
     val basepointer: Long
+
     // this does not generate any getter avoiding a virtual method call!
     @JvmField
     val PAGESIZE = 8 * 1024L
+
     @JvmField
     var locked = 0
+
     @JvmField
     val cleaner: () -> Unit
 

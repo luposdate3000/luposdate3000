@@ -40,6 +40,18 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationTransferTriples {
+    fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, remoteName: String, bulk: TripleStoreBulkImport) {
+/*always assume SPO*/
+        val columns = packet.readInt()
+        require(columns == 3)
+        while (packet.remaining() > 0) {
+            var si = packet.readInt()
+            var pi = packet.readInt()
+            var oi = packet.readInt()
+            bulk.insert(si, pi, oi)
+        }
+    }
+
     fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean, remoteName: String): Array<MutableList<Value>> {
 /*always assume SPO even _if some of the components are allowed to be missing*/
         val columns = packet.readInt()

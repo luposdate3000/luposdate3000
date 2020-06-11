@@ -31,8 +31,10 @@ import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
     var onlyExistenceRequired = false
+
     /* onlyExistenceRequired:: ask / distinct / reduced */
     var partOfAskQuery = false
+
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     var alreadyCheckedStore = -1L
     var sortPrioritiesInitialized = false
@@ -390,7 +392,6 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     @JvmField
     val uuid: Long = global_uuid.next()
-
     override fun toString(): String = toXMLElement().toPrettyString()
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()

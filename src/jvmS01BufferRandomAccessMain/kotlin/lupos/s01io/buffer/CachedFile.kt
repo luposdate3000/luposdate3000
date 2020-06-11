@@ -9,6 +9,7 @@ import lupos.s01io.buffer.CachedFile
 typealias Page = ByteArrayPage
 
 inline fun createString(chars: CharArray): String = String(chars)
+
 // problems unmap:
 // see e.g.: https://stackoverflow.com/questions/2972986
 // furthermore, memory mapped file and unsafe api:

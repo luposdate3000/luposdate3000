@@ -8,11 +8,12 @@ import lupos.s00misc.Coverage
 class ReadWriteLock {
     @JvmField
     val allowNewReads = Mutex()
+
     @JvmField
     val allowNewWrites = Mutex()
+
     @JvmField
     var readers = 0L
-
     suspend fun readLock() {
         try {
             allowNewReads.lock()

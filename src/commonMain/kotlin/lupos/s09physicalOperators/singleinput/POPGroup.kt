@@ -30,9 +30,9 @@ import lupos.s09physicalOperators.singleinput.POPBind
 class POPGroup : POPBase {
     @JvmField
     var by: List<AOPVariable>
+
     @JvmField
     var bindings = mutableListOf<Pair<String, AOPBase>>()
-
     override fun toSparql(): String {
         var res = children[0].toSparql()
         res += " GROUP BY "

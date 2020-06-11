@@ -2,13 +2,13 @@ package lupos.s06buildOperatorGraph
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.*
-import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
+import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
@@ -216,7 +216,6 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
     @JvmField
     val queryExecutionStartTime = ValueDateTime()
-
     fun createUnion(a: OPBase, b: OPBase): OPBase {
         var pa = a.getProvidedVariableNames().toMutableSet()
         var pb = b.getProvidedVariableNames().toMutableSet()
@@ -236,7 +235,6 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
 
     /*queryExecutionStartTime required for_ BuildInCall.NOW */
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP(query)
-
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
         val aName = a.name.name
         if (b.children[1].getRequiredVariableNames().contains(aName)) {
@@ -437,7 +435,7 @@ class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
                         }
                     }
                     else -> {
-throw GroupByClauseNotUsedException()
+                        throw GroupByClauseNotUsedException()
                     }
                 }
             }

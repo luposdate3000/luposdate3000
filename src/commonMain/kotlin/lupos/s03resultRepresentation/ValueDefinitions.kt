@@ -2,9 +2,9 @@ package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
+import lupos.s00misc.DateHelper
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s00misc.DateHelper
 
 sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toXMLElement(): XMLElement
@@ -307,21 +307,27 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
 class ValueDateTime : ValueDefinition {
     @JvmField
     val year: Int
+
     @JvmField
     val month: Int
+
     @JvmField
     val day: Int
+
     @JvmField
     val hours: Int
+
     @JvmField
     val minutes: Int
+
     @JvmField
     val seconds: Int
+
     @JvmField
     val timezoneHours: Int
+
     @JvmField
     val timezoneMinutes: Int
-
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueDateTime) {
             throw Exception("type error")
@@ -354,7 +360,7 @@ class ValueDateTime : ValueDefinition {
     }
 
     constructor() : super() {
-	val time=DateHelper()
+        val time = DateHelper()
         year = time.year
         month = time.month
         day = time.day

@@ -14,15 +14,18 @@ class MyListInt {
 
     @JvmField
     var version = 0
+
     @JvmField
     var pagecount = 1
+
     @JvmField
     var size = 0
+
     @JvmField
     var page = MyListIntPage(version)
+
     @JvmField
     var lastpage = page
-
     fun clear() {
         version++
         size = 0
@@ -366,11 +369,12 @@ class MyListInt {
     class MyListIntSmall {
         @JvmField
         var size = 0
+
         @JvmField
         var capacity = 1
+
         @JvmField
         var data: IntArray
-
         inline fun reserve(capacity: Int) {
             SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {

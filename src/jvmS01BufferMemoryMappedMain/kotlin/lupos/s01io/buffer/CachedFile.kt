@@ -14,6 +14,7 @@ import kotlin.jvm.JvmField
 class CachedFile {
     @JvmField
     val file: RandomAccessFile
+
     @JvmField
     val PAGESIZE = 8 * 1024L
 

@@ -9,6 +9,7 @@ import lupos.s02buildSyntaxTree.UnexpectedToken
 class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     val prefixes = mutableMapOf<String, String>()
+
     // some constants used for typed literals
     val xsd = "http://www.w3.org/2001/XMLSchema#"
     val xsd_boolean = xsd + "boolean"

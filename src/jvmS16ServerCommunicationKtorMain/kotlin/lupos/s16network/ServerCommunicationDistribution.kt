@@ -39,6 +39,7 @@ class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunic
 
 object ServerCommunicationDistribution {
     val knownHosts = mutableListOf<ServerCommunicationKnownHost>()
+
     /*
      * refer to k in the project-proposal page 9
      * TODO redistribution on change
@@ -57,7 +58,6 @@ object ServerCommunicationDistribution {
      * TODO _if k is a power of 2, then binary-AND-operator should be preferred
      */
     fun h(str: String) = str.hashCode() % k
-
     fun registerKnownHost(hostname: String, port: Int) {
         knownHosts.add(ServerCommunicationKnownHost(hostname, port))
         k = ceil(knownHosts.size.toDouble().pow(1 / 3.toDouble())).toInt()
@@ -67,7 +67,7 @@ object ServerCommunicationDistribution {
      * use during insertion and deletion
      */
     fun getHostForFullTriple(values: Array<Value>, query: Query, idx: EIndexPattern): ServerCommunicationKnownHost {
-        return getHostForFullTriple(values.map { query.dictionary.getValue(values[it]).toSparql() }.toTypedArray(), idx)
+        return getHostForFullTriple(Array(3) { query.dictionary.getValue(values[it]).toSparql() }, idx)
     }
 
     /*

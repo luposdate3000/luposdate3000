@@ -10,6 +10,7 @@ import sun.nio.ch.FileChannelImpl
 typealias Page = UnsafePage
 
 inline fun createString(chars: CharArray): String = String(chars)
+
 // memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
 // and slides comparing different ways:
@@ -17,6 +18,7 @@ inline fun createString(chars: CharArray): String = String(chars)
 class CachedFile {
     @JvmField
     val file: RandomAccessFile
+
     @JvmField
     val PAGESIZE = 8 * 1024L
 
@@ -36,7 +38,6 @@ class CachedFile {
                  * (i.e., for avoiding the costly call of a virtual function)
                  */
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
-
         private fun initUnsafe(): sun.misc.Unsafe {
             var theUnsafe: Any? = null
             try {
@@ -61,6 +62,7 @@ class CachedFile {
                 Long::class.javaPrimitiveType,
                 Long::class.javaPrimitiveType)
         val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
+
         // Bundle reflection calls to get access to the given method
         @Throws(Exception::class)
         private fun getMethod(cls: Class<*>, name: String, vararg params: Class<*>?): Method {

@@ -56,23 +56,30 @@ class ResultSetDictionary(val global: Boolean = false) {
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
         val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
         val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
+
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
+
         @JvmField
         val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt()) /*lowest 4 values*/ /*required to be 1 for_ truth table loopups*/
+
         @JvmField
         val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) /*lowest 4 values*/ /*required to be 2 for_ truth table loopups*/
+
         @JvmField
         val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 4 values*/
+
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
+
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
+
         @JvmField
         val errorValue2 = ValueError()
+
         @JvmField
         val undefValue2 = ValueUndef()
-
         fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
             SanityCheck {

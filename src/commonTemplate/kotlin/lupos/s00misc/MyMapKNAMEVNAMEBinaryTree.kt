@@ -6,6 +6,7 @@ import lupos.s00misc.Coverage
 class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     @JvmField
     var keys = MySetKNAMEBinaryTreeGUSEK()
+
     @JvmField
     var values = MyListVNAMEGUSEV()
     var size: Int = 0

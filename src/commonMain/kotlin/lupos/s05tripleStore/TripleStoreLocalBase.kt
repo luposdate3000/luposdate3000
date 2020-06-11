@@ -21,6 +21,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
     @JvmField
     var data = arrayOf<TripleStoreIndex>()
+
     @JvmField
     var dataDistinct = arrayOf<Pair<String, TripleStoreIndex>>()
 
@@ -113,9 +114,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     @JvmField
     val pendingModificationsInsert = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableList<Int>>() }
+
     @JvmField
     val pendingModificationsRemove = Array(EIndexPattern.values().size) { mutableMapOf<Long, MutableList<Int>>() }
-
     fun commit(query: Query) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.

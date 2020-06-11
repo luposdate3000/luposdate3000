@@ -8,7 +8,6 @@ import lupos.s00misc.Coverage
 class Lock {
     @JvmField
     val mutex = Mutex()
-
     suspend inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         try {
             mutex.lock()

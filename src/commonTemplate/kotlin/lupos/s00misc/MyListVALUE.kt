@@ -12,15 +12,18 @@ class MyListVALUEGDEF {
 
     @JvmField
     var version = 0
+
     @JvmField
     var pagecount = 1
+
     @JvmField
     var size = 0
+
     @JvmField
     var page = MyListVALUEPageGDEF(version)
+
     @JvmField
     var lastpage = page
-
     fun clear() {
         version++
         size = 0
@@ -364,11 +367,12 @@ class MyListVALUEGDEF {
     class MyListVALUESmallGDEF {
         @JvmField
         var size = 0
+
         @JvmField
         var capacity = 1
+
         @JvmField
         var data: ARRAYTYPE
-
         inline fun reserve(capacity: Int) {
             SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {

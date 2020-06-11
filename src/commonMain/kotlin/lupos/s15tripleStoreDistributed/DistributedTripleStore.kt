@@ -32,15 +32,15 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
     override fun equals(other: Any?) = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
-            addAttribute("uuid", "" + uuid).//
-            addAttribute("name", graphName).//
-            addAttribute("idx", "" + idx).//
-            addAttribute("providedVariables", getProvidedVariableNames().toString()).//
-            addAttribute("providedSort", getPossibleSortPriorities().toString()).//
-            addAttribute("selectedSort", mySortPriority.toString()).//
-            addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
-            addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
-            addContent(XMLElement("oparam").addContent(children[2].toXMLElement()))
+    addAttribute("uuid", "" + uuid).//
+    addAttribute("name", graphName).//
+    addAttribute("idx", "" + idx).//
+    addAttribute("providedVariables", getProvidedVariableNames().toString()).//
+    addAttribute("providedSort", getPossibleSortPriorities().toString()).//
+    addAttribute("selectedSort", mySortPriority.toString()).//
+    addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
+    addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
+    addContent(XMLElement("oparam").addContent(children[2].toXMLElement()))
 
     override fun toSparql(): String {
         if (graphName == PersistentStoreLocal.defaultGraphName) {
@@ -81,7 +81,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
-    fun bulkImport(action: (TripleStoreBulkImportDistributed) -> Unit) {
+suspend    fun bulkImport(action: suspend(TripleStoreBulkImportDistributed) -> Unit) {
         ServerCommunicationSend.bulkImport(query, name, action)
     }
 
@@ -189,7 +189,6 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 object DistributedTripleStore {
     @JvmField
     val localStore = PersistentStoreLocal()
-
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         return localStore.getGraphNames(includeDefault)
     }

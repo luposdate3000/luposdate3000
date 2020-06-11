@@ -28,11 +28,12 @@ import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3c
 class TripleStoreIndex_SingleList : TripleStoreIndex() {
     @JvmField
     var data = MyListInt()
+
     @JvmField
     val index1 = MyMapIntInt()
+
     @JvmField
     val index2 = MyMapLongInt()
-
     override fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             data.forEach {

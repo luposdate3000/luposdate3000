@@ -26,6 +26,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -54,12 +55,14 @@ import lupos.s15tripleStoreDistributed.*
 object ServerCommunicationSend {
     var myHostname = "localhost"
     var myPort = NETWORK_DEFAULT_PORT
-fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
-//TODO
+suspend    fun bulkImport(query: Query, graphName: String, action: suspend(TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
+CoroutinesHelper.runBlock {
         bulk.finishImport()
+}
     }
+
     fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {

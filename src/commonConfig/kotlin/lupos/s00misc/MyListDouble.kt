@@ -14,15 +14,18 @@ class MyListDouble {
 
     @JvmField
     var version = 0
+
     @JvmField
     var pagecount = 1
+
     @JvmField
     var size = 0
+
     @JvmField
     var page = MyListDoublePage(version)
+
     @JvmField
     var lastpage = page
-
     fun clear() {
         version++
         size = 0
@@ -366,11 +369,12 @@ class MyListDouble {
     class MyListDoubleSmall {
         @JvmField
         var size = 0
+
         @JvmField
         var capacity = 1
+
         @JvmField
         var data: DoubleArray
-
         inline fun reserve(capacity: Int) {
             SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {

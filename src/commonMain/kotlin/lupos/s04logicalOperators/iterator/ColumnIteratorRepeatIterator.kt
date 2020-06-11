@@ -8,6 +8,7 @@ import lupos.s03resultRepresentation.Value
 class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : ColumnIterator() {
     var index = 0
     var index2 = 0
+
     //TODO use pages instead
     val data = MyListValue()
 

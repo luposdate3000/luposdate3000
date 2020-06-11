@@ -83,10 +83,13 @@ class XMLElement {
 
     @JvmField
     val attributes = mutableMapOf<String, String>()
+
     @JvmField
     var content: String = ""
+
     @JvmField
     val childs = mutableListOf<XMLElement>()
+
     @JvmField
     val tag: String
 

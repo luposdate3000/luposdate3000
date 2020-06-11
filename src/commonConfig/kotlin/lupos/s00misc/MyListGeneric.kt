@@ -14,15 +14,18 @@ class MyListGeneric<Generic> {
 
     @JvmField
     var version = 0
+
     @JvmField
     var pagecount = 1
+
     @JvmField
     var size = 0
+
     @JvmField
     var page = MyListGenericPage<Generic>(version)
+
     @JvmField
     var lastpage = page
-
     fun clear() {
         version++
         size = 0
@@ -366,11 +369,12 @@ class MyListGeneric<Generic> {
     class MyListGenericSmall<Generic> {
         @JvmField
         var size = 0
+
         @JvmField
         var capacity = 1
+
         @JvmField
         var data: Array<Any?>
-
         inline fun reserve(capacity: Int) {
             SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {

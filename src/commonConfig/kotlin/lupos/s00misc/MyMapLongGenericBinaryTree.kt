@@ -8,6 +8,7 @@ import lupos.s00misc.Coverage
 class MyMapLongGenericBinaryTree<Generic>() {
     @JvmField
     var keys = MySetLongBinaryTree()
+
     @JvmField
     var values = MyListGeneric<Generic>()
     var size: Int = 0

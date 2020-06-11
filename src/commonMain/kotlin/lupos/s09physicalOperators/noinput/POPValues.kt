@@ -24,11 +24,12 @@ import lupos.s09physicalOperators.POPBase
 open class POPValues : POPBase {
     @JvmField
     val variables: List<String>
+
     @JvmField
     val data: Map<String, MyListValue>
+
     @JvmField
     val rows: Int
-
     override fun toSparql(): String {
         var res = "VALUES("
         for (v in variables) {

@@ -55,7 +55,6 @@ import lupos.s16network.*
 class SparqlTestSuite() {
     @JvmField
     val errorBoundForDecimalsDigits = 6
-
     fun testMain() {
         repeat(1) {
             GlobalLogger.log(ELoggerType.RELEASE, { "Starting tests..." })
@@ -771,9 +770,9 @@ class SevenIndices {
     private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
+
     @JvmField
     val spo = mutableSetOf<ID_Triple>()
-
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()
     fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()

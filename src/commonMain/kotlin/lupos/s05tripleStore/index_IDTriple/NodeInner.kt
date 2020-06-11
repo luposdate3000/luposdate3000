@@ -39,7 +39,6 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
      * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
      */
     fun toByteArray() = data
-
     fun getFirstTriple(b: IntArray) {
         var node = this
         var done = false

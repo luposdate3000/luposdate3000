@@ -13,6 +13,7 @@ object CacheOfFiles {
      * the max. number of opened files
      */
     const val MAXOPENEDFILES = 10
+
     @JvmField
     val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
 

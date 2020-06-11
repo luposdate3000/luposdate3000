@@ -80,6 +80,21 @@ object ServerCommunicationReceive {
                                     graph.modify(query, data, idx, EModifyType.INSERT)
                                 }
                             }
+                            ServerCommunicationHeader.IMPORT -> {
+                                val idx = EIndexPattern.values()[packet.readInt()]
+                                val graphName = packet.readString()
+                                val bulk = TripleStoreBulkImport(query, graphName)
+                                while (true) {
+                                    val packet2 = input.readByteArray()
+                                    val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                                    if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
+                                        require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                                        break
+                                    }
+                                    ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, socket.localAddress.toString(),bulk)
+                                }
+                                bulk.finishImport()
+                            }
                             ServerCommunicationHeader.DELETE -> {
                                 val idx = EIndexPattern.values()[packet.readInt()]
                                 val graphName = packet.readString()

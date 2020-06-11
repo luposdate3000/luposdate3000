@@ -8,6 +8,7 @@ import lupos.s00misc.Coverage
 class MyMapDoubleLongBinaryTree() {
     @JvmField
     var keys = MySetDoubleBinaryTree()
+
     @JvmField
     var values = MyListLong()
     var size: Int = 0

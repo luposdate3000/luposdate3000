@@ -13,6 +13,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
 
     class MyMapStringIntPatriciaTrieNodeN() : MyMapStringIntPatriciaTrieNode() {
         var arr = IntArray(0)
+
         /*arr :: second half: child values, first half offsets in str*/
         var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }

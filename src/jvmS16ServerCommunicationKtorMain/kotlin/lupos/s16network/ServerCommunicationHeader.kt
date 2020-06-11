@@ -42,6 +42,7 @@ import lupos.s15tripleStoreDistributed.*
 enum class ServerCommunicationHeader {
     COMMIT,
     INSERT,
+    IMPORT,
     DELETE,
     CLEAR_ALL_GRAPH,
     CLEAR_GRAPH,
