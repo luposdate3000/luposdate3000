@@ -20,14 +20,14 @@ luposdate3000home=$(pwd)/luposdate3000home
 {
 	cd /opt
 	git clone https://github.com/JetBrains/kotlin.git
-	git checkout 1.4.0
+	git checkout v1.4-M2 # dont support java-14
 	export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
-	export JDK_16="/usr/lib/jvm/java-14-openjdk-amd64/"
-	export JDK_17="/usr/lib/jvm/java-14-openjdk-amd64/"
-	export JDK_18="/usr/lib/jvm/java-14-openjdk-amd64/"
+	export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
+	export JDK_17="/usr/lib/jvm/java-8-openjdk-amd64/"
+	export JDK_18="/usr/lib/jvm/java-8-openjdk-amd64/"
 	export JDK_9="/usr/lib/jvm/java-14-openjdk-amd64/"
-	gradle install
-	gradle dist
+	./gradlew install
+	./gradlew dist
 	ln -s /opt/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
 	ln -s /opt/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
 }
@@ -60,6 +60,10 @@ luposdate3000home=$(pwd)/luposdate3000home
 	wget https://ayera.dl.sourceforge.net/project/bsbmtools/bsbmtools/bsbmtools-0.2/bsbmtools-v0.2.zip
 	unzip bsbmtools-v0.2.zip
 	rm bsbmtools-v0.2.zip
+	cd bsbmtools-0.2
+	git init .
+	git add .
+	git commit -m a
 	${luposdate3000home}/exec-benchmark-generate-bsbm.sh
 }
 #sp2b
@@ -68,6 +72,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 	wget http://dbis.informatik.uni-freiburg.de/content/projects/SP2B/docs/sp2b-v1_00-full.tar.gz
 	tar -xzf sp2b-v1_00-full.tar.gz
 	rm sp2b-v1_00-full.tar.gz
+	cd sp2b
 	git init .
 	git add .
 	git commit -m a

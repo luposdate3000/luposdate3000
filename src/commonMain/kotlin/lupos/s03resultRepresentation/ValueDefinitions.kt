@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.DateHelper
 
 sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toXMLElement(): XMLElement
@@ -353,10 +354,10 @@ class ValueDateTime : ValueDefinition {
     }
 
     constructor() : super() {
-        val time = com.soywiz.klock.DateTime.now()
-        year = time.yearInt
-        month = time.month1
-        day = time.dayOfMonth
+	val time=DateHelper()
+        year = time.year
+        month = time.month
+        day = time.day
         hours = time.hours
         minutes = time.minutes
         seconds = time.seconds

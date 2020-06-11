@@ -488,7 +488,6 @@ while (!done) {
                     ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
             ),
             ChooseableOption("jvmMain") to listOf(
-                    ChooseableOptionDependency("com.soywiz.korlibs.klock:klock:1.7.0"),
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
                     ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
@@ -520,11 +519,9 @@ while (!done) {
             ),
             ChooseableOption("linuxX64Main") to listOf(
                     ChooseableOptionDirectory("nativeMain"),
-                    ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
             ),
             ChooseableOption("macosX64Main") to listOf(
                     ChooseableOptionDirectory("nativeMain"),
-                    ChooseableOptionDependency("com.soywiz.korlibs.klock:klock-macosx64:1.8.9")
             ),
             ChooseableOption("nativeMain") to listOf(
                     ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"),
