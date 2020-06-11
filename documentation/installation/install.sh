@@ -20,6 +20,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 {
 	cd /opt
 	git clone https://github.com/JetBrains/kotlin.git
+	git checkout 1.4.0
 	export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
 	export JDK_16="/usr/lib/jvm/java-14-openjdk-amd64/"
 	export JDK_17="/usr/lib/jvm/java-14-openjdk-amd64/"
@@ -59,6 +60,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 	wget https://ayera.dl.sourceforge.net/project/bsbmtools/bsbmtools/bsbmtools-0.2/bsbmtools-v0.2.zip
 	unzip bsbmtools-v0.2.zip
 	rm bsbmtools-v0.2.zip
+	${luposdate3000home}/exec-benchmark-generate-bsbm.sh
 }
 #sp2b
 {
@@ -70,6 +72,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 	git add .
 	git commit -m a
 	git apply ${luposdate3000home}/documentation/installation/sp2b.patch
+	${luposdate3000home}/exec-benchmark-generate-sp2b.sh
 }
 #btc2019
 {
