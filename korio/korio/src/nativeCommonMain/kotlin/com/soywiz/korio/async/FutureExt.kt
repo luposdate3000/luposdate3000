@@ -1,7 +1,7 @@
 package com.soywiz.korio.async
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s04logicalOperators.ResultIterator
+
+
+
 
 suspend fun <T> kotlin.native.concurrent.Future<T>.await(): T {
 	var n = 0

@@ -1,6 +1,5 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx30g"
-pkill java
 port="3030"
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"

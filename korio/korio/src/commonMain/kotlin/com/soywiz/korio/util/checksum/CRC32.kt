@@ -1,7 +1,7 @@
 package com.soywiz.korio.util.checksum
-import lupos.s04arithmetikOperators.ResultVektorRaw
-import lupos.s03resultRepresentation.ResultChunk
-import lupos.s04logicalOperators.ResultIterator
+
+
+
 
 object CRC32 : SimpleChecksum {
 	override val initialValue = 0
