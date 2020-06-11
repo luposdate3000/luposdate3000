@@ -54,6 +54,12 @@ import lupos.s15tripleStoreDistributed.*
 object ServerCommunicationSend {
     var myHostname = "localhost"
     var myPort = NETWORK_DEFAULT_PORT
+fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
+//TODO
+        val bulk = TripleStoreBulkImportDistributed(query, graphName)
+        action(bulk)
+        bulk.finishImport()
+    }
     fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {

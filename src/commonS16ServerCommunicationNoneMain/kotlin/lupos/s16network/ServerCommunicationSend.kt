@@ -29,8 +29,8 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationSend {
-    fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImport) -> Unit) {
-        val bulk = TripleStoreBulkImport(query, graphName)
+    fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
+        val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
         bulk.finishImport()
     }

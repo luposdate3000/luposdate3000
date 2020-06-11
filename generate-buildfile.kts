@@ -575,7 +575,9 @@ while (!done) {
                     out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "14"
-    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
+    //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
+    //or kotlinc -X
+    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions -Xno-receiver-assertions -Xno-call-assertions"
 }""")
                 }
                 else -> {

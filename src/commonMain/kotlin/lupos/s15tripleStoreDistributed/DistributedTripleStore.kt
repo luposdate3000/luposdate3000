@@ -81,7 +81,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
-    fun bulkImport(action: (TripleStoreBulkImport) -> Unit) {
+    fun bulkImport(action: (TripleStoreBulkImportDistributed) -> Unit) {
         ServerCommunicationSend.bulkImport(query, name, action)
     }
 
