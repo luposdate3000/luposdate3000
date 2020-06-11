@@ -20,7 +20,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 {
 	cd /opt
 	git clone https://github.com/JetBrains/kotlin.git
-	git checkout v1.4-M2 # dont support java-14
+	git checkout build-1.4-M3-eap-48
 	export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
 	export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
 	export JDK_17="/usr/lib/jvm/java-8-openjdk-amd64/"
@@ -64,7 +64,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 	git init .
 	git add .
 	git commit -m a
-	${luposdate3000home}/exec-benchmark-generate-bsbm.sh
+#	${luposdate3000home}/exec-benchmark-generate-bsbm.sh
 }
 #sp2b
 {
@@ -77,7 +77,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 	git add .
 	git commit -m a
 	git apply ${luposdate3000home}/documentation/installation/sp2b.patch
-	${luposdate3000home}/exec-benchmark-generate-sp2b.sh
+#	${luposdate3000home}/exec-benchmark-generate-sp2b.sh
 }
 #btc2019
 {
