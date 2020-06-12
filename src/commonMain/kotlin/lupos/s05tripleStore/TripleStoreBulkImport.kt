@@ -11,7 +11,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class TripleStoreBulkImport(val query: Query, val graphName: String) {
+class TripleStoreBulkImport(val query: Query, val graphName: String, val targetIdx:EIndexPattern?) {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
     val sizeshift = 20
@@ -30,20 +30,28 @@ class TripleStoreBulkImport(val query: Query, val graphName: String) {
         data[8][idx++] = oi
         if (full()) {
             CoroutinesHelper.runBlock {
-                sort()
+                sort(targetIdx)
+if(targetIdx==null){
                 for (idx in TripleStoreLocalBase.distinctIndices) {
                     flush(idx)
                 }
+}else{
+flush(targetIdx)
+}
                 reset()
             }
         }
     }
 
     fun finishImport() {
-        sort()
+        sort(targetIdx)
+if(targetIdx==null){
         for (idx in TripleStoreLocalBase.distinctIndices) {
             flush(idx)
         }
+}else{ 
+flush(targetIdx)
+}
     }
 
     fun flush(idx: EIndexPattern) {
@@ -130,18 +138,18 @@ class TripleStoreBulkImport(val query: Query, val graphName: String) {
         }
     }
 
-    fun sort() {
+    fun sort(targetIdx:EIndexPattern?) {
         BenchmarkUtils.start(EBenchmark.IMPORT_SORT)
         //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
-        val orderSPO = intArrayOf(0, 1, 2)
-        val orderSOP = intArrayOf(0, 2, 1)
-        val orderPSO = intArrayOf(1, 0, 2)
-        val orderPOS = intArrayOf(1, 2, 0)
-        val orderOSP = intArrayOf(2, 0, 1)
-        val orderOPS = intArrayOf(2, 1, 0)
+        val orderSPO = EIndexPattern.SPO.tripleIndicees
+        val orderSOP = EIndexPattern.SOP.tripleIndicees
+        val orderPSO = EIndexPattern.PSO.tripleIndicees
+        val orderPOS = EIndexPattern.POS.tripleIndicees
+        val orderOSP = EIndexPattern.OSP.tripleIndicees
+        val orderOPS = EIndexPattern.OPS.tripleIndicees
         val orders = arrayOf(orderSPO, orderSOP, orderPSO, orderPOS, orderOSP, orderOPS)
-        if (total == 1) {
+        if (total <= 1) {
             dataSPO = data[8]
             dataSOP = data[8]
             dataPSO = data[8]
@@ -149,6 +157,7 @@ class TripleStoreBulkImport(val query: Query, val graphName: String) {
             dataOSP = data[8]
             dataOPS = data[8]
         } else {
+if(targetIdx==null){
             for (j in 0 until 2) {
                 for (i in 0 until 3) {
                     val order = orders[i * 2 + j]
@@ -173,6 +182,15 @@ class TripleStoreBulkImport(val query: Query, val graphName: String) {
                     dataOPS = data[2]
                 }
             }
+}else{
+sortUsingBuffers(8, 0, 1, data, total, targetIdx.tripleIndicees)
+dataSPO = data[0]
+            dataSOP = data[0]
+            dataPSO = data[0]
+            dataPOS = data[0]
+            dataOSP = data[0]
+            dataOPS = data[0]
+}
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_SORT)
     }

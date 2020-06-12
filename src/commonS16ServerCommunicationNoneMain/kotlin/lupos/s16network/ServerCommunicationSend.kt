@@ -30,7 +30,7 @@ import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationSend {
     suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
-        val bulk = TripleStoreBulkImportDistributed(query, graphName)
+        val bulk = TripleStoreBulkImportDistributed(query, graphName,null)
         action(bulk)
         bulk.finishImport()
     }
