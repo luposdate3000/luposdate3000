@@ -4,6 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.ReadWriteLock
 
 class BufferManager(val bufferName: String) {
     /*
@@ -22,19 +23,24 @@ class BufferManager(val bufferName: String) {
             set(value) {
                 if (value != _bufferPrefix) {
                     _bufferPrefix = value
+managerListLock.withReadLock{
                     managerList.forEach {
                         it.clear()
                     }
+}
                 }
             }
+
         val managerList = mutableListOf<BufferManager>()
-        fun safeToFolder() {
+	val managerListLock = ReadWriteLock()
+
+        fun safeToFolder() =managerListLock.withReadLock{
             managerList.forEach {
                 it.safeToFolder()
             }
         }
 
-        fun loadFromFolder() {
+        fun loadFromFolder() =managerListLock.withReadLock{
             managerList.forEach {
                 it.loadFromFolder()
             }
@@ -42,26 +48,31 @@ class BufferManager(val bufferName: String) {
     }
 
     init {
+managerListLock.withWriteLock{
         managerList.add(this)
+}
     }
 
-    var counter = 0
     val allPages = MyListGeneric<ByteArray>()
+    var counter = 0
+    val lock = ReadWriteLock()
+
     val pageMappingsOutIn = mutableMapOf<Int, Int>()
     val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
-    fun clear() {
+
+    fun clear() =lock.withWriteLock{
         counter = 0
         allPages.clear()
         pageMappingsOutIn.clear()
         pageMappingsInOut.clear()
     }
 
-    fun getPage(pageid: Int): ByteArray {
+    fun getPage(pageid: Int): ByteArray =lock.withReadLock{
         val target = pageMappingsOutIn[pageid]!!
         return allPages[target]
     }
 
-    fun createPage(pageid: Int): ByteArray {
+    fun createPage(pageid: Int): ByteArray =lock.withWriteLock{
         val target = counter++
         SanityCheck.check { pageMappingsOutIn[pageid] == null }
         SanityCheck.check { pageMappingsInOut[target] == null }
@@ -72,7 +83,7 @@ class BufferManager(val bufferName: String) {
         return allPages[target]
     }
 
-    fun deletePage(pageid: Int) {
+    fun deletePage(pageid: Int) =lock.withWriteLock{
         val otherTarget = counter - 1
         val target = pageMappingsOutIn[pageid]!!
         pageMappingsOutIn.remove(pageid)
@@ -106,7 +117,7 @@ class BufferManager(val bufferName: String) {
         }
     }
 
-    fun safeToFolder() {
+    fun safeToFolder() =lock.withWriteLock{
         File(bufferPrefix + "buffermanager").mkdirs()
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             var i = 0
@@ -128,7 +139,7 @@ class BufferManager(val bufferName: String) {
         }
     }
 
-    fun loadFromFolder() {
+    fun loadFromFolder() =lock.withWriteLock{
         allPages.clear()
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()

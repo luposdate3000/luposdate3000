@@ -103,11 +103,15 @@ object NodeManager {
             }
         }
     }
+val lockInner = ReadWriteLock()
+val lockLeaf = ReadWriteLock()
 
     fun safeToFolder() {
         //println("debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
+lockInner.withWriteLock{
+lockLeaf.withWriteLock{
         File(BufferManager.bufferPrefix + "nodemanager/header").dataOutputStream { out ->
             out.writeInt(allNodesLeafSize)
             out.writeInt(allNodesInnerSize)
@@ -121,10 +125,14 @@ object NodeManager {
             }
         }
         bufferManager.safeToFolder()
+}
+}
     }
 
     inline fun loadFromFolder() {
         //println("debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
+lockInner.withWriteLock{
+lockLeaf.withWriteLock{
         bufferManager.loadFromFolder()
         allNodesFreeListLeaf.clear()
         allNodesFreeListInner.clear()
@@ -141,19 +149,24 @@ object NodeManager {
             }
         }
     }
-
+}
+}
     inline fun getNode(idx: Int, crossinline actionLeaf: (NodeLeaf) -> Unit, crossinline actionInner: (NodeInner) -> Unit) {
         //println("debug NodeManager getNode ${idx.toString(16)}")
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
+lockInner.withWriteLock{
                 SanityCheck.check { !allNodesFreeListInner.contains(idx) }
                 actionInner(NodeInner(bufferManager.getPage(idx)))
-            }
+         }
+   }
             nodePointerTypeLeaf -> {
+lockLeaf.withWriteLock{
                 SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
                 actionLeaf(NodeLeaf(bufferManager.getPage(idx)))
+}
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -164,38 +177,40 @@ object NodeManager {
     val reuseOldIDs = false
     inline fun allocateNodeLeaf(crossinline action: (NodeLeaf, Int) -> Unit) {
         var idx = allNodesLeafSize or nodePointerTypeLeaf
+lockLeaf.withWriteLock{
         if (reuseOldIDs && allNodesFreeListLeaf.size > 0) {
             idx = allNodesFreeListLeaf.first()
             allNodesFreeListLeaf.remove(idx)
             val node = NodeLeaf(bufferManager.createPage(idx))
             node.setNextNode(nodeNullPointer)
             node.setTripleCount(0)
-            action(node, idx)
             //println("debug NodeManager allocateNodeLeafA ${idx.toString(16)}")
         } else {
             val node = NodeLeaf(bufferManager.createPage(idx))
             allNodesLeafSize++
-            action(node, idx)
             //println("debug NodeManager allocateNodeLeafB ${idx.toString(16)}")
         }
+}
+            action(node, idx)
     }
 
     inline fun allocateNodeInner(crossinline action: (NodeInner, Int) -> Unit) {
         var idx = allNodesInnerSize or nodePointerTypeInner
+lockInner.withWriteLock{
         if (reuseOldIDs && allNodesFreeListInner.size > 0) {
             idx = allNodesFreeListInner.first()
             allNodesFreeListInner.remove(idx)
             val node = NodeInner(bufferManager.createPage(idx))
             node.setNextNode(nodeNullPointer)
             node.setTripleCount(0)
-            action(node, idx)
             //println("debug NodeManager allocateNodeInnerA ${idx.toString(16)}")
         } else {
             val node = NodeInner(bufferManager.createPage(idx))
             allNodesInnerSize++
-            action(node, idx)
             //println("debug NodeManager allocateNodeInnerB ${idx.toString(16)}")
         }
+}
+            action(node, idx)
     }
 
     inline fun freeNode(idx: Int) {
@@ -204,18 +219,23 @@ object NodeManager {
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
+lockInner.withWriteLock{
                 SanityCheck.check { !allNodesFreeListInner.contains(idx) }
                 allNodesFreeListInner.add(idx)
+        bufferManager.deletePage(idx)
+}
             }
             nodePointerTypeLeaf -> {
+lockLeaf.withWriteLock{
                 SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
                 allNodesFreeListLeaf.add(idx)
+        bufferManager.deletePage(idx)
             }
+}
             else -> {
                 SanityCheck.checkUnreachable()
             }
         }
-        bufferManager.deletePage(idx)
     }
 
     fun freeNodeAndAllRelated(nodeIdx: Int) {

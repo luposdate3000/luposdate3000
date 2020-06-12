@@ -83,7 +83,7 @@ do
 			else
 				./log/benchtmp/$version.x "LOAD" "$triplesfolder/data" "" "$queries" "10" "$triples" "$size" "" "sp2b" > log/benchtmp/x
 			fi
-cat log/benchtmp/x
+			cat log/benchtmp/x
 			cat log/benchtmp/x | grep "sparql,$triples," >> $psp2b/jena-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.sp2b.queries
 		fi
@@ -108,7 +108,7 @@ cat log/benchtmp/x
 			else
 				./log/benchtmp/$version.x "LOAD" "$productsfolder/data" "" "$queries" "10" "$products" "$size" "" "bsbm" > log/benchtmp/x
 			fi
-cat log/benchtmp/x
+			cat log/benchtmp/x
 			cat log/benchtmp/x | grep "sparql,$products," >> $pbsbm/jena-$version-$(git rev-parse HEAD)-internal.csv
 			cat log/benchtmp/x | grep "sparql,$products," | grep -v "sparql,$products,0,.," | sed "s/,.*//" > log/benchtmp/$version.bsbm.queries
 		fi
