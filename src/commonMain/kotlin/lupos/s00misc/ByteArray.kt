@@ -118,6 +118,7 @@ class ByteArrayRead(val data: ByteArray, val size: Int) {
             d[i] = readChar()
         }
         val res = d.concatToString()
+        //println("ByteArrayBuilder($uuid).readString content '$res'")
         return res
     }
 }
@@ -186,6 +187,6 @@ class ByteArrayBuilder() {
         tmp.forEach {
             writeChar(it)
         }
-        println("ByteArrayBuilder($uuid).writeString content '$s'")
+        //println("ByteArrayBuilder($uuid).writeString content '$s'")
     }
 }

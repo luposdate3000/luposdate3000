@@ -55,8 +55,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
     val values = Array(3) { ResultSetDictionary.undefValue }
     val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ImportHelper>() }
 
-    class ImportHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
-        var job: Job? = null
+    class ImportHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val builder:ByteArrayBuilder=ByteArrayBuilder()) {
     }
 
     suspend fun insert(si: Value, pi: Value, oi: Value) {
@@ -69,44 +68,42 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
             var helper = accessedHosts[i][host]
             val helper2: ImportHelper
             if (helper == null) {
+println("Bulk open new socket")
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
-                helper2 = ImportHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array<ColumnIterator>(3) { ColumnIteratorChannel() })
+                helper2 = ImportHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
                 accessedHosts[i][host] = helper2
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.IMPORT.ordinal)
                 builder.writeLong(query.transactionID)
+                builder.writeInt(idx.ordinal)
                 builder.writeString(graphName)
+println("Bulk going to write packet")
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
-                runBlocking {
-                    helper2.job = launch {
-                        ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
-                            helper2.output.writeByteArray(it)
-                            helper2.output.flush()
-                        }
-                    }
-                }
             } else {
                 helper2 = helper
             }
-            for (j in 0 until 3) {
-                (helper2.iterators[i] as ColumnIteratorChannel).append(values[j])
-            }
+println("Bulk appending data")
+                        ServerCommunicationTransferTriples.sendTriples(si,pi,oi,query.dictionary,helper2.builder) {
+                            helper2.output.writeByteArray(it)
+                            helper2.output.flush()
+                        }
         }
     }
 
     suspend fun finishImport() {
+println("Bulk finishing")
         for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
             val idx = TripleStoreLocalBase.distinctIndices[i]
             for ((host, helper) in accessedHosts[i]) {
-                for (j in 0 until 3) {
-                    (helper.iterators[j] as ColumnIteratorChannel).writeFinish()
-                }
-                SanityCheck.check { helper.job != null }
-                helper.job!!.join()
+if(helper.builder.size>0){
+helper.output.writeByteArray(helper.builder)
+                            helper.output.flush()
+}
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                 builder.writeLong(query.transactionID)
+println("Bulk sending finish-signal")
                 helper.output.writeByteArray(builder)
                 helper.output.flush()
                 val response = helper.input.readByteArray()
@@ -114,6 +111,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
                 if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                     throw Exception("unexpected result $header3")
                 }
+println("Bulk close a socket")
                 helper.socket.close()
             }
         }

@@ -88,7 +88,7 @@ object ServerCommunicationTransferTriples {
     }
 
     suspend fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
-        /*always assume SPO*/
+        /*always assume SPO - works with less than 3 columns too*/
         var builder = ByteArrayBuilder()
         loop@ while (true) {
             builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
@@ -111,5 +111,20 @@ object ServerCommunicationTransferTriples {
             builder.reset()
         }
         onFullPacket(builder)
+    }
+
+    suspend fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary,builder : ByteArrayBuilder, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
+        /*always assume SPO requires exactly 3 columns*/
+            if (builder.size >= NETWORK_PACKET_SIZE){
+onFullPacket(builder)
+            builder.reset()
+}
+if(builder.size==0){
+            builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
+            builder.writeInt(3)
+}
+                        builder.writeInt(si)
+                        builder.writeInt(pi)
+                        builder.writeInt(oi)
     }
 }

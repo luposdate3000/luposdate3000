@@ -83,16 +83,19 @@ object ServerCommunicationReceive {
                             ServerCommunicationHeader.IMPORT -> {
                                 val idx = EIndexPattern.values()[packet.readInt()]
                                 val graphName = packet.readString()
-                                val bulk = TripleStoreBulkImport(query, graphName)
+                                val bulk = TripleStoreBulkImport(query, graphName,idx)
                                 while (true) {
+println("Receive waiting for RESPONSE_TRIPLES or RESPONSE_FINISHED")
                                     val packet2 = input.readByteArray()
                                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                     if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
                                     }
+println("Receive processing RESPONSE_TRIPLES")
                                     ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, socket.localAddress.toString(), bulk)
                                 }
+println("Receive finishing import")
                                 bulk.finishImport()
                             }
                             ServerCommunicationHeader.DELETE -> {

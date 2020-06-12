@@ -183,6 +183,7 @@ object ServerCommunicationSend {
                     builder.writeInt(ServerCommunicationHeader.DELETE.ordinal)
                 }
                 builder.writeLong(query.transactionID)
+		builder.writeInt(idx.ordinal)
                 builder.writeString(graphName)
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
