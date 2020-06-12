@@ -7,7 +7,7 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 
-class TurtleParserWithStringTriples(@JvmField val consume_triple:suspend (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
+class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     val prefixes = mutableMapOf<String, String>()
 
@@ -41,7 +41,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple:suspend (String
         }
     }
 
-suspend    fun statement() {
+    suspend fun statement() {
         var token: Token
         val t2 = ltit.lookahead()
         when {
@@ -153,7 +153,7 @@ suspend    fun statement() {
         prefixes.put(key, token.content)
     }
 
-suspend    fun triples() {
+    suspend fun triples() {
         var token: Token
         val t5 = ltit.lookahead()
         when {
@@ -174,7 +174,7 @@ suspend    fun triples() {
         }
     }
 
-suspend    fun predicateObjectList(s: String) {
+    suspend fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
         objectList(s, p)
@@ -193,7 +193,7 @@ suspend    fun predicateObjectList(s: String) {
         }
     }
 
-suspend    fun objectList(s: String, p: String) {
+    suspend fun objectList(s: String, p: String) {
         var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
@@ -234,7 +234,7 @@ suspend    fun objectList(s: String, p: String) {
         }
     }
 
-suspend    fun subject(): String {
+    suspend fun subject(): String {
         var token: Token
         val result: String
         val t10 = ltit.lookahead()
@@ -261,7 +261,7 @@ suspend    fun subject(): String {
         return result
     }
 
-suspend    fun triple_object(): String {
+    suspend fun triple_object(): String {
         var token: Token
         val result: String
         val t11 = ltit.lookahead()
@@ -309,7 +309,7 @@ suspend    fun triple_object(): String {
         return result
     }
 
-suspend    fun blankNodePropertyList(): String {
+    suspend fun blankNodePropertyList(): String {
         var token: Token
         val result = "_:_" + bnode_counter; bnode_counter++
         token = ltit.nextToken()
@@ -324,7 +324,7 @@ suspend    fun blankNodePropertyList(): String {
         return result
     }
 
-suspend    fun collection(): String {
+    suspend fun collection(): String {
         var token: Token
         var first = nil_iri
         var current = nil_iri

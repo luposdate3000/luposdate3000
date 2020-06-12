@@ -12,11 +12,12 @@ import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
-import  kotlinx.coroutines.Job
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -26,7 +27,6 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -55,12 +55,12 @@ import lupos.s15tripleStoreDistributed.*
 object ServerCommunicationSend {
     var myHostname = "localhost"
     var myPort = NETWORK_DEFAULT_PORT
-suspend    fun bulkImport(query: Query, graphName: String, action: suspend(TripleStoreBulkImportDistributed) -> Unit) {
+    suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
-CoroutinesHelper.runBlock {
-        bulk.finishImport()
-}
+        CoroutinesHelper.runBlock {
+            bulk.finishImport()
+        }
     }
 
     fun commit(query: Query) {

@@ -59,7 +59,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
         var job: Job? = null
     }
 
-suspend    fun insert(si: Value, pi: Value, oi: Value) {
+    suspend fun insert(si: Value, pi: Value, oi: Value) {
         values[0] = si
         values[1] = pi
         values[2] = oi
@@ -95,8 +95,8 @@ suspend    fun insert(si: Value, pi: Value, oi: Value) {
         }
     }
 
-suspend    fun finishImport() {
-       for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
+    suspend fun finishImport() {
+        for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
             val idx = TripleStoreLocalBase.distinctIndices[i]
             for ((host, helper) in accessedHosts[i]) {
                 for (j in 0 until 3) {

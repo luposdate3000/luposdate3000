@@ -91,7 +91,7 @@ object ServerCommunicationReceive {
                                         require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                         break
                                     }
-                                    ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, socket.localAddress.toString(),bulk)
+                                    ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, socket.localAddress.toString(), bulk)
                                 }
                                 bulk.finishImport()
                             }
