@@ -1,2 +1,3 @@
 upgraded HARDWARE ....
 the main memory is now faster - but currently still 32GB
+insert locking in the page-manager due to conncurrent network-based access

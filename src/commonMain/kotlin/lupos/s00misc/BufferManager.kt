@@ -48,8 +48,9 @@ managerListLock.withReadLock{
     }
 
     init {
+val manager=this
 managerListLock.withWriteLock{
-        managerList.add(this)
+        managerList.add(manager)
 }
     }
 
@@ -69,7 +70,7 @@ managerListLock.withWriteLock{
 
     fun getPage(pageid: Int): ByteArray =lock.withReadLock{
         val target = pageMappingsOutIn[pageid]!!
-        return allPages[target]
+        /*return*/ allPages[target]
     }
 
     fun createPage(pageid: Int): ByteArray =lock.withWriteLock{
@@ -80,7 +81,7 @@ managerListLock.withWriteLock{
         pageMappingsOutIn[pageid] = target
         pageMappingsInOut[target] = pageid
         debug()
-        return allPages[target]
+        /*return*/ allPages[target]
     }
 
     fun deletePage(pageid: Int) =lock.withWriteLock{

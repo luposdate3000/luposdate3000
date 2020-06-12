@@ -417,16 +417,20 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 currentLayer = tmp
             }
+var rootNodeIsLeaf=false
             NodeManager.getNode(currentLayer[0], {
+rootNodeIsLeaf=true
+            }, {
+                rootNode = it
+                root = currentLayer[0]
+            })
+if(rootNodeIsLeaf){
                 NodeManager.allocateNodeInner { n, i ->
                     n.initializeWith(mutableListOf(currentLayer[0]))
                     rootNode = n
                     root = i
                 }
-            }, {
-                rootNode = it
-                root = currentLayer[0]
-            })
+}
         }
         countPrimary = iterator.count
         distinctPrimary = iterator.distinct
