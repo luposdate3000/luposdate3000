@@ -37,12 +37,11 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
     override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
-        try {
-            for (v in variables) {
-                res.values[v.name] = childHistogram.values[v.name]!!
+        for (v in variables) {
+            if (childHistogram.values[v.name] == null) {
+                throw BugException(classname, "calculateHistogram column missing")
             }
-        } catch (e: Throwable) {
-            throw BugException(classname, "calculateHistogram column missing")
+            res.values[v.name] = childHistogram.values[v.name]!!
         }
         res.count = childHistogram.count
         return res

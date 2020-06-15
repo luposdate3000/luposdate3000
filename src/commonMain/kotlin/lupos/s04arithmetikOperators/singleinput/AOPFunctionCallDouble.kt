@@ -1,6 +1,8 @@
 package lupos.s04arithmetikOperators.singleinput
 
+import lupos.s00misc.CanNotCastLiteralToDoubleException
 import lupos.s00misc.Coverage
+import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ValueDateTime
@@ -42,13 +44,25 @@ class AOPFunctionCallDouble(query: Query, child: AOPBase) : AOPBase(query, EOper
                     res = ValueDouble(a.value)
                 }
                 is ValueSimpleLiteral -> {
-                    res = ValueDouble(a.content.toDouble())
+                    try {
+                        res = ValueDouble(a.content.toDouble())
+                    } catch (e: DontCareWhichException) {
+                        throw CanNotCastLiteralToDoubleException()
+                    }
                 }
                 is ValueLanguageTaggedLiteral -> {
-                    res = ValueDouble(a.content.toDouble())
+                    try {
+                        res = ValueDouble(a.content.toDouble())
+                    } catch (e: DontCareWhichException) {
+                        throw CanNotCastLiteralToDoubleException()
+                    }
                 }
                 is ValueTypedLiteral -> {
-                    res = ValueDouble(a.content.toDouble())
+                    try {
+                        res = ValueDouble(a.content.toDouble())
+                    } catch (e: DontCareWhichException) {
+                        throw CanNotCastLiteralToDoubleException()
+                    }
                 }
             }
             /*return*/res

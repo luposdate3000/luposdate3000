@@ -433,7 +433,12 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 try {
                     var h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
+                } catch (e: BugException) {
+                    e.printStackTrace()
+                } catch (e: HistogramNotImplementedException) {
+                    e.printStackTrace()
                 } catch (e: Throwable) {
+                    println("TODO exception 8")
                     e.printStackTrace()
                 }
             }
@@ -441,6 +446,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 res.addContent(childrenToXML())
             }
         } catch (e: Throwable) {
+            println("TODO exception 9")
             e.printStackTrace()
         }
         return res

@@ -32,7 +32,7 @@ class XMLElement {
                     return XMLElement.parseFromJson(data)
                 }
                 else -> {
-                    throw Exception("data parser :: file type '${filename}' unknown")
+                    throw UnknownDataFile(filename)
                 }
             }
 /*Coverage Unreachable*/
@@ -244,25 +244,19 @@ class XMLElement {
     }
 
     fun addContent(content: String): XMLElement {
-        if (!childs.isEmpty()) {
-            throw Exception("either content or subchilds must be empty")
-        }
+        SanityCheck.check { childs.isEmpty() }
         this.content += decodeText(content)
         return this
     }
 
     fun addContent(childs: Collection<XMLElement>): XMLElement {
-        if (!content.isEmpty()) {
-            throw Exception("either content or subchilds must be empty")
-        }
+        SanityCheck.check { content.isEmpty() }
         this.childs.addAll(childs)
         return this
     }
 
     fun addContent(child: XMLElement): XMLElement {
-        if (!content.isEmpty()) {
-            throw Exception("either content or subchilds must be empty")
-        }
+        SanityCheck.check { content.isEmpty() }
         childs.add(child)
         return this
     }

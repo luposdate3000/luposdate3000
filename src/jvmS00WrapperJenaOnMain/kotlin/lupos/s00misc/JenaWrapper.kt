@@ -30,6 +30,7 @@ object JenaWrapper {
         try {
             UpdateAction.parseExecute(queryString, dataset)
         } catch (e: Throwable) {
+            println("TODO exception 5")
             e.printStackTrace()
         }
     }

@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.EvaluationException
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
@@ -28,6 +29,8 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                     res = ResultSetDictionary.booleanFalseValue2
                 }
             } catch (e: Throwable) {
+                println("TODO exception 20")
+                e.printStackTrace()
             }
 /*return*/res
         }
@@ -47,7 +50,10 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                 } else {
                     res = ResultSetDictionary.booleanFalseValue
                 }
+            } catch (e: EvaluationException) {
             } catch (e: Throwable) {
+                println("TODO exception 21")
+                e.printStackTrace()
             }
 /*return*/res
         }

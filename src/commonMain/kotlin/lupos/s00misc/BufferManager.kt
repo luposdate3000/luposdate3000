@@ -3,8 +3,8 @@ package lupos.s00misc
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.ReadWriteLock
+import lupos.s00misc.SanityCheck
 
 class BufferManager(val bufferName: String) {
     /*
@@ -23,24 +23,22 @@ class BufferManager(val bufferName: String) {
             set(value) {
                 if (value != _bufferPrefix) {
                     _bufferPrefix = value
-managerListLock.withReadLock{
-                    managerList.forEach {
-                        it.clear()
+                    managerListLock.withReadLock {
+                        managerList.forEach {
+                            it.clear()
+                        }
                     }
-}
                 }
             }
-
         val managerList = mutableListOf<BufferManager>()
-	val managerListLock = ReadWriteLock()
-
-        fun safeToFolder() =managerListLock.withReadLock{
+        val managerListLock = ReadWriteLock()
+        fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
             }
         }
 
-        fun loadFromFolder() =managerListLock.withReadLock{
+        fun loadFromFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.loadFromFolder()
             }
@@ -48,32 +46,30 @@ managerListLock.withReadLock{
     }
 
     init {
-val manager=this
-managerListLock.withWriteLock{
-        managerList.add(manager)
-}
+        val manager = this
+        managerListLock.withWriteLock {
+            managerList.add(manager)
+        }
     }
 
     val allPages = MyListGeneric<ByteArray>()
     var counter = 0
     val lock = ReadWriteLock()
-
     val pageMappingsOutIn = mutableMapOf<Int, Int>()
     val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
-
-    fun clear() =lock.withWriteLock{
+    fun clear() = lock.withWriteLock {
         counter = 0
         allPages.clear()
         pageMappingsOutIn.clear()
         pageMappingsInOut.clear()
     }
 
-    fun getPage(pageid: Int): ByteArray =lock.withReadLock{
+    fun getPage(pageid: Int): ByteArray = lock.withReadLock {
         val target = pageMappingsOutIn[pageid]!!
         /*return*/ allPages[target]
     }
 
-    fun createPage(pageid: Int): ByteArray =lock.withWriteLock{
+    fun createPage(pageid: Int): ByteArray = lock.withWriteLock {
         val target = counter++
         SanityCheck.check { pageMappingsOutIn[pageid] == null }
         SanityCheck.check { pageMappingsInOut[target] == null }
@@ -84,7 +80,7 @@ managerListLock.withWriteLock{
         /*return*/ allPages[target]
     }
 
-    fun deletePage(pageid: Int) =lock.withWriteLock{
+    fun deletePage(pageid: Int) = lock.withWriteLock {
         val otherTarget = counter - 1
         val target = pageMappingsOutIn[pageid]!!
         pageMappingsOutIn.remove(pageid)
@@ -118,7 +114,7 @@ managerListLock.withWriteLock{
         }
     }
 
-    fun safeToFolder() =lock.withWriteLock{
+    fun safeToFolder() = lock.withWriteLock {
         File(bufferPrefix + "buffermanager").mkdirs()
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             var i = 0
@@ -140,7 +136,7 @@ managerListLock.withWriteLock{
         }
     }
 
-    fun loadFromFolder() =lock.withWriteLock{
+    fun loadFromFolder() = lock.withWriteLock {
         allPages.clear()
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()

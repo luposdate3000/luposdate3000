@@ -52,11 +52,11 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.*
 
-
 class SparqlTestSuite() {
-companion object{
-val filterList=mutableListOf<String>()
-}
+    companion object {
+        val filterList = mutableListOf<String>()
+    }
+
     @JvmField
     val errorBoundForDecimalsDigits = 6
     fun testMain() {
@@ -84,6 +84,7 @@ val filterList=mutableListOf<String>()
                                     it.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
+                                println("TODO exception 39")
                                 e.printStackTrace()
                             } finally {
                                 JenaWrapper.dropAll()
@@ -428,12 +429,12 @@ val filterList=mutableListOf<String>()
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
-if(filterList.size>0 && !filterList.contains(testName)){
-println("'$testName' not in WhiteList of Unit-Tests")
-return true
-}else{
-println("'$testName' is in WhiteList of Unit-Tests")
-}
+        if (filterList.size > 0 && !filterList.contains(testName)) {
+            println("'$testName' not in WhiteList of Unit-Tests")
+            return true
+        } else {
+            println("'$testName' is in WhiteList of Unit-Tests")
+        }
         File("log/storetest").mkdirs()
         var ignoreJena = false
         var timer = Monotonic.markNow()
@@ -506,6 +507,8 @@ println("'$testName' is in WhiteList of Unit-Tests")
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                     } catch (e: Throwable) {
+                        println("TODO exception 41")
+                        e.printStackTrace()
                         ignoreJena = true
                     }
                 }
@@ -524,6 +527,8 @@ println("'$testName' is in WhiteList of Unit-Tests")
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                     } catch (e: Throwable) {
+                        println("TODO exception 42")
+                        e.printStackTrace()
                         ignoreJena = true
                     }
                 }
@@ -633,6 +638,8 @@ println("'$testName' is in WhiteList of Unit-Tests")
                             return false
                         }
                     } catch (e: Throwable) {
+                        println("TODO exception 43")
+                        e.printStackTrace()
                         ignoreJena = true
                     }
                 }
@@ -756,6 +763,8 @@ println("'$testName' is in WhiteList of Unit-Tests")
             }
             return false
         } catch (e: Throwable) {
+            println("TODO exception 44")
+            e.printStackTrace()
             println("lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}")
             if (expectedResult) {
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })

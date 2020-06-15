@@ -22,7 +22,7 @@ class File {
         var result: String = ""
         val file = fopen(filename, "r")
         if (file == null) {
-            throw Exception("can not open file $filename")
+            throw ResourceNotFoundException(filename)
         }
         try {
             memScoped {
@@ -72,7 +72,7 @@ class PrintWriter(val f: File) {
     fun open() {
         file = fopen(f.filename, "w")
         if (f == null) {
-            throw Exception("can not open file ${f.filename}")
+            throw ResourceNotFoundException(f.filename)
         }
     }
 

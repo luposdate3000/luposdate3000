@@ -3,6 +3,7 @@ package lupos.s14endpoint
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.UnknownOperatorTypeInXML
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
@@ -539,7 +540,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             return LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
         }
         else -> {
-            throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")
+            throw UnknownOperatorTypeInXML(node.tag)
         }
     }
 /*Coverage Unreachable*/

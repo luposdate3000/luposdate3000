@@ -1,6 +1,7 @@
 package lupos.s03resultRepresentation
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.EvaluationException
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueComparatorASC
@@ -15,7 +16,7 @@ class ValueComparatorASC(val query: Query) : Comparator<Value> {
         val b = query.dictionary.getValue(bID)
         try {
             return a.compareTo(b)
-        } catch (e: Throwable) {
+        } catch (e: EvaluationException) {
             if (a is ValueUndef || a is ValueError) {
                 return -1
             }
@@ -37,7 +38,11 @@ class ValueComparatorASC(val query: Query) : Comparator<Value> {
             val sA = a.valueToString()!!
             val sB = b.valueToString()!!
             return sA.compareTo(sB)
-        }
+        }catch (e:Throwable){
+println("TODO exception 45")
+e.printStackTrace()
+return 0
+}
 /*Coverage Unreachable*/
     }
 }

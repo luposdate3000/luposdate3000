@@ -20,7 +20,8 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
                     try {
                         println(v.keys.map { "$k -> ${v[it]!![i]}" })
                     } catch (e: Throwable) {
-                        println(e.message)
+                        println("TODO exception 11")
+                        e.printStackTrace()
                     }
                 }
             }

@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
+import lupos.s00misc.CommuncationUnexpectedHeaderException
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -55,7 +56,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
     val values = Array(3) { ResultSetDictionary.undefValue }
     val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ImportHelper>() }
 
-    class ImportHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val builder:ByteArrayBuilder=ByteArrayBuilder()) {
+    class ImportHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
     }
 
     suspend fun insert(si: Value, pi: Value, oi: Value) {
@@ -68,7 +69,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
             var helper = accessedHosts[i][host]
             val helper2: ImportHelper
             if (helper == null) {
-println("Bulk open new socket")
+                println("Bulk open new socket")
                 val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
                 helper2 = ImportHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
                 accessedHosts[i][host] = helper2
@@ -77,41 +78,41 @@ println("Bulk open new socket")
                 builder.writeLong(query.transactionID)
                 builder.writeInt(idx.ordinal)
                 builder.writeString(graphName)
-println("Bulk going to write packet")
+                println("Bulk going to write packet")
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
             } else {
                 helper2 = helper
             }
-println("Bulk appending data")
-                        ServerCommunicationTransferTriples.sendTriples(si,pi,oi,query.dictionary,helper2.builder) {
-                            helper2.output.writeByteArray(it)
-                            helper2.output.flush()
-                        }
+            println("Bulk appending data")
+            ServerCommunicationTransferTriples.sendTriples(si, pi, oi, query.dictionary, helper2.builder) {
+                helper2.output.writeByteArray(it)
+                helper2.output.flush()
+            }
         }
     }
 
     suspend fun finishImport() {
-println("Bulk finishing")
+        println("Bulk finishing")
         for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
             val idx = TripleStoreLocalBase.distinctIndices[i]
             for ((host, helper) in accessedHosts[i]) {
-if(helper.builder.size>0){
-helper.output.writeByteArray(helper.builder)
-                            helper.output.flush()
-}
+                if (helper.builder.size > 0) {
+                    helper.output.writeByteArray(helper.builder)
+                    helper.output.flush()
+                }
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                 builder.writeLong(query.transactionID)
-println("Bulk sending finish-signal")
+                println("Bulk sending finish-signal")
                 helper.output.writeByteArray(builder)
                 helper.output.flush()
                 val response = helper.input.readByteArray()
                 val header3 = ServerCommunicationHeader.values()[response.readInt()]
                 if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                    throw Exception("unexpected result $header3")
+                    throw CommuncationUnexpectedHeaderException("$header3")
                 }
-println("Bulk close a socket")
+                println("Bulk close a socket")
                 helper.socket.close()
             }
         }

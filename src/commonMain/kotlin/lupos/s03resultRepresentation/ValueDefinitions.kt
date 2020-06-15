@@ -1,9 +1,10 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
-import lupos.s00misc.SanityCheck
+import lupos.s00misc.IncompatibleTypesDuringCompareException
 import lupos.s00misc.XMLElement
 
 sealed class ValueDefinition : Comparable<ValueDefinition> {
@@ -52,20 +53,20 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
         return res
     }
 
-    override operator fun compareTo(other: ValueDefinition): Int = throw Exception("type error")
+    override operator fun compareTo(other: ValueDefinition): Int = throw IncompatibleTypesDuringCompareException()
 }
 
 class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueBnode").addAttribute("value", "" + value)
     override fun valueToString() = "_:" + value
     override fun equals(other: Any?) = (other is ValueBnode) && value == other.value
-    override fun toDouble() = throw Exception("cannot cast ValueBnode to Double")
-    override fun toInt() = throw Exception("cannot cast ValueBnode to Int")
-    override fun toBoolean() = throw Exception("cannot cast ValueBnode to Boolean")
+    override fun toDouble() = throw CanNotCastBNodeToDoubleException()
+    override fun toInt() = throw CanNotCastBNodeToIntException()
+    override fun toBoolean() = throw CanNotCastBNodeToBooleanException()
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueBnode) {
-            throw Exception("type error")
+            throw IncompatibleTypesDuringCompareException()
         }
         return value.compareTo(other.value)
     }
@@ -88,12 +89,12 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
     override fun toXMLElement() = XMLElement("ValueBoolean").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     override fun equals(other: Any?) = (other is ValueBoolean) && value == other.value
-    override fun toDouble() = throw Exception("cannot cast ValueBoolean to Double")
-    override fun toInt() = throw Exception("cannot cast ValueBoolean to Int")
+    override fun toDouble() = throw CanNotCastBooleanToDoubleException()
+    override fun toInt() = throw CanNotCastBooleanToIntException()
     override fun toBoolean() = value
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueBoolean) {
-            throw Exception("type error")
+            throw IncompatibleTypesDuringCompareException()
         }
         if (value == other.value) {
             return 0
@@ -112,9 +113,9 @@ class ValueUndef() : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueUndef")
     override fun valueToString() = null
     override fun equals(other: Any?) = (other is ValueUndef)
-    override fun toDouble() = throw Exception("cannot cast ValueUndef to Double")
-    override fun toInt() = throw Exception("cannot cast ValueUndef to Int")
-    override fun toBoolean() = throw Exception("cannot cast ValueUndef to Boolean")
+    override fun toDouble() = throw CanNotCastUndefToDoubleException()
+    override fun toInt() = throw CanNotCastUndefToIntException()
+    override fun toBoolean() = throw CanNotCastUndefToBooleanException()
     override fun hashCode() = 0
 }
 
@@ -122,23 +123,23 @@ class ValueError() : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueError")
     override fun valueToString() = null
     override fun equals(other: Any?) = false
-    override fun toDouble() = throw Exception("cannot cast ValueError to Double")
-    override fun toInt() = throw Exception("cannot cast ValueError to Int")
-    override fun toBoolean() = throw Exception("cannot cast ValueError to Boolean")
+    override fun toDouble() = throw CanNotCastErrorToDoubleException()
+    override fun toInt() = throw CanNotCastErrorToIntException()
+    override fun toBoolean() = throw CanNotCastErrorToBooleanException()
     override fun hashCode() = 0
 }
 
 sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueStringBase) {
-            throw Exception("type error")
+            throw IncompatibleTypesDuringCompareException()
         }
         return valueToString()!!.compareTo(other.valueToString()!!)
     }
 
     override fun toBoolean() = content.length > 0
-    override fun toDouble() = throw Exception("cannot cast Literal to Double")
-    override fun toInt() = throw Exception("cannot cast Literal to Int")
+    override fun toDouble() = throw CanNotCastLiteralToDoubleException()
+    override fun toInt() = throw CanNotCastLiteralToIntException()
 }
 
 class ValueLanguageTaggedLiteral(delimiter: String, content: String, val language: String) : ValueStringBase(delimiter, content) {
@@ -212,7 +213,7 @@ class ValueDecimal(@JvmField var value: Double) : ValueNumeric() {
         if (other is ValueFloat) {
             return value.compareTo(other.value)
         }
-        throw Exception("type error")
+        throw IncompatibleTypesDuringCompareException()
     }
 }
 
@@ -234,7 +235,7 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
         if (other is ValueDouble) {
             return value.compareTo(other.value)
         }
-        throw Exception("type error")
+        throw IncompatibleTypesDuringCompareException()
     }
 }
 
@@ -259,7 +260,7 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
         if (other is ValueFloat) {
             return value.compareTo(other.value)
         }
-        throw Exception("type error")
+        throw IncompatibleTypesDuringCompareException()
     }
 }
 
@@ -284,7 +285,7 @@ class ValueInteger(@JvmField var value: Int) : ValueNumeric() {
         if (other is ValueFloat) {
             return value.compareTo(other.value)
         }
-        throw Exception("type error")
+        throw IncompatibleTypesDuringCompareException()
     }
 }
 
@@ -292,13 +293,13 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override fun toXMLElement() = XMLElement("ValueIri").addAttribute("value", "" + iri)
     override fun valueToString() = "<" + iri + ">"
     override fun equals(other: Any?): Boolean = other is ValueIri && iri == other.iri
-    override fun toDouble(): Double = throw Exception("cannot cast ValueIri to Double")
-    override fun toInt(): Int = throw Exception("cannot cast ValueIri to Int")
-    override fun toBoolean(): Boolean = throw Exception("cannot cast ValueIri to Boolean")
+    override fun toDouble(): Double = throw CanNotCastIriToDoubleException()
+    override fun toInt(): Int = throw CanNotCastIriToIntException()
+    override fun toBoolean(): Boolean = throw CanNotCastIriToBooleanException()
     override fun hashCode() = iri.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueIri) {
-            throw Exception("type error")
+            throw IncompatibleTypesDuringCompareException()
         }
         return iri.compareTo(other.iri)
     }
@@ -330,7 +331,7 @@ class ValueDateTime : ValueDefinition {
     val timezoneMinutes: Int
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueDateTime) {
-            throw Exception("type error")
+            throw IncompatibleTypesDuringCompareException()
         }
         if (year != other.year) {
             return year.compareTo(other.year)
@@ -436,7 +437,7 @@ class ValueDateTime : ValueDefinition {
     override fun toXMLElement() = XMLElement("ValueDateTime").addAttribute("value", valueToString())
     override fun equals(other: Any?): Boolean = other is ValueDateTime && valueToString() == other.valueToString()
     override fun hashCode() = valueToString().hashCode()
-    override fun toDouble(): Double = throw Exception("cannot cast ValueDateTime to Double")
-    override fun toInt(): Int = throw Exception("cannot cast ValueDateTime to Integer")
-    override fun toBoolean(): Boolean = throw Exception("cannot cast ValueDateTime to Boolean")
+    override fun toDouble(): Double = throw CanNotCastDateTimeToDoubleException()
+    override fun toInt(): Int = throw CanNotCastDateTimeToIntException()
+    override fun toBoolean(): Boolean = throw CanNotCastDateTimeToBooleanException()
 }

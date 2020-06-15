@@ -6,12 +6,14 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 
 object RowIteratorDebugFast {
-    operator fun invoke(label:String,child: RowIterator) = child
+    operator fun invoke(label: String, child: RowIterator) = child
 }
 
-var debugiteratoruuid=0
-class RowIteratorDebugVerbose(val label:String, val child: RowIterator) : RowIterator() {
-val uuid=debugiteratoruuid++
+var debugiteratoruuid = 0
+
+class RowIteratorDebugVerbose(val label: String, val child: RowIterator) : RowIterator() {
+    val uuid = debugiteratoruuid++
+
     init {
         columns = child.columns
         buf = IntArray(columns.size)
@@ -21,11 +23,11 @@ val uuid=debugiteratoruuid++
             if (off < 0) {
                 close()
             } else {
-var str=StringBuilder()
-str.append("debug row ($label - $uuid): ")
+                var str = StringBuilder()
+                str.append("debug row ($label - $uuid): ")
                 for (i in 0 until columns.size) {
                     buf[i] = child.buf[off + i]
-str.append("${buf[i]}, ")
+                    str.append("${buf[i]}, ")
                 }
                 res = 0
             }

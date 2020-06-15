@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.EvaluationException
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
@@ -46,7 +47,10 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                         res = ValueDecimal(a.toDouble() / b.toDouble())
                     }
                 }
+            } catch (e: EvaluationException) {
             } catch (e: Throwable) {
+                println("TODO exception 23")
+                e.printStackTrace()
             }
 /*return*/res
         }

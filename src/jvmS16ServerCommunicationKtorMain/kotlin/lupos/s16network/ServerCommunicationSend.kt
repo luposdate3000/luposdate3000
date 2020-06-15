@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
+import lupos.s00misc.CommuncationUnexpectedHeaderException
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
@@ -41,9 +42,9 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChannel
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s04logicalOperators.iterator.RowIteratorDebug
 import lupos.s04logicalOperators.iterator.RowIteratorBuf
 import lupos.s04logicalOperators.iterator.RowIteratorChildIterator
+import lupos.s04logicalOperators.iterator.RowIteratorDebug
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -79,9 +80,10 @@ object ServerCommunicationSend {
                     val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw Exception("unexpected result $header")
+                        throw CommuncationUnexpectedHeaderException("$header")
                     }
                 } catch (e: Throwable) {
+                    println("TODO exception 3")
                     e.printStackTrace()
                 } finally {
                     socket.close()
@@ -105,9 +107,10 @@ object ServerCommunicationSend {
                     val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw Exception("unexpected result $header")
+                        throw CommuncationUnexpectedHeaderException("$header")
                     }
                 } catch (e: Throwable) {
+                    println("TODO exception 4")
                     e.printStackTrace()
                 } finally {
                     socket.close()
@@ -142,7 +145,7 @@ object ServerCommunicationSend {
                     val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw Exception("unexpected result $header")
+                        throw CommuncationUnexpectedHeaderException("$header")
                     }
                 } catch (e: Throwable) {
                     e.printStackTrace()
@@ -184,7 +187,7 @@ object ServerCommunicationSend {
                     builder.writeInt(ServerCommunicationHeader.DELETE.ordinal)
                 }
                 builder.writeLong(query.transactionID)
-		builder.writeInt(idx.ordinal)
+                builder.writeInt(idx.ordinal)
                 builder.writeString(graphName)
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
@@ -217,7 +220,7 @@ object ServerCommunicationSend {
             val response = helper.input.readByteArray()
             val header3 = ServerCommunicationHeader.values()[response.readInt()]
             if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                throw Exception("unexpected result $header3")
+                throw CommuncationUnexpectedHeaderException("$header3")
             }
             helper.socket.close()
         }
@@ -280,7 +283,7 @@ object ServerCommunicationSend {
                             val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                             if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                 val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, socket.localAddress.toString())[0]
-                                iterator.childs.add(RowIteratorDebug("a",RowIteratorBuf(data, columns)))
+                                iterator.childs.add(RowIteratorDebug("a", RowIteratorBuf(data, columns)))
                             } else {
                                 require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                             }
@@ -300,14 +303,14 @@ object ServerCommunicationSend {
                 while (iterators.size > 1) {
                     var a = iterators.removeAt(0)
                     var b = iterators.removeAt(0)
-                    tmp.add(RowIteratorDebug("b",RowIteratorMerge(a, b, ValueComparatorFast(), 0)))
+                    tmp.add(RowIteratorDebug("b", RowIteratorMerge(a, b, ValueComparatorFast(), 0)))
                 }
                 if (iterators.size == 1) {
                     tmp.add(iterators[0])
                 }
                 iterators = tmp
             }
-            return IteratorBundle(RowIteratorDebug("c",iterators[0]))
+            return IteratorBundle(RowIteratorDebug("c", iterators[0]))
         }
 /*Coverage Unreachable*/
     }

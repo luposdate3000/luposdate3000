@@ -16,7 +16,7 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
         }
         if (off >= 0) {
             next = {
-		var res=-1
+                var res = -1
                 for (i in 0 until columns.size) {
                     buf[i] = child.buf[off + i]
                 }
@@ -28,7 +28,7 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
                     } else {
                         for (i in 0 until columns.size) {
                             if (buf[i] != child.buf[off + i]) {
-				res=0
+                                res = 0
                                 break@loop
                             }
                         }

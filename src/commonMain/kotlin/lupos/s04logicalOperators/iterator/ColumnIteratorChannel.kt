@@ -26,6 +26,8 @@ class ColumnIteratorChannel() : ColumnIterator() {
             try {
                 res = queue.receive()
             } catch (e: Throwable) {
+                println("TODO exception 12")
+                e.printStackTrace()
                 SanityCheck.check { doneWriting }
                 doneReading = true
                 close()

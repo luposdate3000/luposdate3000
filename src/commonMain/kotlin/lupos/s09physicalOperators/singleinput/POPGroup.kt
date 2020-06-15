@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
@@ -107,7 +108,7 @@ class POPGroup : POPBase {
                     if (!found) {
                         for (b in by) {
                             if (b.name == name) {
-                                throw Exception("undefined GROUP BY column >$name<")
+                                throw GroupByColumnMissing(name)
                             }
                         }
                         for (b in bindings.indices) {

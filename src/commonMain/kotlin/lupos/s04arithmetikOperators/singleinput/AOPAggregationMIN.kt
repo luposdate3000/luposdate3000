@@ -3,6 +3,7 @@ package lupos.s04arithmetikOperators.singleinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.EvaluationException
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
@@ -36,8 +37,13 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
                 if (res.value is ValueUndef || res.value.compareTo(value) > 0) {
                     res.value = value
                 }
-            } catch (e: Throwable) {
+            } catch (e: EvaluationException) {
                 res.value = ValueError()
+                res.evaluate = res::_evaluate
+            } catch (e: Throwable) {
+                println("TODO exception 38")
+                e.printStackTrace()
+res.value = ValueError()
                 res.evaluate = res::_evaluate
             }
         }

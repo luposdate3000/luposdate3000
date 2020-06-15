@@ -88,9 +88,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 var tmp = ResultSetDictionary()
                 tmp.typedMap.loadFromFile("log/dict_1")
                 tmp.typedMap.safeToFile("log/dict_2")
-                if (File("log/dict_1") != File("log/dict_2")) {
-                    throw Exception("saveing and reloading the Dictionary failed")
-                }
+                SanityCheck.check { File("log/dict_1") == File("log/dict_2") }
             }
         }
     }
@@ -139,6 +137,8 @@ class ResultSetDictionary(val global: Boolean = false) {
                     res = booleanFalseValue
                 }
             } catch (e: Throwable) {
+                println("TODO exception 1")
+                e.printStackTrace()
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})

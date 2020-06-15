@@ -35,6 +35,8 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                     res = a
                 }
             } catch (e: Throwable) {
+                println("TODO exception 36")
+                e.printStackTrace()
             }
 /*return*/res
         }

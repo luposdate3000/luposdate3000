@@ -5,10 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Coverage
 
-var debuguuidtmp123=0
+var debuguuidtmp123 = 0
 
 class ReadWriteLock {
-val uuid=debuguuidtmp123++
+    val uuid = debuguuidtmp123++
+
     @JvmField
     val allowNewReads = Mutex()
 

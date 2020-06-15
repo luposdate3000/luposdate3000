@@ -3,8 +3,8 @@ package lupos.s05tripleStore.index_IDTriple
 import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
-import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.MyListGeneric
+import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -107,7 +107,6 @@ object NodeManager {
 
     val lockInner = ReadWriteLock()
     val lockLeaf = ReadWriteLock()
-
     fun safeToFolder() {
         //println("debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
@@ -160,20 +159,20 @@ object NodeManager {
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
-var node:NodeInner?=null
+                var node: NodeInner? = null
                 lockInner.withWriteLock {
                     SanityCheck.check { !allNodesFreeListInner.contains(idx) }
-                    node=NodeInner(bufferManager.getPage(idx))
+                    node = NodeInner(bufferManager.getPage(idx))
                 }
-actionInner(node!!)
+                actionInner(node!!)
             }
             nodePointerTypeLeaf -> {
-var node:NodeLeaf?=null
+                var node: NodeLeaf? = null
                 lockLeaf.withWriteLock {
                     SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
-                    node=NodeLeaf(bufferManager.getPage(idx))
+                    node = NodeLeaf(bufferManager.getPage(idx))
                 }
-actionLeaf(node!!)
+                actionLeaf(node!!)
             }
             else -> {
                 SanityCheck.checkUnreachable()

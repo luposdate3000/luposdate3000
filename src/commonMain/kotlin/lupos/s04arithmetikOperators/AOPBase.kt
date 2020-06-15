@@ -3,6 +3,7 @@ package lupos.s04arithmetikOperators
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
@@ -32,8 +33,12 @@ abstract class AOPBase(query: Query,
                 try {
                     val value = tmp()
                     res = value.toBoolean()
-                } catch (e: Throwable) {
+                } catch (e: EvaluationException) {
                     res = false
+}catch (e:Throwable){
+res = false
+println("TODO exception 48")
+e.printStackTrace()
                 }
 /*return*/res
             }

@@ -9,6 +9,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
+import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -66,7 +67,7 @@ object HttpEndpointLauncher {
                 DistributedTripleStore.localStore.loadFromFolder()
             }
         }
-        throw Exception("$path unknown http-request")
+        throw EnpointRecievedInvalidPath(path)
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
@@ -89,6 +90,8 @@ object HttpEndpointLauncher {
                 } catch (e: Throwable) {
                     responseBytes = e.toString().encodeToByteArray()
                     request.setStatus(500)
+                    println("TODO exception 6")
+                    e.printStackTrace()
                 }
                 request.end(responseBytes)
             }

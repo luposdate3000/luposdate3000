@@ -152,6 +152,7 @@ object HttpEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
+            println("TODO exception 15")
             e.printStackTrace()
             throw e
         }

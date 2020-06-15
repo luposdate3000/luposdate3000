@@ -33,6 +33,8 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
                     }
                 } catch (e: Throwable) {
                     noError = false
+                    println("TODO exception 22")
+                    e.printStackTrace()
                 }
             }
             if (found || noError) {

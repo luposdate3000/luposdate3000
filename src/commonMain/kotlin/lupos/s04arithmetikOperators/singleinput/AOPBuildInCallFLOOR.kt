@@ -35,6 +35,8 @@ class AOPBuildInCallFLOOR(query: Query, child: AOPBase) : AOPBase(query, EOperat
                     res = a
                 }
             } catch (e: Throwable) {
+                println("TODO exception 35")
+                e.printStackTrace()
             }
 /*return*/res
         }

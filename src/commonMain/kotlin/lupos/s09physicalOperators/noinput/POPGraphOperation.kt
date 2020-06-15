@@ -7,6 +7,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.EvaluationException
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -308,8 +309,14 @@ class POPGraphOperation(query: Query,
                     }
                 }
             }
-        } catch (e: Throwable) {
+        } catch (e: EvaluationException) {
             if (!silent) {
+                throw e
+            }
+        } catch (e: Throwable) {
+            println("TODO exception 7")
+            e.printStackTrace()
+ if (!silent) {
                 throw e
             }
         }

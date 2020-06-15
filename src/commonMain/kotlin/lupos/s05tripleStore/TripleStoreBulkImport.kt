@@ -11,7 +11,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class TripleStoreBulkImport(val query: Query, val graphName: String, val targetIdx:EIndexPattern?) {
+class TripleStoreBulkImport(val query: Query, val graphName: String, val targetIdx: EIndexPattern?) {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
     val sizeshift = 20
@@ -31,13 +31,13 @@ class TripleStoreBulkImport(val query: Query, val graphName: String, val targetI
         if (full()) {
             CoroutinesHelper.runBlock {
                 sort(targetIdx)
-if(targetIdx==null){
-                for (idx in TripleStoreLocalBase.distinctIndices) {
-                    flush(idx)
+                if (targetIdx == null) {
+                    for (idx in TripleStoreLocalBase.distinctIndices) {
+                        flush(idx)
+                    }
+                } else {
+                    flush(targetIdx)
                 }
-}else{
-flush(targetIdx)
-}
                 reset()
             }
         }
@@ -45,13 +45,13 @@ flush(targetIdx)
 
     fun finishImport() {
         sort(targetIdx)
-if(targetIdx==null){
-        for (idx in TripleStoreLocalBase.distinctIndices) {
-            flush(idx)
+        if (targetIdx == null) {
+            for (idx in TripleStoreLocalBase.distinctIndices) {
+                flush(idx)
+            }
+        } else {
+            flush(targetIdx)
         }
-}else{ 
-flush(targetIdx)
-}
     }
 
     fun flush(idx: EIndexPattern) {
@@ -138,7 +138,7 @@ flush(targetIdx)
         }
     }
 
-    fun sort(targetIdx:EIndexPattern?) {
+    fun sort(targetIdx: EIndexPattern?) {
         BenchmarkUtils.start(EBenchmark.IMPORT_SORT)
         //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
@@ -157,40 +157,40 @@ flush(targetIdx)
             dataOSP = data[8]
             dataOPS = data[8]
         } else {
-if(targetIdx==null){
-            for (j in 0 until 2) {
-                for (i in 0 until 3) {
-                    val order = orders[i * 2 + j]
-                    val firstIdx = 8
-                    val dataIdxA = i
-                    val dataIdxB = i + 3
-                    sortUsingBuffers(firstIdx, dataIdxA, dataIdxB, data, total, order)
+            if (targetIdx == null) {
+                for (j in 0 until 2) {
+                    for (i in 0 until 3) {
+                        val order = orders[i * 2 + j]
+                        val firstIdx = 8
+                        val dataIdxA = i
+                        val dataIdxB = i + 3
+                        sortUsingBuffers(firstIdx, dataIdxA, dataIdxB, data, total, order)
+                    }
+                    if (j == 0) {
+                        dataSPO = data[0]
+                        dataPSO = data[1]
+                        dataOSP = data[2]
+                        data[0] = data[6]
+                        data[1] = data[7]
+                        data[2] = data[8]
+                        data[6] = dataSPO
+                        data[7] = dataPSO
+                        data[8] = dataOSP
+                    } else {
+                        dataSOP = data[0]
+                        dataPOS = data[1]
+                        dataOPS = data[2]
+                    }
                 }
-                if (j == 0) {
-                    dataSPO = data[0]
-                    dataPSO = data[1]
-                    dataOSP = data[2]
-                    data[0] = data[6]
-                    data[1] = data[7]
-                    data[2] = data[8]
-                    data[6] = dataSPO
-                    data[7] = dataPSO
-                    data[8] = dataOSP
-                } else {
-                    dataSOP = data[0]
-                    dataPOS = data[1]
-                    dataOPS = data[2]
-                }
+            } else {
+                sortUsingBuffers(8, 0, 1, data, total, targetIdx.tripleIndicees)
+                dataSPO = data[0]
+                dataSOP = data[0]
+                dataPSO = data[0]
+                dataPOS = data[0]
+                dataOSP = data[0]
+                dataOPS = data[0]
             }
-}else{
-sortUsingBuffers(8, 0, 1, data, total, targetIdx.tripleIndicees)
-dataSPO = data[0]
-            dataSOP = data[0]
-            dataPSO = data[0]
-            dataPOS = data[0]
-            dataOSP = data[0]
-            dataOPS = data[0]
-}
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_SORT)
     }
