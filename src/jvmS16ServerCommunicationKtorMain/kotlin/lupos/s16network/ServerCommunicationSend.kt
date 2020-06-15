@@ -41,6 +41,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChannel
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
+import lupos.s04logicalOperators.iterator.RowIteratorDebug
 import lupos.s04logicalOperators.iterator.RowIteratorBuf
 import lupos.s04logicalOperators.iterator.RowIteratorChildIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
@@ -279,7 +280,7 @@ object ServerCommunicationSend {
                             val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                             if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                 val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, socket.localAddress.toString())[0]
-                                iterator.childs.add(RowIteratorBuf(data, columns))
+                                iterator.childs.add(RowIteratorDebug("a",RowIteratorBuf(data, columns)))
                             } else {
                                 require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                             }
@@ -299,14 +300,14 @@ object ServerCommunicationSend {
                 while (iterators.size > 1) {
                     var a = iterators.removeAt(0)
                     var b = iterators.removeAt(0)
-                    tmp.add(RowIteratorMerge(a, b, ValueComparatorFast(), 0))
+                    tmp.add(RowIteratorDebug("b",RowIteratorMerge(a, b, ValueComparatorFast(), 0)))
                 }
                 if (iterators.size == 1) {
                     tmp.add(iterators[0])
                 }
                 iterators = tmp
             }
-            return IteratorBundle(iterators[0])
+            return IteratorBundle(RowIteratorDebug("c",iterators[0]))
         }
 /*Coverage Unreachable*/
     }

@@ -48,6 +48,7 @@ object ServerCommunicationTransferTriples {
             var si = packet.readInt()
             var pi = packet.readInt()
             var oi = packet.readInt()
+            println("receiveTriples A ${si.toString(16)} ${pi.toString(16)} ${oi.toString(16)}")
             bulk.insert(si, pi, oi)
         }
     }
@@ -71,6 +72,7 @@ object ServerCommunicationTransferTriples {
                 } else {
                     res[i].add(v)
                 }
+                println("receiveTriples B[$i] ${v.toString(16)}")
             }
         }
         return res
@@ -103,6 +105,7 @@ object ServerCommunicationTransferTriples {
                         require(i == 0)
                         break@loop
                     } else {
+                        println("sendTriples A[$i] ${v.toString(16)}")
                         builder.writeInt(v)
                     }
                 }
@@ -113,18 +116,19 @@ object ServerCommunicationTransferTriples {
         onFullPacket(builder)
     }
 
-    suspend fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary,builder : ByteArrayBuilder, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
+    suspend fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary, builder: ByteArrayBuilder, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
         /*always assume SPO requires exactly 3 columns*/
-            if (builder.size >= NETWORK_PACKET_SIZE){
-onFullPacket(builder)
+        if (builder.size >= NETWORK_PACKET_SIZE) {
+            onFullPacket(builder)
             builder.reset()
-}
-if(builder.size==0){
+        }
+        if (builder.size == 0) {
             builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
             builder.writeInt(3)
-}
-                        builder.writeInt(si)
-                        builder.writeInt(pi)
-                        builder.writeInt(oi)
+        }
+        println("sendTriples B ${si.toString(16)} ${pi.toString(16)} ${oi.toString(16)}")
+        builder.writeInt(si)
+        builder.writeInt(pi)
+        builder.writeInt(oi)
     }
 }
