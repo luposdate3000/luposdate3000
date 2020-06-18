@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import java.io.*
+import lupos.s00misc.JenaBugException
 import lupos.s00misc.Coverage
 import org.apache.jena.query.*
 import org.apache.jena.rdf.model.*
@@ -18,10 +19,10 @@ object JenaWrapper {
 
     fun checkExceptions(queryString: String) {
         if (queryString.contains("STRDT")) {
-            throw Exception("jena implementation is wrong in combination with STRDT when there are typed literals matching the new specified type")
+            throw JenaBugException("jena implementation is wrong in combination with STRDT when there are typed literals matching the new specified type")
         }
         if (queryString.contains("STRLANG")) {
-            throw Exception("jena implementation changes the language to uppercase, and is wrong, when there already are language tagged literals")
+            throw JenaBugException("jena implementation changes the language to uppercase, and is wrong, when there already are language tagged literals")
         }
     }
 
