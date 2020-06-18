@@ -3,7 +3,7 @@ git config --global credential.helper store
 git config --global user.name "Benjamin Warnke"
 git config --global user.email "warnke@ifis.uni-luebeck.de"
 
-apt install docker g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip
+apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip
 
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 luposdate3000home=$(pwd)/luposdate3000home

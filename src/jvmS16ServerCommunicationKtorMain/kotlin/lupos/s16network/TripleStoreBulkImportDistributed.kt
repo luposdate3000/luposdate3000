@@ -69,8 +69,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
             var helper = accessedHosts[i][host]
             val helper2: ImportHelper
             if (helper == null) {
-                println("Bulk open new socket")
-                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val socket = ServerCommunicationConnectionPool.openSocket(host)
                 helper2 = ImportHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
                 accessedHosts[i][host] = helper2
                 var builder = ByteArrayBuilder()
@@ -78,13 +77,11 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
                 builder.writeLong(query.transactionID)
                 builder.writeInt(idx.ordinal)
                 builder.writeString(graphName)
-                println("Bulk going to write packet")
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
             } else {
                 helper2 = helper
             }
-            println("Bulk appending data")
             ServerCommunicationTransferTriples.sendTriples(si, pi, oi, query.dictionary, helper2.builder) {
                 helper2.output.writeByteArray(it)
                 helper2.output.flush()
@@ -93,7 +90,6 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
     }
 
     suspend fun finishImport() {
-        println("Bulk finishing")
         for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
             val idx = TripleStoreLocalBase.distinctIndices[i]
             for ((host, helper) in accessedHosts[i]) {
@@ -104,7 +100,6 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                 builder.writeLong(query.transactionID)
-                println("Bulk sending finish-signal")
                 helper.output.writeByteArray(builder)
                 helper.output.flush()
                 val response = helper.input.readByteArray()
@@ -112,8 +107,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
                 if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                     throw CommuncationUnexpectedHeaderException("$header3")
                 }
-                println("Bulk close a socket")
-                helper.socket.close()
+		ServerCommunicationConnectionPool.closeSocket(host,helper.socket)
             }
         }
     }

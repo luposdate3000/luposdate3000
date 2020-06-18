@@ -68,7 +68,7 @@ object ServerCommunicationSend {
     fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
-                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val socket = ServerCommunicationConnectionPool.openSocket(host)
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
@@ -86,7 +86,7 @@ object ServerCommunicationSend {
                     println("TODO exception 3")
                     e.printStackTrace()
                 } finally {
-                    socket.close()
+                    ServerCommunicationConnectionPool.closeSocket(host,socket)
                 }
             }
         }
@@ -95,7 +95,7 @@ object ServerCommunicationSend {
     fun graphClearAll(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
-                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val socket = ServerCommunicationConnectionPool.openSocket(host)
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
@@ -113,7 +113,7 @@ object ServerCommunicationSend {
                     println("TODO exception 4")
                     e.printStackTrace()
                 } finally {
-                    socket.close()
+                    ServerCommunicationConnectionPool.closeSocket(host,socket)
                 }
             }
         }
@@ -122,7 +122,7 @@ object ServerCommunicationSend {
     fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
-                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val socket = ServerCommunicationConnectionPool.openSocket(host)
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
@@ -150,7 +150,7 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 } finally {
-                    socket.close()
+                    ServerCommunicationConnectionPool.closeSocket(host,socket)
                 }
             }
         }
@@ -177,7 +177,7 @@ object ServerCommunicationSend {
             var helper = accessedHosts[host]
             val helper2: ModifyHelper
             if (helper == null) {
-                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val socket = ServerCommunicationConnectionPool.openSocket(host)
                 helper2 = ModifyHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array<ColumnIterator>(3) { ColumnIteratorChannel() })
                 accessedHosts[host] = helper2
                 var builder = ByteArrayBuilder()
@@ -222,7 +222,7 @@ object ServerCommunicationSend {
             if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                 throw CommuncationUnexpectedHeaderException("$header3")
             }
-            helper.socket.close()
+            ServerCommunicationConnectionPool.closeSocket(host,helper.socket)
         }
     }
 
@@ -245,7 +245,7 @@ object ServerCommunicationSend {
             var count = 0
             for (host in hosts) {
                 runBlocking {
-                    val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                    val socket = ServerCommunicationConnectionPool.openSocket(host)
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
                     try {
@@ -261,7 +261,7 @@ object ServerCommunicationSend {
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     } finally {
-                        socket.close()
+                        ServerCommunicationConnectionPool.closeSocket(host,socket)
                     }
                 }
             }
@@ -272,7 +272,7 @@ object ServerCommunicationSend {
                 var iterator = RowIteratorChildIterator(columns)
                 iterators.add(iterator)
                 runBlocking {
-                    val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                    val socket = ServerCommunicationConnectionPool.openSocket(host)
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
                     try {
@@ -291,7 +291,7 @@ object ServerCommunicationSend {
                         var tmp = iterator.close
                         iterator.close = {
                             tmp()
-                            socket.close()
+                            ServerCommunicationConnectionPool.closeSocket(host,socket)
                         }
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -327,7 +327,7 @@ object ServerCommunicationSend {
         var resSecond = 0
         for (host in hosts) {
             runBlocking {
-                val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+                val socket = ServerCommunicationConnectionPool.openSocket(host)
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel()
                 try {
@@ -344,7 +344,7 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 } finally {
-                    socket.close()
+                    ServerCommunicationConnectionPool.closeSocket(host,socket)
                 }
             }
         }

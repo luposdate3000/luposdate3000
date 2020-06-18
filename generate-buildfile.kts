@@ -365,7 +365,11 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Max Triples During Extreme Testing", "MaxTriplesDuringTest") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "2000"),
                 ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "-1")
-        )
+        ),
+ChooseableGroup("Use connection pool for server communication","ConnectionPool") to listOf(
+ChooseableOptionTypeAlias("Off","lupos.s16network",listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOff")),
+ChooseableOptionTypeAlias("On","lupos.s16network",listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOn"))
+)
 )
 
 
