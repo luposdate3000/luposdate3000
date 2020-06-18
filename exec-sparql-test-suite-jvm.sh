@@ -26,7 +26,7 @@ port="3030"
   echo "CoverageGenerate->DontChange"
   echo "ServerCommunication->Ktor"
   echo "MaxTriplesDuringTest->2000"
-  echo "ConnectionPool->Off"
+  echo "ConnectionPool->On"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

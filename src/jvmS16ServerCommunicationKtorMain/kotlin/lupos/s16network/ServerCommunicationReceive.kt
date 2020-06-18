@@ -57,6 +57,7 @@ object ServerCommunicationReceive {
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
                     try {
+while(ServerCommunicationConnectionPoolOn .keepAliveServerConnection ){
                         val packet = input.readByteArray()
                         val header = ServerCommunicationHeader.values()[packet.readInt()]
                         val transactionID = packet.readLong()
@@ -166,6 +167,7 @@ object ServerCommunicationReceive {
                         builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                         output.writeByteArray(builder)
                         output.flush()
+}
                     } catch (e: Throwable) {
                         println("TODO exception 2")
                         e.printStackTrace()

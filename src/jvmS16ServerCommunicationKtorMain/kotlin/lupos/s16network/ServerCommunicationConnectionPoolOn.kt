@@ -54,20 +54,31 @@ import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
-object ServerCommunicationConnectionPoolOff {
-val keepAliveServerConnection=false
+object ServerCommunicationConnectionPoolOn {
+    val keepAliveServerConnection = true
+    val cache = mutableMapOf<ServerCommunicationKnownHost, MutableList<ServerCommunicationConnectionPoolHelper>>()
+
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
+        val tmp = cache[host]
+        if (tmp != null && !tmp.isEmpty()) {
+            return tmp.removeAt(0)
+        }
 val socket=aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
 return ServerCommunicationConnectionPoolHelper(socket,socket.openReadChannel(),socket.openWriteChannel())
     }
 
-     fun closeSocketClean(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
+    fun closeSocketClean(host: ServerCommunicationKnownHost, conn:ServerCommunicationConnectionPoolHelper) {
 if(!conn.hadException){
-        conn.socket.close()
+        val tmp = cache[host]
+        if (tmp == null) {
+            cache[host] = mutableListOf(conn)
+        } else {
+            tmp.add(conn)
+        }
 }
     }
-     fun closeSocketException(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
+    fun closeSocketException(host: ServerCommunicationKnownHost, conn:ServerCommunicationConnectionPoolHelper) {
 conn.hadException=true
-        conn.socket.close()
+conn.socket.close()
     }
 }

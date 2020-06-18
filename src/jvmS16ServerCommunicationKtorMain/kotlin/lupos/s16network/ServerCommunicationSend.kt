@@ -68,9 +68,9 @@ object ServerCommunicationSend {
     fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
-                val socket = ServerCommunicationConnectionPool.openSocket(host)
-                val input = socket.openReadChannel()
-                val output = socket.openWriteChannel()
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                val input = conn.input
+                val output = conn.output
                 try {
                     var builder = ByteArrayBuilder()
                     builder.writeInt(ServerCommunicationHeader.COMMIT.ordinal)
@@ -85,9 +85,9 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     println("TODO exception 3")
                     e.printStackTrace()
-                } finally {
-                    ServerCommunicationConnectionPool.closeSocket(host,socket)
+                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
                 }
+                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
             }
         }
     }
@@ -95,9 +95,9 @@ object ServerCommunicationSend {
     fun graphClearAll(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
-                val socket = ServerCommunicationConnectionPool.openSocket(host)
-                val input = socket.openReadChannel()
-                val output = socket.openWriteChannel()
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                val input = conn.input
+                val output = conn.output
                 try {
                     var builder = ByteArrayBuilder()
                     builder.writeInt(ServerCommunicationHeader.CLEAR_ALL_GRAPH.ordinal)
@@ -112,9 +112,9 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     println("TODO exception 4")
                     e.printStackTrace()
-                } finally {
-                    ServerCommunicationConnectionPool.closeSocket(host,socket)
+                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
                 }
+                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
             }
         }
     }
@@ -122,9 +122,9 @@ object ServerCommunicationSend {
     fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             runBlocking {
-                val socket = ServerCommunicationConnectionPool.openSocket(host)
-                val input = socket.openReadChannel()
-                val output = socket.openWriteChannel()
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                val input = conn.input
+                val output = conn.output
                 try {
                     var builder = ByteArrayBuilder()
                     when (type) {
@@ -149,14 +149,14 @@ object ServerCommunicationSend {
                     }
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                } finally {
-                    ServerCommunicationConnectionPool.closeSocket(host,socket)
+                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
                 }
+                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
             }
         }
     }
 
-    class ModifyHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
+    class ModifyHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
         var job: Job? = null
     }
 
@@ -177,8 +177,8 @@ object ServerCommunicationSend {
             var helper = accessedHosts[host]
             val helper2: ModifyHelper
             if (helper == null) {
-                val socket = ServerCommunicationConnectionPool.openSocket(host)
-                helper2 = ModifyHelper(socket, socket.openReadChannel(), socket.openWriteChannel(), Array<ColumnIterator>(3) { ColumnIteratorChannel() })
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                helper2 = ModifyHelper(conn, conn.input,conn.output, Array<ColumnIterator>(3) { ColumnIteratorChannel() })
                 accessedHosts[host] = helper2
                 var builder = ByteArrayBuilder()
                 if (type == EModifyType.INSERT) {
@@ -222,7 +222,7 @@ object ServerCommunicationSend {
             if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                 throw CommuncationUnexpectedHeaderException("$header3")
             }
-            ServerCommunicationConnectionPool.closeSocket(host,helper.socket)
+            ServerCommunicationConnectionPool.closeSocketClean(host,helper.conn)
         }
     }
 
@@ -245,9 +245,9 @@ object ServerCommunicationSend {
             var count = 0
             for (host in hosts) {
                 runBlocking {
-                    val socket = ServerCommunicationConnectionPool.openSocket(host)
-                    val input = socket.openReadChannel()
-                    val output = socket.openWriteChannel()
+                    val conn = ServerCommunicationConnectionPool.openSocket(host)
+                    val input = conn.input
+                    val output = conn.output
                     try {
                         output.writeByteArray(builder)
                         output.flush()
@@ -260,9 +260,9 @@ object ServerCommunicationSend {
                         require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
                     } catch (e: Throwable) {
                         e.printStackTrace()
-                    } finally {
-                        ServerCommunicationConnectionPool.closeSocket(host,socket)
+                        ServerCommunicationConnectionPool.closeSocketException(host,conn)
                     }
+                        ServerCommunicationConnectionPool.closeSocketClean(host,conn)
                 }
             }
             return IteratorBundle(count)
@@ -272,9 +272,9 @@ object ServerCommunicationSend {
                 var iterator = RowIteratorChildIterator(columns)
                 iterators.add(iterator)
                 runBlocking {
-                    val socket = ServerCommunicationConnectionPool.openSocket(host)
-                    val input = socket.openReadChannel()
-                    val output = socket.openWriteChannel()
+                    val conn = ServerCommunicationConnectionPool.openSocket(host)
+                    val input = conn.input
+                    val output = conn.output
                     try {
                         output.writeByteArray(builder)
                         output.flush()
@@ -282,7 +282,7 @@ object ServerCommunicationSend {
                             val packet2 = input.readByteArray()
                             val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                             if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
-                                val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, socket.localAddress.toString())[0]
+                                val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, conn.localAddress)[0]
                                 iterator.childs.add(RowIteratorDebug("a", RowIteratorBuf(data, columns)))
                             } else {
                                 require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
@@ -291,7 +291,7 @@ object ServerCommunicationSend {
                         var tmp = iterator.close
                         iterator.close = {
                             tmp()
-                            ServerCommunicationConnectionPool.closeSocket(host,socket)
+                            ServerCommunicationConnectionPool.closeSocketClean(host,conn)
                         }
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -327,9 +327,9 @@ object ServerCommunicationSend {
         var resSecond = 0
         for (host in hosts) {
             runBlocking {
-                val socket = ServerCommunicationConnectionPool.openSocket(host)
-                val input = socket.openReadChannel()
-                val output = socket.openWriteChannel()
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                val input = conn.input
+                val output = conn.output
                 try {
                     output.writeByteArray(builder)
                     output.flush()
@@ -343,9 +343,9 @@ object ServerCommunicationSend {
                     require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                } finally {
-                    ServerCommunicationConnectionPool.closeSocket(host,socket)
-                }
+                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
+}
+                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
             }
         }
         return Pair(resFirst, resSecond)
