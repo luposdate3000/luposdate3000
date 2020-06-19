@@ -56,11 +56,15 @@ object ServerCommunicationReceive {
                 launch {
                     val input = socket.openReadChannel()
                     val output = socket.openWriteChannel()
+  var readHeader = false
                     try {
+                        do {
+                            readHeader = false
                         val packet = input.readByteArray()
                         val header = ServerCommunicationHeader.values()[packet.readInt()]
                         val transactionID = packet.readLong()
                         val query = Query(transactionID = transactionID)
+ readHeader = true
                         when (header) {
                             ServerCommunicationHeader.COMMIT -> {
                                 DistributedTripleStore.localStore.commit(query)
@@ -166,9 +170,15 @@ object ServerCommunicationReceive {
                         builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                         output.writeByteArray(builder)
                         output.flush()
+} while(ServerCommunicationConnectionPool.keepAliveServerConnection)
                     } catch (e: Throwable) {
-                        println("TODO exception 2")
-                        e.printStackTrace()
+                        if (readHeader) {
+//TODO propagate errors to the requesting node
+                         println("TODO exception 2")
+                         e.printStackTrace()
+                        } else {
+//connection closed before anything read ... assume there was an error on the other side, which tried to connect
+                        }
                     } finally {
                         socket.close()
                     }
