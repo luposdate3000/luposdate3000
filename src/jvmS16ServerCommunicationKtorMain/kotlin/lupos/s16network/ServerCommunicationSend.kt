@@ -85,9 +85,9 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     println("TODO exception 3")
                     e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
+                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
-                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
+                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
             }
         }
     }
@@ -112,9 +112,9 @@ object ServerCommunicationSend {
                 } catch (e: Throwable) {
                     println("TODO exception 4")
                     e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
+                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
-                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
+                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
             }
         }
     }
@@ -149,9 +149,9 @@ object ServerCommunicationSend {
                     }
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
+                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
-                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
+                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
             }
         }
     }
@@ -178,7 +178,7 @@ object ServerCommunicationSend {
             val helper2: ModifyHelper
             if (helper == null) {
                 val conn = ServerCommunicationConnectionPool.openSocket(host)
-                helper2 = ModifyHelper(conn, conn.input,conn.output, Array<ColumnIterator>(3) { ColumnIteratorChannel() })
+                helper2 = ModifyHelper(conn, conn.input, conn.output, Array<ColumnIterator>(3) { ColumnIteratorChannel() })
                 accessedHosts[host] = helper2
                 var builder = ByteArrayBuilder()
                 if (type == EModifyType.INSERT) {
@@ -222,7 +222,7 @@ object ServerCommunicationSend {
             if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                 throw CommuncationUnexpectedHeaderException("$header3")
             }
-            ServerCommunicationConnectionPool.closeSocketClean(host,helper.conn)
+            ServerCommunicationConnectionPool.closeSocketClean(host, helper.conn)
         }
     }
 
@@ -260,9 +260,9 @@ object ServerCommunicationSend {
                         require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
                     } catch (e: Throwable) {
                         e.printStackTrace()
-                        ServerCommunicationConnectionPool.closeSocketException(host,conn)
+                        ServerCommunicationConnectionPool.closeSocketException(host, conn)
                     }
-                        ServerCommunicationConnectionPool.closeSocketClean(host,conn)
+                    ServerCommunicationConnectionPool.closeSocketClean(host, conn)
                 }
             }
             return IteratorBundle(count)
@@ -291,7 +291,7 @@ object ServerCommunicationSend {
                         var tmp = iterator.close
                         iterator.close = {
                             tmp()
-                            ServerCommunicationConnectionPool.closeSocketClean(host,conn)
+                            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
                         }
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -335,7 +335,7 @@ object ServerCommunicationSend {
                     output.flush()
                     val packet2 = input.readByteArray()
                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                    require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM,{"received $header2 but expected RESPONSE_HISTOGRAM"})
+                    require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM, { "received $header2 but expected RESPONSE_HISTOGRAM" })
                     resFirst += packet2.readInt()
                     resSecond += packet2.readInt()
                     val packet3 = input.readByteArray()
@@ -343,9 +343,9 @@ object ServerCommunicationSend {
                     require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
                 } catch (e: Throwable) {
                     e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host,conn)
-}
-                    ServerCommunicationConnectionPool.closeSocketClean(host,conn)
+                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
+                }
+                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
             }
         }
         return Pair(resFirst, resSecond)

@@ -63,22 +63,23 @@ object ServerCommunicationConnectionPoolOn {
         if (tmp != null && !tmp.isEmpty()) {
             return tmp.removeAt(0)
         }
-val socket=aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
-return ServerCommunicationConnectionPoolHelper(socket,socket.openReadChannel(),socket.openWriteChannel())
+        val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+        return ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
     }
 
-    fun closeSocketClean(host: ServerCommunicationKnownHost, conn:ServerCommunicationConnectionPoolHelper) {
-if(!conn.hadException){
-        val tmp = cache[host]
-        if (tmp == null) {
-            cache[host] = mutableListOf(conn)
-        } else {
-            tmp.add(conn)
+    fun closeSocketClean(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
+        if (!conn.hadException) {
+            val tmp = cache[host]
+            if (tmp == null) {
+                cache[host] = mutableListOf(conn)
+            } else {
+                tmp.add(conn)
+            }
         }
-}
     }
-    fun closeSocketException(host: ServerCommunicationKnownHost, conn:ServerCommunicationConnectionPoolHelper) {
-conn.hadException=true
-conn.socket.close()
+
+    fun closeSocketException(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
+        conn.hadException = true
+        conn.socket.close()
     }
 }

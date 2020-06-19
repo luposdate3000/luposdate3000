@@ -507,9 +507,9 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-}catch(e:JenaBugException){
-println(e.message)
-ignoreJena = true
+                    } catch (e: JenaBugException) {
+                        println(e.message)
+                        ignoreJena = true
                     } catch (e: Throwable) {
                         println("TODO exception 41")
                         e.printStackTrace()
@@ -530,9 +530,9 @@ ignoreJena = true
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-}catch(e:JenaBugException){
-println(e.message)
-ignoreJena = true
+                    } catch (e: JenaBugException) {
+                        println(e.message)
+                        ignoreJena = true
                     } catch (e: Throwable) {
                         println("TODO exception 42")
                         e.printStackTrace()
@@ -644,9 +644,9 @@ ignoreJena = true
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
                             return false
                         }
-}catch(e:JenaBugException){
-println(e.message)
-ignoreJena = true
+                    } catch (e: JenaBugException) {
+                        println(e.message)
+                        ignoreJena = true
                     } catch (e: Throwable) {
                         println("TODO exception 43")
                         e.printStackTrace()

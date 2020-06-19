@@ -55,19 +55,20 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationConnectionPoolOff {
-val keepAliveServerConnection=false
+    val keepAliveServerConnection = false
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
-val socket=aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
-return ServerCommunicationConnectionPoolHelper(socket,socket.openReadChannel(),socket.openWriteChannel())
+        val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
+        return ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
     }
 
-     fun closeSocketClean(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
-if(!conn.hadException){
-        conn.socket.close()
-}
+    fun closeSocketClean(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
+        if (!conn.hadException) {
+            conn.socket.close()
+        }
     }
-     fun closeSocketException(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
-conn.hadException=true
+
+    fun closeSocketException(host: ServerCommunicationKnownHost, conn: ServerCommunicationConnectionPoolHelper) {
+        conn.hadException = true
         conn.socket.close()
     }
 }

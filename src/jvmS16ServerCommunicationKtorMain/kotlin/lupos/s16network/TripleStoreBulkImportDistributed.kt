@@ -70,7 +70,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
             val helper2: ImportHelper
             if (helper == null) {
                 val conn = ServerCommunicationConnectionPool.openSocket(host)
-                helper2 = ImportHelper(conn,conn.input,conn.output)
+                helper2 = ImportHelper(conn, conn.input, conn.output)
                 accessedHosts[i][host] = helper2
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.IMPORT.ordinal)
@@ -107,7 +107,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
                 if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                     throw CommuncationUnexpectedHeaderException("$header3")
                 }
-		ServerCommunicationConnectionPool.closeSocketClean(host,helper.conn)
+                ServerCommunicationConnectionPool.closeSocketClean(host, helper.conn)
             }
         }
     }
