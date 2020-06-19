@@ -70,7 +70,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
             }
         }
         if (variableCount != 1) {
-            throw BugException("TripleStoreLocalBase", "Histogram can not be calculated for multipe variables at once. ${params.map { it.toSparql() }}")
+            throw BugException("TripleStoreLocalBase", "Histogram can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
         return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] })
     }

@@ -89,7 +89,7 @@ object ServerCommunicationReceive {
                                     val graphName = packet.readString()
                                     val bulk = TripleStoreBulkImport(query, graphName, idx)
                                     while (true) {
-                                        println("Receive waiting for RESPONSE_TRIPLES or RESPONSE_FINISHED")
+                                        println("Receive waiting_for RESPONSE_TRIPLES or RESPONSE_FINISHED")
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
@@ -170,7 +170,7 @@ object ServerCommunicationReceive {
                             builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                             output.writeByteArray(builder)
                             output.flush()
-                        } while (ServerCommunicationConnectionPool.keepAliveServerConnection)
+                        } while (ServerCommunicationConnectionPool.keepAliveServerConnection) //
                     } catch (e: Throwable) {
                         if (readHeader) {
 //TODO propagate errors to the requesting node
