@@ -58,7 +58,7 @@ object ServerCommunicationReceive {
                     val output = socket.openWriteChannel()
                     var readHeader = false
                     try {
-                        do {
+                        while (true) {
                             readHeader = false
                             val packet = input.readByteArray()
                             val header = ServerCommunicationHeader.values()[packet.readInt()]
@@ -170,7 +170,10 @@ object ServerCommunicationReceive {
                             builder.writeInt(ServerCommunicationHeader.RESPONSE_FINISHED.ordinal)
                             output.writeByteArray(builder)
                             output.flush()
-                        } while (ServerCommunicationConnectionPool.keepAliveServerConnection) //
+                            if (!ServerCommunicationConnectionPool.keepAliveServerConnection) {
+                                break
+                            }
+                        }
                     } catch (e: Throwable) {
                         if (readHeader) {
 //TODO propagate errors to the requesting node
