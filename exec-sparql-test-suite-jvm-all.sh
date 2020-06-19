@@ -45,6 +45,7 @@ rm exec-sparql-test-suite-jvm-all-tmp.sh
 	do
 		(
 			export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
+			export LUPOS_HOME=$(mktemp --directory)
 			./$f > $f.x 2>&1
 			cat $f.x \
 			| grep -e Exception -e Success -e Failed -e "Token unrecognized" -e "java.lang" -e "lupos.s1buildSyntaxTree.UnexpectedToken" -e "Error in the following line" \

@@ -449,7 +449,6 @@ class SparqlTestSuite() {
             }
             val resultData = readFileOrNull(resultDataFileName)
             if (inputDataFileName != "#keep-data#") {
-                BufferManager.bufferPrefix = "log/storetest/"
                 val query2 = Query()
                 query2.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                 ServerCommunicationSend.graphClearAll(query2)

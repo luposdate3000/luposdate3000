@@ -32,7 +32,6 @@ fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
-    BufferManager.bufferPrefix = persistenceFolder
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()

@@ -78,6 +78,7 @@ do
 		queries=$(paste -s -d ';' log/benchtmp/$version.sp2b.queries)
 		if [ -n "$queries" ]
 		then
+			export LUPOS_HOME=$triplesfolder/data
 			if [ $i -eq 0 ]
 			then
 				./log/benchtmp/$version.x "IMPORT" "$triplesfolder/data" "$(find $triplesfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$triples" "$size" "$triplesfolder/bnodes.txt" "sp2b" > log/benchtmp/x
@@ -103,6 +104,7 @@ do
 		queries=$(paste -s -d ';' log/benchtmp/$version.bsbm.queries)
 		if [ -n "$queries" ]
 		then
+			export LUPOS_HOME=$productsfolder/data
 			if [ $i -eq 0 ]
 			then
 				./log/benchtmp/$version.x "IMPORT" "$productsfolder/data" "$(find $productsfolder/*.n3 | paste -s -d ';')" "$queries" "10" "$products" "$size" "$productsfolder/bnodes.txt" "bsbm" > log/benchtmp/x

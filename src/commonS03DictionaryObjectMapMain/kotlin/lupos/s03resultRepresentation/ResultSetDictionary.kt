@@ -1,6 +1,7 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.DictionaryCanNotInferTypeFromValueException
 import lupos.s00misc.File
@@ -183,7 +184,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    fun safeToFolder( = {
+    fun safeToFolder() {
         File(BufferManager.bufferPrefix + "dictionary.txt").printWriter { out ->
             var idx = 0
             for ((k, line) in mapLTS) {

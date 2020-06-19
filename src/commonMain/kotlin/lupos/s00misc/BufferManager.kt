@@ -17,19 +17,13 @@ class BufferManager(val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
-        var _bufferPrefix = "/tmp/luposdate3000/"
         var bufferPrefix: String
-            get() = _bufferPrefix
-            set(value) {
-                if (value != _bufferPrefix) {
-                    _bufferPrefix = value
-                    managerListLock.withReadLock {
-                        managerList.forEach {
-                            it.clear()
-                        }
-                    }
-                }
-            }
+
+        init {
+            bufferPrefix = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+            println("bufferPrefix = $bufferPrefix")
+        }
+
         val managerList = mutableListOf<BufferManager>()
         val managerListLock = ReadWriteLock()
         fun safeToFolder() = managerListLock.withReadLock {
