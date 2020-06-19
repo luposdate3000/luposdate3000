@@ -335,7 +335,7 @@ object ServerCommunicationSend {
                     output.flush()
                     val packet2 = input.readByteArray()
                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                    require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM)
+ require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM, { "received $header2 but expected RESPONSE_HISTOGRAM" })
                     resFirst += packet2.readInt()
                     resSecond += packet2.readInt()
                     val packet3 = input.readByteArray()
