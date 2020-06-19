@@ -35,10 +35,10 @@ abstract class AOPBase(query: Query,
                     res = value.toBoolean()
                 } catch (e: EvaluationException) {
                     res = false
-}catch (e:Throwable){
-res = false
-println("TODO exception 48")
-e.printStackTrace()
+                } catch (e: Throwable) {
+                    res = false
+                    println("TODO exception 48")
+                    e.printStackTrace()
                 }
 /*return*/res
             }

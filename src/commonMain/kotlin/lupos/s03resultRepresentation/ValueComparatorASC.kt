@@ -38,11 +38,11 @@ class ValueComparatorASC(val query: Query) : Comparator<Value> {
             val sA = a.valueToString()!!
             val sB = b.valueToString()!!
             return sA.compareTo(sB)
-        }catch (e:Throwable){
-println("TODO exception 45")
-e.printStackTrace()
-return 0
-}
+        } catch (e: Throwable) {
+            println("TODO exception 45")
+            e.printStackTrace()
+            return 0
+        }
 /*Coverage Unreachable*/
     }
 }

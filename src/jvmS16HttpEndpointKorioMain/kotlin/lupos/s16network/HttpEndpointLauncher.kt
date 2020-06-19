@@ -4,7 +4,6 @@ import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
 import kotlin.jvm.JvmField
-import lupos.SparqlTestSuite
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -15,6 +14,7 @@ import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.SparqlTestSuite
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object HttpEndpointLauncher {
@@ -63,18 +63,18 @@ object HttpEndpointLauncher {
             }
             "/persistence/store" -> {
                 DistributedTripleStore.localStore.safeToFolder()
-return "success\n"
+                return "success\n"
             }
             "/persistence/load" -> {
                 DistributedTripleStore.localStore.loadFromFolder()
-return "success\n"
+                return "success\n"
             }
             "/debug/unittest" -> {
                 SparqlTestSuite().testMain()
-return "finished\n"
+                return "finished\n"
             }
             "/debug/knownHosts" -> {
-return                ServerCommunicationDistribution.printKnownHosts().toString()
+                return ServerCommunicationDistribution.printKnownHosts().toString()
             }
         }
         throw EnpointRecievedInvalidPath(path)

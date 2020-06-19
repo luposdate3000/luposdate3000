@@ -66,4 +66,5 @@ class UnreachableException : EvaluationException("UnreachableException", "This s
 class BugException(classname: String, bugname: String) : Luposdate3000Exception("BugException", "Class '$classname' has bug '$bugname'.")
 //used to indicate, that intentionally every exception is caught here
 typealias DontCareWhichException = Throwable
-class JenaBugException(bugname:String):Luposdate3000Exception("JenaBugException","Jena has bug: '$bugname'")
+
+class JenaBugException(bugname: String) : Luposdate3000Exception("JenaBugException", "Jena has bug: '$bugname'")

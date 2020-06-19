@@ -115,7 +115,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
             }
             var idx = getIndex(params.map { it as OPBase }.toTypedArray(), listOf<String>())
             var childHistogram = store.getHistogram(params, idx)
-            SanityCheck.check ({ res.count == -1 || res.count == childHistogram.first },{"expected ${childHistogram.first} but found ${res.count}"})
+            SanityCheck.check({ res.count == -1 || res.count == childHistogram.first }, { "expected ${childHistogram.first} but found ${res.count}" })
             res.count = childHistogram.first
             res.values[v] = childHistogram.second
         }

@@ -13,6 +13,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.Lock
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -30,7 +31,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s00misc.Lock
 
 class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunicationKnownHostBase(hostname, port) {
 /*
@@ -40,15 +40,15 @@ class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunic
 
 object ServerCommunicationDistribution {
     val knownHosts = mutableListOf<ServerCommunicationKnownHost>()
-val knownHostsLock = Lock()
-fun printKnownHosts():StringBuilder{
-var res=StringBuilder()
-res.append("KnownHostList :: \n")
-knownHosts.forEach{
-res.append("${it.hostname}:${it.port}\n")
-}
-return res
-}
+    val knownHostsLock = Lock()
+    fun printKnownHosts(): StringBuilder {
+        var res = StringBuilder()
+        res.append("KnownHostList :: \n")
+        knownHosts.forEach {
+            res.append("${it.hostname}:${it.port}\n")
+        }
+        return res
+    }
 
     /*
      * refer to k in the project-proposal page 9
@@ -67,21 +67,22 @@ return res
      * the codomain k is guaranteed by the modulo operation
      * TODO _if k is a power of 2, then binary-AND-operator should be preferred
      */
-    fun h(str: String) :Int{
-val res = str.hashCode() % k
-if(res<0){
-return -res
-}
-return res
-}
+    fun h(str: String): Int {
+        val res = str.hashCode() % k
+        if (res < 0) {
+            return -res
+        }
+        return res
+    }
+
     fun registerKnownHost(hostname: String, port: Int) {
-knownHostsLock.withWriteLock{
-        knownHosts.add(ServerCommunicationKnownHost(hostname, port))
-val tmp=knownHosts.sorted()
-knownHosts.clear()
-knownHosts.addAll(tmp)
-        k = ceil(knownHosts.size.toDouble().pow(1 / 3.toDouble())).toInt()
-}
+        knownHostsLock.withWriteLock {
+            knownHosts.add(ServerCommunicationKnownHost(hostname, port))
+            val tmp = knownHosts.sorted()
+            knownHosts.clear()
+            knownHosts.addAll(tmp)
+            k = ceil(knownHosts.size.toDouble().pow(1 / 3.toDouble())).toInt()
+        }
     }
 
     /*

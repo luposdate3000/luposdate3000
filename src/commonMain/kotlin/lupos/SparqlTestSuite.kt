@@ -10,8 +10,8 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
-import lupos.s00misc.JenaBugException
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.JenaBugException
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST

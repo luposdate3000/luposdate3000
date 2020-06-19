@@ -316,7 +316,7 @@ class POPGraphOperation(query: Query,
         } catch (e: Throwable) {
             println("TODO exception 7")
             e.printStackTrace()
- if (!silent) {
+            if (!silent) {
                 throw e
             }
         }

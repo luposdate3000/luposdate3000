@@ -57,7 +57,6 @@ import lupos.s15tripleStoreDistributed.*
 object ServerCommunicationConnectionPoolOn {
     val keepAliveServerConnection = true
     val cache = mutableMapOf<ServerCommunicationKnownHost, MutableList<ServerCommunicationConnectionPoolHelper>>()
-
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
         val tmp = cache[host]
         if (tmp != null && !tmp.isEmpty()) {

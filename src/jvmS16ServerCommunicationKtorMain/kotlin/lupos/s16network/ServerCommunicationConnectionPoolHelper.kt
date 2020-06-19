@@ -54,7 +54,7 @@ import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
-class ServerCommunicationConnectionPoolHelper(val socket:Socket,val input:ByteReadChannel,val output:ByteWriteChannel){
-val localAddress=socket.localAddress.toString()
-var hadException=false
+class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel) {
+    val localAddress = socket.localAddress.toString()
+    var hadException = false
 }
