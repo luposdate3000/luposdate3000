@@ -6,6 +6,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
+import lupos.s00misc.BugException
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -68,7 +69,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 SanityCheck.checkUnreachable()
             }
         }
-        SanityCheck.check { variableCount == 1 }
+if(variableCount!=1){
+throw BugException("TripleStoreLocalBase","Histogram can not be calculated for multipe variables at once. ${params.map{it.toSparql()}}")
+}
         return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] })
     }
 

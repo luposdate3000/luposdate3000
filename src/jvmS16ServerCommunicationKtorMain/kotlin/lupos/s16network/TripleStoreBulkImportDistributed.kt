@@ -56,7 +56,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
     val values = Array(3) { ResultSetDictionary.undefValue }
     val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ImportHelper>() }
 
-    class ImportHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
+    class ImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
     }
 
     suspend fun insert(si: Value, pi: Value, oi: Value) {
@@ -69,8 +69,8 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
             var helper = accessedHosts[i][host]
             val helper2: ImportHelper
             if (helper == null) {
-                val socket = ServerCommunicationConnectionPool.openSocket(host)
-                helper2 = ImportHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                helper2 = ImportHelper(conn, conn.input, conn.output)
                 accessedHosts[i][host] = helper2
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.IMPORT.ordinal)
@@ -107,7 +107,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
                 if (header3 != ServerCommunicationHeader.RESPONSE_FINISHED) {
                     throw CommuncationUnexpectedHeaderException("$header3")
                 }
-		ServerCommunicationConnectionPool.closeSocket(host,helper.socket)
+ ServerCommunicationConnectionPool.closeSocketClean(host, helper.conn)
             }
         }
     }

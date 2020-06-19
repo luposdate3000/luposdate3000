@@ -10,6 +10,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
+import lupos.s00misc.JenaBugException
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
@@ -506,6 +507,9 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
+                    } catch (e: JenaBugException) {
+                        println(e.message)
+                        ignoreJena = true
                     } catch (e: Throwable) {
                         println("TODO exception 41")
                         e.printStackTrace()
@@ -526,6 +530,9 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
+                    } catch (e: JenaBugException) {
+                        println(e.message)
+                        ignoreJena = true
                     } catch (e: Throwable) {
                         println("TODO exception 42")
                         e.printStackTrace()
@@ -637,6 +644,9 @@ class SparqlTestSuite() {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Jena)" })
                             return false
                         }
+                    } catch (e: JenaBugException) {
+                        println(e.message)
+                        ignoreJena = true
                     } catch (e: Throwable) {
                         println("TODO exception 43")
                         e.printStackTrace()
