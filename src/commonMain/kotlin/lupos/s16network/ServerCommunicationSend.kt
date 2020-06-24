@@ -1,14 +1,5 @@
 package lupos.s16network
 
-import io.ktor.network.selector.ActorSelectorManager
-import io.ktor.network.sockets.aSocket
-import io.ktor.network.sockets.openReadChannel
-import io.ktor.network.sockets.openWriteChannel
-import io.ktor.network.sockets.Socket
-import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.ByteWriteChannel
-import io.ktor.utils.io.core.Output.*
-import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -156,13 +147,9 @@ object ServerCommunicationSend {
         }
     }
 
-    class ModifyHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
-        var job: Job? = null
-    }
-
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         val values = Array(3) { ResultSetDictionary.undefValue }
-        val accessedHosts = mutableMapOf<ServerCommunicationKnownHost, ModifyHelper>()
+        val accessedHosts = mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationModifyHelper>()
         loop@ while (true) {
             for (i in 0 until 3) {
                 val v = data[i].next()
@@ -175,10 +162,10 @@ object ServerCommunicationSend {
             }
             val host = ServerCommunicationDistribution.getHostForFullTriple(values, query, idx)
             var helper = accessedHosts[host]
-            val helper2: ModifyHelper
+            val helper2: ServerCommunicationModifyHelper
             if (helper == null) {
                 val conn = ServerCommunicationConnectionPool.openSocket(host)
-                helper2 = ModifyHelper(conn, conn.input, conn.output, Array<ColumnIterator>(3) { ColumnIteratorChannel() })
+                helper2 = ServerCommunicationModifyHelper(conn, conn.input, conn.output, Array<ColumnIterator>(3) { ColumnIteratorChannel() })
                 accessedHosts[host] = helper2
                 var builder = ByteArrayBuilder()
                 if (type == EModifyType.INSERT) {

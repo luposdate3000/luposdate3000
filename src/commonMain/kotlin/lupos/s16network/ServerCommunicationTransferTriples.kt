@@ -1,10 +1,5 @@
 package lupos.s16network
 
-import io.ktor.network.selector.ActorSelectorManager
-import io.ktor.network.sockets.aSocket
-import io.ktor.network.sockets.openReadChannel
-import io.ktor.network.sockets.openWriteChannel
-import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers

@@ -1,10 +1,5 @@
 package lupos.s16network
 
-import io.ktor.network.selector.ActorSelectorManager
-import io.ktor.network.sockets.aSocket
-import io.ktor.network.sockets.openReadChannel
-import io.ktor.network.sockets.openWriteChannel
-import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -41,21 +36,15 @@ import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.*
 
-/*
- * list of all functions :: 
- * https://ktor.io/kotlinx/io/io/packets.html
- * https://ktor.io/kotlinx/io/io/channels.html
- * https://kotlinlang.org/docs/reference/coroutines/flow.html#flows
- */
 object ServerCommunicationReceive {
     fun start(hostname: String, port: Int, bootstrap: String? = null) {
         GlobalScope.launch {
-            val server = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
+            val server = ServerCommunicationConnectionPool.openServerSocket(hostname, port)
             while (true) {
-                val socket = server.accept()
+                val socket = ServerCommunicationConnectionPool.accept(server)
                 launch {
-                    val input = socket.openReadChannel()
-                    val output = socket.openWriteChannel()
+                    val input = socket.input
+                    val output = socket.output
                     var readHeader = false
                     try {
                         while (true) {

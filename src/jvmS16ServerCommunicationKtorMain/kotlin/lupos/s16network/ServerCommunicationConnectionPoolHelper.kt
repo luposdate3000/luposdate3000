@@ -8,7 +8,6 @@ import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
 import io.ktor.utils.io.core.Output.*
-import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -57,4 +56,24 @@ import lupos.s15tripleStoreDistributed.*
 class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel) {
     val localAddress = socket.localAddress.toString()
     var hadException = false
+}
+
+class ServerCommunicationModifyHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
+    var job: Job? = null
+}
+
+class ServerCommunicationImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
+}
+
+suspend fun ByteWriteChannel.writeByteArray(builder: ByteArrayBuilder) {
+    val packet = builder.build()
+    writeInt(packet.size)
+    writeFully(packet.data, 0, packet.size)
+}
+
+suspend fun ByteReadChannel.readByteArray(): ByteArrayRead {
+    var size = readInt()
+    var res = ByteArray(size)
+    readFully(res, 0, size)
+    return ByteArrayRead(res, size)
 }

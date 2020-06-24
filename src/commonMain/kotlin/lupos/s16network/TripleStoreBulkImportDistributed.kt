@@ -1,18 +1,9 @@
 package lupos.s16network
 
-import io.ktor.network.selector.ActorSelectorManager
-import io.ktor.network.sockets.aSocket
-import io.ktor.network.sockets.openReadChannel
-import io.ktor.network.sockets.openWriteChannel
-import io.ktor.network.sockets.Socket
-import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.ByteWriteChannel
-import io.ktor.utils.io.core.Output.*
-import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
-import  kotlinx.coroutines.Job
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
@@ -54,11 +45,7 @@ import lupos.s15tripleStoreDistributed.*
 
 class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) {
     val values = Array(3) { ResultSetDictionary.undefValue }
-    val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ImportHelper>() }
-
-    class ImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
-    }
-
+    val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationImportHelper>() }
     suspend fun insert(si: Value, pi: Value, oi: Value) {
         values[0] = si
         values[1] = pi
@@ -67,10 +54,10 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
             val idx = TripleStoreLocalBase.distinctIndices[i]
             val host = ServerCommunicationDistribution.getHostForFullTriple(values, query, idx)
             var helper = accessedHosts[i][host]
-            val helper2: ImportHelper
+            val helper2: ServerCommunicationImportHelper
             if (helper == null) {
                 val conn = ServerCommunicationConnectionPool.openSocket(host)
-                helper2 = ImportHelper(conn, conn.input, conn.output)
+                helper2 = ServerCommunicationImportHelper(conn, conn.input, conn.output)
                 accessedHosts[i][host] = helper2
                 var builder = ByteArrayBuilder()
                 builder.writeInt(ServerCommunicationHeader.IMPORT.ordinal)

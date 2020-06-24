@@ -4,6 +4,7 @@ import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
 import io.ktor.network.sockets.openWriteChannel
+import io.ktor.network.sockets.ServerSocket
 import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
@@ -56,6 +57,15 @@ import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationConnectionPoolOff {
     val keepAliveServerConnection = false
+    suspend fun openServerSocket(hostname: String, port: Int): ServerSocket {
+        return aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
+    }
+
+    suspend fun accept(server: ServerSocket): ServerCommunicationConnectionPoolHelper {
+        val socket = server.accept()
+        return ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
+    }
+
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
         val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
         return ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
