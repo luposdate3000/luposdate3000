@@ -35,14 +35,16 @@ suspend fun BufferedOutputStream.writeByteArray(builder: ByteArrayBuilder) {
 }
 
 suspend fun BufferedInputStream.readByteArray(): ByteArrayRead {
+    var x = 0
     var size = 0
-    size = size + read()
-    size = size shl 8
-    size = size + read()
-    size = size shl 8
-    size = size + read()
-    size = size shl 8
-    size = size + read()
+    x = read()
+    size = x
+    x = read()
+    size = size + (x shl 8)
+    x = read()
+    size = size + (x shl 16)
+    x = read()
+    size = size + (x shl 24)
     var res = ByteArray(size)
     val flag = read(res, 0, size)
     if (flag < 0) {
