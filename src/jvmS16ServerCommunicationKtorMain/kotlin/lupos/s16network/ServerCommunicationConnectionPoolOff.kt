@@ -14,6 +14,7 @@ import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
@@ -61,15 +62,17 @@ object ServerCommunicationConnectionPoolOff {
         return aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
     }
 
-    suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
+  suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
+GlobalScope.            launch {
         try {
-            launch {
+runBlocking{
                 action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
-            }
+}
         } finally {
-            conn.socket.close()
+            socket.close()
         }
+            }
     }
 
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {

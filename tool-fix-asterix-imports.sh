@@ -1,8 +1,8 @@
 #!/bin/bash
 
 changed=1
-echo "using tool-gradle-build-all.sh a"
-failed=$(./tool-gradle-build-all.sh 2>&1 | grep "BUILD FAILED in ")
+echo "using tool-gradle-build.sh a"
+failed=$(./tool-gradle-build.sh 2>&1 | grep "BUILD FAILED in ")
 while [[ $changed == 1 ]]
 do
 	changed=0
@@ -18,29 +18,17 @@ do
 				cat $f | grep -v -F "import $i" > tmp2
 				mv tmp2 $f
 				grep "^package " $f > tmp2
-				if [[ $f == *commonMain* ]] || [[ $f == *commonTest* ]]
-				then
-					echo "using tool-gradle-build.sh b"
-					for e in $(./tool-gradle-build.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
-					do
-						echo "import ${i::-1}$e" >> tmp2
-						echo $e
-					done
-					echo "using tool-gradle-build.sh e"
-					failed=$(./tool-gradle-build.sh 2>&1 | grep "BUILD FAILED in ")
-				else
-					echo "using tool-gradle-build-all.sh d"
-					for e in $(./tool-gradle-build-all.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
-					do
-						echo "import ${i::-1}$e" >> tmp2
-						echo $e
-					done
-					echo "using tool-gradle-build-all.sh f"
-					failed=$(./tool-gradle-build-all.sh 2>&1 | grep "BUILD FAILED in ")
-				fi
+				echo "using tool-gradle-build.sh b"
+				for e in $(./tool-gradle-build.sh 2>&1 | grep "^e: " | grep "Unresolved reference: " | sed "s/.*Unresolved reference: //g" | sort | uniq)
+				do
+					echo "import ${i::-1}$e" >> tmp2
+					echo $e
+				done
+				echo "using tool-gradle-build.sh e"
+				changed=1
 				grep -v "^package " $f >> tmp2
 				mv tmp2 $f
-				changed=1
+				failed=$(./tool-gradle-build.sh 2>&1 | grep "BUILD FAILED in ")
 echo $failed
 echo $changed
 				break 2
