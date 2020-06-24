@@ -8,7 +8,6 @@ import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s15tripleStoreDistributed.*
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 

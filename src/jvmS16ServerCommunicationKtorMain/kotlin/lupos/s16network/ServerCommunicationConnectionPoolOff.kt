@@ -8,7 +8,6 @@ import io.ktor.network.sockets.ServerSocket
 import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
-import io.ktor.utils.io.core.Output.*
 import java.net.InetSocketAddress
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
@@ -54,7 +53,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationConnectionPoolOff {
     val keepAliveServerConnection = false

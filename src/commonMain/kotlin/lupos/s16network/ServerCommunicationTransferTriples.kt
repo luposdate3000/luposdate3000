@@ -32,7 +32,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationTransferTriples {
     fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, remoteName: String, bulk: TripleStoreBulkImport) {

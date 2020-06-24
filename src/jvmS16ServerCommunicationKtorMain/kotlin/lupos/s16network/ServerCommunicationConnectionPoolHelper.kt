@@ -7,7 +7,6 @@ import io.ktor.network.sockets.openWriteChannel
 import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
-import io.ktor.utils.io.core.Output.*
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +50,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.*
 
 class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel) {
     val localAddress = socket.localAddress.toString()
