@@ -41,7 +41,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.*
 
 class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) {
     val values = Array(3) { ResultSetDictionary.undefValue }

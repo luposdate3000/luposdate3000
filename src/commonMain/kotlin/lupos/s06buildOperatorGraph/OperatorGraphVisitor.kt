@@ -1,7 +1,17 @@
 package lupos.s06buildOperatorGraph
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
+import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
+import lupos.s00misc.AggregateNotAllowedSyntaxException
+import lupos.s00misc.File
+import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
+import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
+import lupos.s00misc.SparqlFeatureNotImplementedException
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
@@ -147,7 +157,6 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallUUID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX

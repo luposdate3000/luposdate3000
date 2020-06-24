@@ -1,16 +1,20 @@
 package lupos.s08logicalOptimisation
+import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
+import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
+import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPMinus
+import lupos.s04logicalOperators.multiinput.LOPUnion
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.multiinput.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.*
-import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerReducedDownID) {

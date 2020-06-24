@@ -1,4 +1,7 @@
 package lupos.s14endpoint
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -49,7 +52,6 @@ import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN

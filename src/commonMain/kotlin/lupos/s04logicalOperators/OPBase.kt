@@ -1,7 +1,9 @@
 package lupos.s04logicalOperators
-
+import lupos.s00misc.BugException
+import lupos.s00misc.EvaluateNotImplementedException
+import lupos.s00misc.HistogramNotImplementedException
+import lupos.s00misc.ToSparqlNotImplementedException
 import kotlin.jvm.JvmField
-import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID

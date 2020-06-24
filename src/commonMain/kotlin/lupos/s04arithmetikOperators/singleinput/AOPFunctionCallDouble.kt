@@ -1,10 +1,16 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s03resultRepresentation.ValueBoolean
+import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueFloat
+import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
+import lupos.s03resultRepresentation.ValueSimpleLiteral
+import lupos.s03resultRepresentation.ValueTypedLiteral
 
 import lupos.s00misc.CanNotCastLiteralToDoubleException
 import lupos.s00misc.Coverage
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ValueDateTime
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError

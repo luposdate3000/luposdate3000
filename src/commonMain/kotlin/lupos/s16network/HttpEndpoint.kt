@@ -1,4 +1,6 @@
 package lupos.s16network
+import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
+import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
@@ -42,11 +44,9 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.rdf.*
 import lupos.s02buildSyntaxTree.rdf.ID_Triple
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.turtle.*
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.nodeGlobalDictionary

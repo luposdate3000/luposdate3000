@@ -1,4 +1,7 @@
 package lupos.s08logicalOptimisation
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
@@ -6,7 +9,6 @@ import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s08logicalOptimisation.OptimizerBase
 

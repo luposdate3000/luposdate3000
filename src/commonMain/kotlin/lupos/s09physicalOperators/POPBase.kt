@@ -1,6 +1,8 @@
 package lupos.s09physicalOperators
+import lupos.s00misc.HistogramNotImplementedException
+import lupos.s00misc.VariableNotDefinedSyntaxException
+import lupos.s00misc.XMLElement
 
-import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID

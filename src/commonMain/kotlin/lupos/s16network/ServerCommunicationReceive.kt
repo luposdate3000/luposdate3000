@@ -1,4 +1,5 @@
 package lupos.s16network
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
@@ -34,7 +35,6 @@ import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.*
 
 object ServerCommunicationReceive {
     fun start(hostname: String, port: Int, bootstrap: String? = null) {
