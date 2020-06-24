@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 
 object RowIteratorDebugFast {
     operator fun invoke(label: String, child: RowIterator) = child

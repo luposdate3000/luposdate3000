@@ -1,7 +1,9 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.EvaluateNotImplementedException
+
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.EvaluateNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase

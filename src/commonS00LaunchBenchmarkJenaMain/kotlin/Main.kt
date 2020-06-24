@@ -1,6 +1,7 @@
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
 

@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 
 class RowIteratorChildIterator(columns: Array<String>) : RowIterator() {

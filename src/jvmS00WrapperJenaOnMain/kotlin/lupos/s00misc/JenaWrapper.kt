@@ -1,15 +1,16 @@
 package lupos.s00misc
-import org.apache.jena.update.UpdateAction
-import org.apache.jena.sparql.mgt.Explain
-import org.apache.jena.sparql.algebra.optimize.Optimize
+
+import java.io.ByteArrayOutputStream
+import lupos.s00misc.Coverage
+import lupos.s00misc.JenaBugException
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.query.QueryExecutionFactory
 import org.apache.jena.query.QueryFactory
 import org.apache.jena.query.ResultSetFormatter
-import java.io.ByteArrayOutputStream
-
-import lupos.s00misc.JenaBugException
+import org.apache.jena.sparql.algebra.optimize.Optimize
+import org.apache.jena.sparql.mgt.Explain
+import org.apache.jena.update.UpdateAction
 
 object JenaWrapper {
     var dataset = DatasetFactory.createTxnMem()

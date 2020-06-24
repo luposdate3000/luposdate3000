@@ -1,5 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.writeInt1

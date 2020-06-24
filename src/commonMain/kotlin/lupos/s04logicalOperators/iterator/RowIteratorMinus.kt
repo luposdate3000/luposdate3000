@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Coverage
 
 open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: Array<String>) : RowIterator() {
     var flag = 2

@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.multiinput
 
 import lupos.s00misc.BugException
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck

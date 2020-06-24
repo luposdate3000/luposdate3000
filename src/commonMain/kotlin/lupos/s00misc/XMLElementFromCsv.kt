@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
 
 fun XMLElement.Companion.parseFromCsv(csv: String): XMLElement? {
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")

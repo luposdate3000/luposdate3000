@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 
 open class RowIterator() {
     var columns = arrayOf<String>()

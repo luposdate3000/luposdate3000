@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.singleinput.modifiers
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.HistogramResult

@@ -1,6 +1,4 @@
 package lupos.s16network
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
@@ -18,6 +16,8 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
+import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.OPBase

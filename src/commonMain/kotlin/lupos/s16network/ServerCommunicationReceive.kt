@@ -1,5 +1,4 @@
 package lupos.s16network
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -10,6 +9,7 @@ import lupos.s00misc.EModifyType
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object ServerCommunicationReceive {
     fun start(hostname: String, port: Int, bootstrap: String? = null) {

@@ -1,5 +1,6 @@
 package lupos.s16network
 
+import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType

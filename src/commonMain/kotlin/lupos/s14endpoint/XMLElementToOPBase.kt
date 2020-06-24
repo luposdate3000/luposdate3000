@@ -1,7 +1,4 @@
 package lupos.s14endpoint
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -53,6 +50,7 @@ import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
@@ -62,6 +60,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
@@ -72,6 +71,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256

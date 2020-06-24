@@ -1,4 +1,6 @@
 package lupos.s03resultRepresentation
+
+import kotlin.jvm.JvmField
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
 import lupos.s00misc.CanNotCastBNodeToIntException
@@ -18,11 +20,10 @@ import lupos.s00misc.CanNotCastLiteralToIntException
 import lupos.s00misc.CanNotCastUndefToBooleanException
 import lupos.s00misc.CanNotCastUndefToDoubleException
 import lupos.s00misc.CanNotCastUndefToIntException
-import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.DateHelper
 import lupos.s00misc.IncompatibleTypesDuringCompareException
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 
 sealed class ValueDefinition : Comparable<ValueDefinition> {

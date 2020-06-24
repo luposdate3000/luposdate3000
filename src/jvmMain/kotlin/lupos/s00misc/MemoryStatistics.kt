@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import java.lang.Runtime
+import lupos.s00misc.Coverage
 
 object MemoryStatistics {
     fun byteToGigabytes(bytes: Long): Double = (bytes.toDouble() / (1024.0 * 1024.0 * 1024.0))

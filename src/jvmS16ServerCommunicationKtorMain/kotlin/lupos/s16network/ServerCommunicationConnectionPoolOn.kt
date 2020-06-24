@@ -1,5 +1,5 @@
 package lupos.s16network
-import kotlinx.coroutines.GlobalScope
+
 import io.ktor.network.selector.ActorSelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -8,8 +8,10 @@ import io.ktor.network.sockets.ServerSocket
 import io.ktor.network.sockets.Socket
 import java.net.InetSocketAddress
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Coverage
 
 object ServerCommunicationConnectionPoolOn {
     val keepAliveServerConnection = true
@@ -20,15 +22,15 @@ object ServerCommunicationConnectionPoolOn {
 
     suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
-GlobalScope.            launch {
-        try {
-runBlocking{
-                action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
-}
-        } finally {
-            socket.close()
-        }
+        GlobalScope.launch {
+            try {
+                runBlocking {
+                    action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
+                }
+            } finally {
+                socket.close()
             }
+        }
     }
 
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
@@ -55,5 +57,4 @@ runBlocking{
         conn.hadException = true
         conn.socket.close()
     }
-
 }

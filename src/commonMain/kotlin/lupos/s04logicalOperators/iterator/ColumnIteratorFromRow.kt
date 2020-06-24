@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 
 object ColumnIteratorFromRow {
     operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {

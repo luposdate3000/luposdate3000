@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import lupos.s00misc.Coverage
 
 fun ByteArray.writeInt1(offset: Int, value: Int) {
     this[offset] = (value and 0xFF).toByte()

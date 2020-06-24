@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterator() {

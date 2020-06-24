@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Coverage
 
 object ServerCommunicationConnectionPoolOff {
     val keepAliveServerConnection = false
@@ -18,17 +19,17 @@ object ServerCommunicationConnectionPoolOff {
         return aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
     }
 
-  suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
+    suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
-GlobalScope.            launch {
-        try {
-runBlocking{
-                action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
-}
-        } finally {
-            socket.close()
-        }
+        GlobalScope.launch {
+            try {
+                runBlocking {
+                    action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
+                }
+            } finally {
+                socket.close()
             }
+        }
     }
 
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
@@ -46,5 +47,4 @@ runBlocking{
         conn.hadException = true
         conn.socket.close()
     }
-
 }

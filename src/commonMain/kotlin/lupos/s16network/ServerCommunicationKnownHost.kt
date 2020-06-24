@@ -1,5 +1,6 @@
 package lupos.s16network
 
+import lupos.s00misc.Coverage
 
 abstract class ServerCommunicationKnownHostBase(val hostname: String, val port: Int) : Comparable<ServerCommunicationKnownHostBase> {
     override fun equals(other: Any?) = other is ServerCommunicationKnownHostBase && hostname == other.hostname && port == other.port

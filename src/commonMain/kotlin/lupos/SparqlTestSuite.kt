@@ -1,6 +1,5 @@
 package lupos
-import lupos.s16network.HttpEndpoint
-import lupos.s16network.ServerCommunicationSend
+
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
@@ -49,6 +48,8 @@ import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s16network.HttpEndpoint
+import lupos.s16network.ServerCommunicationSend
 
 class SparqlTestSuite() {
     companion object {
