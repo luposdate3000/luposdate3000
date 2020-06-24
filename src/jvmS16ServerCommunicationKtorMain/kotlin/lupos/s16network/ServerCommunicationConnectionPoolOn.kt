@@ -62,9 +62,15 @@ object ServerCommunicationConnectionPoolOn {
         return aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
     }
 
-    suspend fun accept(server: ServerSocket): ServerCommunicationConnectionPoolHelper {
+    suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
-        return ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
+        try {
+            launch {
+                action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
+            }
+        } finally {
+            conn.socket.close()
+        }
     }
 
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
@@ -92,7 +98,4 @@ object ServerCommunicationConnectionPoolOn {
         conn.socket.close()
     }
 
-    fun closeServerSocket(conn: ServerCommunicationConnectionPoolHelper) {
-        conn.socket.close()
-    }
 }

@@ -41,8 +41,7 @@ object ServerCommunicationReceive {
         GlobalScope.launch {
             val server = ServerCommunicationConnectionPool.openServerSocket(hostname, port)
             while (true) {
-                val socket = ServerCommunicationConnectionPool.accept(server)
-                launch {
+                ServerCommunicationConnectionPool.accept(server) { socket ->
                     val input = socket.input
                     val output = socket.output
                     var readHeader = false
@@ -165,18 +164,16 @@ object ServerCommunicationReceive {
                         }
                     } catch (e: Throwable) {
                         if (readHeader) {
-//TODO propagate errors to the requesting node
+                            //TODO propagate errors to the requesting node
                             println("TODO exception 2")
                             e.printStackTrace()
                         } else {
-//connection closed before anything read ... assume there was an error on the other side, which tried to connect
+                            //connection closed before anything read ... assume there was an error on the other side, which tried to connect
                         }
-                    } finally {
-                        ServerCommunicationConnectionPool.closeServerSocket(socket)
                     }
                 }
             }
-/*Coverage Unreachable*/
+            /*Coverage Unreachable*/
         }
     }
 }
