@@ -24,7 +24,7 @@ port="3030"
   echo "AdvancedOptimisation->false"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->Ktor"
+  echo "ServerCommunication->Sockets"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
 } | ./generate-buildfile.kts

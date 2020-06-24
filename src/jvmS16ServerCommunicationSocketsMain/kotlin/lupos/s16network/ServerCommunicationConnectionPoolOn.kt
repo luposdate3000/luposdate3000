@@ -81,7 +81,7 @@ object ServerCommunicationConnectionPoolOn {
             return tmp.removeAt(0)
         }
         val socket = Socket()
-        socket.connect(InetSocketAddress(hostname, port))
+        socket.connect(InetSocketAddress(host.hostname, host.port))
         return ServerCommunicationConnectionPoolHelper(socket, BufferedInputStream(socket.getInputStream()), BufferedOutputStream(socket.getOutputStream()))
     }
 

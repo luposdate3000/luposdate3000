@@ -1,5 +1,10 @@
 package lupos.s16network
 
+import java.io.*
+import java.net.*
+import java.net.InetSocketAddress
+import java.net.ServerSocket
+import java.net.Socket
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -59,13 +64,30 @@ class ServerCommunicationImportHelper(val conn: ServerCommunicationConnectionPoo
 
 suspend fun BufferedOutputStream.writeByteArray(builder: ByteArrayBuilder) {
     val packet = builder.build()
-    writeInt(packet.size)
-    writeFully(packet.data, 0, packet.size)
+    var x = packet.size
+    write(x and 255)
+    x = x shr 8
+    write(x and 255)
+    x = x shr 8
+    write(x and 255)
+    x = x shr 8
+    write(x and 255)
+    write(packet.data, 0, packet.size)
 }
 
 suspend fun BufferedInputStream.readByteArray(): ByteArrayRead {
-    var size = readInt()
+    var size = 0
+    size = size + read()
+    size = size shl 8
+    size = size + read()
+    size = size shl 8
+    size = size + read()
+    size = size shl 8
+    size = size + read()
     var res = ByteArray(size)
-    readFully(res, 0, size)
+    val flag = read(res, 0, size)
+    if (flag < 0) {
+        throw Exception("stream unexpectedly closed")
+    }
     return ByteArrayRead(res, size)
 }

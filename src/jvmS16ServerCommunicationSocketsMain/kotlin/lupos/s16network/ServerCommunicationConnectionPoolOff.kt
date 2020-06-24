@@ -76,7 +76,7 @@ object ServerCommunicationConnectionPoolOff {
 
     suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
         val socket = Socket()
-        socket.connect(InetSocketAddress(hostname, port))
+        socket.connect(InetSocketAddress(host.hostname, host.port))
         return ServerCommunicationConnectionPoolHelper(socket, BufferedInputStream(socket.getInputStream()), BufferedOutputStream(socket.getOutputStream()))
     }
 

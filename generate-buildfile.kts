@@ -351,7 +351,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                 ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
-                ChooseableOptionDirectory("Ktor", "jvmS16ServerCommunicationKtorMain")
+                ChooseableOptionDirectory("Ktor", "jvmS16ServerCommunicationKtorMain"),
+                ChooseableOptionDirectory("Sockets", "jvmS16ServerCommunicationSocketsMain")
         ),
         ChooseableGroup("ServerCommunication target packet size", "ServerCommunicationPacketSize") to listOf(
                 ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_SIZE", "8196")
