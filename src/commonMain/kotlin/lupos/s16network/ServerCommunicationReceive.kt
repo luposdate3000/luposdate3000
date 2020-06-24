@@ -172,7 +172,7 @@ object ServerCommunicationReceive {
 //connection closed before anything read ... assume there was an error on the other side, which tried to connect
                         }
                     } finally {
-                        socket.close()
+                        ServerCommunicationConnectionPool.closeServerSocket(socket)
                     }
                 }
             }

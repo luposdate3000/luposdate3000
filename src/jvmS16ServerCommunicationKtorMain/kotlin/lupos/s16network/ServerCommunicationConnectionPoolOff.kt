@@ -81,4 +81,8 @@ object ServerCommunicationConnectionPoolOff {
         conn.hadException = true
         conn.socket.close()
     }
+
+    fun closeServerSocket(conn: ServerCommunicationConnectionPoolHelper) {
+        conn.socket.close()
+    }
 }
