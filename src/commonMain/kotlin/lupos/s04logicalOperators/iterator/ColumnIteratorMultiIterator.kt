@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.Coverage
 
 class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIterator() {
     var index = 0

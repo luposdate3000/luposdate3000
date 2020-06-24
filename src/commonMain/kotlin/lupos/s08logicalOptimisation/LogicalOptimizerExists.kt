@@ -3,7 +3,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.OPBase

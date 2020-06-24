@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition

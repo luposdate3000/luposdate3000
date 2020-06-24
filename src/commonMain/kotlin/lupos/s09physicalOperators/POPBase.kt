@@ -3,8 +3,6 @@ import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 
-import lupos.s00misc.classNameToString
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.HistogramResult

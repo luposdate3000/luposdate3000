@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.Coverage
 
 class MinusIterator(val a: TripleIterator, val b: TripleIterator) : TripleIterator() {
     var flag = 0

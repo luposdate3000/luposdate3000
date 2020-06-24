@@ -9,16 +9,12 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueComparatorASC
 import lupos.s03resultRepresentation.ValueComparatorDESC
-import lupos.s03resultRepresentation.ValueComparatorFast
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
-import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s04logicalOperators.iterator.RowIteratorBuf
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query

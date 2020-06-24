@@ -1,8 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Value
 
 class RowIteratorChildIterator(columns: Array<String>) : RowIterator() {
     val childs = mutableListOf(RowIterator())

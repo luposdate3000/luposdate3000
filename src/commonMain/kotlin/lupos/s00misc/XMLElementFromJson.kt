@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 
 fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {

@@ -1,6 +1,5 @@
 package lupos.s09physicalOperators.singleinput
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority

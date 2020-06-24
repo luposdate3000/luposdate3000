@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_SingleList
 
-import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator

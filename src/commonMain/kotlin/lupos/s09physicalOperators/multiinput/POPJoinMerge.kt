@@ -2,7 +2,6 @@ package lupos.s09physicalOperators.multiinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority

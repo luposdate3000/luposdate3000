@@ -1,10 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.Coverage
-import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.ValueComparatorFast
 
 open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: Array<String>) : RowIterator() {
     var flag = 2

@@ -1,10 +1,8 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 

@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just in java via reflection */
 abstract class Luposdate3000Exception(val classname: String, msg: String) : Exception(msg)

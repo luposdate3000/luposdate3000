@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.Coverage
 
 class Count1PassThroughIterator(val a: TripleIterator) : TripleIterator() {
     var distinct = 0

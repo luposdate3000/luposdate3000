@@ -3,13 +3,10 @@ package lupos.s05tripleStore
 import kotlin.jvm.JvmField
 import lupos.s00misc.BugException
 import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -17,7 +14,6 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.NodeManager
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
     @JvmField

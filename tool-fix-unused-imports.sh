@@ -13,7 +13,7 @@ do
 			imp=$(echo $f | sed "s/.*\.//g")
 			file=$(echo $f | sed "s/:.*//g")
 			count=$(cat $file | grep -v "^import" | grep $imp | wc -l)
-			asterixCount=$(cat src/linuxX64Main/kotlin/lupos/s00misc/ThreadSafeUuid.kt | grep -i "import .*\*" | wc -l)
+			asterixCount=$(cat $file | grep -i "import .*\*" | wc -l)
 			if [ "$asterixCount" -eq "0" ]; then
 				if [ "$count" -eq "0" ]; then
 					echo $file

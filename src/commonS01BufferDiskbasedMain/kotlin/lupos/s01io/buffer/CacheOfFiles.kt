@@ -1,7 +1,6 @@
 package lupos.s01io.buffer
 
 import kotlin.jvm.JvmField
-import lupos.s04logicalOperators.Query
 
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)

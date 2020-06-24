@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 
 /* Substitutions :: KEY,VALUE,GDEF,GUSEKV,GUSEK,GUSEV,KNAME,VNAME */
 class MyMapKNAMEVNAMEBinaryTreeGDEF() {

@@ -9,7 +9,6 @@ import org.apache.jena.query.QueryFactory
 import org.apache.jena.query.ResultSetFormatter
 import java.io.ByteArrayOutputStream
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.JenaBugException
 
 object JenaWrapper {

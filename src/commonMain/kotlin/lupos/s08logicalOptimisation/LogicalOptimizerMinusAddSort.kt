@@ -4,7 +4,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.multiinput.LOPMinus
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper

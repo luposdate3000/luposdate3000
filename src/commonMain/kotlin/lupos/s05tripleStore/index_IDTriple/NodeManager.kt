@@ -1,13 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.BufferManager
-import lupos.s00misc.Coverage
 import lupos.s00misc.File
-import lupos.s00misc.MyListGeneric
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s05tripleStore.PersistentStoreLocal
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object NodeManager {
     val nodePointerTypeNull = 0x00000000.toInt()

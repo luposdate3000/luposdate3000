@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import java.util.Calendar
-import lupos.s00misc.Coverage
 
 class DateHelper() {
     //https://docs.oracle.com/javase/7/docs/api/java/util/Calendar.html

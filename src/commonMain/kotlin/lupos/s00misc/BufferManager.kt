@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 import lupos.s00misc.ReadWriteLock

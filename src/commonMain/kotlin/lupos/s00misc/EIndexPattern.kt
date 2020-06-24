@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 
 enum class EIndexPattern(val keyIndices: IntArray, val valueIndices: IntArray, val tripleIndicees: IntArray) {
     S_PO(intArrayOf(0), intArrayOf(1, 2), intArrayOf(0, 1, 2)),
