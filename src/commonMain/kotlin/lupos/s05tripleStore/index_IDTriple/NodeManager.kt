@@ -18,6 +18,8 @@ object NodeManager {
     var allNodesInnerSize = 0
     var allNodesFreeListLeaf = mutableSetOf<Int>()
     var allNodesFreeListInner = mutableSetOf<Int>()
+    val lockInner = ReadWriteLock()
+    val lockLeaf = ReadWriteLock()
     fun debug() {
         SanityCheck {
             //check that there are no memory leaks ...
@@ -102,8 +104,6 @@ object NodeManager {
         }
     }
 
-    val lockInner = ReadWriteLock()
-    val lockLeaf = ReadWriteLock()
     fun safeToFolder() {
         //println("debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()

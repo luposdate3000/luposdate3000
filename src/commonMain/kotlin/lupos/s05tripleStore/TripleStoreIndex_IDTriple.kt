@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
-
+import kotlinx.coroutines.runBlocking
+import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
@@ -28,6 +29,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var pendingImport = mutableListOf<Int?>()
     var countPrimary = 0
     var distinctPrimary = 0
+var lock=ReadWriteLock()
 
     companion object {
         var storeIteratorCounter = 0L
@@ -35,6 +37,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun safeToFile(filename: String) {
         flush()
+lock.withReadLock{
         SanityCheck {
             if (root != NodeManager.nodeNullPointer) {
                 var found = false
@@ -67,10 +70,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     println(iterator.next().map { it })
                 }
             }
+}
         }
     }
 
-    override fun loadFromFile(filename: String) {
+    override fun loadFromFile(filename: String) =lock.withWriteLock{
         pendingImport.clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
@@ -102,7 +106,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    class IteratorS(it: TripleIterator) : ColumnIterator() {
+    class IteratorS(it: TripleIterator,lock:ReadWriteLock) : ColumnIterator() {
         init {
             next = {
                 var tmp: Value? = null
@@ -111,10 +115,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 /*return*/tmp
             }
+runBlocking{
+lock.readLock()
+}
+close={
+_close()
+runBlocking{
+lock.readUnlock()
+}
+}
         }
     }
 
-    class IteratorP(it: TripleIterator) : ColumnIterator() {
+    class IteratorP(it: TripleIterator,lock:ReadWriteLock) : ColumnIterator() {
         init {
             next = {
                 var tmp: Value? = null
@@ -123,10 +136,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 /*return*/tmp
             }
+runBlocking{
+lock.readLock()
+}         
+close={ 
+_close()
+runBlocking{
+lock.readUnlock()
+}
+}
         }
     }
 
-    class IteratorO(it: TripleIterator) : ColumnIterator() {
+    class IteratorO(it: TripleIterator,lock:ReadWriteLock) : ColumnIterator() {
         init {
             next = {
                 var tmp: Value? = null
@@ -135,15 +157,26 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 /*return*/tmp
             }
+runBlocking{
+lock.readLock()
+}         
+close={ 
+_close()
+runBlocking{
+lock.readUnlock()
+}
+}
         }
     }
 
     override fun getHistogram(query: Query, filter: IntArray): Pair<Int, Int> {
+var res:Pair<Int, Int>?=null
+lock.withReadLock{
         val node = rootNode
         if (node != null) {
             when (filter.size) {
                 0 -> {
-                    return Pair(countPrimary, distinctPrimary)
+                    res= Pair(countPrimary, distinctPrimary)
                 }
                 1 -> {
                     var iterator = node.iterator1(filter)
@@ -162,7 +195,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                             lastValue = value
                         }
                     }
-                    return Pair(count, distinct)
+                    res= Pair(count, distinct)
                 }
                 2 -> {
                     var iterator = node.iterator2(filter)
@@ -171,23 +204,23 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         iterator.next()
                         count++
                     }
-                    return Pair(count, count)
+                    res= Pair(count, count)
                 }
                 3 -> {
-                    return Pair(1, 1)
+                    res= Pair(1, 1)
                 }
                 else -> {
                     SanityCheck.checkUnreachable()
                 }
             }
-/*Coverage Unreachable*/
         } else {
-            return Pair(0, 0)
+            res= Pair(0, 0)
         }
-/*Coverage Unreachable*/
     }
+return res!!
+}
 
-    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
+    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle{
         flush()
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
@@ -203,6 +236,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         } else {
             res = IteratorBundle(0)
         }
+lock.withReadLock{
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
@@ -219,13 +253,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(node.iterator2(filter)))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(node.iterator2(filter),lock))
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(node.iterator1(filter)))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(node.iterator1(filter),lock))
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(node.iterator1(filter)))
+                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(node.iterator1(filter),lock))
                     }
                 } else {
                     SanityCheck.check { projection[1] == "_" }
@@ -240,11 +274,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             } else {
                 SanityCheck.check { filter.size == 0 }
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(node.iterator()))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(node.iterator(),lock))
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(node.iterator()))
+                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(node.iterator(),lock))
                         if (projection[2] != "_") {
-                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(node.iterator()))
+                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(node.iterator(),lock))
                         }
                     } else {
                         SanityCheck.check { projection[2] == "_" }
@@ -262,6 +296,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
         }
+}
         return res
     }
 
@@ -307,7 +342,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    override fun flush() {
+    override fun flush() :Unit=lock.withWriteLock{
         BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
         if (pendingImport.size > 0) {
             var j = 1
@@ -334,7 +369,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    override fun import(dataImport: IntArray, count: Int, order: IntArray) :Unit=lock.withWriteLock{
         BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         if (count > 0) {
             val iteratorImport = BulkImportIterator(dataImport, count, order)
@@ -376,6 +411,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     fun rebuildData(_iterator: TripleIterator) {
+//assuming to have write-lock
         val iterator = Count1PassThroughIterator(_iterator)
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
@@ -438,6 +474,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {
         flush()
+lock.withWriteLock{
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         val iteratorImport = BulkImportIterator(d[0], data.size, order)
@@ -456,10 +493,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         var oldroot = root
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
+}
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray) {
         flush()
+lock.withWriteLock{
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
         val iteratorImport = BulkImportIterator(d[0], data.size, order)
@@ -479,6 +518,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
     }
+}
 
     override fun insert(a: Value, b: Value, c: Value) {
         SanityCheck.checkUnreachable()
@@ -490,13 +530,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun clear() {
         flush()
+lock.withWriteLock{
         NodeManager.freeNodeAndAllRelated(root)
         firstLeaf = NodeManager.nodeNullPointer
         root = NodeManager.nodeNullPointer
         rootNode = null
     }
+}
 
-    override fun printContents() {
+    override fun printContents() =lock.withReadLock{
         if (firstLeaf != NodeManager.nodeNullPointer) {
             NodeManager.getNode(firstLeaf, { node ->
                 var it = node.iterator()
