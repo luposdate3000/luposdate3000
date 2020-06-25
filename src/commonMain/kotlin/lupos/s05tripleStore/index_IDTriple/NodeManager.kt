@@ -41,7 +41,7 @@ object NodeManager {
                         if (x == nodeNullPointer) {
                             nullpointers++
                         } else {
-                            //println("debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}")
+                            println("debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}")
                             leaves[x and nodePointerValueMask]++
                         }
                     }, {
@@ -56,13 +56,13 @@ object NodeManager {
                 if (i == 0) {
                     count0++
                 } else {
-                    //println("debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i")
+                    println("debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i")
                     SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
             }
             SanityCheck.check { count0 == nullpointers }//there must be an equal amount of start and end leaves
-            //println("debug nullpointers $nullpointers")
+            println("debug nullpointers $nullpointers")
             for (i in 0 until allNodesInnerSize) {
                 if (!allNodesFreeListInner.contains(i or nodePointerTypeInner)) {
                     getNode(i or nodePointerTypeInner, {
@@ -73,12 +73,12 @@ object NodeManager {
                             val nodePointerValue = it and nodePointerValueMask
                             if (nodePointerType == nodePointerTypeInner) {
                                 inner[nodePointerValue]++
-                                //println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
+                                println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             } else {
-                                //println("nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer")
+                                println("nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer")
                                 SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
                                 leavesFromInner[nodePointerValue]++
-                                //println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
+                                println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             }
                         }
                     })
@@ -86,7 +86,7 @@ object NodeManager {
             }
             j = 0
             for (i in leavesFromInner) {
-                //println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
+                println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
                 SanityCheck.check { i == 1 || i == -10000 }
                 j++
             }
@@ -96,7 +96,7 @@ object NodeManager {
                 if (i == 0) {
                     count0++
                 } else {
-                    //println("debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i")
+                    println("debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i")
                     SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
@@ -105,7 +105,7 @@ object NodeManager {
     }
 
     fun safeToFolder() {
-        //println("debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
+        println("debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
         lockInner.withWriteLock {
@@ -128,7 +128,7 @@ object NodeManager {
     }
 
     /*inline*/ fun loadFromFolder() {
-        //println("debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
+        println("debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'")
         lockInner.withWriteLock {
             lockLeaf.withWriteLock {
                 bufferManager.loadFromFolder()
@@ -151,13 +151,13 @@ object NodeManager {
     }
 
     /*inline*/ fun getNode(idx: Int, /*crossinline*/ actionLeaf: (NodeLeaf) -> Unit, /*crossinline*/ actionInner: (NodeInner) -> Unit) {
-        //println("debug NodeManager getNode ${idx.toString(16)}")
+        println("debug NodeManager getNode ${idx.toString(16)}")
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
                 var node: NodeInner? = null
-                lockInner.withWriteLock {
+                lockInner.withReadLock {
                     SanityCheck.check { !allNodesFreeListInner.contains(idx) }
                     node = NodeInner(bufferManager.getPage(idx))
                 }
@@ -165,7 +165,7 @@ object NodeManager {
             }
             nodePointerTypeLeaf -> {
                 var node: NodeLeaf? = null
-                lockLeaf.withWriteLock {
+                lockLeaf.withReadLock {
                     SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
                     node = NodeLeaf(bufferManager.getPage(idx))
                 }
@@ -179,52 +179,54 @@ object NodeManager {
 
     val reuseOldIDs = false
     /*inline*/ fun allocateNodeLeaf(/*crossinline*/ action: (NodeLeaf, Int) -> Unit) {
-//println("NodeManager.allocateNodeLeaf A")
-        var idx = allNodesLeafSize or nodePointerTypeLeaf
+        println("NodeManager.allocateNodeLeaf A")
         var node: NodeLeaf? = null
+        var idx = -1
         lockLeaf.withWriteLock {
+            idx = allNodesLeafSize or nodePointerTypeLeaf
             if (reuseOldIDs && allNodesFreeListLeaf.size > 0) {
                 idx = allNodesFreeListLeaf.first()
                 allNodesFreeListLeaf.remove(idx)
                 node = NodeLeaf(bufferManager.createPage(idx))
                 node!!.setNextNode(nodeNullPointer)
                 node!!.setTripleCount(0)
-                //println("debug NodeManager allocateNodeLeafA ${idx.toString(16)}")
+                println("debug NodeManager allocateNodeLeafA ${idx.toString(16)}")
             } else {
                 node = NodeLeaf(bufferManager.createPage(idx))
                 allNodesLeafSize++
-                //println("debug NodeManager allocateNodeLeafB ${idx.toString(16)}")
+                println("debug NodeManager allocateNodeLeafB ${idx.toString(16)}")
             }
         }
         action(node!!, idx)
-//println("NodeManager.allocateNodeLeaf B")
+        println("NodeManager.allocateNodeLeaf B")
     }
 
     /*inline*/ fun allocateNodeInner(/*crossinline*/ action: (NodeInner, Int) -> Unit) {
-//println("NodeManager.allocateNodeInner A")
-        var idx = allNodesInnerSize or nodePointerTypeInner
+        println("NodeManager.allocateNodeInner A")
         var node: NodeInner? = null
+        var idx = -1
         lockInner.withWriteLock {
+            idx = allNodesInnerSize or nodePointerTypeInner
             if (reuseOldIDs && allNodesFreeListInner.size > 0) {
                 idx = allNodesFreeListInner.first()
                 allNodesFreeListInner.remove(idx)
                 node = NodeInner(bufferManager.createPage(idx))
                 node!!.setNextNode(nodeNullPointer)
                 node!!.setTripleCount(0)
-                //println("debug NodeManager allocateNodeInnerA ${idx.toString(16)}")
+                println("debug NodeManager allocateNodeInnerA ${idx.toString(16)}")
             } else {
                 node = NodeInner(bufferManager.createPage(idx))
                 allNodesInnerSize++
-                //println("debug NodeManager allocateNodeInnerB ${idx.toString(16)}")
+                println("debug NodeManager allocateNodeInnerB ${idx.toString(16)}")
             }
         }
         action(node!!, idx)
-//println("NodeManager.allocateNodeInner B")
+        println("NodeManager.allocateNodeInner B")
     }
 
     /*inline*/ fun freeNode(idx: Int) {
-//println("NodeManager.freeNode A")
-        //println("debug NodeManager freeNode ${idx.toString(16)}")
+        println("NodeManager.freeNode A")
+        println("debug NodeManager freeNode ${idx.toString(16)}")
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
@@ -246,12 +248,12 @@ object NodeManager {
                 SanityCheck.checkUnreachable()
             }
         }
-//println("NodeManager.freeNode B")
+        println("NodeManager.freeNode B")
     }
 
     fun freeNodeAndAllRelated(nodeIdx: Int) {
-//println("NodeManager.freeNodeAndAllRelated A")
-        //println("debug NodeManager freeNodeAndAllRelated ${nodeIdx.toString(16)}")
+        println("NodeManager.freeNodeAndAllRelated A")
+        println("debug NodeManager freeNodeAndAllRelated ${nodeIdx.toString(16)}")
         if (nodeIdx != nodeNullPointer) {
             getNode(nodeIdx, { node ->
                 freeNode(nodeIdx)
@@ -262,12 +264,12 @@ object NodeManager {
                 freeNode(nodeIdx)
             })
         }
-//println("NodeManager.freeNodeAndAllRelated B")
+        println("NodeManager.freeNodeAndAllRelated B")
     }
 
     fun freeAllLeaves(nodeIdx: Int) {
-//println("NodeManager.freeAllLeaves A")
-        //println("debug NodeManager freeAllLeaves ${nodeIdx.toString(16)}")
+        println("NodeManager.freeAllLeaves A")
+        println("debug NodeManager freeAllLeaves ${nodeIdx.toString(16)}")
         var idx = nodeIdx
         while (idx != nodeNullPointer) {
             getNode(idx, { node ->
@@ -278,12 +280,12 @@ object NodeManager {
                 SanityCheck.checkUnreachable()
             })
         }
-//println("NodeManager.freeAllLeaves B")
+        println("NodeManager.freeAllLeaves B")
     }
 
     fun freeAllInnerNodes(nodeIdx: Int) {
-//println("NodeManager.freeAllInnerNodes A")
-        //println("debug NodeManager freeAllInnerNodes ${nodeIdx.toString(16)}")
+        println("NodeManager.freeAllInnerNodes A")
+        println("debug NodeManager freeAllInnerNodes ${nodeIdx.toString(16)}")
         if (nodeIdx != nodeNullPointer) {
             getNode(nodeIdx, { node ->
                 //dont touch leaves
@@ -294,6 +296,6 @@ object NodeManager {
                 freeNode(nodeIdx)
             })
         }
-//println("NodeManager.freeAllInnerNodes B")
+        println("NodeManager.freeAllInnerNodes B")
     }
 }
