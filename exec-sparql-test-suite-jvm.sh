@@ -27,7 +27,7 @@ port="3030"
   echo "ServerCommunication->Sockets"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
-  echo "Inline->Off"
+  echo "Inline->DontChange"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

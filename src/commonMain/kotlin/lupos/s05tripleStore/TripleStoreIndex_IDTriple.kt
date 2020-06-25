@@ -37,11 +37,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override suspend fun safeToFile(filename: String) {
-        flushContinueWithWriteLock()
-//TODO this is very bad
-lock.writeUnlock()
-lock.readLock()
-
+        flushContinueWithReadLock()
         SanityCheck {
             if (root != NodeManager.nodeNullPointer) {
                 var found = false
@@ -238,10 +234,7 @@ lock.readLock()
     }
 
     override suspend fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
-        flushContinueWithWriteLock()
-//TODO this is very bad
-lock.writeUnlock()
-lock.readLock()
+        flushContinueWithReadLock()
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
