@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
@@ -10,97 +11,81 @@ var debuguuidtmp123 = 0
 class ReadWriteLock {
     val uuid = debuguuidtmp123++
 
-    @JvmField
-    val allowNewReads = Mutex()
+    val lockA = Mutex() //required to assign a new read or write lock
+    val lockB = Mutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
+    var counter = AtomicInteger() //number of active readers
 
-    @JvmField
-    val allowNewWrites = Mutex()
+    suspend fun downgradeToReadLock() {
+        counter.set(1)
+        lockB.lock()
+        lockA.unlock()
+    }
 
-    @JvmField
-    var readers = 0L
     suspend fun readLock() {
-//println("ReadWriteLock($uuid) readLock A")
-        try {
-            allowNewReads.lock()
-            if (++readers == 1L) {
-                allowNewWrites.lock()
-            }
-        } finally {
-            allowNewReads.unlock()
+        lockA.lock()
+        var tmp = counter.incrementAndGet()
+        if (tmp == 1) {
+            lockB.lock()
         }
-//println("ReadWriteLock($uuid) readLock B")
+        lockA.unlock()
     }
 
     suspend fun readUnlock() {
-//println("ReadWriteLock($uuid) readUnlock A")
-        try {
-            allowNewReads.lock()
-            if (--readers == 0L) {
-                allowNewWrites.unlock()
-            }
-        } finally {
-            allowNewReads.unlock()
+        var tmp = counter.decrementAndGet()
+        if (tmp == 0) {
+            lockB.unlock()
         }
-//println("ReadWriteLock($uuid) readUnlock B")
     }
 
     suspend fun writeLock() {
-//println("ReadWriteLock($uuid) writeLock A")
-        allowNewWrites.lock()
-//println("ReadWriteLock($uuid) writeLock B")
+        lockA.lock()
+        lockB.lock() //effectively wait for the signal of the last read-unlock
+        lockB.unlock()
+        //assume that counter is 0, because otherwise lockB can not be accuired
     }
 
     suspend fun writeUnlock() {
-//println("ReadWriteLock($uuid) writeUnlock A")
-        allowNewWrites.unlock()
-//println("ReadWriteLock($uuid) writeUnlock B")
+        lockA.unlock()
+        //assume that counter is 0, because that is the precondition for a writer to start
     }
 
     suspend /*inline*/  fun <T> withReadLockSuspend(/*crossinline*/  action: suspend () -> T): T {
-//println("ReadWriteLock($uuid) withReadLock A")
         readLock()
         try {
             return action()
         } finally {
             readUnlock()
-//println("ReadWriteLock($uuid) withReadLock B")
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     suspend /*inline*/  fun <T> withWriteLockSuspend(/*crossinline*/  action: suspend () -> T): T {
-//println("ReadWriteLock($uuid) withWriteLock A")
         writeLock()
         try {
             return action()
         } finally {
             writeUnlock()
-//println("ReadWriteLock($uuid) withWriteLock B")
         }
-/*Coverage Unreachable*/
+        /*Coverage Unreachable*/
     }
 
     /*inline*/  fun <T> withReadLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
-//println("ReadWriteLock($uuid) withReadLock C")
         var res: T? = null
         CoroutinesHelper.runBlock {
             withReadLockSuspend {
                 res = action()
             }
         }
-//println("ReadWriteLock($uuid) withReadLock D")
         return res!!
     }
 
     /*inline*/  fun <T> withWriteLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
-//println("ReadWriteLock($uuid) withWriteLock C")
         var res: T? = null
         CoroutinesHelper.runBlock {
             withWriteLockSuspend {
                 res = action()
             }
         }
-//println("ReadWriteLock($uuid) withWriteLock D")
         return res!!
     }
 }
