@@ -61,5 +61,5 @@ fi
 cat $logfile
 
 
-
-#classpath("net.sf.proguard:proguard-gradle:6.2.2")
+#gradle shadowJar
+#proguard -dontobfuscate -forceprocessing -injars luposdate3000.jar:. -outjars /src/luposdate3000/obfuscated -dontwarn -keep "public final class MainKt {public static final void main(java.lang.String[]);}"

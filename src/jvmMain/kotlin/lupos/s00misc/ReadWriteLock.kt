@@ -19,6 +19,7 @@ class ReadWriteLock {
         counter.set(1)
         lockB.lock()
         lockA.unlock()
+println ("LOCK $uuid writeToReadLock")
     }
 
     suspend fun readLock() {
@@ -28,9 +29,11 @@ class ReadWriteLock {
             lockB.lock()
         }
         lockA.unlock()
+println("LOCK $uuid get read lock")
     }
 
     suspend fun readUnlock() {
+println("LOCK $uuid releasing read lock")
         var tmp = counter.decrementAndGet()
         if (tmp == 0) {
             lockB.unlock()
@@ -42,9 +45,11 @@ class ReadWriteLock {
         lockB.lock() //effectively wait for the signal of the last read-unlock
         lockB.unlock()
         //assume that counter is 0, because otherwise lockB can not be accuired
+println("LOCK $uuid get write lock")
     }
 
     suspend fun writeUnlock() {
+println("LOCK $uuid releasing write lock")
         lockA.unlock()
         //assume that counter is 0, because that is the precondition for a writer to start
     }
