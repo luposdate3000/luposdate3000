@@ -59,3 +59,7 @@ else
 	ln -s $(pwd)/${output}/bin/linuxX64/releaseExecutable/luposdate3000.kexe build/executable
 fi
 cat $logfile
+
+
+
+#classpath("net.sf.proguard:proguard-gradle:6.2.2")

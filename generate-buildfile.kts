@@ -582,7 +582,9 @@ while (!done) {
         File("build.gradle.kts").printWriter().use { out ->
             when (platform) {
                 "jvm" -> {
+
                     out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "14"
     //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
@@ -616,10 +618,16 @@ tasks.withType<KotlinCompile>().all {
                 "jvm" -> {
                     out.println("""plugins {
     id("org.jetbrains.kotlin.jvm") version "$kotlinVersion"
+    id("com.github.johnrengelman.shadow") version "5.1.0"
     application
 }
 application {
     mainClassName = "MainKt"
+}
+tasks.withType<ShadowJar>() {
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
 }
 repositories {
     jcenter()

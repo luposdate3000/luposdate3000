@@ -40,6 +40,15 @@ luposdate3000home=$(pwd)/luposdate3000home
 	./gradlew assemble
 	ln -s /opt/kscript/build/libs/kscript /bin/kscript
 }
+#proguard
+{
+	cd /opt
+	git clone https://github.com/Guardsquare/proguard.git
+	gradle assemble
+	cd build/distributions
+	tar -xzf proguard-7.0.0.tar.gz
+	ln -s /opt/proguard/build/distributions/proguard-7.0.0/bin/proguard.sh /bin/proguard
+}
 #korio
 {
 	${luposdate3000home}/tool-build-korio.sh
