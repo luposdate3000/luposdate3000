@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.File
 
 enum class ECoverage {
@@ -130,10 +130,13 @@ object Coverage {
     fun printToFile() {
         val s = toString()
         var h = s.hashCode()
-        if (h < 0)
+        if (h < 0){
             h = -h
+}
+runBlocking{
         File("coverage${h}.cov").printWriter { out ->
             out.println(s)
         }
+}
     }
 }

@@ -21,7 +21,7 @@ class File(@JvmField val filename: String) {
         }
     }
 
-    fun printWriter(action: (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
+suspend    fun printWriter(action: suspend (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
         action(it)
     }
 

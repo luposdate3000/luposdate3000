@@ -33,7 +33,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
 
     @JvmField
     val index2 = MyMapLongInt()
-    override fun safeToFile(filename: String) {
+    override suspend fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             data.forEach {
                 out.writeInt(it)
@@ -41,7 +41,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun flush() {
+    override suspend fun flush() {
     }
 
     fun rebuildMap() {
@@ -107,7 +107,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
+    override suspend fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -390,7 +390,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
 
-    override fun clear() {
+    override suspend fun clear() {
         data.clear()
         index1.clear()
         index2.clear()

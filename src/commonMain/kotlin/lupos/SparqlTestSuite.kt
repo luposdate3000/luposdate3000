@@ -1,6 +1,7 @@
 package lupos
 
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.CoroutinesHelper
@@ -79,9 +80,11 @@ class SparqlTestSuite() {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElement.parseFromXml(jenaResult)!!
+runBlocking{
                                 File(outputFile).printWriter {
                                     it.println(jenaXML.toPrettyString())
                                 }
+}
                             } catch (e: Throwable) {
                                 println("TODO exception 39")
                                 e.printStackTrace()

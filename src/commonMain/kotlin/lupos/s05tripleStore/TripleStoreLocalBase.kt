@@ -28,7 +28,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         var distinctIndices = arrayOf<EIndexPattern>()
     }
 
-    fun safeToFolder(foldername: String) {
+    suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
@@ -41,7 +41,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    fun flush() {
+suspend    fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
@@ -72,7 +72,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] })
     }
 
-    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
+suspend    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
@@ -151,7 +151,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    fun clear() {
+suspend    fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }

@@ -36,7 +36,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         var storeIteratorCounter = 0L
     }
 
-    override fun safeToFile(filename: String) {
+    override suspend fun safeToFile(filename: String) {
         flushContinueWithReadLock()
         SanityCheck {
             if (root != NodeManager.nodeNullPointer) {
@@ -233,7 +233,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res!!
     }
 
-    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
+    override suspend fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
         flushContinueWithReadLock()
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
@@ -355,7 +355,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    override fun flush() {
+    override suspend fun flush() {
         if (pendingImport.size > 0) {
             println("writelock 8")
             lock.withWriteLock {
@@ -365,12 +365,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    fun flushContinueWithWriteLock() {
+suspend    fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
-    fun flushContinueWithReadLock() {
+suspend    fun flushContinueWithReadLock() {
         lock.readLock()
         if (pendingImport.size > 0) {
             lock.readUnlock()
@@ -515,7 +515,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         distinctPrimary = iterator.distinct
     }
 
-    override fun insertAsBulk(data: IntArray, order: IntArray) {
+    override suspend fun insertAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -539,7 +539,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         println("writeunlock 10")
     }
 
-    override fun removeAsBulk(data: IntArray, order: IntArray) {
+    override suspend fun removeAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -571,7 +571,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.checkUnreachable()
     }
 
-    override fun clear() {
+    override suspend fun clear() {
         flushContinueWithWriteLock()
         NodeManager.freeNodeAndAllRelated(root)
         firstLeaf = NodeManager.nodeNullPointer
