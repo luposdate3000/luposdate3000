@@ -4,6 +4,6 @@ import lupos.s00misc.Coverage
 
 object Configuration {
     fun getEnv(key: String, default: String? = null): String? {
-        return System.getenv(key) ?: null
+        return System.getenv(key) ?: default
     }
 }

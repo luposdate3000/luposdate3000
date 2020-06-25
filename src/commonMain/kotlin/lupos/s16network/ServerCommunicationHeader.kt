@@ -3,6 +3,7 @@ package lupos.s16network
 import lupos.s00misc.Coverage
 
 enum class ServerCommunicationHeader {
+LOGMESSAGE,
     COMMIT,
     INSERT,
     IMPORT,

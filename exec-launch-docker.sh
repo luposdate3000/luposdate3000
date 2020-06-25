@@ -24,7 +24,7 @@ rm build/executable
   echo "AdvancedOptimisation->false"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->Ktor"
+  echo "ServerCommunication->Sockets"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
 } | ./generate-buildfile.kts
@@ -51,4 +51,9 @@ curl http://localhost:8000/debug/knownHosts
 curl http://localhost:8001/debug/knownHosts
 curl http://localhost:8002/debug/knownHosts
 curl http://localhost:8003/debug/knownHosts
-docker-compose logs --follow
+docker-compose logs --follow > log/x &
+pd=$!
+tail -f log/x| grep -e "Test: " -e Failed
+kill $pd
+
+#curl http://localhost:8000/debug/unittest

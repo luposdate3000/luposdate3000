@@ -130,7 +130,7 @@
   echo "AdvancedOptimisation->true"
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->None"
+  echo "ServerCommunication->Ktor"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
 } | ./generate-buildfile.kts
@@ -157,7 +157,7 @@
   echo "AdvancedOptimisation->true"
   echo "Coverage->ECoverage.Count"
   echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->None"
+  echo "ServerCommunication->Sockets"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
 } | ./generate-buildfile.kts

@@ -6,6 +6,7 @@ import java.net.Socket
 import kotlinx.coroutines.Job
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
+import lupos.s00misc.CommunicationConnectionClosedException
 import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
@@ -38,17 +39,29 @@ suspend fun BufferedInputStream.readByteArray(): ByteArrayRead {
     var x = 0
     var size = 0
     x = read()
+    if (x < 0) {
+        throw CommunicationConnectionClosedException()
+    }
     size = x
     x = read()
+    if (x < 0) {
+        throw CommunicationConnectionClosedException()
+    }
     size = size + (x shl 8)
     x = read()
+    if (x < 0) {
+        throw CommunicationConnectionClosedException()
+    }
     size = size + (x shl 16)
     x = read()
+    if (x < 0) {
+        throw CommunicationConnectionClosedException()
+    }
     size = size + (x shl 24)
     var res = ByteArray(size)
-    val flag = read(res, 0, size)
-    if (flag < 0) {
-        throw Exception("stream unexpectedly closed")
+    x = read(res, 0, size)
+    if (x < 0) {
+        throw CommunicationConnectionClosedException()
     }
     return ByteArrayRead(res, size)
 }

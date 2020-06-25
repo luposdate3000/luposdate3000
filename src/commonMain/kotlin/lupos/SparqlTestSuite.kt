@@ -95,7 +95,7 @@ class SparqlTestSuite() {
                             lastinput = inputFile
                         }
                         CoroutinesHelper.runBlock {
-                            GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + queryFile + "-" + triplesCount })
+ServerCommunicationSend.distributedLogMessage( "  Test: " + queryFile + "-" + triplesCount )
                             parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                         }
                     }
@@ -172,7 +172,7 @@ class SparqlTestSuite() {
                     // for_ printing out the name:
                     val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                     name.forEach {
-                        GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + (Dictionary[it] as SimpleLiteral).content })
+ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as SimpleLiteral).content )
                     }
                     numberOfTests++
                     if (!testOneEntry(data, it, newprefix)) {

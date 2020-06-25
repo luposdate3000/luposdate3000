@@ -3,6 +3,7 @@ package lupos.s16network
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import lupos.s00misc.ByteArrayBuilder
+import lupos.s00misc.CommunicationConnectionClosedException
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -29,6 +30,10 @@ object ServerCommunicationReceive {
                             val query = Query(transactionID = transactionID)
                             readHeader = true
                             when (header) {
+ServerCommunicationHeader.LOGMESSAGE->{
+val msg=packet.readString()
+println(msg)
+}
                                 ServerCommunicationHeader.COMMIT -> {
                                     DistributedTripleStore.localStore.commit(query)
                                 }
@@ -137,6 +142,8 @@ object ServerCommunicationReceive {
                                 break
                             }
                         }
+}catch (e:CommunicationConnectionClosedException){
+//do nothing  ... because the other side is already aborting this connection - that means the caller knows about this issue
                     } catch (e: Throwable) {
                         if (readHeader) {
                             //TODO propagate errors to the requesting node
