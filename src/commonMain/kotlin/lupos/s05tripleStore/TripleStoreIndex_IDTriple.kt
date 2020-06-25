@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.BenchmarkUtils
@@ -29,7 +30,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var pendingImport = mutableListOf<Int?>()
     var countPrimary = 0
     var distinctPrimary = 0
-var lock=ReadWriteLock()
+    var lock = ReadWriteLock()
 
     companion object {
         var storeIteratorCounter = 0L
@@ -37,44 +38,48 @@ var lock=ReadWriteLock()
 
     override fun safeToFile(filename: String) {
         flush()
-lock.withReadLock{
-        SanityCheck {
-            if (root != NodeManager.nodeNullPointer) {
-                var found = false
-                NodeManager.getNode(root, {
-                    println("root is inner node")
-                    SanityCheck.checkUnreachable()
-                }, {
-                    found = true
-                    SanityCheck.check { rootNode == it }
-                })
-                SanityCheck.check { found }
-            } else {
-                SanityCheck.check { rootNode == null }
-            }
-        }
-        File(filename).dataOutputStream { out ->
-            out.writeInt(firstLeaf)
-            out.writeInt(root)
-            out.writeInt(countPrimary)
-            out.writeInt(distinctPrimary)
-        }
-        SanityCheck {
-            println(firstLeaf)
-            println(root)
-            println(countPrimary)
-            println(distinctPrimary)
-            if (rootNode != null) {
-                val iterator = rootNode!!.iterator()
-                while (iterator.hasNext()) {
-                    println(iterator.next().map { it })
+println("readlock 1")
+        lock.withReadLock {
+            SanityCheck {
+                if (root != NodeManager.nodeNullPointer) {
+                    var found = false
+                    NodeManager.getNode(root, {
+                        println("root is inner node")
+                        SanityCheck.checkUnreachable()
+                    }, {
+                        found = true
+                        SanityCheck.check { rootNode == it }
+                    })
+                    SanityCheck.check { found }
+                } else {
+                    SanityCheck.check { rootNode == null }
                 }
             }
-}
+            File(filename).dataOutputStream { out ->
+                out.writeInt(firstLeaf)
+                out.writeInt(root)
+                out.writeInt(countPrimary)
+                out.writeInt(distinctPrimary)
+            }
+            SanityCheck {
+                println(firstLeaf)
+                println(root)
+                println(countPrimary)
+                println(distinctPrimary)
+                if (rootNode != null) {
+                    val iterator = rootNode!!.iterator()
+                    while (iterator.hasNext()) {
+                        println(iterator.next().map { it })
+                    }
+                }
+            }
         }
+println("readunlock 1")
     }
 
-    override fun loadFromFile(filename: String) =lock.withWriteLock{
+    override fun loadFromFile(filename: String) {
+println("writelock 2")
+lock.withWriteLock {
         pendingImport.clear()
         File(filename).dataInputStream { fis ->
             firstLeaf = fis.readInt()
@@ -105,8 +110,10 @@ lock.withReadLock{
             }
         }
     }
+println("writeunlock 2")
+}
 
-    class IteratorS(it: TripleIterator,lock:ReadWriteLock) : ColumnIterator() {
+    class IteratorS(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
         init {
             next = {
                 var tmp: Value? = null
@@ -115,19 +122,26 @@ lock.withReadLock{
                 }
                 /*return*/tmp
             }
-runBlocking{
-lock.readLock()
+            runBlocking {
+println("readlock 3")
+try{
+throw Exception("here")
+}catch(e:Throwable){
+e.printStackTrace()
 }
-close={
-_close()
-runBlocking{
-lock.readUnlock()
-}
-}
+                lock.readLock()
+            }
+            close = {
+                _close()
+                runBlocking {
+                    lock.readUnlock()
+println("readunlock 3")
+                }
+            }
         }
     }
 
-    class IteratorP(it: TripleIterator,lock:ReadWriteLock) : ColumnIterator() {
+    class IteratorP(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
         init {
             next = {
                 var tmp: Value? = null
@@ -136,19 +150,21 @@ lock.readUnlock()
                 }
                 /*return*/tmp
             }
-runBlocking{
-lock.readLock()
-}         
-close={ 
-_close()
-runBlocking{
-lock.readUnlock()
-}
-}
+            runBlocking {
+println("readlock 4")
+                lock.readLock()
+            }
+            close = {
+                _close()
+                runBlocking {
+                    lock.readUnlock()
+println("readunlock 4")
+                }
+            }
         }
     }
 
-    class IteratorO(it: TripleIterator,lock:ReadWriteLock) : ColumnIterator() {
+    class IteratorO(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
         init {
             next = {
                 var tmp: Value? = null
@@ -157,70 +173,74 @@ lock.readUnlock()
                 }
                 /*return*/tmp
             }
-runBlocking{
-lock.readLock()
-}         
-close={ 
-_close()
-runBlocking{
-lock.readUnlock()
-}
-}
+            runBlocking {
+println("readlock 5")
+                lock.readLock()
+            }
+            close = {
+                _close()
+                runBlocking {
+                    lock.readUnlock()
+println("readunlock 5")
+                }
+            }
         }
     }
 
     override fun getHistogram(query: Query, filter: IntArray): Pair<Int, Int> {
-var res:Pair<Int, Int>?=null
-lock.withReadLock{
-        val node = rootNode
-        if (node != null) {
-            when (filter.size) {
-                0 -> {
-                    res= Pair(countPrimary, distinctPrimary)
-                }
-                1 -> {
-                    var iterator = node.iterator1(filter)
-                    var count = 0
-                    var distinct = 0
-                    if (iterator.hasNext()) {
-                        var lastValue = iterator.next(1)
-                        distinct++
-                        count++
-                        while (iterator.hasNext()) {
-                            var value = iterator.next(1)
+        var res: Pair<Int, Int>? = null
+       println("readlock 6")
+ lock.withReadLock {
+            val node = rootNode
+            if (node != null) {
+                when (filter.size) {
+                    0 -> {
+                        res = Pair(countPrimary, distinctPrimary)
+                    }
+                    1 -> {
+                        var iterator = node.iterator1(filter)
+                        var count = 0
+                        var distinct = 0
+                        if (iterator.hasNext()) {
+                            var lastValue = iterator.next(1)
+                            distinct++
                             count++
-                            if (value != lastValue) {
-                                distinct++
+                            while (iterator.hasNext()) {
+                                var value = iterator.next(1)
+                                count++
+                                if (value != lastValue) {
+                                    distinct++
+                                }
+                                lastValue = value
                             }
-                            lastValue = value
                         }
+                        res = Pair(count, distinct)
                     }
-                    res= Pair(count, distinct)
-                }
-                2 -> {
-                    var iterator = node.iterator2(filter)
-                    var count = 0
-                    while (iterator.hasNext()) {
-                        iterator.next()
-                        count++
+                    2 -> {
+                        var iterator = node.iterator2(filter)
+                        var count = 0
+                        while (iterator.hasNext()) {
+                            iterator.next()
+                            count++
+                        }
+                        res = Pair(count, count)
                     }
-                    res= Pair(count, count)
+                    3 -> {
+                        res = Pair(1, 1)
+                    }
+                    else -> {
+                        SanityCheck.checkUnreachable()
+                    }
                 }
-                3 -> {
-                    res= Pair(1, 1)
-                }
-                else -> {
-                    SanityCheck.checkUnreachable()
-                }
+            } else {
+                res = Pair(0, 0)
             }
-        } else {
-            res= Pair(0, 0)
         }
+println("readunlock 6")
+        return res!!
     }
-return res!!
-}
 
-    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle{
+    override fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle {
         flush()
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
@@ -236,67 +256,69 @@ return res!!
         } else {
             res = IteratorBundle(0)
         }
-lock.withReadLock{
-        val node = rootNode
-        if (node != null) {
-            if (filter.size == 3) {
-                if (node.iterator3(filter).hasNext()) {
-                    res = IteratorBundle(1)
-                }
-            } else if (filter.size == 2) {
-                if (projection[0] == "_") {
-                    var count = 0
-                    var it = node.iterator2(filter)
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
+println("readlock 7")
+        lock.withReadLock {
+            val node = rootNode
+            if (node != null) {
+                if (filter.size == 3) {
+                    if (node.iterator3(filter).hasNext()) {
+                        res = IteratorBundle(1)
                     }
-                    res = IteratorBundle(count)
-                } else {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(node.iterator2(filter),lock))
-                }
-            } else if (filter.size == 1) {
-                if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(node.iterator1(filter),lock))
-                    if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(node.iterator1(filter),lock))
+                } else if (filter.size == 2) {
+                    if (projection[0] == "_") {
+                        var count = 0
+                        var it = node.iterator2(filter)
+                        while (it.hasNext()) {
+                            it.next()
+                            count++
+                        }
+                        res = IteratorBundle(count)
+                    } else {
+                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(node.iterator2(filter), lock))
                     }
-                } else {
-                    SanityCheck.check { projection[1] == "_" }
-                    var count = 0
-                    var it = node.iterator1(filter)
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
-                    }
-                    res = IteratorBundle(count)
-                }
-            } else {
-                SanityCheck.check { filter.size == 0 }
-                if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(node.iterator(),lock))
-                    if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(node.iterator(),lock))
-                        if (projection[2] != "_") {
-                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(node.iterator(),lock))
+                } else if (filter.size == 1) {
+                    if (projection[0] != "_") {
+                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(node.iterator1(filter), lock))
+                        if (projection[1] != "_") {
+                            columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(node.iterator1(filter), lock))
                         }
                     } else {
-                        SanityCheck.check { projection[2] == "_" }
+                        SanityCheck.check { projection[1] == "_" }
+                        var count = 0
+                        var it = node.iterator1(filter)
+                        while (it.hasNext()) {
+                            it.next()
+                            count++
+                        }
+                        res = IteratorBundle(count)
                     }
                 } else {
-                    SanityCheck.check { projection[1] == "_" }
-                    SanityCheck.check { projection[2] == "_" }
-                    var count = 0
-                    var it = node.iterator()
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
+                    SanityCheck.check { filter.size == 0 }
+                    if (projection[0] != "_") {
+                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(node.iterator(), lock))
+                        if (projection[1] != "_") {
+                            columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(node.iterator(), lock))
+                            if (projection[2] != "_") {
+                                columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(node.iterator(), lock))
+                            }
+                        } else {
+                            SanityCheck.check { projection[2] == "_" }
+                        }
+                    } else {
+                        SanityCheck.check { projection[1] == "_" }
+                        SanityCheck.check { projection[2] == "_" }
+                        var count = 0
+                        var it = node.iterator()
+                        while (it.hasNext()) {
+                            it.next()
+                            count++
+                        }
+                        res = IteratorBundle(count)
                     }
-                    res = IteratorBundle(count)
                 }
             }
         }
-}
+println("readunlock 7")
         return res
     }
 
@@ -342,7 +364,9 @@ lock.withReadLock{
         return res
     }
 
-    override fun flush() :Unit=lock.withWriteLock{
+    override fun flush(){
+println("writelock 8")
+lock.withWriteLock {
         BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
         if (pendingImport.size > 0) {
             var j = 1
@@ -367,9 +391,13 @@ lock.withReadLock{
             pendingImport.clear()
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
+}
+println("writeunlock 8")
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) :Unit=lock.withWriteLock{
+    override fun import(dataImport: IntArray, count: Int, order: IntArray){
+println("writelock 9")
+lock.withWriteLock {
         BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         if (count > 0) {
             val iteratorImport = BulkImportIterator(dataImport, count, order)
@@ -408,6 +436,8 @@ lock.withReadLock{
             }
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
+}
+println("writeunlock 9")
     }
 
     fun rebuildData(_iterator: TripleIterator) {
@@ -474,51 +504,55 @@ lock.withReadLock{
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {
         flush()
-lock.withWriteLock{
-        var d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], data.size, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = it.iterator()
-            }, {
-                SanityCheck.checkUnreachable()
-            })
+println("writelock 10")
+        lock.withWriteLock {
+            var d = arrayOf(data, IntArray(data.size))
+            TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+            val iteratorImport = BulkImportIterator(d[0], data.size, order)
+            var iteratorStore2: TripleIterator? = null
+            if (firstLeaf == NodeManager.nodeNullPointer) {
+                iteratorStore2 = EmptyIterator()
+            } else {
+                NodeManager.getNode(firstLeaf, {
+                    iteratorStore2 = it.iterator()
+                }, {
+                    SanityCheck.checkUnreachable()
+                })
+            }
+            val iteratorStore = iteratorStore2!!
+            val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
+            var oldroot = root
+            rebuildData(iterator)
+            NodeManager.freeNodeAndAllRelated(oldroot)
         }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
-        var oldroot = root
-        rebuildData(iterator)
-        NodeManager.freeNodeAndAllRelated(oldroot)
-}
+println("writeunlock 10")
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray) {
         flush()
-lock.withWriteLock{
-        var d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], data.size, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = it.iterator()
-            }, {
-                SanityCheck.checkUnreachable()
-            })
+        println("writelock 11")
+lock.withWriteLock {
+            var d = arrayOf(data, IntArray(data.size))
+            TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+            val iteratorImport = BulkImportIterator(d[0], data.size, order)
+            var iteratorStore2: TripleIterator? = null
+            if (firstLeaf == NodeManager.nodeNullPointer) {
+                iteratorStore2 = EmptyIterator()
+            } else {
+                NodeManager.getNode(firstLeaf, {
+                    iteratorStore2 = it.iterator()
+                }, {
+                    SanityCheck.checkUnreachable()
+                })
+            }
+            val iteratorStore = iteratorStore2!!
+            val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
+            var oldroot = root
+            rebuildData(iterator)
+            NodeManager.freeNodeAndAllRelated(oldroot)
         }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
-        var oldroot = root
-        rebuildData(iterator)
-        NodeManager.freeNodeAndAllRelated(oldroot)
+println("writeunlock 11")
     }
-}
 
     override fun insert(a: Value, b: Value, c: Value) {
         SanityCheck.checkUnreachable()
@@ -530,15 +564,19 @@ lock.withWriteLock{
 
     override fun clear() {
         flush()
-lock.withWriteLock{
-        NodeManager.freeNodeAndAllRelated(root)
-        firstLeaf = NodeManager.nodeNullPointer
-        root = NodeManager.nodeNullPointer
-        rootNode = null
+println("writelock 12")
+        lock.withWriteLock {
+            NodeManager.freeNodeAndAllRelated(root)
+            firstLeaf = NodeManager.nodeNullPointer
+            root = NodeManager.nodeNullPointer
+            rootNode = null
+        }
+println("writeunlock 12")
     }
-}
 
-    override fun printContents() =lock.withReadLock{
+    override fun printContents() {
+println("readlock 13")
+lock.withReadLock {
         if (firstLeaf != NodeManager.nodeNullPointer) {
             NodeManager.getNode(firstLeaf, { node ->
                 var it = node.iterator()
@@ -550,5 +588,7 @@ lock.withWriteLock{
                 SanityCheck.checkUnreachable()
             })
         }
+}
+println("readunlock 13")
     }
 }
