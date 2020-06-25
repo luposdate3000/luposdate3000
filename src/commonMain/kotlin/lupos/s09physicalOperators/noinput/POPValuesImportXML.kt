@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.Query
 class POPValuesImportXML : POPValuesImportBase {
     constructor(query: Query, projectedVariables: List<String>, data: XMLElement) : super(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
-        SanityCheck.checkEQ({ data.tag }, { "sparql" })
+        SanityCheck.check({ data.tag == "sparql" })
         for (node in data["results"]!!.childs) {
             val row = arrayOfNulls<String>(variables.size)
             for (v in node.childs) {
@@ -19,7 +19,7 @@ class POPValuesImportXML : POPValuesImportBase {
                 val content = child.content
                 val datatype = child.attributes["datatype"]
                 val lang = child.attributes["xml:lang"]
-                SanityCheck.checkFalse({ (datatype != null) && (lang != null) })
+                SanityCheck.check({!( (datatype != null) && (lang != null) )})
                 when {
                     child.tag == "uri" -> {
                         row[variables.indexOf(name)] = "<" + content + ">"

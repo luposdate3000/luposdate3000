@@ -864,7 +864,7 @@ return tmp
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 3 })
+        SanityCheck.check({ childrenValues.size == 3 })
         return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
     }
 
@@ -908,42 +908,42 @@ return tmp
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPNEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPLEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPGEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPLT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPGT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return AOPNotIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
@@ -1002,22 +1002,22 @@ return tmp
     }
 
     override fun visit(node: ASTNot, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+        SanityCheck.check({ childrenValues.size == 1 })
         return AOPNot(query, childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
@@ -1027,7 +1027,7 @@ return tmp
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         return AOPVariable(query, "#" + node.name)
 //blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
 //        return AOPConstant(query, ValueBnode(node.name))
@@ -1036,31 +1036,31 @@ return tmp
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
         when (node.function) {
             BuiltInFunctions.STR -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANG -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANGMATCHES -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.DATATYPE -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BOUND -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IRI -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.URI -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BNODE -> {
@@ -1070,19 +1070,19 @@ return tmp
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctions.ABS -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CEIL -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.FLOOR -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.ROUND -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONCAT -> {
@@ -1097,115 +1097,115 @@ return tmp
                 return AOPBuildInCallCOALESCE(query, childrenValues.map { it as AOPBase })
             }
             BuiltInFunctions.STRLEN -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.UCASE -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LCASE -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONTAINS -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRSTARTS -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRENDS -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.YEAR -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MONTH -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.DAY -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.HOURS -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MINUTES -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SECONDS -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TIMEZONE -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TZ -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NOW -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+                SanityCheck.check({ childrenValues.size == 0 })
                 return AOPConstant(query, queryExecutionStartTime)
             }
             BuiltInFunctions.UUID -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+                SanityCheck.check({ childrenValues.size == 0 })
                 return AOPBuildInCallUUID(query)
             }
             BuiltInFunctions.STRUUID -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+                SanityCheck.check({ childrenValues.size == 0 })
                 return AOPBuildInCallSTRUUID(query)
             }
             BuiltInFunctions.MD5 -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA1 -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA256 -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IF -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 3 })
+                SanityCheck.check({ childrenValues.size == 3 })
                 return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
             BuiltInFunctions.STRLANG -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRAFTER -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallSTRAFTER(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRBEFORE -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallSTRBEFORE(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRDT -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+                SanityCheck.check({ childrenValues.size == 2 })
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.isLITERAL -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isIRI -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isNUMERIC -> {
-                SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+                SanityCheck.check({ childrenValues.size == 1 })
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NotExists -> {
@@ -1261,7 +1261,7 @@ return tmp
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+        SanityCheck.check({ childrenValues.size == 1 })
         val child = childrenValues.first() as AOPBase
         if (containsAggregate(node.children.first())) {
             throw AggregateNotAllowedSyntaxException()
@@ -1270,7 +1270,7 @@ return tmp
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 1 })
+        SanityCheck.check({ childrenValues.size == 1 })
         val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable) {
             return LOPSort(query, node.asc, tmp)
@@ -1280,12 +1280,12 @@ return tmp
     }
 
     override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         return AOPVariable(query, node.name)
     }
 
     override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         return AOPConstant(query, ValueIri(node.iri))
     }
 
@@ -1413,7 +1413,7 @@ return tmp
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         val res = LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
@@ -1421,7 +1421,7 @@ return tmp
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         val res = LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
@@ -1429,7 +1429,7 @@ return tmp
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         val res = LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
@@ -1437,21 +1437,21 @@ return tmp
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val g1 = graphRefToEnum(node.graphref)
         val res = LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val g1 = graphRefToEnum(node.graphref)
         val res = LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
         return res
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 0 })
+        SanityCheck.check({ childrenValues.size == 0 })
         val g1 = graphRefToEnum(node.graphref)
         val res = LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
         return res
@@ -1682,7 +1682,7 @@ return tmp
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
-        SanityCheck.checkEQ({ childrenValues.size }, { 2 })
+        SanityCheck.check({ childrenValues.size == 2 })
         return LOPMinus(query, childrenValues[0], childrenValues[1], listOf())
     }
 

@@ -45,7 +45,7 @@ class PersistentStoreLocal {
     }
 
     fun dropGraph(query: Query, name: String) {
-        SanityCheck.checkNEQ({ name }, { defaultGraphName })
+        SanityCheck.check({ name != defaultGraphName })
         var store = stores[name]
         if (store == null) {
             throw GraphNameNotExistsDuringDeleteException(name)

@@ -210,7 +210,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[it.second] is IRI -> {
-                            SanityCheck.checkNULL({ resultFile })
+                            SanityCheck.check({ resultFile == null})
                             resultFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
@@ -265,11 +265,11 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                                 val iri2 = (Dictionary[it.first] as IRI).iri
                                 when (iri2) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        SanityCheck.checkNULL({ inputDataFile })
+                                        SanityCheck.check({ inputDataFile==null })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        SanityCheck.checkNULL({ queryFile })
+                                        SanityCheck.check({ queryFile==null })
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -305,11 +305,11 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                                         }
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        SanityCheck.checkNULL({ queryFile })
+                                        SanityCheck.check({ queryFile ==null})
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.checkNULL({ inputDataFile })
+                                        SanityCheck.check({ inputDataFile==null })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
@@ -342,7 +342,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.checkNULL({ testType })
+                    SanityCheck.check({ testType==null })
                     testType = (Dictionary[it.second] as IRI).iri
                     when ((Dictionary[it.second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -377,7 +377,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                     features.add((Dictionary[it.second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.checkNULL({ comment })
+                    SanityCheck.check({ comment==null })
                     comment = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -393,7 +393,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                     GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri })
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.checkNULL({ description })
+                    SanityCheck.check({ description ==null})
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> {

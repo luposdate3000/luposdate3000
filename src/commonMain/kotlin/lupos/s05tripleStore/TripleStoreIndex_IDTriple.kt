@@ -124,11 +124,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
             runBlocking {
                 println("readlock 3")
-                try {
-                    throw Exception("here")
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
                 lock.readLock()
             }
             close = {

@@ -113,7 +113,7 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                         if (token3 == null) {
                             return nodeSparql
                         }
-                        SanityCheck.checkEQ({ token3.value }, { ":" })
+                        SanityCheck.check({ token3.value == ":" })
                         idx = token3.range.last
                         val token2 = regexToken.find(json, idx + 1)
                         if (token2 == null) {
@@ -131,7 +131,7 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                     if (token3 == null) {
                         return nodeSparql
                     }
-                    SanityCheck.checkEQ({ token3.value }, { ":" })
+                    SanityCheck.check({ token3.value == ":" })
                     idx = token3.range.last
                     val token2 = regexToken.find(json, idx + 1)
                     if (token2 == null) {

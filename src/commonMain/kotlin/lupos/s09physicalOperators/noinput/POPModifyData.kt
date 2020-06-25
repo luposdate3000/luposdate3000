@@ -40,7 +40,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         }
         res += " DATA {"
         for (c in data) {
-            SanityCheck.checkFalse({ c.graphVar })
+            SanityCheck.check({ !c.graphVar })
             if (c.graph == PersistentStoreLocal.defaultGraphName) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }

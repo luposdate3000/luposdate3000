@@ -24,7 +24,7 @@ abstract class POPValuesImportBase(query: Query, projectedVariables: List<String
     }
 
     fun addRow(values: Array<String?>) {
-        SanityCheck.checkEQ({ values.size }, { variables.size })
+        SanityCheck.check({ values.size == variables.size })
         for (i in 0 until variables.size) {
             data[variables[i]]!!.add(query.dictionary.createValue(cleanString(values[i])))
         }
