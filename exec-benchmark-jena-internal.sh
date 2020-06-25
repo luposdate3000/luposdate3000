@@ -33,6 +33,7 @@ mkdir -p log/benchtmp
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->-1"
   echo "ConnectionPool->Off"
+  echo "Inline->On"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 

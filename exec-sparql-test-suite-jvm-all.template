@@ -24,6 +24,7 @@
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
 
 {
@@ -52,6 +53,7 @@
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -79,6 +81,7 @@
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -106,6 +109,7 @@
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -133,6 +137,7 @@
   echo "ServerCommunication->Ktor"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -160,4 +165,5 @@
   echo "ServerCommunication->Sockets"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
