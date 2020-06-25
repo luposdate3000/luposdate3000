@@ -61,7 +61,7 @@ class ChooseableOptionConstantValue(val pkg: String, val variableName: String, v
     override fun toString() = "ConstantValue($internalID = $variableValue)"
 }
 
-class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String) : ChooseableOption(label, "common" + internalID) {
+class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate:Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "ExternalScript($scriptName)"
 }
 
@@ -346,8 +346,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
                 ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
-                ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn"),
-                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff")
+                ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn", true),
+                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff", true)
         ),
         ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                 ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
@@ -370,6 +370,11 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Use connection pool for server communication", "ConnectionPool") to listOf(
                 ChooseableOptionTypeAlias("Off", "lupos.s16network", listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOff")),
                 ChooseableOptionTypeAlias("On", "lupos.s16network", listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOn"))
+        ),
+        ChooseableGroup("Inline", "Inline") to listOf(
+                ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
+                ChoosableOptionExternalScript("On", "./tool-inline-enable.sh", "InlineModeOn", false),
+                ChoosableOptionExternalScript("Off", "./tool-inline-disable.sh", "InlineModeOff", false)
         )
 )
 
@@ -630,9 +635,11 @@ dependencies {""")
                         if (option is ChooseableOptionDependency)
                             out.println("    implementation(\"${option.internalID}\")")
                     out.println("""}""")
-                    for (option in allChoosenOptions.sorted())
-                        if (option is ChooseableOptionDirectory)
-                            out.println("sourceSets[\"main\"].java.srcDir(\"src/${option.internalID}/kotlin\")")
+                    for (option in allChoosenOptions.sorted()) {
+                        if (option is ChooseableOptionDirectory) {
+                            out.println("sourceSets[\"main\"].java.srcDir(\"src.generated/${option.internalID}/kotlin\")")
+                        }
+                    }
                 }
                 else -> {
                     out.println("""plugins {
@@ -666,9 +673,9 @@ kotlin {
                     for (option in allChoosenOptions.sorted())
                         if (option is ChooseableOptionDirectory) {
                             if (option.internalID.startsWith("common"))
-                                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
+                                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/${option.internalID}/kotlin\")")
                             else
-                                out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src/${option.internalID}/kotlin\")")
+                                out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${option.internalID}/kotlin\")")
                         }
                     out.println("""}""")
                 }
@@ -678,7 +685,7 @@ kotlin {
             File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
         } catch (e: FileAlreadyExistsException) {
         }
-        File("src/commonConfig").deleteRecursively()
+        File("src.generated/commonConfig").deleteRecursively()
         val configFilesContent = mutableMapOf<String, StringBuilder>()
         for (option in allChoosenOptions) {
             //first all alias definitions
@@ -735,31 +742,49 @@ kotlin {
                 throw RuntimeException("execution failed with code ${process.exitValue()}: $this")
             }
         }
+//copy to save location
+        File("src.generated").deleteRecursively()
         for (option in allChoosenOptions) {
-            if (option is ChoosableOptionExternalScript) {
+            if (option is ChooseableOptionDirectory && option.internalID != "commonConfig") {
+                File("src/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))
+            }
+        }
+        File("src/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
+//perform scripts "before template"
+        for (option in allChoosenOptions) {
+            if (option is ChoosableOptionExternalScript && option.beforeTemplate) {
+println("running script before ${option.scriptName}")
                 option.scriptName.runCommand()
             }
         }
+//create config files as defined by above configuration
         for ((k, v) in configFilesContent) {
-            File("src/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
-            File("src/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
+            File("src.generated/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
+            File("src.generated/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
                 out.print(v.toString())
             }
         }
-
+//expand the template files
         for (template in templates) {
-            val sourceFile = File("src/commonTemplate/kotlin/" + template.pkg.replace(".", "/") + "/" + template.sourceClass + ".kt")
+            val sourceFile = File("src.generated/commonTemplate/kotlin/" + template.pkg.replace(".", "/") + "/" + template.sourceClass + ".kt")
             var fileContent = sourceFile.readText()
             var targetClass = template.sourceClass
             for (replacement in template.replacements) {
                 targetClass = targetClass.replace(replacement.first.toRegex(), replacement.second)
                 fileContent = replacement.first.toRegex(RegexOption.DOT_MATCHES_ALL).replace(fileContent, replacement.second)
             }
-            val targetFile = File("src/commonConfig/kotlin/" + template.pkg.replace(".", "/") + "/" + targetClass + ".kt")
+            val targetFile = File("src.generated/commonConfig/kotlin/" + template.pkg.replace(".", "/") + "/" + targetClass + ".kt")
             targetFile.printWriter().use {
                 it.println("/* this File is autogenerated by generate-buildfile.kts */")
                 it.println("/* DO NOT MODIFY DIRECTLY */")
                 it.print(fileContent)
+            }
+        }
+//perform scripts "after template"
+        for (option in allChoosenOptions) {
+            if (option is ChoosableOptionExternalScript && !option.beforeTemplate) {
+println("running script after ${option.scriptName}")
+                option.scriptName.runCommand()
             }
         }
         println(newCommandString + "\n} | ./generate-buildfile.kts")

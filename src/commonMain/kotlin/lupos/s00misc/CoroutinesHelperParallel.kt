@@ -21,9 +21,4 @@ object CoroutinesHelperParallel {
     }
 
     inline fun createLock() = Lock()
-    inline fun runBlockWithLock(lock: CoroutinesHelperMutex, crossinline action: () -> Unit) = runBlocking {
-        lock.withWriteLock {
-            action()
-        }
-    }
 }

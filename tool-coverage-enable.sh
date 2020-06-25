@@ -1,2 +1,2 @@
 #!/bin/bash
-./tool-coverage.kts Enable $(find src -name *.kt | sort)
+./tool-coverage.kts Enable $(find src.generated -name *.kt | sort)

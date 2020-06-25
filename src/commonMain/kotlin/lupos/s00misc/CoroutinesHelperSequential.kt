@@ -18,7 +18,4 @@ object CoroutinesHelperSequential {
     }
 
     /*inline*/  fun createLock() = 0
-    /*inline*/  fun runBlockWithLock(lock: CoroutinesHelperMutex, /*crossinline*/  action: () -> Unit) = runBlocking {
-        action()
-    }
 }
