@@ -11,7 +11,7 @@ import lupos.s00misc.writeInt2
 import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
 
-inline class NodeInner(val data: ByteArray) { //ByteBuffer??
+object NodeInnerFunctions {
     /*
      * Bitlayout 7..0
      * Bytes 0..3  : Number of stored Triples
@@ -38,12 +38,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
      *
      * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
      */
-    fun toByteArray() = data
-    fun getFirstTriple(b: IntArray) {
-        var node = this
+    fun getFirstTriple(data: ByteArray, b: IntArray) {
+        var node = data
         var done = false
         while (!done) {
-            NodeManager.getNode(node.getFirstChild(), {
+            NodeManager.getNode(getFirstChild(node), {
                 it.getFirstTriple(b)
                 done = true
             }, {
@@ -52,31 +51,31 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         }
     }
 
-    fun setFirstChild(node: Int) {
+    fun setFirstChild(data: ByteArray,node: Int) {
         data.writeInt4(8, node)
     }
 
-    fun getFirstChild(): Int {
+    fun getFirstChild(data: ByteArray): Int {
         return data.readInt4(8)
     }
 
-    fun setNextNode(node: Int) {
+    fun setNextNode(data: ByteArray,node: Int) {
         data.writeInt4(4, node)
     }
 
-    fun getNextNode(): Int {
+    fun getNextNode(data: ByteArray): Int {
         return data.readInt4(4)
     }
 
-    fun setTripleCount(count: Int) {
+    fun setTripleCount(data: ByteArray,count: Int) {
         data.writeInt4(0, count)
     }
 
-    fun getTripleCount(): Int {
+    fun getTripleCount(data: ByteArray): Int {
         return data.readInt4(0)
     }
 
-    /*inline*/ fun writeFullTriple(offset: Int, d: IntArray): Int {
+    /*inline*/ fun writeFullTriple(data: ByteArray,offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -88,7 +87,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return 13
     }
 
-    /*inline*/ fun writeChildPointers(offset: Int, count: Int, d: IntArray): Int {
+    /*inline*/ fun writeChildPointers(data: ByteArray,offset: Int, count: Int, d: IntArray): Int {
         SanityCheck.check { count > 0 }
         SanityCheck.check { count <= 4 }
         SanityCheck.check { d[0] > 0 }
@@ -120,7 +119,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return localOff - offset
     }
 
-    /*inline*/ fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+    /*inline*/ fun writeDiffTriple(data: ByteArray,offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written
@@ -243,11 +242,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return localOff - offset
     }
 
-    fun iterator(): TripleIterator {
+    fun iterator(data: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
-        var node = this
+        var node = data
         while (iterator == null) {
-            NodeManager.getNode(node.getFirstChild(), {
+            NodeManager.getNode(getFirstChild(node), {
                 iterator = it.iterator()
             }, {
                 node = it
@@ -256,10 +255,10 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return iterator!!
     }
 
-    /*inline*/ fun forEachChild(/*crossinline*/ action: (Int) -> Unit) {
-        var remaining = getTripleCount()
+    /*inline*/ fun forEachChild(data: ByteArray,/*crossinline*/ action: (Int) -> Unit) {
+        var remaining = getTripleCount(data)
         var offset = 12
-        var lastChildPointer = getFirstChild()
+        var lastChildPointer = getFirstChild(data)
         action(lastChildPointer)
         while (remaining > 0) {
             var i = 0
@@ -301,11 +300,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         }
     }
 
-    /*inline*/ fun findIteratorN(/*crossinline*/ checkTooSmall: (c: IntArray) -> Boolean, /*crossinline*/ action: (Int) -> Unit): Unit {
+    /*inline*/ fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall: (c: IntArray) -> Boolean, /*crossinline*/ action: (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
-        var lastChildPointer = getFirstChild()
+        var lastChildPointer = getFirstChild(data)
         var childLastPointerHeaderOffset = -1
-        var remaining = getTripleCount()
+        var remaining = getTripleCount(data)
         var offset = 12
         var childPointers = IntArray(4)
         var counter = IntArray(3)
@@ -352,7 +351,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                 if (!checkTooSmall(value)) {
                     if (i == 0) {
                         if (lastHeaderOffset < 0) {
-                            lastChildPointer = getFirstChild()
+                            lastChildPointer = getFirstChild(data)
                         }
                         action(lastChildPointer)
                         return
@@ -394,11 +393,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         action(lastChildPointer)
     }
 
-    fun iterator3(prefix: IntArray): TripleIterator {
-        var node = this
+    fun iterator3(data: ByteArray,prefix: IntArray): TripleIterator {
+        var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
-            node.findIteratorN({
+            findIteratorN(node,{
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
                 NodeManager.getNode(it, {
@@ -411,11 +410,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return iterator!!
     }
 
-    fun iterator2(prefix: IntArray): TripleIterator {
-        var node = this
+    fun iterator2(data: ByteArray,prefix: IntArray): TripleIterator {
+        var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
-            node.findIteratorN({
+            findIteratorN(node,{
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
@@ -428,11 +427,11 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return iterator!!
     }
 
-    fun iterator1(prefix: IntArray): TripleIterator {
-        var node = this
+    fun iterator1(data: ByteArray,prefix: IntArray): TripleIterator {
+        var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
-            node.findIteratorN({
+            findIteratorN(node,{
                 /*return*/ (it[0] < prefix[0])
             }, {
                 NodeManager.getNode(it, {
@@ -445,7 +444,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return iterator!!
     }
 
-    fun initializeWith(childs: MutableList<Int>) {
+    fun initializeWith(data: ByteArray,childs: MutableList<Int>) {
         var debugListChilds = mutableListOf<Int>()
         var debugListTriples = mutableListOf<IntArray>()
         SanityCheck.check { childs.size > 0 }
@@ -454,7 +453,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         SanityCheck {
             debugListChilds.add(childLastPointer)
         }
-        setFirstChild(childLastPointer)
+        setFirstChild(data,childLastPointer)
         var offset = 12
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
         var triples = 0
@@ -474,35 +473,35 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
                 NodeManager.getNode(childLastPointer, {
-                    it.getFirstTriple(tripleCurrent)
+it.getFirstTriple(tripleCurrent)
                 }, {
-                    it.getFirstTriple(tripleCurrent)
+                    NodeInnerFunctions.getFirstTriple(it,tripleCurrent)
                 })
                 debugListTriples.add(intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2]))
-                bytesWritten = writeDiffTriple(offset, tripleLast, tripleCurrent, tripleBuf)
+                bytesWritten = writeDiffTriple(data,offset, tripleLast, tripleCurrent, tripleBuf)
                 offset += bytesWritten
                 i++
                 triples++
             }
-            bytesWritten = writeChildPointers(offset, i, childPointers)
+            bytesWritten = writeChildPointers(data,offset, i, childPointers)
             offset += bytesWritten
         }
-        setTripleCount(triples)
-        setNextNode(NodeManager.nodeNullPointer)
+        setTripleCount(data,triples)
+        setNextNode(data,NodeManager.nodeNullPointer)
         SanityCheck {
             println(debugListChilds)
             println(debugListTriples.map { it.map { it } })
             SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
             var k = 0
-            this.forEachChild {
+            forEachChild (data,{
                 println("debug it $it")
                 SanityCheck.check { debugListChilds.size >= k }
                 SanityCheck.check { it == debugListChilds[k] }
                 k++
-            }
+            })
             SanityCheck.check { k == debugListChilds.size }
             var j = -1
-            findIteratorN({
+            findIteratorN(data,{
                 println("debug xx ${it.map { it }}")
                 j++
                 SanityCheck.check { j < debugListTriples.size }
@@ -518,7 +517,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
             for (l in 0 until debugListTriples.size) {
                 println("debug l $l")
                 j = -1
-                findIteratorN({
+                findIteratorN(data,{
                     println("debug xx ${it.map { it }}")
                     j++
                     SanityCheck.check { j < debugListTriples.size }

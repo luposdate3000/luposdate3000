@@ -68,7 +68,7 @@ object NodeManager {
                     getNode(i or nodePointerTypeInner, {
                         SanityCheck.checkUnreachable()
                     }, {
-                        it.forEachChild {
+                        NodeInnerFunctions.forEachChild (it,{
                             val nodePointerType = it and nodePointerTypeMask
                             val nodePointerValue = it and nodePointerValueMask
                             if (nodePointerType == nodePointerTypeInner) {
@@ -80,7 +80,7 @@ object NodeManager {
                                 leavesFromInner[nodePointerValue]++
                                 println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
                             }
-                        }
+                        })
                     })
                 }
             }
@@ -150,16 +150,16 @@ object NodeManager {
         }
     }
 
-    /*inline*/ fun getNode(idx: Int, /*crossinline*/ actionLeaf: (NodeLeaf) -> Unit, /*crossinline*/ actionInner: (NodeInner) -> Unit) {
+    /*inline*/ fun getNode(idx: Int, /*crossinline*/ actionLeaf: (NodeLeaf) -> Unit, /*crossinline*/ actionInner: (ByteArray) -> Unit) {
         println("debug NodeManager getNode ${idx.toString(16)}")
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
-                var node: NodeInner? = null
+                var node: ByteArray? = null
                 lockInner.withReadLock {
                     SanityCheck.check { !allNodesFreeListInner.contains(idx) }
-                    node = NodeInner(bufferManager.getPage(idx))
+                    node = bufferManager.getPage(idx)
                 }
                 actionInner(node!!)
             }
@@ -201,21 +201,21 @@ object NodeManager {
         println("NodeManager.allocateNodeLeaf B")
     }
 
-    /*inline*/ fun allocateNodeInner(/*crossinline*/ action: (NodeInner, Int) -> Unit) {
+    /*inline*/ fun allocateNodeInner(/*crossinline*/ action: (ByteArray, Int) -> Unit) {
         println("NodeManager.allocateNodeInner A")
-        var node: NodeInner? = null
+        var node: ByteArray? = null
         var idx = -1
         lockInner.withWriteLock {
             idx = allNodesInnerSize or nodePointerTypeInner
             if (reuseOldIDs && allNodesFreeListInner.size > 0) {
                 idx = allNodesFreeListInner.first()
                 allNodesFreeListInner.remove(idx)
-                node = NodeInner(bufferManager.createPage(idx))
-                node!!.setNextNode(nodeNullPointer)
-                node!!.setTripleCount(0)
+                node = bufferManager.createPage(idx)
+                NodeInnerFunctions.setNextNode(node!!,nodeNullPointer)
+                NodeInnerFunctions.setTripleCount(node!!,0)
                 println("debug NodeManager allocateNodeInnerA ${idx.toString(16)}")
             } else {
-                node = NodeInner(bufferManager.createPage(idx))
+                node = bufferManager.createPage(idx)
                 allNodesInnerSize++
                 println("debug NodeManager allocateNodeInnerB ${idx.toString(16)}")
             }
@@ -258,9 +258,9 @@ object NodeManager {
             getNode(nodeIdx, { node ->
                 freeNode(nodeIdx)
             }, { node ->
-                node.forEachChild {
+                NodeInnerFunctions.forEachChild (node,{
                     freeNodeAndAllRelated(it)
-                }
+                })
                 freeNode(nodeIdx)
             })
         }
@@ -290,9 +290,9 @@ object NodeManager {
             getNode(nodeIdx, { node ->
                 //dont touch leaves
             }, { node ->
-                node.forEachChild {
+                NodeInnerFunctions.forEachChild (node,{
                     freeAllInnerNodes(it)
-                }
+                })
                 freeNode(nodeIdx)
             })
         }
