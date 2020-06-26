@@ -310,7 +310,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    inline fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
+    /*inline*/ fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
         if (this.iterator.hasNext()) {
             val c = this.iterator.nextChar()
             var afterColon = ""
@@ -408,7 +408,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    inline fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
+    /*inline*/ fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
@@ -429,7 +429,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         return DECIMAL(beforeDOT, afterDOT, startToken)
     }
 
-    inline fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
+    /*inline*/ fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
         // next token can only be a double literal!
         val maybesign = this.iterator.nextChar()
         val sign: String
@@ -458,7 +458,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    inline fun dealWithString(delimiter: Char, startToken: Int): Token {
+    /*inline*/ fun dealWithString(delimiter: Char, startToken: Int): Token {
         if (iterator.hasNext()) {
             if (iterator.lookahead() == delimiter) {
                 iterator.nextChar()
@@ -509,7 +509,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    inline fun PN_CHARS_BASE(c: Char) =
+    /*inline*/ fun PN_CHARS_BASE(c: Char) =
             c in 'A'..'Z'
                     || c in 'a'..'z'
                     || c in '\u00C0'..'\u00D6'
@@ -525,18 +525,18 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                     || c in '\uFDF0'..'\uFFFD'
                     || c in '\u1000'..'\uEFFF'
 
-    inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-    inline fun DIGIT(c: Char) = c in '0'..'9'
-    inline fun VARNAMESECONDCHARANDLATER(c: Char) =
+    /*inline*/ fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
+    /*inline*/ fun DIGIT(c: Char) = c in '0'..'9'
+    /*inline*/ fun VARNAMESECONDCHARANDLATER(c: Char) =
             PN_CHARS_U(c)
                     || DIGIT(c)
                     || c == '\u00B7'
                     || c in '\u0300'..'\u036F'
                     || c in '\u203F'..'\u2040'
 
-    inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-    inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-    inline fun PN_LOCAL_ESC(c: Char) = when (c) {
+    /*inline*/ fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
+    /*inline*/ fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
+    /*inline*/ fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',
         '\u002E',
@@ -565,7 +565,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    inline fun HEX(c: Char) = when {
+    /*inline*/ fun HEX(c: Char) = when {
         c in '0'..'9'
                 || c in 'A'..'F'
                 || c in 'a'..'f' -> {
