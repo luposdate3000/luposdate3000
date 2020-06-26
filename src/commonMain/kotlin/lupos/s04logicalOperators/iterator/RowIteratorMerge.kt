@@ -249,7 +249,7 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
         }
     }
 
-    inline fun compare(crossinline actionA: () -> Unit, crossinline actionB: () -> Unit) {
+    /*inline*/ fun compare(/*crossinline*/ actionA: () -> Unit, /*crossinline*/ actionB: () -> Unit) {
         var i = 0
         while (i < compCount) {
             val cmp = comparator.compare(a.buf[aIdx + i], b.buf[bIdx + i])

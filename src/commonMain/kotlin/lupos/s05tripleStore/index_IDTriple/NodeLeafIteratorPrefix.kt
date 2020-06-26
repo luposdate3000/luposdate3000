@@ -34,7 +34,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
         return value[component]
     }
 
-    inline fun nextInternal() {
+    /*inline*/ fun nextInternal() {
         while (remaining == 0) {
             var nextNodeIdx = node.getNextNode()
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
