@@ -19,6 +19,7 @@ import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
+import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInner
@@ -347,7 +348,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         NodeLeaf.initializeWith(node,iterator)
         while (iterator.hasNext()) {
             NodeManager.allocateNodeLeaf { n, i ->
-                NodeLeaf.setNextNode(node,i)
+                NodeShared.setNextNode(node,i)
                 node = n
             }
             NodeLeaf.initializeWith(node,iterator)
@@ -469,7 +470,7 @@ suspend    fun flushContinueWithReadLock() {
             NodeLeaf.initializeWith(node,iterator)
             while (iterator.hasNext()) {
                 NodeManager.allocateNodeLeaf { n, i ->
-                    NodeLeaf.setNextNode(node,i)
+                    NodeShared.setNextNode(node,i)
                     node = n
                     currentLayer.add(i)
                 }
@@ -490,7 +491,7 @@ suspend    fun flushContinueWithReadLock() {
                     NodeManager.allocateNodeInner { n, i ->
                         tmp.add(i)
                         NodeInner.initializeWith(n,currentLayer)
-                        NodeInner.setNextNode(prev,i)
+                        NodeShared.setNextNode(prev,i)
                         prev = n
                     }
                 }

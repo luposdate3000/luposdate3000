@@ -8,7 +8,7 @@ import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
 abstract class NodeLeafIteratorPrefix(var node: ByteArray, val prefix: IntArray) : TripleIterator() {
-    var remaining = NodeLeaf.getTripleCount(node)
+    var remaining = NodeShared.getTripleCount(node)
     var offset = 8
     var counter = IntArray(3)
     var valueNext = IntArray(3)
@@ -36,12 +36,12 @@ abstract class NodeLeafIteratorPrefix(var node: ByteArray, val prefix: IntArray)
 
     /*inline*/ fun nextInternal() {
         while (remaining == 0) {
-            var nextNodeIdx = NodeLeaf.getNextNode(node)
+            var nextNodeIdx = NodeShared.getNextNode(node)
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(nextNodeIdx, {
                     SanityCheck.check { node != it }
                     node = it
-                    remaining = NodeLeaf.getTripleCount(node)
+                    remaining = NodeShared.getTripleCount(node)
                     valueNext[0] = 0
                     valueNext[1] = 0
                     valueNext[2] = 0
