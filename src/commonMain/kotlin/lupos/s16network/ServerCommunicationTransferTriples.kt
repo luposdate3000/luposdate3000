@@ -62,34 +62,34 @@ object ServerCommunicationTransferTriples {
 
     suspend fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
         /*always assume SPO - works with less than 3 columns too*/
-try{
-        var builder = ByteArrayBuilder()
-        loop@ while (true) {
-            builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
-            builder.writeInt(iterators.size)
-            var counter = 0
-            while (builder.size < NETWORK_PACKET_SIZE || counter < NETWORK_PACKET_MIN_TRIPLES) {
-                counter++
-                for (i in 0 until iterators.size) {
-                    val it = iterators[i]
-                    val v = it.next()
-                    if (v == null) {
-                        require(i == 0)
-                        break@loop
-                    } else {
-                        builder.writeInt(v)
+        try {
+            var builder = ByteArrayBuilder()
+            loop@ while (true) {
+                builder.writeInt(ServerCommunicationHeader.RESPONSE_TRIPLES.ordinal)
+                builder.writeInt(iterators.size)
+                var counter = 0
+                while (builder.size < NETWORK_PACKET_SIZE || counter < NETWORK_PACKET_MIN_TRIPLES) {
+                    counter++
+                    for (i in 0 until iterators.size) {
+                        val it = iterators[i]
+                        val v = it.next()
+                        if (v == null) {
+                            require(i == 0)
+                            break@loop
+                        } else {
+                            builder.writeInt(v)
+                        }
                     }
                 }
+                onFullPacket(builder)
+                builder.reset()
             }
             onFullPacket(builder)
-            builder.reset()
+        } finally {
+            for (i in 0 until iterators.size) {
+                iterators[i].close()
+            }
         }
-        onFullPacket(builder)
-}finally{
-for (i in 0 until iterators.size) {
-iterators[i].close()
-}
-}
     }
 
     suspend fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary, builder: ByteArrayBuilder, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {

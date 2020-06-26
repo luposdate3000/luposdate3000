@@ -68,7 +68,7 @@ object NodeManager {
                     getNode(i or nodePointerTypeInner, {
                         SanityCheck.checkUnreachable()
                     }, {
-                        NodeInner.forEachChild (it,{
+                        NodeInner.forEachChild(it, {
                             val nodePointerType = it and nodePointerTypeMask
                             val nodePointerValue = it and nodePointerValueMask
                             if (nodePointerType == nodePointerTypeInner) {
@@ -188,8 +188,8 @@ object NodeManager {
                 idx = allNodesFreeListLeaf.first()
                 allNodesFreeListLeaf.remove(idx)
                 node = bufferManager.createPage(idx)
-                NodeShared.setNextNode(node!!,nodeNullPointer)
-                NodeShared.setTripleCount(node!!,0)
+                NodeShared.setNextNode(node!!, nodeNullPointer)
+                NodeShared.setTripleCount(node!!, 0)
                 println("debug NodeManager allocateNodeLeafA ${idx.toString(16)}")
             } else {
                 node = bufferManager.createPage(idx)
@@ -211,8 +211,8 @@ object NodeManager {
                 idx = allNodesFreeListInner.first()
                 allNodesFreeListInner.remove(idx)
                 node = bufferManager.createPage(idx)
-                NodeShared.setNextNode(node!!,nodeNullPointer)
-                NodeShared.setTripleCount(node!!,0)
+                NodeShared.setNextNode(node!!, nodeNullPointer)
+                NodeShared.setTripleCount(node!!, 0)
                 println("debug NodeManager allocateNodeInnerA ${idx.toString(16)}")
             } else {
                 node = bufferManager.createPage(idx)
@@ -258,7 +258,7 @@ object NodeManager {
             getNode(nodeIdx, { node ->
                 freeNode(nodeIdx)
             }, { node ->
-                NodeInner.forEachChild (node,{
+                NodeInner.forEachChild(node, {
                     freeNodeAndAllRelated(it)
                 })
                 freeNode(nodeIdx)
@@ -290,7 +290,7 @@ object NodeManager {
             getNode(nodeIdx, { node ->
                 //dont touch leaves
             }, { node ->
-                NodeInner.forEachChild (node,{
+                NodeInner.forEachChild(node, {
                     freeAllInnerNodes(it)
                 })
                 freeNode(nodeIdx)

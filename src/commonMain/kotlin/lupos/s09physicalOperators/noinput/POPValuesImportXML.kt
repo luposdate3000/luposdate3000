@@ -19,7 +19,7 @@ class POPValuesImportXML : POPValuesImportBase {
                 val content = child.content
                 val datatype = child.attributes["datatype"]
                 val lang = child.attributes["xml:lang"]
-                SanityCheck.check({!( (datatype != null) && (lang != null) )})
+                SanityCheck.check({ !((datatype != null) && (lang != null)) })
                 when {
                     child.tag == "uri" -> {
                         row[variables.indexOf(name)] = "<" + content + ">"

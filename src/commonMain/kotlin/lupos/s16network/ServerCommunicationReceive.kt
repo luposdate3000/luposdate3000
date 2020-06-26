@@ -30,10 +30,10 @@ object ServerCommunicationReceive {
                             val query = Query(transactionID = transactionID)
                             readHeader = true
                             when (header) {
-ServerCommunicationHeader.LOGMESSAGE->{
-val msg=packet.readString()
-println(msg)
-}
+                                ServerCommunicationHeader.LOGMESSAGE -> {
+                                    val msg = packet.readString()
+                                    println(msg)
+                                }
                                 ServerCommunicationHeader.COMMIT -> {
                                     DistributedTripleStore.localStore.commit(query)
                                 }
@@ -142,7 +142,7 @@ println(msg)
                                 break
                             }
                         }
-}catch (e:CommunicationConnectionClosedException){
+                    } catch (e: CommunicationConnectionClosedException) {
 //do nothing  ... because the other side is already aborting this connection - that means the caller knows about this issue
                     } catch (e: Throwable) {
                         if (readHeader) {

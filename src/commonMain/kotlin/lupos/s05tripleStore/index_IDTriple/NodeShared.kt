@@ -12,14 +12,15 @@ import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
 
 object NodeShared {
-
-fun setNextNode(data: ByteArray,node: Int) {
+    fun setNextNode(data: ByteArray, node: Int) {
         data.writeInt4(4, node)
     }
-fun getNextNode(data: ByteArray): Int {
+
+    fun getNextNode(data: ByteArray): Int {
         return data.readInt4(4)
     }
- fun setTripleCount(data: ByteArray,count: Int) {
+
+    fun setTripleCount(data: ByteArray, count: Int) {
         data.writeInt4(0, count)
     }
 
@@ -27,7 +28,7 @@ fun getNextNode(data: ByteArray): Int {
         return data.readInt4(0)
     }
 
- /*inline*/ fun writeFullTriple(data: ByteArray,offset: Int, d: IntArray): Int {
+    /*inline*/ fun writeFullTriple(data: ByteArray, offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -38,7 +39,8 @@ fun getNextNode(data: ByteArray): Int {
         data.writeInt4(offset + 9, d[2])
         return 13
     }
-   /*inline*/ fun writeDiffTriple(data: ByteArray,offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+
+    /*inline*/ fun writeDiffTriple(data: ByteArray, offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written
@@ -102,7 +104,7 @@ fun getNextNode(data: ByteArray): Int {
             localOff += 3
             flag = true
         } else if (b[1] >= (1 shl 8)) {
-           if (flag) {
+            if (flag) {
                 header = header or 0b00000100
             } else {
                 header = 0b01000100
@@ -157,7 +159,7 @@ fun getNextNode(data: ByteArray): Int {
         }
         data.writeInt1(offset, header)
         SanityCheck.check { flag }//otherwise this triple would equal the last one
-             SanityCheck.check { localOff > offset + 1 }//at least ony byte must have been written additionally to the header
+        SanityCheck.check { localOff > offset + 1 }//at least ony byte must have been written additionally to the header
         return localOff - offset
     }
 }

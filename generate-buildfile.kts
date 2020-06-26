@@ -61,7 +61,7 @@ class ChooseableOptionConstantValue(val pkg: String, val variableName: String, v
     override fun toString() = "ConstantValue($internalID = $variableValue)"
 }
 
-class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate:Boolean) : ChooseableOption(label, "common" + internalID) {
+class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "ExternalScript($scriptName)"
 }
 
@@ -761,7 +761,7 @@ kotlin {
 //perform scripts "before template"
         for (option in allChoosenOptions) {
             if (option is ChoosableOptionExternalScript && option.beforeTemplate) {
-println("running script before ${option.scriptName}")
+                println("running script before ${option.scriptName}")
                 option.scriptName.runCommand()
             }
         }
@@ -791,7 +791,7 @@ println("running script before ${option.scriptName}")
 //perform scripts "after template"
         for (option in allChoosenOptions) {
             if (option is ChoosableOptionExternalScript && !option.beforeTemplate) {
-println("running script after ${option.scriptName}")
+                println("running script after ${option.scriptName}")
                 option.scriptName.runCommand()
             }
         }

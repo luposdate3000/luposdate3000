@@ -43,7 +43,7 @@ object NodeInner {
         var done = false
         while (!done) {
             NodeManager.getNode(getFirstChild(node), {
-                NodeLeaf.getFirstTriple(it,b)
+                NodeLeaf.getFirstTriple(it, b)
                 done = true
             }, {
                 node = it
@@ -51,7 +51,7 @@ object NodeInner {
         }
     }
 
-    fun setFirstChild(data: ByteArray,node: Int) {
+    fun setFirstChild(data: ByteArray, node: Int) {
         data.writeInt4(8, node)
     }
 
@@ -59,8 +59,7 @@ object NodeInner {
         return data.readInt4(8)
     }
 
-
-    /*inline*/ fun writeChildPointers(data: ByteArray,offset: Int, count: Int, d: IntArray): Int {
+    /*inline*/ fun writeChildPointers(data: ByteArray, offset: Int, count: Int, d: IntArray): Int {
         SanityCheck.check { count > 0 }
         SanityCheck.check { count <= 4 }
         SanityCheck.check { d[0] > 0 }
@@ -92,7 +91,6 @@ object NodeInner {
         return localOff - offset
     }
 
-
     fun iterator(data: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = data
@@ -107,7 +105,7 @@ object NodeInner {
     }
 
     /*inline*/ fun forEachChild(data: ByteArray,/*crossinline*/ action: (Int) -> Unit) {
-        var remaining =NodeShared. getTripleCount(data)
+        var remaining = NodeShared.getTripleCount(data)
         var offset = 12
         var lastChildPointer = getFirstChild(data)
         action(lastChildPointer)
@@ -244,15 +242,15 @@ object NodeInner {
         action(lastChildPointer)
     }
 
-    fun iterator3(data: ByteArray,prefix: IntArray): TripleIterator {
+    fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
-            findIteratorN(node,{
+            findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeaf.iterator3(it,prefix)
+                    iterator = NodeLeaf.iterator3(it, prefix)
                 }, {
                     node = it
                 })
@@ -261,15 +259,15 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator2(data: ByteArray,prefix: IntArray): TripleIterator {
+    fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
-            findIteratorN(node,{
+            findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeaf.iterator2(it,prefix)
+                    iterator = NodeLeaf.iterator2(it, prefix)
                 }, {
                     node = it
                 })
@@ -278,15 +276,15 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator1(data: ByteArray,prefix: IntArray): TripleIterator {
+    fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
-            findIteratorN(node,{
+            findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeaf.iterator1(it,prefix)
+                    iterator = NodeLeaf.iterator1(it, prefix)
                 }, {
                     node = it
                 })
@@ -295,7 +293,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun initializeWith(data: ByteArray,childs: MutableList<Int>) {
+    fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
         var debugListChilds = mutableListOf<Int>()
         var debugListTriples = mutableListOf<IntArray>()
         SanityCheck.check { childs.size > 0 }
@@ -304,7 +302,7 @@ object NodeInner {
         SanityCheck {
             debugListChilds.add(childLastPointer)
         }
-        setFirstChild(data,childLastPointer)
+        setFirstChild(data, childLastPointer)
         var offset = 12
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
         var triples = 0
@@ -324,27 +322,27 @@ object NodeInner {
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
                 NodeManager.getNode(childLastPointer, {
-NodeLeaf.getFirstTriple(it,tripleCurrent)
+                    NodeLeaf.getFirstTriple(it, tripleCurrent)
                 }, {
-                    NodeInner.getFirstTriple(it,tripleCurrent)
+                    NodeInner.getFirstTriple(it, tripleCurrent)
                 })
                 debugListTriples.add(intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2]))
-                bytesWritten = NodeShared.writeDiffTriple(data,offset, tripleLast, tripleCurrent, tripleBuf)
+                bytesWritten = NodeShared.writeDiffTriple(data, offset, tripleLast, tripleCurrent, tripleBuf)
                 offset += bytesWritten
                 i++
                 triples++
             }
-            bytesWritten = writeChildPointers(data,offset, i, childPointers)
+            bytesWritten = writeChildPointers(data, offset, i, childPointers)
             offset += bytesWritten
         }
-NodeShared.        setTripleCount(data,triples)
-NodeShared.        setNextNode(data,NodeManager.nodeNullPointer)
+        NodeShared.setTripleCount(data, triples)
+        NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
         SanityCheck {
             println(debugListChilds)
             println(debugListTriples.map { it.map { it } })
             SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
             var k = 0
-            forEachChild (data,{
+            forEachChild(data, {
                 println("debug it $it")
                 SanityCheck.check { debugListChilds.size >= k }
                 SanityCheck.check { it == debugListChilds[k] }
@@ -352,7 +350,7 @@ NodeShared.        setNextNode(data,NodeManager.nodeNullPointer)
             })
             SanityCheck.check { k == debugListChilds.size }
             var j = -1
-            findIteratorN(data,{
+            findIteratorN(data, {
                 println("debug xx ${it.map { it }}")
                 j++
                 SanityCheck.check { j < debugListTriples.size }
@@ -368,7 +366,7 @@ NodeShared.        setNextNode(data,NodeManager.nodeNullPointer)
             for (l in 0 until debugListTriples.size) {
                 println("debug l $l")
                 j = -1
-                findIteratorN(data,{
+                findIteratorN(data, {
                     println("debug xx ${it.map { it }}")
                     j++
                     SanityCheck.check { j < debugListTriples.size }

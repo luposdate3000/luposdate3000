@@ -10,16 +10,14 @@ var debuguuidtmp123 = 0
 
 class ReadWriteLock {
     val uuid = debuguuidtmp123++
-
     val lockA = Mutex() //required to assign a new read or write lock
     val lockB = Mutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
     var counter = AtomicInteger() //number of active readers
-
     suspend fun downgradeToReadLock() {
         counter.set(1)
         lockB.lock()
         lockA.unlock()
-println ("LOCK $uuid writeToReadLock")
+        println("LOCK $uuid writeToReadLock")
     }
 
     suspend fun readLock() {
@@ -29,11 +27,11 @@ println ("LOCK $uuid writeToReadLock")
             lockB.lock()
         }
         lockA.unlock()
-println("LOCK $uuid get read lock")
+        println("LOCK $uuid get read lock")
     }
 
     suspend fun readUnlock() {
-println("LOCK $uuid releasing read lock")
+        println("LOCK $uuid releasing read lock")
         var tmp = counter.decrementAndGet()
         if (tmp == 0) {
             lockB.unlock()
@@ -45,11 +43,11 @@ println("LOCK $uuid releasing read lock")
         lockB.lock() //effectively wait for the signal of the last read-unlock
         lockB.unlock()
         //assume that counter is 0, because otherwise lockB can not be accuired
-println("LOCK $uuid get write lock")
+        println("LOCK $uuid get write lock")
     }
 
     suspend fun writeUnlock() {
-println("LOCK $uuid releasing write lock")
+        println("LOCK $uuid releasing write lock")
         lockA.unlock()
         //assume that counter is 0, because that is the precondition for a writer to start
     }

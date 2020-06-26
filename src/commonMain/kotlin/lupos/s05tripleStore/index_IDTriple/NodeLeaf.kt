@@ -22,46 +22,44 @@ object NodeLeaf {
      *
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
-    fun getFirstTriple(data: ByteArray,b: IntArray) {
+    fun getFirstTriple(data: ByteArray, b: IntArray) {
         b[0] = data.readInt4(9)
         b[1] = data.readInt4(13)
         b[2] = data.readInt4(17)
     }
 
-
     fun iterator(data: ByteArray): TripleIterator {
         return NodeLeafIterator(data)
     }
 
-    fun iterator3(data: ByteArray,prefix: IntArray): TripleIterator {
+    fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix3(data, prefix)
     }
 
-    fun iterator2(data: ByteArray,prefix: IntArray): TripleIterator {
+    fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix2(data, prefix)
     }
 
-    fun iterator1(data: ByteArray,prefix: IntArray): TripleIterator {
+    fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix1(data, prefix)
     }
 
-
-    fun initializeWith(data: ByteArray,iterator: TripleIterator) {
+    fun initializeWith(data: ByteArray, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var tripleCurrent = iterator.next()
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
         val tripleBuf = IntArray(3)
         var offset = 8
-        var bytesWritten =NodeShared. writeFullTriple(data,offset, tripleLast)
+        var bytesWritten = NodeShared.writeFullTriple(data, offset, tripleLast)
         offset += bytesWritten
         val offsetEnd = data.size - bytesWritten // reserve at least enough space to write a full triple at the end
         var triples = 1
         while (iterator.hasNext() && offset <= offsetEnd) {
-            bytesWritten = NodeShared.writeDiffTriple(data,offset, tripleLast, iterator.next(), tripleBuf)
+            bytesWritten = NodeShared.writeDiffTriple(data, offset, tripleLast, iterator.next(), tripleBuf)
             offset += bytesWritten
             triples++
         }
-NodeShared.        setTripleCount(data,triples)
-NodeShared.        setNextNode(data,NodeManager.nodeNullPointer)
+        NodeShared.setTripleCount(data, triples)
+        NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
     }
 }

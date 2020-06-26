@@ -1,9 +1,9 @@
 package lupos
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -80,11 +80,11 @@ class SparqlTestSuite() {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElement.parseFromXml(jenaResult)!!
-runBlocking{
-                                File(outputFile).printWriter {
-                                    it.println(jenaXML.toPrettyString())
+                                runBlocking {
+                                    File(outputFile).printWriter {
+                                        it.println(jenaXML.toPrettyString())
+                                    }
                                 }
-}
                             } catch (e: Throwable) {
                                 println("TODO exception 39")
                                 e.printStackTrace()
@@ -98,7 +98,7 @@ runBlocking{
                             lastinput = inputFile
                         }
                         CoroutinesHelper.runBlock {
-ServerCommunicationSend.distributedLogMessage( "  Test: " + queryFile + "-" + triplesCount )
+                            ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
                             parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                         }
                     }
@@ -175,7 +175,7 @@ ServerCommunicationSend.distributedLogMessage( "  Test: " + queryFile + "-" + tr
                     // for_ printing out the name:
                     val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                     name.forEach {
-ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as SimpleLiteral).content )
+                        ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as SimpleLiteral).content)
                     }
                     numberOfTests++
                     if (!testOneEntry(data, it, newprefix)) {
@@ -213,7 +213,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[it.second] is IRI -> {
-                            SanityCheck.check({ resultFile == null})
+                            SanityCheck.check({ resultFile == null })
                             resultFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
@@ -268,11 +268,11 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                                 val iri2 = (Dictionary[it.first] as IRI).iri
                                 when (iri2) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        SanityCheck.check({ inputDataFile==null })
+                                        SanityCheck.check({ inputDataFile == null })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        SanityCheck.check({ queryFile==null })
+                                        SanityCheck.check({ queryFile == null })
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -308,11 +308,11 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                                         }
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        SanityCheck.check({ queryFile ==null})
+                                        SanityCheck.check({ queryFile == null })
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.check({ inputDataFile==null })
+                                        SanityCheck.check({ inputDataFile == null })
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
@@ -345,7 +345,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.check({ testType==null })
+                    SanityCheck.check({ testType == null })
                     testType = (Dictionary[it.second] as IRI).iri
                     when ((Dictionary[it.second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -380,7 +380,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                     features.add((Dictionary[it.second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.check({ comment==null })
+                    SanityCheck.check({ comment == null })
                     comment = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -396,7 +396,7 @@ ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as Si
                     GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri })
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.check({ description ==null})
+                    SanityCheck.check({ description == null })
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> {

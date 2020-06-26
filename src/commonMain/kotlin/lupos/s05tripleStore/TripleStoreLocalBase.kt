@@ -41,7 +41,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-suspend    fun flush() {
+    suspend fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
@@ -72,7 +72,7 @@ suspend    fun flush() {
         return data[idx.ordinal].getHistogram(query, IntArray(filter.size) { filter[it] })
     }
 
-suspend    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
+    suspend fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
@@ -151,7 +151,7 @@ suspend    fun getIterator(query: Query, params: Array<AOPBase>, idx: EIndexPatt
         }
     }
 
-suspend    fun clear() {
+    suspend fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }

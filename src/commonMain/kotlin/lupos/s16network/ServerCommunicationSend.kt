@@ -39,33 +39,33 @@ object ServerCommunicationSend {
         }
     }
 
-fun distributedLogMessage(msg:String){
-for (host in ServerCommunicationDistribution.knownHosts) {
-runBlocking {
+    fun distributedLogMessage(msg: String) {
+        for (host in ServerCommunicationDistribution.knownHosts) {
+            runBlocking {
                 val conn = ServerCommunicationConnectionPool.openSocket(host)
                 val input = conn.input
                 val output = conn.output
                 try {
-var builder = ByteArrayBuilder()
-builder.writeInt(ServerCommunicationHeader.LOGMESSAGE.ordinal)
-builder.writeLong(-1)
-builder.writeString(msg)
-output.writeByteArray(builder)
+                    var builder = ByteArrayBuilder()
+                    builder.writeInt(ServerCommunicationHeader.LOGMESSAGE.ordinal)
+                    builder.writeLong(-1)
+                    builder.writeString(msg)
+                    output.writeByteArray(builder)
                     output.flush()
-val response = input.readByteArray()
+                    val response = input.readByteArray()
                     val header = ServerCommunicationHeader.values()[response.readInt()]
                     if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
                         throw CommuncationUnexpectedHeaderException("$header")
                     }
-} catch (e: Throwable) {
+                } catch (e: Throwable) {
                     println("TODO exception 3")
                     e.printStackTrace()
                     ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
                 ServerCommunicationConnectionPool.closeSocketClean(host, conn)
             }
-}
-}
+        }
+    }
 
     fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {

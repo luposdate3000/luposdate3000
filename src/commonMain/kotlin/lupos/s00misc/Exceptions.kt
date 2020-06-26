@@ -61,7 +61,7 @@ class GraphNameNotExistsDuringDeleteException(name: String) : EvaluationExceptio
 class GraphNameNotFoundException(name: String) : EvaluationException("GraphNameNotFoundException", "The graph '$name' does not exist.")
 class CommuncationUnexpectedHeaderException(header: String) : EvaluationException("CommuncationUnexpectedHeaderException", "Unexpected Message with header '$header' received.")
 class UnreachableException : EvaluationException("UnreachableException", "This should be unreachable.")
-class CommunicationConnectionClosedException:EvaluationException("CommunicationConnectionClosedException","Communication channel unexpectedly closed.")
+class CommunicationConnectionClosedException : EvaluationException("CommunicationConnectionClosedException", "Communication channel unexpectedly closed.")
 
 //known bugs --->>>
 class BugException(classname: String, bugname: String) : Luposdate3000Exception("BugException", "Class '$classname' has bug '$bugname'.")
