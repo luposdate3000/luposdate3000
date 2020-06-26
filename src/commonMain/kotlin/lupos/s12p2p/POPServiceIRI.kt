@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-
-class POPServiceIRI(query: Query, projectedVariables: List<String>, val serverName: String, val silent: Boolean, val constraint: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf(), ESortPriority.PREVENT_ANY) {
+import kotlin.jvm.JvmField
+class POPServiceIRI(query: Query, projectedVariables: List<String>, @JvmField val serverName: String, @JvmField val silent: Boolean, @JvmField val constraint: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPServiceIRIID, "POPServiceIRI", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?) = other is POPServiceIRI && silent == other.silent && serverName == other.serverName && constraint == other.constraint
     override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()

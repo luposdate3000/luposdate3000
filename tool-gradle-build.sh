@@ -11,7 +11,7 @@ cachefile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/gra
 logfile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/compile_-" | sed "s/\".*//g")
 if grep -q "_jvm_" "$buildfile"
 then
-	gradle --project-cache-dir="$cachefile" build > $logfile 2>&1
+	gradle --project-cache-dir="$cachefile" shadowJar > $logfile 2>&1
 	ret=$?
 	if [ $ret -ne 0 ]
 	then
@@ -32,12 +32,8 @@ then
 		| grep -v "This API is experimental. It could be removed or changed in future"
 		exit $ret
 	fi
-	(
-		cd "${output}/distributions"
-		tar -xf luposdate3000.tar
-		rm ../../executable
-		ln -s $(pwd)/luposdate3000/bin/luposdate3000 ../../executable
-	)
+	echo "java -jar ${output}/libs/luposdate3000-all.jar \$@" > build/executable
+	chmod +x build/executable
 elif [ "$(uname)" == "Darwin" ]
 then
 	gradle --project-cache-dir="$cachefile" linkReleaseExecutableMacosX64 > $logfile 2>&1

@@ -1,5 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt1
 import lupos.s00misc.readInt2
@@ -7,11 +8,16 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
-abstract class NodeLeafIteratorPrefix(var node: ByteArray, val prefix: IntArray) : TripleIterator() {
+abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray,@JvmField val prefix: IntArray) : TripleIterator() {
+@JvmField
     var remaining = NodeShared.getTripleCount(node)
+@JvmField
     var offset = 8
+@JvmField
     var counter = IntArray(3)
+@JvmField
     var valueNext = IntArray(3)
+@JvmField
     var flag = true
     abstract fun checkTooSmall(): Boolean
     abstract fun checkNotTooLarge(): Boolean

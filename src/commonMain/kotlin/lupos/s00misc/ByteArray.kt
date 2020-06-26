@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
 fun ByteArray.writeInt1(offset: Int, value: Int) {
@@ -74,8 +74,10 @@ fun ByteArray.readChar(offset: Int): Char {
 var debuguuidtmp = 0
 
 @UseExperimental(ExperimentalStdlibApi::class)
-class ByteArrayRead(val data: ByteArray, val size: Int) {
+class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
+@JvmField
     var uuid = debuguuidtmp++
+@JvmField
     var offset = 0
     fun remaining() = size - offset
 
@@ -125,9 +127,13 @@ class ByteArrayRead(val data: ByteArray, val size: Int) {
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class ByteArrayBuilder() {
+@JvmField
     var uuid = debuguuidtmp++
+@JvmField
     var capacity = 128
+@JvmField
     var data = ByteArray(capacity)
+@JvmField
     var size = 0
     fun build(): ByteArrayRead {
         //println("ByteArrayBuilder($uuid).build with size $size and capacity $capacity")

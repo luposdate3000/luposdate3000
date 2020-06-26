@@ -32,16 +32,23 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
+@JvmField
     var onlyExistenceRequired = false
 
     /* onlyExistenceRequired:: ask / distinct / reduced */
+@JvmField
     var partOfAskQuery = false
 
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
+@JvmField
     var alreadyCheckedStore = -1L
+@JvmField
     var sortPrioritiesInitialized = false
+@JvmField
     var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
+@JvmField
     var mySortPriority = mutableListOf<SortHelper>()
+@JvmField
     var histogramResult: HistogramResult? = null
     fun getHistogram(): HistogramResult {
         if (histogramResult == null) {

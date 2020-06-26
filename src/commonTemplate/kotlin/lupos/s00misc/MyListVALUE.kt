@@ -1,12 +1,15 @@
 package lupos.s00misc
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {
-    class MyListVALUEPageGDEF(val version: Int) {
+    class MyListVALUEPageGDEF(@JvmField val version: Int) {
+@JvmField
         var next: MyListVALUEPageGDEF? = null
+@JvmField
         var size = 0/*local*/
+@JvmField
         val data = MyListVALUESmallGDEF()
     }
 

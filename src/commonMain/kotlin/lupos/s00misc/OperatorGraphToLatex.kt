@@ -1,10 +1,12 @@
 package lupos.s00misc
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
 object OperatorGraphToLatex {
-    class StackElement(val name: String) {
+    class StackElement(@JvmField val name: String) {
+@JvmField
         var projectionHelper = ""
+@JvmField
         val children = mutableListOf<StackElement>()
         override fun toString(): String {
             var res = StringBuilder()

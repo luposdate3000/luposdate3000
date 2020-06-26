@@ -35,28 +35,48 @@ val nodeGlobalDictionary = ResultSetDictionary(true)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
         /*to most bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
+@JvmField
         val mask1 = 0x40000000.toInt()/*first 2 bit*/
+@JvmField
         val mask3 = 0x30000000.toInt()/*first 4 bit*/
+@JvmField
         val mask6 = 0x3E000000.toInt()/*first 7 bit*/
+@JvmField
         val filter3 = 0x0FFFFFFF.toInt()
+@JvmField
         val filter6 = 0x01FFFFFF.toInt()
+@JvmField
         val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
+@JvmField
         val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
+@JvmField
         val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
+@JvmField
         val flaggedValueLocalInt = 0x30000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueLocalDouble = 0x38000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueLocalFloat = 0x3C000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueLocalLangTagged = 0x3E000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
+@JvmField
         val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
+@JvmField
         val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
+@JvmField
         val flaggedValueGlobalInt = 0x70000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
+@JvmField
         val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
-
         @JvmField
         val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 4 values*/ /*required to be 0 for_ truth table loopups*/
 
@@ -94,20 +114,35 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
+@JvmField
     val localBnodeMap = MyMapStringIntPatriciaTrie()
+@JvmField
     var bNodeCounter = 4
+@JvmField
     val bnodeMapToGlobal = MyMapIntInt() // never used by the global dictionary instance
+@JvmField
     val iriMap = MyMapStringIntPatriciaTrieDouble()
+@JvmField
     val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
+@JvmField
     val typedMap = MyMapStringIntPatriciaTrieDouble()
+@JvmField
     val doubleMap = MyMapDoubleInt()
+@JvmField
     val doubleList = MyListDouble()
+@JvmField
     val floatMap = MyMapDoubleInt()
+@JvmField
     val floatList = MyListDouble()
+@JvmField
     val decimalMap = MyMapDoubleInt()
+@JvmField
     val decimalList = MyListDouble()
+@JvmField
     val intMap = MyMapIntInt()
+@JvmField
     val intList = MyListInt()
+
     fun clear() {
         localBnodeMap.clear()
         bNodeCounter = 4
@@ -556,3 +591,4 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 }
+

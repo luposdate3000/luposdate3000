@@ -1,17 +1,25 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.FunktionWontWorkWithThisImplementationException
 
 class MyMapStringIntPatriciaTrieDouble() {
+@JvmField
     var debugfilename = ""
+@JvmField
     val undefinedValue = -1
+@JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()
+@JvmField
     var rootValue: Int = undefinedValue
     var size: Int = 0
         get() = allOutNodes.size
+@JvmField
     val allNodes = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
+@JvmField
     val allOutNodes = MyListInt()//index in allNodes
+@JvmField
     val allOutOffsets = MyListInt()//index in allNodesChilds
     fun clear() {
         root = MyMapStringIntPatriciaTrieNode()

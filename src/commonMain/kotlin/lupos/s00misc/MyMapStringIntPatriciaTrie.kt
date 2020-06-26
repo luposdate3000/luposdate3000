@@ -1,10 +1,13 @@
 package lupos.s00misc
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
-class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
+class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VALUE) {
+@JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()
+@JvmField
     var rootValue: Int = undefinedValue
+@JvmField
     var size = 0
 
     abstract class MyMapStringIntPatriciaTrieNode() {

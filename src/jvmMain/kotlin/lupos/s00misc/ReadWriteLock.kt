@@ -9,10 +9,15 @@ import lupos.s00misc.Coverage
 var debuguuidtmp123 = 0
 
 class ReadWriteLock {
+@JvmField
     val uuid = debuguuidtmp123++
+@JvmField
     val lockA = Mutex() //required to assign a new read or write lock
+@JvmField
     val lockB = Mutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
+@JvmField
     var counter = AtomicInteger() //number of active readers
+
     suspend fun downgradeToReadLock() {
         counter.set(1)
         lockB.lock()

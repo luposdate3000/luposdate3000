@@ -1,11 +1,12 @@
 package lupos.s04logicalOperators
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class Query(val dictionary: ResultSetDictionary = ResultSetDictionary(), val transactionID: Long = global_transactionID.next()) {
+class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID.next()) {
+@JvmField
     var _workingDirectory = ""
     var workingDirectory: String
         set(value) {
@@ -16,6 +17,7 @@ class Query(val dictionary: ResultSetDictionary = ResultSetDictionary(), val tra
             }
         }
         get() = _workingDirectory
+@JvmField
     var commited = false
 
     companion object {

@@ -1,10 +1,10 @@
 package lupos.s04logicalOperators.iterator
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 
-open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparator: Comparator<Value>, val compCount: Int) : RowIterator() {
+open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIterator, @JvmField val comparator: Comparator<Value>, @JvmField val compCount: Int) : RowIterator() {
     companion object {
         suspend operator fun invoke(a: RowIterator, comparator: Comparator<Value>, compCount: Int, columns: Array<String>): RowIterator {
             SanityCheck.check { columns.size == a.columns.size }
@@ -152,9 +152,11 @@ open class RowIteratorMerge(val a: RowIterator, val b: RowIterator, val comparat
             return resultList[resultList.size - 1]!!
         }
     }
-
+@JvmField
     var flag = 3
+@JvmField
     var aIdx = -1
+@JvmField
     var bIdx = -1
 
     init {

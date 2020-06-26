@@ -29,7 +29,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.TripleStoreBulkImportDistributed
 
-class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, val graphName: String, params: Array<AOPBase>, val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
+class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>,@JvmField val graphName: String, params: Array<AOPBase>,@JvmField val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
     override fun equals(other: Any?) = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//

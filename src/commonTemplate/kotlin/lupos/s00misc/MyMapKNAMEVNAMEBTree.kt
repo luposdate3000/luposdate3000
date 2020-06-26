@@ -1,10 +1,12 @@
 package lupos.s00misc
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.FileIONotImplementedException
 
-class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
+class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
+@JvmField
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
+@JvmField
     var size = 0
     fun clear() {
         /*todo release all pages*/
@@ -58,9 +60,12 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
         override fun value() = v
     }
 
-    abstract class MyMapKNAMEVNAMEBTreeNodeGDEF(val t: Int) {
+    abstract class MyMapKNAMEVNAMEBTreeNodeGDEF(@JvmField val t: Int) {
+@JvmField
         val keys = ARRAYKTYPE(2 * t - 1) ARRAYKINITIALIZER
+@JvmField
         val values = ARRAYVTYPE(2 * t - 1) ARRAYVINITIALIZER
+@JvmField
         var n = 0
         abstract fun iterator(): MyMapKNAMEVNAMEBTreeNodeIteratorGUSE
         abstract fun free()
@@ -71,6 +76,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
     }
 
     class MyMapKNAMEVNAMEBTreeNodeNonLeafGDEF(t: Int) : MyMapKNAMEVNAMEBTreeNodeGUSE(t) {
+@JvmField
         val C = Array<MyMapKNAMEVNAMEBTreeNodeGUSE?>(2 * t) { null }
         override fun free() {
             /*later when buffer-manager is used*/
@@ -378,8 +384,10 @@ class MyMapKNAMEVNAMEBTreeGDEF(val t: Int) {
         }
     }
 
-    class MyMapKNAMEVNAMEBTreeInitializerGDEF(val t: Int, val target: MyMapKNAMEVNAMEBTreeGUSE) {
+    class MyMapKNAMEVNAMEBTreeInitializerGDEF(@JvmField val t: Int, @JvmField val target: MyMapKNAMEVNAMEBTreeGUSE) {
+@JvmField
         var size = 0
+@JvmField
         val data = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
         fun appendAssumeSorted(key: KEY, value: VALUE): VALUE {
             val tmp: MyMapKNAMEVNAMEBTreeNodeGUSE

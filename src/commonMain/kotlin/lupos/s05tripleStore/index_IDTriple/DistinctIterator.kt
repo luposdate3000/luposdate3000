@@ -1,8 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
-class DistinctIterator(val a: TripleIterator) : TripleIterator() {
+class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterator() {
+@JvmField
     var flag = 0
 
     init {

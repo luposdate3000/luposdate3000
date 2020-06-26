@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -22,12 +22,12 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class POPGraphOperation(query: Query,
                         projectedVariables: List<String>,
-                        val silent: Boolean,
-                        var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
-                        var graph1iri: String? = null,
-                        var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
-                        var graph2iri: String? = null,
-                        val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
+                       @JvmField val silent: Boolean,
+                       @JvmField var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
+                      @JvmField  var graph1iri: String? = null,
+                       @JvmField var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
+                       @JvmField var graph2iri: String? = null,
+                       @JvmField val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""

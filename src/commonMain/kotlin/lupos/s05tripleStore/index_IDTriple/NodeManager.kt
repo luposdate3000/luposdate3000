@@ -1,5 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
@@ -7,19 +7,33 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 
 object NodeManager {
+@JvmField
     val nodePointerTypeNull = 0x00000000.toInt()
+@JvmField
     val nodePointerTypeInner = 0x40000000.toInt()
+@JvmField
     val nodePointerTypeLeaf = 0x20000000.toInt()
+@JvmField
     val nodePointerTypeMask = 0x60000000.toInt()
+@JvmField
     val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
+@JvmField
     val nodeNullPointer = nodePointerValueMask
+@JvmField
     val bufferManager = BufferManager("id_triples")
+@JvmField
     var allNodesLeafSize = 0
+@JvmField
     var allNodesInnerSize = 0
+@JvmField
     var allNodesFreeListLeaf = mutableSetOf<Int>()
+@JvmField
     var allNodesFreeListInner = mutableSetOf<Int>()
+@JvmField
     val lockInner = ReadWriteLock()
+@JvmField
     val lockLeaf = ReadWriteLock()
+
     fun debug() {
         SanityCheck {
             //check that there are no memory leaks ...

@@ -1,5 +1,5 @@
 package lupos.s03resultRepresentation
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EvaluationException
 import lupos.s03resultRepresentation.Value
@@ -10,7 +10,7 @@ import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04logicalOperators.Query
 
-class ValueComparatorASC(val query: Query) : Comparator<Value> {
+class ValueComparatorASC(@JvmField val query: Query) : Comparator<Value> {
     override fun compare(aID: Value, bID: Value): Int {
         val a = query.dictionary.getValue(aID)
         val b = query.dictionary.getValue(bID)

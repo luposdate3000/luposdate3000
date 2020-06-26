@@ -222,7 +222,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 
-class OperatorGraphVisitor(val query: Query) : Visitor<OPBase> {
+class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
     @JvmField
     val queryExecutionStartTime = ValueDateTime()
     fun createUnion(a: OPBase, b: OPBase): OPBase {

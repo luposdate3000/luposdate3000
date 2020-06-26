@@ -1,11 +1,12 @@
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.MyListGeneric
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 
-class BufferManager(val bufferName: String) {
+class BufferManager(@JvmField val bufferName: String) {
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -16,15 +17,18 @@ class BufferManager(val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
+@JvmField
         var bufferPrefix: String
 
         init {
             bufferPrefix = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
             println("bufferPrefix = $bufferPrefix")
         }
-
+@JvmField
         val managerList = mutableListOf<BufferManager>()
+@JvmField
         val managerListLock = ReadWriteLock()
+
         fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
@@ -44,12 +48,17 @@ class BufferManager(val bufferName: String) {
             managerList.add(manager)
         }
     }
-
+@JvmField
     val allPages = MyListGeneric<ByteArray>()
+@JvmField
     var counter = 0
+@JvmField
     val lock = ReadWriteLock()
+@JvmField
     val pageMappingsOutIn = mutableMapOf<Int, Int>()
+@JvmField
     val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
+
     fun clear() = lock.withWriteLock {
         counter = 0
         allPages.clear()

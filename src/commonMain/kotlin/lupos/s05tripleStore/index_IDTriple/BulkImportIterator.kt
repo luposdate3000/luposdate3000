@@ -1,8 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
-class BulkImportIterator(val data: IntArray, val count: Int, val order: IntArray) : TripleIterator() {
+class BulkImportIterator(@JvmField val data: IntArray,@JvmField val count: Int,@JvmField val order: IntArray) : TripleIterator() {
+@JvmField
     var offset = 0
     override fun hasNext(): Boolean {
         return offset < count
