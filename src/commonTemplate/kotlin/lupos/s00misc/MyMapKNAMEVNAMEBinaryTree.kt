@@ -12,7 +12,7 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     var size: Int = 0
         get() = keys.size
 
-    inline fun reserve(capacity: Int) {
+    /*inline*/ fun reserve(capacity: Int) {
         keys.reserve(capacity)
         values.reserve(capacity)
     }
@@ -21,17 +21,17 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         set(data.first, data.second)
     }
 
-    inline operator fun get(key: KEY): VALUE? {
+    /*inline*/ operator fun get(key: KEY): VALUE? {
         var res: VALUE? = null
         keys.find(key, { res = values[it] })
         return res
     }
 
-    inline operator fun set(key: KEY, value: VALUE) {
+    /*inline*/ operator fun set(key: KEY, value: VALUE) {
         keys.add(key, { values.add(it, value) }, { values[it] = value })
     }
 
-    inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
+    /*inline*/ fun getOrCreate(key: KEY, /*crossinline*/ onCreate: () -> VALUE): VALUE {
         var value: VALUE? = null
         keys.add(key, {
             value = onCreate()
@@ -54,8 +54,8 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         values.clear()
     }
 
-    inline fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
-    inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
+    /*inline*/ fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
+    /*inline*/ fun forEach(/*crossinline*/ action: (KEY, VALUE) -> Unit) {
         val iteratorK = keys.iterator()
         val iteratorV = values.iterator()
         while (iteratorK.hasNext()) {

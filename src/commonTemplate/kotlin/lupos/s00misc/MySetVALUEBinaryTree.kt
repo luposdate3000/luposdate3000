@@ -9,7 +9,7 @@ class MySetVALUEBinaryTreeGDEF {
     var size: Int = 0
         get() = data.size
 
-    inline fun clear() {
+    /*inline*/ fun clear() {
         data.clear()
     }
 
@@ -36,11 +36,11 @@ class MySetVALUEBinaryTreeGDEF {
         data.add(value)
     }
 
-    inline fun reserve(capacity: Int) {
+    /*inline*/ fun reserve(capacity: Int) {
         data.reserve(capacity)
     }
 
-    inline fun internal(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+    /*inline*/ fun internal(value: VALUE, /*crossinline*/ onCreate: (it: Int) -> Unit = {}, /*crossinline*/ onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
             onCreate(0)
         } else if (data.size == 1) {
@@ -83,7 +83,7 @@ class MySetVALUEBinaryTreeGDEF {
         }
     }
 
-    inline fun remove(value: VALUE, crossinline onExists: (it: Int) -> Unit = {}) {
+    /*inline*/ fun remove(value: VALUE, /*crossinline*/ onExists: (it: Int) -> Unit = {}) {
         internal(value, {
         }, {
             onExists(it)
@@ -91,7 +91,7 @@ class MySetVALUEBinaryTreeGDEF {
         })
     }
 
-    inline fun contains(value: VALUE): Boolean {
+    /*inline*/ fun contains(value: VALUE): Boolean {
         var res = false
         internal(value, {
         }, {
@@ -100,14 +100,14 @@ class MySetVALUEBinaryTreeGDEF {
         return res
     }
 
-    inline fun find(value: VALUE, crossinline onExists: (it: Int) -> Unit) {
+    /*inline*/ fun find(value: VALUE, /*crossinline*/ onExists: (it: Int) -> Unit) {
         internal(value, {
         }, {
             onExists(it)
         })
     }
 
-    inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+    /*inline*/ fun add(value: VALUE, /*crossinline*/ onCreate: (it: Int) -> Unit = {}, /*crossinline*/ onExists: (it: Int) -> Unit = {}) {
         if (data.size > 0 && value > data[data.size - 1]) {
             val it = data.size
             data.add(it, value)
@@ -122,7 +122,7 @@ class MySetVALUEBinaryTreeGDEF {
         }
     }
 
-    inline fun toList(): MyListVALUEGUSE {
+    /*inline*/ fun toList(): MyListVALUEGUSE {
         return data
     }
 }
