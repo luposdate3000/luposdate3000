@@ -8,7 +8,7 @@ import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
 class NodeLeafIterator(var node: ByteArray) : TripleIterator() {
-    var remaining = NodeLeafFunctions.getTripleCount(node)
+    var remaining = NodeLeaf.getTripleCount(node)
     var offset = 8
     var counter = IntArray(3)
     var needsReset = true
@@ -58,12 +58,12 @@ class NodeLeafIterator(var node: ByteArray) : TripleIterator() {
         loop@ while (remaining == 0) {
             needsReset = true
             offset = 8
-            var nextNodeIdx = NodeLeafFunctions.getNextNode(node)
+            var nextNodeIdx = NodeLeaf.getNextNode(node)
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(nextNodeIdx, {
                     SanityCheck.check { node != it }
                     node = it
-                    remaining = NodeLeafFunctions.getTripleCount(node)
+                    remaining = NodeLeaf.getTripleCount(node)
                 }, {
                     SanityCheck.checkUnreachable()
                 })

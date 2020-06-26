@@ -18,10 +18,10 @@ import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
-import lupos.s05tripleStore.index_IDTriple.NodeLeafFunctions
+import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
-import lupos.s05tripleStore.index_IDTriple.NodeInnerFunctions
+import lupos.s05tripleStore.index_IDTriple.NodeInner
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var firstLeaf = NodeManager.nodeNullPointer
@@ -65,7 +65,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             println(countPrimary)
             println(distinctPrimary)
             if (rootNode != null) {
-                val iterator = NodeInnerFunctions.iterator(rootNode!!)
+                val iterator = NodeInner.iterator(rootNode!!)
                 while (iterator.hasNext()) {
                     println(iterator.next().map { it })
                 }
@@ -101,7 +101,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 println(countPrimary)
                 println(distinctPrimary)
                 if (rootNode != null) {
-                    val iterator = NodeInnerFunctions.iterator(rootNode!!)
+                    val iterator = NodeInner.iterator(rootNode!!)
                     while (iterator.hasNext()) {
                         println(iterator.next().map { it })
                     }
@@ -191,7 +191,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         res = Pair(countPrimary, distinctPrimary)
                     }
                     1 -> {
-                        var iterator = NodeInnerFunctions.iterator1(node,filter)
+                        var iterator = NodeInner.iterator1(node,filter)
                         var count = 0
                         var distinct = 0
                         if (iterator.hasNext()) {
@@ -210,7 +210,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         res = Pair(count, distinct)
                     }
                     2 -> {
-                        var iterator = NodeInnerFunctions.iterator2(node,filter)
+                        var iterator = NodeInner.iterator2(node,filter)
                         var count = 0
                         while (iterator.hasNext()) {
                             iterator.next()
@@ -252,31 +252,31 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
-                if (NodeInnerFunctions.iterator3(node,filter).hasNext()) {
+                if (NodeInner.iterator3(node,filter).hasNext()) {
                     res = IteratorBundle(1)
                 }
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
-                    var it = NodeInnerFunctions.iterator2(node,filter)
+                    var it = NodeInner.iterator2(node,filter)
                     while (it.hasNext()) {
                         it.next()
                         count++
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(NodeInnerFunctions.iterator2(node,filter), lock))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(NodeInner.iterator2(node,filter), lock))
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(NodeInnerFunctions.iterator1(node,filter), lock))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(NodeInner.iterator1(node,filter), lock))
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(NodeInnerFunctions.iterator1(node,filter), lock))
+                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(NodeInner.iterator1(node,filter), lock))
                     }
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
-                    var it = NodeInnerFunctions.iterator1(node,filter)
+                    var it = NodeInner.iterator1(node,filter)
                     while (it.hasNext()) {
                         it.next()
                         count++
@@ -286,11 +286,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             } else {
                 SanityCheck.check { filter.size == 0 }
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(NodeInnerFunctions.iterator(node), lock))
+                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(NodeInner.iterator(node), lock))
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(NodeInnerFunctions.iterator(node), lock))
+                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(NodeInner.iterator(node), lock))
                         if (projection[2] != "_") {
-                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(NodeInnerFunctions.iterator(node), lock))
+                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(NodeInner.iterator(node), lock))
                         }
                     } else {
                         SanityCheck.check { projection[2] == "_" }
@@ -299,7 +299,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     SanityCheck.check { projection[1] == "_" }
                     SanityCheck.check { projection[2] == "_" }
                     var count = 0
-                    var it = NodeInnerFunctions.iterator(node)
+                    var it = NodeInner.iterator(node)
                     while (it.hasNext()) {
                         it.next()
                         count++
@@ -330,7 +330,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }, {
             SanityCheck.checkUnreachable()
         })
-        val res = importHelper(MergeIterator(NodeLeafFunctions.iterator(nodeA!!), NodeLeafFunctions.iterator(nodeB!!)))
+        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
         NodeManager.freeAllLeaves(a)
         NodeManager.freeAllLeaves(b)
         return res
@@ -344,13 +344,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             node2 = n
         }
         var node = node2!!
-        NodeLeafFunctions.initializeWith(node,iterator)
+        NodeLeaf.initializeWith(node,iterator)
         while (iterator.hasNext()) {
             NodeManager.allocateNodeLeaf { n, i ->
-                NodeLeafFunctions.setNextNode(node,i)
+                NodeLeaf.setNextNode(node,i)
                 node = n
             }
-            NodeLeafFunctions.initializeWith(node,iterator)
+            NodeLeaf.initializeWith(node,iterator)
         }
         return res
     }
@@ -398,9 +398,9 @@ suspend    fun flushContinueWithReadLock() {
             SanityCheck.check { pendingImport.size > 0 }
             val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
             NodeManager.getNode(newFirstLeaf, {
-                rebuildData(DistinctIterator(NodeLeafFunctions.iterator(it)))
+                rebuildData(DistinctIterator(NodeLeaf.iterator(it)))
             }, {
-                rebuildData(DistinctIterator(NodeInnerFunctions.iterator(it)))
+                rebuildData(DistinctIterator(NodeInner.iterator(it)))
             })
             NodeManager.freeAllLeaves(newFirstLeaf)
             pendingImport.clear()
@@ -466,14 +466,14 @@ suspend    fun flushContinueWithReadLock() {
                 currentLayer.add(i)
             }
             var node = node2!!
-            NodeLeafFunctions.initializeWith(node,iterator)
+            NodeLeaf.initializeWith(node,iterator)
             while (iterator.hasNext()) {
                 NodeManager.allocateNodeLeaf { n, i ->
-                    NodeLeafFunctions.setNextNode(node,i)
+                    NodeLeaf.setNextNode(node,i)
                     node = n
                     currentLayer.add(i)
                 }
-               NodeLeafFunctions.initializeWith(node,iterator)
+               NodeLeaf.initializeWith(node,iterator)
             }
             firstLeaf = newFirstLeaf
             SanityCheck.check { currentLayer.size > 0 }
@@ -482,15 +482,15 @@ suspend    fun flushContinueWithReadLock() {
                 var prev2: ByteArray? = null
                 NodeManager.allocateNodeInner { n, i ->
                     tmp.add(i)
-                    NodeInnerFunctions.initializeWith(n,currentLayer)
+                    NodeInner.initializeWith(n,currentLayer)
                     prev2 = n
                 }
                 var prev = prev2!!
                 while (currentLayer.size > 0) {
                     NodeManager.allocateNodeInner { n, i ->
                         tmp.add(i)
-                        NodeInnerFunctions.initializeWith(n,currentLayer)
-                        NodeInnerFunctions.setNextNode(prev,i)
+                        NodeInner.initializeWith(n,currentLayer)
+                        NodeInner.setNextNode(prev,i)
                         prev = n
                     }
                 }
@@ -505,7 +505,7 @@ suspend    fun flushContinueWithReadLock() {
             })
             if (rootNodeIsLeaf) {
                 NodeManager.allocateNodeInner { n, i ->
-                    NodeInnerFunctions.initializeWith(n,mutableListOf(currentLayer[0]))
+                    NodeInner.initializeWith(n,mutableListOf(currentLayer[0]))
                     rootNode = n
                     root = i
                 }
@@ -525,7 +525,7 @@ suspend    fun flushContinueWithReadLock() {
             iteratorStore2 = EmptyIterator()
         } else {
             NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = NodeLeafFunctions.iterator(it)
+                iteratorStore2 = NodeLeaf.iterator(it)
             }, {
                 SanityCheck.checkUnreachable()
             })
@@ -549,7 +549,7 @@ suspend    fun flushContinueWithReadLock() {
             iteratorStore2 = EmptyIterator()
         } else {
             NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = NodeLeafFunctions.iterator(it)
+                iteratorStore2 = NodeLeaf.iterator(it)
             }, {
                 SanityCheck.checkUnreachable()
             })
@@ -586,7 +586,7 @@ suspend    fun flushContinueWithReadLock() {
         lock.withReadLock {
             if (firstLeaf != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(firstLeaf, { node ->
-                    var it = NodeLeafFunctions.iterator(node)
+                    var it = NodeLeaf.iterator(node)
                     while (it.hasNext()) {
                         var d = it.next()
                         println("debug ${d.map { it }}")

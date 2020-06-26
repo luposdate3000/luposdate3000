@@ -11,7 +11,7 @@ import lupos.s00misc.writeInt2
 import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
 
-object NodeInnerFunctions {
+object NodeInner {
     /*
      * Bitlayout 7..0
      * Bytes 0..3  : Number of stored Triples
@@ -43,7 +43,7 @@ object NodeInnerFunctions {
         var done = false
         while (!done) {
             NodeManager.getNode(getFirstChild(node), {
-                NodeLeafFunctions.getFirstTriple(it,b)
+                NodeLeaf.getFirstTriple(it,b)
                 done = true
             }, {
                 node = it
@@ -247,7 +247,7 @@ object NodeInnerFunctions {
         var node = data
         while (iterator == null) {
             NodeManager.getNode(getFirstChild(node), {
-                iterator = NodeLeafFunctions.iterator(it)
+                iterator = NodeLeaf.iterator(it)
             }, {
                 node = it
             })
@@ -401,7 +401,7 @@ object NodeInnerFunctions {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeafFunctions.iterator3(it,prefix)
+                    iterator = NodeLeaf.iterator3(it,prefix)
                 }, {
                     node = it
                 })
@@ -418,7 +418,7 @@ object NodeInnerFunctions {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeafFunctions.iterator2(it,prefix)
+                    iterator = NodeLeaf.iterator2(it,prefix)
                 }, {
                     node = it
                 })
@@ -435,7 +435,7 @@ object NodeInnerFunctions {
                 /*return*/ (it[0] < prefix[0])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeafFunctions.iterator1(it,prefix)
+                    iterator = NodeLeaf.iterator1(it,prefix)
                 }, {
                     node = it
                 })
@@ -473,9 +473,9 @@ object NodeInnerFunctions {
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
                 NodeManager.getNode(childLastPointer, {
-NodeLeafFunctions.getFirstTriple(it,tripleCurrent)
+NodeLeaf.getFirstTriple(it,tripleCurrent)
                 }, {
-                    NodeInnerFunctions.getFirstTriple(it,tripleCurrent)
+                    NodeInner.getFirstTriple(it,tripleCurrent)
                 })
                 debugListTriples.add(intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2]))
                 bytesWritten = writeDiffTriple(data,offset, tripleLast, tripleCurrent, tripleBuf)

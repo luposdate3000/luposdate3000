@@ -10,7 +10,7 @@ import lupos.s00misc.writeInt4
 
 var debugListLeaf = mutableListOf<Int>()
 
-object NodeLeafFunctions {
+object NodeLeaf {
     /*
      * Bytes 0..3 : Number of stored Triples
      * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin

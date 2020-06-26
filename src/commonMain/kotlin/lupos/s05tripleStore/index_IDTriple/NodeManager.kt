@@ -37,7 +37,7 @@ object NodeManager {
             for (i in 0 until allNodesLeafSize) {
                 if (!allNodesFreeListLeaf.contains(i or nodePointerTypeLeaf)) {
                     getNode(i or nodePointerTypeLeaf, {
-                        val x = NodeLeafFunctions.getNextNode(it)
+                        val x = NodeLeaf.getNextNode(it)
                         if (x == nodeNullPointer) {
                             nullpointers++
                         } else {
@@ -68,7 +68,7 @@ object NodeManager {
                     getNode(i or nodePointerTypeInner, {
                         SanityCheck.checkUnreachable()
                     }, {
-                        NodeInnerFunctions.forEachChild (it,{
+                        NodeInner.forEachChild (it,{
                             val nodePointerType = it and nodePointerTypeMask
                             val nodePointerValue = it and nodePointerValueMask
                             if (nodePointerType == nodePointerTypeInner) {
@@ -188,8 +188,8 @@ object NodeManager {
                 idx = allNodesFreeListLeaf.first()
                 allNodesFreeListLeaf.remove(idx)
                 node = bufferManager.createPage(idx)
-                NodeLeafFunctions.setNextNode(node!!,nodeNullPointer)
-                NodeLeafFunctions.setTripleCount(node!!,0)
+                NodeLeaf.setNextNode(node!!,nodeNullPointer)
+                NodeLeaf.setTripleCount(node!!,0)
                 println("debug NodeManager allocateNodeLeafA ${idx.toString(16)}")
             } else {
                 node = bufferManager.createPage(idx)
@@ -211,8 +211,8 @@ object NodeManager {
                 idx = allNodesFreeListInner.first()
                 allNodesFreeListInner.remove(idx)
                 node = bufferManager.createPage(idx)
-                NodeInnerFunctions.setNextNode(node!!,nodeNullPointer)
-                NodeInnerFunctions.setTripleCount(node!!,0)
+                NodeInner.setNextNode(node!!,nodeNullPointer)
+                NodeInner.setTripleCount(node!!,0)
                 println("debug NodeManager allocateNodeInnerA ${idx.toString(16)}")
             } else {
                 node = bufferManager.createPage(idx)
@@ -258,7 +258,7 @@ object NodeManager {
             getNode(nodeIdx, { node ->
                 freeNode(nodeIdx)
             }, { node ->
-                NodeInnerFunctions.forEachChild (node,{
+                NodeInner.forEachChild (node,{
                     freeNodeAndAllRelated(it)
                 })
                 freeNode(nodeIdx)
@@ -273,7 +273,7 @@ object NodeManager {
         var idx = nodeIdx
         while (idx != nodeNullPointer) {
             getNode(idx, { node ->
-                val tmp = NodeLeafFunctions.getNextNode(node)
+                val tmp = NodeLeaf.getNextNode(node)
                 freeNode(idx)
                 idx = tmp
             }, { node ->
@@ -290,7 +290,7 @@ object NodeManager {
             getNode(nodeIdx, { node ->
                 //dont touch leaves
             }, { node ->
-                NodeInnerFunctions.forEachChild (node,{
+                NodeInner.forEachChild (node,{
                     freeAllInnerNodes(it)
                 })
                 freeNode(nodeIdx)
