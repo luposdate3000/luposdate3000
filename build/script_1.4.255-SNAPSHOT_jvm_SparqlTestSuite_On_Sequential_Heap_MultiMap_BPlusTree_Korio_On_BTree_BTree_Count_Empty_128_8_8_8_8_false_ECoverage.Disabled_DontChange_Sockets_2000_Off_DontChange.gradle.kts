@@ -62,6 +62,7 @@ sourceSets["main"].java.srcDir("src.generated/commonS00LaunchSparqlTestSuiteMain
 sourceSets["main"].java.srcDir("src.generated/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonS01HeapMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonS03DictionaryMultiMapMain/kotlin")
+sourceSets["main"].java.srcDir("src.generated/commonS16ServerCommunicationEnabledMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmS00WrapperJenaOnMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmS16HttpEndpointKorioMain/kotlin")

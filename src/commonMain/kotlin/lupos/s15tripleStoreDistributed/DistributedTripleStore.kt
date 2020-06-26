@@ -3,6 +3,7 @@ package lupos.s15tripleStoreDistributed
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -194,23 +195,25 @@ object DistributedTripleStore {
         return localStore.getGraphNames(includeDefault)
     }
 
-    fun createGraph(query: Query, name: String): DistributedGraph {
+suspend    fun createGraph(query: Query, name: String): DistributedGraph {
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CREATE)
         return DistributedGraph(query, name)
     }
 
-    fun dropGraph(query: Query, name: String) {
+suspend    fun dropGraph(query: Query, name: String) {
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.DROP)
     }
 
-    fun clearGraph(query: Query, name: String) {
+suspend    fun clearGraph(query: Query, name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CLEAR)
     }
 
     fun getNamedGraph(query: Query, name: String): DistributedGraph {
         if (!(localStore.getGraphNames(true).contains(name))) {
+runBlocking{
             createGraph(query, name)
+}
         }
         return DistributedGraph(query, name)
     }

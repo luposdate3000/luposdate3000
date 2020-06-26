@@ -1,5 +1,5 @@
 package lupos.s16network
-
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
@@ -18,7 +18,9 @@ object ServerCommunicationSend {
         action(bulk)
         bulk.finishImport()
     }
-
+fun distributedLogMessage(msg: String) {
+println(msg)
+}
     fun commit(query: Query) {
         DistributedTripleStore.localStore.commit(query)
     }
@@ -27,14 +29,14 @@ object ServerCommunicationSend {
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, idx, type)
     }
 
-    fun graphClearAll(query: Query) {
+suspend    fun graphClearAll(query: Query) {
         DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames()) {
             DistributedTripleStore.dropGraph(query, g)
         }
     }
 
-    fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
+suspend    fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         when (type) {
             EGraphOperationType.CLEAR -> {
                 DistributedTripleStore.localStore.clearGraph(query, graphName)
@@ -51,7 +53,7 @@ object ServerCommunicationSend {
         }
     }
 
-    fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
+suspend    fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params, idx)
     }
 
