@@ -7,8 +7,8 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
-class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
-    var remaining = node.getTripleCount()
+class NodeLeafIterator(var node: ByteArray) : TripleIterator() {
+    var remaining = NodeLeafFunctions.getTripleCount(node)
     var offset = 8
     var counter = IntArray(3)
     var needsReset = true
@@ -20,7 +20,7 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
             value[1] = 0
             value[2] = 0
         }
-        var header = node.data.readInt1(offset)
+        var header = node.readInt1(offset)
         var headerA = header and 0b11000000
         if (headerA == 0b0000000) {
             counter[0] = ((header and 0b00110000) shr 4) + 1
@@ -40,16 +40,16 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
         for (i in 0 until 3) {
             when (counter[i]) {
                 1 -> {
-                    value[i] = value[i] xor node.data.readInt1(offset)
+                    value[i] = value[i] xor node.readInt1(offset)
                 }
                 2 -> {
-                    value[i] = value[i] xor node.data.readInt2(offset)
+                    value[i] = value[i] xor node.readInt2(offset)
                 }
                 3 -> {
-                    value[i] = value[i] xor node.data.readInt3(offset)
+                    value[i] = value[i] xor node.readInt3(offset)
                 }
                 4 -> {
-                    value[i] = value[i] xor node.data.readInt4(offset)
+                    value[i] = value[i] xor node.readInt4(offset)
                 }
             }
             offset += counter[i]
@@ -58,12 +58,12 @@ class NodeLeafIterator(var node: NodeLeaf) : TripleIterator() {
         loop@ while (remaining == 0) {
             needsReset = true
             offset = 8
-            var nextNodeIdx = node.getNextNode()
+            var nextNodeIdx = NodeLeafFunctions.getNextNode(node)
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(nextNodeIdx, {
                     SanityCheck.check { node != it }
                     node = it
-                    remaining = node.getTripleCount()
+                    remaining = NodeLeafFunctions.getTripleCount(node)
                 }, {
                     SanityCheck.checkUnreachable()
                 })

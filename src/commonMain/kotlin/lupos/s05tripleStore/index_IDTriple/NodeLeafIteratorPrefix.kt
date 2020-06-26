@@ -7,8 +7,8 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
-abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) : TripleIterator() {
-    var remaining = node.getTripleCount()
+abstract class NodeLeafIteratorPrefix(var node: ByteArray, val prefix: IntArray) : TripleIterator() {
+    var remaining = NodeLeafFunctions.getTripleCount(node)
     var offset = 8
     var counter = IntArray(3)
     var valueNext = IntArray(3)
@@ -36,12 +36,12 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
 
     /*inline*/ fun nextInternal() {
         while (remaining == 0) {
-            var nextNodeIdx = node.getNextNode()
+            var nextNodeIdx = NodeLeafFunctions.getNextNode(node)
             if (nextNodeIdx != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(nextNodeIdx, {
                     SanityCheck.check { node != it }
                     node = it
-                    remaining = node.getTripleCount()
+                    remaining = NodeLeafFunctions.getTripleCount(node)
                     valueNext[0] = 0
                     valueNext[1] = 0
                     valueNext[2] = 0
@@ -54,7 +54,7 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
                 return
             }
         }
-        var header = node.data.readInt1(offset)
+        var header = node.readInt1(offset)
         var headerA = header and 0b11000000
         if (headerA == 0b0000000) {
             counter[0] = ((header and 0b00110000) shr 4) + 1
@@ -74,16 +74,16 @@ abstract class NodeLeafIteratorPrefix(var node: NodeLeaf, val prefix: IntArray) 
         for (i in 0 until 3) {
             when (counter[i]) {
                 1 -> {
-                    valueNext[i] = valueNext[i] xor node.data.readInt1(offset)
+                    valueNext[i] = valueNext[i] xor node.readInt1(offset)
                 }
                 2 -> {
-                    valueNext[i] = valueNext[i] xor node.data.readInt2(offset)
+                    valueNext[i] = valueNext[i] xor node.readInt2(offset)
                 }
                 3 -> {
-                    valueNext[i] = valueNext[i] xor node.data.readInt3(offset)
+                    valueNext[i] = valueNext[i] xor node.readInt3(offset)
                 }
                 4 -> {
-                    valueNext[i] = valueNext[i] xor node.data.readInt4(offset)
+                    valueNext[i] = valueNext[i] xor node.readInt4(offset)
                 }
             }
             offset += counter[i]

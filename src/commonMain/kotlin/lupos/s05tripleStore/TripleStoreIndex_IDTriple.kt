@@ -18,7 +18,7 @@ import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
-import lupos.s05tripleStore.index_IDTriple.NodeLeaf
+import lupos.s05tripleStore.index_IDTriple.NodeLeafFunctions
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInnerFunctions
@@ -318,8 +318,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     fun importHelper(a: Int, b: Int): Int {
-        var nodeA: NodeLeaf? = null
-        var nodeB: NodeLeaf? = null
+        var nodeA: ByteArray? = null
+        var nodeB: ByteArray? = null
         NodeManager.getNode(a, {
             nodeA = it
         }, {
@@ -330,7 +330,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }, {
             SanityCheck.checkUnreachable()
         })
-        val res = importHelper(MergeIterator(nodeA!!.iterator(), nodeB!!.iterator()))
+        val res = importHelper(MergeIterator(NodeLeafFunctions.iterator(nodeA!!), NodeLeafFunctions.iterator(nodeB!!)))
         NodeManager.freeAllLeaves(a)
         NodeManager.freeAllLeaves(b)
         return res
@@ -338,19 +338,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
-        var node2: NodeLeaf? = null
+        var node2: ByteArray? = null
         NodeManager.allocateNodeLeaf { n, i ->
             res = i
             node2 = n
         }
         var node = node2!!
-        node.initializeWith(iterator)
+        NodeLeafFunctions.initializeWith(node,iterator)
         while (iterator.hasNext()) {
             NodeManager.allocateNodeLeaf { n, i ->
-                node.setNextNode(i)
+                NodeLeafFunctions.setNextNode(node,i)
                 node = n
             }
-            node.initializeWith(iterator)
+            NodeLeafFunctions.initializeWith(node,iterator)
         }
         return res
     }
@@ -398,7 +398,7 @@ suspend    fun flushContinueWithReadLock() {
             SanityCheck.check { pendingImport.size > 0 }
             val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
             NodeManager.getNode(newFirstLeaf, {
-                rebuildData(DistinctIterator(it.iterator()))
+                rebuildData(DistinctIterator(NodeLeafFunctions.iterator(it)))
             }, {
                 rebuildData(DistinctIterator(NodeInnerFunctions.iterator(it)))
             })
@@ -459,21 +459,21 @@ suspend    fun flushContinueWithReadLock() {
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var newFirstLeaf = NodeManager.nodeNullPointer
-            var node2: NodeLeaf? = null
+            var node2: ByteArray? = null
             NodeManager.allocateNodeLeaf { n, i ->
                 newFirstLeaf = i
                 node2 = n
                 currentLayer.add(i)
             }
             var node = node2!!
-            node.initializeWith(iterator)
+            NodeLeafFunctions.initializeWith(node,iterator)
             while (iterator.hasNext()) {
                 NodeManager.allocateNodeLeaf { n, i ->
-                    node.setNextNode(i)
+                    NodeLeafFunctions.setNextNode(node,i)
                     node = n
                     currentLayer.add(i)
                 }
-                node.initializeWith(iterator)
+               NodeLeafFunctions.initializeWith(node,iterator)
             }
             firstLeaf = newFirstLeaf
             SanityCheck.check { currentLayer.size > 0 }
@@ -525,7 +525,7 @@ suspend    fun flushContinueWithReadLock() {
             iteratorStore2 = EmptyIterator()
         } else {
             NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = it.iterator()
+                iteratorStore2 = NodeLeafFunctions.iterator(it)
             }, {
                 SanityCheck.checkUnreachable()
             })
@@ -549,7 +549,7 @@ suspend    fun flushContinueWithReadLock() {
             iteratorStore2 = EmptyIterator()
         } else {
             NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = it.iterator()
+                iteratorStore2 = NodeLeafFunctions.iterator(it)
             }, {
                 SanityCheck.checkUnreachable()
             })
@@ -586,7 +586,7 @@ suspend    fun flushContinueWithReadLock() {
         lock.withReadLock {
             if (firstLeaf != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(firstLeaf, { node ->
-                    var it = node.iterator()
+                    var it = NodeLeafFunctions.iterator(node)
                     while (it.hasNext()) {
                         var d = it.next()
                         println("debug ${d.map { it }}")

@@ -37,7 +37,7 @@ object NodeManager {
             for (i in 0 until allNodesLeafSize) {
                 if (!allNodesFreeListLeaf.contains(i or nodePointerTypeLeaf)) {
                     getNode(i or nodePointerTypeLeaf, {
-                        val x = it.getNextNode()
+                        val x = NodeLeafFunctions.getNextNode(it)
                         if (x == nodeNullPointer) {
                             nullpointers++
                         } else {
@@ -150,7 +150,7 @@ object NodeManager {
         }
     }
 
-    /*inline*/ fun getNode(idx: Int, /*crossinline*/ actionLeaf: (NodeLeaf) -> Unit, /*crossinline*/ actionInner: (ByteArray) -> Unit) {
+    /*inline*/ fun getNode(idx: Int, /*crossinline*/ actionLeaf: (ByteArray) -> Unit, /*crossinline*/ actionInner: (ByteArray) -> Unit) {
         println("debug NodeManager getNode ${idx.toString(16)}")
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
@@ -164,10 +164,10 @@ object NodeManager {
                 actionInner(node!!)
             }
             nodePointerTypeLeaf -> {
-                var node: NodeLeaf? = null
+                var node: ByteArray? = null
                 lockLeaf.withReadLock {
                     SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
-                    node = NodeLeaf(bufferManager.getPage(idx))
+                    node = bufferManager.getPage(idx)
                 }
                 actionLeaf(node!!)
             }
@@ -178,21 +178,21 @@ object NodeManager {
     }
 
     val reuseOldIDs = false
-    /*inline*/ fun allocateNodeLeaf(/*crossinline*/ action: (NodeLeaf, Int) -> Unit) {
+    /*inline*/ fun allocateNodeLeaf(/*crossinline*/ action: (ByteArray, Int) -> Unit) {
         println("NodeManager.allocateNodeLeaf A")
-        var node: NodeLeaf? = null
+        var node: ByteArray? = null
         var idx = -1
         lockLeaf.withWriteLock {
             idx = allNodesLeafSize or nodePointerTypeLeaf
             if (reuseOldIDs && allNodesFreeListLeaf.size > 0) {
                 idx = allNodesFreeListLeaf.first()
                 allNodesFreeListLeaf.remove(idx)
-                node = NodeLeaf(bufferManager.createPage(idx))
-                node!!.setNextNode(nodeNullPointer)
-                node!!.setTripleCount(0)
+                node = bufferManager.createPage(idx)
+                NodeLeafFunctions.setNextNode(node!!,nodeNullPointer)
+                NodeLeafFunctions.setTripleCount(node!!,0)
                 println("debug NodeManager allocateNodeLeafA ${idx.toString(16)}")
             } else {
-                node = NodeLeaf(bufferManager.createPage(idx))
+                node = bufferManager.createPage(idx)
                 allNodesLeafSize++
                 println("debug NodeManager allocateNodeLeafB ${idx.toString(16)}")
             }
@@ -273,7 +273,7 @@ object NodeManager {
         var idx = nodeIdx
         while (idx != nodeNullPointer) {
             getNode(idx, { node ->
-                val tmp = node.getNextNode()
+                val tmp = NodeLeafFunctions.getNextNode(node)
                 freeNode(idx)
                 idx = tmp
             }, { node ->

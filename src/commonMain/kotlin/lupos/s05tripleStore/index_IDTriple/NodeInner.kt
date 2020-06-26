@@ -43,7 +43,7 @@ object NodeInnerFunctions {
         var done = false
         while (!done) {
             NodeManager.getNode(getFirstChild(node), {
-                it.getFirstTriple(b)
+                NodeLeafFunctions.getFirstTriple(it,b)
                 done = true
             }, {
                 node = it
@@ -247,7 +247,7 @@ object NodeInnerFunctions {
         var node = data
         while (iterator == null) {
             NodeManager.getNode(getFirstChild(node), {
-                iterator = it.iterator()
+                iterator = NodeLeafFunctions.iterator(it)
             }, {
                 node = it
             })
@@ -401,7 +401,7 @@ object NodeInnerFunctions {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = it.iterator3(prefix)
+                    iterator = NodeLeafFunctions.iterator3(it,prefix)
                 }, {
                     node = it
                 })
@@ -418,7 +418,7 @@ object NodeInnerFunctions {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = it.iterator2(prefix)
+                    iterator = NodeLeafFunctions.iterator2(it,prefix)
                 }, {
                     node = it
                 })
@@ -435,7 +435,7 @@ object NodeInnerFunctions {
                 /*return*/ (it[0] < prefix[0])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = it.iterator1(prefix)
+                    iterator = NodeLeafFunctions.iterator1(it,prefix)
                 }, {
                     node = it
                 })
@@ -473,7 +473,7 @@ object NodeInnerFunctions {
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
                 NodeManager.getNode(childLastPointer, {
-it.getFirstTriple(tripleCurrent)
+NodeLeafFunctions.getFirstTriple(it,tripleCurrent)
                 }, {
                     NodeInnerFunctions.getFirstTriple(it,tripleCurrent)
                 })

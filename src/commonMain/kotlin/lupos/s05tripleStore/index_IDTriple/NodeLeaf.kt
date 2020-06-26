@@ -10,7 +10,7 @@ import lupos.s00misc.writeInt4
 
 var debugListLeaf = mutableListOf<Int>()
 
-inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
+object NodeLeafFunctions {
     /*
      * Bytes 0..3 : Number of stored Triples
      * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin
@@ -24,46 +24,45 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
      *
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
-    fun getFirstTriple(b: IntArray) {
+    fun getFirstTriple(data: ByteArray,b: IntArray) {
         b[0] = data.readInt4(9)
         b[1] = data.readInt4(13)
         b[2] = data.readInt4(17)
     }
 
-    fun toByteArray() = this.data
-    fun setNextNode(node: Int) {
+    fun setNextNode(data: ByteArray,node: Int) {
         data.writeInt4(4, node)
     }
 
-    fun getNextNode(): Int {
+    fun getNextNode(data: ByteArray): Int {
         return data.readInt4(4)
     }
 
-    fun setTripleCount(count: Int) {
+    fun setTripleCount(data: ByteArray,count: Int) {
         data.writeInt4(0, count)
     }
 
-    fun getTripleCount(): Int {
+    fun getTripleCount(data: ByteArray): Int {
         return data.readInt4(0)
     }
 
-    fun iterator(): TripleIterator {
-        return NodeLeafIterator(this)
+    fun iterator(data: ByteArray): TripleIterator {
+        return NodeLeafIterator(data)
     }
 
-    fun iterator3(prefix: IntArray): TripleIterator {
-        return NodeLeafIteratorPrefix3(this, prefix)
+    fun iterator3(data: ByteArray,prefix: IntArray): TripleIterator {
+        return NodeLeafIteratorPrefix3(data, prefix)
     }
 
-    fun iterator2(prefix: IntArray): TripleIterator {
-        return NodeLeafIteratorPrefix2(this, prefix)
+    fun iterator2(data: ByteArray,prefix: IntArray): TripleIterator {
+        return NodeLeafIteratorPrefix2(data, prefix)
     }
 
-    fun iterator1(prefix: IntArray): TripleIterator {
-        return NodeLeafIteratorPrefix1(this, prefix)
+    fun iterator1(data: ByteArray,prefix: IntArray): TripleIterator {
+        return NodeLeafIteratorPrefix1(data, prefix)
     }
 
-    /*inline*/ fun writeFullTriple(offset: Int, d: IntArray): Int {
+    /*inline*/ fun writeFullTriple(data: ByteArray,offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -80,7 +79,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         return 13
     }
 
-    /*inline*/ fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+    /*inline*/ fun writeDiffTriple(data: ByteArray,offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written
@@ -208,7 +207,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         return localOff - offset
     }
 
-    fun initializeWith(iterator: TripleIterator) {
+    fun initializeWith(data: ByteArray,iterator: TripleIterator) {
         SanityCheck {
             debugListLeaf.clear()
         }
@@ -217,22 +216,20 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
         val tripleBuf = IntArray(3)
         var offset = 8
-        var bytesWritten = writeFullTriple(offset, tripleLast)
+        var bytesWritten = writeFullTriple(data,offset, tripleLast)
         offset += bytesWritten
         val offsetEnd = data.size - bytesWritten // reserve at least enough space to write a full triple at the end
         var triples = 1
         while (iterator.hasNext() && offset <= offsetEnd) {
-            bytesWritten = writeDiffTriple(offset, tripleLast, iterator.next(), tripleBuf)
+            bytesWritten = writeDiffTriple(data,offset, tripleLast, iterator.next(), tripleBuf)
             offset += bytesWritten
             triples++
         }
-        setTripleCount(triples)
-        setNextNode(NodeManager.nodeNullPointer)
+        setTripleCount(data,triples)
+        setNextNode(data,NodeManager.nodeNullPointer)
         SanityCheck {
-            var it = iterator()
+            var it = iterator(data)
             var offset2 = 0
-            for (i in debugListLeaf) {
-            }
             while (offset2 < debugListLeaf.size) {
                 SanityCheck.check { it.hasNext() }
                 var tmp = it.next()
