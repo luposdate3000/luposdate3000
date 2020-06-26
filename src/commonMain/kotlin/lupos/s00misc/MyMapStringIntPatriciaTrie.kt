@@ -26,7 +26,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         var childs1: MyMapStringIntPatriciaTrieNode? = null
     }
 
-    inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
+    /*inline*/ fun walkInternal(_key: String, /*crossinline*/ onCreate: () -> Int, /*crossinline*/ onExist: (Int) -> Int, /*crossinline*/ onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
             if (rootValue != undefinedValue) {
                 rootValue = onExist(rootValue)
@@ -355,7 +355,7 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         }
     }
 
-    inline operator fun get(key: String): Int? {
+    /*inline*/ operator fun get(key: String): Int? {
         var res: Int? = null
         walkInternal(key, { undefinedValue }, {
             res = it
@@ -364,11 +364,11 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         return res
     }
 
-    inline operator fun set(key: String, value: Int) {
+    /*inline*/ operator fun set(key: String, value: Int) {
         walkInternal(key, { value }, { value }, {}, true)
     }
 
-    inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
+    /*inline*/ fun getOrCreate(key: String, /*crossinline*/ onCreate: () -> Int): Int {
         var res = undefinedValue
         walkInternal(key, {
             res = onCreate()
@@ -380,18 +380,18 @@ class MyMapStringIntPatriciaTrie(val undefinedValue: Int = Int.MAX_VALUE) {
         return res
     }
 
-    inline fun appendAssumeSorted(key: String, value: Int): Int {
+    /*inline*/ fun appendAssumeSorted(key: String, value: Int): Int {
         set(key, value)
         return value
     }
 
-    inline fun clear() {
+    /*inline*/ fun clear() {
         root = MyMapStringIntPatriciaTrieNodeN()
         rootValue = undefinedValue
         size = 0
     }
 
-    inline fun forEach(crossinline action: (String, Int) -> Unit) {
+    /*inline*/ fun forEach(/*crossinline*/ action: (String, Int) -> Unit) {
         var queue = mutableListOf<Pair<String, MyMapStringIntPatriciaTrieNode>>()
         if (rootValue != undefinedValue) {
             action("", rootValue)
