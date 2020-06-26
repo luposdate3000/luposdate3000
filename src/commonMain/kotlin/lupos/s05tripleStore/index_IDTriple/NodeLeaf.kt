@@ -63,7 +63,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         return NodeLeafIteratorPrefix1(this, prefix)
     }
 
-    inline fun writeFullTriple(offset: Int, d: IntArray): Int {
+    /*inline*/ fun writeFullTriple(offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -80,7 +80,7 @@ inline class NodeLeaf(val data: ByteArray) { //ByteBuffer??
         return 13
     }
 
-    inline fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+    /*inline*/ fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written

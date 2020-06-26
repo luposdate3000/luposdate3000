@@ -76,7 +76,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return data.readInt4(0)
     }
 
-    inline fun writeFullTriple(offset: Int, d: IntArray): Int {
+    /*inline*/ fun writeFullTriple(offset: Int, d: IntArray): Int {
         /*
          * assuming enough space
          * return bytes written
@@ -88,7 +88,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return 13
     }
 
-    inline fun writeChildPointers(offset: Int, count: Int, d: IntArray): Int {
+    /*inline*/ fun writeChildPointers(offset: Int, count: Int, d: IntArray): Int {
         SanityCheck.check { count > 0 }
         SanityCheck.check { count <= 4 }
         SanityCheck.check { d[0] > 0 }
@@ -120,7 +120,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return localOff - offset
     }
 
-    inline fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
+    /*inline*/ fun writeDiffTriple(offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space
          * returns bytes written
@@ -256,7 +256,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         return iterator!!
     }
 
-    inline fun forEachChild(crossinline action: (Int) -> Unit) {
+    /*inline*/ fun forEachChild(/*crossinline*/ action: (Int) -> Unit) {
         var remaining = getTripleCount()
         var offset = 12
         var lastChildPointer = getFirstChild()
@@ -301,7 +301,7 @@ inline class NodeInner(val data: ByteArray) { //ByteBuffer??
         }
     }
 
-    inline fun findIteratorN(crossinline checkTooSmall: (c: IntArray) -> Boolean, crossinline action: (Int) -> Unit): Unit {
+    /*inline*/ fun findIteratorN(/*crossinline*/ checkTooSmall: (c: IntArray) -> Boolean, /*crossinline*/ action: (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild()
         var childLastPointerHeaderOffset = -1
