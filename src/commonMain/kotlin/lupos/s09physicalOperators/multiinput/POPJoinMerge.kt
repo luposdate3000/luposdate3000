@@ -119,7 +119,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return res
     }
 
-    inline suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    /*inline*/ suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
 //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         SanityCheck.check { keyCopy[0] != null }
@@ -142,7 +142,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return count
     }
 
-    inline suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*inline*/ suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
 //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NEXT_KEY)
         if (key[0][0] != null && key[1][0] != null) {
