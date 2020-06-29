@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.singleinput
-
+import lupos.s00misc.SortHelper
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -39,7 +39,22 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
         this.bindings = this.bindings.asReversed()
         children[0] = child
     }
-
+override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+ val res = mutableListOf<List<SortHelper>>()
+val provided = Array(by.size) { by[it].name }
+                for (x in children[0].getPossibleSortPriorities()) {
+                    val tmp = mutableListOf<SortHelper>()
+                    for (v in x) {
+                        if (provided.contains(v.variableName)) {
+                            tmp.add(v)
+                        } else {
+                            break
+                        }
+                    }
+                    addToPrefixFreeList(tmp, res)
+                }
+return res
+}
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         SanityCheck.check({ additionalProvided.isEmpty() })
