@@ -1,10 +1,11 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 import kotlin.jvm.JvmField
+import lupos.s00misc.Coverage
+
 class ThreadSafeUuid {
     companion object {
-@JvmField
+        @JvmField
         var global_uuid = 0L
     }
 

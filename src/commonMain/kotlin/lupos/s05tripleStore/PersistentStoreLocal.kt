@@ -21,7 +21,7 @@ class PersistentStoreLocal {
     }
 
     companion object {
-@JvmField
+        @JvmField
         val defaultGraphName = ""
     }
 

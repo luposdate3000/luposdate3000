@@ -1,5 +1,5 @@
 #!/bin/bash
-export JAVA_OPTS="-Xmx30g"
+export JAVA_OPTS="-Xmx60g"
 
 triples=1024
 products=1

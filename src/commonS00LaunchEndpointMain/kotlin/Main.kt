@@ -1,3 +1,4 @@
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -8,7 +9,7 @@ import lupos.s00misc.GlobalLogger
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.ServerCommunicationSend
 
-fun main(args: Array<String>) = CoroutinesHelper.runBlock {
+fun main(args: Array<String>) = runBlocking {
     var i = 0
     var bootStrapServer: String? = null
     var hostname = "localhost"

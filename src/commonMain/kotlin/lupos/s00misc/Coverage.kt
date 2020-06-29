@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.File
@@ -11,9 +12,10 @@ enum class ECoverage {
 }
 
 object Coverage {
-@JvmField
+    @JvmField
     val CoverageMapGenerated = mutableMapOf<Int, String>()
-@JvmField
+
+    @JvmField
     val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
 
     init {
@@ -39,11 +41,12 @@ object Coverage {
         })
         CoverageMapGenerated[CoverageMapGenerated.keys.size] = ""
     }
-@JvmField
-    var lastcounter = CoverageMapGenerated.keys.size - 1
-@JvmField
-    val counters = Array(CoverageMapGenerated.keys.size) { 0L }
 
+    @JvmField
+    var lastcounter = CoverageMapGenerated.keys.size - 1
+
+    @JvmField
+    val counters = Array(CoverageMapGenerated.keys.size) { 0L }
     fun funStart(counter: Int) {
         lastcounter = counter
         counters[counter]++

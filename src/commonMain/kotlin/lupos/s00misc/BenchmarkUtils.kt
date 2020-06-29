@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
@@ -36,11 +37,13 @@ enum class EBenchmark {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object BenchmarkUtils {
-@JvmField
+    @JvmField
     val timers = Array(EBenchmark.values().size) { Monotonic.markNow() }
-@JvmField
+
+    @JvmField
     val results = Array(EBenchmark.values().size) { 0.0 }
-@JvmField
+
+    @JvmField
     val counters = Array(EBenchmark.values().size) { 0 }
 
     init {

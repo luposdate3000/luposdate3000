@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.multiinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -9,9 +10,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPMinus(query: Query, first: OPBase, second: OPBase, @JvmField var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
-@JvmField
+    @JvmField
     var hadReducedPushDown = false
-@JvmField
+
+    @JvmField
     var hadSortPushDown = false
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()
     override fun getRequiredVariableNames() = listOf<String>()

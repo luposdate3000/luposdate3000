@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
@@ -75,9 +76,10 @@ var debuguuidtmp = 0
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
-@JvmField
+    @JvmField
     var uuid = debuguuidtmp++
-@JvmField
+
+    @JvmField
     var offset = 0
     fun remaining() = size - offset
 
@@ -127,13 +129,16 @@ class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
 
 @UseExperimental(ExperimentalStdlibApi::class)
 class ByteArrayBuilder() {
-@JvmField
+    @JvmField
     var uuid = debuguuidtmp++
-@JvmField
+
+    @JvmField
     var capacity = 128
-@JvmField
+
+    @JvmField
     var data = ByteArray(capacity)
-@JvmField
+
+    @JvmField
     var size = 0
     fun build(): ByteArrayRead {
         //println("ByteArrayBuilder($uuid).build with size $size and capacity $capacity")

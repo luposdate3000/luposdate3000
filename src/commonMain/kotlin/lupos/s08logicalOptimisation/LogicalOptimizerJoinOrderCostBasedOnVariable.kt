@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
@@ -7,17 +8,22 @@ import lupos.s04logicalOperators.OPBase
 
 object LogicalOptimizerJoinOrderCostBasedOnVariable {
     class Plan : Comparable<Plan> {
-@JvmField     
-   val child: OPBase?
-     @JvmField
-   val childs: Pair<Int, Int>?
-@JvmField
+        @JvmField
+        val child: OPBase?
+
+        @JvmField
+        val childs: Pair<Int, Int>?
+
+        @JvmField
         val variables: Array<Int>
-@JvmField
+
+        @JvmField
         val columns: Int
-@JvmField
+
+        @JvmField
         val cost: Int
-@JvmField
+
+        @JvmField
         val depth: Int
 
         constructor(child: OPBase, variables: Array<Int>, allVariables: List<Int>) {

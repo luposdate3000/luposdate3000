@@ -17,18 +17,19 @@ class BufferManager(@JvmField val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
-@JvmField
+        @JvmField
         var bufferPrefix: String
 
         init {
             bufferPrefix = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
             println("bufferPrefix = $bufferPrefix")
         }
-@JvmField
-        val managerList = mutableListOf<BufferManager>()
-@JvmField
-        val managerListLock = ReadWriteLock()
 
+        @JvmField
+        val managerList = mutableListOf<BufferManager>()
+
+        @JvmField
+        val managerListLock = ReadWriteLock()
         fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
@@ -48,17 +49,21 @@ class BufferManager(@JvmField val bufferName: String) {
             managerList.add(manager)
         }
     }
-@JvmField
-    val allPages = MyListGeneric<ByteArray>()
-@JvmField
-    var counter = 0
-@JvmField
-    val lock = ReadWriteLock()
-@JvmField
-    val pageMappingsOutIn = mutableMapOf<Int, Int>()
-@JvmField
-    val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
 
+    @JvmField
+    val allPages = MyListGeneric<ByteArray>()
+
+    @JvmField
+    var counter = 0
+
+    @JvmField
+    val lock = ReadWriteLock()
+
+    @JvmField
+    val pageMappingsOutIn = mutableMapOf<Int, Int>()
+
+    @JvmField
+    val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
     fun clear() = lock.withWriteLock {
         counter = 0
         allPages.clear()

@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
-
+import kotlinx.coroutines.runBlocking
 object QueryResultToEmptyString {
     operator fun invoke(rootNode: OPBase): String {
         var res = StringBuilder()
@@ -20,7 +20,7 @@ object QueryResultToEmptyString {
         }
         for (node in nodes) {
             if (node !is OPNothing) {
-                CoroutinesHelper.runBlock {
+runBlocking{
                     val child = node.evaluate()
                     val variables = node.getProvidedVariableNames().toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {

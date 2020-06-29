@@ -1,5 +1,5 @@
 package lupos.s11outputResult
-
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.MyMapIntInt
@@ -60,7 +60,7 @@ object QueryResultToXMLString {
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
-                CoroutinesHelper.runBlock {
+runBlocking{
                     val child = node.evaluate()
                     val variables = columnNames.toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {

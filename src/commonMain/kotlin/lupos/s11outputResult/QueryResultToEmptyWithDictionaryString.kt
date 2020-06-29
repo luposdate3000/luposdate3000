@@ -1,5 +1,5 @@
 package lupos.s11outputResult
-
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
@@ -20,7 +20,7 @@ object QueryResultToEmptyWithDictionaryString {
         }
         for (node in nodes) {
             if (node !is OPNothing) {
-                CoroutinesHelper.runBlock {
+runBlocking{
                     val child = node.evaluate()
                     val variables = node.getProvidedVariableNames().toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {

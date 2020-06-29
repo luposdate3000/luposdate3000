@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import kotlin.jvm.JvmField
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -18,9 +19,10 @@ class ServerCommunicationKnownHost(hostname: String, port: Int) : ServerCommunic
 }
 
 object ServerCommunicationDistribution {
-@JvmField
+    @JvmField
     val knownHosts = mutableListOf<ServerCommunicationKnownHost>()
-@JvmField
+
+    @JvmField
     val knownHostsLock = Lock()
     fun printKnownHosts(): StringBuilder {
         var res = StringBuilder()
@@ -40,7 +42,7 @@ object ServerCommunicationDistribution {
      *
      * assuming k does not change after first triple insertion
      */
-@JvmField
+    @JvmField
     var k = 1
 
     /*

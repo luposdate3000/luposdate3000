@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.iterator
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
@@ -13,15 +14,17 @@ enum class IteratorBundleMode {
 }
 
 class IteratorBundle {
-@JvmField
+    @JvmField
     var mode: IteratorBundleMode
-@JvmField
-    var _columns: Map<String, ColumnIterator>?
-@JvmField
-    var _rows: RowIterator?
-@JvmField
-    var counter = 0
 
+    @JvmField
+    var _columns: Map<String, ColumnIterator>?
+
+    @JvmField
+    var _rows: RowIterator?
+
+    @JvmField
+    var counter = 0
     fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
     fun hasCountMode() = mode == IteratorBundleMode.COUNT
     fun hasRowMode() = mode == IteratorBundleMode.ROW
@@ -82,7 +85,6 @@ class IteratorBundle {
     }
 
     var hasNext: suspend () -> Boolean = ::_hasNext
-
     var count: Int = 0
         get() {
             SanityCheck.check { mode == IteratorBundleMode.COUNT }

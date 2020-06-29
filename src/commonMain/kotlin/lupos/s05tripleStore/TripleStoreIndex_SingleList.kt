@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
@@ -90,7 +89,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
 
     override fun printContents() {
         SanityCheck {
-            CoroutinesHelper.runBlock {
+            runBlocking {
                 val ai = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3a(data))
                 val bi = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3b(data))
                 val ci = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3c(data))
@@ -203,7 +202,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
 
     fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
         var data = MyListInt()
-        CoroutinesHelper.runBlock {
+        runBlocking {
             val head = Array(2) { Array<Int?>(3) { null } }
             for (cmp in 0 until 2) {
                 for (i in 0 until 3) {
@@ -309,7 +308,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             rebuildMap()
         }
         SanityCheck {
-            CoroutinesHelper.runBlock {
+            runBlocking {
                 var ia = ColumnIteratorStore3a(data)
                 var ib = ColumnIteratorStore3b(data)
                 var ic = ColumnIteratorStore3c(data)

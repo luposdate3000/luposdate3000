@@ -489,9 +489,9 @@ while (!done) {
     additionalSources = mapOf(
 /*if the key is choosen, automatically add all dependent things*/
 
-ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
-ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
-),
+            ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
+                    ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
+            ),
             ChooseableOption("commonMain") to listOf(
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
@@ -525,8 +525,8 @@ ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
             ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
                     ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
             ),
-ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
-ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),
+            ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
+                    ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),
                     ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
             ),
             ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(

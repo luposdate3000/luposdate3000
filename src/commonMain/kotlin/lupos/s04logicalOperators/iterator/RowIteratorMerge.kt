@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.iterator
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
@@ -152,11 +153,14 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
             return resultList[resultList.size - 1]!!
         }
     }
-@JvmField
+
+    @JvmField
     var flag = 3
-@JvmField
+
+    @JvmField
     var aIdx = -1
-@JvmField
+
+    @JvmField
     var bIdx = -1
 
     init {

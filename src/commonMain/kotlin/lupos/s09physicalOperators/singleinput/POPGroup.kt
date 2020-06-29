@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.singleinput
 
-import lupos.s00misc.SortHelper
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -35,7 +35,6 @@ class POPGroup : POPBase {
 
     @JvmField
     var bindings = mutableListOf<Pair<String, AOPBase>>()
-
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         val res = mutableListOf<List<SortHelper>>()
         val provided = Array(by.size) { by[it].name }
@@ -329,9 +328,9 @@ class POPGroup : POPBase {
                                                 output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
                                             }
                                         }
-for (outIndex2 in 0 until output.size) {
-                        output[outIndex2].onEmptyQueue = {}
-}
+                                        for (outIndex2 in 0 until output.size) {
+                                            output[outIndex2].onEmptyQueue = {}
+                                        }
                                         break@loop
                                     }
                                     if (nextKey != null) {

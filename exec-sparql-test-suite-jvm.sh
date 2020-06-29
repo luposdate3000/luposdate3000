@@ -1,5 +1,5 @@
 #!/bin/bash
-export JAVA_OPTS="-Xmx30g"
+export JAVA_OPTS="-Xmx60g"
 port="3030"
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -24,10 +24,10 @@ port="3030"
   echo "AdvancedOptimisation->false"
   echo "Coverage->ECoverage.Disabled"
   echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->Sockets"
+  echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
-  echo "Inline->DontChange"
+  echo "Inline->Off"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

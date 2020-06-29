@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlinx.coroutines.runBlocking
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
 import lupos.s00misc.Coverage
@@ -26,7 +26,7 @@ class Lock {
 
     inline fun <T> withWriteLock(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
-        CoroutinesHelper.runBlock {
+        runBlocking {
             withWriteLockSuspend {
                 res = action()
             }

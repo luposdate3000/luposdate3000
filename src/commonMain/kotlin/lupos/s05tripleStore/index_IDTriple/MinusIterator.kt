@@ -1,11 +1,13 @@
 package lupos.s05tripleStore.index_IDTriple
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
-class MinusIterator(@JvmField val a: TripleIterator,@JvmField val b: TripleIterator) : TripleIterator() {
-@JvmField
+class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
+    @JvmField
     var flag = 0
-@JvmField
+
+    @JvmField
     var useMinus = true
 
     init {

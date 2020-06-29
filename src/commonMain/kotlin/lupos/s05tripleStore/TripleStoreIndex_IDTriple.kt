@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
@@ -25,23 +26,29 @@ import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
-@JvmField
+    @JvmField
     var firstLeaf = NodeManager.nodeNullPointer
-@JvmField
+
+    @JvmField
     var root = NodeManager.nodeNullPointer
-@JvmField
+
+    @JvmField
     var rootNode: ByteArray? = null
-@JvmField
+
+    @JvmField
     var pendingImport = mutableListOf<Int?>()
-@JvmField
+
+    @JvmField
     var countPrimary = 0
-@JvmField
+
+    @JvmField
     var distinctPrimary = 0
-@JvmField
+
+    @JvmField
     var lock = ReadWriteLock()
 
     companion object {
-@JvmField
+        @JvmField
         var storeIteratorCounter = 0L
     }
 

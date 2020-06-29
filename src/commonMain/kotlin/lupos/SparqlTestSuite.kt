@@ -97,7 +97,7 @@ class SparqlTestSuite() {
                         } else {
                             lastinput = inputFile
                         }
-                        CoroutinesHelper.runBlock {
+                        runBlocking {
                             ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
                             parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                         }
@@ -420,7 +420,7 @@ class SparqlTestSuite() {
             return true
         }
         var success = false
-        CoroutinesHelper.runBlock {
+        runBlocking {
             success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         }
         return success == expectedResult

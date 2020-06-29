@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlinx.coroutines.runBlocking
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
@@ -56,7 +56,7 @@ class ReadWriteLock {
 
     inline fun <T> withReadLock(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
-        CoroutinesHelper.runBlock {
+        runBlocking {
             withReadLockSuspend {
                 res = action()
             }
@@ -66,7 +66,7 @@ class ReadWriteLock {
 
     inline fun <T> withWriteLock(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
-        CoroutinesHelper.runBlock {
+        runBlocking {
             withWriteLockSuspend {
                 res = action()
             }

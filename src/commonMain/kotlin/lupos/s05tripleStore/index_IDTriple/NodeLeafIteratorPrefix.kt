@@ -8,16 +8,20 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
-abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray,@JvmField val prefix: IntArray) : TripleIterator() {
-@JvmField
+abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField val prefix: IntArray) : TripleIterator() {
+    @JvmField
     var remaining = NodeShared.getTripleCount(node)
-@JvmField
+
+    @JvmField
     var offset = 8
-@JvmField
+
+    @JvmField
     var counter = IntArray(3)
-@JvmField
+
+    @JvmField
     var valueNext = IntArray(3)
-@JvmField
+
+    @JvmField
     var flag = true
     abstract fun checkTooSmall(): Boolean
     abstract fun checkNotTooLarge(): Boolean

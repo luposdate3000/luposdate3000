@@ -1,3 +1,4 @@
+import kotlinx.coroutines.runBlocking
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.CoroutinesHelper
@@ -14,7 +15,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 }
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-fun main(args: Array<String>) = CoroutinesHelper.runBlock {
+fun main(args: Array<String>) = runBlocking {
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]

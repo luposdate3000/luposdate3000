@@ -1,5 +1,6 @@
 package lupos.s16network
 
+import kotlin.jvm.JvmField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ByteArrayBuilder
@@ -27,16 +28,17 @@ import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
-import kotlin.jvm.JvmField
+
 object ServerCommunicationSend {
-@JvmField
+    @JvmField
     var myHostname = "localhost"
-@JvmField
+
+    @JvmField
     var myPort = NETWORK_DEFAULT_PORT
     suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
-        CoroutinesHelper.runBlock {
+runBlocking{
             bulk.finishImport()
         }
     }

@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.CommuncationUnexpectedHeaderException
@@ -10,9 +11,10 @@ import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 
 class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) {
-@JvmField
+    @JvmField
     val values = Array(3) { ResultSetDictionary.undefValue }
-@JvmField
+
+    @JvmField
     val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationImportHelper>() }
     suspend fun insert(si: Value, pi: Value, oi: Value) {
         values[0] = si

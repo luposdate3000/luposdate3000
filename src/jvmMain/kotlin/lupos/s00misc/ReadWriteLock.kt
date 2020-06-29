@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
@@ -9,15 +9,17 @@ import lupos.s00misc.Coverage
 var debuguuidtmp123 = 0
 
 class ReadWriteLock {
-@JvmField
+    @JvmField
     val uuid = debuguuidtmp123++
-@JvmField
-    val lockA = Mutex() //required to assign a new read or write lock
-@JvmField
-    val lockB = Mutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
-@JvmField
-    var counter = AtomicInteger() //number of active readers
 
+    @JvmField
+    val lockA = Mutex() //required to assign a new read or write lock
+
+    @JvmField
+    val lockB = Mutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
+
+    @JvmField
+    var counter = AtomicInteger() //number of active readers
     suspend fun downgradeToReadLock() {
         counter.set(1)
         lockB.lock()
@@ -79,7 +81,7 @@ class ReadWriteLock {
 
     /*inline*/  fun <T> withReadLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
-        CoroutinesHelper.runBlock {
+        runBlocking {
             withReadLockSuspend {
                 res = action()
             }
@@ -89,7 +91,7 @@ class ReadWriteLock {
 
     /*inline*/  fun <T> withWriteLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
-        CoroutinesHelper.runBlock {
+        runBlocking {
             withWriteLockSuspend {
                 res = action()
             }

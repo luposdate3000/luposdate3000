@@ -9,13 +9,16 @@ import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
 class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
-@JvmField
+    @JvmField
     var remaining = NodeShared.getTripleCount(node)
-@JvmField
+
+    @JvmField
     var offset = 8
-@JvmField
+
+    @JvmField
     var counter = IntArray(3)
-@JvmField
+
+    @JvmField
     var needsReset = true
     override fun hasNext() = remaining > 0
     override fun next(component: Int): Int {

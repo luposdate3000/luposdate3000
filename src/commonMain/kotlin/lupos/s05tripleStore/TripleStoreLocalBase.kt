@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-
+import kotlinx.coroutines.runBlocking
 import kotlin.jvm.JvmField
 import lupos.s00misc.BugException
 import lupos.s00misc.CoroutinesHelper
@@ -121,7 +121,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
-        CoroutinesHelper.runBlock {
+        runBlocking {
             for (idx in EIndexPattern.values()) {
                 var list = pendingModificationsInsert[idx.ordinal][query.transactionID]
                 if (list != null) {

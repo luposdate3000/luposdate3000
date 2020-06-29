@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
@@ -9,37 +10,46 @@ import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-
-class TripleStoreBulkImport(@JvmField val query: Query,@JvmField val graphName: String,@JvmField val targetIdx: EIndexPattern?) {
+import kotlinx.coroutines.runBlocking
+class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String, @JvmField val targetIdx: EIndexPattern?) {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
-@JvmField
-    val sizeshift = 20
-@JvmField
-    val size = 3 * (1 shl sizeshift)
-@JvmField
-    val data = Array(9) { IntArray(size) }
-@JvmField
-    var idx = 0
-@JvmField
-    var dataSPO = data[0]
-@JvmField
-    var dataSOP = data[0]
-@JvmField
-    var dataPSO = data[0]
-@JvmField
-    var dataPOS = data[0]
-@JvmField
-    var dataOSP = data[0]
-@JvmField
-    var dataOPS = data[0]
 
+    @JvmField
+    val sizeshift = 20
+
+    @JvmField
+    val size = 3 * (1 shl sizeshift)
+
+    @JvmField
+    val data = Array(9) { IntArray(size) }
+
+    @JvmField
+    var idx = 0
+
+    @JvmField
+    var dataSPO = data[0]
+
+    @JvmField
+    var dataSOP = data[0]
+
+    @JvmField
+    var dataPSO = data[0]
+
+    @JvmField
+    var dataPOS = data[0]
+
+    @JvmField
+    var dataOSP = data[0]
+
+    @JvmField
+    var dataOPS = data[0]
     fun insert(si: Value, pi: Value, oi: Value) {
         data[8][idx++] = si
         data[8][idx++] = pi
         data[8][idx++] = oi
         if (full()) {
-            CoroutinesHelper.runBlock {
+            runBlocking {
                 sort(targetIdx)
                 if (targetIdx == null) {
                     for (idx in TripleStoreLocalBase.distinctIndices) {

@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlinx.coroutines.runBlocking
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
@@ -20,7 +20,7 @@ class Lock {
 
     /*inline*/  fun <T> withWriteLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
-        CoroutinesHelper.runBlock {
+        runBlocking {
             withWriteLockSuspend {
                 res = action()
             }
