@@ -7,6 +7,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
+import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -181,7 +182,7 @@ class POPGroup : POPBase {
         }
         val keyColumnNames = Array(by.size) { by[it].name }
         if (keyColumnNames.size != keyColumnNames.distinct().size) {
-            throw Exception("group by only allowed on distinct columns")
+            throw GroupByDuplicateColumnException()
         }
         val keyColumns: Array<ColumnIterator> = Array(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
         val valueColumnNames = mutableListOf<String>()

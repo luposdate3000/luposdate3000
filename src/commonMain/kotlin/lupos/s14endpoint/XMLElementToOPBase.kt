@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 import lupos.s00misc.ESortType
+import lupos.s00misc.XMLNotParseableException
 import lupos.s00misc.SortHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
@@ -554,7 +555,7 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             for (tmp4 in tmp2) {
                 val tmp5 = tmp4.split('.')
                 if (tmp5.size != 2) {
-                    throw Exception("XML not parseable")
+                    throw XMLNotParseableException()
                 }
                 tmp3.add(SortHelper(tmp5[0],ESortType.valueOf(tmp5[1])))
             }

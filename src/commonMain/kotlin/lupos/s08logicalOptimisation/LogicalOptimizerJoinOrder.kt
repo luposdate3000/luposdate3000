@@ -11,10 +11,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
-
-class EmptyResultException() : Exception("")
-
-val emptyResultException = EmptyResultException()
+import lupos.s00misc.EmptyResultException
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname = "LogicalOptimizerJoinOrder"
@@ -35,7 +32,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 }
             } else if (c is OPNothing) {
                 //there can not be any result, if_ one of the children does not have any output.
-                throw emptyResultException
+                throw EmptyResultException()
             } else if (c is OPEmptyRow) {
                 //skip those unnecessary joins, without any observeable effekt
             } else {
