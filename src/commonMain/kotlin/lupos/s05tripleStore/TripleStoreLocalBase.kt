@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
-import kotlinx.coroutines.runBlocking
+
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BugException
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage

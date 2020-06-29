@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper

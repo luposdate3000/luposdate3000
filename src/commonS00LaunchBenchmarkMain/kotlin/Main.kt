@@ -1,6 +1,6 @@
 import kotlin.time.DurationUnit
-import kotlinx.coroutines.runBlocking
 import kotlin.time.TimeSource.Monotonic
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.File

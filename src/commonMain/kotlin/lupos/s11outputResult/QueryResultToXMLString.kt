@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -60,7 +61,7 @@ object QueryResultToXMLString {
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
-runBlocking{
+                runBlocking {
                     val child = node.evaluate()
                     val variables = columnNames.toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {

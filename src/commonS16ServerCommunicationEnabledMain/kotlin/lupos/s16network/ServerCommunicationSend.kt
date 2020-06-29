@@ -38,7 +38,7 @@ object ServerCommunicationSend {
     suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
-runBlocking{
+        runBlocking {
             bulk.finishImport()
         }
     }

@@ -1,8 +1,9 @@
 package lupos.s00misc
-import kotlinx.coroutines.runBlocking
+
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Coverage
 
@@ -47,7 +48,7 @@ class ReadWriteLock {
 
     suspend fun writeLock() {
         lockA.lock()
-        lockB.lock() //effectively wait for the signal of the last read-unlock
+        lockB.lock() //effectively wait for_ the signal of the last read-unlock
         lockB.unlock()
         //assume that counter is 0, because otherwise lockB can not be accuired
         println("LOCK $uuid get write lock")
@@ -56,7 +57,7 @@ class ReadWriteLock {
     suspend fun writeUnlock() {
         println("LOCK $uuid releasing write lock")
         lockA.unlock()
-        //assume that counter is 0, because that is the precondition for a writer to start
+        //assume that counter is 0, because that is the precondition for_ a writer to start
     }
 
     suspend /*inline*/  fun <T> withReadLockSuspend(/*crossinline*/  action: suspend () -> T): T {

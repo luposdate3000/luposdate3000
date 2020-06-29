@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -10,7 +11,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import kotlinx.coroutines.runBlocking
+
 class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String, @JvmField val targetIdx: EIndexPattern?) {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
