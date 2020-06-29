@@ -269,6 +269,9 @@ valueColumns[closeIndex].close()
 for (closeIndex in 0 until keyColumns.size) {
 keyColumns[closeIndex].close()
 }
+for (closeIndex in 0 until valueColumns.size) {
+valueColumns[closeIndex].close()
+}
                         SanityCheck.check { columnIndex == 0 }
                         emptyResult = true
                         break
@@ -400,6 +403,9 @@ keyColumns[closeIndex].close()
                         if (value == null) {
 for (closeIndex in 0 until keyColumns.size) {
 keyColumns[closeIndex].close()
+}
+for (closeIndex in 0 until valueColumns.size) {
+valueColumns[closeIndex].close()
 }
                             SanityCheck.check { columnIndex == 0 }
                             break@loop
