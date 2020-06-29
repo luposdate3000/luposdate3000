@@ -29,6 +29,7 @@ class ReadWriteLock {
     }
 
     suspend fun readLock() {
+        println("LOCK $uuid get read lock start")
         lockA.lock()
         var tmp = counter.incrementAndGet()
         if (tmp == 1) {
@@ -47,6 +48,7 @@ class ReadWriteLock {
     }
 
     suspend fun writeLock() {
+        println("LOCK $uuid get write lock start")
         lockA.lock()
         lockB.lock() //effectively wait for_ the signal of the last read-unlock
         lockB.unlock()

@@ -133,7 +133,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var tmp: Value? = null
                 if (it.hasNext()) {
                     tmp = it.nextS()
-                }
+                }else{
+close()
+}
                 /*return*/tmp
             }
             runBlocking {
@@ -156,7 +158,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var tmp: Value? = null
                 if (it.hasNext()) {
                     tmp = it.nextP()
-                }
+                }else{ 
+close()
+}
                 /*return*/tmp
             }
             runBlocking {
@@ -179,7 +183,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var tmp: Value? = null
                 if (it.hasNext()) {
                     tmp = it.nextO()
-                }
+                }else{ 
+close()
+}
                 /*return*/tmp
             }
             runBlocking {
