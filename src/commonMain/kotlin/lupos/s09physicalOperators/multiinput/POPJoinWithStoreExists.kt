@@ -53,6 +53,9 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
             var tmp = iterators[i].next()
             if (tmp == null) {
                 done = true
+for (closeIndex in 0 until iterators.size) {
+iterators[closeIndex].close()
+}
                 SanityCheck.check { i == 0 }
                 break
             } else {
@@ -68,6 +71,9 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
                     for (i in 0 until mapping.size) {
                         var tmp = iterators[i].next()
                         if (tmp == null) {
+for (closeIndex in 0 until iterators.size) {
+iterators[closeIndex].close()
+}
                             done = true
                             SanityCheck.check { i == 0 }
                             break@loop

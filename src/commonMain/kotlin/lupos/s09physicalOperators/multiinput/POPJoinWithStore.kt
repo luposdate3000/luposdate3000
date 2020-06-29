@@ -155,6 +155,9 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         loopB@ for (i in 0 until variablINBO.size) {
                             val value = columnsInB[i].next()
                             if (value == null) {
+for (closeIndex in 0 until columnsInB.size) {
+columnsInB[closeIndex].close()
+}
                                 SanityCheck.check { i == 0 }
                                 done = false
                                 break@loopB

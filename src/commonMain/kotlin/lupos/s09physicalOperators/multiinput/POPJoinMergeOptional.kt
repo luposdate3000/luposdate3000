@@ -155,6 +155,9 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                             key[1][j] = columnsINJ[1][j].next()
                             SanityCheck.check { key[1][j] != ResultSetDictionary.undefValue }
                             if (key[1][j] == null) {
+for (closeIndex in 0 until columnsINJ[1].size) {
+columnsINJ[1][closeIndex].close()
+}
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }

@@ -161,6 +161,9 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             done = key[0][j] == null
                             if (done) {
                                 SanityCheck.check { j == 0 }
+for (closeIndex in 0 until columnsINJ[0].size) {
+columnsINJ[0][closeIndex].close()
+}
                                 break@loop
                             }
                         }
@@ -174,6 +177,9 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             SanityCheck.check { key[1][j] != ResultSetDictionary.undefValue }
                             done = key[1][j] == null
                             if (done) {
+for (closeIndex in 0 until columnsINJ[1].size) {
+columnsINJ[1][closeIndex].close()
+}
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }

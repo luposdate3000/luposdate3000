@@ -130,6 +130,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     val value = columnsINBJ[columnIndex].next()
                     if (value == null) {
                         nextKey = null
+for (closeIndex in 0 until columnsINBJ.size) {
+columnsINBJ[closeIndex].close()
+}
                         break@loopB
                     }
                     nextKey!![columnIndex] = value
@@ -193,6 +196,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                             if (value == null) {
                                 SanityCheck.check { columnIndex == 0 }
                                 nextKey = null
+for (closeIndex in 0 until columnsINAJ.size) {
+columnsINAJ[closeIndex].close()
+}
                                 break@loopA
                             }
                             nextKey!![columnIndex] = value

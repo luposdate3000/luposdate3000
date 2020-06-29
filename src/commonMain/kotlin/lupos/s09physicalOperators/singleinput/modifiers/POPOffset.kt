@@ -35,6 +35,9 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
             for (columnIndex in 0 until columns.size) {
                 tmp = columns[columnIndex]!!.next()
                 if (tmp == null) {
+for (closeIndex in 0 until columns.size) {
+columns[closeIndex]!!.close()
+}
                     break
                 }
             }

@@ -80,6 +80,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
                     if (value == null) {
+for (closeIndex in 0 until columnsINBO.size) {
+columnsINBO[closeIndex].close()
+}
                         break@loopC
                     }
                     data[columnIndex].add(value)
@@ -105,6 +108,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                 if (value == null) {
                                     SanityCheck.check { columnIndex == 0 }
                                     done = true
+for (closeIndex in 0 until columnsINAO.size) {
+columnsINAO[closeIndex].close()
+}
                                     break
                                 }
                                 outO[0][columnIndex].childs.add(ColumnIteratorRepeatValue(1, value))
@@ -135,6 +141,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             if (value == null) {
                                 SanityCheck.check { columnIndex == 0 }
                                 done = true
+for (closeIndex in 0 until  columnsINAO.size) {
+ columnsINAO[closeIndex].close()
+}
                                 break
                             }
                             outO[0][columnIndex].childs.add(ColumnIteratorRepeatValue(count, value))

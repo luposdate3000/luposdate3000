@@ -35,6 +35,9 @@ object QueryResultToEmptyString {
                                 for (variableIndex in 0 until variables.size) {
                                     val valueID = columns[variableIndex]!!.next()
                                     if (valueID == null) {
+for (closeIndex in 0 until columns.size) {
+columns[closeIndex]!!.close()
+}
                                         break@loop
                                     }
                                 }

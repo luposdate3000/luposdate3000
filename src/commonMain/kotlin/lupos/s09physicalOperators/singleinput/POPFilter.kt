@@ -70,6 +70,9 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                             //point each iterator to the current value
                             if (columnsLocal[variableIndex2].tmp == null) {
+for (closeIndex in 0 until columnsIn.size) {
+columnsIn[closeIndex]!!.close()
+}
                                 SanityCheck.check { variableIndex2 == 0 }
                                 for (variableIndex3 in 0 until variables.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
@@ -100,6 +103,9 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             //point each iterator to the current value
                             if (columnsLocal[variableIndex2].tmp == null) {
                                 SanityCheck.check { variableIndex2 == 0 }
+for (closeIndex in 0 until columnsIn.size) {
+columnsIn[closeIndex]!!.close()
+}
                                 for (variableIndex3 in 0 until variables.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }

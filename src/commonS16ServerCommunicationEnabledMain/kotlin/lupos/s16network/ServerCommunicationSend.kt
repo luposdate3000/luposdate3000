@@ -169,6 +169,9 @@ object ServerCommunicationSend {
             for (i in 0 until 3) {
                 val v = data[i].next()
                 if (v == null) {
+for (closeIndex in 0 until data.size) {
+data[closeIndex].close()
+}
                     require(i == 0)
                     break@loop
                 } else {

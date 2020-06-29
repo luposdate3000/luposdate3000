@@ -216,6 +216,9 @@ class POPGroup : POPBase {
                         val value = valueColumns[columnIndex].next()
                         if (value == null) {
                             SanityCheck.check { columnIndex == 0 }
+for (closeIndex in 0 until valueColumnNames.size) {
+valueColumns[closeIndex].close()
+}
                             break@loop2
                         }
                         localRow.columns[columnIndex].tmp = value
@@ -263,6 +266,9 @@ class POPGroup : POPBase {
                 for (columnIndex in 0 until keyColumnNames.size) {
                     val value = keyColumns[columnIndex].next()
                     if (value == null) {
+for (closeIndex in 0 until keyColumns.size) {
+keyColumns[closeIndex].close()
+}
                         SanityCheck.check { columnIndex == 0 }
                         emptyResult = true
                         break
@@ -317,6 +323,9 @@ class POPGroup : POPBase {
                                 for (columnIndex in 0 until keyColumnNames.size) {
                                     val value = keyColumns[columnIndex].next()
                                     if (value == null) {
+for (closeIndex in 0 until keyColumns.size) {
+keyColumns[closeIndex].close()
+}
                                         SanityCheck.check { columnIndex == 0 }
                                         for (columnIndex in 0 until keyColumnNames.size) {
                                             if (projectedVariables.contains(keyColumnNames[columnIndex])) {
@@ -389,6 +398,9 @@ class POPGroup : POPBase {
                     for (columnIndex in 0 until keyColumnNames.size) {
                         val value = keyColumns[columnIndex].next()
                         if (value == null) {
+for (closeIndex in 0 until keyColumns.size) {
+keyColumns[closeIndex].close()
+}
                             SanityCheck.check { columnIndex == 0 }
                             break@loop
                         }
