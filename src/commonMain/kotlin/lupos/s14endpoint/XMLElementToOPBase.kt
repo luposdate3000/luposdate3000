@@ -1,9 +1,10 @@
 package lupos.s14endpoint
-
+import lupos.s00misc.ESortType
+import lupos.s00misc.SortHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.UnknownOperatorTypeInXML
+import lupos.s00misc.UnknownOperatorTypeInXMLException
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
@@ -134,6 +135,7 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
 }
 
 fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
+    var res: OPBase
     when (node.tag) {
         "OPBaseCompound" -> {
             var childs = mutableListOf<OPBase>()
@@ -149,211 +151,211 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                     list.add(b.content)
                 }
             }
-            return OPBaseCompound(query, childs.toTypedArray(), cpos)
+            res = OPBaseCompound(query, childs.toTypedArray(), cpos)
         }
         "OPNothing" -> {
             var list = mutableListOf<String>()
             for (c in node.childs) {
                 list.add(c.content)
             }
-            return OPNothing(query, list)
+            res = OPNothing(query, list)
         }
         "LOPSubGroup" -> {
-            return LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = LOPSubGroup(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "ValueDateTime" -> {
-            return AOPConstant(query, ValueDateTime(node.attributes["value"]!!))
+            res = AOPConstant(query, ValueDateTime(node.attributes["value"]!!))
         }
         "AOPNot" -> {
-            return AOPNot(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPNot(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPAddition" -> {
-            return AOPAddition(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPAddition(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPSubtraction" -> {
-            return AOPSubtraction(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPSubtraction(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPGEQ" -> {
-            return AOPGEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPGEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPLEQ" -> {
-            return AOPLEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPLEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPSet" -> {
             val children = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 children.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPSet(query, children)
+            res = AOPSet(query, children)
         }
         "AOPBuildInCallCOALESCE" -> {
             val children = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 children.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPBuildInCallCOALESCE(query, children)
+            res = AOPBuildInCallCOALESCE(query, children)
         }
         "AOPBuildInCallCONTAINS" -> {
-            return AOPBuildInCallCONTAINS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallCONTAINS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallDAY" -> {
-            return AOPBuildInCallDAY(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallDAY(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPFunctionCallFloat" -> {
-            return AOPFunctionCallFloat(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPFunctionCallFloat(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPFunctionCallDouble" -> {
-            return AOPFunctionCallDouble(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPFunctionCallDouble(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPFunctionCallString" -> {
-            return AOPFunctionCallString(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPFunctionCallString(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallFLOOR" -> {
-            return AOPBuildInCallFLOOR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallFLOOR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallCEIL" -> {
-            return AOPBuildInCallCEIL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallCEIL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallExists" -> {
-            return AOPBuildInCallExists(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = AOPBuildInCallExists(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "AOPBuildInCallNotExists" -> {
-            return AOPBuildInCallNotExists(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = AOPBuildInCallNotExists(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "AOPBuildInCallABS" -> {
-            return AOPBuildInCallABS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallABS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallIsIri" -> {
-            return AOPBuildInCallIsIri(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallIsIri(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallROUND" -> {
-            return AOPBuildInCallROUND(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallROUND(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallBOUND" -> {
-            return AOPBuildInCallBOUND(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallBOUND(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallHOURS" -> {
-            return AOPBuildInCallHOURS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallHOURS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallIF" -> {
-            return AOPBuildInCallIF(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase)
+            res = AOPBuildInCallIF(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase)
         }
         "AOPBuildInCallLANGMATCHES" -> {
-            return AOPBuildInCallLANGMATCHES(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallLANGMATCHES(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallMD5" -> {
-            return AOPBuildInCallMD5(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallMD5(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallSTRLEN" -> {
-            return AOPBuildInCallSTRLEN(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallSTRLEN(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallMINUTES" -> {
-            return AOPBuildInCallMINUTES(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallMINUTES(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallMONTH" -> {
-            return AOPBuildInCallMONTH(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallMONTH(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallSHA1" -> {
-            return AOPBuildInCallSHA1(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallSHA1(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallSHA256" -> {
-            return AOPBuildInCallSHA256(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallSHA256(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallYEAR" -> {
-            return AOPBuildInCallYEAR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallYEAR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPEQ" -> {
-            return AOPEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "ValueUndef" -> {
-            return AOPConstant(query, ValueUndef())
+            res = AOPConstant(query, ValueUndef())
         }
         "ValueBnode" -> {
-            return AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
+            res = AOPConstant(query, node.attributes["dictvalue"]!!.toInt())
         }
         "AOPVariable" -> {
-            return AOPVariable(query, node.attributes["name"]!!)
+            res = AOPVariable(query, node.attributes["name"]!!)
         }
         "AOPBuildInCallIRI" -> {
-            return AOPBuildInCallIRI(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, node.attributes["prefix"]!!)
+            res = AOPBuildInCallIRI(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, node.attributes["prefix"]!!)
         }
         "AOPBuildInCallDATATYPE" -> {
-            return AOPBuildInCallDATATYPE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallDATATYPE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallTIMEZONE" -> {
-            return AOPBuildInCallTIMEZONE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallTIMEZONE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallUCASE" -> {
-            return AOPBuildInCallUCASE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallUCASE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallLCASE" -> {
-            return AOPBuildInCallLCASE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallLCASE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallLANG" -> {
-            return AOPBuildInCallLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPDivision" -> {
-            return AOPDivision(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPDivision(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "ValueInteger" -> {
-            return AOPConstant(query, ValueInteger(node.attributes["value"]!!.toInt()))
+            res = AOPConstant(query, ValueInteger(node.attributes["value"]!!.toInt()))
         }
         "ValueDecimal" -> {
-            return AOPConstant(query, ValueDecimal(node.attributes["value"]!!.toDouble()))
+            res = AOPConstant(query, ValueDecimal(node.attributes["value"]!!.toDouble()))
         }
         "ValueFloat" -> {
-            return AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
+            res = AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
         }
         "ValueDouble" -> {
-            return AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))
+            res = AOPConstant(query, ValueDouble(node.attributes["value"]!!.toDouble()))
         }
         "AOPMultiplication" -> {
-            return AOPMultiplication(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPMultiplication(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "ValueSimpleLiteral" -> {
-            return AOPConstant(query, ValueSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!))
+            res = AOPConstant(query, ValueSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!))
         }
         "ValueTypedLiteral" -> {
-            return AOPConstant(query, ValueTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
+            res = AOPConstant(query, ValueTypedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["type_iri"]!!))
         }
         "ValueLanguageTaggedLiteral" -> {
-            return AOPConstant(query, ValueLanguageTaggedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!))
+            res = AOPConstant(query, ValueLanguageTaggedLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!, node.attributes["language"]!!))
         }
         "ValueBoolean" -> {
-            return AOPConstant(query, ValueBoolean(node.attributes["value"]!!.toBoolean()))
+            res = AOPConstant(query, ValueBoolean(node.attributes["value"]!!.toBoolean()))
         }
         "AOPBuildInCallSTRDT" -> {
-            return AOPBuildInCallSTRDT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallSTRDT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallSTRLANG" -> {
-            return AOPBuildInCallSTRLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallSTRLANG(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallSTRAFTER" -> {
-            return AOPBuildInCallSTRAFTER(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallSTRAFTER(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallSTRBEFORE" -> {
-            return AOPBuildInCallSTRBEFORE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallSTRBEFORE(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallBNODE0" -> {
-            return AOPBuildInCallBNODE0(query)
+            res = AOPBuildInCallBNODE0(query)
         }
         "AOPBuildInCallSTR" -> {
-            return AOPBuildInCallSTR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallSTR(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallIsLITERAL" -> {
-            return AOPBuildInCallIsLITERAL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallIsLITERAL(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "ValueIri" -> {
-            return AOPConstant(query, ValueIri(node.attributes["value"]!!))
+            res = AOPConstant(query, ValueIri(node.attributes["value"]!!))
         }
         "AOPBuildInCallSTRENDS" -> {
-            return AOPBuildInCallSTRENDS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallSTRENDS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallSTRSTARTS" -> {
-            return AOPBuildInCallSTRSTARTS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallSTRSTARTS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallCONCAT" -> {
-            return AOPBuildInCallCONCAT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPBuildInCallCONCAT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPAggregationCOUNT" -> {
             val childs = mutableListOf<AOPBase>()
@@ -362,85 +364,85 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                     childs.add(convertToOPBase(query, c, mapping) as AOPBase)
                 }
             }
-            return AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            res = AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationSAMPLE" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            res = AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPConstant" -> {
-            return convertToOPBase(query, node["value"]!!.childs.first(), mapping)
+            res = convertToOPBase(query, node["value"]!!.childs.first(), mapping)
         }
         "AOPAggregationAVG" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            res = AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationSUM" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            res = AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationMIN" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            res = AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPAggregationMAX" -> {
             val childs = mutableListOf<AOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping) as AOPBase)
             }
-            return AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+            res = AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPGT" -> {
-            return AOPGT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPGT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPIn" -> {
-            return AOPIn(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPIn(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPNotIn" -> {
-            return AOPNotIn(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPNotIn(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPOr" -> {
-            return AOPOr(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPOr(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPLT" -> {
-            return AOPLT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPLT(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPNEQ" -> {
-            return AOPNEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPNEQ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPAnd" -> {
-            return AOPAnd(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
+            res = AOPAnd(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "AOPBuildInCallTZ" -> {
-            return AOPBuildInCallTZ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+            res = AOPBuildInCallTZ(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "POPSort" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val xmlby = node["by"]!!
             val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
-            return POPSort(query, createProjectedVariables(query, node, mapping), sortBy, node.attributes["order"] == "ASC", child)
+            res = POPSort(query, createProjectedVariables(query, node, mapping), sortBy, node.attributes["order"] == "ASC", child)
         }
         "POPProjection" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
-            return POPProjection(query, createProjectedVariables(query, node, mapping), child)
+            res = POPProjection(query, createProjectedVariables(query, node, mapping), child)
         }
         "LOPMakeBooleanResult" -> {
-            return LOPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = LOPMakeBooleanResult(query, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMakeBooleanResult" -> {
-            return POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
@@ -452,30 +454,28 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             node["bindings"]!!.childs.forEach {
                 bindings = POPBind(query, listOf<String>(), createAOPVariable(query, mapping, it.attributes["name"]!!), convertToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
             }
-            var res: OPBase
             if (bindings is POPEmptyRow) {
                 res = POPGroup(query, createProjectedVariables(query, node, mapping), by, null, child)
             } else {
                 res = POPGroup(query, createProjectedVariables(query, node, mapping), by, bindings as POPBind, child)
             }
-            return res
         }
         "POPFilter" -> {
-            return POPFilter(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPFilter(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPBind" -> {
             val child0 = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val child1 = convertToOPBase(query, node["children"]!!.childs[1], mapping)
-            return POPBind(query, createProjectedVariables(query, node, mapping), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
+            res = POPBind(query, createProjectedVariables(query, node, mapping), createAOPVariable(query, mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
         }
         "POPOffset" -> {
-            return POPOffset(query, createProjectedVariables(query, node, mapping), node.attributes["offset"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPOffset(query, createProjectedVariables(query, node, mapping), node.attributes["offset"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPLimit" -> {
-            return POPLimit(query, createProjectedVariables(query, node, mapping), node.attributes["limit"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPLimit(query, createProjectedVariables(query, node, mapping), node.attributes["limit"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPReduced" -> {
-            return POPReduced(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPReduced(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPValues" -> {
             val rows = node.attributes["rows"]!!.toInt()
@@ -492,58 +492,74 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
                     }
                     vals.add(exp.toList())
                 }
-                return POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
+                res = POPValues(query, createProjectedVariables(query, node, mapping), vars, vals)
             } else {
-                return POPValues(query, rows)
+                res = POPValues(query, rows)
             }
 /*Coverage Unreachable*/
         }
         "POPEmptyRow" -> {
-            return POPEmptyRow(query, createProjectedVariables(query, node, mapping))
+            res = POPEmptyRow(query, createProjectedVariables(query, node, mapping))
         }
         "POPUnion" -> {
-            return POPUnion(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
+            res = POPUnion(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
         }
         "POPMinus" -> {
-            return POPMinus(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
+            res = POPMinus(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping))
         }
         "POPJoinHashMap" -> {
-            return POPJoinHashMap(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+            res = POPJoinHashMap(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinCartesianProduct" -> {
-            return POPJoinCartesianProduct(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+            res = POPJoinCartesianProduct(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinMerge" -> {
-            return POPJoinMerge(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+            res = POPJoinMerge(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinMergeOptional" -> {
-            return POPJoinMergeOptional(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+            res = POPJoinMergeOptional(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinMergeSingleColumn" -> {
-            return POPJoinMergeSingleColumn(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
+            res = POPJoinMergeSingleColumn(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinWithStore" -> {
-            return POPJoinWithStore(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
+            res = POPJoinWithStore(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
         }
         "POPJoinWithStoreExists" -> {
-            return POPJoinWithStoreExists(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
+            res = POPJoinWithStoreExists(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
         }
         "TripleStoreIteratorGlobal" -> {
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
             val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
-            return DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx)
+            res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx)
         }
         "POPServiceIRI" -> {
-            return POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "LOPTriple" -> {
-            return LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
+            res = LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())
         }
         else -> {
-            throw UnknownOperatorTypeInXML(node.tag)
+            throw UnknownOperatorTypeInXMLException(node.tag)
         }
     }
-/*Coverage Unreachable*/
+    if (res !is AOPBase) {
+        val tmp = node.attributes["selectedSort"]
+        if (tmp != null && tmp.length > 2) {
+            val tmp6 = tmp.substring(1, tmp.length - 1)
+	val tmp2=tmp6.split(", ")
+            val tmp3 = mutableListOf<SortHelper>()
+            for (tmp4 in tmp2) {
+                val tmp5 = tmp4.split('.')
+                if (tmp5.size != 2) {
+                    throw Exception("XML not parseable")
+                }
+                tmp3.add(SortHelper(tmp5[0],ESortType.valueOf(tmp5[1])))
+            }
+            res.mySortPriority = tmp3
+        }
+    }
+    return res
 }

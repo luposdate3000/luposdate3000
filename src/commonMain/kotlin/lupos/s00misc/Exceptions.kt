@@ -52,7 +52,7 @@ class CanNotCastDateTimeToIntException() : EvaluationException("CanNotCastDateTi
 class CanNotCastDateTimeToBooleanException() : EvaluationException("CanNotCastDateTimeToBooleanException", "Can not cast DateTime to Boolean.")
 class CanNotCastLiteralToDoubleException() : EvaluationException("CanNotCastLiteralToDoubleException", "Can not cast Literal to Double.")
 class CanNotCastLiteralToIntException() : EvaluationException("CanNotCastLiteralToIntException", "Can not cast Literal to Int.")
-class UnknownOperatorTypeInXML(type: String) : EvaluationException("UnknownOperatorTypeInXML", "Unknown type '$type' during parsing xml file.")
+class UnknownOperatorTypeInXMLException(type: String) : EvaluationException("UnknownOperatorTypeInXMLException", "Unknown type '$type' during parsing xml file.")
 class UnknownDataFile(filename: String) : EvaluationException("UnknownDataFile", "Unknown filetype '$filename' during parsing to xml.")
 class EnpointRecievedInvalidPath(path: String) : EvaluationException("EnpointRecievedInvalidPath", "There was a not recognized request with path '$path'.")
 class ResourceNotFoundException(resourceName: String) : EvaluationException("ResourceNotFoundException", "File '$resourceName' not found.")

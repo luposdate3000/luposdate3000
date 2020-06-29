@@ -192,6 +192,7 @@ class POPGroup : POPBase {
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
         if (keyColumnNames.size == 0) {
+println("group mode a")
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
             for (columnIndex in 0 until valueColumnNames.size) {
@@ -248,6 +249,7 @@ valueColumns[closeIndex].close()
                 }
             }
             if (canUseSortedInput) {
+println("group mode b")
                 val output = Array(keyColumnNames.size + bindings.size) { ColumnIteratorQueue() }
                 for (columnIndex in 0 until keyColumnNames.size) {
                     if (projectedVariables.contains(keyColumnNames[columnIndex])) {
@@ -315,6 +317,15 @@ valueColumns[closeIndex].close()
                     }
                     //first row <-
                     for (outIndex in 0 until output.size) {
+output[outIndex].close={
+output[outIndex]._close()
+for (closeIndex in 0 until keyColumns.size) {
+keyColumns[closeIndex].close()
+}
+for (closeIndex in 0 until valueColumns.size) {
+valueColumns[closeIndex].close()
+}
+}
                         output[outIndex].onEmptyQueue = {
                             var changedKey = false
                             loop@ while (true) {
@@ -328,6 +339,9 @@ valueColumns[closeIndex].close()
                                     if (value == null) {
 for (closeIndex in 0 until keyColumns.size) {
 keyColumns[closeIndex].close()
+}
+for (closeIndex in 0 until valueColumns.size) {
+valueColumns[closeIndex].close()
 }
                                         SanityCheck.check { columnIndex == 0 }
                                         for (columnIndex in 0 until keyColumnNames.size) {
@@ -395,6 +409,7 @@ keyColumns[closeIndex].close()
                     }
                 }
             } else {
+println("group mode c")
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
                     val currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
