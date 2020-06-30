@@ -66,6 +66,7 @@ try{
             } else {
                 res.hasNext = {
                     var res2 = false
+try{
                     var done = false
                     while (!done) {
                         for (variableIndex2 in 0 until variables.size) {
@@ -91,6 +92,13 @@ try{
                             }
                         }
                     }
+}catch(e:NotImplementedException){
+println("filter caught notimplemented and closed its childs")
+for((k,v) in child.columns){
+v.close()
+}
+throw e
+}
 /*return*/res2
                 }
             }
@@ -98,6 +106,7 @@ try{
             res = IteratorBundle(outMap)
             for (variableIndex in 0 until variables.size) {
                 columnsLocal[variableIndex].onEmptyQueue = {
+try{
                     var done = false
                     while (!done) {
                         for (variableIndex2 in 0 until variables.size) {
@@ -126,10 +135,18 @@ try{
                             }
                         }
                     }
+}catch(e:NotImplementedException){
+println("filter caught notimplemented and closed its childs")
+for((k,v) in child.columns){
+v.close()
+}
+throw e
+}
                 }
             }
         }
 }catch(e:NotImplementedException){
+println("filter caught notimplemented and closed its childs")
 for((k,v) in child.columns){
 v.close()
 }
