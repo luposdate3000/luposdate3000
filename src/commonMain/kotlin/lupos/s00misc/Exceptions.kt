@@ -29,8 +29,8 @@ class AggregateNotAllowedSyntaxException : SyntaxException("AggregateNotAllowedS
 class VariableNotDefinedSyntaxException(classname: String, name: String) : SyntaxException("VariableNotDefinedSyntaxException", "Variable '$name' unknown within '$classname'.")
 class GroupByClauseNotUsedException() : SyntaxException("GroupByClauseNotUsedException", "expression within group-by-clauses must be bound to a variable.")
 class GroupByColumnMissing(name: String) : SyntaxException("GroupByColumnMissing", "Group By requires the column '$name', which does not exist within this GroupBy-Clause.")
-class GroupByDuplicateColumnException():SyntaxException("GroupByDuplicateColumnException","no duplicate columns allowed in group-by.")
-class XMLNotParseableException():SyntaxException("XMLNotParseableException","Xml is not parseable.")
+class GroupByDuplicateColumnException() : SyntaxException("GroupByDuplicateColumnException", "no duplicate columns allowed in group-by.")
+class XMLNotParseableException() : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
 
 //evaluation exceptions --->>>
 abstract class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
@@ -64,7 +64,7 @@ class GraphNameNotFoundException(name: String) : EvaluationException("GraphNameN
 class CommuncationUnexpectedHeaderException(header: String) : EvaluationException("CommuncationUnexpectedHeaderException", "Unexpected Message with header '$header' received.")
 class UnreachableException : EvaluationException("UnreachableException", "This should be unreachable.")
 class CommunicationConnectionClosedException : EvaluationException("CommunicationConnectionClosedException", "Communication channel unexpectedly closed.")
-class EmptyResultException:EvaluationException("EmptyResultException","")
+class EmptyResultException : EvaluationException("EmptyResultException", "")
 
 //known bugs --->>>
 class BugException(classname: String, bugname: String) : Luposdate3000Exception("BugException", "Class '$classname' has bug '$bugname'.")

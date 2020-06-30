@@ -82,11 +82,11 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                                 for (variableIndex3 in 0 until variablesLocal.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }
-for (closeIndex in 0 until variablesLocal.size) {
-if (boundIndex != closeIndex) {
-columnsIn[closeIndex]!!.close()
-}
-}
+                                for (closeIndex in 0 until variablesLocal.size) {
+                                    if (boundIndex != closeIndex) {
+                                        columnsIn[closeIndex]!!.close()
+                                    }
+                                }
                                 done = true
                                 break
                             }

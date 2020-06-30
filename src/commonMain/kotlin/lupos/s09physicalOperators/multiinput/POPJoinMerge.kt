@@ -32,6 +32,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     override suspend fun evaluate(): IteratorBundle {
         SanityCheck.check { !optional }
 //setup columns
+println("$uuid open $classname")
         val child = Array(2) { children[it].evaluate() }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
@@ -84,17 +85,30 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (done) {
-for(closeIndex2 in 0 until 2){
-for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-columnsINJ[closeIndex2][closeIndex].close()
-}
-for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-columnsINO[closeIndex2][closeIndex].close()
-}
-}
-}else{
+println("$uuid close $classname")
+            for (closeIndex2 in 0 until 2) {
+                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                    columnsINJ[closeIndex2][closeIndex].close()
+                }
+                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                    columnsINO[closeIndex2][closeIndex].close()
+                }
+            }
+        } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iterator in outIterators) {
+                iterator.close = {
+                    iterator._close()
+println("$uuid close $classname")
+                    for (closeIndex2 in 0 until 2) {
+                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                            columnsINJ[closeIndex2][closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                            columnsINO[closeIndex2][closeIndex].close()
+                        }
+                    }
+                }
                 iterator.onNoMoreElements = {
                     //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
                     for (i in 0 until columnsINJ[0].size) {
@@ -108,14 +122,15 @@ columnsINO[closeIndex2][closeIndex].close()
                         for (iterator2 in outIterators) {
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
-for(closeIndex2 in 0 until 2){
-for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-columnsINJ[closeIndex2][closeIndex].close()
-}
-for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-columnsINO[closeIndex2][closeIndex].close()
-}
-}
+println("$uuid close $classname")
+                        for (closeIndex2 in 0 until 2) {
+                            for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                columnsINJ[closeIndex2][closeIndex].close()
+                            }
+                            for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                columnsINO[closeIndex2][closeIndex].close()
+                            }
+                        }
                     }
 //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
@@ -128,17 +143,18 @@ columnsINO[closeIndex2][closeIndex].close()
         if (emptyColumnsWithJoin) {
             res = IteratorBundle(0)
             res.hasNext = {
-                val tmp= columnsOUTJ[0].next() != null
-if(!tmp){
-for(closeIndex2 in 0 until 2){
-for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-columnsINJ[closeIndex2][closeIndex].close()
-}
-for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-columnsINO[closeIndex2][closeIndex].close()
-}
-}
-}
+                val tmp = columnsOUTJ[0].next() != null
+                if (!tmp) {
+println("$uuid close $classname")
+                    for (closeIndex2 in 0 until 2) {
+                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                            columnsINJ[closeIndex2][closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                            columnsINO[closeIndex2][closeIndex].close()
+                        }
+                    }
+                }
 /*return*/tmp
             }
         } else {

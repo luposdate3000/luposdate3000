@@ -75,9 +75,9 @@ object ServerCommunicationTransferTriples {
                         val v = it.next()
                         if (v == null) {
                             require(i == 0)
-for (closeIndex in 0 until iterators.size) {
-iterators[closeIndex].close()
-}
+                            for (closeIndex in 0 until iterators.size) {
+                                iterators[closeIndex].close()
+                            }
                             break@loop
                         } else {
                             builder.writeInt(v)

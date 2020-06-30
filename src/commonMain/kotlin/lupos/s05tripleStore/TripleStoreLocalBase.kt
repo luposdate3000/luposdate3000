@@ -186,9 +186,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 val v = dataModify[columnIndex].next()
                 if (v == null) {
                     SanityCheck.check { columnIndex == 0 }
-for (closeIndex in 0 until dataModify.size) {
-dataModify[closeIndex].close()
-}
+                    for (closeIndex in 0 until dataModify.size) {
+                        dataModify[closeIndex].close()
+                    }
                     break@loop
                 } else {
                     tmp.add(query.dictionary.valueToGlobal(v))

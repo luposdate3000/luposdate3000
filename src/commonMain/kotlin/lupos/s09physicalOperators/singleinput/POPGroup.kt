@@ -5,9 +5,9 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
+import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
-import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -193,7 +193,7 @@ class POPGroup : POPBase {
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
         if (keyColumnNames.size == 0) {
-println("group mode a")
+            println("group mode a")
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
             for (columnIndex in 0 until valueColumnNames.size) {
@@ -218,9 +218,9 @@ println("group mode a")
                         val value = valueColumns[columnIndex].next()
                         if (value == null) {
                             SanityCheck.check { columnIndex == 0 }
-for (closeIndex in 0 until valueColumnNames.size) {
-valueColumns[closeIndex].close()
-}
+                            for (closeIndex in 0 until valueColumnNames.size) {
+                                valueColumns[closeIndex].close()
+                            }
                             break@loop2
                         }
                         localRow.columns[columnIndex].tmp = value
@@ -250,7 +250,7 @@ valueColumns[closeIndex].close()
                 }
             }
             if (canUseSortedInput) {
-println("group mode b")
+                println("group mode b")
                 val output = Array(keyColumnNames.size + bindings.size) { ColumnIteratorQueue() }
                 for (columnIndex in 0 until keyColumnNames.size) {
                     if (projectedVariables.contains(keyColumnNames[columnIndex])) {
@@ -269,12 +269,12 @@ println("group mode b")
                 for (columnIndex in 0 until keyColumnNames.size) {
                     val value = keyColumns[columnIndex].next()
                     if (value == null) {
-for (closeIndex in 0 until keyColumns.size) {
-keyColumns[closeIndex].close()
-}
-for (closeIndex in 0 until valueColumns.size) {
-valueColumns[closeIndex].close()
-}
+                        for (closeIndex in 0 until keyColumns.size) {
+                            keyColumns[closeIndex].close()
+                        }
+                        for (closeIndex in 0 until valueColumns.size) {
+                            valueColumns[closeIndex].close()
+                        }
                         SanityCheck.check { columnIndex == 0 }
                         emptyResult = true
                         break
@@ -318,15 +318,15 @@ valueColumns[closeIndex].close()
                     }
                     //first row <-
                     for (outIndex in 0 until output.size) {
-output[outIndex].close={
-output[outIndex]._close()
-for (closeIndex in 0 until keyColumns.size) {
-keyColumns[closeIndex].close()
-}
-for (closeIndex in 0 until valueColumns.size) {
-valueColumns[closeIndex].close()
-}
-}
+                        output[outIndex].close = {
+                            output[outIndex]._close()
+                            for (closeIndex in 0 until keyColumns.size) {
+                                keyColumns[closeIndex].close()
+                            }
+                            for (closeIndex in 0 until valueColumns.size) {
+                                valueColumns[closeIndex].close()
+                            }
+                        }
                         output[outIndex].onEmptyQueue = {
                             var changedKey = false
                             loop@ while (true) {
@@ -338,12 +338,12 @@ valueColumns[closeIndex].close()
                                 for (columnIndex in 0 until keyColumnNames.size) {
                                     val value = keyColumns[columnIndex].next()
                                     if (value == null) {
-for (closeIndex in 0 until keyColumns.size) {
-keyColumns[closeIndex].close()
-}
-for (closeIndex in 0 until valueColumns.size) {
-valueColumns[closeIndex].close()
-}
+                                        for (closeIndex in 0 until keyColumns.size) {
+                                            keyColumns[closeIndex].close()
+                                        }
+                                        for (closeIndex in 0 until valueColumns.size) {
+                                            valueColumns[closeIndex].close()
+                                        }
                                         SanityCheck.check { columnIndex == 0 }
                                         for (columnIndex in 0 until keyColumnNames.size) {
                                             if (projectedVariables.contains(keyColumnNames[columnIndex])) {
@@ -410,19 +410,19 @@ valueColumns[closeIndex].close()
                     }
                 }
             } else {
-println("group mode c")
+                println("group mode c")
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
                     val currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
                     for (columnIndex in 0 until keyColumnNames.size) {
                         val value = keyColumns[columnIndex].next()
                         if (value == null) {
-for (closeIndex in 0 until keyColumns.size) {
-keyColumns[closeIndex].close()
-}
-for (closeIndex in 0 until valueColumns.size) {
-valueColumns[closeIndex].close()
-}
+                            for (closeIndex in 0 until keyColumns.size) {
+                                keyColumns[closeIndex].close()
+                            }
+                            for (closeIndex in 0 until valueColumns.size) {
+                                valueColumns[closeIndex].close()
+                            }
                             SanityCheck.check { columnIndex == 0 }
                             break@loop
                         }

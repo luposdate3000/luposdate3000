@@ -1,12 +1,13 @@
 package lupos.s14endpoint
-import lupos.s00misc.ESortType
-import lupos.s00misc.XMLNotParseableException
-import lupos.s00misc.SortHelper
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ESortType
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.SortHelper
 import lupos.s00misc.UnknownOperatorTypeInXMLException
 import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLNotParseableException
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
@@ -550,14 +551,14 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         val tmp = node.attributes["selectedSort"]
         if (tmp != null && tmp.length > 2) {
             val tmp6 = tmp.substring(1, tmp.length - 1)
-	val tmp2=tmp6.split(", ")
+            val tmp2 = tmp6.split(", ")
             val tmp3 = mutableListOf<SortHelper>()
             for (tmp4 in tmp2) {
                 val tmp5 = tmp4.split('.')
                 if (tmp5.size != 2) {
                     throw XMLNotParseableException()
                 }
-                tmp3.add(SortHelper(tmp5[0],ESortType.valueOf(tmp5[1])))
+                tmp3.add(SortHelper(tmp5[0], ESortType.valueOf(tmp5[1])))
             }
             res.mySortPriority = tmp3
         }

@@ -31,6 +31,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         SanityCheck.check { children[0].getProvidedVariableNames()[0] == projectedVariables[0] }
         SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
         SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
+println("$uuid open $classname")
         val child = Array(2) { children[it].evaluate().columns[projectedVariables[0]]!! }
         val head = Array(2) { child[it].next() }
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -40,6 +41,12 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
             val count = IntArray(2) { 0 }
             var counter = 0
             var value: Value? = head[0]
+            iterator.close = {
+                iterator._close()
+println("$uuid close $classname")
+                child[0].close()
+                child[1].close()
+            }
             iterator.next = {
                 if (counter == 0) {
                     var done = false
@@ -52,8 +59,6 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                 head[i] = child[i].next()
                                 if (head[i] == null) {
                                     iterator.close()
-child[0].close()
-child[1].close()
                                     value = null
                                     done = true
                                     break@loop
@@ -74,14 +79,10 @@ child[1].close()
                         if (head[0] == null || head[1] == null) {
                             if (counter == 0) {
                                 iterator.close()
-child[0].close()
-child[1].close()
                             } else {
                                 iterator.next = {
                                     if (counter == 0) {
                                         iterator.close()
-child[0].close()
-child[1].close()
                                         value = null
                                     } else {
                                         counter--
@@ -95,6 +96,10 @@ child[1].close()
                 counter--
                 /*return*/ value
             }
+        } else {
+println("$uuid close $classname")
+            child[0].close()
+            child[1].close()
         }
         return IteratorBundle(outMap)
     }

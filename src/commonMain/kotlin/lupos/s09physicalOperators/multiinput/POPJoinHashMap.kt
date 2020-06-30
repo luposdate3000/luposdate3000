@@ -58,7 +58,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size != 0)
+println("$uuid open A $classname")
         val childA = children[0].evaluate()
+println("$uuid open B $classname")
         val childB = children[1].evaluate()
         val columnsINAO = mutableListOf<ColumnIterator>()//only in childA
         val columnsINBO = mutableListOf<ColumnIterator>()//only in childB
@@ -164,24 +166,26 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             currentKey = nextKey
             map = nextMap
         }
-for (closeIndex in 0 until columnsINBJ.size) {
-columnsINBJ[closeIndex].close()
-}
-for (closeIndex in 0 until columnsINBO.size) {
-columnsINBO[closeIndex].close()
-}
+println("$uuid close B $classname")
+        for (closeIndex in 0 until columnsINBJ.size) {
+            columnsINBJ[closeIndex].close()
+        }
+        for (closeIndex in 0 until columnsINBO.size) {
+            columnsINBO[closeIndex].close()
+        }
 //--- iterate first child
 //--- calculate next "cartesian product"
         for (iterator in outIterators) {
 //this is just function pointer assignment. this loop does not calculate anything
             iterator.close = {
                 iterator._close()
-for (closeIndex in 0 until columnsINAJ.size) {
-columnsINAJ[closeIndex].close()
-}
-for (closeIndex in 0 until columnsINAO.size) {
-columnsINAO[closeIndex].close()
-}
+println("$uuid close A $classname")
+                for (closeIndex in 0 until columnsINAJ.size) {
+                    columnsINAJ[closeIndex].close()
+                }
+                for (closeIndex in 0 until columnsINAO.size) {
+                    columnsINAO[closeIndex].close()
+                }
             }
             iterator.onNoMoreElements = {
                 var done = false

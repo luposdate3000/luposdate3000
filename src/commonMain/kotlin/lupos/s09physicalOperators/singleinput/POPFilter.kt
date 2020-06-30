@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.NotImplementedException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
@@ -34,6 +35,8 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
+        var res: IteratorBundle?=null
+try{
         val columnsIn = Array(variables.size) { child.columns[variables[it]] }
         val columnsLocal = Array(variables.size) { ColumnIteratorQueue() }
         for (variableIndex in 0 until variables.size) {
@@ -42,7 +45,6 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             }
             localMap[variables[variableIndex]] = columnsLocal[variableIndex]
         }
-        val res: IteratorBundle
         val resLocal: IteratorBundle
         if (localMap.size > 0) {
             resLocal = IteratorBundle(localMap)
@@ -70,9 +72,9 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                             //point each iterator to the current value
                             if (columnsLocal[variableIndex2].tmp == null) {
-for (closeIndex in 0 until columnsIn.size) {
-columnsIn[closeIndex]!!.close()
-}
+                                for (closeIndex in 0 until columnsIn.size) {
+                                    columnsIn[closeIndex]!!.close()
+                                }
                                 SanityCheck.check { variableIndex2 == 0 }
                                 for (variableIndex3 in 0 until variables.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
@@ -103,9 +105,9 @@ columnsIn[closeIndex]!!.close()
                             //point each iterator to the current value
                             if (columnsLocal[variableIndex2].tmp == null) {
                                 SanityCheck.check { variableIndex2 == 0 }
-for (closeIndex in 0 until columnsIn.size) {
-columnsIn[closeIndex]!!.close()
-}
+                                for (closeIndex in 0 until columnsIn.size) {
+                                    columnsIn[closeIndex]!!.close()
+                                }
                                 for (variableIndex3 in 0 until variables.size) {
                                     columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
                                 }
@@ -127,6 +129,12 @@ columnsIn[closeIndex]!!.close()
                 }
             }
         }
-        return res
+}catch(e:NotImplementedException){
+for((k,v) in child.columns){
+v.close()
+}
+throw e
+}
+        return res!!
     }
 }

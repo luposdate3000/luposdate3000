@@ -150,9 +150,9 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                 }
             }
         }
-for ((n,closeIndex) in child.columns) {
-closeIndex.close()
-}
+        for ((n, closeIndex) in child.columns) {
+            closeIndex.close()
+        }
         for ((graphName, iterator) in data) {
             val store = DistributedTripleStore.getNamedGraph(query, graphName)
             for (type in EModifyType.values()) {

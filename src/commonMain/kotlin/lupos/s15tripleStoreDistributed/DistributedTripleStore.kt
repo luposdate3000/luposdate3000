@@ -95,9 +95,9 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
                 if (v == null) {
-for (closeIndex in 0 until data.size) {
-data[closeIndex].close()
-}
+                    for (closeIndex in 0 until data.size) {
+                        data[closeIndex].close()
+                    }
                     SanityCheck.check { columnIndex == 0 }
                     break@loop
                 }

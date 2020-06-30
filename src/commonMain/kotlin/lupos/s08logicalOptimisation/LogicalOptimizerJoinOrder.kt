@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.EmptyResultException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -11,7 +12,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s00misc.EmptyResultException
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname = "LogicalOptimizerJoinOrder"
