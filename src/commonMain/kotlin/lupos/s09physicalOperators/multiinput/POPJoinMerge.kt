@@ -83,7 +83,16 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
-        if (!done) {
+        if (done) {
+for(closeIndex2 in 0 until 2){
+for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+columnsINJ[closeIndex2][closeIndex].close()
+}
+for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+columnsINO[closeIndex2][closeIndex].close()
+}
+}
+}else{
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iterator in outIterators) {
                 iterator.onNoMoreElements = {
@@ -119,7 +128,18 @@ columnsINO[closeIndex2][closeIndex].close()
         if (emptyColumnsWithJoin) {
             res = IteratorBundle(0)
             res.hasNext = {
-                /*return*/columnsOUTJ[0].next() != null
+                val tmp= columnsOUTJ[0].next() != null
+if(!tmp){
+for(closeIndex2 in 0 until 2){
+for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+columnsINJ[closeIndex2][closeIndex].close()
+}
+for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+columnsINO[closeIndex2][closeIndex].close()
+}
+}
+}
+/*return*/tmp
             }
         } else {
             res = IteratorBundle(outMap)
