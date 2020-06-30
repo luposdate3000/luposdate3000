@@ -99,6 +99,14 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         for (iterator2 in outIterators) {
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
+for(closeIndex2 in 0 until 2){
+for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+columnsINJ[closeIndex2][closeIndex].close()
+}
+for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+columnsINO[closeIndex2][closeIndex].close()
+}
+}
                     }
 //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
@@ -161,9 +169,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             done = key[0][j] == null
                             if (done) {
                                 SanityCheck.check { j == 0 }
-for (closeIndex in 0 until columnsINJ[0].size) {
-columnsINJ[0][closeIndex].close()
-}
                                 break@loop
                             }
                         }
@@ -177,9 +182,6 @@ columnsINJ[0][closeIndex].close()
                             SanityCheck.check { key[1][j] != ResultSetDictionary.undefValue }
                             done = key[1][j] == null
                             if (done) {
-for (closeIndex in 0 until columnsINJ[1].size) {
-columnsINJ[1][closeIndex].close()
-}
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }

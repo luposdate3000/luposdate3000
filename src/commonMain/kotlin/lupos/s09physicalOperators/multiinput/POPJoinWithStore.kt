@@ -189,6 +189,15 @@ columnsInB[closeIndex].close()
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                 }
                             } else {
+for (closeIndex in 0 until columnsInB.size) {
+columnsInB[closeIndex].close()
+}
+for (closeIndex in 0 until columnsINAO.size) {
+columnsINAO[closeIndex].close()
+}
+for (closeIndex in 0 until columnsINAJ.size) {
+columnsINAJ[closeIndex].close()
+}
                                 break@loopA
                             }
                         }

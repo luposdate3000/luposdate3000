@@ -96,6 +96,14 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                         for (iterator2 in outIterators) {
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
+for(closeIndex2 in 0 until 2){
+for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+columnsINJ[closeIndex2][closeIndex].close()
+}
+for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+columnsINO[closeIndex2][closeIndex].close()
+}
+}
                     }
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                 }
@@ -155,9 +163,6 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                             key[1][j] = columnsINJ[1][j].next()
                             SanityCheck.check { key[1][j] != ResultSetDictionary.undefValue }
                             if (key[1][j] == null) {
-for (closeIndex in 0 until columnsINJ[1].size) {
-columnsINJ[1][closeIndex].close()
-}
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }

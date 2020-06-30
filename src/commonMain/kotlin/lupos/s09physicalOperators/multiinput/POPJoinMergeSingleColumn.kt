@@ -52,6 +52,8 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                 head[i] = child[i].next()
                                 if (head[i] == null) {
                                     iterator.close()
+child[0].close()
+child[1].close()
                                     value = null
                                     done = true
                                     break@loop
@@ -72,10 +74,14 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                         if (head[0] == null || head[1] == null) {
                             if (counter == 0) {
                                 iterator.close()
+child[0].close()
+child[1].close()
                             } else {
                                 iterator.next = {
                                     if (counter == 0) {
                                         iterator.close()
+child[0].close()
+child[1].close()
                                         value = null
                                     } else {
                                         counter--
