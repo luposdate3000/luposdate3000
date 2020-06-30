@@ -130,9 +130,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     val value = columnsINBJ[columnIndex].next()
                     if (value == null) {
                         nextKey = null
-for (closeIndex in 0 until columnsINBJ.size) {
-columnsINBJ[closeIndex].close()
-}
                         break@loopB
                     }
                     nextKey!![columnIndex] = value
@@ -167,18 +164,24 @@ columnsINBJ[closeIndex].close()
             currentKey = nextKey
             map = nextMap
         }
+for (closeIndex in 0 until columnsINBJ.size) {
+columnsINBJ[closeIndex].close()
+}
+for (closeIndex in 0 until columnsINBO.size) {
+columnsINBO[closeIndex].close()
+}
 //--- iterate first child
 //--- calculate next "cartesian product"
         for (iterator in outIterators) {
 //this is just function pointer assignment. this loop does not calculate anything
             iterator.close = {
                 iterator._close()
-                for (variable in children[0].getProvidedVariableNames()) {
-                    childA.columns[variable]!!.close()
-                }
-                for (variable in children[1].getProvidedVariableNames()) {
-                    childB.columns[variable]!!.close()
-                }
+for (closeIndex in 0 until columnsINAJ.size) {
+columnsINAJ[closeIndex].close()
+}
+for (closeIndex in 0 until columnsINAO.size) {
+columnsINAO[closeIndex].close()
+}
             }
             iterator.onNoMoreElements = {
                 var done = false
@@ -196,9 +199,6 @@ columnsINBJ[closeIndex].close()
                             if (value == null) {
                                 SanityCheck.check { columnIndex == 0 }
                                 nextKey = null
-for (closeIndex in 0 until columnsINAJ.size) {
-columnsINAJ[closeIndex].close()
-}
                                 break@loopA
                             }
                             nextKey!![columnIndex] = value
