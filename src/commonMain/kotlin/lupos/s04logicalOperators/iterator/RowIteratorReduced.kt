@@ -12,6 +12,10 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
         runBlocking {
             off = child.next()
         }
+        close = {
+            child.close()
+            _close()
+        }
         if (off >= 0) {
             next = {
                 for (i in 0 until columns.size) {
@@ -32,10 +36,8 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
                 }
                 /*return*/ 0
             }
-        }
-        close = {
-            child.close()
-            _close()
-        }
+        }else{
+close()
+}
     }
 }
