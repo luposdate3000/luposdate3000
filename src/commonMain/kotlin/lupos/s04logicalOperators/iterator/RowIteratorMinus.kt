@@ -46,6 +46,11 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
             if (bIdx < 0) {
                 flag = 1
             }
+close={
+_close()
+a.close()
+b.close()
+}
             next = {
                 var res = -1
                 loop@ while (true) {
@@ -57,6 +62,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                             aIdx = a.next()
                             if (aIdx < 0) {
                                 flag = 0
+close()
                             } else {
                                 res = 0
                                 for (i in 0 until mapping.size) {
@@ -89,6 +95,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: 
                                     }
                                 }
                             } else {
+close()
                                 flag = 0
                                 break@loop
                             }
