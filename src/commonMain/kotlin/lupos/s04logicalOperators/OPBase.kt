@@ -507,7 +507,7 @@ return replaceVariableWithAnother(node,name,name2,tmp,0)
         if (!res) {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-            } else {
+            } else if(!query.dontCheckVariableExistence){
                 var tmp = getRequiredVariableNames().toMutableSet()
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNames())

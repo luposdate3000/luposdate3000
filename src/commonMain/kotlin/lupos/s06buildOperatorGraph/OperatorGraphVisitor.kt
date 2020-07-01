@@ -1243,9 +1243,11 @@ return tmp
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NotExists -> {
+query.dontCheckVariableExistence=true
                 return AOPBuildInCallNotExists(query, parseGroup(node.children))
             }
             BuiltInFunctions.Exists -> {
+query.dontCheckVariableExistence=true
                 return AOPBuildInCallExists(query, parseGroup(node.children))
             }
             else -> {
