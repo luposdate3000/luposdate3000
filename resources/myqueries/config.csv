@@ -5,9 +5,15 @@
 4,x7.sparql,x7.ttl,x7.srx
 5,x1.sparql,x1.ttl,x1.srx
 10,x2.sparql,x2.ttl,x2.srx
+61664,ygraphicO1.sparql,ygraphic.ttl,ygraphicO1.srx
 61664,ygraphicO.sparql,ygraphic.ttl,ygraphicO.srx
+61664,ygraphicP1.sparql,ygraphic.ttl,ygraphicP1.srx
+61664,ygraphicPO1.sparql,ygraphic.ttl,ygraphicPO1.srx
 61664,ygraphicPO.sparql,ygraphic.ttl,ygraphicPO.srx
 61664,ygraphicP.sparql,ygraphic.ttl,ygraphicP.srx
+61664,ygraphicS1.sparql,ygraphic.ttl,ygraphicS1.srx
+61664,ygraphicSO1.sparql,ygraphic.ttl,ygraphicSO1.srx
 61664,ygraphicSO.sparql,ygraphic.ttl,ygraphicSO.srx
+61664,ygraphicSP1.sparql,ygraphic.ttl,ygraphicSP1.srx
 61664,ygraphicSP.sparql,ygraphic.ttl,ygraphicSP.srx
 61664,ygraphicS.sparql,ygraphic.ttl,ygraphicS.srx

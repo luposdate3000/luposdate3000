@@ -1,0 +1,4 @@
+SELECT (COUNT(*) AS ?occurences) {
+  ?s ?p ?o .
+}
+GROUP BY ?p

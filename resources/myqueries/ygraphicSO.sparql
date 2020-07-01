@@ -1,4 +1,4 @@
-SELECT ?occurences (COUNT(*) AS ?cnt){
+SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) {
   SELECT (COUNT(*) AS ?occurences) {
     ?s ?p ?o .
   }
