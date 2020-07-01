@@ -21,7 +21,7 @@ class AOPBuildInCallHOURS(query: Query, child: AOPBase) : AOPBase(query, EOperat
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueInteger(a.hours)
+                res = ValueInteger(a.hours.toBigInteger())
             }
 /*return*/res
         }

@@ -21,7 +21,7 @@ class AOPBuildInCallMINUTES(query: Query, child: AOPBase) : AOPBase(query, EOper
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueInteger(a.minutes)
+                res = ValueInteger(a.minutes.toBigInteger())
             }
 /*return*/res
         }

@@ -2,8 +2,11 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.roundToInt
 import lupos.s00misc.Coverage
+import lupos.s00misc.BigDecimal
+import lupos.s00misc.BigInteger
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.decimalZero
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -29,7 +32,11 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                 } else if (a is ValueFloat) {
                     res = ValueFloat(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueDecimal) {
-                    res = ValueDecimal(a.toDouble().roundToInt().toDouble())
+if(a.value<decimalZero){
+ValueDecimal((a.value-BigDecimal("0.5")).toBigInteger().toBigDecimal())
+}else{
+ValueDecimal((a.value+BigDecimal("0.5")).toBigInteger().toBigDecimal())
+}
                 } else if (a is ValueInteger) {
                     res = a
                 }

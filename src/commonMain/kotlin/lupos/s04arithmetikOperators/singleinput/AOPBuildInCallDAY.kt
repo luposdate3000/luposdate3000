@@ -21,7 +21,7 @@ class AOPBuildInCallDAY(query: Query, child: AOPBase) : AOPBase(query, EOperator
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueInteger(a.day)
+                res = ValueInteger(a.day.toBigInteger())
             }
 /*return*/res
         }

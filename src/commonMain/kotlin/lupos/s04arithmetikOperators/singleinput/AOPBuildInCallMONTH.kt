@@ -21,7 +21,7 @@ class AOPBuildInCallMONTH(query: Query, child: AOPBase) : AOPBase(query, EOperat
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueInteger(a.month)
+                res = ValueInteger(a.month.toBigInteger())
             }
 /*return*/res
         }

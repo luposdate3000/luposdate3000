@@ -28,9 +28,9 @@ class AOPBuildInCallABS(query: Query, child: AOPBase) : AOPBase(query, EOperator
             } else if (a is ValueFloat) {
                 res = ValueFloat(abs(a.value))
             } else if (a is ValueDecimal) {
-                res = ValueDecimal(abs(a.value))
+                res = ValueDecimal(a.value.abs())
             } else if (a is ValueInteger) {
-                res = ValueInteger(abs(a.value))
+                res = ValueInteger(a.value.abs())
             }
 /*return*/res
         }

@@ -21,7 +21,7 @@ class AOPBuildInCallSECONDS(query: Query, child: AOPBase) : AOPBase(query, EOper
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueDecimal(0.0 + a.seconds)
+                res = ValueDecimal(a.seconds.toBigDecimal())
             }
 /*return*/res
         }

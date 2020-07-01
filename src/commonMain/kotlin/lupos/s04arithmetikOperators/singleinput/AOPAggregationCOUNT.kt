@@ -42,7 +42,7 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
-            /*return*/ValueInteger(tmp.count)
+            /*return*/ValueInteger(tmp.count.toBigInteger())
         }
 /*Coverage Unreachable*/
     }

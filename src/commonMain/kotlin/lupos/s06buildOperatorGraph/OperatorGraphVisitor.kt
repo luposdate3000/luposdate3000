@@ -870,7 +870,7 @@ return tmp
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {
-        return AOPConstant(query, ValueInteger(node.value))
+        return AOPConstant(query, ValueInteger(node.value.toBigInteger()))
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<OPBase>): OPBase {
@@ -878,7 +878,7 @@ return tmp
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<OPBase>): OPBase {
-        return AOPConstant(query, ValueDecimal(node.toDouble()))
+        return AOPConstant(query, ValueDecimal(node.toDouble().toBigDecimal()))
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {

@@ -47,7 +47,7 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
             } else if (res.value is ValueFloat || value is ValueFloat) {
                 res.value = ValueFloat(res.value.toDouble() + value.toDouble())
             } else if (res.value is ValueDecimal || value is ValueDecimal) {
-                res.value = ValueDecimal(res.value.toDouble() + value.toDouble())
+                res.value = ValueDecimal(res.value.toDecimal() + value.toDecimal())
             } else if (res.value is ValueInteger || value is ValueInteger) {
                 res.value = ValueInteger(res.value.toInt() + value.toInt())
             } else {

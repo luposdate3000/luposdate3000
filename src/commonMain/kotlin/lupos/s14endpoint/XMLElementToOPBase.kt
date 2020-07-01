@@ -1,6 +1,8 @@
 package lupos.s14endpoint
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.BigInteger
+import lupos.s00misc.BigDecimal
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ESortType
 import lupos.s00misc.SanityCheck
@@ -300,10 +302,10 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             res = AOPDivision(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
         }
         "ValueInteger" -> {
-            res = AOPConstant(query, ValueInteger(node.attributes["value"]!!.toInt()))
+            res = AOPConstant(query, ValueInteger(BigInteger(node.attributes["value"]!!)))
         }
         "ValueDecimal" -> {
-            res = AOPConstant(query, ValueDecimal(node.attributes["value"]!!.toDouble()))
+            res = AOPConstant(query, ValueDecimal(BigDecimal(node.attributes["value"]!!)))
         }
         "ValueFloat" -> {
             res = AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))

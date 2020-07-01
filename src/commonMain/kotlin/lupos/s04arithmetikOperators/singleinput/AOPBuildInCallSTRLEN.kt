@@ -23,11 +23,11 @@ class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOpera
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueSimpleLiteral) {
-                res = ValueInteger(a.content.length)
+                res = ValueInteger(a.content.length.toBigInteger())
             } else if (a is ValueTypedLiteral) {
-                res = ValueInteger(a.content.length)
+                res = ValueInteger(a.content.length.toBigInteger())
             } else if (a is ValueLanguageTaggedLiteral) {
-                res = ValueInteger(a.content.length)
+                res = ValueInteger(a.content.length.toBigInteger())
             }
 /*return*/res
         }

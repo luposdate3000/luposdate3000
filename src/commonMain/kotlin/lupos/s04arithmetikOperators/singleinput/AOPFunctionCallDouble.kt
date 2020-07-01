@@ -42,7 +42,7 @@ class AOPFunctionCallDouble(query: Query, child: AOPBase) : AOPBase(query, EOper
                     }
                 }
                 is ValueDecimal -> {
-                    res = ValueDouble(a.value)
+                    res = ValueDouble(a.value.toDouble())
                 }
                 is ValueFloat -> {
                     res = ValueDouble(a.value)

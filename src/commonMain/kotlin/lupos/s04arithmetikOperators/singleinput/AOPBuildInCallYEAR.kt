@@ -21,7 +21,7 @@ class AOPBuildInCallYEAR(query: Query, child: AOPBase) : AOPBase(query, EOperato
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueInteger(a.year)
+                res = ValueInteger(a.year.toBigInteger())
             }
 /*return*/res
         }

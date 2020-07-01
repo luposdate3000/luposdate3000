@@ -1,13 +1,16 @@
 package lupos.s03resultRepresentation
-
+import lupos.s00misc.BigDecimal
+import lupos.s00misc.BigInteger
 import kotlin.jvm.JvmField
 import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListDouble
 import lupos.s00misc.MyListInt
+import lupos.s00misc.MyListGeneric
 import lupos.s00misc.MyMapDoubleInt
 import lupos.s00misc.MyMapIntInt
+import lupos.s00misc.MyMapGenericGeneric
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.SanityCheck
@@ -167,16 +170,17 @@ class ResultSetDictionary(val global: Boolean = false) {
     val floatList = MyListDouble()
 
     @JvmField
-    val decimalMap = MyMapDoubleInt()
+    val decimalMap = MyMapGenericGeneric<BigDecimal,Int>()
 
     @JvmField
-    val decimalList = MyListDouble()
+    val decimalList = MyListGeneric<BigDecimal>()
 
     @JvmField
-    val intMap = MyMapIntInt()
+    val intMap = MyMapGenericGeneric<BigInteger,Int>()
 
     @JvmField
-    val intList = MyListInt()
+    val intList = MyListGeneric<BigInteger>()
+
     fun clear() {
         localBnodeMap.clear()
         bNodeCounter = 4
@@ -262,10 +266,10 @@ class ResultSetDictionary(val global: Boolean = false) {
         var res: Value
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
-                res = createInteger(content.toInt())
+                res = createInteger(BigInteger(content))
             }
             "http://www.w3.org/2001/XMLSchema#decimal" -> {
-                res = createDecimal(content.toDouble())
+                res = createDecimal(BigDecimal(content))
             }
             "http://www.w3.org/2001/XMLSchema#double" -> {
                 res = createDouble(content.toDouble())
@@ -346,7 +350,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createDecimal(value: Double): Value {
+    fun createDecimal(value: BigDecimal): Value {
         var res: Value
         if (global) {
             res = decimalMap.getOrCreate(value, {
@@ -370,7 +374,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createInteger(value: Int): Value {
+    fun createInteger(value: BigInteger): Value {
         var res: Value
         if (global) {
             res = intMap.getOrCreate(value, {
