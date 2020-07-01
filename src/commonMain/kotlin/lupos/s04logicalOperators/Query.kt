@@ -22,6 +22,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     @JvmField
     var commited = false
 
+var generatedNameCounter=0
+fun getUniqueVariableName()="#+${generatedNameCounter++}"
+fun isGeneratedVariableName(name:String)=name.startsWith('#')
+
     companion object {
         private val global_transactionID = ThreadSafeUuid()
     }

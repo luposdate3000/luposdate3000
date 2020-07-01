@@ -331,7 +331,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         result.getLatestChild().setChild(childNode)
         if (select.size == 0) {
             for (s in childNode.getProvidedVariableNames()) {
-                if (!s.startsWith("#")) {
+                if (!query.isGeneratedVariableName(s)) {
                     projection.variables.add(AOPVariable(query, s))
                 }
             }
@@ -340,14 +340,32 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-        val child = visitSelectBase(node, node.select, false, false)
-        val template = mutableListOf<ASTNode>()
+        var child = visitSelectBase(node, node.select, false, false)
+        child = child.replaceVariableWithAnother(child, "s", query.getUniqueVariableName())
+        child = child.replaceVariableWithAnother(child, "p", query.getUniqueVariableName())
+        child = child.replaceVariableWithAnother(child, "o", query.getUniqueVariableName())
+        var res: OPBase? = null
         for (v in child.getProvidedVariableNames()) {
-            template.add(ASTTriple(ASTVar("#s"), ASTVar("#p"), ASTVar(v)))
-            template.add(ASTTriple(ASTVar("#s"), ASTVar(v), ASTVar("#o")))
-            template.add(ASTTriple(ASTVar(v), ASTVar("#p"), ASTVar("#o")))
+            val tmp5 = child.cloneOP()
+            val tmp6 = child.cloneOP()
+            val tmp7 = child.cloneOP()
+            val tmp1 = LOPProjection(query, mutableListOf(AOPVariable(query,"s")), tmp5.replaceVariableWithAnother(tmp5, v, "s"))
+            val tmp2 = LOPProjection(query, mutableListOf(AOPVariable(query,"p")), tmp5.replaceVariableWithAnother(tmp5, v, "p"))
+            val tmp3 = LOPProjection(query, mutableListOf(AOPVariable(query,"o")), tmp5.replaceVariableWithAnother(tmp5, v, "o"))
+            val tmp4 = LOPUnion(query, LOPUnion(query,
+                    LOPJoin(query, tmp1, LOPTriple(query, AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o"), "", false), false),
+                    LOPJoin(query, tmp2, LOPTriple(query, AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o"), "", false), false)),
+                    LOPJoin(query, tmp3, LOPTriple(query, AOPVariable(query,"s"), AOPVariable(query,"p"), AOPVariable(query,"o"), "", false), false))
+            if (res == null) {
+                res = tmp4
+            } else {
+                res = LOPUnion(query, res, tmp4)
+            }
         }
-        return visitConstructBase(LOPJoin(query, child, LOPTriple(query, AOPVariable(query, "#s"), AOPVariable(query, "#p"), AOPVariable(query, "#o"), PersistentStoreLocal.defaultGraphName, false), false), template.toTypedArray())
+        if (res == null) {
+            return LOPNOOP(query)
+        }
+        return LOPDistinct(query, res!!)
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
@@ -356,37 +374,54 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
     }
 
     fun visitConstructBase(child: OPBase, template: Array<ASTNode>): OPBase {
-        var result: OPBase? = null
+var names=listOf("s", "p", "o")
+        var templates = mutableListOf<Pair<Any, Boolean>>()//name, isVariable
         for (t in template) {
             val templateLocal = t.visit(this) as LOPTriple
-            var tmp: OPBase = child.cloneOP()
-            val s = templateLocal.children[0] as AOPBase
-            val p = templateLocal.children[1] as AOPBase
-            val o = templateLocal.children[2] as AOPBase
-            if ((s is AOPVariable && s.name != "#s") || s !is AOPVariable) {
-                tmp = LOPBind(query, AOPVariable(query, "#s"), s, tmp)
-            }
-            if ((p is AOPVariable && p.name != "#p") || p !is AOPVariable) {
-                tmp = LOPBind(query, AOPVariable(query, "#p"), p, tmp)
-            }
-            if ((o is AOPVariable && o.name != "#o") || o !is AOPVariable) {
-                tmp = LOPBind(query, AOPVariable(query, "#o"), o, tmp)
-            }
-            tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "#s"), AOPVariable(query, "#p"), AOPVariable(query, "#o")), tmp)
-            tmp = LOPBind(query, AOPVariable(query, "s"), AOPVariable(query, "#s"), tmp)//prevent name clash during optimisation
-            tmp = LOPBind(query, AOPVariable(query, "p"), AOPVariable(query, "#p"), tmp)
-            tmp = LOPBind(query, AOPVariable(query, "o"), AOPVariable(query, "#o"), tmp)
-            tmp = LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), tmp)
-            if (result == null) {
-                result = tmp
-            } else {
-                result = createUnion(result, tmp)
+            for (i in 0 until 3) {
+                var tmp1 = templateLocal.children[i]
+                if (tmp1 is AOPVariable) {
+                    templates.add(Pair(tmp1.name, true))
+                } else {
+                    templates.add(Pair(tmp1 as AOPConstant, false))
+                }
             }
         }
-        if (result == null) {
+        var mychild = child
+        val provided = mychild.getProvidedVariableNames()
+        for (selected in names) {
+            if (provided.contains(selected)) {
+                var tmp = query.getUniqueVariableName()
+                mychild = mychild.replaceVariableWithAnother(mychild, selected, tmp)
+                for (i in 0 until templates.size) {
+                    if (templates[i].second && templates[i].first == selected) {
+                        templates[i] = Pair(tmp, true)
+                    }
+                }
+            }
+        }
+        var res: OPBase? = null
+        for (i in 0 until templates.size / 3) {
+            var tmp = mychild.cloneOP()
+for (name in 0 until 3){
+var tmp2=templates[i * 3+name]
+            if (tmp2.second) {
+                tmp = tmp.replaceVariableWithAnother(tmp, tmp2.first as String, names[name])
+            } else {
+                tmp = LOPBind(query, AOPVariable(query, names[name]), tmp2.first as AOPConstant, tmp)
+            }
+}
+            tmp = LOPProjection(query, names.map{AOPVariable(query,it)}.toMutableList(), tmp)
+            if (res == null) {
+                res = tmp
+            } else {
+                res =  LOPUnion(query, res, tmp)
+            }
+        }
+        if (res == null) {
             return LOPNOOP(query)
         }
-        return LOPDistinct(query, result)
+        return LOPDistinct(query, res!!)
     }
 
     fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean, distinct: Boolean): OPBase {

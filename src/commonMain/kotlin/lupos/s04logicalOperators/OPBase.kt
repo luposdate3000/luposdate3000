@@ -27,6 +27,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
@@ -367,6 +368,10 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         return node
     }
 
+    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
+var tmp=LOPNOOP(node.query,node)
+return replaceVariableWithAnother(node,name,name2,tmp,0)
+}
     fun replaceVariableWithAnother(node: OPBase, name: String, name2: String, parent: OPBase, parentIdx: Int): OPBase {
         SanityCheck.check { parent.children[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
