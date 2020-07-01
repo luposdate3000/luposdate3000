@@ -19,6 +19,8 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -352,12 +354,15 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
         private val global_uuid = ThreadSafeUuid()
     }
 
-    fun replaceVariableWithUndef(node: OPBase, name: String): OPBase {
+    fun replaceVariableWithUndef(node: OPBase, name: String,existsClauses:Boolean): OPBase {
+if(!existsClauses &&(node is AOPBuildInCallExists|| node is AOPBuildInCallNotExists)){
+return node
+}
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, ResultSetDictionary.undefValue2)
         }
         for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithUndef(node.children[i], name)
+            node.children[i] = replaceVariableWithUndef(node.children[i], name,existsClauses)
         }
         return node
     }
@@ -484,7 +489,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
             }
             if (!found) {
                 SanityCheck.check { this is LOPBind || this is LOPFilter }
-                children[1] = replaceVariableWithUndef(children[1], name)
+                children[1] = replaceVariableWithUndef(children[1], name,false)
             }
         }
     }
