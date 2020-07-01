@@ -80,14 +80,14 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
                     if (value == null) {
-                        for (closeIndex in 0 until columnsINBO.size) {
-                            columnsINBO[closeIndex].close()
-                        }
                         break@loopC
                     }
                     data[columnIndex].add(value)
                 }
             }
+                        for (closeIndex in 0 until columnsINBO.size) {
+                            columnsINBO[closeIndex].close()
+                        }
             count = data[0].size
             if (count == 0) {
                 if (optional) {
@@ -96,9 +96,6 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             iterator._close()
                             for (variable in children[0].getProvidedVariableNames()) {
                                 childA.columns[variable]!!.close()
-                            }
-                            for (variable in children[1].getProvidedVariableNames()) {
-                                childB.columns[variable]!!.close()
                             }
                         }
                         iterator.onNoMoreElements = {
@@ -129,9 +126,6 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                         iterator._close()
                         for (variable in children[0].getProvidedVariableNames()) {
                             childA.columns[variable]!!.close()
-                        }
-                        for (variable in children[1].getProvidedVariableNames()) {
-                            childB.columns[variable]!!.close()
                         }
                     }
                     iterator.onNoMoreElements = {
