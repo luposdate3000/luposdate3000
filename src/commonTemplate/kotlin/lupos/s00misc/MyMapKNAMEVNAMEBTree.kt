@@ -564,7 +564,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
     }
 
     fun safeToFile(filename: String) {
-        IOSTART
+        IOSTART1
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
             forEach { k, v ->
@@ -572,11 +572,11 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                 out.writeVALUE(v)
             }
         }
-        IOEND
+        IOEND1
     }
 
     fun loadFromFile(filename: String) {
-        IOSTART
+        IOSTART2
         withFastInitializer { init ->
             File(filename).dataInputStream { fis ->
                 var size = fis.readInt()
@@ -587,6 +587,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                 }
             }
         }
-        IOEND
+        IOEND2
     }
 }

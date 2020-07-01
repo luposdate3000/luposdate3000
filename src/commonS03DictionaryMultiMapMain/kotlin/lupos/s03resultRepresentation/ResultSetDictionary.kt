@@ -170,16 +170,10 @@ class ResultSetDictionary(val global: Boolean = false) {
     val floatList = MyListDouble()
 
     @JvmField
-    val decimalMap = MyMapGenericGeneric<BigDecimal,Int>()
+    val decimalMap = MyMapStringIntPatriciaTrieDouble()
 
     @JvmField
-    val decimalList = MyListGeneric<BigDecimal>()
-
-    @JvmField
-    val intMap = MyMapGenericGeneric<BigInteger,Int>()
-
-    @JvmField
-    val intList = MyListGeneric<BigInteger>()
+    val intMap = MyMapStringIntPatriciaTrieDouble()
 
     fun clear() {
         localBnodeMap.clear()
@@ -193,9 +187,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         floatMap.clear()
         floatList.clear()
         decimalMap.clear()
-        decimalList.clear()
         intMap.clear()
-        intList.clear()
     }
 
     fun toBooleanOrError(value: Value): Value {
@@ -350,53 +342,39 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createDecimal(value: BigDecimal): Value {
+fun createDecimal(value2: BigDecimal): Value {
+val value=value2.toString()
         var res: Value
         if (global) {
-            res = decimalMap.getOrCreate(value, {
-                val idx = decimalList.size
-                decimalList.add(value)
-                /*return*/ (flaggedValueGlobalDecimal or idx.toInt())
-            })
+            res = flaggedValueGlobalDecimal or decimalMap.getOrCreate(value)
         } else {
-            val tmp = nodeGlobalDictionary.decimalMap[value]
+            var tmp = nodeGlobalDictionary.decimalMap[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalDecimal
             } else {
-                res = decimalMap.getOrCreate(value, {
-                    val idx = decimalList.size
-                    decimalList.add(value)
-                    /*return*/ (flaggedValueLocalDecimal or idx.toInt())
-                })
+                res = flaggedValueLocalDecimal or decimalMap.getOrCreate(value)
+            }
+        }
+//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+        return res
+    }
+fun createInteger(value2: BigInteger): Value {
+val value=value2.toString()
+        var res: Value
+        if (global) {
+            res = flaggedValueGlobalInt or intMap.getOrCreate(value)
+        } else {
+            var tmp = nodeGlobalDictionary.intMap[value]
+            if (tmp != null) {
+                res = tmp or flaggedValueGlobalInt
+            } else {
+                res = flaggedValueLocalInt or intMap.getOrCreate(value)
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
-    fun createInteger(value: BigInteger): Value {
-        var res: Value
-        if (global) {
-            res = intMap.getOrCreate(value, {
-                val idx = intList.size
-                intList.add(value)
-                /*return*/(flaggedValueGlobalInt or idx.toInt())
-            })
-        } else {
-            val tmp = nodeGlobalDictionary.intMap[value]
-            if (tmp != null) {
-                res = tmp or flaggedValueGlobalInt
-            } else {
-                res = intMap.getOrCreate(value, {
-                    val idx = intList.size
-                    intList.add(value)
-                    /*return*/(flaggedValueLocalInt or idx.toInt())
-                })
-            }
-        }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
-        return res
-    }
 
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
@@ -503,9 +481,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             var bit5 = value and mask6
             if (bit5 == flaggedValueLocalInt) {
-                res = ValueInteger(dict.intList[value and filter6])
+res = ValueInteger(BigInteger(dict.intMap[value and filter6]))
             } else if (bit5 == flaggedValueLocalDecimal) {
-                res = ValueDecimal(dict.decimalList[value and filter6])
+res = ValueDecimal(BigDecimal(dict.decimalMap[value and filter6]))
             } else if (bit5 == flaggedValueLocalDouble) {
                 res = ValueDouble(dict.doubleList[value and filter6])
             } else if (bit5 == flaggedValueLocalFloat) {
@@ -535,11 +513,11 @@ class ResultSetDictionary(val global: Boolean = false) {
             for (i in 0 until typedMap.size) {
                 println("debug dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
             }
-            for (i in 0 until intList.size) {
-                println("debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intList[i]}")
+            for (i in 0 until intMap.size) {
+                println("debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intMap[i]}")
             }
-            for (i in 0 until decimalList.size) {
-                println("debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalList[i]}")
+            for (i in 0 until decimalMap.size) {
+                println("debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalMap[i]}")
             }
             for (i in 0 until doubleList.size) {
                 println("debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
@@ -610,22 +588,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 floatList.add(k)
             }
             floatList[v] = k
-        }
-        decimalList.clear()
-        decimalMap.forEach { k, v2 ->
-            val v = v2 and filter6
-            while (v > decimalList.size) {
-                decimalList.add(k)
-            }
-            decimalList[v] = k
-        }
-        intList.clear()
-        intMap.forEach { k, v2 ->
-            val v = v2 and filter6
-            while (v > intList.size) {
-                intList.add(k)
-            }
-            intList[v] = k
         }
     }
 }
