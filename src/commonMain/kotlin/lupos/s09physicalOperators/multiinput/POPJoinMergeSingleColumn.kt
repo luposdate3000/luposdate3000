@@ -31,7 +31,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         SanityCheck.check { children[0].getProvidedVariableNames()[0] == projectedVariables[0] }
         SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
         SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
-println("$uuid open $classname")
+        println("$uuid open $classname")
         val child = Array(2) { children[it].evaluate().columns[projectedVariables[0]]!! }
         val head = Array(2) { child[it].next() }
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -43,7 +43,7 @@ println("$uuid open $classname")
             var value: Value? = head[0]
             iterator.close = {
                 iterator._close()
-println("$uuid close $classname")
+                println("$uuid close $classname")
                 child[0].close()
                 child[1].close()
             }
@@ -97,7 +97,7 @@ println("$uuid close $classname")
                 /*return*/ value
             }
         } else {
-println("$uuid close $classname")
+            println("$uuid close $classname")
             child[0].close()
             child[1].close()
         }

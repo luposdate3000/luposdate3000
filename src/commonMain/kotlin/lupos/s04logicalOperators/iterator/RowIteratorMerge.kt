@@ -27,7 +27,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                     val next = a.next()
                     if (next < 0) {
                         done = true
-a.close()
+                        a.close()
                         break
                     }
                     for (j in 0 until columns.size) {
@@ -172,11 +172,11 @@ a.close()
             }
         }
         columns = a.columns
-close={
-a.close()
-b.close()
-_close()
-}
+        close = {
+            a.close()
+            b.close()
+            _close()
+        }
         next = {
             var res = -1
             when (flag) {
@@ -184,7 +184,7 @@ _close()
                     res = a.next()
                     buf = a.buf
                     if (res < 0) {
-a.close()
+                        a.close()
                         flag = 0
                     }
                 }
@@ -192,7 +192,7 @@ a.close()
                     res = b.next()
                     buf = b.buf
                     if (res < 0) {
-b.close()
+                        b.close()
                         flag = 0
                     }
                 }
@@ -237,17 +237,17 @@ b.close()
                     bIdx = b.next()
                     if (aIdx < 0 && bIdx < 0) {
                         res = -1
-                    a.    close()
-b.close()
+                        a.close()
+                        b.close()
                         flag = 0
                     } else if (bIdx < 0) {
                         buf = a.buf
-b.close()
+                        b.close()
                         res = aIdx
                         flag = 1
                     } else if (aIdx < 0) {
                         buf = b.buf
-a.close()
+                        a.close()
                         res = bIdx
                         flag = 2
                     } else {

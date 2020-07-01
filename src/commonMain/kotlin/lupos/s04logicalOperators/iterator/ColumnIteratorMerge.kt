@@ -16,7 +16,7 @@ object ColumnIteratorMerge {
                 val next = a.next()
                 if (next == null) {
                     done = true
-a.close()
+                    a.close()
                     break
                 } else {
                     buf1[i++] = next
@@ -118,7 +118,7 @@ a.close()
                 val next = a.next()
                 if (next == null) {
                     done = true
-a.close()
+                    a.close()
                     break
                 } else {
                     buf1[i++] = next
@@ -216,32 +216,32 @@ class ColumnIteratorMerge1(val a: ColumnIterator, val b: ColumnIterator, val com
     var bBuf: Value? = null
 
     init {
-close={
-a.close()
-b.close()
-_close()
-}
+        close = {
+            a.close()
+            b.close()
+            _close()
+        }
         next = {
             var res: Value? = null
             when (flag) {
                 1 -> {//call next on a, b is empty
                     res = a.next()
                     if (res == null) {
-a.close()
+                        a.close()
                         flag = 0
                     }
                 }
                 2 -> {//call next on b, a is empty
                     res = b.next()
                     if (res == null) {
-b.close()
+                        b.close()
                         flag = 0
                     }
                 }
                 4 -> {//call next on a, b is not empty
                     aBuf = a.next()
                     if (aBuf == null) {
-a.close()
+                        a.close()
                         res = bBuf
                         flag = 2
                     } else {
@@ -257,7 +257,7 @@ a.close()
                 5 -> {//call next on b, a is not empty
                     bBuf = b.next()
                     if (bBuf == null) {
-b.close()
+                        b.close()
                         res = aBuf
                         flag = 1
                     } else {
@@ -275,16 +275,16 @@ b.close()
                     bBuf = b.next()
                     if (aBuf == null && bBuf == null) {
                         res = null
-a.close()
-b.close()
+                        a.close()
+                        b.close()
                         flag = 0
                     } else if (bBuf == null) {
                         res = aBuf
-b.close()
+                        b.close()
                         flag = 1
                     } else if (aBuf == null) {
                         res = bBuf
-a.close()
+                        a.close()
                         flag = 2
                     } else {
                         if (comparator.compare(aBuf, bBuf) < 0) {
@@ -308,32 +308,32 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
     var bBuf: Value? = null
 
     init {
-close={
-a.close()
-b.close()
-_close()
-}
+        close = {
+            a.close()
+            b.close()
+            _close()
+        }
         next = {
             var res: Value? = null
             when (flag) {
                 1 -> {//call next on a, b is empty
                     res = a.next()
                     if (res == null) {
-a.close()
+                        a.close()
                         flag = 0
                     }
                 }
                 2 -> {//call next on b, a is empty
                     res = b.next()
                     if (res == null) {
-b.close()
+                        b.close()
                         flag = 0
                     }
                 }
                 4 -> {//call next on a, b is not empty
                     aBuf = a.next()
                     if (aBuf == null) {
-a.close()
+                        a.close()
                         res = bBuf
                         flag = 2
                     } else {
@@ -349,7 +349,7 @@ a.close()
                 5 -> {//call next on b, a is not empty
                     bBuf = b.next()
                     if (bBuf == null) {
-b.close()
+                        b.close()
                         res = aBuf
                         flag = 1
                     } else {
@@ -366,15 +366,15 @@ b.close()
                     aBuf = a.next()
                     bBuf = b.next()
                     if (aBuf == null && bBuf == null) {
-a.close()
-b.close()
+                        a.close()
+                        b.close()
                         flag = 0
                     } else if (bBuf == null) {
-b.close()
+                        b.close()
                         res = aBuf
                         flag = 1
                     } else if (aBuf == null) {
-a.close()
+                        a.close()
                         res = bBuf
                         flag = 2
                     } else {

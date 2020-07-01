@@ -36,8 +36,8 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
                 }
                 /*return*/ 0
             }
-        }else{
-close()
-}
+        } else {
+            close()
+        }
     }
 }

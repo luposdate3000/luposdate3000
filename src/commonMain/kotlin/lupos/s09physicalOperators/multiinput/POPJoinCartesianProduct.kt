@@ -85,9 +85,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     data[columnIndex].add(value)
                 }
             }
-                        for (closeIndex in 0 until columnsINBO.size) {
-                            columnsINBO[closeIndex].close()
-                        }
+            for (closeIndex in 0 until columnsINBO.size) {
+                columnsINBO[closeIndex].close()
+            }
             count = data[0].size
             if (count == 0) {
                 if (optional) {

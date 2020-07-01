@@ -18,7 +18,7 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
             var res: Value?
             val tmp = child.next()
             if (tmp == null) {
-child.close()
+                child.close()
                 if (data.size == 0 || count == 1) {
                     next = {
                         /*return*/null

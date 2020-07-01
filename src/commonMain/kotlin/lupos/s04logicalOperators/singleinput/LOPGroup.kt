@@ -86,7 +86,7 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
                             }
                         }
                         for (b in bindings.indices) {
-                            bindings[b] = Pair(bindings[b].first, replaceVariableWithUndef(bindings[b].second, name,true) as AOPBase)
+                            bindings[b] = Pair(bindings[b].first, replaceVariableWithUndef(bindings[b].second, name, true) as AOPBase)
                         }
                     }
                 }

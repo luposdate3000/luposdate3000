@@ -1,9 +1,9 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.s00misc.Coverage
-import lupos.s00misc.NotImplementedException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.NotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -35,123 +35,123 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate()
-        var res: IteratorBundle?=null
-try{
-        val columnsIn = Array(variables.size) { child.columns[variables[it]] }
-        val columnsLocal = Array(variables.size) { ColumnIteratorQueue() }
-        for (variableIndex in 0 until variables.size) {
-            if (projectedVariables.contains(variables[variableIndex])) {
-                outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
+        var res: IteratorBundle? = null
+        try {
+            val columnsIn = Array(variables.size) { child.columns[variables[it]] }
+            val columnsLocal = Array(variables.size) { ColumnIteratorQueue() }
+            for (variableIndex in 0 until variables.size) {
+                if (projectedVariables.contains(variables[variableIndex])) {
+                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
+                }
+                localMap[variables[variableIndex]] = columnsLocal[variableIndex]
             }
-            localMap[variables[variableIndex]] = columnsLocal[variableIndex]
-        }
-        val resLocal: IteratorBundle
-        if (localMap.size > 0) {
-            resLocal = IteratorBundle(localMap)
-        } else {
-            resLocal = IteratorBundle(0)
-        }
-        val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
-        val expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
-        if (variablesOut.size == 0) {
-            res = IteratorBundle(0)
-            if (variables.size == 0) {
-                if (expression()) {
-                    res.hasNext = child.hasNext
+            val resLocal: IteratorBundle
+            if (localMap.size > 0) {
+                resLocal = IteratorBundle(localMap)
+            } else {
+                resLocal = IteratorBundle(0)
+            }
+            val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
+            val expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
+            if (variablesOut.size == 0) {
+                res = IteratorBundle(0)
+                if (variables.size == 0) {
+                    if (expression()) {
+                        res.hasNext = child.hasNext
+                    } else {
+                        res.hasNext = {
+                            /*return*/false
+                        }
+                    }
                 } else {
                     res.hasNext = {
-                        /*return*/false
+                        var res2 = false
+                        try {
+                            var done = false
+                            while (!done) {
+                                for (variableIndex2 in 0 until variables.size) {
+                                    columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                                    //point each iterator to the current value
+                                    if (columnsLocal[variableIndex2].tmp == null) {
+                                        for (closeIndex in 0 until columnsIn.size) {
+                                            columnsIn[closeIndex]!!.close()
+                                        }
+                                        SanityCheck.check { variableIndex2 == 0 }
+                                        for (variableIndex3 in 0 until variables.size) {
+                                            columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
+                                        }
+                                        done = true
+                                        break
+                                    }
+                                }
+                                if (!done) {
+                                    //evaluate
+                                    if (expression()) {
+                                        //accept/deny row in each iterator
+                                        res2 = true
+                                    }
+                                }
+                            }
+                        } catch (e: NotImplementedException) {
+                            println("filter caught notimplemented and closed its childs")
+                            for ((k, v) in child.columns) {
+                                v.close()
+                            }
+                            throw e
+                        }
+/*return*/res2
                     }
                 }
             } else {
-                res.hasNext = {
-                    var res2 = false
-try{
-                    var done = false
-                    while (!done) {
-                        for (variableIndex2 in 0 until variables.size) {
-                            columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                            //point each iterator to the current value
-                            if (columnsLocal[variableIndex2].tmp == null) {
-                                for (closeIndex in 0 until columnsIn.size) {
-                                    columnsIn[closeIndex]!!.close()
+                res = IteratorBundle(outMap)
+                for (variableIndex in 0 until variables.size) {
+                    columnsLocal[variableIndex].onEmptyQueue = {
+                        try {
+                            var done = false
+                            while (!done) {
+                                for (variableIndex2 in 0 until variables.size) {
+                                    columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                                    //point each iterator to the current value
+                                    if (columnsLocal[variableIndex2].tmp == null) {
+                                        SanityCheck.check { variableIndex2 == 0 }
+                                        for (closeIndex in 0 until columnsIn.size) {
+                                            columnsIn[closeIndex]!!.close()
+                                        }
+                                        for (variableIndex3 in 0 until variables.size) {
+                                            columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
+                                        }
+                                        done = true
+                                        break
+                                    }
                                 }
-                                SanityCheck.check { variableIndex2 == 0 }
-                                for (variableIndex3 in 0 until variables.size) {
-                                    columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
+                                if (!done) {
+                                    //evaluate
+                                    if (expression()) {
+                                        //accept/deny row in each iterator
+                                        for (variableIndex2 in 0 until variablesOut.size) {
+                                            columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                                        }
+                                        done = true
+                                    }
                                 }
-                                done = true
-                                break
                             }
-                        }
-                        if (!done) {
-                            //evaluate
-                            if (expression()) {
-                                //accept/deny row in each iterator
-                                res2 = true
+                        } catch (e: NotImplementedException) {
+                            println("filter caught notimplemented and closed its childs")
+                            for ((k, v) in child.columns) {
+                                v.close()
                             }
-                        }
-                    }
-}catch(e:NotImplementedException){
-println("filter caught notimplemented and closed its childs")
-for((k,v) in child.columns){
-v.close()
-}
-throw e
-}
-/*return*/res2
-                }
-            }
-        } else {
-            res = IteratorBundle(outMap)
-            for (variableIndex in 0 until variables.size) {
-                columnsLocal[variableIndex].onEmptyQueue = {
-try{
-                    var done = false
-                    while (!done) {
-                        for (variableIndex2 in 0 until variables.size) {
-                            columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                            //point each iterator to the current value
-                            if (columnsLocal[variableIndex2].tmp == null) {
-                                SanityCheck.check { variableIndex2 == 0 }
-                                for (closeIndex in 0 until columnsIn.size) {
-                                    columnsIn[closeIndex]!!.close()
-                                }
-                                for (variableIndex3 in 0 until variables.size) {
-                                    columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
-                                }
-                                done = true
-                                break
-                            }
-                        }
-                        if (!done) {
-                            //evaluate
-                            if (expression()) {
-                                //accept/deny row in each iterator
-                                for (variableIndex2 in 0 until variablesOut.size) {
-                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
-                                }
-                                done = true
-                            }
+                            throw e
                         }
                     }
-}catch(e:NotImplementedException){
-println("filter caught notimplemented and closed its childs")
-for((k,v) in child.columns){
-v.close()
-}
-throw e
-}
                 }
             }
+        } catch (e: NotImplementedException) {
+            println("filter caught notimplemented and closed its childs")
+            for ((k, v) in child.columns) {
+                v.close()
+            }
+            throw e
         }
-}catch(e:NotImplementedException){
-println("filter caught notimplemented and closed its childs")
-for((k,v) in child.columns){
-v.close()
-}
-throw e
-}
         return res!!
     }
 }

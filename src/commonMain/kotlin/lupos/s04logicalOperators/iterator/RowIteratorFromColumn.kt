@@ -19,7 +19,7 @@ open class RowIteratorFromColumn(val bundle: IteratorBundle) : RowIterator() {
                 if (tmp == null) {
                     SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
-close()
+                    close()
                     break
                 } else {
                     buf[columnIndex] = tmp
