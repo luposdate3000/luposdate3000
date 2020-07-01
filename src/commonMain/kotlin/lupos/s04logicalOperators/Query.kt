@@ -23,6 +23,17 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     var commited = false
 
 var generatedNameCounter=0
+var generatedNameByBase=mutableMapOf<String,String>()
+fun getUniqueVariableName(name:String):String{
+val tmp=generatedNameByBase[name]
+if(tmp!=null){
+return tmp
+}else{
+val tmp2=getUniqueVariableName()
+generatedNameByBase[name]=tmp2
+return tmp2
+}
+}
 fun getUniqueVariableName()="#+${generatedNameCounter++}"
 fun isGeneratedVariableName(name:String)=name.startsWith('#')
 

@@ -447,7 +447,7 @@ var tmp2=templates[i * 3+name]
             if (node.existsHaving()) {
                 for (h in node.having) {
                     val expression = h.visit(this) as AOPBase
-                    val tmpVar = AOPVariable(query, "#f${expression.uuid}")
+                    val tmpVar = AOPVariable(query, query.getUniqueVariableName())
                     val tmpBind = LOPBind(query, tmpVar, expression)
                     if (bind != null) {
                         bind = mergeLOPBind(bind, tmpBind)
@@ -492,7 +492,7 @@ var tmp2=templates[i * 3+name]
             if (node.existsHaving()) {
                 for (h in node.having) {
                     val expression = h.visit(this) as AOPBase
-                    val tmpVar = AOPVariable(query, "#f${expression.uuid}")
+                    val tmpVar = AOPVariable(query, query.getUniqueVariableName())
                     val tmpBind = LOPBind(query, tmpVar, expression)
                     if (bind != null) {
                         bind = mergeLOPBind(bind, tmpBind)
@@ -815,7 +815,7 @@ return tmp
                 val c = node.children[i]
                 if (c is AOPVariable) {
                     if (variables.contains(c.name)) {
-                        var newVariable = AOPVariable(node.query, "#" + node.uuid + "-" + i)
+                        var newVariable = AOPVariable(node.query, query.getUniqueVariableName())
                         node.updateChildren(i, newVariable)
                         val tmp = LOPFilter(node.query, AOPEQ(query, newVariable, c), node)
                         return preventTriplesWithMultipleInstancesOfTheSameVariable(tmp)
@@ -1063,9 +1063,8 @@ return tmp
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
         SanityCheck.check({ childrenValues.size == 0 })
-        return AOPVariable(query, "#" + node.name)
+        return AOPVariable(query, query.getUniqueVariableName(node.name))
 //blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
-//        return AOPConstant(query, ValueBnode(node.name))
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
