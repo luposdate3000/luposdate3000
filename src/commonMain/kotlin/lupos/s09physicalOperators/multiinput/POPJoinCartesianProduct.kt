@@ -69,15 +69,20 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             if (childA.count > 0) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     outO[1][columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
-outO[1][columnIndex].close={
-println("POPJoinCartesianProductXXX$uuid close B $classname")
-for ((k, v) in childB.columns) {
-                v.close()
-            }
-outO[1][columnIndex]._close()
-}
+                    outO[1][columnIndex].close = {
+                        println("POPJoinCartesianProductXXX$uuid close B $classname")
+                        for ((k, v) in childB.columns) {
+                            v.close()
+                        }
+                        outO[1][columnIndex]._close()
+                    }
                 }
-            }
+            }else{
+println("POPJoinCartesianProductXXX$uuid close B $classname")
+ for ((k, v) in childB.columns) {
+                            v.close()
+                        }
+}
             res = IteratorBundle(outMap)
         } else if (columnsINBO.size == 0) {
             println("POPJoinCartesianProductXXX mode C")
@@ -85,15 +90,20 @@ outO[1][columnIndex]._close()
             if (childB.count > 0) {
                 for (columnIndex in 0 until columnsINAO.size) {
                     outO[0][columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
-outO[0][columnIndex].close={ 
+                    outO[0][columnIndex].close = {
+                        println("POPJoinCartesianProductXXX$uuid close A $classname")
+                        for ((k, v) in childA.columns) {
+                            v.close()
+                        }
+                        outO[0][columnIndex]._close()
+                    }
+                }
+            }else{
 println("POPJoinCartesianProductXXX$uuid close A $classname")
 for ((k, v) in childA.columns) {
-                v.close()
-            }
-outO[0][columnIndex]._close()
+                            v.close()
+                        }
 }
-                }
-            }
             res = IteratorBundle(outMap)
         } else {
             println("POPJoinCartesianProductXXX mode D")
