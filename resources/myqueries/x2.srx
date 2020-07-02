@@ -79,17 +79,6 @@
     <bnode>b0</bnode>
    </binding>
   </result>
-  <result>
-   <binding name="s">
-    <uri>http://example.org/s8</uri>
-   </binding>
-   <binding name="p">
-    <uri>http://example.org/str</uri>
-   </binding>
-   <binding name="o">
-    <literal>食</literal>
-   </binding>
-  </result>
  </results>
 </sparql>
 
