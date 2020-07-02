@@ -366,6 +366,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s16network", "NETWORK_DEFAULT_PORT", "2323")
         ),
         ChooseableGroup("Max Triples During Extreme Testing", "MaxTriplesDuringTest") to listOf(
+                ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "400"),
                 ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "2000"),
                 ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "-1")
         ),

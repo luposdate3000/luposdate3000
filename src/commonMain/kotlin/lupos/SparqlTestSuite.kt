@@ -421,6 +421,7 @@ class SparqlTestSuite() {
         }
         var success = false
         runBlocking {
+lastTripleCount=0//dont apply during w3c-tests
             success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         }
         return success == expectedResult
@@ -428,6 +429,8 @@ class SparqlTestSuite() {
 
     @JvmField
     var i = 0
+    @JvmField
+var lastTripleCount=0
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
@@ -458,7 +461,8 @@ class SparqlTestSuite() {
                 JenaWrapper.dropAll()
                 val inputData = readFileOrNull(inputDataFileName)
                 if (inputData != null && inputDataFileName != null) {
-                    if (MAX_TRIPLES_DURING_TEST > 0 && inputData.split("\n").size > MAX_TRIPLES_DURING_TEST) {
+lastTripleCount=inputData.split("\n").size
+                    if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
                         shouldHaveSkipped = true
@@ -547,7 +551,14 @@ class SparqlTestSuite() {
 //                        ServerCommunicationSend.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                     }
                 }
-            }
+            }else{
+if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
+                        shouldHaveSkipped = true
+                        return true
+                    }
+}
             val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
             val query = Query()
             query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
