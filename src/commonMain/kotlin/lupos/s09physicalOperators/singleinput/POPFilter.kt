@@ -34,6 +34,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
+        println("POPFilterXXX$uuid open A $classname")
         val child = children[0].evaluate()
         var res: IteratorBundle? = null
         try {
@@ -58,18 +59,22 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 if (variables.size == 0) {
                     if (expression()) {
                         res.hasNext2 = child.hasNext2
-                        res.hasNext2Close = child.hasNext2Close
+                        res.hasNext2Close = {
+                            println("POPFilterXXX$uuid close A $classname")
+                            child.hasNext2Close()
+                        }
                     } else {
                         res.hasNext2 = {
                             /*return*/false
                         }
                     }
                 } else {
-res.hasNext2Close = {
-for (closeIndex in 0 until columnsIn.size) {
-                                            columnsIn[closeIndex]!!.close()
-                                        }
-}
+                    res.hasNext2Close = {
+                        println("POPFilterXXX$uuid close B $classname")
+                        for ((k, v) in child.columns) {
+                            v.close()
+                        }
+                    }
                     res.hasNext2 = {
                         var res2 = false
                         try {
@@ -79,8 +84,9 @@ for (closeIndex in 0 until columnsIn.size) {
                                     columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                     //point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == null) {
-                                        for (closeIndex in 0 until columnsIn.size) {
-                                            columnsIn[closeIndex]!!.close()
+                                        println("POPFilterXXX$uuid close C $classname")
+                                        for ((k, v) in child.columns) {
+                                            v.close()
                                         }
                                         SanityCheck.check { variableIndex2 == 0 }
                                         for (variableIndex3 in 0 until variables.size) {
@@ -100,6 +106,7 @@ for (closeIndex in 0 until columnsIn.size) {
                             }
                         } catch (e: NotImplementedException) {
                             println("filter caught notimplemented and closed its childs")
+                            println("POPFilterXXX$uuid close D $classname")
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
@@ -111,6 +118,13 @@ for (closeIndex in 0 until columnsIn.size) {
             } else {
                 res = IteratorBundle(outMap)
                 for (variableIndex in 0 until variables.size) {
+columnsLocal[variableIndex].close={
+columnsLocal[variableIndex]._close()
+println("POPFilterXXX$uuid close E $classname")
+                                        for ((k, v) in child.columns) {
+                                            v.close()
+                                        }
+}
                     columnsLocal[variableIndex].onEmptyQueue = {
                         try {
                             var done = false
@@ -120,8 +134,9 @@ for (closeIndex in 0 until columnsIn.size) {
                                     //point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == null) {
                                         SanityCheck.check { variableIndex2 == 0 }
-                                        for (closeIndex in 0 until columnsIn.size) {
-                                            columnsIn[closeIndex]!!.close()
+                                        println("POPFilterXXX$uuid close F $classname")
+                                        for ((k, v) in child.columns) {
+                                            v.close()
                                         }
                                         for (variableIndex3 in 0 until variables.size) {
                                             columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
@@ -142,6 +157,7 @@ for (closeIndex in 0 until columnsIn.size) {
                                 }
                             }
                         } catch (e: NotImplementedException) {
+                            println("POPFilterXXX$uuid close G $classname")
                             println("filter caught notimplemented and closed its childs")
                             for ((k, v) in child.columns) {
                                 v.close()
@@ -152,6 +168,7 @@ for (closeIndex in 0 until columnsIn.size) {
                 }
             }
         } catch (e: NotImplementedException) {
+            println("POPFilterXXX$uuid close H $classname")
             println("filter caught notimplemented and closed its childs")
             for ((k, v) in child.columns) {
                 v.close()
