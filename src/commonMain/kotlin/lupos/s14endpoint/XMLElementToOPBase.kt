@@ -1,8 +1,8 @@
 package lupos.s14endpoint
 
-import lupos.s00misc.Coverage
-import lupos.s00misc.BigInteger
 import lupos.s00misc.BigDecimal
+import lupos.s00misc.BigInteger
+import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ESortType
 import lupos.s00misc.SanityCheck
@@ -75,10 +75,10 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR

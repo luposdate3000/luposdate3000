@@ -50,6 +50,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     companion object {
         @JvmField
         var storeIteratorCounter = 0L
+
+        @JvmField
+        var debuguuiditerator = 0
     }
 
     override suspend fun safeToFile(filename: String) {
@@ -128,6 +131,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     class IteratorS(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+        val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
+
         init {
             next = {
                 var tmp: Value? = null
@@ -139,20 +144,22 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 /*return*/tmp
             }
             runBlocking {
-                println("readlock 3")
+                println("readlock 3 $uuid")
                 lock.readLock()
             }
             close = {
                 _close()
                 runBlocking {
                     lock.readUnlock()
-                    println("readunlock 3")
+                    println("readunlock 3 $uuid")
                 }
             }
         }
     }
 
     class IteratorP(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+        val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
+
         init {
             next = {
                 var tmp: Value? = null
@@ -164,20 +171,22 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 /*return*/tmp
             }
             runBlocking {
-                println("readlock 4")
+                println("readlock 4 $uuid")
                 lock.readLock()
             }
             close = {
                 _close()
                 runBlocking {
                     lock.readUnlock()
-                    println("readunlock 4")
+                    println("readunlock 4 $uuid")
                 }
             }
         }
     }
 
     class IteratorO(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+        val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
+
         init {
             next = {
                 var tmp: Value? = null
@@ -189,14 +198,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 /*return*/tmp
             }
             runBlocking {
-                println("readlock 5")
+                println("readlock 5 $uuid")
                 lock.readLock()
             }
             close = {
                 _close()
                 runBlocking {
                     lock.readUnlock()
-                    println("readunlock 5")
+                    println("readunlock 5 $uuid")
                 }
             }
         }

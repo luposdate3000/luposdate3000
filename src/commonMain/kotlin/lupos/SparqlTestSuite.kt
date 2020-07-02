@@ -92,11 +92,11 @@ class SparqlTestSuite() {
                                 JenaWrapper.dropAll()
                             }
                         }
-                        if (lastinput == inputFile) {
-                            inputFile = "#keep-data#"
-                        } else {
-                            lastinput = inputFile
-                        }
+//                        if (lastinput == inputFile) {
+//                            inputFile = "#keep-data#"
+//                        } else {
+                        lastinput = inputFile
+//                        }
                         runBlocking {
                             ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
                             parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
@@ -421,7 +421,7 @@ class SparqlTestSuite() {
         }
         var success = false
         runBlocking {
-lastTripleCount=0//dont apply during w3c-tests
+            lastTripleCount = 0//dont apply during w3c-tests
             success = parseSPARQLAndEvaluate(names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         }
         return success == expectedResult
@@ -429,8 +429,9 @@ lastTripleCount=0//dont apply during w3c-tests
 
     @JvmField
     var i = 0
+
     @JvmField
-var lastTripleCount=0
+    var lastTripleCount = 0
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
@@ -461,7 +462,7 @@ var lastTripleCount=0
                 JenaWrapper.dropAll()
                 val inputData = readFileOrNull(inputDataFileName)
                 if (inputData != null && inputDataFileName != null) {
-lastTripleCount=inputData.split("\n").size
+                    lastTripleCount = inputData.split("\n").size
                     if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
@@ -551,14 +552,14 @@ lastTripleCount=inputData.split("\n").size
 //                        ServerCommunicationSend.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
                     }
                 }
-            }else{
-if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
-                        shouldHaveSkipped = true
-                        return true
-                    }
-}
+            } else {
+                if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
+                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
+                    shouldHaveSkipped = true
+                    return true
+                }
+            }
             val testName2 = "[^a-zA-Z0-9]".toRegex().replace(testName, "-")
             val query = Query()
             query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))

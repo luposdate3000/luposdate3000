@@ -64,6 +64,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         }
         if (!done) {
             val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
+            println("opening store for join with store C $uuid")
             var iteratorB = distributedStore.getIterator(params, index).evaluate()
             res.hasNext = {
                 var t = iteratorB.hasNext()
@@ -82,6 +83,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
                         }
                     }
                     if (!done) {
+                        println("opening store for join with store D $uuid")
                         iteratorB = distributedStore.getIterator(params, index).evaluate()
                     }
                 }

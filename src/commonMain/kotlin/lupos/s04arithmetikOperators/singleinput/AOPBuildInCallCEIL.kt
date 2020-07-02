@@ -1,12 +1,13 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.DecimalHelper
-import lupos.s00misc.MathContext
+
 import kotlin.math.ceil
-import lupos.s00misc.Coverage
-import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.Value
-import lupos.s00misc.BigInteger
 import lupos.s00misc.BigDecimal
+import lupos.s00misc.BigInteger
+import lupos.s00misc.Coverage
+import lupos.s00misc.DecimalHelper
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.MathContext
+import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -19,7 +20,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
-//return integer which is equal or larger than input
+    //return integer which is equal or larger than input
     override fun toSparql() = "CEIL(" + children[0].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPBuildInCallCEIL && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
@@ -33,8 +34,8 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                 } else if (a is ValueFloat) {
                     res = ValueFloat(ceil(a.toDouble()))
                 } else if (a is ValueDecimal) {
-res=ValueDecimal(DecimalHelper.ceil(a.value))
-println("AOPBuildInCallCEIL A ${a.value.toString()} = ${res.value.toString()}")
+                    res = ValueDecimal(DecimalHelper.ceil(a.value))
+                    println("AOPBuildInCallCEIL A ${a.value.toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger) {
                     res = a
                 }

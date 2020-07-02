@@ -369,9 +369,10 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
-var tmp=LOPNOOP(node.query,node)
-return replaceVariableWithAnother(node,name,name2,tmp,0)
-}
+        var tmp = LOPNOOP(node.query, node)
+        return replaceVariableWithAnother(node, name, name2, tmp, 0)
+    }
+
     fun replaceVariableWithAnother(node: OPBase, name: String, name2: String, parent: OPBase, parentIdx: Int): OPBase {
         SanityCheck.check { parent.children[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
@@ -507,7 +508,7 @@ return replaceVariableWithAnother(node,name,name2,tmp,0)
         if (!res) {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-            } else if(!query.dontCheckVariableExistence){
+            } else if (!query.dontCheckVariableExistence) {
                 var tmp = getRequiredVariableNames().toMutableSet()
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNames())

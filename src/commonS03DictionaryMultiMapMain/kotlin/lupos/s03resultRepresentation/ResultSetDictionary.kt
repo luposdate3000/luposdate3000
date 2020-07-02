@@ -1,16 +1,17 @@
 package lupos.s03resultRepresentation
+
+import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
-import kotlin.jvm.JvmField
 import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListDouble
-import lupos.s00misc.MyListInt
 import lupos.s00misc.MyListGeneric
+import lupos.s00misc.MyListInt
 import lupos.s00misc.MyMapDoubleInt
-import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.MyMapGenericGeneric
+import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.SanityCheck
@@ -174,7 +175,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 
     @JvmField
     val intMap = MyMapStringIntPatriciaTrieDouble()
-
     fun clear() {
         localBnodeMap.clear()
         bNodeCounter = 4
@@ -342,8 +342,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-fun createDecimal(value2: BigDecimal): Value {
-val value=value2.toString()
+    fun createDecimal(value2: BigDecimal): Value {
+        val value = value2.toString()
         var res: Value
         if (global) {
             res = flaggedValueGlobalDecimal or decimalMap.getOrCreate(value)
@@ -358,8 +358,9 @@ val value=value2.toString()
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-fun createInteger(value2: BigInteger): Value {
-val value=value2.toString()
+
+    fun createInteger(value2: BigInteger): Value {
+        val value = value2.toString()
         var res: Value
         if (global) {
             res = flaggedValueGlobalInt or intMap.getOrCreate(value)
@@ -374,7 +375,6 @@ val value=value2.toString()
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
 
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
@@ -481,9 +481,9 @@ val value=value2.toString()
         } else {
             var bit5 = value and mask6
             if (bit5 == flaggedValueLocalInt) {
-res = ValueInteger(BigInteger(dict.intMap[value and filter6]))
+                res = ValueInteger(BigInteger(dict.intMap[value and filter6]))
             } else if (bit5 == flaggedValueLocalDecimal) {
-res = ValueDecimal(BigDecimal(dict.decimalMap[value and filter6]))
+                res = ValueDecimal(BigDecimal(dict.decimalMap[value and filter6]))
             } else if (bit5 == flaggedValueLocalDouble) {
                 res = ValueDouble(dict.doubleList[value and filter6])
             } else if (bit5 == flaggedValueLocalFloat) {

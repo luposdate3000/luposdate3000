@@ -1,9 +1,10 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.DecimalHelper
-import lupos.s00misc.BigInteger
-import lupos.s00misc.BigDecimal
+
 import kotlin.math.floor
+import lupos.s00misc.BigDecimal
+import lupos.s00misc.BigInteger
 import lupos.s00misc.Coverage
+import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
@@ -31,8 +32,8 @@ class AOPBuildInCallFLOOR(query: Query, child: AOPBase) : AOPBase(query, EOperat
                 } else if (a is ValueFloat) {
                     res = ValueFloat(floor(a.toDouble()))
                 } else if (a is ValueDecimal) {
-res=ValueDecimal(DecimalHelper.floor(a.value))
-println("AOPBuildInCallFLOOR A ${a.value.toString()} = ${res.value.toString()}")
+                    res = ValueDecimal(DecimalHelper.floor(a.value))
+                    println("AOPBuildInCallFLOOR A ${a.value.toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger) {
                     res = a
                 }

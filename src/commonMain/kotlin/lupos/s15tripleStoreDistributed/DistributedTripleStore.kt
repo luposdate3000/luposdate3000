@@ -78,6 +78,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     override suspend fun evaluate(): IteratorBundle {
+        println("opening store for $uuid")
         return ServerCommunicationSend.tripleGet(query, graphName, Array(3) { children[it] as AOPBase }, idx)
     }
 }

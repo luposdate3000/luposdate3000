@@ -142,9 +142,9 @@ val templates = listOf(
                 "GUSEV" to "<GenericV>",
                 "KNAME" to "Generic",
                 "VNAME" to "Generic",
-                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
-        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
@@ -169,7 +169,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
         )),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
                 "KEY" to "Long",
@@ -182,7 +182,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
         )),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
                 "KEY" to "Double",
@@ -195,7 +195,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
         )),
         PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
                 "KEY" to "GenericK",
@@ -208,7 +208,7 @@ val templates = listOf(
                 "ARRAYVTYPE" to "Array<Any?>",
                 "ARRAYKINITIALIZER" to "{null}",
                 "ARRAYVINITIALIZER" to "{null}",
-                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()","IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
         ))
 )
 
@@ -379,15 +379,15 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChoosableOptionExternalScript("On", "./tool-inline-enable.sh", "InlineModeOn", false),
                 ChoosableOptionExternalScript("Off", "./tool-inline-disable.sh", "InlineModeOff", false)
         ),
-ChooseableGroup("BigInteger Implementation","BigInteger")to listOf(
- ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))
-),
-ChooseableGroup("BigDecimal Implementation","BigDecimal")to listOf(
- ChooseableOptionTypeAlias("jvmBigDecimal", "lupos.s00misc", listOf("BigDecimal" to "java.math.BigDecimal"))
-),
-ChooseableGroup("MathContext Implementation","BigDecimal")to listOf(
- ChooseableOptionTypeAlias("jvmMathContext", "lupos.s00misc", listOf("MathContext" to "java.math.MathContext"))
-)
+        ChooseableGroup("BigInteger Implementation", "BigInteger") to listOf(
+                ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))
+        ),
+        ChooseableGroup("BigDecimal Implementation", "BigDecimal") to listOf(
+                ChooseableOptionTypeAlias("jvmBigDecimal", "lupos.s00misc", listOf("BigDecimal" to "java.math.BigDecimal"))
+        ),
+        ChooseableGroup("MathContext Implementation", "BigDecimal") to listOf(
+                ChooseableOptionTypeAlias("jvmMathContext", "lupos.s00misc", listOf("MathContext" to "java.math.MathContext"))
+        )
 )
 
 

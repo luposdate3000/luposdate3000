@@ -118,8 +118,8 @@ import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueUndef
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.AOPAggregationBase
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
@@ -192,6 +192,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPNot
+import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -201,7 +202,6 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -269,6 +269,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         }
         return false
     }
+
     fun containsAggregate(node: OPBase): Boolean {
         if (node is AOPAggregationBase) {
             return true
@@ -438,20 +439,20 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
     }
 
     fun refineLopGroup(g: LOPGroup): LOPBase {
-var bindingsInside=mutableListOf<Pair<String,AOPBase>>()
-var bindingsOutside=mutableListOf<Pair<String,AOPBase>>()
-for (b in g.bindings) {
-if(containsAggregate(b.second)){
-bindingsInside.add(b)
-}else{
-bindingsOutside.add(b)
-}
-}
-var res:LOPBase=LOPGroup(query, g.by, bindingsInside, g.children[0])
-for(b in bindingsOutside){
-res=LOPBind(query,AOPVariable(query,b.first),b.second,res)
-}
-return res
+        var bindingsInside = mutableListOf<Pair<String, AOPBase>>()
+        var bindingsOutside = mutableListOf<Pair<String, AOPBase>>()
+        for (b in g.bindings) {
+            if (containsAggregate(b.second)) {
+                bindingsInside.add(b)
+            } else {
+                bindingsOutside.add(b)
+            }
+        }
+        var res: LOPBase = LOPGroup(query, g.by, bindingsInside, g.children[0])
+        for (b in bindingsOutside) {
+            res = LOPBind(query, AOPVariable(query, b.first), b.second, res)
+        }
+        return res
     }
 
     fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean, distinct: Boolean): OPBase {

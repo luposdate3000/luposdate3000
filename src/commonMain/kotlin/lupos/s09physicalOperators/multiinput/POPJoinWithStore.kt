@@ -144,11 +144,24 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
             }
+            println("opening store for join with store A $uuid")
             var columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
             for (column in columnsOUT) {
+                column.close = {
+                    column._close()
+                    for (closeIndex in 0 until columnsInB.size) {
+                        columnsInB[closeIndex].close()
+                    }
+                    for (closeIndex in 0 until columnsINAO.size) {
+                        columnsINAO[closeIndex].close()
+                    }
+                    for (closeIndex in 0 until columnsINAJ.size) {
+                        columnsINAJ[closeIndex].close()
+                    }
+                }
                 column.onEmptyQueue = {
                     loopA@ while (true) {
                         var done = true
@@ -184,6 +197,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 for (i in 0 until indicesINBJ.size) {
                                     params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
                                 }
+                                println("opening store for join with store B $uuid")
                                 columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
                                 for (i in 0 until variablINBO.size) {
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!

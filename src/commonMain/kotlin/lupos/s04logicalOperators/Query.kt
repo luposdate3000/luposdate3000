@@ -21,24 +21,28 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
 
     @JvmField
     var commited = false
- @JvmField
-var dontCheckVariableExistence=false
- @JvmField
-var generatedNameCounter=0
- @JvmField
-var generatedNameByBase=mutableMapOf<String,String>()
-fun getUniqueVariableName(name:String):String{
-val tmp=generatedNameByBase[name]
-if(tmp!=null){
-return tmp
-}else{
-val tmp2=getUniqueVariableName()
-generatedNameByBase[name]=tmp2
-return tmp2
-}
-}
-fun getUniqueVariableName()="#+${generatedNameCounter++}"
-fun isGeneratedVariableName(name:String)=name.startsWith('#')
+
+    @JvmField
+    var dontCheckVariableExistence = false
+
+    @JvmField
+    var generatedNameCounter = 0
+
+    @JvmField
+    var generatedNameByBase = mutableMapOf<String, String>()
+    fun getUniqueVariableName(name: String): String {
+        val tmp = generatedNameByBase[name]
+        if (tmp != null) {
+            return tmp
+        } else {
+            val tmp2 = getUniqueVariableName()
+            generatedNameByBase[name] = tmp2
+            return tmp2
+        }
+    }
+
+    fun getUniqueVariableName() = "#+${generatedNameCounter++}"
+    fun isGeneratedVariableName(name: String) = name.startsWith('#')
 
     companion object {
         private val global_transactionID = ThreadSafeUuid()
