@@ -61,10 +61,10 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
         }
         var count: Int
         if (columnsINAO.size == 0 && columnsINBO.size == 0) {
-            println("POPJoinCartesianProductXXX mode A")
+            println("POPJoinCartesianProductXXX$uuid mode A")
             res = IteratorBundle(childA.count * childB.count)
         } else if (columnsINAO.size == 0) {
-            println("POPJoinCartesianProductXXX mode B")
+            println("POPJoinCartesianProductXXX$uuid mode B")
             println("POPJoinCartesianProductXXX$uuid closecount A $classname")
             if (childA.count > 0) {
                 for (columnIndex in 0 until columnsINBO.size) {
@@ -85,7 +85,7 @@ println("POPJoinCartesianProductXXX$uuid close B $classname")
 }
             res = IteratorBundle(outMap)
         } else if (columnsINBO.size == 0) {
-            println("POPJoinCartesianProductXXX mode C")
+            println("POPJoinCartesianProductXXX$uuid mode C")
             println("POPJoinCartesianProductXXX$uuid closecount B $classname")
             if (childB.count > 0) {
                 for (columnIndex in 0 until columnsINAO.size) {
@@ -106,7 +106,7 @@ for ((k, v) in childA.columns) {
 }
             res = IteratorBundle(outMap)
         } else {
-            println("POPJoinCartesianProductXXX mode D")
+            println("POPJoinCartesianProductXXX$uuid mode D")
             val data = Array(columnsINBO.size) { MyListValue() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
@@ -123,9 +123,9 @@ for ((k, v) in childA.columns) {
             }
             count = data[0].size
             if (count == 0) {
-                println("POPJoinCartesianProductXXX mode E")
+                println("POPJoinCartesianProductXXX$uuid mode E")
                 if (optional) {
-                    println("POPJoinCartesianProductXXX mode F")
+                    println("POPJoinCartesianProductXXX$uuid mode F")
                     for (iterator in outIterators) {
                         iterator.close = {
                             iterator._close()
@@ -156,9 +156,14 @@ for ((k, v) in childA.columns) {
                             }
                         }
                     }
-                }
+                }else{
+println("POPJoinCartesianProductXXX$uuid close A $classname")
+                                    for ((k, v) in childA.columns) {
+                                        v.close()
+                                    }
+}
             } else {
-                println("POPJoinCartesianProductXXX mode G")
+                println("POPJoinCartesianProductXXX$uuid mode G")
                 for (iterator in outIterators) {
                     iterator.close = {
                         println("POPJoinCartesianProductXXX$uuid close A $classname")
