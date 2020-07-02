@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.MathContext
 import lupos.s00misc.BigInteger
 import lupos.s00misc.BigDecimal
 import kotlin.math.floor
@@ -33,10 +34,11 @@ class AOPBuildInCallFLOOR(query: Query, child: AOPBase) : AOPBase(query, EOperat
 var tmp1=a.value.toBigInteger()
 var tmp=tmp1.toBigDecimal()
 if(tmp==a.value){ 
-res=ValueDecimal(tmp)
+res=a
 }else{ 
-res=ValueDecimal(tmp-BigDecimal(1))
+res=ValueDecimal(tmp.subtract(BigDecimal(1),MathContext.UNLIMITED))
 }
+println("AOPBuildInCallFLOOR A ${a.value.toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger) {
                     res = a
                 }

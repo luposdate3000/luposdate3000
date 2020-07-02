@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-
+import lupos.s00misc.MathContext
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -36,35 +36,39 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
+var tmp1=res.value
+                res.count++
             try {
                 val value = child()
-                res.count++
                 if (value is ValueError) {
-                    res.value = value
+                    tmp1 = value
                     res.evaluate = res::_evaluate
-                } else if (res.value is ValueUndef) {
-                    res.value = value
-                } else if (res.value is ValueDouble || value is ValueDouble) {
-                    res.value = ValueDouble(res.value.toDouble() + value.toDouble())
-                } else if (res.value is ValueFloat || value is ValueFloat) {
-                    res.value = ValueFloat(res.value.toDouble() + value.toDouble())
-                } else if (res.value is ValueDecimal || value is ValueDecimal) {
-                    res.value = ValueDecimal(res.value.toDecimal() + value.toDecimal())
-                } else if (res.value is ValueInteger || value is ValueInteger) {
-                    res.value = ValueDecimal((res.value.toInt() + value.toInt()).toBigDecimal())
+                } else if (tmp1 is ValueUndef) {
+                    tmp1 = value
+                } else if (tmp1 is ValueDouble || value is ValueDouble) {
+                    tmp1 = ValueDouble(tmp1.toDouble() + value.toDouble())
+                } else if (tmp1 is ValueFloat || value is ValueFloat) {
+                    tmp1 = ValueFloat(tmp1.toDouble() + value.toDouble())
+                } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
+                    tmp1 = ValueDecimal(tmp1.toDecimal() .add( value.toDecimal(),MathContext.UNLIMITED))
+println("AOPAggregationAVG A ${res.value.toDecimal().toString()} + ${value.toDecimal().toString()} = ${tmp1.value.toString()}")
+                } else if (tmp1 is ValueInteger || value is ValueInteger) {
+                    tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toBigDecimal())
+println("AOPAggregationAVG B ${res.value.toInt().toString()} + ${value.toDecimal().toString()} = ${tmp1.value.toString()}")
                 } else {
-                    res.value = ValueError()
+                    tmp1 = ValueError()
                     res.evaluate = res::_evaluate
                 }
             } catch (e: EvaluationException) {
-                res.value = ValueError()
+                tmp1 = ValueError()
                 res.evaluate = res::_evaluate
             } catch (e: Throwable) {
                 println("TODO exception 34")
                 e.printStackTrace()
-                res.value = ValueError()
+                tmp1 = ValueError()
                 res.evaluate = res::_evaluate
             }
+res.value=tmp1
         }
         return res
     }
@@ -73,12 +77,14 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
             var res: ValueDefinition
-            if (tmp.value is ValueDouble) {
-                res = ValueDouble(tmp.value.toDouble() / tmp.count)
-            } else if (tmp.value is ValueFloat) {
-                res = ValueFloat(tmp.value.toDouble() / tmp.count)
-            } else if (tmp.value is ValueDecimal) {
-                res = ValueDecimal(tmp.value.toDecimal() / tmp.count.toBigDecimal())
+var tmp1=tmp.value
+            if (tmp1 is ValueDouble) {
+                res = ValueDouble(tmp1.toDouble() / tmp.count)
+            } else if (tmp1 is ValueFloat) {
+                res = ValueFloat(tmp1.toDouble() / tmp.count)
+            } else if (tmp1 is ValueDecimal) {
+                res = ValueDecimal(tmp1.value .divide( tmp.count.toBigDecimal(),MathContext.UNLIMITED))
+println("AOPAggregationAVG C ${tmp1.value.toString()} / ${tmp.count.toBigDecimal().toString()} = ${res.value.toString()}")
             } else {
                 res = ValueError()
             }

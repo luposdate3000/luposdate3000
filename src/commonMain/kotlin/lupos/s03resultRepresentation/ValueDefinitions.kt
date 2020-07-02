@@ -213,7 +213,7 @@ val integerZero=BigInteger("0")
 
 class ValueDecimal(@JvmField var value: BigDecimal) : ValueNumeric() {
     override fun toXMLElement() = XMLElement("ValueDecimal").addAttribute("value", "" + value)
-    override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+    override fun valueToString() = "\"" + value.toPlainString() + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
     override fun equals(other: Any?): Boolean = other is ValueDecimal && value == other.value
     override fun toDouble(): Double = value.toDouble()
     override fun toDecimal(): BigDecimal = value
