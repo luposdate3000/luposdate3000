@@ -32,7 +32,13 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
         } else {
             SanityCheck.check { childA.hasCountMode() && childB.hasCountMode() }
             var res = IteratorBundle(0)
-            res.hasNext = { childA.hasNext() || childB.hasNext() }
+            res.hasNext2 = {
+/*return*/ childA.hasNext2() || childB.hasNext2() 
+}
+res.hasNext2Close={
+childA.hasNext2Close()
+childB.hasNext2Close()
+}
             return res
         }
 /*Coverage Unreachable*/

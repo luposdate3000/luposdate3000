@@ -291,9 +291,18 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             res = IteratorBundle(0)
         }
         if (emptyColumnsWithJoin) {
-            res.hasNext = {
+            res.hasNext2 = {
                 /*return*/outJ[0].next() != null
             }
+res.hasNext2Close={
+outJ[0].close()
+for (closeIndex in 0 until columnsINAJ.size) {
+                    columnsINAJ[closeIndex].close()
+                }
+                for (closeIndex in 0 until columnsINAO.size) {
+                    columnsINAO[closeIndex].close()
+                }
+}
         }
         return res
     }

@@ -112,7 +112,8 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
                     row[columnIndex] = value
                 }
             } else {
-                if (!child.hasNext()) {
+                if (!child.hasNext2()) {
+child.hasNext2Close()
                     break@loop
                 }
             }

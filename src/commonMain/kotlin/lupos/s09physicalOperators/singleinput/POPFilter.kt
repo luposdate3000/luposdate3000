@@ -57,14 +57,20 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 res = IteratorBundle(0)
                 if (variables.size == 0) {
                     if (expression()) {
-                        res.hasNext = child.hasNext
+                        res.hasNext2 = child.hasNext2
+                        res.hasNext2Close = child.hasNext2Close
                     } else {
-                        res.hasNext = {
+                        res.hasNext2 = {
                             /*return*/false
                         }
                     }
                 } else {
-                    res.hasNext = {
+res.hasNext2Close = {
+for (closeIndex in 0 until columnsIn.size) {
+                                            columnsIn[closeIndex]!!.close()
+                                        }
+}
+                    res.hasNext2 = {
                         var res2 = false
                         try {
                             var done = false

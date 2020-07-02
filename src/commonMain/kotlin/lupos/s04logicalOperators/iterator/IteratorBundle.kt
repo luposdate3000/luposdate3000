@@ -84,7 +84,9 @@ class IteratorBundle {
         return false
     }
 
-    var hasNext: suspend () -> Boolean = ::_hasNext
+    var hasNext2: suspend () -> Boolean = ::_hasNext
+    var hasNext2Close: suspend () -> Unit = {}
+
     var count: Int = 0
         get() {
             SanityCheck.check { mode == IteratorBundleMode.COUNT }
@@ -93,9 +95,10 @@ class IteratorBundle {
             } else {
                 var res = 0
                 runBlocking {
-                    while (hasNext()) {
+                    while (hasNext2()) {
                         res++
                     }
+hasNext2Close()
                 }
                 counter = res
                 return res

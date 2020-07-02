@@ -142,7 +142,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         val res: IteratorBundle
         if (emptyColumnsWithJoin) {
             res = IteratorBundle(0)
-            res.hasNext = {
+            res.hasNext2 = {
                 val tmp = columnsOUTJ[0].next() != null
                 if (!tmp) {
                     println("$uuid close $classname")
@@ -157,6 +157,16 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
 /*return*/tmp
             }
+ res.hasNext2Close = {
+for (closeIndex2 in 0 until 2) {
+                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                            columnsINJ[closeIndex2][closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                            columnsINO[closeIndex2][closeIndex].close()
+                        }
+                    }
+}
         } else {
             res = IteratorBundle(outMap)
         }
