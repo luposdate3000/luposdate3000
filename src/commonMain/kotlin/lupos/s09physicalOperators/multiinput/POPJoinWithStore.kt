@@ -139,19 +139,22 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         for (i in 0 until columnsINAJ.size) {
             valuesAJ[i] = columnsINAJ[i].next()
         }
+var theuuid=uuid
         if (valuesAJ[0] != null) {
 //there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
             }
-            println("opening store for join with store A $uuid")
+            println("POPJoinWithStoreXXXopening store for join with store A $theuuid")
             var columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
+println("POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these")
             for (column in columnsOUT) {
                 column.close = {
                     column._close()
+println("POPJoinWithStoreXXXclosing store for join with store A $theuuid")
                     for (closeIndex in 0 until columnsInB.size) {
                         columnsInB[closeIndex].close()
                     }
@@ -168,6 +171,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         loopB@ for (i in 0 until variablINBO.size) {
                             val value = columnsInB[i].next()
                             if (value == null) {
+println("POPJoinWithStoreXXXclosing store for join with store B $theuuid")
                                 for (closeIndex in 0 until columnsInB.size) {
                                     columnsInB[closeIndex].close()
                                 }
@@ -197,12 +201,13 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 for (i in 0 until indicesINBJ.size) {
                                     params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
                                 }
-                                println("opening store for join with store B $uuid")
+                                println("POPJoinWithStoreXXXopening store for join with store B $theuuid")
                                 columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
                                 for (i in 0 until variablINBO.size) {
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                 }
                             } else {
+println("POPJoinWithStoreXXXclosing store for join with store C $theuuid")
                                 for (closeIndex in 0 until columnsInB.size) {
                                     columnsInB[closeIndex].close()
                                 }
